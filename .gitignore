@@ -47,3 +47,7 @@ app.*.map.json
 ios/cdKey.p8
 ios/Runner.ipa
 ios/Runner.app.dSYM.zip
+.mason/bricks.json
+.gitignore
+mason-lock.json
+mason.yaml

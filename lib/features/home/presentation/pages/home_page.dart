@@ -1,11 +1,12 @@
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter_svg/svg.dart';
+import 'package:masaj/features/providers_tab/presentation/pages/providers_tab.dart';
 import 'package:size_helper/size_helper.dart';
 import 'package:upgrader/upgrader.dart';
 
-import '../../../../core/utils/navigator_helper.dart';
 import '../../../../res/style/theme.dart';
 import '../../../account/presentation/pages/more_tab.dart';
+import '../../../bookings_tab/presentation/pages/bookings_tab.dart';
 import 'home_tab.dart';
 import '../../../../res/style/app_colors.dart';
 import '../../../../shared_widgets/other/show_snack_bar.dart';
@@ -73,8 +74,8 @@ class _HomePageState extends State<HomePage> {
                 physics: const NeverScrollableScrollPhysics(),
                 children: [
                   HomeTab(),
-                  HomeTab(),
-                  HomeTab(),
+                  BookingsTab(),
+                  ProvidersTab(),
                   MoreTab(),
                 ],
               ),
