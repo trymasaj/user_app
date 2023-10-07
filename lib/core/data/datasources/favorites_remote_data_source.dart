@@ -1,0 +1,63 @@
+import '../../../../api_end_point.dart';
+import '../../../../core/enums/request_result_enum.dart';
+import '../../../../core/exceptions/request_exception.dart';
+import '../../../../core/service/network_service.dart';
+import '../../../features/home/data/models/event.dart';
+
+abstract class FavoritesRemoteDataSource {
+  Future<List<Event>> getFavorites({
+    int take = 10,
+    int skip = 0,
+  });
+
+  Future<void> addToFav(int id);
+  Future<void> removeFromFav(int id);
+}
+
+class FavoritesRemoteDataSourceImpl implements FavoritesRemoteDataSource {
+  final NetworkService _networkService;
+  FavoritesRemoteDataSourceImpl(this._networkService);
+
+  @override
+  Future<List<Event>> getFavorites({
+    int take = 10,
+    int skip = 0,
+  }) {
+    const url = ApiEndPoint.FAVORITES;
+
+    final params = {'take': take, 'skip': skip};
+
+    return _networkService.get(url, queryParameters: params).then((response) {
+      if (![200, 201].contains(response.statusCode))
+        throw RequestException(response.data);
+      final result = response.data;
+      final resultStatus = result['result'];
+      if (resultStatus == RequestResult.Failed.name)
+        throw RequestException(result['msg']);
+      final data = result['data'] as List;
+      return data.map((e) => Event.fromMap(e)).toList();
+    });
+  }
+
+  @override
+  Future<void> addToFav(int id) {
+    return _addOrRemove(id);
+  }
+
+  @override
+  Future<void> removeFromFav(int id) {
+    return _addOrRemove(id);
+  }
+
+  Future<void> _addOrRemove(int id) {
+    const url = ApiEndPoint.ADD_OR_REMOVE_FAV;
+    final params = {"eventId": id};
+    return _networkService.post(url, queryParameters: params).then((response) {
+      if (response.statusCode != 200) throw RequestException(response.data);
+      final result = response.data;
+      final resultStatus = result['result'];
+      if (resultStatus == RequestResult.Failed.name)
+        throw RequestException(result['msg']);
+    });
+  }
+}

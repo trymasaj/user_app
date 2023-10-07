@@ -1,0 +1,123 @@
+import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+
+import '../../../../core/enums/gender.dart';
+import '../../../../res/style/app_colors.dart';
+import '../../../../shared_widgets/stateless/title_text.dart';
+import '../blocs/auth_cubit/auth_cubit.dart';
+
+class UserImageSelection extends StatefulWidget {
+  const UserImageSelection({
+    required this.isMale,
+    Key? key,
+  }) : super(key: key);
+
+  final bool isMale;
+
+  @override
+  State<UserImageSelection> createState() => _UserImageSelectionState();
+}
+
+class _UserImageSelectionState extends State<UserImageSelection> {
+  late bool _isMale;
+  bool showChoices = false;
+  @override
+  void initState() {
+    _isMale = widget.isMale;
+    setState(() {});
+    super.initState();
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    if (!showChoices)
+      return _buildImage();
+    else
+      return _buildGenderChoices(context);
+  }
+
+  Widget _buildImage() {
+    return Stack(
+      clipBehavior: Clip.none,
+      children: [
+        Padding(
+          padding: const EdgeInsets.only(bottom: 8.0, left: 12.0),
+          child: CircleAvatar(
+            backgroundColor: Colors.white,
+            radius: 44.0,
+            child: CircleAvatar(
+              radius: 40.0,
+              backgroundImage: AssetImage(_isMale
+                  ? 'lib/res/assets/profile_male.webp'
+                  : 'lib/res/assets/profile_female.webp'),
+            ),
+          ),
+        ),
+        Positioned(
+          bottom: 0,
+          left: 0,
+          child: InkWell(
+            child: Container(
+                padding: const EdgeInsets.all(4.0),
+                decoration: BoxDecoration(
+                  shape: BoxShape.circle,
+                  border: Border.all(color: Colors.white, width: 3),
+                  color: AppColors.PRIMARY_COLOR,
+                ),
+                child: const Icon(Icons.camera_alt)),
+            onTap: () {
+              setState(() {
+                showChoices = !showChoices;
+              });
+            },
+          ),
+        )
+      ],
+    );
+  }
+
+  Widget _buildGenderChoices(BuildContext context) {
+    final authCubit = context.read<AuthCubit>();
+    return Row(
+      mainAxisAlignment: MainAxisAlignment.center,
+      children: [
+        InkWell(
+          child: const CircleAvatar(
+            backgroundColor: Colors.white,
+            radius: 44.0,
+            child: CircleAvatar(
+                radius: 40.0,
+                backgroundImage:
+                    AssetImage('lib/res/assets/profile_male.webp')),
+          ),
+          onTap: () {
+            authCubit.selectGender(Gender.Male);
+            setState(() {
+              showChoices = !showChoices;
+            });
+          },
+        ),
+        const TitleText(
+          text: 'or',
+          margin: EdgeInsets.symmetric(horizontal: 16.0),
+        ),
+        InkWell(
+          child: const CircleAvatar(
+            backgroundColor: Colors.white,
+            radius: 44.0,
+            child: CircleAvatar(
+              radius: 40.0,
+              backgroundImage: AssetImage('lib/res/assets/profile_female.webp'),
+            ),
+          ),
+          onTap: () {
+            authCubit.selectGender(Gender.Female);
+            setState(() {
+              showChoices = !showChoices;
+            });
+          },
+        ),
+      ],
+    );
+  }
+}
