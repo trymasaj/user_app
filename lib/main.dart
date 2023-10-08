@@ -2,6 +2,7 @@ import 'dart:async';
 import 'dart:isolate';
 
 import 'package:flutter/foundation.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:masaj/res/style/app_colors.dart';
 
 import 'di/injector.dart';
@@ -111,16 +112,22 @@ class _MyAppState extends State<MyApp> with WidgetsBindingObserver {
         return GestureDetector(
           behavior: HitTestBehavior.opaque,
           onTap: () => FocusManager.instance.primaryFocus?.unfocus(),
-          child: MaterialApp(
-            home: const SplashPage(),
-            localizationsDelegates: context.localizationDelegates,
-            supportedLocales: context.supportedLocales,
-            locale: context.locale,
-            debugShowCheckedModeBanner: false,
-            theme: theme(isArabic),
-            title: 'Masaj',
-            routes: routes,
-            navigatorKey: navigatorKey,
+          child: ScreenUtilInit(
+            designSize: const Size(375, 790),
+            minTextAdapt: true,
+            child: Builder(builder: (context) {
+              return MaterialApp(
+                home: const SplashPage(),
+                localizationsDelegates: context.localizationDelegates,
+                supportedLocales: context.supportedLocales,
+                locale: context.locale,
+                debugShowCheckedModeBanner: false,
+                theme: theme(isArabic),
+                title: 'Masaj',
+                routes: routes,
+                navigatorKey: navigatorKey,
+              );
+            }),
           ),
         );
       },

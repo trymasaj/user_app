@@ -2,7 +2,6 @@ import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:masaj/features/providers_tab/presentation/pages/providers_tab.dart';
 import 'package:size_helper/size_helper.dart';
-import 'package:upgrader/upgrader.dart';
 
 import '../../../../res/style/theme.dart';
 import '../../../account/presentation/pages/more_tab.dart';
@@ -56,15 +55,9 @@ class _HomePageState extends State<HomePage> {
         // BlocProvider(create: (context) => Injector().eventsCubit..init()),
       ],
       child: BlocListener<HomeCubit, HomeState>(
-        listener: (context, state) {
-          if (state.isError) showSnackBar(context, message: state.message);
-        },
-        child: UpgradeAlert(
-          upgrader: Upgrader(
-              showIgnore: false,
-              messages: UpgraderMessages(code: context.locale.languageCode),
-              showLater: false,
-              durationUntilAlertAgain: const Duration(seconds: 1)),
+          listener: (context, state) {
+            if (state.isError) showSnackBar(context, message: state.message);
+          },
           child: CustomAppPage(
             safeBottom: false,
             child: Scaffold(
@@ -83,9 +76,7 @@ class _HomePageState extends State<HomePage> {
                 pageController: _pageController,
               ),
             ),
-          ),
-        ),
-      ),
+          )),
     );
   }
 }
