@@ -117,39 +117,13 @@ flutter:
 
     - family: Poppins
       fonts:
-        - asset: lib/res/fonts/poppins_regular.ttf
-        - asset: lib/res/fonts/poppins_medium.ttf
-
-    - family: Somar
-      fonts:
-        - asset: lib/res/fonts/somar_medium.ttf
-
-    - family: Neo Sans Arabic
-      fonts:
-        - asset: lib/res/fonts/neo_sans_arabic_black.ttf
-        - asset: lib/res/fonts/neo_sans_arabic_bold.ttf
-        - asset: lib/res/fonts/neo_sans_arabic_light.ttf
-        - asset: lib/res/fonts/neo_sans_arabic_medium.ttf
-        - asset: lib/res/fonts/neo_sans_arabic_regular.ttf
-        - asset: lib/res/fonts/neo_sans_arabic_ultra.ttf
-
-    - family: Gilroy
-      fonts:
-        - asset: lib/res/fonts/gilroy_bold.ttf
-        - asset: lib/res/fonts/gilroy_heavy.ttf
-        - asset: lib/res/fonts/gilroy_light.ttf
-        - asset: lib/res/fonts/gilroy_medium.ttf
-        - asset: lib/res/fonts/gilroy_regular.ttf
-
-  #         style: italic
-  #   - family: Trajan Pro
-  #     fonts:
-  #       - asset: fonts/TrajanPro.ttf
-  #       - asset: fonts/TrajanPro_Bold.ttf
-  #         weight: 700
-  #
-  # For details regarding fonts from package dependencies,
-  # see https://flutter.dev/custom-fonts/#from-packages
+        - asset: assets/fonts/Poppins-ExtraBold.ttf
+        - asset: assets/fonts/Poppins-Bold.ttf
+        - asset: assets/fonts/Poppins-SemiBold.ttf
+        - asset: assets/fonts/Poppins-Light.ttf
+        - asset: assets/fonts/Poppins-ExtraLight.ttf
+        - asset: assets/fonts/Poppins-Medium.ttf
+        - asset: assets/fonts/Poppins-Regular.ttf
 
 flutter_native_splash:
   color: "#FFFFFF"

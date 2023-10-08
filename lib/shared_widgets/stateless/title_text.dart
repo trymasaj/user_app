@@ -140,7 +140,7 @@ class TitleText extends StatelessWidget {
         )
         .copyWith(
           color: color,
-          fontFamily: fontFamily ?? 'Neo Sans Arabic',
+          fontFamily: fontFamily ?? 'Poppins',
         );
 
     final textStyleAfter = textStyleBefore.copyWith(

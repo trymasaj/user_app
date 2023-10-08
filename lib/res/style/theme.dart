@@ -5,7 +5,7 @@ import 'app_colors.dart';
 
 ThemeData theme(bool isArabic) {
   //TODO: Keep it as it is for now, but we need to change it if there is another font for English!
-  final fontFamily = isArabic ? 'Neo Sans Arabic' : 'Neo Sans Arabic';
+  final fontFamily = isArabic ? 'Poppins' : 'Poppins';
   return ThemeData(
     fontFamily: fontFamily,
     scaffoldBackgroundColor: Colors.transparent,
