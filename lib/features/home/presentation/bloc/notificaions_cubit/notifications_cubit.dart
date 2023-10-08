@@ -1,7 +1,6 @@
 import 'dart:developer';
 
 import 'package:masaj/core/abstract/base_cubit.dart';
-import 'package:masaj/features/home/data/models/notification.dart';
 
 import '../../../../../core/exceptions/redundant_request_exception.dart';
 import '../../../data/repositories/home_repository.dart';

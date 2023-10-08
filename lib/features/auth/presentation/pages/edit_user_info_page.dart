@@ -1,4 +1,3 @@
-import 'package:cached_network_svg_image/cached_network_svg_image.dart';
 import '../../../../shared_widgets/stateless/title_text.dart';
 
 import '../../../../core/enums/age_group.dart';
@@ -17,7 +16,6 @@ import '../../../../shared_widgets/stateful/default_button.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:easy_localization/easy_localization.dart';
-import 'package:collection/collection.dart';
 
 import '../blocs/auth_cubit/auth_cubit.dart';
 import '../widgets/user_image_selection_widget.dart';

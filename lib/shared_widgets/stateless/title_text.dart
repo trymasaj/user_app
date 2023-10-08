@@ -1,6 +1,5 @@
 import 'package:easy_localization/easy_localization.dart' hide TextDirection;
 import 'package:flutter/material.dart';
-import 'package:size_helper/size_helper.dart';
 
 ///Don't use it with items or cards (inside any lists) because it uses SizeHelper inside it so the O(n) and the best solution here is to use SizeHelper from the outside and pass the result to every item/card by parameters so the big O will be O(1).
 class TitleText extends StatelessWidget {
@@ -132,15 +131,9 @@ class TitleText extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final textStyleBefore = context
-        .sizeHelper(
-          tabletSmall: Theme.of(context).textTheme.headline1,
-          tabletNormal: Theme.of(context).textTheme.headline2,
-          desktopSmall: Theme.of(context).textTheme.headline3,
-        )
-        .copyWith(
-          color: color,
-          fontFamily: fontFamily ?? 'Poppins',
+    final textStyleBefore = Theme.of(context).textTheme.headline1!.copyWith(
+          fontSize: 20.0,
+          fontWeight: FontWeight.w600,
         );
 
     final textStyleAfter = textStyleBefore.copyWith(

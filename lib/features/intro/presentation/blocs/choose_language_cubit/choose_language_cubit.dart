@@ -9,7 +9,7 @@ class ChooseLanguageCubit extends BaseCubit<ChooseLanguageState> {
 
   final IntroRepository _introRepository;
 
-  Future<void> setLanguageCode(String languageCode) async {
+  Future<void> saveLanguageCode(String languageCode) async {
     emit(state.copyWith(status: ChooseLanguageStateStatus.loading));
     try {
       await _introRepository.setLanguageCode(languageCode);

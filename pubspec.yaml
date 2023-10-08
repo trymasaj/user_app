@@ -76,6 +76,7 @@ dependencies:
   video_player: ^2.5.1
   youtube_player_flutter: ^8.1.2
   flutter_screenutil: ^5.9.0
+  gradient_borders: ^1.0.0
 
   flutter:
     sdk: flutter
@@ -111,19 +112,15 @@ flutter:
     - lib/res/assets/
 
   fonts:
-    - family: Inter
-      fonts:
-        - asset: lib/res/fonts/inter_regular.ttf
-
     - family: Poppins
       fonts:
-        - asset: assets/fonts/Poppins-ExtraBold.ttf
-        - asset: assets/fonts/Poppins-Bold.ttf
-        - asset: assets/fonts/Poppins-SemiBold.ttf
-        - asset: assets/fonts/Poppins-Light.ttf
-        - asset: assets/fonts/Poppins-ExtraLight.ttf
-        - asset: assets/fonts/Poppins-Medium.ttf
-        - asset: assets/fonts/Poppins-Regular.ttf
+        - asset: lib/res/fonts/Poppins-ExtraBold.ttf
+        - asset: lib/res/fonts/Poppins-Bold.ttf
+        - asset: lib/res/fonts/Poppins-SemiBold.ttf
+        - asset: lib/res/fonts/Poppins-Light.ttf
+        - asset: lib/res/fonts/Poppins-ExtraLight.ttf
+        - asset: lib/res/fonts/Poppins-Medium.ttf
+        - asset: lib/res/fonts/Poppins-Regular.ttf
 
 flutter_native_splash:
   color: "#FFFFFF"

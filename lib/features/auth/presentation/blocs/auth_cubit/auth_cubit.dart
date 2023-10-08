@@ -11,7 +11,6 @@ import '../../../../account/data/models/contact_us_message_model.dart';
 import 'package:firebase_crashlytics/firebase_crashlytics.dart';
 import '../../../../../core/exceptions/social_media_login_canceled_exception.dart';
 import '../../../data/repositories/auth_repository.dart';
-import 'package:collection/collection.dart';
 
 import '../../../../../core/abstract/base_cubit.dart';
 import '../../../../../core/exceptions/redundant_request_exception.dart';

@@ -60,8 +60,7 @@ class CustomAppPage extends StatelessWidget {
     if (_clearSnackBarOnLaunch) _clearAnySnackBarFromPreviousPage(context);
 
     return DecoratedBox(
-      decoration:
-          BoxDecoration(color: _backgroundColor ?? AppColors.ACCENT_COLOR),
+      decoration: BoxDecoration(color: _backgroundColor ?? Colors.white),
       child: Stack(
         fit: StackFit.expand,
         children: [
@@ -73,13 +72,13 @@ class CustomAppPage extends StatelessWidget {
                     height: _height,
                     width: _width,
                   )
-                : SvgPicture.asset(
-                    _backgroundPath?.isNotEmpty == true
-                        ? _backgroundPath!
-                        : 'lib/res/assets/background.svg',
-                    fit: _backgroundFit ?? BoxFit.cover,
-                    alignment: _backgroundAlignment ?? Alignment.center,
-                  ),
+                : _backgroundPath?.isNotEmpty == true
+                    ? SvgPicture.asset(
+                        _backgroundPath!,
+                        fit: _backgroundFit ?? BoxFit.cover,
+                        alignment: _backgroundAlignment ?? Alignment.center,
+                      )
+                    : const SizedBox(),
           if (_child != null)
             SafeArea(
               top: _safeTop,

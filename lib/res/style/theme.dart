@@ -8,7 +8,7 @@ ThemeData theme(bool isArabic) {
   final fontFamily = isArabic ? 'Poppins' : 'Poppins';
   return ThemeData(
     fontFamily: fontFamily,
-    scaffoldBackgroundColor: Colors.transparent,
+    scaffoldBackgroundColor: Colors.white,
     textTheme: TextTheme(
       bodyText1: _normalText(14.0, fontFamily),
       bodyText2: _normalText(16.0, fontFamily),
@@ -25,8 +25,8 @@ ThemeData theme(bool isArabic) {
         statusBarIconBrightness: Brightness.dark,
       ),
     ),
-    iconTheme: const IconThemeData(color: Colors.white),
-    colorScheme: const ColorScheme.light(primary: Colors.white),
+    iconTheme: const IconThemeData(color: Colors.black),
+    colorScheme: const ColorScheme.light(primary: Colors.black),
     radioTheme: RadioThemeData(
       overlayColor: MaterialStateColor.resolveWith(
         (states) => AppColors.GREY_NORMAL_COLOR,
@@ -40,7 +40,7 @@ ThemeData theme(bool isArabic) {
 
 TextStyle _boldText(double size, String fontFamily) {
   return TextStyle(
-    color: Colors.white,
+    color: AppColors.FONT_PRIMARY_COLOR,
     fontWeight: FontWeight.bold,
     fontSize: size,
     fontFamily: fontFamily,
@@ -49,7 +49,7 @@ TextStyle _boldText(double size, String fontFamily) {
 
 TextStyle _normalText(double size, String fontFamily) {
   return TextStyle(
-    color: Colors.white,
+    color: AppColors.FONT_PRIMARY_COLOR,
     fontWeight: FontWeight.w400,
     fontSize: size,
     fontFamily: fontFamily,

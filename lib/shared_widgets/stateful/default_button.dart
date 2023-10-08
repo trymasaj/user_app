@@ -14,7 +14,7 @@ class DefaultButton extends StatefulWidget {
       this.labelStyle = const TextStyle(
         fontSize: 16.0,
         color: Colors.white,
-        fontWeight: FontWeight.bold,
+        fontWeight: FontWeight.w500,
       ),
       this.alignment = Alignment.center,
       this.borderRadius = const BorderRadius.all(Radius.circular(50.0)),
@@ -85,6 +85,7 @@ class _DefaultButtonState extends State<DefaultButton>
         ),
     ];
     return Container(
+      height: 56,
       margin: widget.margin,
       child: AnimatedSize(
         duration: const Duration(milliseconds: 300),
@@ -97,9 +98,7 @@ class _DefaultButtonState extends State<DefaultButton>
                   padding: widget.padding,
                   alignment: widget.isExpanded ? Alignment.center : null,
                   decoration: BoxDecoration(
-                    color: widget.enabled
-                        ? widget.backgroundColor ?? AppColors.PRIMARY_COLOR
-                        : const Color(0x88888888),
+                    gradient: AppColors.GRADIENT_COLOR,
                     boxShadow: widget.shadow,
                     borderRadius: widget.borderRadius,
                     border: widget.borderColor != null

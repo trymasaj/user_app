@@ -1,4 +1,3 @@
-import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart' hide Notification;
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:lazy_load_scrollview/lazy_load_scrollview.dart';
@@ -52,7 +51,7 @@ class NotificationsPage extends StatelessWidget {
         final cubit = context.read<NotificationsCubit>();
 
         if (state.isLoading || state.isInitial) {
-          return CustomLoading(
+          return const CustomLoading(
             color: AppColors.ACCENT_COLOR,
             loadingStyle: LoadingStyle.ShimmerList,
           );
@@ -80,7 +79,7 @@ class NotificationsPage extends StatelessWidget {
                 }
                 final notificationItem =
                     state.allNotification!.notifications![index];
-                return _NotficationCard(notificationItem: notificationItem);
+                return _NotificationCard(notificationItem: notificationItem);
               },
             ),
           ),
@@ -125,9 +124,8 @@ class NotificationsPage extends StatelessWidget {
   }
 }
 
-class _NotficationCard extends StatelessWidget {
-  const _NotficationCard({
-    super.key,
+class _NotificationCard extends StatelessWidget {
+  const _NotificationCard({
     required this.notificationItem,
   });
 

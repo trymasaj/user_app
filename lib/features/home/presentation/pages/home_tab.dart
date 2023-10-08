@@ -50,7 +50,7 @@ class HomeTab extends StatelessWidget {
           color: AppColors.ACCENT_COLOR,
           child: ListView(
             padding: EdgeInsets.zero,
-            children: [
+            children: const [
               Text("home tab"),
             ],
           ),

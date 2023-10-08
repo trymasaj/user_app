@@ -210,11 +210,6 @@ class _LoginPageState extends State<LoginPage> {
         );
     final size = MediaQuery.of(context).size;
     final screenWidth = size.width;
-    final loadingSize = context.sizeHelper(
-      mobileExtraLarge: 20.0,
-      tabletLarge: 24.0,
-      desktopSmall: 28.0,
-    );
     return SizedBox(
       width: screenWidth * 0.6,
       child: DefaultButton(
