@@ -43,7 +43,6 @@ class _LoginPageState extends State<LoginPage> {
 
   @override
   void initState() {
-    AppColors.resetAppColors();
     _formKey = GlobalKey<FormState>();
 
     _emailTextController = TextEditingController();

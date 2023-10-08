@@ -135,7 +135,6 @@ class _SettingsPageState extends State<SettingsPage> {
         margin: const EdgeInsets.symmetric(horizontal: 24.0, vertical: 16.0),
         backgroundColor: Colors.transparent,
         onPressed: () {
-          AppColors.resetAppColors();
           authCubit.logout();
           NavigatorHelper.of(context)
               .pushNamedAndRemoveUntil(LoginPage.routeName, (route) => false);

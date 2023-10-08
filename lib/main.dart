@@ -42,7 +42,6 @@ void main() async {
               BlocProvider(create: (context) => Injector().authCubit..init()),
               BlocProvider(create: (context) => Injector().favoritesCubit),
               //   BlocProvider(create: (context) => Injector().treasureHuntCubit),
-              BlocProvider(create: (context) => AppColors()),
             ],
             child: const MyApp(),
           ),
@@ -107,30 +106,26 @@ class _MyAppState extends State<MyApp> with WidgetsBindingObserver {
     ]);
 
     final isArabic = context.locale == const Locale('ar');
-    return BlocBuilder<AppColors, bool>(
-      builder: (context, state) {
-        return GestureDetector(
-          behavior: HitTestBehavior.opaque,
-          onTap: () => FocusManager.instance.primaryFocus?.unfocus(),
-          child: ScreenUtilInit(
-            designSize: const Size(375, 790),
-            minTextAdapt: true,
-            child: Builder(builder: (context) {
-              return MaterialApp(
-                home: const SplashPage(),
-                localizationsDelegates: context.localizationDelegates,
-                supportedLocales: context.supportedLocales,
-                locale: context.locale,
-                debugShowCheckedModeBanner: false,
-                theme: theme(isArabic),
-                title: 'Masaj',
-                routes: routes,
-                navigatorKey: navigatorKey,
-              );
-            }),
-          ),
-        );
-      },
+    return GestureDetector(
+      behavior: HitTestBehavior.opaque,
+      onTap: () => FocusManager.instance.primaryFocus?.unfocus(),
+      child: ScreenUtilInit(
+        designSize: const Size(375, 790),
+        minTextAdapt: true,
+        child: Builder(builder: (context) {
+          return MaterialApp(
+            home: const SplashPage(),
+            localizationsDelegates: context.localizationDelegates,
+            supportedLocales: context.supportedLocales,
+            locale: context.locale,
+            debugShowCheckedModeBanner: false,
+            theme: theme(isArabic),
+            title: 'Masaj',
+            routes: routes,
+            navigatorKey: navigatorKey,
+          );
+        }),
+      ),
     );
   }
 }
