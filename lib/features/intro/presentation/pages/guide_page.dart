@@ -5,10 +5,8 @@ import 'package:masaj/shared_widgets/stateless/custom_text.dart';
 import '../../data/models/guide_page_tab_model.dart';
 import '../../../../res/style/app_colors.dart';
 import '../../../../shared_widgets/stateless/custom_loading.dart';
-import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:size_helper/size_helper.dart';
 import 'package:collection/collection.dart';
 import '../../../../core/utils/navigator_helper.dart';
 
@@ -16,8 +14,6 @@ import '../../../../di/injector.dart';
 import '../../../../shared_widgets/other/show_snack_bar.dart';
 import '../../../../shared_widgets/stateful/default_button.dart';
 import '../../../../shared_widgets/stateless/dots_indicator.dart';
-import '../../../../shared_widgets/stateless/subtitle_text.dart';
-import '../../../../shared_widgets/stateless/title_text.dart';
 import '../blocs/guide_page_cubit/guide_page_cubit.dart';
 import 'get_started_page.dart';
 
@@ -61,19 +57,17 @@ class _GuidePageState extends State<GuidePage> {
   Widget _buildBody(BuildContext context) {
     return Stack(
       children: [
-        Expanded(
-          child: BlocConsumer<GuidePageCubit, GuidePageState>(
-            listener: (context, state) {
-              if (state.isError)
-                showSnackBar(context, message: state.errorMessage);
-            },
-            builder: (context, state) {
-              if (state.isInitial || state.isLoading)
-                return const CustomLoading();
+        BlocConsumer<GuidePageCubit, GuidePageState>(
+          listener: (context, state) {
+            if (state.isError)
+              showSnackBar(context, message: state.errorMessage);
+          },
+          builder: (context, state) {
+            if (state.isInitial || state.isLoading)
+              return const CustomLoading();
 
-              return _buildGuidePage(context, tabs: state.guidePageTabs);
-            },
-          ),
+            return _buildGuidePage(context, tabs: state.guidePageTabs);
+          },
         ),
         Positioned(
           bottom: 50.0,
@@ -204,6 +198,7 @@ class _GuidePageState extends State<GuidePage> {
     final state = context.read<GuidePageCubit>().state;
     final isLastTab = state.tabNumber == state.guidePageTabs.length - 1;
     return ClipRRect(
+      borderRadius: BorderRadius.circular(24.0),
       child: BackdropFilter(
         filter: ImageFilter.blur(sigmaX: 10.0, sigmaY: 10.0),
         child: Container(
@@ -212,7 +207,6 @@ class _GuidePageState extends State<GuidePage> {
           padding: const EdgeInsets.symmetric(horizontal: 24.0),
           decoration: BoxDecoration(
             color: Colors.grey.shade200.withOpacity(0.5),
-            borderRadius: const BorderRadius.all(Radius.circular(20.0)),
           ),
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,

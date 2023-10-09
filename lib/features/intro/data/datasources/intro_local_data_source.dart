@@ -3,6 +3,7 @@ import '../../../../core/service/cache_service.dart';
 abstract class IntroLocalDataSource {
   Future<void> setFirstLaunchToFalse();
   Future<void> setLanguageCode(String languageCode);
+  Future<void> setQuizCompletedToTrue();
 }
 
 class IntroLocalDataSourceImpl implements IntroLocalDataSource {
@@ -16,4 +17,8 @@ class IntroLocalDataSourceImpl implements IntroLocalDataSource {
   @override
   Future<void> setLanguageCode(String languageCode) =>
       _cacheService.setLanguageCode(languageCode);
+
+  @override
+  Future<void> setQuizCompletedToTrue() =>
+      _cacheService.setIsQuizCompleted(true);
 }

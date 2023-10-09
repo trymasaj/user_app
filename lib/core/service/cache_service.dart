@@ -20,6 +20,9 @@ abstract class CacheService {
   Future<bool> getIsFirstLaunch();
   Future<void> setIsFirstLaunch(bool isFirstLaunch);
 
+  Future<bool> getIsQuizCompleted();
+  Future<bool> setIsQuizCompleted(bool isQuizCompleted);
+
   Future<Set<ShowCaseDisplayedPage>> getShowCaseDisplayedPages();
   Future<void> addShowCaseDisplayedPages(ShowCaseDisplayedPage page);
   Future<void> resetShowCaseDisplayedPages();
@@ -30,6 +33,7 @@ class CacheServiceImplV2 implements CacheService {
   static const _APPLE_USER_DATA = "APPLE_USER_DATA";
   static const _LOCALE = 'locale';
   static const _IS_FIRST_LAUNCH = "IS_FIRST_LAUNCH";
+  static const _IS_QUIZ_COMPLETED = "IS_QUIZ_COMPLETED";
   static const _HAS_RUN_BEFORE = "HAS_RUN_BEFORE";
   static const _SHOW_CASE_DISPLAYED = "SHOW_CASE_DISPLAYED";
 
@@ -99,6 +103,23 @@ class CacheServiceImplV2 implements CacheService {
     final storage = await _completer.future;
 
     await storage.write(key: _IS_FIRST_LAUNCH, value: isFirstLaunch.toString());
+  }
+
+  @override
+  Future<bool> getIsQuizCompleted() async {
+    final storage = await _completer.future;
+
+    final isQuizCompleted = await storage.read(key: _IS_QUIZ_COMPLETED);
+    return isQuizCompleted == null ? false : true;
+  }
+
+  @override
+  Future<bool> setIsQuizCompleted(bool isQuizCompleted) async {
+    final storage = await _completer.future;
+
+    await storage.write(
+        key: _IS_QUIZ_COMPLETED, value: isQuizCompleted.toString());
+    return true;
   }
 
   @override

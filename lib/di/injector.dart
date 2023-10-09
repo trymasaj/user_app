@@ -1,6 +1,7 @@
 import 'package:masaj/core/service/location_helper.dart';
 import 'package:masaj/features/account/presentation/blocs/coupon_details_cubit/coupon_details_cubit.dart';
 import 'package:masaj/core/utils/show_case_helper.dart';
+import 'package:masaj/features/intro/presentation/blocs/quiz_page_cubit/quiz_page_cubit.dart';
 
 import '../core/data/datasources/device_type_data_source.dart';
 import '../core/data/datasources/external_login_data_source.dart';
@@ -105,6 +106,9 @@ class Injector {
   //===================[CHOOSE_LANGUAGE_CUBIT]===================
   ChooseLanguageCubit get chooseLanguageCubit =>
       ChooseLanguageCubit(introRepository);
+
+  //===================[QUIZ_CUBIT]==============================
+  QuizPageCubit get quizPageCubit => QuizPageCubit(introRepository);
 
   //===================[HOME_CUBIT]===================
   HomeCubit get homeCubit => HomeCubit(
