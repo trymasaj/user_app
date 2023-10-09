@@ -75,8 +75,6 @@ class _SignUpStep2PageState extends State<SignUpStep2Page> {
     return BlocListener<AuthCubit, AuthState>(
       listener: (context, state) {
         if (state.isError) showSnackBar(context, message: state.errorMessage);
-        if (state.isLoggedIn && state.user?.completeRegistration == true)
-          _goToEmailVerificationPage(context);
       },
       child: CustomAppPage(
         withBackground: true,
@@ -197,16 +195,6 @@ class _SignUpStep2PageState extends State<SignUpStep2Page> {
 
   Widget _buildCompleteRegistration(BuildContext context) {
     final authCubit = context.read<AuthCubit>();
-    Future<void> completeRegistrationCallBack() async {
-      if (_isNotValid()) return;
-
-      await authCubit.completeRegistration(
-        fullName: _fullNameTextController.text.trim(),
-        mobile: _phoneNumber!.phoneNumber!,
-        gender: _userGender,
-        ageGroup: _userAgeGroup,
-      );
-    }
 
     final textStyle = Theme.of(context).textTheme.bodyText1!.copyWith(
           fontSize: context.sizeHelper(
@@ -221,17 +209,16 @@ class _SignUpStep2PageState extends State<SignUpStep2Page> {
     return SizedBox(
       width: screenWidth * 0.6,
       child: DefaultButton(
-        label: 'continue'.tr(),
-        labelStyle: textStyle,
-        backgroundColor: Colors.transparent,
-        borderWidth: 2.0,
-        icon: const Icon(Icons.arrow_forward),
-        padding: const EdgeInsets.symmetric(vertical: 16.0),
-        iconLocation: DefaultButtonIconLocation.End,
-        borderColor: Colors.white,
-        isExpanded: true,
-        onPressed: completeRegistrationCallBack,
-      ),
+          label: 'continue'.tr(),
+          labelStyle: textStyle,
+          backgroundColor: Colors.transparent,
+          borderWidth: 2.0,
+          icon: const Icon(Icons.arrow_forward),
+          padding: const EdgeInsets.symmetric(vertical: 16.0),
+          iconLocation: DefaultButtonIconLocation.End,
+          borderColor: Colors.white,
+          isExpanded: true,
+          onPressed: () {}),
     );
   }
 

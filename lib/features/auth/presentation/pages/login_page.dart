@@ -1,3 +1,10 @@
+import 'dart:io';
+
+import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:flutter_svg/svg.dart';
+import 'package:masaj/shared_widgets/stateless/app_logo.dart';
+
+import '../../../../shared_widgets/stateless/custom_text.dart';
 import '../../../intro/presentation/pages/get_started_page.dart';
 import '../../../../shared_widgets/stateless/title_text.dart';
 import '../../../../shared_widgets/text_fields/email_text_form_field.dart';
@@ -14,7 +21,6 @@ import '../../../../shared_widgets/other/show_snack_bar.dart';
 import '../../../../shared_widgets/text_fields/password_text_form_field.dart';
 import '../../../../shared_widgets/stateless/custom_app_page.dart';
 import '../../../../shared_widgets/stateful/default_button.dart';
-import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:easy_localization/easy_localization.dart';
@@ -67,22 +73,12 @@ class _LoginPageState extends State<LoginPage> {
 
   @override
   Widget build(BuildContext context) {
-    final mediaQueryData = MediaQuery.of(context);
-    final screenHeight =
-        mediaQueryData.size.height - mediaQueryData.padding.top;
-
     return BlocListener<AuthCubit, AuthState>(
       listener: (context, state) {
         if (state.isError) showSnackBar(context, message: state.errorMessage);
 
         if (state.isLoggedIn) {
           final user = state.user;
-          final notCompleteRegistration = user?.completeRegistration != true;
-          final isNotEmailVerified = user?.emailVerified != true;
-
-          if (notCompleteRegistration) return _goToSignUpStep2Page(context);
-          if (isNotEmailVerified) return _goToEmailVerificationPage(context);
-
           return _goToHomePage(
             context,
             userFullName: user!.fullName,
@@ -91,72 +87,196 @@ class _LoginPageState extends State<LoginPage> {
       },
       child: CustomAppPage(
         withBackground: true,
-        safeBottom: false,
+        safeBottom: true,
         safeTop: true,
-        backgroundPath: 'lib/res/assets/sign_up_step_1_background.svg',
         backgroundFit: BoxFit.fitWidth,
         backgroundAlignment: Alignment.topCenter,
         child: Scaffold(
-          body: SingleChildScrollView(
-            child: SizedBox(
-              height: screenHeight,
-              child: _buildBody(context),
-            ),
+          backgroundColor: Colors.transparent,
+          body: Column(
+            children: [
+              _buildTopSection(),
+              _buildBody(context),
+            ],
           ),
         ),
       ),
     );
   }
 
+  SizedBox _buildTopSection() {
+    return SizedBox(
+      height: 120.h,
+      child: const AppLogo(
+        alignment: Alignment.center,
+      ),
+    );
+  }
+
   Widget _buildBody(BuildContext context) {
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        const Spacer(flex: 3),
-        const TitleText.extraLarge(
-          text: 'welcome_message',
-          textAlign: TextAlign.start,
-          margin: EdgeInsets.symmetric(horizontal: 16.0),
+    return Expanded(
+      child: Container(
+        decoration: const BoxDecoration(
+          color: Colors.white,
+          borderRadius: BorderRadius.only(
+            topLeft: Radius.circular(28.0),
+            topRight: Radius.circular(28.0),
+          ),
         ),
-        const SizedBox(height: 16.0),
-        Expanded(flex: 7, child: _buildForm()),
-        _buildLowerSection(context),
-      ],
+        padding: const EdgeInsets.only(
+          left: 24.0,
+          right: 24.0,
+          top: 30,
+        ),
+        child: ListView(
+          children: [
+            const CustomText(
+              text: 'welcome_back',
+              textAlign: TextAlign.start,
+              margin: EdgeInsets.only(bottom: 4.0),
+              fontSize: 20,
+              fontWeight: FontWeight.w600,
+            ),
+            _buildDoNotHaveAccountButton(context),
+            const SizedBox(height: 16.0),
+            _buildForm(),
+            _buildContinueAsGuestButton(context),
+            _buildVerticalLineSplittedWithORText(context),
+            const SizedBox(height: 16.0),
+            if (Platform.isIOS) ...[
+              _buildAppleButton(context),
+              const SizedBox(height: 4.0),
+            ],
+            _buildGoogleButton(context),
+          ],
+        ),
+      ),
+    );
+  }
+
+  Widget _buildAppleButton(BuildContext context) {
+    final authCubit = context.read<AuthCubit>();
+    const labelStyle = TextStyle(
+      fontSize: 14.0,
+      color: Colors.black,
+      fontWeight: FontWeight.w500,
+    );
+
+    return DefaultButton(
+      padding: const EdgeInsets.symmetric(vertical: 12.0),
+      isExpanded: true,
+      contentAlignment: MainAxisAlignment.start,
+      backgroundColor: Colors.transparent,
+      margin: const EdgeInsets.symmetric(vertical: 4.0),
+      label: 'continue_with_apple',
+      labelStyle: labelStyle,
+      color: const Color(0xFFF6F6F6),
+      icon: SvgPicture.asset(
+        'lib/res/assets/apple.svg',
+        color: Colors.black,
+      ),
+      onPressed: () {
+        return authCubit.loginWithApple(() => _showEmailDialog(context));
+      },
+    );
+  }
+
+  Future<String?> _showEmailDialog(BuildContext context) {
+    return showDialog<String>(
+      context: context,
+      builder: (context) {
+        final formKey = GlobalKey<FormState>();
+        final emailController = TextEditingController();
+        final emailFocusNode = FocusNode();
+
+        return Dialog(
+          insetPadding:
+              const EdgeInsets.symmetric(vertical: 32.0, horizontal: 24.0),
+          shape: const RoundedRectangleBorder(
+            borderRadius: BorderRadius.all(Radius.circular(10.0)),
+          ),
+          child: Form(
+            key: formKey,
+            child: Column(
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                // TitleText.small(
+                //   text: 'email_required'.tr(),
+                //   margin: const EdgeInsets.all(12.0),
+                // ),
+                EmailTextFormField(
+                  currentController: emailController,
+                  currentFocusNode: emailFocusNode,
+                  //hint: 'email'.tr(),
+                  margin: const EdgeInsets.all(8.0),
+                ),
+                DefaultButton(
+                  label: 'confirm'.tr(),
+                  isExpanded: true,
+                  borderColor: AppColors.GREY_DARK_COLOR,
+                  margin: const EdgeInsets.all(8.0),
+                  onPressed: () => formKey.currentState!.validate()
+                      ? Navigator.of(context).pop(emailController.text.trim())
+                      : null,
+                ),
+              ],
+            ),
+          ),
+        );
+      },
+    );
+  }
+
+  Widget _buildGoogleButton(BuildContext context) {
+    final authCubit = context.read<AuthCubit>();
+    const labelStyle = TextStyle(
+      fontSize: 14.0,
+      color: Colors.black,
+      fontWeight: FontWeight.w500,
+    );
+
+    return DefaultButton(
+      padding: const EdgeInsets.symmetric(vertical: 12.0),
+      isExpanded: true,
+      contentAlignment: MainAxisAlignment.start,
+      backgroundColor: Colors.transparent,
+      margin: const EdgeInsets.symmetric(vertical: 4.0),
+      label: 'continue_with_google'.tr(),
+      labelStyle: labelStyle,
+      color: const Color(0xFFF6F6F6),
+      icon: SvgPicture.asset(
+        'lib/res/assets/google.svg',
+        color: Colors.black,
+      ),
+      onPressed: () {
+        return authCubit.loginWithGoogle(() => _showEmailDialog(context));
+      },
     );
   }
 
   Widget _buildForm() {
-    return Padding(
-      padding: const EdgeInsets.symmetric(horizontal: 16.0),
-      child: Form(
-        key: _formKey,
-        autovalidateMode: _isAutoValidating
-            ? AutovalidateMode.onUserInteraction
-            : AutovalidateMode.disabled,
-        child: SingleChildScrollView(
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.stretch,
-            children: [
-              const TitleText(text: 'your_email'),
-              const SizedBox(height: 8.0),
-              EmailTextFormField(
-                currentFocusNode: _emailFocusNode,
-                nextFocusNode: _passwordFocusNode,
-                currentController: _emailTextController,
-              ),
-              const SizedBox(height: 16.0),
-              const TitleText(text: 'password'),
-              const SizedBox(height: 8.0),
-              PasswordTextFormField(
-                currentFocusNode: _passwordFocusNode,
-                currentController: _passwordTextController,
-              ),
-              const SizedBox(height: 8.0),
-              _buildForgetPasswordButton(context),
-              const SizedBox(height: 16.0),
-            ],
+    return Form(
+      key: _formKey,
+      autovalidateMode: _isAutoValidating
+          ? AutovalidateMode.onUserInteraction
+          : AutovalidateMode.disabled,
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.stretch,
+        children: [
+          EmailTextFormField(
+            currentFocusNode: _emailFocusNode,
+            nextFocusNode: _passwordFocusNode,
+            currentController: _emailTextController,
           ),
-        ),
+          const SizedBox(height: 16.0),
+          PasswordTextFormField(
+            currentFocusNode: _passwordFocusNode,
+            currentController: _passwordTextController,
+          ),
+          _buildForgetPasswordButton(context),
+          const SizedBox(height: 16.0),
+          _buildSignInButton(context),
+        ],
       ),
     );
   }
@@ -165,71 +285,54 @@ class _LoginPageState extends State<LoginPage> {
     return Align(
       alignment: AlignmentDirectional.centerEnd,
       child: TextButton(
-          child: const SubtitleText(
+          child: const CustomText(
             text: 'forget_password',
+            fontSize: 14,
+            fontWeight: FontWeight.w500,
           ),
           onPressed: () => _goToForgetPasswordPage(context)),
     );
   }
 
   Widget _buildLowerSection(BuildContext context) {
-    return Expanded(
-      flex: 5,
-      child: DecoratedBox(
-        decoration: BoxDecoration(
-          color: AppColors.PRIMARY_COLOR,
-          borderRadius: const BorderRadius.vertical(top: Radius.circular(20.0)),
-        ),
-        child: SizedBox(
-          width: double.infinity,
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              const SizedBox(height: 8.0),
-              _buildLoginButton(context),
-              const SizedBox(height: 16.0),
-              _buildContinueAsGuestButton(context),
-              const SizedBox(height: 16.0),
-              _buildDoNotHaveAccountButton(context),
-              const SizedBox(height: 8.0),
-            ],
-          ),
+    return DecoratedBox(
+      decoration: BoxDecoration(
+        color: AppColors.PRIMARY_COLOR,
+        borderRadius: const BorderRadius.vertical(top: Radius.circular(20.0)),
+      ),
+      child: SizedBox(
+        width: double.infinity,
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            const SizedBox(height: 8.0),
+            _buildSignInButton(context),
+            const SizedBox(height: 16.0),
+            _buildContinueAsGuestButton(context),
+            const SizedBox(height: 16.0),
+            _buildDoNotHaveAccountButton(context),
+            const SizedBox(height: 8.0),
+          ],
         ),
       ),
     );
   }
 
-  Widget _buildLoginButton(BuildContext context) {
+  Widget _buildSignInButton(BuildContext context) {
     final authCubit = context.read<AuthCubit>();
-    final textStyle = Theme.of(context).textTheme.bodyText1!.copyWith(
-          fontSize: context.sizeHelper(
-            mobileExtraLarge: 16.0,
-            tabletLarge: 18.0,
-            desktopSmall: 21.0,
-          ),
+
+    return DefaultButton(
+      label: 'sign_in',
+      backgroundColor: Colors.transparent,
+      padding: const EdgeInsets.symmetric(vertical: 8.0),
+      isExpanded: true,
+      onPressed: () async {
+        if (_isNotValid()) return;
+        await authCubit.login(
+          _emailTextController.text.trim(),
+          _passwordTextController.text,
         );
-    final size = MediaQuery.of(context).size;
-    final screenWidth = size.width;
-    return SizedBox(
-      width: screenWidth * 0.6,
-      child: DefaultButton(
-        label: 'login'.tr(),
-        labelStyle: textStyle,
-        backgroundColor: Colors.transparent,
-        borderWidth: 2.0,
-        padding: const EdgeInsets.symmetric(vertical: 8.0),
-        icon: const Icon(Icons.arrow_forward),
-        iconLocation: DefaultButtonIconLocation.End,
-        borderColor: Colors.white,
-        isExpanded: true,
-        onPressed: () async {
-          if (_isNotValid()) return;
-          await authCubit.login(
-            _emailTextController.text.trim(),
-            _passwordTextController.text,
-          );
-        },
-      ),
+      },
     );
   }
 
@@ -243,61 +346,46 @@ class _LoginPageState extends State<LoginPage> {
   }
 
   Widget _buildContinueAsGuestButton(BuildContext context) {
-    final textStyle = Theme.of(context).textTheme.bodyText1!.copyWith(
-          fontSize: context.sizeHelper(
-            mobileExtraLarge: 16.0,
-            tabletLarge: 18.0,
-            desktopSmall: 21.0,
-          ),
-        );
-    final size = MediaQuery.of(context).size;
-    final screenWidth = size.width;
     final authCubit = context.read<AuthCubit>();
 
-    return SizedBox(
-      width: screenWidth * 0.6,
-      child: DefaultButton(
-        label: 'continue_guest'.tr(),
-        labelStyle: textStyle,
-        padding: const EdgeInsets.symmetric(vertical: 8.0),
-        backgroundColor: Colors.transparent,
-        borderWidth: 2.0,
-        icon: const Icon(Icons.arrow_forward),
-        iconLocation: DefaultButtonIconLocation.End,
-        borderColor: Colors.white,
-        isExpanded: true,
-        onPressed: () async {
+    return Align(
+      alignment: Alignment.center,
+      child: GestureDetector(
+        onTap: () async {
           await authCubit.continueAsGuest();
           _goToHomePage(context);
         },
+        child: CustomText(
+          text: 'continue_guest'.tr(),
+          decoration: TextDecoration.underline,
+          fontSize: 14,
+          fontWeight: FontWeight.w400,
+          margin: EdgeInsets.symmetric(vertical: 18.0),
+        ),
       ),
     );
   }
 
   Widget _buildDoNotHaveAccountButton(BuildContext context) {
-    final textStyle = Theme.of(context).textTheme.bodyText1!.copyWith(
-          fontSize: context.sizeHelper(
-            mobileExtraLarge: 14.0,
-            tabletLarge: 18.0,
-            desktopSmall: 18.0,
+    return Row(
+      children: [
+        const CustomText(
+          text: 'dont_have_account_message',
+          fontSize: 14,
+          fontWeight: FontWeight.w400,
+          color: AppColors.FONT_LIGHT_COLOR,
+        ),
+        const SizedBox(width: 8.0),
+        GestureDetector(
+          onTap: () => _goToGetStartedPage(context),
+          child: const CustomText(
+            text: 'sign_up',
+            fontSize: 14,
+            fontWeight: FontWeight.w500,
+            decoration: TextDecoration.underline,
           ),
-        );
-    return RichText(
-      textAlign: TextAlign.center,
-      text: TextSpan(
-        children: [
-          TextSpan(text: 'dont_have_account'.tr(), style: textStyle),
-          TextSpan(
-            text: 'sign_up'.tr(),
-            style: textStyle.copyWith(
-                fontWeight: FontWeight.bold,
-                decoration: TextDecoration.underline,
-                decorationColor: Colors.white),
-            recognizer: TapGestureRecognizer()
-              ..onTap = () => _goToGetStartedPage(context),
-          ),
-        ],
-      ),
+        ),
+      ],
     );
   }
 
@@ -330,4 +418,30 @@ class _LoginPageState extends State<LoginPage> {
   void _goToEmailVerificationPage(BuildContext context) =>
       NavigatorHelper.of(context)
           .pushReplacementNamed(EmailVerificationPage.routeName);
+
+  Widget _buildVerticalLineSplittedWithORText(BuildContext context) {
+    return Row(
+      children: [
+        Expanded(
+          child: Container(
+            height: 0.5,
+            color: AppColors.FONT_LIGHT_COLOR,
+          ),
+        ),
+        const CustomText(
+          text: 'or',
+          fontSize: 14,
+          fontWeight: FontWeight.w500,
+          color: AppColors.FONT_LIGHT_COLOR,
+          margin: EdgeInsets.symmetric(horizontal: 8.0),
+        ),
+        Expanded(
+          child: Container(
+            height: 0.5,
+            color: AppColors.FONT_LIGHT_COLOR,
+          ),
+        ),
+      ],
+    );
+  }
 }

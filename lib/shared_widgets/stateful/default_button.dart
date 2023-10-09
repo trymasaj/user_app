@@ -1,5 +1,6 @@
 import 'dart:async';
 
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import '../../../res/style/app_colors.dart';
 import '../../core/utils/type_defs.dart';
@@ -29,6 +30,7 @@ class DefaultButton extends StatefulWidget {
       this.contentAlignment = MainAxisAlignment.center,
       this.backgroundColor,
       this.initLoadingState = false,
+      this.color,
       this.loadingSize})
       : super(key: key);
 
@@ -51,6 +53,7 @@ class DefaultButton extends StatefulWidget {
   final MainAxisAlignment contentAlignment;
   final bool initLoadingState;
   final double? loadingSize;
+  final Color? color;
 
   @override
   _DefaultButtonState createState() => _DefaultButtonState();
@@ -79,7 +82,7 @@ class _DefaultButtonState extends State<DefaultButton>
               ? const EdgeInsets.only(top: 3.0)
               : EdgeInsets.zero,
           child: Text(
-            widget.label!,
+            widget.label!.tr(),
             style: widget.labelStyle,
           ),
         ),
@@ -98,7 +101,9 @@ class _DefaultButtonState extends State<DefaultButton>
                   padding: widget.padding,
                   alignment: widget.isExpanded ? Alignment.center : null,
                   decoration: BoxDecoration(
-                    gradient: AppColors.GRADIENT_COLOR,
+                    gradient:
+                        widget.color == null ? AppColors.GRADIENT_COLOR : null,
+                    color: widget.color,
                     boxShadow: widget.shadow,
                     borderRadius: widget.borderRadius,
                     border: widget.borderColor != null

@@ -48,7 +48,7 @@ class _PasswordTextFormFieldState extends State<PasswordTextFormField> {
                 ? FontAwesomeIcons.eyeSlash
                 : FontAwesomeIcons.eye,
             size: 18.0,
-            color: Colors.white,
+            color: Colors.grey,
           ),
         ),
         validator: widget.validator ?? Validator().validatePassword,

@@ -40,7 +40,7 @@ ThemeData theme(bool isArabic) {
 
 TextStyle _boldText(double size, String fontFamily) {
   return TextStyle(
-    color: AppColors.FONT_PRIMARY_COLOR,
+    color: AppColors.FONT_COLOR,
     fontWeight: FontWeight.bold,
     fontSize: size,
     fontFamily: fontFamily,
@@ -49,7 +49,7 @@ TextStyle _boldText(double size, String fontFamily) {
 
 TextStyle _normalText(double size, String fontFamily) {
   return TextStyle(
-    color: AppColors.FONT_PRIMARY_COLOR,
+    color: AppColors.FONT_COLOR,
     fontWeight: FontWeight.w400,
     fontSize: size,
     fontFamily: fontFamily,

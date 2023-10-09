@@ -270,38 +270,6 @@ class AuthCubit extends BaseCubit<AuthState> {
     }
   }
 
-  Future<void> completeRegistration({
-    required String fullName,
-    required String mobile,
-    Gender? gender,
-    AgeGroup? ageGroup,
-  }) async {
-    try {
-      emit(state.copyWith(status: AuthStateStatus.loading));
-      final ticketMXAccessToken = await _authRepository.completeRegistration(
-        fullName: fullName,
-        mobile: mobile,
-        gender: gender,
-        ageGroup: ageGroup,
-      );
-      emit(state.copyWith(
-        status: AuthStateStatus.loggedIn,
-        user: state.user!.copyWith(
-          completeRegistration: true,
-          fullName: fullName,
-          ticketMXAccessToken: ticketMXAccessToken,
-        ),
-      ));
-    } on RedundantRequestException catch (e) {
-      log(e.toString());
-    } catch (e) {
-      emit(state.copyWith(
-        status: AuthStateStatus.error,
-        errorMessage: e.toString(),
-      ));
-    }
-  }
-
   Future<void> getInterestData() async {
     try {
       emit(state.copyWith(status: AuthStateStatus.loading));

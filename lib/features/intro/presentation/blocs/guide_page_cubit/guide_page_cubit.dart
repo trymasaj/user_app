@@ -54,6 +54,6 @@ class GuidePageCubit extends BaseCubit<GuidePageState> {
     }
   }
 
-  void updateTabNumber(int tabNumber) =>
-      emit(state.copyWith(tabNumber: tabNumber));
+  void updateTabNumber(int tabNumber) => emit(state.copyWith(
+      status: GuidePageStateStatus.tabChanged, tabNumber: tabNumber));
 }

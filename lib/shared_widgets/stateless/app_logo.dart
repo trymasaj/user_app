@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_svg/svg.dart';
 
 class AppLogo extends StatelessWidget {
   const AppLogo({
@@ -28,8 +29,8 @@ class AppLogo extends StatelessWidget {
       transitionOnUserGestures: true,
       child: Material(
         color: Colors.transparent,
-        child: Image.asset(
-          'lib/res/assets/app_logo.png',
+        child: SvgPicture.asset(
+          'lib/res/assets/app_logo.svg',
           height: _height,
           width: _width,
         ),

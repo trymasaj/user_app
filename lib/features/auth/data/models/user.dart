@@ -20,12 +20,10 @@ class User {
   final String? googleAccessToken;
   final int? deviceType;
   final String? mobileAppId;
-  final bool? emailVerified;
   final bool? interestsSelected;
   final int? points;
   final bool? notificationEnabled;
   final String? mobile;
-  final bool? completeRegistration;
 
   User({
     this.id,
@@ -41,12 +39,10 @@ class User {
     this.googleAccessToken,
     this.deviceType,
     this.mobileAppId,
-    this.emailVerified,
     this.interestsSelected,
     this.points,
     this.notificationEnabled,
     this.mobile,
-    this.completeRegistration,
   });
 
   User copyWith({
@@ -64,7 +60,6 @@ class User {
     String? googleAccessToken,
     int? deviceType,
     String? mobileAppId,
-    bool? completeRegistration,
     bool? emailVerified,
     bool? interestsSelected,
     int? points,
@@ -85,12 +80,10 @@ class User {
       googleAccessToken: googleAccessToken ?? this.googleAccessToken,
       deviceType: deviceType ?? this.deviceType,
       mobileAppId: mobileAppId ?? this.mobileAppId,
-      emailVerified: emailVerified ?? this.emailVerified,
       interestsSelected: interestsSelected ?? this.interestsSelected,
       points: points ?? this.points,
       notificationEnabled: notificationEnabled ?? this.notificationEnabled,
       mobile: mobile ?? this.mobile,
-      completeRegistration: completeRegistration ?? this.completeRegistration,
     );
   }
 
@@ -109,12 +102,10 @@ class User {
       'googleAccessToken': googleAccessToken,
       'deviceType': deviceType,
       'mobileAppId': mobileAppId,
-      'emailVerified': emailVerified,
       'interestsSelected': interestsSelected,
       'points': points,
       'notificationEnabled': notificationEnabled,
       'mobile': mobile,
-      'completeRegistration': completeRegistration,
     }..removeWhere((_, v) => v == null);
   }
 
@@ -134,12 +125,10 @@ class User {
       googleAccessToken: map['googleAccessToken'],
       deviceType: map['deviceType']?.toInt(),
       mobileAppId: map['mobileAppId'],
-      emailVerified: map['emailVerified'],
       interestsSelected: map['interestsSelected'],
       points: map['points']?.toInt(),
       notificationEnabled: map['notificationEnabled'],
       mobile: map['mobile'],
-      completeRegistration: map['completeRegistration'],
     );
   }
 
@@ -165,12 +154,10 @@ class User {
         other.googleAccessToken == googleAccessToken &&
         other.deviceType == deviceType &&
         other.mobileAppId == mobileAppId &&
-        other.emailVerified == emailVerified &&
         other.interestsSelected == interestsSelected &&
         other.points == points &&
         other.notificationEnabled == notificationEnabled &&
-        other.mobile == mobile &&
-        other.completeRegistration == completeRegistration;
+        other.mobile == mobile;
   }
 
   @override
@@ -188,7 +175,6 @@ class User {
         googleAccessToken.hashCode ^
         deviceType.hashCode ^
         mobileAppId.hashCode ^
-        emailVerified.hashCode ^
         interestsSelected.hashCode ^
         points.hashCode ^
         notificationEnabled.hashCode ^

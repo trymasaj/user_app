@@ -1,7 +1,6 @@
 import 'package:easy_localization/easy_localization.dart' hide TextDirection;
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:size_helper/size_helper.dart';
 
 import '../../../../res/style/app_colors.dart';
 
@@ -95,84 +94,65 @@ class _MainTextFormFieldState extends State<MainTextFormField> {
         expands: widget.expanded,
         enableSuggestions: widget.enableSuggestions,
         style: widget.style ??
-            context.sizeHelper(
-                mobileLarge: Theme.of(context).textTheme.bodyText1!,
-                tabletSmall: Theme.of(context).textTheme.bodyText2!,
-                tabletNormal: Theme.of(context).textTheme.bodyText2!,
-                desktopSmall: Theme.of(context)
-                    .textTheme
-                    .bodyText2!
-                    .copyWith(fontSize: 21.0)),
+            const TextStyle(
+              fontFamily: 'Poppins',
+              fontSize: 14.0,
+              fontWeight: FontWeight.w400,
+              color: AppColors.FONT_COLOR,
+            ),
         textCapitalization: widget.textCapitalization,
         textAlignVertical:
             widget.expanded ? const TextAlignVertical(y: -0.8) : null,
         obscureText: widget.obscureText ?? false,
         decoration: InputDecoration(
           fillColor: widget.enabled
-              ? widget.fillColor ?? Colors.transparent
+              ? widget.fillColor ?? const Color(0xFFF6F6F6)
               : const Color(0x44000000),
           filled: true,
-          contentPadding:
-              widget.contentPadding ?? const EdgeInsets.fromLTRB(16, 0, 16, 0),
+          isDense: true,
+          contentPadding: widget.contentPadding ??
+              const EdgeInsets.fromLTRB(20, 20, 20, 20),
           hintText: widget.hintText,
-          hintStyle: context
-              .sizeHelper(
-                mobileLarge: Theme.of(context)
-                    .textTheme
-                    .bodyText1!
-                    .copyWith(fontSize: 10.0),
-                tabletSmall: Theme.of(context)
-                    .textTheme
-                    .bodyText1!
-                    .copyWith(fontSize: 12.0),
-                tabletNormal: Theme.of(context)
-                    .textTheme
-                    .bodyText1!
-                    .copyWith(fontSize: 12.0),
-                desktopSmall: Theme.of(context)
-                    .textTheme
-                    .bodyText1!
-                    .copyWith(fontSize: 20.0),
-              )
-              .copyWith(
-                  color: widget.hintColor ??
-                      widget.borderColor ??
-                      AppColors.GREY_LIGHT_COLOR),
+          hintStyle: TextStyle(
+              fontFamily: 'Poppins',
+              fontSize: 14.0,
+              fontWeight: FontWeight.w400,
+              color: widget.hintColor ?? const Color(0xFF8C8C8C)),
           suffixIcon: widget.suffixIcon,
           prefixIcon: widget.prefixIcon,
           enabledBorder: OutlineInputBorder(
-            borderRadius: const BorderRadius.all(Radius.circular(50.0)),
+            borderRadius: const BorderRadius.all(Radius.circular(12.0)),
             borderSide: BorderSide(
-              color: widget.borderColor ?? Colors.white,
-              width: 2,
+              color: widget.borderColor ?? Colors.transparent,
+              width: 1,
             ),
           ),
           focusedBorder: OutlineInputBorder(
-            borderRadius: const BorderRadius.all(Radius.circular(50.0)),
+            borderRadius: const BorderRadius.all(Radius.circular(12.0)),
             borderSide: BorderSide(
-              color: widget.borderColor ?? Colors.white,
-              width: 2,
+              color: widget.borderColor ?? Colors.transparent,
+              width: 1,
             ),
           ),
           errorBorder: const OutlineInputBorder(
             borderSide: BorderSide(
-              color: Colors.red,
-              width: 2,
+              color: AppColors.ERROR_COLOR,
+              width: 1,
             ),
-            borderRadius: BorderRadius.all(Radius.circular(50.0)),
+            borderRadius: BorderRadius.all(Radius.circular(12.0)),
           ),
           focusedErrorBorder: const OutlineInputBorder(
             borderSide: BorderSide(
-              color: Colors.red,
-              width: 2,
+              color: AppColors.ERROR_COLOR,
+              width: 1,
             ),
-            borderRadius: BorderRadius.all(Radius.circular(50.0)),
+            borderRadius: BorderRadius.all(Radius.circular(12.0)),
           ),
           counterText: '',
           border: InputBorder.none,
           disabledBorder: const OutlineInputBorder(
             borderSide: BorderSide.none,
-            borderRadius: BorderRadius.all(Radius.circular(50.0)),
+            borderRadius: BorderRadius.all(Radius.circular(12.0)),
           ),
         ),
         validator: widget.validator,

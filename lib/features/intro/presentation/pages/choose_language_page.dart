@@ -66,7 +66,7 @@ class _ChooseLanguagePageState extends State<ChooseLanguagePage> {
             text: 'choose_app_language_subtitle',
             fontSize: 14.0,
             fontWeight: FontWeight.w400,
-            color: AppColors.FONT_SECONDARY_COLOR,
+            color: AppColors.FONT_LIGHT_COLOR,
             margin: EdgeInsets.only(bottom: 20.0),
           ),
           CustomRadioListTile(

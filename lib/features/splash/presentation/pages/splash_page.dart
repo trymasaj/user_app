@@ -1,6 +1,7 @@
-import '../../../../shared_widgets/dialogs/root_dialog.dart';
+import 'package:masaj/features/auth/presentation/pages/login_page.dart';
+
+import '../../../../shared_widgets/stateless/app_logo.dart';
 import '../../../intro/presentation/pages/get_started_page.dart';
-import 'package:video_player/video_player.dart';
 
 import '../../../../di/injector.dart';
 import '../../../auth/presentation/blocs/auth_cubit/auth_cubit.dart';
@@ -29,24 +30,12 @@ class SplashPage extends StatefulWidget {
 }
 
 class _SplashPageState extends State<SplashPage> {
-  late VideoPlayerController _controller;
-
   @override
   void initState() {
     //TODO: just A Workaround for the issue of flutter_svg
     // Don't forget to remove it once the issue is fixed!!
     svg.cache.maximumSize = 1000;
     super.initState();
-    _controller = VideoPlayerController.asset('lib/res/assets/splash_video.mp4')
-      ..initialize().then((_) {
-        _controller.play();
-      });
-  }
-
-  @override
-  void dispose() {
-    _controller.dispose();
-    super.dispose();
   }
 
   @override
@@ -58,57 +47,47 @@ class _SplashPageState extends State<SplashPage> {
       lazy: false,
       child: BlocListener<SplashCubit, SplashState>(
         listener: (context, state) {
-          if (state.isRooted) {
-            _showRootedDialog(context);
-            return;
-          }
           if (state.isError)
             return showSnackBar(context, message: state.errorMessage);
 
           if (state.isLoaded) {
             final user = authCubit.state.user;
-            if (authCubit.state.isGuest)
-              return _goToHomePage(
-                context,
-              );
+            // if (authCubit.state.isGuest)
+            //   return _goToHomePage(
+            //     context,
+            //   );
 
             final notLoggedIn = !authCubit.state.isLoggedIn;
-
-            final notCompleteRegistration = user?.completeRegistration != true;
-            final isNotEmailVerified = user?.emailVerified != true;
 
             final isFirstLaunch = state.isFirstLaunch ?? true;
             final languageNotSet = state.isLanguageSet != true;
 
             if (languageNotSet) return _goToChooseLanguagePage(context);
             if (isFirstLaunch) return _goToGuidePage(context);
-            if (notLoggedIn) return _goToGetStartedPage(context);
-            if (notCompleteRegistration) return _goToSignUpStep2Page(context);
-            if (isNotEmailVerified) return _goToEmailVerificationPage(context);
+            if (notLoggedIn) return _goToLoginPage(context);
 
             return _goToHomePage(
               context,
             );
           }
         },
-        child: CustomAppPage(
+        child: const CustomAppPage(
+          withBackground: true,
           safeBottom: false,
-          child: VideoPlayer(_controller),
+          child: Column(
+            children: [
+              Spacer(),
+              AppLogo(),
+              Spacer(),
+            ],
+          ),
         ),
       ),
     );
   }
 
-  Future<dynamic> _showRootedDialog(BuildContext context) {
-    return showDialog(
-      context: context,
-      barrierDismissible: false,
-      builder: (context) => const RootDialog(),
-    );
-  }
-
-  void _goToGetStartedPage(BuildContext context) => NavigatorHelper.of(context)
-      .pushReplacementNamed(GetStartedPage.routeName);
+  void _goToLoginPage(BuildContext context) =>
+      NavigatorHelper.of(context).pushReplacementNamed(LoginPage.routeName);
 
   void _goToHomePage(BuildContext context) {
     NavigatorHelper.of(context).pushReplacement(

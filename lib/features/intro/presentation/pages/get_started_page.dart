@@ -52,9 +52,6 @@ class _GetStartedPageState extends State<GetStartedPage> {
 
         if (state.isLoggedIn) {
           final user = state.user;
-          final notCompleteRegistration = user?.completeRegistration != true;
-
-          if (notCompleteRegistration) return _goToSignUpStep2Page(context);
 
           return _goToHomePage(
             context,

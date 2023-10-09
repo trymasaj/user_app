@@ -1,12 +1,13 @@
 part of 'guide_page_cubit.dart';
 
-enum GuidePageStateStatus { initial, loading, loaded, error }
+enum GuidePageStateStatus { initial, loading, loaded, error, tabChanged }
 
 extension GuidePageStateX on GuidePageState {
   bool get isInitial => status == GuidePageStateStatus.initial;
   bool get isLoading => status == GuidePageStateStatus.loading;
   bool get isLoaded => status == GuidePageStateStatus.loaded;
   bool get isError => status == GuidePageStateStatus.error;
+  bool get isTabChanged => status == GuidePageStateStatus.tabChanged;
 }
 
 @immutable

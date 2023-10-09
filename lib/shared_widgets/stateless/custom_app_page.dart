@@ -72,13 +72,13 @@ class CustomAppPage extends StatelessWidget {
                     height: _height,
                     width: _width,
                   )
-                : _backgroundPath?.isNotEmpty == true
-                    ? SvgPicture.asset(
-                        _backgroundPath!,
-                        fit: _backgroundFit ?? BoxFit.cover,
-                        alignment: _backgroundAlignment ?? Alignment.center,
-                      )
-                    : const SizedBox(),
+                : SvgPicture.asset(
+                    _backgroundPath?.isNotEmpty == true
+                        ? _backgroundPath!
+                        : 'lib/res/assets/background.svg',
+                    fit: _backgroundFit ?? BoxFit.cover,
+                    alignment: _backgroundAlignment ?? Alignment.center,
+                  ),
           if (_child != null)
             SafeArea(
               top: _safeTop,

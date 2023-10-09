@@ -19,6 +19,7 @@ class CustomText extends StatelessWidget {
     this.fontSize = 20,
     this.fixedFontSize,
     this.fontWeight,
+    this.decoration,
   }) : super(key: key);
 
   final String text;
@@ -32,6 +33,7 @@ class CustomText extends StatelessWidget {
   final double fontSize;
   final double? fixedFontSize;
   final FontWeight? fontWeight;
+  final TextDecoration? decoration;
 
   @override
   Widget build(BuildContext context) {
@@ -41,6 +43,7 @@ class CustomText extends StatelessWidget {
       fontFamily: 'Poppins',
       color: color ?? Colors.black,
       fontWeight: fontWeight ?? FontWeight.w600,
+      decoration: decoration,
     );
     Widget child = Text(
       text.tr(context: context),

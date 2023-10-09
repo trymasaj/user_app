@@ -28,12 +28,6 @@ abstract class AuthRepository {
   Future<void> updateUserNotificationStatus(bool isEnabled);
   Future<void> updateUserPoints(int points);
   Future<void> informBackendAboutLanguageChanges(String languageCode);
-  Future<String?> completeRegistration({
-    required String fullName,
-    required String mobile,
-    Gender? gender,
-    AgeGroup? ageGroup,
-  });
 
   Future<List<InterestModel>> getInterestData();
   Future<void> editUserInterests(List<int> selectedInterests);
@@ -192,28 +186,6 @@ class AuthRepositoryImpl implements AuthRepository {
   @override
   Future<void> informBackendAboutLanguageChanges(String languageCode) =>
       _remoteDataSource.informBackendAboutLanguageChanges(languageCode);
-
-  @override
-  Future<String?> completeRegistration({
-    required String fullName,
-    required String mobile,
-    Gender? gender,
-    AgeGroup? ageGroup,
-  }) async {
-    final ticketMXAccessToken = await _remoteDataSource.completeRegistration(
-      fullName: fullName,
-      mobile: mobile,
-      gender: gender,
-      ageGroup: ageGroup,
-    );
-
-    await _localDataSource.updateUserCompleteRegistrationState(
-      true,
-      ticketMXAccessToken,
-    );
-
-    return ticketMXAccessToken;
-  }
 
   @override
   Future<List<InterestModel>> getInterestData() =>

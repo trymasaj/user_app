@@ -28,16 +28,6 @@ class SplashCubit extends BaseCubit<SplashState> {
 
   Future<void> init() async {
     try {
-      if (Platform.isAndroid) {
-        final isRooted = await _deviceSecurityService.isRooted();
-        if (isRooted) {
-          emit(state.copyWith(
-            status: SplashStateStatus.isRooted,
-          ));
-          return;
-        }
-      }
-
       final isLanguageSet = await _splashRepository.isLanguageSet();
       final isFirstLaunch = await _splashRepository.isFirstLaunch();
       //await _notificationService.inti();

@@ -15,11 +15,6 @@ abstract class AuthLocalDataSource {
 
   Future<bool> updateUserNotification(bool isEnabled);
   Future<bool> updateUserPoints(int points);
-
-  Future<void> updateUserCompleteRegistrationState(
-    bool completed, [
-    String? ticketMXAccessToken,
-  ]);
 }
 
 class AuthLocalDataSourceImpl implements AuthLocalDataSource {
@@ -79,21 +74,6 @@ class AuthLocalDataSourceImpl implements AuthLocalDataSource {
     final userString = await _cacheService.getUserData();
     if (userString == null) return null;
     return User.fromJson(userString);
-  }
-
-  @override
-  Future<void> updateUserCompleteRegistrationState(
-    bool completed, [
-    String? ticketMXAccessToken,
-  ]) async {
-    final userString = await _cacheService.getUserData();
-    if (userString == null) return;
-    final oldUser = User.fromJson(userString);
-    final newUser = oldUser.copyWith(
-      completeRegistration: completed,
-      ticketMXAccessToken: ticketMXAccessToken,
-    );
-    await _cacheService.saveUserData(newUser.toJson());
   }
 
   @override

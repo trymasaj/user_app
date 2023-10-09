@@ -30,13 +30,14 @@ class DotsIndicator extends StatelessWidget {
   Widget _buildDot(bool active) {
     return Flexible(
       child: Container(
-        height: 12.0,
-        width: 12.0,
+        height: 3.0,
+        width: 22.0,
         margin: EdgeInsets.symmetric(horizontal: spaceBetween),
         alignment: Alignment.center,
         decoration: BoxDecoration(
-          shape: BoxShape.circle,
+          shape: BoxShape.rectangle,
           color: active ? color : color.withOpacity(0.3),
+          borderRadius: BorderRadius.circular(3.0),
         ),
       ),
     );

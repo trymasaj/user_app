@@ -1,3 +1,7 @@
+import 'dart:ui';
+
+import 'package:masaj/shared_widgets/stateless/custom_text.dart';
+
 import '../../data/models/guide_page_tab_model.dart';
 import '../../../../res/style/app_colors.dart';
 import '../../../../shared_widgets/stateless/custom_loading.dart';
@@ -31,7 +35,7 @@ class _GuidePageState extends State<GuidePage> {
 
   @override
   void initState() {
-    _pageController = PageController(viewportFraction: 0.9999999);
+    _pageController = PageController();
     super.initState();
   }
 
@@ -45,18 +49,19 @@ class _GuidePageState extends State<GuidePage> {
   Widget build(BuildContext context) {
     return BlocProvider(
       create: (context) => Injector().guidePageCubit..loadGuidePage(),
-      child: Scaffold(
-        backgroundColor: AppColors.ACCENT_COLOR,
-        body: _buildBody(),
-      ),
+      child: Builder(builder: (context) {
+        return Scaffold(
+          backgroundColor: AppColors.ACCENT_COLOR,
+          body: _buildBody(context),
+        );
+      }),
     );
   }
 
-  Widget _buildBody() {
-    return Column(
+  Widget _buildBody(BuildContext context) {
+    return Stack(
       children: [
         Expanded(
-          flex: 6,
           child: BlocConsumer<GuidePageCubit, GuidePageState>(
             listener: (context, state) {
               if (state.isError)
@@ -70,6 +75,18 @@ class _GuidePageState extends State<GuidePage> {
             },
           ),
         ),
+        Positioned(
+          bottom: 50.0,
+          right: 24.0,
+          child: _buildGlassContainer(
+            context,
+          ),
+        ),
+        Positioned(
+          top: 50.0,
+          right: 24.0,
+          child: _buildSkipButton(context),
+        ),
       ],
     );
   }
@@ -80,26 +97,16 @@ class _GuidePageState extends State<GuidePage> {
   }) {
     final cubit = context.read<GuidePageCubit>();
 
-    return Column(
-      children: [
-        Expanded(
-          child: PageView(
-            controller: _pageController,
-            onPageChanged: (tabNumber) => cubit.updateTabNumber(tabNumber),
-            children: tabs
-                .mapIndexed((index, tab) => _buildTab(
-                      context,
-                      tab: tab,
-                    ))
-                .toList(),
-            allowImplicitScrolling: true,
-          ),
-        ),
-        _buildButtons(
-          context,
-          isLastTab: tabs.length - 1 == cubit.state.tabNumber,
-        ),
-      ],
+    return PageView(
+      controller: _pageController,
+      allowImplicitScrolling: true,
+      onPageChanged: (tabNumber) => cubit.updateTabNumber(tabNumber),
+      children: tabs
+          .mapIndexed((index, tab) => _buildTab(
+                context,
+                tab: tab,
+              ))
+          .toList(),
     );
   }
 
@@ -107,55 +114,13 @@ class _GuidePageState extends State<GuidePage> {
     BuildContext context, {
     required GuidePageTabModel tab,
   }) {
-    return Column(
+    return Stack(
       children: [
         Image.asset(
           tab.image!,
           width: double.infinity,
-          height: MediaQuery.of(context).size.height * 0.65,
+          height: MediaQuery.of(context).size.height,
           fit: BoxFit.cover,
-        ),
-        const SizedBox(height: 16.0),
-        if (tab.title?.isNotEmpty == true)
-          TitleText(
-            text: '${tab.title}',
-            margin: const EdgeInsets.symmetric(horizontal: 8.0),
-            textAlign: TextAlign.center,
-            subtractedSize: -3,
-            color: Colors.white,
-          ),
-        const SizedBox(height: 16.0),
-        if (tab.description?.isNotEmpty == true)
-          SubtitleText(
-            text: '${tab.description}',
-            margin: const EdgeInsets.symmetric(horizontal: 8.0),
-            textAlign: TextAlign.center,
-          ),
-      ],
-    );
-  }
-
-  Widget _buildButtons(BuildContext context, {required bool isLastTab}) {
-    return Column(
-      mainAxisAlignment: MainAxisAlignment.end,
-      children: [
-        _buildDotsIndicator(context),
-        const SizedBox(height: 16.0),
-        Container(
-          decoration: BoxDecoration(
-            color: AppColors.PRIMARY_COLOR,
-            borderRadius:
-                const BorderRadius.vertical(top: Radius.circular(20.0)),
-          ),
-          padding: const EdgeInsets.symmetric(vertical: 24.0),
-          child: Row(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              _buildSkipButton(context, isLastTab),
-              const SizedBox(width: 24.0),
-              _buildNextButton(context, isLastTab),
-            ],
-          ),
         ),
       ],
     );
@@ -166,9 +131,14 @@ class _GuidePageState extends State<GuidePage> {
 
     return BlocSelector<GuidePageCubit, GuidePageState, int>(
       selector: (state) => state.tabNumber,
-      builder: (context, currentTabIndex) => DotsIndicator(
-        indicatorCount: cubit.state.guidePageTabs.length,
-        pageNumber: currentTabIndex,
+      builder: (context, currentTabIndex) => SizedBox(
+        width: MediaQuery.of(context).size.width,
+        child: DotsIndicator(
+          mainAxisAlignment: MainAxisAlignment.center,
+          indicatorCount: cubit.state.guidePageTabs.length,
+          pageNumber: currentTabIndex,
+          spaceBetween: 4.0,
+        ),
       ),
     );
   }
@@ -176,55 +146,46 @@ class _GuidePageState extends State<GuidePage> {
   Widget _buildNextButton(BuildContext context, bool isLastTab) {
     final cubit = context.read<GuidePageCubit>();
 
-    var headline12 = Theme.of(context).textTheme.headline1;
-    return DefaultButton(
-      label: isLastTab ? 'login'.tr() : 'next'.tr(),
-      backgroundColor: Colors.transparent,
-      padding: EdgeInsets.symmetric(
-          horizontal: isLastTab ? 16.0 : 32.0, vertical: 16.0),
-      borderRadius: const BorderRadius.all(Radius.circular(30.0)),
-      borderColor: Colors.white,
-      icon: const Icon(Icons.arrow_forward, size: 24.0),
-      iconLocation: DefaultButtonIconLocation.End,
-      labelStyle: context.sizeHelper(
-        mobileLarge: headline12,
-        tabletNormal: Theme.of(context).textTheme.headline1,
-        desktopSmall: Theme.of(context).textTheme.headline2,
-      ),
-      isExpanded: true,
-      onPressed: () {
+    return GestureDetector(
+      onTap: () {
         if (!isLastTab) {
-          _pageController.animateToPage(
+          _pageController.jumpToPage(
             cubit.state.tabNumber + 1,
-            duration: const Duration(milliseconds: 300),
-            curve: Curves.easeInOut,
           );
-        } else
-          return cubit.setFirstLaunchToFalse(
-              onDone: _goToGetStartPage(context, true));
+          return;
+        }
+        cubit.setFirstLaunchToFalse(onDone: _goToGetStartPage(context, true));
       },
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: [
+          CustomText(
+            text: isLastTab ? 'get_started' : 'next',
+            fontSize: 16.0,
+            fontWeight: FontWeight.w600,
+            color: Colors.white,
+          ),
+          const SizedBox(width: 8.0),
+          const Icon(
+            Icons.arrow_circle_right_outlined,
+            size: 16.0,
+            color: Colors.white,
+          ),
+        ],
+      ),
     );
   }
 
-  Widget _buildSkipButton(BuildContext context, bool isLastTab) {
+  Widget _buildSkipButton(BuildContext context) {
     final cubit = context.read<GuidePageCubit>();
 
-    var headline12 = Theme.of(context).textTheme.headline1;
     return DefaultButton(
-      label: isLastTab ? 'sign_up'.tr() : 'skip'.tr(),
+      label: 'skip',
       backgroundColor: Colors.transparent,
-      padding: EdgeInsets.symmetric(
-          horizontal: isLastTab ? 16.0 : 32.0, vertical: 16.0),
-      borderRadius: const BorderRadius.all(Radius.circular(30.0)),
-      borderColor: Colors.white,
-      labelStyle: context.sizeHelper(
-        mobileLarge: headline12,
-        tabletNormal: Theme.of(context).textTheme.headline1,
-        desktopSmall: Theme.of(context).textTheme.headline2,
-      ),
-      isExpanded: true,
-      onPressed: () => cubit.setFirstLaunchToFalse(
-          onDone: _goToGetStartPage(context, false)),
+      color: Colors.transparent,
+      onPressed: () {
+        cubit.setFirstLaunchToFalse(onDone: _goToGetStartPage(context, false));
+      },
     );
   }
 
@@ -233,4 +194,55 @@ class _GuidePageState extends State<GuidePage> {
               MaterialPageRoute(builder: (_) {
             return GetStartedPage(isLogin: isLogin);
           }), (route) => false);
+
+  Widget _buildGlassContainer(BuildContext context) {
+    final cubit = context.watch<GuidePageCubit>();
+    final tabs = cubit.state.guidePageTabs;
+    final tab = tabs[cubit.state.tabNumber];
+    final size = MediaQuery.of(context).size;
+    final width = size.width;
+    final state = context.read<GuidePageCubit>().state;
+    final isLastTab = state.tabNumber == state.guidePageTabs.length - 1;
+    return ClipRRect(
+      child: BackdropFilter(
+        filter: ImageFilter.blur(sigmaX: 10.0, sigmaY: 10.0),
+        child: Container(
+          width: width - 48,
+          height: 240,
+          padding: const EdgeInsets.symmetric(horizontal: 24.0),
+          decoration: BoxDecoration(
+            color: Colors.grey.shade200.withOpacity(0.5),
+            borderRadius: const BorderRadius.all(Radius.circular(20.0)),
+          ),
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              if (tab.title?.isNotEmpty == true)
+                CustomText(
+                  text: '${tab.title}',
+                  textAlign: TextAlign.center,
+                  fontSize: 24.0,
+                  fontWeight: FontWeight.w600,
+                  color: Colors.white,
+                ),
+              const SizedBox(height: 16.0),
+              if (tab.description?.isNotEmpty == true)
+                CustomText(
+                  text: '${tab.description}',
+                  margin: const EdgeInsets.symmetric(horizontal: 8.0),
+                  fontSize: 16.0,
+                  color: Colors.white,
+                  fontWeight: FontWeight.w400,
+                  textAlign: TextAlign.center,
+                ),
+              const SizedBox(height: 16.0),
+              _buildDotsIndicator(context),
+              const SizedBox(height: 16.0),
+              _buildNextButton(context, isLastTab)
+            ],
+          ),
+        ),
+      ),
+    );
+  }
 }
