@@ -3,6 +3,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:masaj/di/injector.dart';
 import 'package:masaj/features/intro/presentation/blocs/quiz_page_cubit/quiz_page_cubit.dart';
 import 'package:masaj/features/intro/presentation/pages/quiz_page.dart';
+import 'package:masaj/res/style/app_colors.dart';
 import 'package:masaj/shared_widgets/stateful/default_button.dart';
 import 'package:masaj/shared_widgets/stateless/custom_app_page.dart';
 import 'package:masaj/shared_widgets/stateless/custom_text.dart';
@@ -55,6 +56,8 @@ class QuizStartPage extends StatelessWidget {
     return DefaultButton(
       label: 'get_started',
       isExpanded: true,
+      color: Colors.white,
+      textColor: AppColors.FONT_COLOR,
       margin: const EdgeInsets.only(
         top: 24,
         left: 80,

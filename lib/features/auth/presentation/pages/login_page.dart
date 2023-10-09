@@ -26,7 +26,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:easy_localization/easy_localization.dart';
 
 import 'forget_password_page.dart';
-import 'sign_up_step_2_page.dart';
+import 'sign_up_page.dart';
 
 class LoginPage extends StatefulWidget {
   static const routeName = '/LoginPage';
@@ -294,30 +294,6 @@ class _LoginPageState extends State<LoginPage> {
     );
   }
 
-  Widget _buildLowerSection(BuildContext context) {
-    return DecoratedBox(
-      decoration: BoxDecoration(
-        color: AppColors.PRIMARY_COLOR,
-        borderRadius: const BorderRadius.vertical(top: Radius.circular(20.0)),
-      ),
-      child: SizedBox(
-        width: double.infinity,
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            const SizedBox(height: 8.0),
-            _buildSignInButton(context),
-            const SizedBox(height: 16.0),
-            _buildContinueAsGuestButton(context),
-            const SizedBox(height: 16.0),
-            _buildDoNotHaveAccountButton(context),
-            const SizedBox(height: 8.0),
-          ],
-        ),
-      ),
-    );
-  }
-
   Widget _buildSignInButton(BuildContext context) {
     final authCubit = context.read<AuthCubit>();
 
@@ -366,40 +342,6 @@ class _LoginPageState extends State<LoginPage> {
     );
   }
 
-  Widget _buildDoNotHaveAccountButton(BuildContext context) {
-    return Row(
-      children: [
-        const CustomText(
-          text: 'dont_have_account_message',
-          fontSize: 14,
-          fontWeight: FontWeight.w400,
-          color: AppColors.FONT_LIGHT_COLOR,
-        ),
-        const SizedBox(width: 8.0),
-        GestureDetector(
-          onTap: () => _goToGetStartedPage(context),
-          child: const CustomText(
-            text: 'sign_up',
-            fontSize: 14,
-            fontWeight: FontWeight.w500,
-            decoration: TextDecoration.underline,
-          ),
-        ),
-      ],
-    );
-  }
-
-  void _goToGetStartedPage(BuildContext context) {
-    NavigatorHelper.of(context).pushReplacementNamed(GetStartedPage.routeName);
-  }
-
-  Future<void> _goToForgetPasswordPage(BuildContext context) async {
-    final success = await NavigatorHelper.of(context)
-        .pushNamed(ForgetPasswordPage.routeName);
-    if (success == true)
-      showSnackBar(context, message: 'forget_password_success');
-  }
-
   void _goToHomePage(
     BuildContext context, {
     String? userFullName,
@@ -412,8 +354,38 @@ class _LoginPageState extends State<LoginPage> {
       showSnackBar(context, message: 'welcome'.tr(args: [userFullName]));
   }
 
-  void _goToSignUpStep2Page(BuildContext context) => NavigatorHelper.of(context)
-      .pushReplacementNamed(SignUpStep2Page.routeName);
+  Widget _buildDoNotHaveAccountButton(BuildContext context) {
+    return Row(
+      children: [
+        const CustomText(
+          text: 'dont_have_account_message',
+          fontSize: 14,
+          fontWeight: FontWeight.w400,
+          color: AppColors.FONT_LIGHT_COLOR,
+        ),
+        const SizedBox(width: 8.0),
+        GestureDetector(
+          onTap: () => _goToSignUpPage(context),
+          child: const CustomText(
+            text: 'sign_up',
+            fontSize: 14,
+            fontWeight: FontWeight.w500,
+            decoration: TextDecoration.underline,
+          ),
+        ),
+      ],
+    );
+  }
+
+  Future<void> _goToForgetPasswordPage(BuildContext context) async {
+    final success = await NavigatorHelper.of(context)
+        .pushNamed(ForgetPasswordPage.routeName);
+    if (success == true)
+      showSnackBar(context, message: 'forget_password_success');
+  }
+
+  void _goToSignUpPage(BuildContext context) =>
+      NavigatorHelper.of(context).pushReplacementNamed(SignUpPage.routeName);
 
   void _goToEmailVerificationPage(BuildContext context) =>
       NavigatorHelper.of(context)

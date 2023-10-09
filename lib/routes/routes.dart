@@ -15,7 +15,7 @@ import '../features/auth/presentation/pages/change_password_page.dart';
 import '../features/auth/presentation/pages/forget_password_page.dart';
 import '../features/auth/presentation/pages/login_page.dart';
 import '../features/auth/presentation/pages/sign_up_step_1_page.dart';
-import '../features/auth/presentation/pages/sign_up_step_2_page.dart';
+import '../features/auth/presentation/pages/sign_up_page.dart';
 import '../features/splash/presentation/pages/splash_page.dart';
 
 final routes = <String, WidgetBuilder>{
@@ -24,7 +24,7 @@ final routes = <String, WidgetBuilder>{
   GetStartedPage.routeName: (context) => const GetStartedPage(),
   LoginPage.routeName: (context) => const LoginPage(),
   SignUpStep1Page.routeName: (context) => const SignUpStep1Page(),
-  SignUpStep2Page.routeName: (context) => const SignUpStep2Page(),
+  SignUpPage.routeName: (context) => const SignUpPage(),
   ForgetPasswordPage.routeName: (context) => const ForgetPasswordPage(),
   ChangePasswordPage.routeName: (context) => const ChangePasswordPage(),
   AboutUsPage.routeName: (context) => const AboutUsPage(),

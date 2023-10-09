@@ -20,7 +20,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:easy_localization/easy_localization.dart';
 import '../blocs/auth_cubit/auth_cubit.dart';
 import 'login_page.dart';
-import 'sign_up_step_2_page.dart';
+import 'sign_up_page.dart';
 
 class SignUpStep1Page extends StatefulWidget {
   static const routeName = '/SignUpStep1Page';
@@ -360,8 +360,7 @@ class _SignUpStep1PageState extends State<SignUpStep1Page> {
       );
 
   Future<void> _goToSignUpStep2Page(BuildContext context) =>
-      NavigatorHelper.of(context)
-          .pushReplacementNamed(SignUpStep2Page.routeName);
+      NavigatorHelper.of(context).pushReplacementNamed(SignUpPage.routeName);
 
   Future<void> _gToTopicsPage(BuildContext context, TopicType topicType) {
     return NavigatorHelper.of(context).push(

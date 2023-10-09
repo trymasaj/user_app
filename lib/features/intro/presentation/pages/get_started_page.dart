@@ -15,7 +15,7 @@ import '../../../../shared_widgets/stateless/title_text.dart';
 import '../../../../shared_widgets/text_fields/email_text_form_field.dart';
 import '../../../auth/presentation/blocs/auth_cubit/auth_cubit.dart';
 import '../../../auth/presentation/pages/sign_up_step_1_page.dart';
-import '../../../auth/presentation/pages/sign_up_step_2_page.dart';
+import '../../../auth/presentation/pages/sign_up_page.dart';
 import '../../../home/presentation/pages/home_page.dart';
 
 class GetStartedPage extends StatefulWidget {
@@ -315,6 +315,6 @@ class _GetStartedPageState extends State<GetStartedPage> {
       showSnackBar(context, message: 'welcome'.tr(args: [userFullName]));
   }
 
-  void _goToSignUpStep2Page(BuildContext context) => NavigatorHelper.of(context)
-      .pushReplacementNamed(SignUpStep2Page.routeName);
+  void _goToSignUpStep2Page(BuildContext context) =>
+      NavigatorHelper.of(context).pushReplacementNamed(SignUpPage.routeName);
 }

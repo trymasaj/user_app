@@ -1,10 +1,9 @@
 class QuizPageTabModel {
-  final String? title;
-  final String? description;
-  final String? image;
+  final String questionTitle;
+  final List options;
+
   const QuizPageTabModel({
-    this.title,
-    this.description,
-    this.image,
+    required this.questionTitle,
+    required this.options,
   });
 }

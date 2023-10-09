@@ -10,19 +10,27 @@ part 'quiz_page_state.dart';
 
 const QuizPageTabs = [
   QuizPageTabModel(
-    description: 'Quiz1_description',
-    title: 'Quiz1_title',
-    image: 'lib/res/assets/Quiz1.jpg',
+    questionTitle: 'question1_title',
+    options: [
+      'question1_answer1',
+      'question1_answer2',
+    ],
   ),
   QuizPageTabModel(
-    description: 'Quiz2_description',
-    title: 'Quiz2_title',
-    image: 'lib/res/assets/Quiz2.jpg',
+    questionTitle: 'question2_title',
+    options: [
+      'question2_answer1',
+      'question2_answer2',
+      'question2_answer3',
+    ],
   ),
   QuizPageTabModel(
-    description: 'Quiz3_description',
-    title: 'Quiz3_title',
-    image: 'lib/res/assets/Quiz3.jpg',
+    questionTitle: 'question3_title',
+    options: [
+      'question3_answer1',
+      'question3_answer2',
+      'question3_answer3',
+    ],
   ),
 ];
 

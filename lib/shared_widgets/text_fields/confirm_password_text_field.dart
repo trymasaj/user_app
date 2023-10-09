@@ -53,7 +53,7 @@ class _ConfirmPasswordTextFormFieldState
                 ? FontAwesomeIcons.eyeSlash
                 : FontAwesomeIcons.eye,
             size: 18.0,
-            color: Colors.white,
+            color: Colors.grey,
           ),
         ),
         validator: (confPassword) => Validator()

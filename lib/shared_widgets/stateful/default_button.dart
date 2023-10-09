@@ -31,7 +31,8 @@ class DefaultButton extends StatefulWidget {
       this.backgroundColor,
       this.initLoadingState = false,
       this.color,
-      this.loadingSize})
+      this.loadingSize,
+      this.textColor})
       : super(key: key);
 
   final FutureCallback? onPressed;
@@ -54,6 +55,7 @@ class DefaultButton extends StatefulWidget {
   final bool initLoadingState;
   final double? loadingSize;
   final Color? color;
+  final Color? textColor;
 
   @override
   _DefaultButtonState createState() => _DefaultButtonState();
@@ -83,7 +85,9 @@ class _DefaultButtonState extends State<DefaultButton>
               : EdgeInsets.zero,
           child: Text(
             widget.label!.tr(),
-            style: widget.labelStyle,
+            style: widget.labelStyle.copyWith(
+              color: widget.textColor,
+            ),
           ),
         ),
     ];

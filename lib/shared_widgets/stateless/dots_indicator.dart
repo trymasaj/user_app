@@ -8,6 +8,7 @@ class DotsIndicator extends StatelessWidget {
     this.mainAxisAlignment = MainAxisAlignment.spaceAround,
     this.color = Colors.white,
     this.spaceBetween = 6.0,
+    this.isExpanded = false,
   }) : super(key: key);
 
   final int indicatorCount;
@@ -15,6 +16,7 @@ class DotsIndicator extends StatelessWidget {
   final MainAxisAlignment mainAxisAlignment;
   final Color color;
   final double spaceBetween;
+  final bool isExpanded;
 
   @override
   Widget build(BuildContext context) {
@@ -31,7 +33,7 @@ class DotsIndicator extends StatelessWidget {
     return Flexible(
       child: Container(
         height: 3.0,
-        width: 22.0,
+        width: isExpanded ? null : 22.0,
         margin: EdgeInsets.symmetric(horizontal: spaceBetween),
         alignment: Alignment.center,
         decoration: BoxDecoration(

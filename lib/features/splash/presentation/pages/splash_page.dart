@@ -6,7 +6,7 @@ import '../../../intro/presentation/pages/get_started_page.dart';
 import '../../../../di/injector.dart';
 import '../../../auth/presentation/blocs/auth_cubit/auth_cubit.dart';
 import '../../../auth/presentation/pages/email_verification_page.dart';
-import '../../../auth/presentation/pages/sign_up_step_2_page.dart';
+import '../../../auth/presentation/pages/sign_up_page.dart';
 import '../../../intro/presentation/pages/choose_language_page.dart';
 import '../../../intro/presentation/pages/guide_page.dart';
 import '../splash_cubit/splash_cubit.dart';
@@ -99,8 +99,8 @@ class _SplashPageState extends State<SplashPage> {
     NavigatorHelper.of(context).pushReplacementNamed(GuidePage.routeName);
   }
 
-  void _goToSignUpStep2Page(BuildContext context) => NavigatorHelper.of(context)
-      .pushReplacementNamed(SignUpStep2Page.routeName);
+  void _goToSignUpStep2Page(BuildContext context) =>
+      NavigatorHelper.of(context).pushReplacementNamed(SignUpPage.routeName);
 
   void _goToChooseLanguagePage(BuildContext context) =>
       NavigatorHelper.of(context)
