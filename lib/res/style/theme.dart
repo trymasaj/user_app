@@ -56,5 +56,5 @@ TextStyle _normalText(double size, String fontFamily) {
   );
 }
 
-const navbarHeight = 100.0;
+const navbarHeight = 62.0;
 const sliverAppbarExtensionHeight = 200.0;

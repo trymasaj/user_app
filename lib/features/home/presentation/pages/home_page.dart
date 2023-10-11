@@ -59,7 +59,7 @@ class _HomePageState extends State<HomePage> {
             if (state.isError) showSnackBar(context, message: state.message);
           },
           child: CustomAppPage(
-            safeBottom: false,
+            safeBottom: true,
             child: Scaffold(
               extendBody: true,
               body: PageView(
@@ -103,91 +103,129 @@ class __CustomNavBarState extends State<_CustomNavBar> {
 
   @override
   Widget build(BuildContext context) {
-    return ClipRRect(
-      borderRadius: const BorderRadius.vertical(top: Radius.circular(20.0)),
-      child: SizedBox(
-        height: navbarHeight,
-        child: BottomNavigationBar(
-          type: BottomNavigationBarType.fixed,
-          items: [
-            BottomNavigationBarItem(
-              icon: SvgPicture.asset(
-                'lib/res/assets/home_icon.svg',
-                color: AppColors.GREY_NORMAL_COLOR,
+    return Container(
+      height: navbarHeight,
+      decoration: BoxDecoration(
+        color: Colors.white,
+        //box shadow at top of navbar only
+        boxShadow: [
+          BoxShadow(
+            color: Colors.grey.withOpacity(0.1),
+            spreadRadius: 0,
+            blurRadius: 10,
+            offset: const Offset(0, -4),
+          ),
+        ],
+      ),
+      child: Stack(
+        children: [
+          BottomNavigationBar(
+            type: BottomNavigationBarType.fixed,
+            items: [
+              BottomNavigationBarItem(
+                icon: SvgPicture.asset(
+                  'lib/res/assets/home_icon.svg',
+                  height: 24,
+                  width: 24,
+                  color: AppColors.GREY_NORMAL_COLOR,
+                ),
+                activeIcon: SvgPicture.asset(
+                  'lib/res/assets/home_icon.svg',
+                  color: AppColors.FONT_COLOR,
+                  height: 24,
+                  width: 24,
+                ),
+                label: 'home'.tr(),
               ),
-              activeIcon: SvgPicture.asset(
-                'lib/res/assets/home_icon.svg',
-                color: AppColors.PRIMARY_COLOR,
+              BottomNavigationBarItem(
+                icon: SvgPicture.asset(
+                  'lib/res/assets/zones_icon.svg',
+                  color: AppColors.GREY_NORMAL_COLOR,
+                  height: 24,
+                  width: 24,
+                ),
+                activeIcon: SvgPicture.asset(
+                  'lib/res/assets/zones_icon.svg',
+                  color: AppColors.FONT_COLOR,
+                  height: 24,
+                  width: 24,
+                ),
+                label: 'bookings'.tr(),
               ),
-              label: 'home'.tr(),
+              const BottomNavigationBarItem(
+                icon: Icon(
+                  Icons.add,
+                  size: 20,
+                ),
+                label: '',
+              ),
+              BottomNavigationBarItem(
+                icon: SvgPicture.asset(
+                  'lib/res/assets/calendar_icon.svg',
+                  color: AppColors.GREY_NORMAL_COLOR,
+                  height: 24,
+                  width: 24,
+                ),
+                activeIcon: SvgPicture.asset(
+                  'lib/res/assets/calendar_icon.svg',
+                  color: AppColors.FONT_COLOR,
+                  height: 24,
+                  width: 24,
+                ),
+                label: 'providers'.tr(),
+              ),
+              BottomNavigationBarItem(
+                icon: SvgPicture.asset(
+                  'lib/res/assets/more_icon.svg',
+                  color: AppColors.GREY_NORMAL_COLOR,
+                  height: 24,
+                  width: 24,
+                ),
+                activeIcon: SvgPicture.asset(
+                  'lib/res/assets/more_icon.svg',
+                  height: 24,
+                  width: 24,
+                  color: AppColors.FONT_COLOR,
+                ),
+                label: 'settings'.tr(),
+              ),
+            ],
+            selectedFontSize: 12,
+            unselectedFontSize: 12,
+            backgroundColor: Colors.white,
+            currentIndex: currentIndex,
+            selectedItemColor: AppColors.FONT_COLOR,
+            unselectedItemColor: AppColors.GREY_NORMAL_COLOR,
+            elevation: 0,
+            onTap: (index) {
+              if (index == 2) {
+                //TODO: Add GO TO NEW BOOKING PAGE
+                return;
+              }
+              widget._pageController.jumpToPage(index < 2 ? index : index - 1);
+              setState(() {
+                currentIndex = index;
+              });
+            },
+          ),
+          IgnorePointer(
+            child: Align(
+              alignment: Alignment.center,
+              child: Container(
+                  height: 45,
+                  width: 45,
+                  decoration: BoxDecoration(
+                    gradient: AppColors.GRADIENT_COLOR,
+                    shape: BoxShape.circle,
+                  ),
+                  child: const Icon(
+                    Icons.add,
+                    size: 20,
+                    color: Colors.white,
+                  )),
             ),
-            BottomNavigationBarItem(
-              icon: SvgPicture.asset(
-                'lib/res/assets/zones_icon.svg',
-                color: AppColors.GREY_NORMAL_COLOR,
-              ),
-              activeIcon: SvgPicture.asset(
-                'lib/res/assets/zones_icon.svg',
-                color: AppColors.PRIMARY_COLOR,
-              ),
-              label: 'zones'.tr(),
-            ),
-            BottomNavigationBarItem(
-              label: '.',
-              icon: Material(
-                color: Colors.transparent,
-                child: AspectRatio(
-                    aspectRatio: context.sizeHelper(
-                      tabletExtraLarge: 5 / 2.2,
-                      desktopSmall: 5 / 1.4,
-                    ),
-                    child: IconButton(
-                        onPressed: () {},
-                        icon: Icon(
-                          Icons.add_circle_outline,
-                          color: AppColors.PRIMARY_COLOR,
-                          size: context.sizeHelper(
-                            mobileExtraLarge: 40.0,
-                            tabletLarge: 50.0,
-                            desktopSmall: 60.0,
-                          ),
-                        ))),
-              ),
-            ),
-            BottomNavigationBarItem(
-              icon: SvgPicture.asset(
-                'lib/res/assets/calendar_icon.svg',
-                color: AppColors.GREY_NORMAL_COLOR,
-              ),
-              activeIcon: SvgPicture.asset(
-                'lib/res/assets/calendar_icon.svg',
-                color: AppColors.PRIMARY_COLOR,
-              ),
-              label: 'events'.tr(),
-            ),
-            BottomNavigationBarItem(
-              icon: SvgPicture.asset(
-                'lib/res/assets/more_icon.svg',
-                color: AppColors.GREY_NORMAL_COLOR,
-              ),
-              activeIcon: SvgPicture.asset(
-                'lib/res/assets/more_icon.svg',
-                color: AppColors.PRIMARY_COLOR,
-              ),
-              label: 'more'.tr(),
-            ),
-          ],
-          currentIndex: currentIndex,
-          selectedItemColor: AppColors.PRIMARY_COLOR,
-          unselectedItemColor: AppColors.GREY_NORMAL_COLOR,
-          onTap: (index) {
-            if (index == 2) {}
-            widget._pageController.jumpToPage(index < 2 ? index : index - 1);
-            setState(() {
-              currentIndex = index;
-            });
-          },
-        ),
+          )
+        ],
       ),
     );
   }

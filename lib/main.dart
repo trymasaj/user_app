@@ -13,6 +13,8 @@ import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:requests_inspector/requests_inspector.dart';
 
+import 'features/auth/presentation/pages/sign_up_page.dart';
+import 'features/intro/presentation/pages/quiz_start_page.dart';
 import 'res/style/theme.dart';
 import 'routes/routes.dart';
 
@@ -113,7 +115,7 @@ class _MyAppState extends State<MyApp> with WidgetsBindingObserver {
         minTextAdapt: true,
         child: Builder(builder: (context) {
           return MaterialApp(
-            home: const SplashPage(),
+            home: const SignUpPage(),
             localizationsDelegates: context.localizationDelegates,
             supportedLocales: context.supportedLocales,
             locale: context.locale,

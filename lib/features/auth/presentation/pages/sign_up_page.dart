@@ -279,8 +279,10 @@ class _SignUpPageState extends State<SignUpPage> {
     if (!authCubit.state.isGuest)
       //To remove old home page from stack due to redundant request error(old cubit still exists)
       NavigatorHelper.of(context).popUntil((_) => false);
-    NavigatorHelper.of(context).pushReplacementNamed(HomePage.routeName);
-
+    NavigatorHelper.of(context).pushAndRemoveUntil(
+      MaterialPageRoute(builder: (_) => const HomePage()),
+      (_) => false,
+    );
     if (userFullName != null)
       showSnackBar(
         context,
