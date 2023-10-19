@@ -52,5 +52,12 @@
 	<true/>
 	<key>UIApplicationSupportsIndirectInputEvents</key>
 	<true/>
+	<key>io.flutter.embedded_views_preview</key>
+	<string>YES</string>
+	<key>NSLocationWhenInUseUsageDescription</key>
+	<string>Location permission needed to show location on the map</string>
+	<key>NSLocationAlwaysUsageDescription</key>
+	<string>Location permission needed to show location on the map in background</string>
+
 </dict>
 </plist>
