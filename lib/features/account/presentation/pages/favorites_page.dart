@@ -15,8 +15,8 @@ import '../../../../shared_widgets/stateless/title_text.dart';
 class FavoritesPage extends StatefulWidget {
   static const routeName = '/FavoritesPage';
   const FavoritesPage({
-    Key? key,
-  }) : super(key: key);
+    super.key,
+  });
 
   @override
   State<FavoritesPage> createState() => _FavoritesPageState();

@@ -20,7 +20,7 @@ import 'get_started_page.dart';
 class GuidePage extends StatefulWidget {
   static const routeName = '/GuidePage';
 
-  const GuidePage({Key? key}) : super(key: key);
+  const GuidePage({super.key});
 
   @override
   State<GuidePage> createState() => _GuidePageState();

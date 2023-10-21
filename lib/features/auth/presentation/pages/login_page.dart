@@ -5,12 +5,8 @@ import 'package:flutter_svg/svg.dart';
 import 'package:masaj/shared_widgets/stateless/app_logo.dart';
 
 import '../../../../shared_widgets/stateless/custom_text.dart';
-import '../../../intro/presentation/pages/get_started_page.dart';
-import '../../../../shared_widgets/stateless/title_text.dart';
 import '../../../../shared_widgets/text_fields/email_text_form_field.dart';
-import 'package:size_helper/size_helper.dart';
 
-import '../../../../shared_widgets/stateless/subtitle_text.dart';
 import '../../../home/presentation/pages/home_page.dart';
 
 import '../../../../core/utils/navigator_helper.dart';
@@ -30,7 +26,7 @@ import 'sign_up_page.dart';
 
 class LoginPage extends StatefulWidget {
   static const routeName = '/LoginPage';
-  const LoginPage({Key? key}) : super(key: key);
+  const LoginPage({super.key});
 
   @override
   State<LoginPage> createState() => _LoginPageState();
@@ -336,7 +332,7 @@ class _LoginPageState extends State<LoginPage> {
           decoration: TextDecoration.underline,
           fontSize: 14,
           fontWeight: FontWeight.w400,
-          margin: EdgeInsets.symmetric(vertical: 18.0),
+          margin: const EdgeInsets.symmetric(vertical: 18.0),
         ),
       ),
     );

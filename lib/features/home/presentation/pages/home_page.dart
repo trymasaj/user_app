@@ -1,8 +1,6 @@
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:masaj/features/providers_tab/presentation/pages/providers_tab.dart';
-import 'package:size_helper/size_helper.dart';
-
 import '../../../../res/style/theme.dart';
 import '../../../account/presentation/pages/more_tab.dart';
 import '../../../bookings_tab/presentation/pages/bookings_tab.dart';

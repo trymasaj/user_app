@@ -21,7 +21,7 @@ import '../../../home/presentation/pages/home_page.dart';
 class GetStartedPage extends StatefulWidget {
   static const routeName = '/GetStartedPage';
 
-  const GetStartedPage({this.isLogin = false, Key? key}) : super(key: key);
+  const GetStartedPage({this.isLogin = false, super.key});
 
   final bool isLogin;
 

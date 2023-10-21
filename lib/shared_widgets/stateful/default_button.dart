@@ -7,7 +7,7 @@ import '../../core/utils/type_defs.dart';
 
 class DefaultButton extends StatefulWidget {
   const DefaultButton(
-      {Key? key,
+      {super.key,
       this.label,
       required this.onPressed,
       this.padding = const EdgeInsets.all(16.0),
@@ -32,8 +32,7 @@ class DefaultButton extends StatefulWidget {
       this.initLoadingState = false,
       this.color,
       this.loadingSize,
-      this.textColor})
-      : super(key: key);
+      this.textColor});
 
   final FutureCallback? onPressed;
   final String? label;

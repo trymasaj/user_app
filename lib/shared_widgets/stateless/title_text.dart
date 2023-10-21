@@ -4,7 +4,7 @@ import 'package:flutter/material.dart';
 ///Don't use it with items or cards (inside any lists) because it uses SizeHelper inside it so the O(n) and the best solution here is to use SizeHelper from the outside and pass the result to every item/card by parameters so the big O will be O(1).
 class TitleText extends StatelessWidget {
   const TitleText({
-    Key? key,
+    super.key,
     required this.text,
     this.subtractedSize = 0.0,
     this.color,
@@ -13,7 +13,7 @@ class TitleText extends StatelessWidget {
     this.textDirection,
     this.fontFamily,
     this.maxLines = 10,
-  }) : super(key: key);
+  });
 
   final String text;
   final double subtractedSize;

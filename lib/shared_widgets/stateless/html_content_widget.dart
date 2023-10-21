@@ -4,7 +4,7 @@ import '../../res/style/app_colors.dart';
 
 class HtmlContentWidget extends StatelessWidget {
   const HtmlContentWidget({
-    Key? key,
+    super.key,
     required String text,
     int? maxLines,
     double fontSize = 14.0,
@@ -16,8 +16,7 @@ class HtmlContentWidget extends StatelessWidget {
         _fontSize = fontSize,
         _color = color,
         _margin = margin,
-        _display = display,
-        super(key: key);
+        _display = display;
 
   final String _text;
   final int? _maxLines;

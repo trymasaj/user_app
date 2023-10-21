@@ -1,5 +1,6 @@
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:intl_phone_field/country_picker_dialog.dart';
 import 'package:intl_phone_field/intl_phone_field.dart';
 import 'package:intl_phone_field/phone_number.dart';
@@ -47,8 +48,12 @@ class PhoneTextFormField extends StatelessWidget {
         focusNode: currentFocusNode,
         controller: currentController,
         languageCode: currentLocal.languageCode,
-
+        keyboardType: TextInputType.phone,
         dropdownIconPosition: IconPosition.trailing,
+
+        inputFormatters: [
+          FilteringTextInputFormatter.digitsOnly,
+        ],
         cursorColor: Colors.black,
         style: textStyle,
         pickerDialogStyle: PickerDialogStyle(
@@ -82,7 +87,7 @@ class PhoneTextFormField extends StatelessWidget {
             ),
             focusedBorder: OutlineInputBorder(
               borderRadius: BorderRadius.circular(12.0),
-              borderSide: BorderSide(
+              borderSide: const BorderSide(
                 color: Colors.white,
                 width: 2,
               ),

@@ -15,7 +15,7 @@ import '../blocs/about_us_cubit/about_us_cubit.dart';
 
 class AboutUsPage extends StatelessWidget {
   static const routeName = '/AboutUsPage';
-  const AboutUsPage({Key? key}) : super(key: key);
+  const AboutUsPage({super.key});
 
   @override
   Widget build(BuildContext context) {

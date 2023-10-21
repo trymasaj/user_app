@@ -157,9 +157,9 @@ class _SignUpStep1PageState extends State<SignUpStep1Page> {
     return Expanded(
       flex: 8,
       child: DecoratedBox(
-        decoration: BoxDecoration(
+        decoration: const BoxDecoration(
           color: AppColors.PRIMARY_COLOR,
-          borderRadius: const BorderRadius.vertical(top: Radius.circular(20.0)),
+          borderRadius: BorderRadius.vertical(top: Radius.circular(20.0)),
         ),
         child: SizedBox(
           width: double.infinity,

@@ -15,7 +15,7 @@ enum _CustomDropDownMenuType { material, adaptive }
 
 class CustomDropDownMenu<T> extends StatefulWidget {
   const CustomDropDownMenu({
-    Key? key,
+    super.key,
     required T? currentItem,
     required List<T> items,
     String hint = '',
@@ -39,11 +39,10 @@ class CustomDropDownMenu<T> extends StatefulWidget {
         _onChanged = onChanged,
         _getStringFromItem = getStringFromItem,
         _isDisabled = isDisabled,
-        _isComingSoon = isComingSoon,
-        super(key: key);
+        _isComingSoon = isComingSoon;
 
   const CustomDropDownMenu.adaptive({
-    Key? key,
+    super.key,
     required T? currentItem,
     required List<T> items,
     String hint = '',
@@ -67,8 +66,7 @@ class CustomDropDownMenu<T> extends StatefulWidget {
         _onChanged = onChanged,
         _getStringFromItem = getStringFromItem,
         _isDisabled = isDisabled,
-        _isComingSoon = isComingSoon,
-        super(key: key);
+        _isComingSoon = isComingSoon;
 
   final T? _currentItem;
   final List<T> _items;
@@ -466,22 +464,14 @@ class _CupertinoModalPopupWidgetState<T>
 
 class CustomDropDownMenuItem<T> extends DropdownMenuItem<T> {
   const CustomDropDownMenuItem({
-    Key? key,
-    VoidCallback? onTap,
-    T? value,
-    bool enabled = true,
-    AlignmentGeometry alignment = AlignmentDirectional.centerStart,
-    required Widget child,
+    super.key,
+    super.onTap,
+    super.value,
+    super.enabled,
+    super.alignment,
+    required super.child,
     Color? itemColor,
-  })  : _itemColor = itemColor,
-        super(
-          key: key,
-          onTap: onTap,
-          value: value,
-          enabled: enabled,
-          alignment: alignment,
-          child: child,
-        );
+  }) : _itemColor = itemColor;
 
   final Color? _itemColor;
 

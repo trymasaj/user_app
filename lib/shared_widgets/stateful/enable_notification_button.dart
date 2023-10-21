@@ -8,8 +8,8 @@ class EnableNotificationButton extends StatefulWidget {
   const EnableNotificationButton({
     required this.isEnabled,
     required this.onChange,
-    Key? key,
-  }) : super(key: key);
+    super.key,
+  });
 
   final bool isEnabled;
   final ValueChanged<bool> onChange;

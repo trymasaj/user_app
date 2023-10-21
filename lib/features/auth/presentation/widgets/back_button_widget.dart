@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import '../../../../core/utils/navigator_helper.dart';
 
 class BackButtonWidget extends StatelessWidget {
-  const BackButtonWidget({Key? key}) : super(key: key);
+  const BackButtonWidget({super.key});
 
   @override
   Widget build(BuildContext context) {

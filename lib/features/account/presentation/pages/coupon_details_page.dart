@@ -20,8 +20,8 @@ class CouponDetailsPage extends StatefulWidget {
   const CouponDetailsPage({
     required this.id,
     required this.label,
-    Key? key,
-  }) : super(key: key);
+    super.key,
+  });
 
   final int id;
   final String label;

@@ -15,15 +15,14 @@ import '../other/show_snack_bar.dart';
 
 class UserProfileImagePicker extends StatefulWidget {
   const UserProfileImagePicker({
-    Key? key,
+    super.key,
     String? currentImage,
     bool normalImagePicker = false,
     ValueChanged<String>? onImageSelected,
   })  : assert(normalImagePicker || onImageSelected != null),
         _currentImage = currentImage,
         _normalImagePicker = normalImagePicker,
-        _onImageSelected = onImageSelected,
-        super(key: key);
+        _onImageSelected = onImageSelected;
 
   final String? _currentImage;
   final bool _normalImagePicker;

@@ -3,10 +3,9 @@ import 'package:flutter/material.dart';
 
 class MainTitleText extends StatelessWidget {
   const MainTitleText(
-      {Key? key, required String title, double horizontalPadding = 16.0})
+      {super.key, required String title, double horizontalPadding = 16.0})
       : _title = title,
-        _horizontalPadding = horizontalPadding,
-        super(key: key);
+        _horizontalPadding = horizontalPadding;
 
   final String _title;
   final double _horizontalPadding;
@@ -20,7 +19,7 @@ class MainTitleText extends StatelessWidget {
         children: [
           Text(
             _title,
-            style: TextStyle(
+            style: const TextStyle(
               color: AppColors.PRIMARY_COLOR,
               fontWeight: FontWeight.bold,
             ),

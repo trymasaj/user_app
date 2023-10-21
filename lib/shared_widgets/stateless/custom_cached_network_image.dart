@@ -27,7 +27,7 @@ enum ScaleMode {
 
 class CustomCachedNetworkImage extends StatelessWidget {
   const CustomCachedNetworkImage({
-    Key? key,
+    super.key,
     required String? imageUrl,
     BoxFit? fit,
     bool useOldImageOnUrlChange = false,
@@ -56,8 +56,7 @@ class CustomCachedNetworkImage extends StatelessWidget {
         _urlHeight = urlHeight,
         _imageMode = imageMode,
         _scaleMode = scaleMode,
-        _saturation = saturation,
-        super(key: key);
+        _saturation = saturation;
 
   final String? _imageUrl;
   final BoxFit? _fit;

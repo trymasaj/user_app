@@ -1,7 +1,5 @@
 import 'package:flutter/material.dart';
 
-import '../../core/abstract/base_cubit.dart';
-
 class AppColors {
   static const PRIMARY_COLOR = Color(0xFFEFB287);
   static const SECONDARY_COLOR = Color(0xFF4C8DBE);

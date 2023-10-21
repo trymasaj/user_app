@@ -6,22 +6,16 @@ import 'abstract/main_text_form_field.dart';
 
 class FirstNameTextFormField extends MainTextFormField {
   FirstNameTextFormField({
-    Key? key,
-    required final FocusNode currentFocusNode,
-    required final FocusNode nextFocusNode,
-    required final TextEditingController currentController,
-    final EdgeInsetsGeometry? margin,
-    final bool enabled = true,
+    super.key,
+    required super.currentFocusNode,
+    required FocusNode super.nextFocusNode,
+    required super.currentController,
+    super.margin = null,
+    super.enabled,
   }) : super(
-          key: key,
-          currentController: currentController,
-          currentFocusNode: currentFocusNode,
-          nextFocusNode: nextFocusNode,
           validator: Validator().validateUserName,
           hintText: 'first_name'.tr(),
           keyboardType: TextInputType.name,
-          margin: margin,
           textCapitalization: TextCapitalization.words,
-          enabled: enabled,
         );
 }

@@ -6,10 +6,9 @@ import '../../res/style/app_colors.dart';
 
 class DeleteButton extends StatefulWidget {
   const DeleteButton({
-    Key? key,
+    super.key,
     required FutureCallback<bool> onDeleteTap,
-  })  : _onDeleteTap = onDeleteTap,
-        super(key: key);
+  }) : _onDeleteTap = onDeleteTap;
 
   final FutureCallback<bool> _onDeleteTap;
 

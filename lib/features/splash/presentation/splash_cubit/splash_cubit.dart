@@ -1,7 +1,5 @@
 import 'dart:developer';
-import 'dart:io';
 
-import 'package:masaj/core/data/datasources/device_type_data_source.dart';
 import 'package:masaj/core/service/device_security_service.dart';
 
 import '../../../../core/service/notification_service.dart';

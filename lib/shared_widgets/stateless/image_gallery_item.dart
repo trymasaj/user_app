@@ -5,12 +5,12 @@ import 'custom_cached_network_image.dart';
 
 class ImageGalleryItem extends StatelessWidget {
   const ImageGalleryItem({
-    Key? key,
+    super.key,
     required this.images,
     required this.index,
     this.width = 150.0,
     this.height = 150.0,
-  }) : super(key: key);
+  });
 
   final List<String> images;
   final int index;

@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 
-import '../../api_end_point.dart';
 import '../../core/utils/navigator_helper.dart';
 import '../stateless/custom_cached_network_image.dart';
 
@@ -21,8 +20,8 @@ class _interActiveViewCustomWidget extends StatefulWidget {
   const _interActiveViewCustomWidget({
     required this.images,
     required this.index,
-    Key? key,
-  }) : super(key: key);
+    super.key,
+  });
 
   final List<String> images;
   final int index;

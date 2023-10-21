@@ -261,7 +261,7 @@ class _SettingsPageState extends State<SettingsPage> {
               authCubit.informBackendAboutLanguageChanges('en');
           }
         },
-        child: TitleText(
+        child: const TitleText(
           text: 'language',
           color: AppColors.BACKGROUND_COLOR,
         ),
@@ -314,8 +314,8 @@ class CustomSwitchWidget extends StatefulWidget {
   const CustomSwitchWidget({
     required this.isEnabled,
     required this.onPress,
-    Key? key,
-  }) : super(key: key);
+    super.key,
+  });
 
   final bool isEnabled;
   final ValueChanged<bool> onPress;

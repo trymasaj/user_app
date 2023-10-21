@@ -20,7 +20,7 @@ import '../blocs/contact_us_cubit/contact_us_cubit.dart';
 
 class ContactUsPage extends StatefulWidget {
   static const routeName = '/ContactUsPage';
-  const ContactUsPage({Key? key}) : super(key: key);
+  const ContactUsPage({super.key});
 
   @override
   State<ContactUsPage> createState() => _ContactUsPageState();

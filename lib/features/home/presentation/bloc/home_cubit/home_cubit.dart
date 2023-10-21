@@ -5,7 +5,6 @@ import 'package:flutter/foundation.dart';
 import '../../../../../core/service/launcher_service.dart';
 import '../../../data/models/home_data.dart';
 import '../../../../../core/abstract/base_cubit.dart';
-import '../../../../../core/service/app_info_service.dart';
 import '../../../data/repositories/home_repository.dart';
 
 import '../../../../../core/exceptions/redundant_request_exception.dart';

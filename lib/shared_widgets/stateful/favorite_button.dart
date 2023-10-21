@@ -5,12 +5,11 @@ import 'package:size_helper/size_helper.dart';
 
 class FavoriteButton extends StatefulWidget {
   const FavoriteButton({
-    Key? key,
+    super.key,
     required FutureOr<bool> Function(bool) onFavTap,
     bool? initial,
   })  : _initial = initial ?? false,
-        _onFavTap = onFavTap,
-        super(key: key);
+        _onFavTap = onFavTap;
 
   final bool _initial;
   final FutureOr<bool> Function(bool) _onFavTap;

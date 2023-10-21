@@ -3,7 +3,7 @@ import 'package:flutter_svg/svg.dart';
 
 class AppLogo extends StatelessWidget {
   const AppLogo({
-    Key? key,
+    super.key,
     double? width,
     double? height,
     EdgeInsetsGeometry? padding,
@@ -13,8 +13,7 @@ class AppLogo extends StatelessWidget {
         _height = height,
         _padding = padding,
         _margin = margin,
-        _alignment = alignment,
-        super(key: key);
+        _alignment = alignment;
 
   final double? _width;
   final double? _height;

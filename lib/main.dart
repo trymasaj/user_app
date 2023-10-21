@@ -4,8 +4,6 @@ import 'dart:isolate';
 import 'package:flutter/foundation.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:masaj/features/auth/presentation/pages/login_page.dart';
-import 'package:masaj/features/auth/presentation/pages/otp_verification_page.dart';
-import 'package:masaj/features/splash/presentation/pages/splash_page.dart';
 
 import 'di/injector.dart';
 import 'package:easy_localization/easy_localization.dart';
@@ -15,8 +13,6 @@ import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:requests_inspector/requests_inspector.dart';
 
-import 'features/auth/presentation/pages/sign_up_page.dart';
-import 'features/intro/presentation/pages/quiz_start_page.dart';
 import 'res/style/theme.dart';
 import 'routes/routes.dart';
 
@@ -70,7 +66,7 @@ Future<void> _initCrashLytics() async {
 final navigatorKey = GlobalKey<NavigatorState>();
 
 class MyApp extends StatefulWidget {
-  const MyApp({Key? key}) : super(key: key);
+  const MyApp({super.key});
 
   @override
   State<MyApp> createState() => _MyAppState();

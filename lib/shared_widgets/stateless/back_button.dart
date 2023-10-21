@@ -4,11 +4,11 @@ import '../../core/utils/navigator_helper.dart';
 
 class CustomBackButton extends StatelessWidget {
   const CustomBackButton({
-    Key? key,
+    super.key,
     this.color = Colors.white,
     this.onPress,
     this.label,
-  }) : super(key: key);
+  });
   final Color color;
   final VoidCallback? onPress;
   final String? label;

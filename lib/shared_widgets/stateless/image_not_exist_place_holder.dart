@@ -2,10 +2,10 @@ import 'package:flutter/widgets.dart';
 
 class ImageNotExistPlaceHolder extends StatelessWidget {
   const ImageNotExistPlaceHolder({
-    Key? key,
+    super.key,
     this.width,
     this.height,
-  }) : super(key: key);
+  });
 
   final double? width;
   final double? height;

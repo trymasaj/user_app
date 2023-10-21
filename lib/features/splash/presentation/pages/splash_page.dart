@@ -1,7 +1,6 @@
 import 'package:masaj/features/auth/presentation/pages/login_page.dart';
 
 import '../../../../shared_widgets/stateless/app_logo.dart';
-import '../../../intro/presentation/pages/get_started_page.dart';
 
 import '../../../../di/injector.dart';
 import '../../../auth/presentation/blocs/auth_cubit/auth_cubit.dart';
@@ -23,7 +22,7 @@ import 'package:flutter_svg/flutter_svg.dart';
 class SplashPage extends StatefulWidget {
   static const routeName = '/SplashPage';
 
-  const SplashPage({Key? key}) : super(key: key);
+  const SplashPage({super.key});
 
   @override
   State<SplashPage> createState() => _SplashPageState();

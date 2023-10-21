@@ -1,13 +1,11 @@
 import 'package:masaj/shared_widgets/stateless/custom_text.dart';
 import '../../../../shared_widgets/stateless/back_button.dart';
-import 'package:size_helper/size_helper.dart';
 
 import '../../../../core/utils/navigator_helper.dart';
 import '../../../../res/style/app_colors.dart';
 import '../../../../shared_widgets/stateless/custom_app_page.dart';
 import '../../../../shared_widgets/stateful/default_button.dart';
 import '../../../../shared_widgets/other/show_snack_bar.dart';
-import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
@@ -16,7 +14,7 @@ import '../blocs/auth_cubit/auth_cubit.dart';
 
 class ForgetPasswordPage extends StatefulWidget {
   static const routeName = '/ForgetPasswordPage';
-  const ForgetPasswordPage({Key? key}) : super(key: key);
+  const ForgetPasswordPage({super.key});
 
   @override
   State<ForgetPasswordPage> createState() => _ForgetPasswordPageState();

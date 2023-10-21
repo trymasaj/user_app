@@ -7,7 +7,7 @@ import 'default_text_form_field.dart';
 
 class ConfirmPasswordTextFormField extends StatefulWidget {
   const ConfirmPasswordTextFormField({
-    Key? key,
+    super.key,
     required this.currentFocusNode,
     this.nextFocusNode,
     required this.currentController,
@@ -15,7 +15,7 @@ class ConfirmPasswordTextFormField extends StatefulWidget {
     this.margin,
     this.hint,
     this.validator,
-  }) : super(key: key);
+  });
 
   final FocusNode currentFocusNode;
   final FocusNode? nextFocusNode;

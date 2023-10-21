@@ -11,7 +11,7 @@ enum LoadingStyle {
 
 class CustomLoading extends StatelessWidget {
   const CustomLoading({
-    Key? key,
+    super.key,
     LoadingStyle loadingStyle = LoadingStyle.Default,
     bool useColumn = false,
     Color? color,
@@ -21,8 +21,7 @@ class CustomLoading extends StatelessWidget {
         _useColumn = useColumn,
         _color = color,
         _baseColor = baseColor,
-        _highlightColor = highlightColor,
-        super(key: key);
+        _highlightColor = highlightColor;
 
   final LoadingStyle _loadingStyle;
   final bool _useColumn;
@@ -138,8 +137,8 @@ class CustomLoading extends StatelessWidget {
 
 class _ListItemShimmer extends StatelessWidget {
   const _ListItemShimmer({
-    Key? key,
-  }) : super(key: key);
+    super.key,
+  });
 
   @override
   Widget build(BuildContext context) {

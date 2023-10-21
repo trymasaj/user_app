@@ -15,7 +15,7 @@ import '../../../../shared_widgets/stateless/custom_app_page.dart';
 class ChooseLanguagePage extends StatefulWidget {
   static const routeName = '/ChooseLanguagePage';
 
-  const ChooseLanguagePage({Key? key}) : super(key: key);
+  const ChooseLanguagePage({super.key});
 
   @override
   State<ChooseLanguagePage> createState() => _ChooseLanguagePageState();

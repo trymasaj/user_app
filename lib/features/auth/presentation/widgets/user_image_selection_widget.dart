@@ -9,8 +9,8 @@ import '../blocs/auth_cubit/auth_cubit.dart';
 class UserImageSelection extends StatefulWidget {
   const UserImageSelection({
     required this.isMale,
-    Key? key,
-  }) : super(key: key);
+    super.key,
+  });
 
   final bool isMale;
 

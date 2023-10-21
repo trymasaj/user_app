@@ -15,8 +15,8 @@ const ehtemamPhone = "+9668002444010";
 class EhtemamPage extends StatelessWidget {
   static const routeName = '/EhtemamPage';
   const EhtemamPage({
-    Key? key,
-  }) : super(key: key);
+    super.key,
+  });
 
   @override
   Widget build(BuildContext context) {

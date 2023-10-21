@@ -7,21 +7,15 @@ import 'abstract/main_text_form_field.dart';
 
 class EmailTextFormField extends MainTextFormField {
   EmailTextFormField({
-    Key? key,
-    required final FocusNode currentFocusNode,
-    final FocusNode? nextFocusNode,
-    required final TextEditingController currentController,
-    final EdgeInsetsGeometry? margin,
-    bool enabled = true,
+    super.key,
+    required super.currentFocusNode,
+    super.nextFocusNode,
+    required super.currentController,
+    super.margin = null,
+    super.enabled,
   }) : super(
-            key: key,
-            currentController: currentController,
-            currentFocusNode: currentFocusNode,
-            nextFocusNode: nextFocusNode,
             validator: Validator().validateEmail,
             hintText: 'email_address'.tr(),
             keyboardType: TextInputType.emailAddress,
-            margin: margin,
-            enabled: enabled,
             inputFormatters: [FilteringTextInputFormatter.deny(RegExp(r" "))]);
 }

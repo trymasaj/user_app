@@ -93,8 +93,9 @@ class NetworkServiceImpl implements NetworkService {
   final DeviceTypeDataSource _deviceTypeDataSource;
 
   final _dio = Dio(BaseOptions(validateStatus: (_) => true))
-    ..interceptors
-        .add(inspectorEnabled ? RequestsInspectorInterceptor() : Interceptor());
+    ..interceptors.add(inspectorEnabled
+        ? RequestsInspectorInterceptor()
+        : const Interceptor());
 
   String? _requestName;
 

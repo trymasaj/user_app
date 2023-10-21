@@ -5,10 +5,9 @@ import '../../res/style/app_colors.dart';
 
 class ShareButton extends StatefulWidget {
   const ShareButton({
-    Key? key,
+    super.key,
     required FutureCallback<void> onShareTap,
-  })  : _onShareTap = onShareTap,
-        super(key: key);
+  }) : _onShareTap = onShareTap;
 
   final FutureCallback<void> _onShareTap;
 

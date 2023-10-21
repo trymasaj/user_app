@@ -17,9 +17,9 @@ import 'package:easy_localization/easy_localization.dart';
 class TopicPage extends StatelessWidget {
   static const routeName = '/TopicPage';
   const TopicPage({
-    Key? key,
+    super.key,
     required this.id,
-  }) : super(key: key);
+  });
 
   final TopicType id;
 

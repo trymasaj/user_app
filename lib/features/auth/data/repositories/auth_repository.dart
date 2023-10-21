@@ -1,7 +1,4 @@
 import '../../../../core/data/models/interest_model.dart';
-import '../../../../core/enums/gender.dart';
-
-import 'package:masaj/core/enums/age_group.dart';
 
 import '../../../../core/data/datasources/device_type_data_source.dart';
 import '../../../../core/data/datasources/external_login_data_source.dart';

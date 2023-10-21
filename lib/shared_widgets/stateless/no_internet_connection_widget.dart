@@ -8,7 +8,7 @@ import 'back_button.dart';
 
 class NoInternetConnectionWidget extends StatelessWidget {
   const NoInternetConnectionWidget({
-    Key? key,
+    super.key,
     double? height,
     EdgeInsets padding = EdgeInsets.zero,
     bool withBackButton = false,
@@ -16,8 +16,7 @@ class NoInternetConnectionWidget extends StatelessWidget {
   })  : _height = height,
         _padding = padding,
         _withBackButton = withBackButton,
-        _onRefreshPage = onRefreshPage,
-        super(key: key);
+        _onRefreshPage = onRefreshPage;
 
   final double? _height;
   final EdgeInsets _padding;

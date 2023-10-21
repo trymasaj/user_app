@@ -6,14 +6,14 @@ import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
 class PasswordTextFormField extends StatefulWidget {
   const PasswordTextFormField({
-    Key? key,
+    super.key,
     required this.currentFocusNode,
     this.nextFocusNode,
     required this.currentController,
     this.margin,
     this.hint,
     this.validator,
-  }) : super(key: key);
+  });
 
   final FocusNode currentFocusNode;
   final FocusNode? nextFocusNode;

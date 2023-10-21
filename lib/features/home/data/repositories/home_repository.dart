@@ -1,4 +1,3 @@
-import '../../../../core/data/models/id_name_model.dart';
 import '../datasources/home_remote_data_source.dart';
 import '../models/event.dart';
 import '../models/home_data.dart';

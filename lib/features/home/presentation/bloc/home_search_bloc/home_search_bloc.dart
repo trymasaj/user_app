@@ -45,7 +45,8 @@ class HomeSearchBloc extends Bloc<HomeSearchEvent, HomeSearchState> {
   }) async {
     try {
       if (searchText?.trim().isNotEmpty != true)
-        return emit(HomeSearchState(status: HomeSearchStateStatus.loaded));
+        return emit(
+            const HomeSearchState(status: HomeSearchStateStatus.loaded));
 
       emit(state.copyWith(status: HomeSearchStateStatus.loading));
       final events =

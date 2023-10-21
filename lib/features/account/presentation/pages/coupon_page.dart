@@ -24,8 +24,8 @@ import '../../../../shared_widgets/stateless/title_text.dart';
 class CouponPage extends StatefulWidget {
   static const routeName = '/CouponPage';
   const CouponPage({
-    Key? key,
-  }) : super(key: key);
+    super.key,
+  });
 
   @override
   State<CouponPage> createState() => _CouponPageState();
@@ -291,13 +291,13 @@ class _CouponPageState extends State<CouponPage> {
   Container _buildTopDialogSection() {
     return Container(
       padding: const EdgeInsets.all(24.0),
-      decoration: BoxDecoration(
+      decoration: const BoxDecoration(
         color: AppColors.PRIMARY_COLOR,
-        borderRadius: const BorderRadius.vertical(top: Radius.circular(25.0)),
+        borderRadius: BorderRadius.vertical(top: Radius.circular(25.0)),
       ),
-      child: Column(
+      child: const Column(
         crossAxisAlignment: CrossAxisAlignment.stretch,
-        children: const [
+        children: [
           TitleText(
             text: 'coupon_redeemed_confirmation',
             textAlign: TextAlign.center,
@@ -412,9 +412,9 @@ class _CouponItemWidget extends StatelessWidget {
                 clipBehavior: Clip.none,
                 children: [
                   Container(
-                    decoration: BoxDecoration(
+                    decoration: const BoxDecoration(
                       color: AppColors.SECONDARY_COLOR,
-                      borderRadius: const BorderRadius.vertical(
+                      borderRadius: BorderRadius.vertical(
                         bottom: Radius.circular(25.0),
                       ),
                     ),
@@ -475,11 +475,11 @@ class _CouponItemWidget extends StatelessWidget {
 
 class _ToggleTabs extends StatefulWidget {
   const _ToggleTabs({
-    Key? key,
+    super.key,
     required this.onTap,
     required this.allCouponsKey,
     required this.redeemedCouponsKey,
-  }) : super(key: key);
+  });
 
   final GlobalKey allCouponsKey;
   final GlobalKey redeemedCouponsKey;

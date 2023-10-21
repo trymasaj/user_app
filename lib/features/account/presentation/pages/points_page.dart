@@ -19,8 +19,8 @@ import '../blocs/points_cubit/points_cubit.dart';
 class PointsPage extends StatefulWidget {
   static const routeName = '/PointsPage';
   const PointsPage({
-    Key? key,
-  }) : super(key: key);
+    super.key,
+  });
 
   @override
   State<PointsPage> createState() => _PointsPageState();

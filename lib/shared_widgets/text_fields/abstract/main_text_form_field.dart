@@ -34,7 +34,7 @@ abstract class MainTextFormField extends StatefulWidget {
   final void Function()? onTap;
 
   const MainTextFormField({
-    Key? key,
+    super.key,
     required this.currentFocusNode,
     this.nextFocusNode,
     required this.currentController,
@@ -62,7 +62,7 @@ abstract class MainTextFormField extends StatefulWidget {
     this.prefixIcon,
     this.readOnly,
     this.onTap,
-  }) : super(key: key);
+  });
 
   @override
   _MainTextFormFieldState createState() => _MainTextFormFieldState();

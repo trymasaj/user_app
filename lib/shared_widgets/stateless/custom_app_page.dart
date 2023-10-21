@@ -1,13 +1,12 @@
 import 'package:flutter_svg/svg.dart';
 import 'custom_cached_network_image.dart';
 
-import '../../res/style/app_colors.dart';
 import 'package:flutter/material.dart';
 
 class CustomAppPage extends StatelessWidget {
   ///If `backgroundPath` empty then the default option is `lib/res/assets/background.png`
   const CustomAppPage({
-    Key? key,
+    super.key,
     bool withBackground = false,
     Widget? child,
     bool clearSnackBarOnLaunch = false,
@@ -35,8 +34,7 @@ class CustomAppPage extends StatelessWidget {
         _backgroundAlignment = backgroundAlignment,
         _backgroundColor = backgroundColor,
         _height = height,
-        _width = width,
-        super(key: key);
+        _width = width;
   final bool _withBackground;
   final Widget? _child;
   final bool _clearSnackBarOnLaunch;

@@ -7,12 +7,12 @@ import 'custom_cached_network_image.dart';
 
 class VideoGalleryItem extends StatelessWidget {
   const VideoGalleryItem({
-    Key? key,
+    super.key,
     required this.video,
     this.height = 150.0,
     this.width = 150.0,
     this.margin = const EdgeInsets.all(8.0),
-  }) : super(key: key);
+  });
 
   final String video;
   final double width;

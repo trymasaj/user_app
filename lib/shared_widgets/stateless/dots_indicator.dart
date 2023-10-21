@@ -2,14 +2,14 @@ import 'package:flutter/material.dart';
 
 class DotsIndicator extends StatelessWidget {
   const DotsIndicator({
-    Key? key,
+    super.key,
     required this.indicatorCount,
     required this.pageNumber,
     this.mainAxisAlignment = MainAxisAlignment.spaceAround,
     this.color = Colors.white,
     this.spaceBetween = 6.0,
     this.isExpanded = false,
-  }) : super(key: key);
+  });
 
   final int indicatorCount;
   final int pageNumber;

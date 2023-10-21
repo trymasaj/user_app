@@ -10,7 +10,7 @@ import 'subtitle_text.dart';
 class EmptyPageMessage extends StatelessWidget {
   ///`heightRatio` from `0.0` to `1.0`
   const EmptyPageMessage({
-    Key? key,
+    super.key,
     String? message = 'Empty',
     String? svgImage = 'no_points',
     double heightRatio = 0.8,
@@ -22,8 +22,7 @@ class EmptyPageMessage extends StatelessWidget {
         _svgImage = svgImage,
         _heightRatio = heightRatio,
         _textColor = textColor,
-        _onRefresh = onRefresh,
-        super(key: key);
+        _onRefresh = onRefresh;
 
   final String? _message;
   final String? _svgImage;

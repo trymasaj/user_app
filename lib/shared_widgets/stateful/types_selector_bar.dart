@@ -6,11 +6,11 @@ import '../../res/style/app_colors.dart';
 
 class TypesSelectorBar extends StatefulWidget {
   const TypesSelectorBar({
-    Key? key,
+    super.key,
     this.showIndicator = false,
     required this.types,
     required this.onChange,
-  }) : super(key: key);
+  });
 
   final bool showIndicator;
   final List<IdNameModel> types;
@@ -141,11 +141,11 @@ class _TypesSelectorBarState extends State<TypesSelectorBar> {
 
 class _TypeIcon extends StatelessWidget {
   const _TypeIcon({
-    Key? key,
+    super.key,
     required this.type,
     required this.isSelected,
     required this.onTap,
-  }) : super(key: key);
+  });
 
   final IdNameModel? type;
   final bool isSelected;

@@ -22,7 +22,7 @@ import '../widgets/user_image_selection_widget.dart';
 
 class EditUserInfoPage extends StatefulWidget {
   static const routeName = '/EditUserInfoPage';
-  const EditUserInfoPage({Key? key}) : super(key: key);
+  const EditUserInfoPage({super.key});
 
   @override
   State<EditUserInfoPage> createState() => _EditUserInfoPageState();
