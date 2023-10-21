@@ -125,7 +125,7 @@ class _ContactUsPageState extends State<ContactUsPage> {
             isRequired: true,
             currentFocusNode: _messageFocusNode,
             currentController: _messageTextController,
-            hint: 'message'.tr(),
+            hint: 'message',
             contentPadding: const EdgeInsets.all(16.0),
             maxLines: 8,
             keyboardType: TextInputType.multiline,

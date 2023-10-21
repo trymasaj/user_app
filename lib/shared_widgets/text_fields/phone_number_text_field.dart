@@ -3,8 +3,6 @@ import 'package:flutter/material.dart';
 import 'package:intl_phone_number_input/intl_phone_number_input.dart';
 import 'package:size_helper/size_helper.dart';
 
-// import 'package:stock_client/core/utils/validator.dart';
-
 import '../../res/style/app_colors.dart';
 
 class PhoneTextFormField extends StatelessWidget {
@@ -31,67 +29,51 @@ class PhoneTextFormField extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final textStyle = context.sizeHelper(
-        mobileLarge:
-            Theme.of(context).textTheme.bodyText1!.copyWith(fontSize: 14.0),
-        tabletSmall: Theme.of(context).textTheme.bodyText2!,
-        tabletNormal: Theme.of(context).textTheme.bodyText2!,
-        desktopSmall:
-            Theme.of(context).textTheme.bodyText2!.copyWith(fontSize: 21.0));
+    final currentLocal = context.locale;
+    const textStyle = TextStyle(
+      fontSize: 14.0,
+      fontFamily: 'Poppins',
+      color: Colors.black,
+      fontWeight: FontWeight.w400,
+    );
     return Container(
       margin: margin,
       child: InternationalPhoneNumberInput(
-        // locale: CurrentUser().languageCode,
-        countries: const ['SA'],
+        //locale: CurrentUser().languageCode,
+        // countries: const ['SA', 'EG', 'AE', 'KW'],
         isEnabled: isEnabled,
         focusNode: currentFocusNode,
         textFieldController: currentController,
-        cursorColor: AppColors.PRIMARY_COLOR,
+        locale: currentLocal.languageCode,
+        cursorColor: Colors.black,
         textStyle: textStyle,
         selectorTextStyle: textStyle,
         inputDecoration: InputDecoration(
           fillColor:
-              isEnabled ? Colors.transparent : AppColors.GREY_NORMAL_COLOR,
+              isEnabled ? const Color(0xFFF6F6F6) : AppColors.GREY_NORMAL_COLOR,
           filled: true,
-          contentPadding: const EdgeInsets.fromLTRB(16, 0, 16, 0),
+          contentPadding: const EdgeInsets.fromLTRB(20, 20, 20, 20),
           hintText: hint ?? 'phone_number'.tr(),
-          hintStyle: context
-              .sizeHelper(
-                mobileLarge: Theme.of(context)
-                    .textTheme
-                    .bodyText1!
-                    .copyWith(fontSize: 10.0),
-                tabletSmall: Theme.of(context)
-                    .textTheme
-                    .bodyText1!
-                    .copyWith(fontSize: 12.0),
-                tabletNormal: Theme.of(context)
-                    .textTheme
-                    .bodyText1!
-                    .copyWith(fontSize: 12.0),
-                desktopSmall: Theme.of(context)
-                    .textTheme
-                    .bodyText1!
-                    .copyWith(fontSize: 20.0),
-              )
-              .copyWith(color: AppColors.GREY_NORMAL_COLOR),
+          hintStyle: textStyle.copyWith(
+            color: const Color(0xFF8C8C8C),
+          ),
           counterText: '',
           disabledBorder: const OutlineInputBorder(
-            borderRadius: BorderRadius.all(Radius.circular(50.0)),
+            borderRadius: BorderRadius.all(Radius.circular(12.0)),
             borderSide: BorderSide(
               color: Colors.white,
               width: 2,
             ),
           ),
           enabledBorder: const OutlineInputBorder(
-            borderRadius: BorderRadius.all(Radius.circular(50.0)),
+            borderRadius: BorderRadius.all(Radius.circular(12.0)),
             borderSide: BorderSide(
               color: Colors.white,
               width: 2,
             ),
           ),
           focusedBorder: const OutlineInputBorder(
-            borderRadius: BorderRadius.all(Radius.circular(50.0)),
+            borderRadius: BorderRadius.all(Radius.circular(12.0)),
             borderSide: BorderSide(
               color: Colors.white,
               width: 2,
@@ -102,14 +84,14 @@ class PhoneTextFormField extends StatelessWidget {
               color: Colors.red,
               width: 2,
             ),
-            borderRadius: BorderRadius.all(Radius.circular(50.0)),
+            borderRadius: BorderRadius.all(Radius.circular(12.0)),
           ),
           focusedErrorBorder: const OutlineInputBorder(
             borderSide: BorderSide(
               color: Colors.red,
               width: 2,
             ),
-            borderRadius: BorderRadius.all(Radius.circular(50.0)),
+            borderRadius: BorderRadius.all(Radius.circular(12.0)),
           ),
         ),
 

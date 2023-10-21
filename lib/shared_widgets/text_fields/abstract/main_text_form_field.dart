@@ -30,6 +30,8 @@ abstract class MainTextFormField extends StatefulWidget {
   final Color? fillColor;
   final Color? cursorColor;
   final TextStyle? style;
+  final bool? readOnly;
+  final void Function()? onTap;
 
   const MainTextFormField({
     Key? key,
@@ -58,6 +60,8 @@ abstract class MainTextFormField extends StatefulWidget {
     this.cursorColor,
     this.style,
     this.prefixIcon,
+    this.readOnly,
+    this.onTap,
   }) : super(key: key);
 
   @override
@@ -81,6 +85,7 @@ class _MainTextFormFieldState extends State<MainTextFormField> {
             selection =
                 TextSelection.fromPosition(TextPosition(offset: length));
           }
+          if (widget.onTap != null) widget.onTap!();
         },
         cursorColor: widget.cursorColor,
         textDirection: _currentDir,
@@ -93,6 +98,7 @@ class _MainTextFormFieldState extends State<MainTextFormField> {
         maxLength: widget.maxLength,
         expands: widget.expanded,
         enableSuggestions: widget.enableSuggestions,
+        readOnly: widget.readOnly ?? false,
         style: widget.style ??
             const TextStyle(
               fontFamily: 'Poppins',
@@ -112,7 +118,7 @@ class _MainTextFormFieldState extends State<MainTextFormField> {
           isDense: true,
           contentPadding: widget.contentPadding ??
               const EdgeInsets.fromLTRB(20, 20, 20, 20),
-          hintText: widget.hintText,
+          hintText: widget.hintText.tr(),
           hintStyle: TextStyle(
               fontFamily: 'Poppins',
               fontSize: 14.0,

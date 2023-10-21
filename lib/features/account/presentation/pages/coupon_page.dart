@@ -342,7 +342,7 @@ class _CouponPageState extends State<CouponPage> {
               label: 'close'.tr(),
               backgroundColor: Colors.transparent,
               borderColor: AppColors.PRIMARY_COLOR,
-              labelStyle: TextStyle(
+              labelStyle: const TextStyle(
                   fontSize: 16.0,
                   color: AppColors.PRIMARY_COLOR,
                   fontWeight: FontWeight.bold),

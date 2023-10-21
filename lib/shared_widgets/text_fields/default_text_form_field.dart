@@ -21,6 +21,8 @@ class DefaultTextFormField extends MainTextFormField {
     final Widget? suffixIcon,
     final String? Function(String?)? validator,
     final ValueChanged<String>? onChanged,
+    final bool? readOnly,
+    final void Function()? onTap,
   }) : super(
           key: key,
           currentController: currentController,
@@ -39,5 +41,7 @@ class DefaultTextFormField extends MainTextFormField {
           suffixIcon: suffixIcon,
           contentPadding: contentPadding,
           onChanged: onChanged,
+          readOnly: readOnly,
+          onTap: onTap,
         );
 }

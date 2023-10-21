@@ -1,25 +1,21 @@
 import 'package:easy_localization/easy_localization.dart';
-import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:intl_phone_number_input/intl_phone_number_input.dart';
+import 'package:masaj/core/utils/extensions.dart';
 import 'package:masaj/features/auth/presentation/pages/login_page.dart';
 
-import '../../../../core/enums/topic_type.dart';
 import '../../../../core/utils/navigator_helper.dart';
 import '../../../../res/style/app_colors.dart';
 import '../../../../shared_widgets/other/show_snack_bar.dart';
 import '../../../../shared_widgets/stateful/default_button.dart';
-import '../../../../shared_widgets/stateless/back_button.dart';
 import '../../../../shared_widgets/stateless/custom_app_page.dart';
 import '../../../../shared_widgets/stateless/custom_text.dart';
-import '../../../../shared_widgets/stateless/title_text.dart';
 import '../../../../shared_widgets/text_fields/confirm_password_text_field.dart';
 import '../../../../shared_widgets/text_fields/default_text_form_field.dart';
 import '../../../../shared_widgets/text_fields/email_text_form_field.dart';
 import '../../../../shared_widgets/text_fields/password_text_form_field.dart';
 import '../../../../shared_widgets/text_fields/phone_number_text_field.dart';
-import '../../../account/presentation/pages/topic_page.dart';
 import '../../../home/presentation/pages/home_page.dart';
 import '../../data/models/user.dart';
 import '../blocs/auth_cubit/auth_cubit.dart';
@@ -27,9 +23,9 @@ import '../blocs/auth_cubit/auth_cubit.dart';
 class SignUpPage extends StatefulWidget {
   static const routeName = '/SignUp';
   const SignUpPage({
-    Key? key,
+    super.key,
     bool startFromSubscriptionStep = false,
-  }) : super(key: key);
+  });
 
   @override
   State<SignUpPage> createState() => _SignUpPageState();
@@ -43,12 +39,14 @@ class _SignUpPageState extends State<SignUpPage> {
   late final TextEditingController _emailTextController;
   late final TextEditingController _passwordTextController;
   late final TextEditingController _passwordConfirmTextController;
+  late final TextEditingController _birthDateTextController;
 
   late final FocusNode _fullNameFocusNode;
   late final FocusNode _emailFocusNode;
   late final FocusNode _passwordFocusNode;
   late final FocusNode _passwordConfirmFocusNode;
   late final FocusNode _phoneFocusNode;
+  late final FocusNode _birthDateFocusNode;
   bool _isAutoValidating = false;
   PhoneNumber? _phoneNumber;
 
@@ -61,11 +59,14 @@ class _SignUpPageState extends State<SignUpPage> {
     _passwordTextController = TextEditingController();
     _passwordConfirmTextController = TextEditingController();
     _phoneTextController = TextEditingController();
+    _birthDateTextController = TextEditingController();
+
     _fullNameFocusNode = FocusNode();
     _emailFocusNode = FocusNode();
     _passwordFocusNode = FocusNode();
     _passwordConfirmFocusNode = FocusNode();
     _phoneFocusNode = FocusNode();
+    _birthDateFocusNode = FocusNode();
     super.initState();
   }
 
@@ -76,6 +77,8 @@ class _SignUpPageState extends State<SignUpPage> {
     _passwordTextController.dispose();
     _passwordConfirmTextController.dispose();
     _phoneTextController.dispose();
+    _birthDateTextController.dispose();
+
     _fullNameFocusNode.dispose();
     _emailFocusNode.dispose();
     _passwordFocusNode.dispose();
@@ -123,7 +126,7 @@ class _SignUpPageState extends State<SignUpPage> {
           ),
           const SizedBox(height: 6.0),
           _buildHaveAccountRow(context),
-          _buildSignUpTabs(),
+          _buildSignUpForm(),
           _buildTermsAndConditions(context),
           const SizedBox(height: 16.0),
           _buildSignUpButton(context),
@@ -156,7 +159,7 @@ class _SignUpPageState extends State<SignUpPage> {
     );
   }
 
-  Widget _buildSignUpTabs() {
+  Widget _buildSignUpForm() {
     return SingleChildScrollView(
       padding: const EdgeInsets.symmetric(vertical: 20.0),
       child: _buildForm(),
@@ -176,7 +179,7 @@ class _SignUpPageState extends State<SignUpPage> {
             currentController: _fullNameTextController,
             currentFocusNode: _fullNameFocusNode,
             nextFocusNode: _emailFocusNode,
-            hint: 'full_name'.tr(),
+            hint: 'full_name',
             isRequired: true,
           ),
           const SizedBox(height: 18.0),
@@ -186,15 +189,37 @@ class _SignUpPageState extends State<SignUpPage> {
             nextFocusNode: _passwordFocusNode,
           ),
           const SizedBox(height: 18.0),
-          Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 12.0),
-            child: PhoneTextFormField(
-              currentController: _phoneTextController,
-              currentFocusNode: _phoneFocusNode,
-              nextFocusNode: null,
-              initialValue: _phoneNumber,
-              onInputChanged: (value) => _phoneNumber = value,
-            ),
+          PhoneTextFormField(
+            currentController: _phoneTextController,
+            currentFocusNode: _phoneFocusNode,
+            nextFocusNode: null,
+            initialValue: _phoneNumber,
+            onInputChanged: (value) => _phoneNumber = value,
+          ),
+          const SizedBox(height: 18.0),
+          DefaultTextFormField(
+            currentFocusNode: _birthDateFocusNode,
+            currentController: _birthDateTextController,
+            keyboardType: TextInputType.datetime,
+            suffixIcon:
+                const Icon(Icons.calendar_month_outlined, color: Colors.black),
+            isRequired: true,
+            hint: 'birth_date',
+            readOnly: true,
+            onTap: () async {
+              final initialDate = _birthDateTextController.text.isNotEmpty
+                  ? _birthDateTextController.text.parseDate()
+                  : DateTime.now();
+              final pickedDate = await showDatePicker(
+                context: context,
+                initialDate: initialDate,
+                firstDate: DateTime.now().subtract(const Duration(days: 43800)),
+                lastDate: DateTime.now(),
+              );
+              if (pickedDate != null) {
+                _birthDateTextController.text = pickedDate.formatDate();
+              }
+            },
           ),
           const SizedBox(height: 18.0),
           PasswordTextFormField(
@@ -206,7 +231,7 @@ class _SignUpPageState extends State<SignUpPage> {
             currentFocusNode: _passwordConfirmFocusNode,
             currentController: _passwordConfirmTextController,
             passwordController: _passwordTextController,
-            hint: 'confirm_password'.tr(),
+            hint: 'confirm_password',
           ),
         ],
       ),

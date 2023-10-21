@@ -157,7 +157,7 @@ class _EditUserInfoPageState extends State<EditUserInfoPage> {
                         key: ValueKey(state.selectedGender?.id.toString()),
                         currentItem: state.selectedGender ?? _userGender,
                         items: Gender.values,
-                        hint: 'gender'.tr(),
+                        hint: 'gender',
                         onChanged: (value) {
                           _userGender = value;
                           authCubit.selectGender(value!);
@@ -172,7 +172,7 @@ class _EditUserInfoPageState extends State<EditUserInfoPage> {
                   CustomDropDownMenu<AgeGroup>.adaptive(
                     currentItem: _userAgeGroup,
                     items: AgeGroup.values,
-                    hint: 'age_group'.tr(),
+                    hint: 'age_group',
                     onChanged: (value) => _userAgeGroup = value,
                     getStringFromItem: (item) => item.name.tr(),
                   ),

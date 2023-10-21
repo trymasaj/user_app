@@ -233,7 +233,7 @@ class _GetStartedPageState extends State<GetStartedPage> {
                 EmailTextFormField(
                   currentController: emailController,
                   currentFocusNode: emailFocusNode,
-                  //hint: 'email'.tr(),
+                  //hint: 'email',
                   margin: const EdgeInsets.all(8.0),
                 ),
                 DefaultButton(
