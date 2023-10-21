@@ -1,5 +1,6 @@
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
+import 'package:intl_phone_field/country_picker_dialog.dart';
 import 'package:intl_phone_field/intl_phone_field.dart';
 import 'package:intl_phone_field/phone_number.dart';
 
@@ -46,9 +47,49 @@ class PhoneTextFormField extends StatelessWidget {
         focusNode: currentFocusNode,
         controller: currentController,
         languageCode: currentLocal.languageCode,
+
         dropdownIconPosition: IconPosition.trailing,
         cursorColor: Colors.black,
         style: textStyle,
+        pickerDialogStyle: PickerDialogStyle(
+          backgroundColor: Colors.white,
+          countryNameStyle: textStyle,
+          countryCodeStyle: textStyle,
+          searchFieldInputDecoration: InputDecoration(
+            hintText: 'search'.tr(),
+            hintStyle: textStyle.copyWith(
+              fontSize: 14.0,
+              fontFamily: 'Poppins',
+              fontWeight: FontWeight.w400,
+              color: const Color(0xFF8C8C8C),
+            ),
+            contentPadding: const EdgeInsets.fromLTRB(20, 20, 20, 20),
+            fillColor: const Color(0xFFF6F6F6),
+            filled: true,
+            border: OutlineInputBorder(
+              borderRadius: BorderRadius.circular(12.0),
+              borderSide: const BorderSide(
+                color: Colors.white,
+                width: 2,
+              ),
+            ),
+            enabledBorder: OutlineInputBorder(
+              borderRadius: BorderRadius.circular(12.0),
+              borderSide: const BorderSide(
+                color: Colors.white,
+                width: 2,
+              ),
+            ),
+            focusedBorder: OutlineInputBorder(
+              borderRadius: BorderRadius.circular(12.0),
+              borderSide: BorderSide(
+                color: Colors.white,
+                width: 2,
+              ),
+            ),
+          ),
+        ),
+
         decoration: InputDecoration(
           fillColor:
               isEnabled ? const Color(0xFFF6F6F6) : AppColors.GREY_NORMAL_COLOR,
