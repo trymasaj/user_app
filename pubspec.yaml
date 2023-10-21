@@ -78,6 +78,7 @@ dependencies:
   flutter_screenutil: ^5.9.0
   gradient_borders: ^1.0.0
   map_location_picker: ^1.2.8+3
+  pin_code_fields: ^8.0.1
 
   flutter:
     sdk: flutter

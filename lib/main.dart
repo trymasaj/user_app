@@ -4,6 +4,7 @@ import 'dart:isolate';
 import 'package:flutter/foundation.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:masaj/features/auth/presentation/pages/login_page.dart';
+import 'package:masaj/features/auth/presentation/pages/otp_verification_page.dart';
 import 'package:masaj/features/splash/presentation/pages/splash_page.dart';
 
 import 'di/injector.dart';
@@ -116,7 +117,7 @@ class _MyAppState extends State<MyApp> with WidgetsBindingObserver {
         minTextAdapt: true,
         child: Builder(builder: (context) {
           return MaterialApp(
-            home: const LoginPage(),
+            home: const OTPVerificationPage(),
             localizationsDelegates: context.localizationDelegates,
             supportedLocales: context.supportedLocales,
             locale: context.locale,

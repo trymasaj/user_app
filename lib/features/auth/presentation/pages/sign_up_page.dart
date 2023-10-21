@@ -4,7 +4,9 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:intl_phone_number_input/intl_phone_number_input.dart';
 import 'package:masaj/core/utils/extensions.dart';
 import 'package:masaj/features/auth/presentation/pages/login_page.dart';
+import 'package:masaj/shared_widgets/stateless/custom_chip.dart';
 
+import '../../../../core/enums/gender.dart';
 import '../../../../core/utils/navigator_helper.dart';
 import '../../../../res/style/app_colors.dart';
 import '../../../../shared_widgets/other/show_snack_bar.dart';
@@ -32,6 +34,7 @@ class SignUpPage extends StatefulWidget {
 }
 
 class _SignUpPageState extends State<SignUpPage> {
+  Gender selectedGender = Gender.Male;
   late final GlobalKey<FormState> _formKey;
 
   late final TextEditingController _fullNameTextController;
@@ -127,6 +130,7 @@ class _SignUpPageState extends State<SignUpPage> {
           const SizedBox(height: 6.0),
           _buildHaveAccountRow(context),
           _buildSignUpForm(),
+          _buildGenderRow(context),
           _buildTermsAndConditions(context),
           const SizedBox(height: 16.0),
           _buildSignUpButton(context),
@@ -337,9 +341,36 @@ class _SignUpPageState extends State<SignUpPage> {
           decoration: TextDecoration.underline,
           fontSize: 14,
           fontWeight: FontWeight.w400,
-          margin: EdgeInsets.symmetric(vertical: 18.0),
+          margin: const EdgeInsets.symmetric(vertical: 18.0),
         ),
       ),
+    );
+  }
+
+  Widget _buildGenderRow(BuildContext context) {
+    return Row(
+      children: [
+        CustomChip(
+            height: 56,
+            label: Gender.Male.toString(),
+            value: Gender.Male,
+            groupValue: selectedGender,
+            isExpanded: true,
+            onValueSelected: (selectedValue) {
+              setState(() => selectedGender = selectedValue);
+            }),
+        const SizedBox(width: 8.0),
+        CustomChip(
+          height: 56,
+          label: Gender.Female.toString(),
+          value: Gender.Female,
+          groupValue: selectedGender,
+          isExpanded: true,
+          onValueSelected: (selectedValue) {
+            setState(() => selectedGender = selectedValue);
+          },
+        ),
+      ],
     );
   }
 }
