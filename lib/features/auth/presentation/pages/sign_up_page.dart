@@ -1,7 +1,7 @@
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:intl_phone_number_input/intl_phone_number_input.dart';
+import 'package:intl_phone_field/phone_number.dart';
 import 'package:masaj/core/utils/extensions.dart';
 import 'package:masaj/features/auth/presentation/pages/login_page.dart';
 import 'package:masaj/shared_widgets/stateless/custom_chip.dart';
@@ -253,7 +253,7 @@ class _SignUpPageState extends State<SignUpPage> {
           email: _emailTextController.text.trim(),
           password: _passwordTextController.text,
           // confirmPassword: _passwordConfirmTextController.text,
-          mobile: _phoneNumber?.phoneNumber,
+          mobile: _phoneNumber?.number,
         ),
       );
     }

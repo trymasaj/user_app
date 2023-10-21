@@ -1,13 +1,13 @@
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
-import 'package:intl_phone_number_input/intl_phone_number_input.dart';
-import 'package:size_helper/size_helper.dart';
+import 'package:intl_phone_field/intl_phone_field.dart';
+import 'package:intl_phone_field/phone_number.dart';
 
 import '../../res/style/app_colors.dart';
 
 class PhoneTextFormField extends StatelessWidget {
   const PhoneTextFormField({
-    Key? key,
+    super.key,
     required this.currentFocusNode,
     required this.nextFocusNode,
     required this.currentController,
@@ -16,7 +16,7 @@ class PhoneTextFormField extends StatelessWidget {
     required this.onInputChanged,
     this.isEnabled = true,
     this.hint,
-  }) : super(key: key);
+  });
 
   final FocusNode currentFocusNode;
   final FocusNode? nextFocusNode;
@@ -38,17 +38,18 @@ class PhoneTextFormField extends StatelessWidget {
     );
     return Container(
       margin: margin,
-      child: InternationalPhoneNumberInput(
+      child: IntlPhoneField(
         //locale: CurrentUser().languageCode,
         // countries: const ['SA', 'EG', 'AE', 'KW'],
-        isEnabled: isEnabled,
+
+        enabled: isEnabled,
         focusNode: currentFocusNode,
-        textFieldController: currentController,
-        locale: currentLocal.languageCode,
+        controller: currentController,
+        languageCode: currentLocal.languageCode,
+        dropdownIconPosition: IconPosition.trailing,
         cursorColor: Colors.black,
-        textStyle: textStyle,
-        selectorTextStyle: textStyle,
-        inputDecoration: InputDecoration(
+        style: textStyle,
+        decoration: InputDecoration(
           fillColor:
               isEnabled ? const Color(0xFFF6F6F6) : AppColors.GREY_NORMAL_COLOR,
           filled: true,
@@ -95,22 +96,14 @@ class PhoneTextFormField extends StatelessWidget {
           ),
         ),
 
-        autoValidateMode: AutovalidateMode.onUserInteraction,
-        initialValue: initialValue ?? PhoneNumber(isoCode: 'SA'),
-        selectorConfig: const SelectorConfig(
-          trailingSpace: false,
-          leadingPadding: 0.0,
-          selectorType: PhoneInputSelectorType.DIALOG,
+        autovalidateMode: AutovalidateMode.onUserInteraction,
+        initialCountryCode: 'KW',
+        flagsButtonMargin: EdgeInsets.only(
+          left: currentLocal.languageCode == 'ar' ? 0 : 12,
+          right: currentLocal.languageCode == 'ar' ? 12 : 0,
         ),
-        searchBoxDecoration: InputDecoration(
-          hintText: 'search_by_country_name_or_code'.tr(),
-        ),
-        spaceBetweenSelectorAndTextField: 8.0,
-        errorMessage: 'invalid_phone_number'.tr(),
-        hintText: '50.......',
-        onInputChanged: onInputChanged,
-        onFieldSubmitted: (_) =>
-            FocusScope.of(context).requestFocus(nextFocusNode),
+        onChanged: onInputChanged,
+        onSubmitted: (_) => FocusScope.of(context).requestFocus(nextFocusNode),
       ),
     );
   }

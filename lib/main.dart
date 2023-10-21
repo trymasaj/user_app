@@ -117,7 +117,7 @@ class _MyAppState extends State<MyApp> with WidgetsBindingObserver {
         minTextAdapt: true,
         child: Builder(builder: (context) {
           return MaterialApp(
-            home: const OTPVerificationPage(),
+            home: const LoginPage(),
             localizationsDelegates: context.localizationDelegates,
             supportedLocales: context.supportedLocales,
             locale: context.locale,
