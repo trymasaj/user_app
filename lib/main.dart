@@ -4,6 +4,7 @@ import 'dart:isolate';
 import 'package:flutter/foundation.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:masaj/features/auth/presentation/pages/login_page.dart';
+import 'package:masaj/features/splash/presentation/pages/splash_page.dart';
 
 import 'di/injector.dart';
 import 'package:easy_localization/easy_localization.dart';
@@ -113,12 +114,16 @@ class _MyAppState extends State<MyApp> with WidgetsBindingObserver {
         minTextAdapt: true,
         child: Builder(builder: (context) {
           return MaterialApp(
-            home: const LoginPage(),
+            home: const SplashPage(),
             localizationsDelegates: context.localizationDelegates,
             supportedLocales: context.supportedLocales,
             locale: context.locale,
             debugShowCheckedModeBanner: false,
             theme: theme(isArabic),
+            //Adding ClampingScrollPhysics() to avoid over scrolling in the app
+            scrollBehavior: const MaterialScrollBehavior().copyWith(
+              physics: const ClampingScrollPhysics(),
+            ),
             title: 'Masaj',
             routes: routes,
             navigatorKey: navigatorKey,

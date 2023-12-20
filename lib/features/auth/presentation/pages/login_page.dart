@@ -83,7 +83,7 @@ class _LoginPageState extends State<LoginPage> {
       },
       child: CustomAppPage(
         withBackground: true,
-        safeBottom: true,
+        safeBottom: false,
         safeTop: true,
         backgroundFit: BoxFit.fitWidth,
         backgroundAlignment: Alignment.topCenter,

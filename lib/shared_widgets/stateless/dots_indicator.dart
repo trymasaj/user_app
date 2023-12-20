@@ -21,7 +21,7 @@ class DotsIndicator extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final indicatorsList = List.generate(
-        indicatorCount, (index) => _buildDot(index == pageNumber));
+        indicatorCount, (index) => _buildDot(index <= pageNumber));
     return Row(
       mainAxisSize: MainAxisSize.min,
       mainAxisAlignment: mainAxisAlignment,

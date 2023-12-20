@@ -161,7 +161,7 @@ class _QuizPageState extends State<QuizPage> {
 
   Widget _buildQuestionCounter(BuildContext context) {
     final cubit = context.read<QuizPageCubit>();
-    final currentTabNumber = cubit.state.tabNumber;
+    final currentTabNumber = cubit.state.tabNumber + 1;
     final totalTabNumber = questions.length;
     return CustomText(
       text: '$currentTabNumber/$totalTabNumber',

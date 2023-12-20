@@ -94,9 +94,9 @@ class _GetStartedPageState extends State<GetStartedPage> {
     return Expanded(
       flex: 2,
       child: DecoratedBox(
-        decoration: BoxDecoration(
+        decoration: const BoxDecoration(
           color: AppColors.PRIMARY_COLOR,
-          borderRadius: const BorderRadius.vertical(top: Radius.circular(20.0)),
+          borderRadius: BorderRadius.vertical(top: Radius.circular(20.0)),
         ),
         child: SizedBox(
           width: double.infinity,
