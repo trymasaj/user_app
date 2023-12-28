@@ -1,3 +1,4 @@
+import 'package:masaj/features/auth/presentation/pages/otp_verification_page.dart';
 import 'package:masaj/shared_widgets/stateless/custom_text.dart';
 import '../../../../shared_widgets/stateless/back_button.dart';
 
@@ -99,8 +100,9 @@ class _ForgetPasswordPageState extends State<ForgetPasswordPage> {
       label: 'continue',
       backgroundColor: Colors.transparent,
       onPressed: () async {
-        if (_isNotValid()) return;
-        await authCubit.forgetPassword(_emailTextController.text.trim());
+        // if (_isNotValid()) return;
+        // await authCubit.forgetPassword(_emailTextController.text.trim());
+        _goToOtpVerificationPage(context);
       },
     );
   }
@@ -133,4 +135,12 @@ class _ForgetPasswordPageState extends State<ForgetPasswordPage> {
 
   void _goBackToLoginPage(BuildContext context, bool isSuccess) =>
       NavigatorHelper.of(context).pop(isSuccess);
+
+  void _goToOtpVerificationPage(BuildContext context) {
+    NavigatorHelper.of(context).push(
+      MaterialPageRoute(
+        builder: (_) => const OTPVerificationPage(),
+      ),
+    );
+  }
 }
