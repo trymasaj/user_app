@@ -1,3 +1,5 @@
+import 'package:masaj/features/home/presentation/pages/home_page.dart';
+
 import '../features/account/presentation/pages/contact_us_page.dart';
 import '../features/account/presentation/pages/coupon_page.dart';
 import '../features/account/presentation/pages/ehtemam_page.dart';
@@ -37,4 +39,5 @@ final routes = <String, WidgetBuilder>{
   FavoritesPage.routeName: (context) => const FavoritesPage(),
   CouponPage.routeName: (context) => const CouponPage(),
   PointsPage.routeName: (context) => const PointsPage(),
+  HomePage.routeName: (context) => const HomePage(),
 };

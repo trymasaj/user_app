@@ -29,6 +29,7 @@ void main() async {
   runZonedGuarded<Future<void>>(() async {
     WidgetsFlutterBinding.ensureInitialized();
     await EasyLocalization.ensureInitialized();
+    await Injector().init();
     // await Firebase.initializeApp(
     //   options: DefaultFirebaseOptions.currentPlatform,
     // );
@@ -119,7 +120,7 @@ class _MyAppState extends State<MyApp> with WidgetsBindingObserver {
           minTextAdapt: true,
           child: Builder(builder: (context) {
             return MaterialApp(
-              home: QuizStartPage(),
+              home: const QuizStartPage(),
               localizationsDelegates: context.localizationDelegates,
               supportedLocales: context.supportedLocales,
               locale: context.locale,

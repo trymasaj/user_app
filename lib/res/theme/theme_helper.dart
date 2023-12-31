@@ -1,14 +1,15 @@
 import 'dart:ui';
 import 'package:flutter/material.dart';
-import 'package:masaj/core/utils/pref_utils.dart';
+import 'package:masaj/core/data/clients/local/shared_preference_local_client.dart';
 import 'package:masaj/core/utils/size_utils.dart';
+
 const navbarHeight = 62.0;
 const sliverAppbarExtensionHeight = 200.0;
 
 /// Helper class for managing themes and colors.
 class ThemeHelper {
   // The current app theme
-  var _appTheme = PrefUtils().getThemeData();
+  var _appTheme = 'primary';
 
 // A map of custom color themes supported by the app
   Map<String, PrimaryColors> _supportedCustomColor = {

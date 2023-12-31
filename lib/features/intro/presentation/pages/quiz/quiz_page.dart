@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:masaj/features/intro/data/models/question_model.dart';
 import 'package:masaj/features/intro/presentation/blocs/quiz_page_cubit/quiz_page_cubit.dart';
-import 'package:masaj/features/intro/presentation/pages/quiz/question_card.dart';
+import 'package:masaj/features/intro/presentation/widgets/question_card.dart';
 import 'package:masaj/shared_widgets/other/show_snack_bar.dart';
 import 'package:masaj/shared_widgets/stateless/custom_app_page.dart';
 import 'package:masaj/shared_widgets/stateless/dots_indicator.dart';
@@ -45,20 +45,6 @@ class _QuizPageState extends State<QuizPage> {
                 duration: Duration(milliseconds: 700), curve: Curves.linear);
           },
         ),
-        BlocListener<QuizPageCubit, QuizPageState>(
-            listenWhen: (previous, current) =>
-                previous.result != current.result,
-            listener: (context, state) {
-              if (state.result == QuizSubmitResult.skip ||
-                  state.result == QuizSubmitResult.success) {
-                _goToHomePage(context);
-              } else {
-                showSnackBar(
-                  context,
-                  message: 'Something went wrong, please try again later',
-                );
-              }
-            }),
       ],
       child: BlocBuilder<QuizPageCubit, QuizPageState>(
         builder: (context, state) {
@@ -83,10 +69,12 @@ class _QuizPageState extends State<QuizPage> {
                     onPageChanged: cubit.updateQuestionIndex,
                     itemBuilder: (context, index) {
                       return QuestionCard(
-                        onBack:index==0?null: () => cubit.onBackButtonPressed(),
+                        onBack: index == 0
+                            ? null
+                            : () => cubit.onBackButtonPressed(),
                         onChanged: cubit.onAnswerSelected,
                         question: state.questions.questions[index],
-                        onSubmitted: cubit.onNextPressed,
+                        onNextPressed: cubit.onNextPressed,
                       );
                     },
                   )),
@@ -136,12 +124,6 @@ class _QuizPageState extends State<QuizPage> {
     );
   }
 
-  void _goToHomePage(BuildContext context) {
-    NavigatorHelper.of(context).pushAndRemoveUntil(
-      MaterialPageRoute(builder: (_) => const HomePage()),
-      (_) => false,
-    );
-  }
 
   Widget _buildQuestionCounter(BuildContext context) {
     final cubit = context.read<QuizPageCubit>();

@@ -1,3 +1,4 @@
+import 'package:masaj/core/data/clients/local/shared_preference_local_client.dart';
 import 'package:masaj/core/service/location_helper.dart';
 import 'package:masaj/features/account/presentation/blocs/coupon_details_cubit/coupon_details_cubit.dart';
 import 'package:masaj/core/utils/show_case_helper.dart';
@@ -55,6 +56,10 @@ class Injector {
   Injector._internal();
   factory Injector() => _singleton;
 
+  Future<void> init(){
+   return Future.wait([sharedPreferenceLocalClient.init()]);
+  }
+
   //===================[SPLASH_CUBIT]===================
   SplashCubit get splashCubit => SplashCubit(
       splashRepository: splashRepository,
@@ -64,6 +69,9 @@ class Injector {
   SplashRepository get splashRepository =>
       _flyweightMap['splashRepository'] ??
       SplashRepositoryImpl(splashLocalDataSource);
+  SharedPreferenceLocalClient get sharedPreferenceLocalClient =>
+      _flyweightMap['sharedPreferenceLocalClient'] ??
+      SharedPreferenceLocalClient();
 
   SplashLocalDataSource get splashLocalDataSource =>
       _flyweightMap['splashLocalDataSource'] ??

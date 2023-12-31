@@ -12,11 +12,11 @@ class QuestionCard extends StatefulWidget {
   const QuestionCard(
       {super.key,
       required this.question,
-      required this.onSubmitted,
+      required this.onNextPressed,
       required this.onBack,
       required this.onChanged});
   final Question question;
-  final void Function(Question question) onSubmitted;
+  final void Function(Question question) onNextPressed;
   final void Function(Answer answer) onChanged;
   final VoidCallback? onBack;
 
@@ -80,7 +80,7 @@ class _QuestionCardState extends State<QuestionCard> {
                       CustomTextStyles.titleSmallOnPrimaryContainer_1,
                   onPressed: widget.question.selectedAnswer.isNone()
                       ? null
-                      : () => widget.onSubmitted(widget.question.copyWith(
+                      : () => widget.onNextPressed(widget.question.copyWith(
                           selectedAnswer: widget.question.selectedAnswer)))
             ],
           ),

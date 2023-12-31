@@ -4,6 +4,7 @@ import 'package:masaj/di/injector.dart';
 import 'package:masaj/features/intro/presentation/blocs/quiz_page_cubit/quiz_page_cubit.dart';
 import 'package:masaj/features/intro/presentation/pages/quiz/quiz_page.dart';
 import 'package:masaj/res/style/app_colors.dart';
+import 'package:masaj/shared_widgets/other/show_snack_bar.dart';
 import 'package:masaj/shared_widgets/stateful/default_button.dart';
 import 'package:masaj/shared_widgets/stateless/custom_app_page.dart';
 import 'package:masaj/shared_widgets/stateless/custom_text.dart';
@@ -13,6 +14,7 @@ import '../../../../home/presentation/pages/home_page.dart';
 
 class QuizStartPage extends StatelessWidget {
   const QuizStartPage({super.key});
+
   static const routeName = '/QuizPage';
 
   @override
@@ -22,8 +24,26 @@ class QuizStartPage extends StatelessWidget {
       child: Builder(builder: (context) {
         return CustomAppPage(
           withBackground: true,
-          child: Scaffold(
-              backgroundColor: Colors.transparent, body: _buildBody(context)),
+          child: MultiBlocListener(
+            listeners: [
+              BlocListener<QuizPageCubit, QuizPageState>(
+                  listenWhen: (previous, current) =>
+                      previous.result != current.result,
+                  listener: (context, state) {
+                    if (state.result == QuizSubmitResult.skip ||
+                        state.result == QuizSubmitResult.success) {
+                      _goToHomePage(context);
+                    } else {
+                      showSnackBar(
+                        context,
+                        message: 'Something went wrong, please try again later',
+                      );
+                    }
+                  }),
+            ],
+            child: Scaffold(
+                backgroundColor: Colors.transparent, body: _buildBody(context)),
+          ),
         );
       }),
     );
@@ -82,19 +102,17 @@ class QuizStartPage extends StatelessWidget {
     );
   }
 
-  void _goToHomePage(BuildContext context) {
-    NavigatorHelper.of(context).pushAndRemoveUntil(
-      MaterialPageRoute(builder: (_) => const HomePage()),
-      (_) => false,
-    );
-  }
+  void _goToHomePage(BuildContext context) =>
+      NavigatorHelper.of(context).pushNamedAndRemoveUntil(
+        HomePage.routeName,
+        (_) => false,
+      );
 
   void _goToQuizPage(BuildContext context) {
-    final cubit = context.read<QuizPageCubit>();
     NavigatorHelper.of(context).push(
       MaterialPageRoute(
           builder: (_) => BlocProvider.value(
-                value: cubit,
+                value: context.read<QuizPageCubit>(),
                 child: const QuizPage(),
               )),
     );
