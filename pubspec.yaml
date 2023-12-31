@@ -122,41 +122,41 @@ flutter:
   fonts:
     - family: Poppins
       fonts:
-        - asset: assets/fonts/PoppinsSemiBold.ttf
+        - asset: lib/res/fonts/PoppinsSemiBold.ttf
           weight: 600
-        - asset: assets/fonts/PoppinsMedium.ttf
+        - asset: lib/res/fonts/PoppinsMedium.ttf
           weight: 500
-        - asset: assets/fonts/PoppinsRegular.ttf
+        - asset: lib/res/fonts/PoppinsRegular.ttf
           weight: 400
-        - asset: assets/fonts/PoppinsBold.ttf
+        - asset: lib/res/fonts/PoppinsBold.ttf
           weight: 700
     - family: Almarai
       fonts:
-        - asset: assets/fonts/AlmaraiRegular.ttf
+        - asset: lib/res/fonts/AlmaraiRegular.ttf
           weight: 400
     - family: Manrope
       fonts:
-        - asset: assets/fonts/ManropeRegular.ttf
+        - asset: lib/res/fonts/ManropeRegular.ttf
           weight: 400
     - family: DM Sans
       fonts:
-        - asset: assets/fonts/DMSansBold.ttf
+        - asset: lib/res/fonts/DMSansBold.ttf
           weight: 700
-        - asset: assets/fonts/DMSansMedium.ttf
+        - asset: lib/res/fonts/DMSansMedium.ttf
           weight: 500
-        - asset: assets/fonts/DMSansRegular.ttf
+        - asset: lib/res/fonts/DMSansRegular.ttf
           weight: 400
     - family: Sofia Pro
       fonts:
-        - asset: assets/fonts/SofiaProBold.ttf
+        - asset: lib/res/fonts/SofiaProBold.ttf
           weight: 700
     - family: Dancing Script
       fonts:
-        - asset: assets/fonts/DancingScriptMedium.ttf
+        - asset: lib/res/fonts/DancingScriptMedium.ttf
           weight: 500
     - family: Roboto
       fonts:
-        - asset: assets/fonts/RobotoRomanRegular.ttf
+        - asset: lib/res/fonts/RobotoRomanRegular.ttf
           weight: 400
 
 flutter_native_splash:
