@@ -29,10 +29,15 @@ environment:
 # versions available, run `flutter pub outdated`.
 dependencies:
   bloc: ^8.1.0
+  equatable: ^2.0.5
+  uuid:
+
   cached_network_image: ^3.2.1
   cached_network_svg_image: ^0.0.4
+  flutter_rating_bar: ^4.0.1
   carousel_slider: ^4.2.1
   connectivity_plus: ^3.0.6
+  dartz: ^0.10.1
   dio: ^5.3.3
   dotted_border: ^2.0.0+3
   easy_localization: ^3.0.1
@@ -91,8 +96,6 @@ dependency_overrides:
   http: ^1.1.0
 
 dev_dependencies:
-  flutter_test:
-    sdk: flutter
 
   # The "flutter_lints" package below contains a set of recommended lints to
   # encourage good coding practices. The lint set provided by the package is
@@ -119,13 +122,42 @@ flutter:
   fonts:
     - family: Poppins
       fonts:
-        - asset: lib/res/fonts/Poppins-ExtraBold.ttf
-        - asset: lib/res/fonts/Poppins-Bold.ttf
-        - asset: lib/res/fonts/Poppins-SemiBold.ttf
-        - asset: lib/res/fonts/Poppins-Light.ttf
-        - asset: lib/res/fonts/Poppins-ExtraLight.ttf
-        - asset: lib/res/fonts/Poppins-Medium.ttf
-        - asset: lib/res/fonts/Poppins-Regular.ttf
+        - asset: assets/fonts/PoppinsSemiBold.ttf
+          weight: 600
+        - asset: assets/fonts/PoppinsMedium.ttf
+          weight: 500
+        - asset: assets/fonts/PoppinsRegular.ttf
+          weight: 400
+        - asset: assets/fonts/PoppinsBold.ttf
+          weight: 700
+    - family: Almarai
+      fonts:
+        - asset: assets/fonts/AlmaraiRegular.ttf
+          weight: 400
+    - family: Manrope
+      fonts:
+        - asset: assets/fonts/ManropeRegular.ttf
+          weight: 400
+    - family: DM Sans
+      fonts:
+        - asset: assets/fonts/DMSansBold.ttf
+          weight: 700
+        - asset: assets/fonts/DMSansMedium.ttf
+          weight: 500
+        - asset: assets/fonts/DMSansRegular.ttf
+          weight: 400
+    - family: Sofia Pro
+      fonts:
+        - asset: assets/fonts/SofiaProBold.ttf
+          weight: 700
+    - family: Dancing Script
+      fonts:
+        - asset: assets/fonts/DancingScriptMedium.ttf
+          weight: 500
+    - family: Roboto
+      fonts:
+        - asset: assets/fonts/RobotoRomanRegular.ttf
+          weight: 400
 
 flutter_native_splash:
   color: "#FFFFFF"

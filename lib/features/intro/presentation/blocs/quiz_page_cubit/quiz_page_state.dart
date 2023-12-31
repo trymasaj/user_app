@@ -1,58 +1,28 @@
 part of 'quiz_page_cubit.dart';
 
-enum QuizPageStateStatus { initial, loading, loaded, error, tabChanged }
-
-extension QuizPageStateX on QuizPageState {
-  bool get isInitial => status == QuizPageStateStatus.initial;
-  bool get isLoading => status == QuizPageStateStatus.loading;
-  bool get isLoaded => status == QuizPageStateStatus.loaded;
-  bool get isError => status == QuizPageStateStatus.error;
-  bool get isTabChanged => status == QuizPageStateStatus.tabChanged;
-}
+enum QuizSubmitResult { initial, skip, success, failed }
 
 @immutable
 class QuizPageState {
-  final List<QuizPageTabModel> QuizPageTabs;
-  final QuizPageStateStatus status;
-  final String? errorMessage;
-  final int tabNumber;
-
+  final Questions questions;
+  final int questionIndex;
+  final QuizSubmitResult result;
+  Question get currentQuestion => questions.questions[questionIndex];
   const QuizPageState({
-    this.QuizPageTabs = const [],
-    this.status = QuizPageStateStatus.initial,
-    this.errorMessage,
-    this.tabNumber = 0,
+    required this.questions,
+    required this.questionIndex,
+    required this.result,
   });
-
-  @override
-  bool operator ==(Object other) {
-    if (identical(this, other)) return true;
-
-    return other.runtimeType == runtimeType &&
-        (other as QuizPageState).status == status &&
-        other.errorMessage == errorMessage &&
-        listEquals(other.QuizPageTabs, QuizPageTabs) &&
-        other.tabNumber == tabNumber;
-  }
-
-  @override
-  int get hashCode =>
-      QuizPageTabs.hashCode ^
-      status.hashCode ^
-      errorMessage.hashCode ^
-      tabNumber.hashCode;
-
-  QuizPageState copyWith({
-    QuizPageStateStatus? status,
-    String? errorMessage,
-    List<QuizPageTabModel>? QuizPageTabs,
-    int? tabNumber,
-  }) {
+  factory QuizPageState.initial() => QuizPageState(
+      result: QuizSubmitResult.initial,
+      questions: Questions.getQuestions(),
+      questionIndex: 0);
+  QuizPageState copyWith(
+      {int? questionIndex, Questions? questions, QuizSubmitResult? result}) {
     return QuizPageState(
-      status: status ?? this.status,
-      errorMessage: errorMessage ?? this.errorMessage,
-      QuizPageTabs: QuizPageTabs ?? this.QuizPageTabs,
-      tabNumber: tabNumber ?? this.tabNumber,
+      result: result ?? this.result,
+      questions: questions ?? this.questions,
+      questionIndex: questionIndex ?? this.questionIndex,
     );
   }
 }
