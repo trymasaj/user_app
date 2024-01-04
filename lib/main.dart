@@ -5,6 +5,7 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:masaj/core/utils/size_utils.dart';
 import 'package:masaj/features/auth/presentation/pages/login_page.dart';
+import 'package:masaj/features/home/presentation/pages/home_page.dart';
 import 'package:masaj/features/intro/presentation/pages/quiz/quiz_page.dart';
 import 'package:masaj/features/intro/presentation/pages/quiz/quiz_start_page.dart';
 import 'package:masaj/features/splash/presentation/pages/splash_page.dart';

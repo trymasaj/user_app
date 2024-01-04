@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_svg/flutter_svg.dart';
+import 'package:masaj/core/app_export.dart';
 import 'package:masaj/di/injector.dart';
 import 'package:masaj/features/intro/presentation/blocs/quiz_page_cubit/quiz_page_cubit.dart';
 import 'package:masaj/features/intro/presentation/pages/quiz/quiz_page.dart';
@@ -22,41 +24,48 @@ class QuizStartPage extends StatelessWidget {
     return BlocProvider(
       create: (context) => Injector().quizPageCubit,
       child: Builder(builder: (context) {
-        return CustomAppPage(
-          withBackground: true,
-          child: MultiBlocListener(
-            listeners: [
-              BlocListener<QuizPageCubit, QuizPageState>(
-                  listenWhen: (previous, current) =>
-                      previous.result != current.result,
-                  listener: (context, state) {
-                    if (state.result == QuizSubmitResult.skip ||
-                        state.result == QuizSubmitResult.success) {
-                      _goToHomePage(context);
-                    } else {
-                      showSnackBar(
-                        context,
-                        message: 'Something went wrong, please try again later',
-                      );
-                    }
-                  }),
-            ],
-            child: Scaffold(
-                backgroundColor: Colors.transparent, body: _buildBody(context)),
-          ),
+        return MultiBlocListener(
+          listeners: [
+            BlocListener<QuizPageCubit, QuizPageState>(
+                listenWhen: (previous, current) =>
+                    previous.result != current.result,
+                listener: (context, state) {
+                  if (state.result == QuizSubmitResult.skip ||
+                      state.result == QuizSubmitResult.success) {
+                    _goToHomePage(context);
+                  } else {
+                    showSnackBar(
+                      context,
+                      message: 'Something went wrong, please try again later',
+                    );
+                  }
+                }),
+          ],
+          child: Scaffold(
+              backgroundColor: Colors.transparent, body: _buildBody(context)),
         );
       }),
     );
   }
 
-  Column _buildBody(BuildContext context) {
-    return Column(
-      mainAxisAlignment: MainAxisAlignment.center,
-      crossAxisAlignment: CrossAxisAlignment.center,
+  Widget _buildBody(BuildContext context) {
+    return Stack(
       children: [
-        _buildQuizStartPageTitle(),
-        _buildGetStartButton(context),
-        _buildSkipButton(context),
+        Image.asset(
+          ImageConstant.masajBackground,
+          width: MediaQuery.of(context).size.width,
+          height: MediaQuery.of(context).size.height,
+          fit: BoxFit.cover,
+        ),
+        Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          crossAxisAlignment: CrossAxisAlignment.center,
+          children: [
+            _buildQuizStartPageTitle(),
+            _buildGetStartButton(context),
+            _buildSkipButton(context),
+          ],
+        ),
       ],
     );
   }

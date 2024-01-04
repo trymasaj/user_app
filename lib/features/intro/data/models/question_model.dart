@@ -34,7 +34,7 @@ class Questions {
             answers: [
               Answer(content: 'question3_answer1', id: '6'),
               Answer(content: 'question3_answer2', id: '7'),
-              Answer(content: 'question3_answer3', id: '8'),
+              Answer.someThingElse(),
             ],
             selectedAnswer: none()),
       ],
@@ -46,7 +46,7 @@ class Question with EquatableMixin {
   final String content, id;
   final List<Answer> answers;
   final Option<Answer> selectedAnswer;
-bool get isAnswered => selectedAnswer.isSome();
+  bool get isAnswered => selectedAnswer.isSome();
   Question(
       {required this.id,
       required this.content,
@@ -78,8 +78,9 @@ class Answer with EquatableMixin {
     required this.id,
     required this.content,
   });
-
+  bool get isSomethingElse => id == '8';
   @override
-  // TODO: implement props
   List<Object?> get props => [id];
+  factory Answer.someThingElse() =>
+      Answer(id: '8', content: 'question3_answer3');
 }

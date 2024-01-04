@@ -31,6 +31,6 @@ linter:
 
 analyzer:
   errors:
-    always_declare_return_types: error
+#    always_declare_return_types: error
 # Additional information about this file can be found at
 # https://dart.dev/guides/language/analysis-options

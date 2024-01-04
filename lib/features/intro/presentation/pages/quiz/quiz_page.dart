@@ -1,12 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:masaj/core/app_export.dart';
+import 'package:masaj/core/utils/image_constant.dart';
 import 'package:masaj/features/intro/data/models/question_model.dart';
 import 'package:masaj/features/intro/presentation/blocs/quiz_page_cubit/quiz_page_cubit.dart';
 import 'package:masaj/features/intro/presentation/widgets/question_card.dart';
 import 'package:masaj/shared_widgets/other/show_snack_bar.dart';
 import 'package:masaj/shared_widgets/stateless/custom_app_page.dart';
 import 'package:masaj/shared_widgets/stateless/dots_indicator.dart';
-
+import 'package:collection/collection.dart';
 import '../../../../../core/utils/navigator_helper.dart';
 import '../../../../../shared_widgets/stateful/default_button.dart';
 import '../../../../../shared_widgets/stateless/custom_text.dart';
@@ -21,14 +23,6 @@ class QuizPage extends StatefulWidget {
 }
 
 class _QuizPageState extends State<QuizPage> {
-  final PageController _pageController = PageController();
-
-  @override
-  void dispose() {
-    _pageController.dispose();
-    super.dispose();
-  }
-
   List<Question> get questions =>
       context.read<QuizPageCubit>().state.questions.questions;
   @override
@@ -40,44 +34,75 @@ class _QuizPageState extends State<QuizPage> {
           listenWhen: (previous, current) =>
               previous.questionIndex != current.questionIndex ||
               previous.result != current.result,
-          listener: (context, state) {
-            _pageController.animateToPage(state.questionIndex,
-                duration: Duration(milliseconds: 700), curve: Curves.linear);
-          },
+          listener: (context, state) {},
         ),
       ],
       child: BlocBuilder<QuizPageCubit, QuizPageState>(
         builder: (context, state) {
-          return CustomAppPage(
-            withBackground: true,
-            safeTop: true,
+          return SafeArea(
             child: Scaffold(
               backgroundColor: Colors.transparent,
-              body: Column(
+              body: Stack(
                 children: [
-                  const SizedBox(height: 24),
-                  _buildTopSection(context),
-                  _buildDotIndicator(context),
-                  const SizedBox(height: 28),
-                  Expanded(
-                      child: PageView.builder(
-                    physics: state.currentQuestion.isAnswered
-                        ? const AlwaysScrollableScrollPhysics()
-                        : const NeverScrollableScrollPhysics(),
-                    controller: _pageController,
-                    itemCount: state.questions.questions.length,
-                    onPageChanged: cubit.updateQuestionIndex,
-                    itemBuilder: (context, index) {
-                      return QuestionCard(
-                        onBack: index == 0
-                            ? null
-                            : () => cubit.onBackButtonPressed(),
-                        onChanged: cubit.onAnswerSelected,
-                        question: state.questions.questions[index],
-                        onNextPressed: cubit.onNextPressed,
-                      );
-                    },
-                  )),
+                  Image.asset(
+                    ImageConstant.masajBackground,
+                    width: MediaQuery.of(context).size.width,
+                    height: MediaQuery.of(context).size.height,
+                    fit: BoxFit.cover,
+                  ),
+                  Padding(
+                    padding: EdgeInsets.symmetric(horizontal: 24.w),
+                    child: Column(
+                      children: [
+                        SizedBox(height: 19.h),
+                        _buildTopSection(context),
+                        SizedBox(height: 25.h),
+                        _buildDotIndicator(context),
+                        SizedBox(height: 33.h),
+                        IndexedStack(
+                          index: state.questionIndex,
+                          children: questions
+                              .mapIndexed((index, e) => QuestionCard(
+                                    isSomethingElse: e.selectedAnswer.fold(
+                                        () => false, (a) => a.isSomethingElse),
+                                    isLastQuestion:
+                                        index == questions.length - 1,
+                                    onBack: state.questionIndex == 0
+                                        ? null
+                                        : () => cubit.onBackButtonPressed(),
+                                    onChanged: cubit.onAnswerSelected,
+                                    question: e,
+                                    onNextPressed: cubit.onNextPressed,
+                                  ))
+                              .toList(),
+                        ),
+
+                        /*
+                        SizedBox(
+                          height: 500.h,
+                          child: PageView.builder(
+                            physics: state.currentQuestion.isAnswered
+                                ? const AlwaysScrollableScrollPhysics()
+                                : const NeverScrollableScrollPhysics(),
+                            controller: _pageController,
+                            itemCount: state.questions.questions.length,
+                            onPageChanged: cubit.updateQuestionIndex,
+                            itemBuilder: (context, index) {
+                              return QuestionCard(
+                                onBack: index == 0
+                                    ? null
+                                    : () => cubit.onBackButtonPressed(),
+                                onChanged: cubit.onAnswerSelected,
+                                question: state.questions.questions[index],
+                                onNextPressed: cubit.onNextPressed,
+                              );
+                            },
+                          ),
+                        ),
+            */
+                      ],
+                    ),
+                  ),
                 ],
               ),
             ),
@@ -87,18 +112,15 @@ class _QuizPageState extends State<QuizPage> {
     );
   }
 
-  SizedBox _buildDotIndicator(BuildContext context) {
-    return SizedBox(
-      width: double.infinity,
-      child: DotsIndicator(
-        indicatorCount: questions.length,
-        pageNumber: context.read<QuizPageCubit>().state.questionIndex,
-        isExpanded: true,
-      ),
+  Widget _buildDotIndicator(BuildContext context) {
+    return DotsIndicator(
+      indicatorCount: questions.length,
+      pageNumber: context.read<QuizPageCubit>().state.questionIndex,
+      isExpanded: true,
     );
   }
 
-  Row _buildTopSection(BuildContext context) {
+  Widget _buildTopSection(BuildContext context) {
     return Row(
       children: [
         const SizedBox(
@@ -123,7 +145,6 @@ class _QuizPageState extends State<QuizPage> {
       },
     );
   }
-
 
   Widget _buildQuestionCounter(BuildContext context) {
     final cubit = context.read<QuizPageCubit>();

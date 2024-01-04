@@ -8,18 +8,22 @@ import 'package:masaj/features/intro/data/models/question_model.dart';
 import 'package:masaj/res/style/app_colors.dart';
 import 'package:masaj/res/theme/custom_button_style.dart';
 import 'package:masaj/res/theme/custom_text_style.dart';
+
 class QuestionCard extends StatefulWidget {
   const QuestionCard(
       {super.key,
       required this.question,
+      required this.isLastQuestion,
       required this.onNextPressed,
+      required this.isSomethingElse,
       required this.onBack,
       required this.onChanged});
   final Question question;
   final void Function(Question question) onNextPressed;
   final void Function(Answer answer) onChanged;
   final VoidCallback? onBack;
-
+  final bool isSomethingElse;
+  final bool isLastQuestion;
 
   @override
   State<QuestionCard> createState() => _QuestionCardState();
@@ -29,18 +33,17 @@ class _QuestionCardState extends State<QuestionCard> {
   @override
   Widget build(BuildContext context) {
     return Card(
-      child: SingleChildScrollView(
-        child: Padding(
-          padding: EdgeInsets.symmetric(horizontal: 24.h, vertical: 9.v),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            mainAxisAlignment: MainAxisAlignment.start,
-            children: [
-              if(widget.onBack!=null)
+      child: Padding(
+        padding: EdgeInsets.symmetric(horizontal: 24.w, vertical: 28.h),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          mainAxisAlignment: MainAxisAlignment.start,
+          children: [
+            if (widget.onBack != null)
               Padding(
-                padding: const EdgeInsets.all(8.0),
+                padding: EdgeInsets.only(bottom: 8.h),
                 child: GestureDetector(
-                  onTap: widget.onBack ,
+                  onTap: widget.onBack,
                   child: Row(
                     children: [
                       Icon(
@@ -50,40 +53,55 @@ class _QuestionCardState extends State<QuestionCard> {
                       Text(
                         'lbl_back'.tr(),
                         style: TextStyle(
-                          // color: Color(0xff181B28B2),
-                        ),
+                            // color: Color(0xff181B28B2),
+                            ),
                       ),
                     ],
                   ),
                 ),
               ),
-              Text("msg_select_an_answer".tr(),
-                  style: CustomTextStyles.bodyMediumBluegray40001_1),
-              SizedBox(height: 3.v),
-              Text(widget.question.content.tr(),
-                  overflow: TextOverflow.ellipsis,
-                  maxLines: 4,
-                  style: CustomTextStyles.titleMediumGray9000318
-                      .copyWith(height: 1.56)),
-              ...widget.question.answers.map((answer) => AnswerTile(
-                  answer: answer,
-                  value: widget.question.selectedAnswer.toNullable()?.id,
-                  onChanged: (value) => widget.onChanged(answer))),
-              SizedBox(height: 28.v),
-              CustomElevatedButton(
-                  height: 48.v,
-                  text: "lbl_next".tr(),
-                  buttonStyle: CustomButtonStyles.none,
-                  decoration: CustomButtonStyles
-                      .gradientSecondaryContainerToPrimaryTL25Decoration,
-                  buttonTextStyle:
-                      CustomTextStyles.titleSmallOnPrimaryContainer_1,
-                  onPressed: widget.question.selectedAnswer.isNone()
-                      ? null
-                      : () => widget.onNextPressed(widget.question.copyWith(
-                          selectedAnswer: widget.question.selectedAnswer)))
-            ],
-          ),
+            Text("msg_select_an_answer".tr(),
+                style: CustomTextStyles.bodyMediumBluegray40001_1),
+            SizedBox(height: 2.h),
+            Text(widget.question.content.tr(),
+                overflow: TextOverflow.ellipsis,
+                maxLines: 4,
+                style: CustomTextStyles.titleMediumGray9000318
+                    .copyWith(height: 1.56)),
+            SizedBox(height: 20.h),
+            ...widget.question.answers.map((answer) => AnswerTile(
+                answer: answer,
+                value: widget.question.selectedAnswer.toNullable()?.id,
+                onChanged: (value) => widget.onChanged(answer))),
+            if (widget.isSomethingElse)
+              Column(
+                children: [
+                  TextField(
+                      style: TextStyle(color: Colors.black),
+                      decoration: InputDecoration(
+                        hintStyle: CustomTextStyles.bodyMediumBluegray40001_1,
+                        hintText: "msg_please_share_your3".tr(),
+                      )),
+                  SizedBox(
+                    height: 20,
+                  ),
+                ],
+              ),
+            SizedBox(height: 16.h),
+            CustomElevatedButton(
+                height: 48.h,
+                text:
+                    widget.isLastQuestion ? 'lbl_finish'.tr() : "lbl_next".tr(),
+                buttonStyle: CustomButtonStyles.none,
+                decoration: CustomButtonStyles
+                    .gradientSecondaryContainerToPrimaryTL25Decoration,
+                buttonTextStyle:
+                    CustomTextStyles.titleSmallOnPrimaryContainer_1,
+                onPressed: widget.question.selectedAnswer.isNone()
+                    ? null
+                    : () => widget.onNextPressed(widget.question.copyWith(
+                        selectedAnswer: widget.question.selectedAnswer)))
+          ],
         ),
       ),
     );
@@ -103,35 +121,13 @@ class AnswerTile extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-/*
     return Padding(
-      padding: const EdgeInsets.all(8.0),
-      child: Container(
-        decoration: RadioStyleHelper.gradientSecondaryContainerToDeepOrange,
-        child: Padding(
-          padding: const EdgeInsets.symmetric(vertical: 10, horizontal: 10),
-          child: Row(
-            children: [
-              Text(answer.content),
-              Radio<String>(
-                value: answer.id,
-                groupValue: value,
-                onChanged: (value) => onChanged(value!),
-              )
-            ],
-          ),
-        ),
-      ),
-    );
-*/
-
-    return Padding(
-      padding: EdgeInsets.symmetric(vertical: 5.v),
+      padding: EdgeInsets.only(bottom: 12.h),
       child: CustomRadioButton(
         text: answer.content.tr(),
         value: answer.id,
         groupValue: value,
-        padding: EdgeInsets.all(18.h),
+        padding: EdgeInsets.all(18.w),
         decoration: RadioStyleHelper.gradientSecondaryContainerToDeepOrange(
             answer.id == value),
         isRightCheck: true,

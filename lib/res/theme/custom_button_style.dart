@@ -9,80 +9,80 @@ class CustomButtonStyles {
   static ButtonStyle get fillGray => ElevatedButton.styleFrom(
         backgroundColor: appTheme.gray90003,
         shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.circular(32.h),
+          borderRadius: BorderRadius.circular(32.w),
         ),
       );
   static ButtonStyle get fillGrayTL12 => ElevatedButton.styleFrom(
         backgroundColor: appTheme.gray5001,
         shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.circular(12.h),
+          borderRadius: BorderRadius.circular(12.w),
         ),
       );
   static ButtonStyle get fillGrayTL13 => ElevatedButton.styleFrom(
         backgroundColor: appTheme.gray10002,
         shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.circular(13.h),
+          borderRadius: BorderRadius.circular(13.w),
         ),
       );
   static ButtonStyle get fillGrayTL17 => ElevatedButton.styleFrom(
         backgroundColor: appTheme.gray10002,
         shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.circular(17.h),
+          borderRadius: BorderRadius.circular(17.w),
         ),
       );
   static ButtonStyle get fillGrayTL20 => ElevatedButton.styleFrom(
         backgroundColor: appTheme.gray20001,
         shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.circular(20.h),
+          borderRadius: BorderRadius.circular(20.w),
         ),
       );
   static ButtonStyle get fillGrayTL24 => ElevatedButton.styleFrom(
         backgroundColor: appTheme.gray10002,
         shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.circular(24.h),
+          borderRadius: BorderRadius.circular(24.w),
         ),
       );
   static ButtonStyle get fillGrayTL28 => ElevatedButton.styleFrom(
         backgroundColor: appTheme.gray10002,
         shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.circular(28.h),
+          borderRadius: BorderRadius.circular(28.w),
         ),
       );
   static ButtonStyle get fillGrayTL9 => ElevatedButton.styleFrom(
         backgroundColor: appTheme.gray200,
         shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.circular(9.h),
+          borderRadius: BorderRadius.circular(9.w),
         ),
       );
   static ButtonStyle get fillOnPrimaryContainer => ElevatedButton.styleFrom(
         backgroundColor: theme.colorScheme.onPrimaryContainer.withOpacity(1),
         shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.circular(24.h),
+          borderRadius: BorderRadius.circular(24.w),
         ),
       );
   static ButtonStyle get fillOnPrimaryContainerTL28 => ElevatedButton.styleFrom(
         backgroundColor: theme.colorScheme.onPrimaryContainer.withOpacity(1),
         shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.circular(28.h),
+          borderRadius: BorderRadius.circular(28.w),
         ),
       );
   static ButtonStyle get fillPink => ElevatedButton.styleFrom(
         backgroundColor: appTheme.pink700,
         shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.circular(20.h),
+          borderRadius: BorderRadius.circular(20.w),
         ),
       );
   static ButtonStyle get fillPinkTL24 => ElevatedButton.styleFrom(
         backgroundColor: appTheme.pink70019,
         shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.circular(24.h),
+          borderRadius: BorderRadius.circular(24.w),
         ),
       );
 
   // Gradient button style
   static BoxDecoration get gradientSecondaryContainerToDeepOrangeDecoration =>
       BoxDecoration(
-        borderRadius: BorderRadius.circular(12.h),
+        borderRadius: BorderRadius.circular(12.w),
         gradient: LinearGradient(
           begin: Alignment(0.0, 0),
           end: Alignment(1.0, 0),
@@ -94,7 +94,7 @@ class CustomButtonStyles {
       );
   static BoxDecoration get gradientSecondaryContainerToDeepOrangeADecoration =>
       BoxDecoration(
-        borderRadius: BorderRadius.circular(28.h),
+        borderRadius: BorderRadius.circular(28.w),
         gradient: LinearGradient(
           begin: Alignment(0.0, 0),
           end: Alignment(1.0, 0),
@@ -106,7 +106,7 @@ class CustomButtonStyles {
       );
   static BoxDecoration
       get gradientSecondaryContainerToDeepOrangeTL17Decoration => BoxDecoration(
-            borderRadius: BorderRadius.circular(17.h),
+            borderRadius: BorderRadius.circular(17.w),
             gradient: LinearGradient(
               begin: Alignment(0.0, 0),
               end: Alignment(1.0, 0),
@@ -118,7 +118,7 @@ class CustomButtonStyles {
           );
   static BoxDecoration
       get gradientSecondaryContainerToDeepOrangeTL18Decoration => BoxDecoration(
-            borderRadius: BorderRadius.circular(18.h),
+            borderRadius: BorderRadius.circular(18.w),
             gradient: LinearGradient(
               begin: Alignment(0.0, 0),
               end: Alignment(1.0, 0),
@@ -130,7 +130,7 @@ class CustomButtonStyles {
           );
   static BoxDecoration
       get gradientSecondaryContainerToDeepOrangeTL28Decoration => BoxDecoration(
-            borderRadius: BorderRadius.circular(28.h),
+            borderRadius: BorderRadius.circular(28.w),
             gradient: LinearGradient(
               begin: Alignment(0.0, 0),
               end: Alignment(1.0, 0),
@@ -142,7 +142,7 @@ class CustomButtonStyles {
           );
   static BoxDecoration get gradientSecondaryContainerToPrimaryDecoration =>
       BoxDecoration(
-        borderRadius: BorderRadius.circular(28.h),
+        borderRadius: BorderRadius.circular(28.w),
         gradient: LinearGradient(
           begin: Alignment(0.0, 0),
           end: Alignment(1.0, 0),
@@ -154,7 +154,7 @@ class CustomButtonStyles {
       );
   static BoxDecoration get gradientSecondaryContainerToPrimaryTL16Decoration =>
       BoxDecoration(
-        borderRadius: BorderRadius.circular(16.h),
+        borderRadius: BorderRadius.circular(16.w),
         gradient: LinearGradient(
           begin: Alignment(0.0, 0),
           end: Alignment(1.0, 0),
@@ -166,7 +166,7 @@ class CustomButtonStyles {
       );
   static BoxDecoration get gradientSecondaryContainerToPrimaryTL25Decoration =>
       BoxDecoration(
-        borderRadius: BorderRadius.circular(25.h),
+        borderRadius: BorderRadius.circular(25.w),
         gradient: LinearGradient(
           begin: Alignment(0.0, 0),
           end: Alignment(1.0, 0),
@@ -178,7 +178,7 @@ class CustomButtonStyles {
       );
   static BoxDecoration get gradientSecondaryContainerToPrimaryTL6Decoration =>
       BoxDecoration(
-        borderRadius: BorderRadius.circular(6.h),
+        borderRadius: BorderRadius.circular(6.w),
         gradient: LinearGradient(
           begin: Alignment(0.0, 0),
           end: Alignment(1.0, 0),
@@ -193,7 +193,7 @@ class CustomButtonStyles {
   static ButtonStyle get outline => OutlinedButton.styleFrom(
         backgroundColor: Colors.transparent,
         shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.circular(28.h),
+          borderRadius: BorderRadius.circular(28.w),
         ),
       );
   static ButtonStyle get outlineBlueGray => OutlinedButton.styleFrom(
@@ -203,7 +203,7 @@ class CustomButtonStyles {
           width: 1,
         ),
         shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.circular(12.h),
+          borderRadius: BorderRadius.circular(12.w),
         ),
       );
   static ButtonStyle get outlineBlueGrayTL16 => OutlinedButton.styleFrom(
@@ -213,7 +213,7 @@ class CustomButtonStyles {
           width: 1,
         ),
         shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.circular(16.h),
+          borderRadius: BorderRadius.circular(16.w),
         ),
       );
   static ButtonStyle get outlineGray => OutlinedButton.styleFrom(
@@ -223,7 +223,7 @@ class CustomButtonStyles {
           width: 1,
         ),
         shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.circular(12.h),
+          borderRadius: BorderRadius.circular(12.w),
         ),
       );
   static ButtonStyle get outlinePink => OutlinedButton.styleFrom(
@@ -233,7 +233,7 @@ class CustomButtonStyles {
           width: 1,
         ),
         shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.circular(28.h),
+          borderRadius: BorderRadius.circular(28.w),
         ),
       );
   static ButtonStyle get outlinePrimary => OutlinedButton.styleFrom(
@@ -243,7 +243,7 @@ class CustomButtonStyles {
           width: 1,
         ),
         shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.circular(16.h),
+          borderRadius: BorderRadius.circular(16.w),
         ),
       );
   // text button style

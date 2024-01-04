@@ -1,4 +1,5 @@
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:masaj/core/app_export.dart';
 import 'package:masaj/shared_widgets/stateless/custom_text.dart';
 import '../../../../di/injector.dart';
 import '../../../../shared_widgets/stateless/custom_radio_list_tile.dart';
@@ -38,7 +39,11 @@ class _ChooseLanguagePageState extends State<ChooseLanguagePage> {
                 showSnackBar(context, message: state.errorMessage);
               else if (state.isLanguageSet) _goToGuidePage(context);
             },
-            child: Scaffold(body: _buildBody(context)),
+            child: Scaffold(
+                appBar: AppBar(
+                  title: Text('lbl_language'.tr()),
+                ),
+                body: _buildBody(context)),
           ),
         ),
       ),
@@ -50,24 +55,16 @@ class _ChooseLanguagePageState extends State<ChooseLanguagePage> {
       padding: const EdgeInsets.symmetric(horizontal: 24.0),
       child: Column(
         mainAxisAlignment: MainAxisAlignment.start,
-        crossAxisAlignment: CrossAxisAlignment.center,
+        crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          const SizedBox(
-            height: 80,
-            width: double.infinity,
-          ),
-          const CustomText(
-            text: 'choose_app_language',
-            fontSize: 16.0,
-            fontWeight: FontWeight.w500,
-            margin: EdgeInsets.only(bottom: 4.0),
-          ),
-          const CustomText(
-            text: 'choose_app_language_subtitle',
-            fontSize: 14.0,
-            fontWeight: FontWeight.w400,
-            color: AppColors.FONT_LIGHT_COLOR,
-            margin: EdgeInsets.only(bottom: 20.0),
+          Padding(
+            padding: EdgeInsets.symmetric(vertical: 20.w),
+            child: CustomText(
+              text: 'msg_choose_you_preferred',
+              fontSize: 18.0.fSize,
+              fontWeight: FontWeight.w500,
+              margin: EdgeInsets.only(bottom: 4.0),
+            ),
           ),
           CustomRadioListTile(
             label: const CustomText(
@@ -103,7 +100,7 @@ class _ChooseLanguagePageState extends State<ChooseLanguagePage> {
     final cubit = context.read<ChooseLanguageCubit>();
 
     return DefaultButton(
-      label: 'continue'.tr(),
+      label: 'lbl_save'.tr(),
       onPressed: () {
         context.setLocale(_selectedLocal);
         return cubit.saveLanguageCode(_selectedLocal.languageCode);

@@ -117,12 +117,12 @@ class CustomFloatingTextField extends StatelessWidget {
         suffixIconConstraints: suffixConstraints,
         isDense: true,
         contentPadding:
-            contentPadding ?? EdgeInsets.fromLTRB(12.h, 13.v, 12.h, 12.v),
+            contentPadding ?? EdgeInsets.fromLTRB(12.w, 13.h, 12.w, 12.h),
         fillColor: fillColor ?? appTheme.gray5001,
         filled: filled,
         border: borderDecoration ??
             OutlineInputBorder(
-              borderRadius: BorderRadius.circular(8.h),
+              borderRadius: BorderRadius.circular(8.w),
               borderSide: BorderSide(
                 color: appTheme.green800,
                 width: 1,
@@ -130,7 +130,7 @@ class CustomFloatingTextField extends StatelessWidget {
             ),
         enabledBorder: borderDecoration ??
             OutlineInputBorder(
-              borderRadius: BorderRadius.circular(8.h),
+              borderRadius: BorderRadius.circular(8.w),
               borderSide: BorderSide(
                 color: appTheme.green800,
                 width: 1,
@@ -138,21 +138,21 @@ class CustomFloatingTextField extends StatelessWidget {
             ),
         focusedBorder: borderDecoration ??
             OutlineInputBorder(
-              borderRadius: BorderRadius.circular(12.h),
+              borderRadius: BorderRadius.circular(12.w),
               borderSide: BorderSide(
                 color: appTheme.blueGray100,
                 width: 1,
               ),
             ),
         errorBorder: OutlineInputBorder(
-          borderRadius: BorderRadius.circular(8.h),
+          borderRadius: BorderRadius.circular(8.w),
           borderSide: BorderSide(
             color: appTheme.redA700,
             width: 1,
           ),
         ),
         focusedErrorBorder: OutlineInputBorder(
-          borderRadius: BorderRadius.circular(8.h),
+          borderRadius: BorderRadius.circular(8.w),
           borderSide: BorderSide(
             color: appTheme.redA700,
             width: 1,
@@ -168,11 +168,11 @@ class CustomFloatingTextField extends StatelessWidget {
 /// Extension on [CustomFloatingTextField] to facilitate inclusion of all types of border style etc
 extension FloatingTextFormFieldStyleHelper on CustomFloatingTextField {
   static OutlineInputBorder get fillRed => OutlineInputBorder(
-        borderRadius: BorderRadius.circular(8.h),
+        borderRadius: BorderRadius.circular(8.w),
         borderSide: BorderSide.none,
       );
   static OutlineInputBorder get fillGray => OutlineInputBorder(
-        borderRadius: BorderRadius.circular(8.h),
+        borderRadius: BorderRadius.circular(8.w),
         borderSide: BorderSide.none,
       );
 }

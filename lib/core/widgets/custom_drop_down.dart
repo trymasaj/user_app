@@ -110,22 +110,22 @@ class CustomDropDown extends StatelessWidget {
         suffixIcon: suffix,
         suffixIconConstraints: suffixConstraints,
         isDense: true,
-        contentPadding: contentPadding ?? EdgeInsets.symmetric(vertical: 17.v),
+        contentPadding: contentPadding ?? EdgeInsets.symmetric(vertical: 17.h),
         fillColor: fillColor ?? appTheme.gray5001,
         filled: filled,
         border: borderDecoration ??
             OutlineInputBorder(
-              borderRadius: BorderRadius.circular(12.h),
+              borderRadius: BorderRadius.circular(12.w),
               borderSide: BorderSide.none,
             ),
         enabledBorder: borderDecoration ??
             OutlineInputBorder(
-              borderRadius: BorderRadius.circular(12.h),
+              borderRadius: BorderRadius.circular(12.w),
               borderSide: BorderSide.none,
             ),
         focusedBorder: borderDecoration ??
             OutlineInputBorder(
-              borderRadius: BorderRadius.circular(12.h),
+              borderRadius: BorderRadius.circular(12.w),
               borderSide: BorderSide(
                 color: appTheme.blueGray100,
                 width: 1,
@@ -137,7 +137,7 @@ class CustomDropDown extends StatelessWidget {
 /// Extension on [CustomDropDown] to facilitate inclusion of all types of border style etc
 extension DropDownStyleHelper on CustomDropDown {
   static OutlineInputBorder get fillGray => OutlineInputBorder(
-        borderRadius: BorderRadius.circular(8.h),
+        borderRadius: BorderRadius.circular(8.w),
         borderSide: BorderSide.none,
       );
 }

@@ -49,7 +49,7 @@ class CustomElevatedButton extends BaseButton {
 
   Widget get buildElevatedButtonWidget => Container(
 
-        height: height ?? 56.v,
+        height: height ?? 56.h,
         width: width ?? double.maxFinite,
         margin: margin,
         decoration: decoration ??

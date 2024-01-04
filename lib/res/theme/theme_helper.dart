@@ -45,6 +45,47 @@ class ThemeHelper {
     var colorScheme =
         _supportedColorScheme[_appTheme] ?? ColorSchemes.primaryColorScheme;
     return ThemeData(
+      inputDecorationTheme: InputDecorationTheme(
+
+          errorStyle: TextStyle(
+            color: appTheme.redA700,
+            fontSize: 12.fSize,
+          ),
+          focusedErrorBorder: OutlineInputBorder(
+            borderRadius: BorderRadius.circular(8.w),
+            borderSide: BorderSide(
+              color: appTheme.redA700,
+              width: 1,
+            ),
+          ),
+          errorBorder: OutlineInputBorder(
+            borderRadius: BorderRadius.circular(8.w),
+            borderSide: BorderSide(
+              color: appTheme.redA700,
+              width: 1,
+            ),
+          ),
+          focusedBorder: OutlineInputBorder(
+            borderRadius: BorderRadius.circular(12.w),
+            borderSide: BorderSide(
+              color: appTheme.blueGray100,
+              width: 1,
+            ),
+          ),
+          border: OutlineInputBorder(
+            borderRadius: BorderRadius.circular(8.w),
+            borderSide: BorderSide(
+              color: appTheme.green800,
+              width: 1,
+            ),
+          ),
+          enabledBorder: OutlineInputBorder(
+            borderRadius: BorderRadius.circular(12.w),
+            borderSide: BorderSide(
+              color: appTheme.blueGray100,
+              width: 1,
+            ),
+          )),
       visualDensity: VisualDensity.standard,
       colorScheme: colorScheme,
       textTheme: TextThemes.textTheme(colorScheme),
@@ -52,7 +93,7 @@ class ThemeHelper {
       elevatedButtonTheme: ElevatedButtonThemeData(
         style: ElevatedButton.styleFrom(
           shape: RoundedRectangleBorder(
-            borderRadius: BorderRadius.circular(28.h),
+            borderRadius: BorderRadius.circular(28.w),
           ),
           visualDensity: const VisualDensity(
             vertical: -4,
@@ -65,10 +106,10 @@ class ThemeHelper {
         style: OutlinedButton.styleFrom(
           backgroundColor: Colors.transparent,
           side: BorderSide(
-            width: 1.h,
+            width: 1.w,
           ),
           shape: RoundedRectangleBorder(
-            borderRadius: BorderRadius.circular(12.h),
+            borderRadius: BorderRadius.circular(12.w),
           ),
           visualDensity: const VisualDensity(
             vertical: -4,
