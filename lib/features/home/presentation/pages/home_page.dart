@@ -1,10 +1,9 @@
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:masaj/features/providers_tab/presentation/pages/providers_tab.dart';
-import 'package:masaj/features/settings_tab/presentation/pages/settings_subscribed_to_masaj_plus_screen/setting_tab_page.dart';
+import 'package:masaj/features/settings_tab/pages/setting_tab_page.dart';
 import 'package:masaj/res/theme/theme_helper.dart';
 import '../../../../res/style/theme.dart';
-import '../../../account/presentation/pages/more_tab.dart';
 import '../../../bookings_tab/presentation/pages/bookings_tab.dart';
 import 'home_tab.dart';
 import '../../../../res/style/app_colors.dart';
