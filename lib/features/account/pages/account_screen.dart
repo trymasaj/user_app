@@ -1,7 +1,5 @@
 import 'package:masaj/core/app_export.dart';
 import 'package:masaj/core/utils/navigator_helper.dart';
-import 'package:masaj/core/widgets/app_bar/appbar_subtitle.dart';
-import 'package:masaj/core/widgets/app_bar/appbar_title_iconbutton.dart';
 import 'package:masaj/core/widgets/border_tile.dart';
 import 'package:masaj/features/account/pages/create_new_password_screen.dart';
 import 'package:masaj/features/account/pages/my_profile_screen.dart';
@@ -23,8 +21,7 @@ class AccountScreen extends StatelessWidget {
     return BlocProvider<AccountBloc>(
       create: (context) => AccountBloc(AccountState(
         accountModelObj: AccountModel(),
-      ))
-        ..add(AccountInitialEvent()),
+      )),
       child: AccountScreen(),
     );
   }

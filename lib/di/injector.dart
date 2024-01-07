@@ -36,7 +36,6 @@ import '../features/intro/presentation/blocs/guide_page_cubit/guide_page_cubit.d
 import '../features/home/data/datasources/home_remote_data_source.dart';
 import '../features/home/data/repositories/home_repository.dart';
 import '../features/home/presentation/bloc/home_cubit/home_cubit.dart';
-import '../features/home/presentation/bloc/home_search_bloc/home_search_bloc.dart';
 import '../features/intro/data/repositories/intro_repository.dart';
 import '../features/splash/data/datasources/splash_local_data_source.dart';
 import '../features/splash/data/repositories/splash_repository_impl.dart';
@@ -187,9 +186,6 @@ class Injector {
       NotificationsCubit(homeRepository);
 
   //===================[SEARCH_BLOC]===================
-  HomeSearchBloc get homeSearchBloc => HomeSearchBloc(
-        homeRepository,
-      );
 
   //===================[CORE_DATA]===================
 

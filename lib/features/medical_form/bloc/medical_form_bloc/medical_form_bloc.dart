@@ -3,23 +3,14 @@ import 'package:flutter/material.dart';
 import 'package:masaj/core/widgets/selection_popup_model.dart';
 import 'package:masaj/features/settings_tab/models/medical_form_model.dart';
 import '/core/app_export.dart';
-part 'medical_form_event.dart';
 part 'medical_form_state.dart';
 
 /// A bloc that manages the state of a MedicalForm according to the event that is dispatched to it.
-class MedicalFormBloc extends Bloc<MedicalFormEvent, MedicalFormState> {
-  MedicalFormBloc(MedicalFormState initialState) : super(initialState) {
-    on<MedicalFormInitialEvent>(_onInitialize);
-    on<ChangeDropDownEvent>(_changeDropDown);
-  }
+class MedicalFormBloc extends Cubit<MedicalFormState> {
+  MedicalFormBloc(MedicalFormState initialState) : super(initialState) {}
 
-  void _changeDropDown(
-    ChangeDropDownEvent event,
-    Emitter<MedicalFormState> emit,
-  ) {
-    emit(state.copyWith(
-      selectedDropDownValue: event.value,
-    ));
+  void _changeDropDown() {
+    emit(state.copyWith());
   }
 
   List<SelectionPopupModel> fillDropdownItemList() {
@@ -40,10 +31,7 @@ class MedicalFormBloc extends Bloc<MedicalFormEvent, MedicalFormState> {
     ];
   }
 
-  void  _onInitialize(
-    MedicalFormInitialEvent event,
-    Emitter<MedicalFormState> emit,
-  ) async {
+  void _onInitialize() async {
     emit(state.copyWith(
       editTextController: TextEditingController(),
       editTextController1: TextEditingController(),

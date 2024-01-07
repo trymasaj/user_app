@@ -34,7 +34,7 @@ class SignUpPage extends StatefulWidget {
 }
 
 class _SignUpPageState extends State<SignUpPage> {
-  Gender selectedGender = Gender.Male;
+  Gender selectedGender = Gender.male;
   late final GlobalKey<FormState> _formKey;
 
   late final TextEditingController _fullNameTextController;
@@ -352,8 +352,8 @@ class _SignUpPageState extends State<SignUpPage> {
       children: [
         CustomChip(
             height: 56,
-            label: Gender.Male.toString(),
-            value: Gender.Male,
+            label: Gender.male.toString(),
+            value: Gender.male,
             groupValue: selectedGender,
             isExpanded: true,
             onValueSelected: (selectedValue) {
@@ -362,8 +362,8 @@ class _SignUpPageState extends State<SignUpPage> {
         const SizedBox(width: 8.0),
         CustomChip(
           height: 56,
-          label: Gender.Female.toString(),
-          value: Gender.Female,
+          label: Gender.female.toString(),
+          value: Gender.female,
           groupValue: selectedGender,
           isExpanded: true,
           onValueSelected: (selectedValue) {

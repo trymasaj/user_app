@@ -1,9 +1,5 @@
 import 'package:masaj/core/app_export.dart';
-import 'package:masaj/core/widgets/app_bar/appbar_subtitle.dart';
-import 'package:masaj/core/widgets/app_bar/appbar_title_iconbutton.dart';
-import 'package:masaj/features/legal/bloc/privacy_policy_bloc/privacy_policy_event.dart';
 import 'package:masaj/features/legal/bloc/privacy_policy_bloc/privacy_policy_state.dart';
-
 import '../bloc/privacy_policy_bloc/privacy_policy_bloc.dart';
 import '../models/privacy_policy_model.dart';
 import 'package:flutter/material.dart';
@@ -20,8 +16,7 @@ class PrivacyPolicyScreen extends StatelessWidget {
     return BlocProvider<PrivacyPolicyBloc>(
       create: (context) => PrivacyPolicyBloc(PrivacyPolicyState(
         privacyPolicyModelObj: PrivacyPolicyModel(),
-      ))
-        ..add(PrivacyPolicyInitialEvent()),
+      )),
       child: PrivacyPolicyScreen(),
     );
   }
@@ -34,7 +29,6 @@ class PrivacyPolicyScreen extends StatelessWidget {
           appBar: _buildAppBar(context),
           body: SingleChildScrollView(
             padding: EdgeInsets.fromLTRB(24.w, 24.h, 26.w, 24.h),
-
             child: Column(
               children: [
                 Text(

@@ -1,7 +1,5 @@
 import 'package:masaj/core/app_export.dart';
 import 'package:masaj/core/utils/validation_functions.dart';
-import 'package:masaj/core/widgets/app_bar/appbar_subtitle.dart';
-import 'package:masaj/core/widgets/app_bar/appbar_title_iconbutton.dart';
 import 'package:masaj/core/widgets/custom_phone_number.dart';
 import 'package:masaj/core/widgets/custom_text_form_field.dart';
 
@@ -21,9 +19,7 @@ class AddMemberScreen extends StatelessWidget {
 
   static Widget builder(BuildContext context) {
     return BlocProvider<AddMemberBloc>(
-        create: (context) =>
-            AddMemberBloc(AddMemberState(addMemberModelObj: AddMemberModel()))
-              ..add(AddMemberInitialEvent()),
+        create: (context) => AddMemberBloc(AddMemberState.initial()),
         child: AddMemberScreen());
   }
 
@@ -78,7 +74,7 @@ class AddMemberScreen extends StatelessWidget {
                       SizedBox(height: 16.h),
                       _buildPhoneNumber(context),
                       SizedBox(height: 16.h),
-                      _buildFrameRow(context),
+                      // _buildFrameRow(context),
                       SizedBox(height: 32.h),
                       _buildSaveButton(context),
                       SizedBox(height: 5.h)
@@ -87,44 +83,21 @@ class AddMemberScreen extends StatelessWidget {
 
   /// Section Widget
   PreferredSizeWidget _buildAppBar(BuildContext context) {
-    return CustomAppBar(
-        centerTitle: true,
-        title: Column(children: [
-          Padding(
-              padding: EdgeInsets.only(left: 24.w, right: 156.w),
-              child: Row(children: [
-                AppbarTitleIconbutton(
-                    imagePath: ImageConstant.imgGroup1000002973,
-                    onTap: () {
-                      onTapIconButton(context);
-                    }),
-                AppbarSubtitle(
-                    text: "lbl_add_member".tr(),
-                    margin: EdgeInsets.only(left: 16.w, top: 6.h, bottom: 7.h))
-              ])),
-          SizedBox(height: 12.h),
-          Align(
-              alignment: Alignment.centerLeft,
-              child: SizedBox(width: double.maxFinite, child: Divider()))
-        ]),
-        styleType: Style.bgFill);
+    return AppBar(
+      title: Text("lbl_add_member".tr()),
+    );
   }
 
   /// Section Widget
   Widget _buildNameEditText(BuildContext context) {
-    return BlocSelector<AddMemberBloc, AddMemberState, TextEditingController?>(
-        selector: (state) => state.nameEditTextController,
-        builder: (context, nameEditTextController) {
-          return CustomTextFormField(
-              controller: nameEditTextController,
-              hintText: "lbl_name".tr(),
-              hintStyle: CustomTextStyles.bodyMediumBluegray40001_1,
-              validator: (value) {
-                if (!isText(value)) {
-                  return "err_msg_please_enter_valid_text".tr();
-                }
-                return null;
-              });
+    return CustomTextFormField(
+        hintText: "lbl_name".tr(),
+        hintStyle: CustomTextStyles.bodyMediumBluegray40001_1,
+        validator: (value) {
+          if (!isText(value)) {
+            return "err_msg_please_enter_valid_text".tr();
+          }
+          return null;
         });
   }
 
@@ -133,15 +106,15 @@ class AddMemberScreen extends StatelessWidget {
     return BlocBuilder<AddMemberBloc, AddMemberState>(
         builder: (context, state) {
       return CustomPhoneNumber(
-          country: state.selectedCountry ??
+          country: state.selectedCountry.toNullable() ??
               CountryPickerUtils.getCountryByPhoneCode('1'),
-          controller: state.phoneNumberController,
           onTap: (Country value) {
-            context.read<AddMemberBloc>().add(ChangeCountryEvent(value: value));
+            context.read<AddMemberBloc>().changeCountry(value);
           });
     });
   }
-
+//todo
+/*
   /// Section Widget
   Widget _buildMaleValueEditText(BuildContext context) {
     return Expanded(
@@ -200,6 +173,7 @@ class AddMemberScreen extends StatelessWidget {
       _buildFemaleValueEditText(context)
     ]);
   }
+*/
 
   /// Section Widget
   Widget _buildSaveButton(BuildContext context) {
@@ -208,26 +182,6 @@ class AddMemberScreen extends StatelessWidget {
         buttonStyle: CustomButtonStyles.none,
         decoration:
             CustomButtonStyles.gradientSecondaryContainerToPrimaryDecoration,
-        onPressed: () {
-          onTapSaveButton(context);
-        });
-  }
-
-  /// Navigates to the selectMemberScreen when the action is triggered.
-  onTapIconButton(BuildContext context) {
-/*
-    NavigatorService.pushNamed(
-      AppRoutes.selectMemberScreen,
-    );
-*/
-  }
-
-  /// Navigates to the selectMemberScreen when the action is triggered.
-  onTapSaveButton(BuildContext context) {
-/*
-    NavigatorService.pushNamed(
-      AppRoutes.selectMemberScreen,
-    );
-*/
+        onPressed: () {});
   }
 }

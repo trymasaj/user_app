@@ -12,7 +12,7 @@ class TransactionhistoryItemWidget extends StatelessWidget {
           key: key,
         );
 
-  TransactionhistoryItemModel transactionhistoryItemModelObj;
+  Transaction transactionhistoryItemModelObj;
 
   @override
   Widget build(BuildContext context) {

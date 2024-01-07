@@ -1,6 +1,6 @@
 enum Gender {
-  Male,
-  Female;
+  male,
+  female;
 
   int get id => index + 1;
 

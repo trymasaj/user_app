@@ -2,8 +2,6 @@ import 'package:country_pickers/countries.dart';
 import 'package:country_pickers/country.dart';
 import 'package:country_pickers/country_pickers.dart';
 import 'package:masaj/core/app_export.dart';
-import 'package:masaj/core/widgets/app_bar/appbar_subtitle.dart';
-import 'package:masaj/core/widgets/app_bar/appbar_title_iconbutton.dart';
 import 'package:masaj/core/widgets/custom_phone_number.dart';
 
 import '../bloc/phone_bloc/phone_bloc.dart';
@@ -20,8 +18,7 @@ class PhoneScreen extends StatelessWidget {
 
   static Widget builder(BuildContext context) {
     return BlocProvider<PhoneBloc>(
-        create: (context) => PhoneBloc(PhoneState(phoneModelObj: PhoneModel()))
-          ..add(PhoneInitialEvent()),
+        create: (context) => PhoneBloc(PhoneState(phoneModelObj: PhoneModel())),
         child: PhoneScreen());
   }
 
@@ -36,17 +33,12 @@ class PhoneScreen extends StatelessWidget {
                 width: double.maxFinite,
                 padding: EdgeInsets.all(23.w),
                 child: Column(children: [
-                  BlocBuilder<PhoneBloc, PhoneState>(
-                      builder: (context, state) {
-
-                        return CustomPhoneNumber(
+                  BlocBuilder<PhoneBloc, PhoneState>(builder: (context, state) {
+                    return CustomPhoneNumber(
                         country: state.selectedCountry ??
                             CountryPickerUtils.getCountryByPhoneCode('1'),
-                        controller: state.phoneNumberController,
                         onTap: (Country value) {
-                          context
-                              .read<PhoneBloc>()
-                              .add(ChangeCountryEvent(value: value));
+                          context.read<PhoneBloc>().changeCountry((value));
                         });
                   }),
                   SizedBox(height: 32.h),

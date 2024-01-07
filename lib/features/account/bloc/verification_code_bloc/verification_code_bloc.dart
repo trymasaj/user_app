@@ -1,39 +1,28 @@
 import 'package:equatable/equatable.dart';
-import 'package:flutter/material.dart';
-import 'package:masaj/features/account/models/verification_code_model.dart';
-import '/core/app_export.dart';
 import 'package:sms_autofill/sms_autofill.dart';
-part 'verification_code_event.dart';
+import 'package:masaj/core/abstract/base_cubit.dart';
+
 part 'verification_code_state.dart';
 
+
 /// A bloc that manages the state of a VerificationCode according to the event that is dispatched to it.
-class VerificationCodeBloc
-    extends Bloc<VerificationCodeEvent, VerificationCodeState>
+class VerificationCodeBloc extends BaseCubit<VerificationCodeState>
     with CodeAutoFill {
   VerificationCodeBloc(VerificationCodeState initialState)
-      : super(initialState) {
-    on<VerificationCodeInitialEvent>(_onInitialize);
-    on<ChangeOTPEvent>(_changeOTP);
-  }
+      : super(initialState) {}
 
   @override
   void codeUpdated() {
-    add(ChangeOTPEvent(code: code!));
+    _changeOTP(super.code!);
   }
 
   void _changeOTP(
-    ChangeOTPEvent event,
-    Emitter<VerificationCodeState> emit,
+    String otp,
   ) {
-    emit(
-        state.copyWith(otpController: TextEditingController(text: event.code)));
+    emit(state.copyWith(otp: otp));
   }
 
-  Future<void>_onInitialize(
-    VerificationCodeInitialEvent event,
-    Emitter<VerificationCodeState> emit,
-  ) async {
-    emit(state.copyWith(otpController: TextEditingController()));
-    listenForCode();
+  Future<void> _onInitialize() async {
+    super.listenForCode();
   }
 }

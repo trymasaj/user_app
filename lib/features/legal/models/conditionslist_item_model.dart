@@ -1,15 +1,11 @@
-
 /// This class is used in the [conditionslist_item_widget] screen.
-class ConditionslistItemModel {
-  ConditionslistItemModel({
-    this.allergiesText,
-    this.id,
-  }) {
-    allergiesText = allergiesText ?? "Allergies";
-    id = id ?? "";
-  }
+class Condition {
+  Condition({
+    required this.name,
+    required this.id,
+  });
 
-  String? allergiesText;
+  final String name;
 
-  String? id;
+  final String id;
 }

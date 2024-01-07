@@ -5,19 +5,18 @@ import 'transactionhistory_item_model.dart';
 
 /// This class defines the variables used in the [wallet_screen],
 /// and is typically used to hold data that is passed between different parts of the application.
-class WalletModel extends Equatable {
-  WalletModel({this.transactionhistoryItemList = const []}) {}
+class Wallet extends Equatable {
+  Wallet({required this.transactions}) {}
 
-  List<TransactionhistoryItemModel> transactionhistoryItemList;
+  List<Transaction> transactions;
 
-  WalletModel copyWith(
-      {List<TransactionhistoryItemModel>? transactionhistoryItemList}) {
-    return WalletModel(
-      transactionhistoryItemList:
-          transactionhistoryItemList ?? this.transactionhistoryItemList,
+  Wallet copyWith({List<Transaction>? transactions}) {
+    return Wallet(
+      transactions: transactions ?? this.transactions,
     );
   }
 
   @override
-  List<Object?> get props => [transactionhistoryItemList];
+  List<Object?> get props => [transactions];
+  factory Wallet.initial() => Wallet(transactions: []);
 }

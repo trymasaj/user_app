@@ -1,7 +1,4 @@
 import 'package:masaj/core/app_export.dart';
-import 'package:masaj/core/widgets/app_bar/appbar_subtitle.dart';
-import 'package:masaj/core/widgets/app_bar/appbar_title_iconbutton.dart';
-
 import '../bloc/terms_and_condititons_bloc/terms_and_condititons_bloc.dart';
 import '../models/terms_and_condititons_model.dart';
 import 'package:flutter/material.dart';
@@ -15,8 +12,7 @@ class TermsAndCondititonsScreen extends StatelessWidget {
     return BlocProvider<TermsAndCondititonsBloc>(
       create: (context) => TermsAndCondititonsBloc(TermsAndCondititonsState(
         termsAndCondititonsModelObj: TermsAndCondititonsModel(),
-      ))
-        ..add(TermsAndCondititonsInitialEvent()),
+      )),
       child: TermsAndCondititonsScreen(),
     );
   }

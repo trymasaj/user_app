@@ -3,62 +3,42 @@
 part of 'create_new_password_bloc.dart';
 
 /// Represents the state of CreateNewPasswordOne in the application.
-class CreateNewPasswordOneState extends Equatable {
-  CreateNewPasswordOneState({
-    this.passwordEditTextController,
-    this.newPasswordEditTextController,
-    this.newPasswordEditTextController1,
-    this.isShowPassword = true,
-    this.isShowPassword1 = true,
-    this.isShowPassword2 = true,
-    this.createNewPasswordOneModelObj,
+class CreateNewPasswordState extends Equatable {
+  CreateNewPasswordState({
+    required this.oldPassword,
+    required this.newPassword,
+    required this.confirmNewPassword,
   });
 
-  TextEditingController? passwordEditTextController;
+  final String oldPassword;
 
-  TextEditingController? newPasswordEditTextController;
+  final String newPassword;
 
-  TextEditingController? newPasswordEditTextController1;
-
-  CreateNewPasswordOneModel? createNewPasswordOneModelObj;
-
-  bool isShowPassword;
-
-  bool isShowPassword1;
-
-  bool isShowPassword2;
+  final String confirmNewPassword;
 
   @override
   List<Object?> get props => [
-        passwordEditTextController,
-        newPasswordEditTextController,
-        newPasswordEditTextController1,
-        isShowPassword,
-        isShowPassword1,
-        isShowPassword2,
-        createNewPasswordOneModelObj,
+        oldPassword,
+        newPassword,
+        confirmNewPassword,
       ];
-  CreateNewPasswordOneState copyWith({
-    TextEditingController? passwordEditTextController,
-    TextEditingController? newPasswordEditTextController,
-    TextEditingController? newPasswordEditTextController1,
-    bool? isShowPassword,
-    bool? isShowPassword1,
-    bool? isShowPassword2,
-    CreateNewPasswordOneModel? createNewPasswordOneModelObj,
+  CreateNewPasswordState copyWith({
+    String? oldPassword,
+    String? newPassword,
+    String? confirmNewPassword,
   }) {
-    return CreateNewPasswordOneState(
-      passwordEditTextController:
-          passwordEditTextController ?? this.passwordEditTextController,
-      newPasswordEditTextController:
-          newPasswordEditTextController ?? this.newPasswordEditTextController,
-      newPasswordEditTextController1:
-          newPasswordEditTextController1 ?? this.newPasswordEditTextController1,
-      isShowPassword: isShowPassword ?? this.isShowPassword,
-      isShowPassword1: isShowPassword1 ?? this.isShowPassword1,
-      isShowPassword2: isShowPassword2 ?? this.isShowPassword2,
-      createNewPasswordOneModelObj:
-          createNewPasswordOneModelObj ?? this.createNewPasswordOneModelObj,
+    return CreateNewPasswordState(
+      oldPassword: oldPassword ?? this.oldPassword,
+      newPassword: newPassword ?? this.newPassword,
+      confirmNewPassword: confirmNewPassword ?? this.confirmNewPassword,
+    );
+  }
+
+  factory CreateNewPasswordState.initial() {
+    return CreateNewPasswordState(
+      oldPassword: '',
+      newPassword: '',
+      confirmNewPassword: '',
     );
   }
 }

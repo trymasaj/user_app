@@ -1,37 +1,33 @@
+import 'package:dartz/dartz.dart';
 import 'package:equatable/equatable.dart';
 import 'package:flutter/material.dart';
+import 'package:masaj/core/abstract/base_cubit.dart';
 import 'package:masaj/features/wallet/models/wallet_model.dart';
 import '/core/app_export.dart';
 import '../../models/transactionhistory_item_model.dart';
-part 'wallet_event.dart';
 part 'wallet_state.dart';
 
 /// A bloc that manages the state of a Wallet according to the event that is dispatched to it.
-class WalletBloc extends Bloc<WalletEvent, WalletState> {
-  WalletBloc(WalletState initialState) : super(initialState) {
-    on<WalletInitialEvent>(_onInitialize);
-  }
+class WalletBloc extends BaseCubit<WalletState> {
+  WalletBloc(WalletState initialState) : super(initialState) {}
 
-  _onInitialize(
-    WalletInitialEvent event,
-    Emitter<WalletState> emit,
-  ) async {
+  _onInitialize() async {
     emit(state.copyWith(
-        walletModelObj: state.walletModelObj?.copyWith(
-            transactionhistoryItemList: fillTransactionhistoryItemList())));
+        wallet: state.wallet?.copyWith(
+            transactions: fillTransactionhistoryItemList())));
   }
 
-  List<TransactionhistoryItemModel> fillTransactionhistoryItemList() {
+  List<Transaction> fillTransactionhistoryItemList() {
     return [
-      TransactionhistoryItemModel(
+      Transaction(
           transactionTitle: "Wallet top up",
           transactionDate: "12 march 2023 - 2:00 pm",
           transactionAmount: "+ 5.00 KD"),
-      TransactionhistoryItemModel(
+      Transaction(
           transactionTitle: "Booking massage",
           transactionDate: "12 march 2023 - 2:00 pm",
           transactionAmount: "- 28.00 KD"),
-      TransactionhistoryItemModel(
+      Transaction(
           transactionTitle: "Wallet top up",
           transactionDate: "12 march 2023 - 2:00 pm",
           transactionAmount: "+ 12.00 KD")

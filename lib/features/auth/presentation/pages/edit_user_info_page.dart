@@ -107,7 +107,7 @@ class _EditUserInfoPageState extends State<EditUserInfoPage> {
 
         return UserImageSelection(
           key: ValueKey(state.selectedGender?.id.toString()),
-          isMale: (state.selectedGender ?? state.user?.gender) == Gender.Male,
+          isMale: (state.selectedGender ?? state.user?.gender) == Gender.male,
         );
       },
     );

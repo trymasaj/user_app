@@ -1,8 +1,5 @@
+import 'package:dartz/dartz.dart';
 import 'package:masaj/core/app_export.dart';
-import 'package:masaj/core/widgets/app_bar/appbar_subtitle_two.dart';
-import 'package:masaj/core/widgets/app_bar/appbar_title_iconbutton.dart';
-import 'package:masaj/core/widgets/app_bar/appbar_title_image.dart';
-
 import '../widgets/transactionhistory_item_widget.dart';
 import '../bloc/wallet_bloc/wallet_bloc.dart';
 import '../models/transactionhistory_item_model.dart';
@@ -17,8 +14,7 @@ class WalletScreen extends StatelessWidget {
   static Widget builder(BuildContext context) {
     return BlocProvider<WalletBloc>(
         create: (context) =>
-            WalletBloc(WalletState(walletModelObj: WalletModel()))
-              ..add(WalletInitialEvent()),
+            WalletBloc(WalletState(wallet: Wallet())),
         child: WalletScreen());
   }
 
@@ -110,9 +106,16 @@ class WalletScreen extends StatelessWidget {
                 style: CustomTextStyles.titleMediumGray90003SemiBold))
       ]),
       SizedBox(height: 12.h),
-      BlocSelector<WalletBloc, WalletState, WalletModel?>(
-          selector: (state) => state.walletModelObj,
-          builder: (context, walletModelObj) {
+      BlocSelector<WalletBloc, WalletState, WalletStateStatus>(
+          selector: (state) => state.status,
+          builder: (context, status) {
+            switch(state.) {
+              case :
+
+                break;
+              default:
+            }
+
             return ListView.separated(
                 physics: NeverScrollableScrollPhysics(),
                 shrinkWrap: true,
@@ -120,11 +123,11 @@ class WalletScreen extends StatelessWidget {
                   return SizedBox(height: 12.h);
                 },
                 itemCount:
-                    walletModelObj?.transactionhistoryItemList.length ?? 0,
+                    walletModelObj?.transactions.length ?? 0,
                 itemBuilder: (context, index) {
-                  TransactionhistoryItemModel model =
-                      walletModelObj?.transactionhistoryItemList[index] ??
-                          TransactionhistoryItemModel();
+                  Transaction model =
+                      walletModelObj?.transactions[index] ??
+                          Transaction();
                   return TransactionhistoryItemWidget(model);
                 });
           })

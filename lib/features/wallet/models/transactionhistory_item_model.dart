@@ -1,7 +1,7 @@
 
 /// This class is used in the [transactionhistory_item_widget] screen.
-class TransactionhistoryItemModel {
-  TransactionhistoryItemModel({
+class Transaction {
+  Transaction({
     this.transactionTitle,
     this.transactionDate,
     this.transactionAmount,

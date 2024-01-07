@@ -1,7 +1,5 @@
 import 'package:masaj/core/app_export.dart';
 import 'package:masaj/core/utils/navigator_helper.dart';
-import 'package:masaj/core/widgets/app_bar/appbar_subtitle.dart';
-import 'package:masaj/core/widgets/app_bar/appbar_title_iconbutton.dart';
 import 'package:masaj/core/widgets/border_tile.dart';
 import 'package:masaj/features/legal/pages/privacy_policy_screen.dart';
 import 'package:masaj/features/legal/pages/terms_and_condititons_screen.dart';
@@ -20,7 +18,7 @@ class LegalScreen extends StatelessWidget {
   static Widget builder(BuildContext context) {
     return BlocProvider<LegalBloc>(
         create: (context) => LegalBloc(LegalState(legalModelObj: LegalModel()))
-          ..add(LegalInitialEvent()),
+          ,
         child: LegalScreen());
   }
 

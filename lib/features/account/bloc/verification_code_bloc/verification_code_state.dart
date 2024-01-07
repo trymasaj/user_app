@@ -5,27 +5,26 @@ part of 'verification_code_bloc.dart';
 /// Represents the state of VerificationCode in the application.
 class VerificationCodeState extends Equatable {
   VerificationCodeState({
-    this.otpController,
-    this.verificationCodeModelObj,
+    required this.otp,
   });
 
-  TextEditingController? otpController;
-
-  VerificationCodeModel? verificationCodeModelObj;
+  final String otp;
 
   @override
   List<Object?> get props => [
-        otpController,
-        verificationCodeModelObj,
+        otp,
       ];
   VerificationCodeState copyWith({
-    TextEditingController? otpController,
-    VerificationCodeModel? verificationCodeModelObj,
+    String? otp,
   }) {
     return VerificationCodeState(
-      otpController: otpController ?? this.otpController,
-      verificationCodeModelObj:
-          verificationCodeModelObj ?? this.verificationCodeModelObj,
+      otp: otp ?? this.otp,
+    );
+  }
+
+  factory VerificationCodeState.initial() {
+    return VerificationCodeState(
+      otp: "",
     );
   }
 }

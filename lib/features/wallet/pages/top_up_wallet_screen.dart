@@ -1,6 +1,4 @@
 import 'package:masaj/core/app_export.dart';
-import 'package:masaj/core/widgets/app_bar/appbar_subtitle_two.dart';
-import 'package:masaj/core/widgets/app_bar/appbar_title_iconbutton.dart';
 import 'package:masaj/features/wallet/overlay/top_up_wallet_payment_method_bottomsheet.dart';
 
 import '../widgets/userprofile8_item_widget.dart';
@@ -17,8 +15,7 @@ class TopUpWalletScreen extends StatelessWidget {
   static Widget builder(BuildContext context) {
     return BlocProvider<TopUpWalletBloc>(
         create: (context) => TopUpWalletBloc(
-            TopUpWalletState(topUpWalletModelObj: TopUpWalletModel()))
-          ..add(TopUpWalletInitialEvent()),
+            TopUpWalletState(topUpWalletModelObj: TopUpWalletModel())),
         child: TopUpWalletScreen());
   }
 
@@ -52,24 +49,9 @@ class TopUpWalletScreen extends StatelessWidget {
 
   /// Section Widget
   PreferredSizeWidget _buildAppBar(BuildContext context) {
-    return CustomAppBar(
-        centerTitle: true,
-        title: Column(children: [
-          Padding(
-              padding: EdgeInsets.only(left: 24.w, right: 168.w),
-              child: Row(children: [
-                AppbarTitleIconbutton(
-                    imagePath: ImageConstant.imgGroup1000002973),
-                AppbarSubtitleTwo(
-                    text: "lbl_wallet_top_up".tr(),
-                    margin: EdgeInsets.only(left: 16.w, top: 10.h, bottom: 6.h))
-              ])),
-          SizedBox(height: 12.h),
-          Align(
-              alignment: Alignment.centerLeft,
-              child: SizedBox(width: double.maxFinite, child: Divider()))
-        ]),
-        styleType: Style.bgFill);
+    return AppBar(
+      title: Text("lbl_wallet_top_up".tr()),
+    );
   }
 
   /// Section Widget

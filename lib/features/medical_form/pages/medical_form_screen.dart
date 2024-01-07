@@ -1,9 +1,6 @@
 import 'package:masaj/core/app_export.dart';
-import 'package:masaj/core/widgets/app_bar/appbar_subtitle.dart';
-import 'package:masaj/core/widgets/app_bar/appbar_title_iconbutton.dart';
 import 'package:masaj/core/widgets/custom_drop_down.dart';
 import 'package:masaj/core/widgets/custom_text_form_field.dart';
-
 import '../bloc/medical_form_bloc/medical_form_bloc.dart';
 import '../../settings_tab/models/medical_form_model.dart';
 import 'package:flutter/material.dart';
@@ -20,8 +17,7 @@ class MedicalFormScreen extends StatelessWidget {
     return BlocProvider<MedicalFormBloc>(
       create: (context) => MedicalFormBloc(MedicalFormState(
         medicalFormModelObj: MedicalFormModel(),
-      ))
-        ..add(MedicalFormInitialEvent()),
+      )),
       child: MedicalFormScreen(),
     );
   }
@@ -92,9 +88,11 @@ class MedicalFormScreen extends StatelessWidget {
                               bottom: 17.h,
                             ),
                             onChanged: (value) {
+/*
                               context
                                   .read<MedicalFormBloc>()
                                   .add(ChangeDropDownEvent(value: value));
+*/
                             },
                           );
                         },

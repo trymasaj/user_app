@@ -4,55 +4,40 @@ part of 'add_member_bloc.dart';
 
 /// Represents the state of AddMember in the application.
 class AddMemberState extends Equatable {
-  AddMemberState({
-    this.nameEditTextController,
-    this.phoneNumberController,
-    this.maleValueEditTextController,
-    this.femaleValueEditTextController,
-    this.selectedCountry,
-    this.addMemberModelObj,
+  const AddMemberState({
+    required this.name,
+    required this.phone,
+    required this.gender,
+    required this.selectedCountry,
   });
 
-  TextEditingController? nameEditTextController;
-
-  TextEditingController? phoneNumberController;
-
-  TextEditingController? maleValueEditTextController;
-
-  TextEditingController? femaleValueEditTextController;
-
-  AddMemberModel? addMemberModelObj;
-
-  Country? selectedCountry;
+  final String name;
+  final String phone;
+  final Gender gender;
+  final Option<Country> selectedCountry;
 
   @override
   List<Object?> get props => [
-        nameEditTextController,
-        phoneNumberController,
-        maleValueEditTextController,
-        femaleValueEditTextController,
+        name,
+        gender,
+        phone,
         selectedCountry,
-        addMemberModelObj,
       ];
   AddMemberState copyWith({
-    TextEditingController? nameEditTextController,
-    TextEditingController? phoneNumberController,
-    TextEditingController? maleValueEditTextController,
-    TextEditingController? femaleValueEditTextController,
-    Country? selectedCountry,
+    String? nameEditTextController,
+    String? phoneNumberController,
+    Option<Country>? selectedCountry,
+    Gender? gender,
     AddMemberModel? addMemberModelObj,
   }) {
     return AddMemberState(
-      nameEditTextController:
-          nameEditTextController ?? this.nameEditTextController,
-      phoneNumberController:
-          phoneNumberController ?? this.phoneNumberController,
-      maleValueEditTextController:
-          maleValueEditTextController ?? this.maleValueEditTextController,
-      femaleValueEditTextController:
-          femaleValueEditTextController ?? this.femaleValueEditTextController,
+      gender: gender ?? this.gender,
+      name: nameEditTextController ?? this.name,
+      phone: phoneNumberController ?? this.phone,
       selectedCountry: selectedCountry ?? this.selectedCountry,
-      addMemberModelObj: addMemberModelObj ?? this.addMemberModelObj,
     );
   }
+
+  factory AddMemberState.initial() => AddMemberState(
+      name: '', phone: '', gender: Gender.male, selectedCountry: none());
 }

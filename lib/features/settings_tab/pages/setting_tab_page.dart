@@ -26,11 +26,9 @@ class SettingsTabPage extends StatelessWidget {
 
   static Widget builder(BuildContext context) {
     return BlocProvider<SettingsBloc>(
-        create: (context) => SettingsBloc(
-            SettingsState(
-                settingsSubscribedToMasajPlusModelObj:
-                    SettingsSubscribedToMasajPlusModel()))
-          ..add(SettingsEvent()),
+        create: (context) => SettingsBloc(SettingsState(
+            settingsSubscribedToMasajPlusModelObj:
+                SettingsSubscribedToMasajPlusModel())),
         child: SettingsTabPage());
   }
 
@@ -249,16 +247,13 @@ class SettingsTabPage extends StatelessWidget {
                 text: 'lbl_notifications',
                 imagePath: ImageConstant.imgGroup1000003171,
                 onTap: () {},
-                trailing: BlocSelector<SettingsBloc,
-                        SettingsState, bool?>(
+                trailing: BlocSelector<SettingsBloc, SettingsState, bool?>(
                     selector: (state) => state.isSelectedSwitch,
                     builder: (context, isSelectedSwitch) {
                       return CustomSwitch(
                           value: isSelectedSwitch,
                           onChange: (value) {
-                            context
-                                .read<SettingsBloc>()
-                                .add(ChangeSwitchEvent(value: value));
+                            context.read<SettingsBloc>().changeSwitch(value);
                           });
                     }),
               ),

@@ -1,6 +1,4 @@
 import 'package:masaj/core/app_export.dart';
-import 'package:masaj/core/widgets/app_bar/appbar_subtitle.dart';
-import 'package:masaj/core/widgets/app_bar/appbar_title_iconbutton.dart';
 import 'package:masaj/core/widgets/custom_radio_button.dart';
 
 import '../bloc/select_language_bloc/select_language_bloc.dart';
@@ -17,8 +15,7 @@ class SelectLanguageScreen extends StatelessWidget {
     return BlocProvider<SelectLanguageBloc>(
       create: (context) => SelectLanguageBloc(SelectLanguageState(
         selectLanguageModelObj: SelectLanguageModel(),
-      ))
-        ..add(SelectLanguageInitialEvent()),
+      )),
       child: SelectLanguageScreen(),
     );
   }
@@ -63,42 +60,8 @@ class SelectLanguageScreen extends StatelessWidget {
 
   /// Section Widget
   PreferredSizeWidget _buildAppBar(BuildContext context) {
-    return CustomAppBar(
-      centerTitle: true,
-      title: Column(
-        children: [
-          Padding(
-            padding: EdgeInsets.only(
-              left: 24.w,
-              right: 188.w,
-            ),
-            child: Row(
-              children: [
-                AppbarTitleIconbutton(
-                  imagePath: ImageConstant.imgGroup1000002973,
-                ),
-                AppbarSubtitle(
-                  text: "lbl_language".tr(),
-                  margin: EdgeInsets.only(
-                    left: 16.w,
-                    top: 9.h,
-                    bottom: 4.h,
-                  ),
-                ),
-              ],
-            ),
-          ),
-          SizedBox(height: 12.h),
-          Align(
-            alignment: Alignment.centerLeft,
-            child: SizedBox(
-              width: double.maxFinite,
-              child: Divider(),
-            ),
-          ),
-        ],
-      ),
-      styleType: Style.bgFill,
+    return AppBar(
+      title: Text("lbl_language".tr()),
     );
   }
 
@@ -123,7 +86,7 @@ class SelectLanguageScreen extends StatelessWidget {
                       onChange: (value) {
                         context
                             .read<SelectLanguageBloc>()
-                            .add(ChangeRadioButtonEvent(value: value));
+                            .changeRadioButton(value);
                       },
                     ),
                     Padding(
@@ -142,7 +105,7 @@ class SelectLanguageScreen extends StatelessWidget {
                         onChange: (value) {
                           context
                               .read<SelectLanguageBloc>()
-                              .add(ChangeRadioButtonEvent(value: value));
+                              .changeRadioButton(value);
                         },
                       ),
                     ),

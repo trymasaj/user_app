@@ -8,7 +8,6 @@ import 'package:flutter/material.dart';
 
 // ignore_for_file: must_be_immutable
 class TopUpWalletPaymentMethodBottomsheet extends StatelessWidget {
-
   const TopUpWalletPaymentMethodBottomsheet({Key? key})
       : super(
           key: key,
@@ -19,8 +18,7 @@ class TopUpWalletPaymentMethodBottomsheet extends StatelessWidget {
       create: (context) =>
           TopUpWalletPaymentMethodBloc(TopUpWalletPaymentMethodState(
         topUpWalletPaymentMethodModelObj: TopUpWalletPaymentMethodModel(),
-      ))
-            ..add(TopUpWalletPaymentMethodInitialEvent()),
+      )),
       child: TopUpWalletPaymentMethodBottomsheet(),
     );
   }

@@ -1,7 +1,4 @@
 import 'package:masaj/core/app_export.dart';
-import 'package:masaj/core/widgets/app_bar/appbar_subtitle.dart';
-import 'package:masaj/core/widgets/app_bar/appbar_title_iconbutton.dart';
-
 import '../bloc/reschedule_policy_bloc/reschedule_policy_bloc.dart';
 import '../models/reschedule_policy_model.dart';
 import 'package:flutter/material.dart';
@@ -19,7 +16,7 @@ class ReschedulePolicyScreen extends StatelessWidget {
       create: (context) => ReschedulePolicyBloc(ReschedulePolicyState(
         reschedulePolicyModelObj: ReschedulePolicyModel(),
       ))
-        ..add(ReschedulePolicyInitialEvent()),
+        ,
       child: ReschedulePolicyScreen(),
     );
   }
@@ -56,43 +53,6 @@ class ReschedulePolicyScreen extends StatelessWidget {
       title: Text(
         "msg_reschedule_policy".tr(),
       ),
-    );
-    return CustomAppBar(
-      centerTitle: true,
-      title: Column(
-        children: [
-          Padding(
-            padding: EdgeInsets.only(
-              left: 24.w,
-              right: 106.w,
-            ),
-            child: Row(
-              children: [
-                AppbarTitleIconbutton(
-                  imagePath: ImageConstant.imgGroup1000002973,
-                ),
-                AppbarSubtitle(
-                  text: "msg_reschedule_policy".tr(),
-                  margin: EdgeInsets.only(
-                    left: 16.w,
-                    top: 8.h,
-                    bottom: 5.h,
-                  ),
-                ),
-              ],
-            ),
-          ),
-          SizedBox(height: 12.h),
-          Align(
-            alignment: Alignment.centerLeft,
-            child: SizedBox(
-              width: double.maxFinite,
-              child: Divider(),
-            ),
-          ),
-        ],
-      ),
-      styleType: Style.bgFill,
     );
   }
 }

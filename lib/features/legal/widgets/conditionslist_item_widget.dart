@@ -6,16 +6,15 @@ import 'package:masaj/res/theme/custom_text_style.dart';
 import '../models/conditionslist_item_model.dart';
 import 'package:flutter/material.dart';
 
-// ignore: must_be_immutable
 class ConditionsListItem extends StatelessWidget {
-  ConditionsListItem(
-    this.conditionslistItemModelObj, {
+  const ConditionsListItem(
+    this.item, {
     Key? key,
   }) : super(
           key: key,
         );
 
-  ConditionslistItemModel conditionslistItemModelObj;
+  final Condition item;
 
   @override
   Widget build(BuildContext context) {
@@ -26,7 +25,7 @@ class ConditionsListItem extends StatelessWidget {
         Padding(
           padding: EdgeInsets.only(bottom: 17.h),
           child: Text(
-            conditionslistItemModelObj.allergiesText!,
+            item.name,
             style: CustomTextStyles.bodyMediumOnPrimary_2,
           ),
         ),

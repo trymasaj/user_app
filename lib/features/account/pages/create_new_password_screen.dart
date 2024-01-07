@@ -1,7 +1,5 @@
 import 'package:masaj/core/app_export.dart';
 import 'package:masaj/core/utils/validation_functions.dart';
-import 'package:masaj/core/widgets/app_bar/appbar_subtitle.dart';
-import 'package:masaj/core/widgets/app_bar/appbar_title_iconbutton.dart';
 import 'package:masaj/core/widgets/custom_text_form_field.dart';
 import 'package:masaj/core/widgets/password_text_field.dart';
 
@@ -18,10 +16,8 @@ class CreateNewPasswordScreen extends StatelessWidget {
 
   static Widget builder(BuildContext context) {
     return BlocProvider<CreateNewPasswordOneBloc>(
-      create: (context) => CreateNewPasswordOneBloc(CreateNewPasswordOneState(
-        createNewPasswordOneModelObj: CreateNewPasswordOneModel(),
-      ))
-        ..add(CreateNewPasswordOneInitialEvent()),
+      create: (context) =>
+          CreateNewPasswordOneBloc(CreateNewPasswordState.initial()),
       child: CreateNewPasswordScreen(),
     );
   }
@@ -51,7 +47,10 @@ class CreateNewPasswordScreen extends StatelessWidget {
                 hint: 'lbl_new_password',
               ),
               SizedBox(height: 20.h),
-              PasswordTextField(controller: TextEditingController(), hint: 'msg_confirm_new_password',),
+              PasswordTextField(
+                controller: TextEditingController(),
+                hint: 'msg_confirm_new_password',
+              ),
             ],
           ),
         ),
@@ -65,123 +64,6 @@ class CreateNewPasswordScreen extends StatelessWidget {
       title: Text(
         'lbl_change_password'.tr(),
       ),
-    );
-  }
-
-  /// Section Widget
-  Widget _buildNewPasswordEditText(BuildContext context) {
-    return BlocBuilder<CreateNewPasswordOneBloc, CreateNewPasswordOneState>(
-      builder: (context, state) {
-        return CustomTextFormField(
-          controller: state.newPasswordEditTextController,
-          hintText: "lbl_new_password".tr(),
-          hintStyle: CustomTextStyles.bodyMediumBluegray40001_1,
-          textInputType: TextInputType.visiblePassword,
-          prefix: Container(
-            margin: EdgeInsets.fromLTRB(18.w, 18.h, 8.w, 18.h),
-            child: CustomImageView(
-              imagePath: ImageConstant.imgLocation,
-              height: 20.adaptSize,
-              width: 20.adaptSize,
-            ),
-          ),
-          prefixConstraints: BoxConstraints(
-            maxHeight: 56.h,
-          ),
-          suffix: InkWell(
-            onTap: () {
-              context.read<CreateNewPasswordOneBloc>().add(
-                  ChangePasswordVisibilityEvent1(
-                      value: !state.isShowPassword1));
-            },
-            child: Container(
-              margin: EdgeInsets.fromLTRB(30.w, 17.h, 17.w, 19.h),
-              child: CustomImageView(
-                imagePath: ImageConstant.imgSettingsBlueGray40001,
-                height: 20.h,
-                width: 24.w,
-              ),
-            ),
-          ),
-          suffixConstraints: BoxConstraints(
-            maxHeight: 56.h,
-          ),
-          validator: (value) {
-            if (value == null || (!isValidPassword(value, isRequired: true))) {
-              return "err_msg_please_enter_valid_password".tr();
-            }
-            return null;
-          },
-          obscureText: state.isShowPassword1,
-          contentPadding: EdgeInsets.symmetric(vertical: 17.h),
-          borderDecoration: TextFormFieldStyleHelper.outlineBlueGrayTL12,
-          filled: false,
-        );
-      },
-    );
-  }
-
-  /// Section Widget
-  Widget _buildNewPasswordEditText1(BuildContext context) {
-    return BlocBuilder<CreateNewPasswordOneBloc, CreateNewPasswordOneState>(
-      builder: (context, state) {
-        return CustomTextFormField(
-          controller: state.newPasswordEditTextController1,
-          hintText: "msg_confirm_new_password".tr(),
-          hintStyle: CustomTextStyles.bodyMediumBluegray40001_1,
-          textInputAction: TextInputAction.done,
-          textInputType: TextInputType.visiblePassword,
-          prefix: Container(
-            margin: EdgeInsets.fromLTRB(18.w, 18.h, 8.w, 18.h),
-            child: CustomImageView(
-              imagePath: ImageConstant.imgLocation,
-              height: 20.adaptSize,
-              width: 20.adaptSize,
-            ),
-          ),
-          prefixConstraints: BoxConstraints(
-            maxHeight: 56.h,
-          ),
-          suffix: InkWell(
-            onTap: () {
-              context.read<CreateNewPasswordOneBloc>().add(
-                  ChangePasswordVisibilityEvent2(
-                      value: !state.isShowPassword2));
-            },
-            child: Container(
-              margin: EdgeInsets.fromLTRB(30.w, 17.h, 17.w, 19.h),
-              child: CustomImageView(
-                imagePath: ImageConstant.imgSettingsBlueGray40001,
-                height: 20.h,
-                width: 24.w,
-              ),
-            ),
-          ),
-          suffixConstraints: BoxConstraints(
-            maxHeight: 56.h,
-          ),
-          validator: (value) {
-            if (value == null || (!isValidPassword(value, isRequired: true))) {
-              return "err_msg_please_enter_valid_password".tr();
-            }
-            return null;
-          },
-          obscureText: state.isShowPassword2,
-          contentPadding: EdgeInsets.symmetric(vertical: 17.h),
-          borderDecoration: TextFormFieldStyleHelper.outlineBlueGrayTL12,
-          filled: false,
-        );
-      },
-    );
-  }
-
-  /// Section Widget
-  Widget _buildContinueButton(BuildContext context) {
-    return CustomElevatedButton(
-      text: "lbl_continue".tr(),
-      buttonStyle: CustomButtonStyles.none,
-      decoration:
-          CustomButtonStyles.gradientSecondaryContainerToPrimaryDecoration,
     );
   }
 }

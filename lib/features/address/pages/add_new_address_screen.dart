@@ -1,7 +1,5 @@
 import 'package:masaj/core/app_export.dart';
 import 'package:masaj/core/utils/validation_functions.dart';
-import 'package:masaj/core/widgets/app_bar/appbar_subtitle.dart';
-import 'package:masaj/core/widgets/app_bar/appbar_title_iconbutton.dart';
 import 'package:masaj/core/widgets/custom_outlined_button.dart';
 import 'package:masaj/core/widgets/custom_text_form_field.dart';
 
@@ -10,7 +8,7 @@ import '../models/add_new_address_model.dart';
 import 'package:flutter/material.dart';
 
 class AddNewAddressScreen extends StatelessWidget {
-static const routeName = '/add-new-address';
+  static const routeName = '/add-new-address';
 
   AddNewAddressScreen({Key? key})
       : super(
@@ -23,8 +21,7 @@ static const routeName = '/add-new-address';
     return BlocProvider<AddNewAddressBloc>(
       create: (context) => AddNewAddressBloc(AddNewAddressState(
         addNewAddressModelObj: AddNewAddressModel(),
-      ))
-        ..add(AddNewAddressInitialEvent()),
+      )),
       child: AddNewAddressScreen(),
     );
   }
@@ -88,42 +85,8 @@ static const routeName = '/add-new-address';
 
   /// Section Widget
   PreferredSizeWidget _buildAppBar(BuildContext context) {
-    return CustomAppBar(
-      centerTitle: true,
-      title: Column(
-        children: [
-          Padding(
-            padding: EdgeInsets.only(
-              left: 24.w,
-              right: 114.w,
-            ),
-            child: Row(
-              children: [
-                AppbarTitleIconbutton(
-                  imagePath: ImageConstant.imgGroup1000002973,
-                ),
-                AppbarSubtitle(
-                  text: "lbl_add_new_address2".tr(),
-                  margin: EdgeInsets.only(
-                    left: 16.w,
-                    top: 6.h,
-                    bottom: 7.h,
-                  ),
-                ),
-              ],
-            ),
-          ),
-          SizedBox(height: 12.h),
-          Align(
-            alignment: Alignment.centerLeft,
-            child: SizedBox(
-              width: double.maxFinite,
-              child: Divider(),
-            ),
-          ),
-        ],
-      ),
-      styleType: Style.bgFill,
+    return AppBar(
+      title: Text("lbl_add_new_address2".tr()),
     );
   }
 
@@ -302,11 +265,7 @@ static const routeName = '/add-new-address';
           builder: (context, isSelectedSwitch) {
             return CustomSwitch(
               value: isSelectedSwitch,
-              onChange: (value) {
-                context
-                    .read<AddNewAddressBloc>()
-                    .add(ChangeSwitchEvent(value: value));
-              },
+              onChange: (value) {},
             );
           },
         ),

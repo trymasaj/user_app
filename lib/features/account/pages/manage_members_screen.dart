@@ -14,8 +14,7 @@ class ManageMembersScreen extends StatelessWidget {
   static Widget builder(BuildContext context) {
     return BlocProvider<ManageMembersBloc>(
         create: (context) => ManageMembersBloc(
-            ManageMembersState(manageMembersModelObj: ManageMembersModel()))
-          ..add(ManageMembersInitialEvent()),
+            ManageMembersState(manageMembersModelObj: ManageMembersModel())),
         child: ManageMembersScreen());
   }
 
@@ -27,8 +26,7 @@ class ManageMembersScreen extends StatelessWidget {
           appBar: _buildAppBar(context),
           body: Container(
               width: double.maxFinite,
-              padding:
-                  EdgeInsets.symmetric(horizontal: 24.w, vertical: 23.h),
+              padding: EdgeInsets.symmetric(horizontal: 24.w, vertical: 23.h),
               child: Column(children: [
                 for (int i = 0; i < 5; i++)
                   _buildMemberTile(Member(
@@ -49,7 +47,9 @@ class ManageMembersScreen extends StatelessWidget {
 
   /// Section Widget
   Widget _buildMemberTile(Member member) {
-    return MemberTile(member: member,);
+    return MemberTile(
+      member: member,
+    );
   }
 
   /// Navigates to the addMember1Screen when the action is triggered.

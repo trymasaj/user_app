@@ -1,7 +1,5 @@
 import 'package:masaj/core/app_export.dart';
 import 'package:masaj/core/utils/validation_functions.dart';
-import 'package:masaj/core/widgets/app_bar/appbar_subtitle.dart';
-import 'package:masaj/core/widgets/app_bar/appbar_title_iconbutton.dart';
 import 'package:masaj/core/widgets/custom_floating_text_field.dart';
 import 'package:masaj/core/widgets/custom_outlined_button.dart';
 import 'package:outline_gradient_button/outline_gradient_button.dart';
@@ -22,8 +20,7 @@ class MyProfileScreen extends StatelessWidget {
     return BlocProvider<MyProfileBloc>(
       create: (context) => MyProfileBloc(MyProfileState(
         myProfileModelObj: MyProfileModel(),
-      ))
-        ..add(MyProfileInitialEvent()),
+      )),
       child: MyProfileScreen(),
     );
   }
@@ -109,7 +106,6 @@ class MyProfileScreen extends StatelessWidget {
     );
   }
 
-
   Widget _buildBirthDate(BuildContext context) {
     return Stack(
       children: [
@@ -158,13 +154,13 @@ class MyProfileScreen extends StatelessWidget {
       ),
     );
   }
+
   /// Section Widget
   Widget _buildFrameRow(BuildContext context) {
     return Row(
       mainAxisAlignment: MainAxisAlignment.center,
       children: [
         _buildGenderButton('lbl_male'),
-
         _buildGenderButton('lbl_female'),
       ],
     );

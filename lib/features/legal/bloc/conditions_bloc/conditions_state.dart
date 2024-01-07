@@ -2,66 +2,32 @@
 
 part of 'conditions_bloc.dart';
 
-/// Represents the state of Conditions in the application.
+enum ConditionsStatus { initial, loading, loaded, error }
+
+extension AboutUsStateX on ConditionsState {
+  bool get isInitial => status == ConditionsStatus.initial;
+  bool get isLoading => status == ConditionsStatus.loading;
+  bool get isLoaded => status == ConditionsStatus.loaded;
+  bool get isError => status == ConditionsStatus.error;
+}
+
 class ConditionsState extends Equatable {
   ConditionsState({
-    this.osteoporosis = false,
-    this.pregnancyCheckbox = false,
-    this.thumbsup = false,
-    this.chestPainCheckbox = false,
-    this.varicoseVeinsCheckbox = false,
-    this.neckpain = false,
-    this.diabetesCheckbox = false,
-    this.conditionsModelObj,
+    required this.conditions,
+    required this.status,
   });
-
-  ConditionsModel? conditionsModelObj;
-
-  bool osteoporosis;
-
-  bool pregnancyCheckbox;
-
-  bool thumbsup;
-
-  bool chestPainCheckbox;
-
-  bool varicoseVeinsCheckbox;
-
-  bool neckpain;
-
-  bool diabetesCheckbox;
+  final ConditionsStatus status;
+  final List<Condition> conditions;
 
   @override
-  List<Object?> get props => [
-        osteoporosis,
-        pregnancyCheckbox,
-        thumbsup,
-        chestPainCheckbox,
-        varicoseVeinsCheckbox,
-        neckpain,
-        diabetesCheckbox,
-        conditionsModelObj,
-      ];
-  ConditionsState copyWith({
-    bool? osteoporosis,
-    bool? pregnancyCheckbox,
-    bool? thumbsup,
-    bool? chestPainCheckbox,
-    bool? varicoseVeinsCheckbox,
-    bool? neckpain,
-    bool? diabetesCheckbox,
-    ConditionsModel? conditionsModelObj,
-  }) {
+  List<Object?> get props => [conditions, status];
+  ConditionsState copyWith(
+      {List<Condition>? conditions, ConditionsStatus? status}) {
     return ConditionsState(
-      osteoporosis: osteoporosis ?? this.osteoporosis,
-      pregnancyCheckbox: pregnancyCheckbox ?? this.pregnancyCheckbox,
-      thumbsup: thumbsup ?? this.thumbsup,
-      chestPainCheckbox: chestPainCheckbox ?? this.chestPainCheckbox,
-      varicoseVeinsCheckbox:
-          varicoseVeinsCheckbox ?? this.varicoseVeinsCheckbox,
-      neckpain: neckpain ?? this.neckpain,
-      diabetesCheckbox: diabetesCheckbox ?? this.diabetesCheckbox,
-      conditionsModelObj: conditionsModelObj ?? this.conditionsModelObj,
-    );
+        status: status ?? this.status,
+        conditions: conditions ?? this.conditions);
   }
+
+  factory ConditionsState.initial() =>
+      ConditionsState(status: ConditionsStatus.initial, conditions: []);
 }

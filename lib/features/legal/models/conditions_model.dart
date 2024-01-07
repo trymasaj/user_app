@@ -8,10 +8,10 @@ import 'conditionslist_item_model.dart';
 class ConditionsModel extends Equatable {
   ConditionsModel({this.conditionslistItemList = const []}) {}
 
-  List<ConditionslistItemModel> conditionslistItemList;
+  List<Condition> conditionslistItemList;
 
   ConditionsModel copyWith(
-      {List<ConditionslistItemModel>? conditionslistItemList}) {
+      {List<Condition>? conditionslistItemList}) {
     return ConditionsModel(
       conditionslistItemList:
           conditionslistItemList ?? this.conditionslistItemList,

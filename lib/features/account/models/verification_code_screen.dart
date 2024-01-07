@@ -1,6 +1,5 @@
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:masaj/core/app_export.dart';
-import 'package:masaj/core/widgets/app_bar/appbar_leading_iconbutton.dart';
 import 'package:masaj/core/widgets/custom_pin_code_text_field.dart';
 import 'package:masaj/res/theme/theme_helper.dart';
 
@@ -8,16 +7,28 @@ import '../bloc/verification_code_bloc/verification_code_bloc.dart';
 import 'verification_code_model.dart';
 import 'package:flutter/material.dart';
 
-class VerificationCodeScreen extends StatelessWidget {
+class VerificationCodeScreen extends StatefulWidget {
   static const routeName = '/verification-code';
   const VerificationCodeScreen({Key? key}) : super(key: key);
 
   static Widget builder(BuildContext context) {
     return BlocProvider<VerificationCodeBloc>(
-        create: (context) => VerificationCodeBloc(VerificationCodeState(
-            verificationCodeModelObj: VerificationCodeModel()))
-          ..add(VerificationCodeInitialEvent()),
+        create: (context) =>
+            VerificationCodeBloc(VerificationCodeState.initial()),
         child: VerificationCodeScreen());
+  }
+
+  @override
+  State<VerificationCodeScreen> createState() => _VerificationCodeScreenState();
+}
+
+class _VerificationCodeScreenState extends State<VerificationCodeScreen> {
+  final otpController = TextEditingController();
+  @override
+  void dispose() {
+    otpController.dispose();
+
+    super.dispose();
   }
 
   @override
@@ -46,17 +57,15 @@ class VerificationCodeScreen extends StatelessWidget {
                       SizedBox(height: 21.h),
                       Padding(
                           padding: EdgeInsets.symmetric(horizontal: 10.w),
-                          child: BlocSelector<
-                                  VerificationCodeBloc,
-                                  VerificationCodeState,
-                                  TextEditingController?>(
-                              selector: (state) => state.otpController,
-                              builder: (context, otpController) {
+                          child: BlocSelector<VerificationCodeBloc,
+                                  VerificationCodeState, String>(
+                              selector: (state) => state.otp,
+                              builder: (context, _) {
                                 return CustomPinCodeTextField(
                                     context: context,
                                     controller: otpController,
                                     onChanged: (value) {
-                                      otpController?.text = value;
+                                      otpController.text = value;
                                     });
                               })),
                       SizedBox(height: 34.h),
@@ -90,15 +99,7 @@ class VerificationCodeScreen extends StatelessWidget {
 
   /// Section Widget
   PreferredSizeWidget _buildAppBar(BuildContext context) {
-    return CustomAppBar(
-        height: 62.h,
-        leadingWidth: double.maxFinite,
-        leading: AppbarLeadingIconbutton(
-            imagePath: ImageConstant.imgGroup1000002973,
-            margin: EdgeInsets.fromLTRB(24.w, 6.h, 307.w, 6.h),
-            onTap: () {
-              onTapIconButton(context);
-            }));
+    return AppBar();
   }
 
   /// Navigates to the forgotPasswordScreen when the action is triggered.
@@ -111,7 +112,7 @@ class VerificationCodeScreen extends StatelessWidget {
   }
 
   /// Navigates to the createNewPasswordScreen when the action is triggered.
- void onTapSend(BuildContext context) {
+  void onTapSend(BuildContext context) {
 /*
     NavigatorService.pushNamed(
       AppRoutes.createNewPasswordScreen,

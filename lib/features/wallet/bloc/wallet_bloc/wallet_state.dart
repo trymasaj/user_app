@@ -2,19 +2,33 @@
 
 part of 'wallet_bloc.dart';
 
+enum WalletStateStatus { initial, loading, loaded, error }
+
+extension WalletStateX on WalletState {
+  bool get isInitial => status == WalletStateStatus.initial;
+  bool get isLoading => status == WalletStateStatus.loading;
+  bool get isLoaded => status == WalletStateStatus.loaded;
+  bool get isError => status == WalletStateStatus.error;
+}
+
 /// Represents the state of Wallet in the application.
 class WalletState extends Equatable {
-  WalletState({this.walletModelObj});
+  const WalletState({required this.wallet, required this.status});
 
-  WalletModel? walletModelObj;
+  final Option<Wallet> wallet;
+  final WalletStateStatus status;
 
   @override
   List<Object?> get props => [
-        walletModelObj,
+        wallet,
       ];
-  WalletState copyWith({WalletModel? walletModelObj}) {
+  WalletState copyWith({Option<Wallet>? wallet, WalletStateStatus? status}) {
     return WalletState(
-      walletModelObj: walletModelObj ?? this.walletModelObj,
+      wallet: wallet ?? this.wallet,
+      status: status ?? this.status,
     );
   }
+
+  factory WalletState.initial() =>
+      WalletState(wallet: none(), status: WalletStateStatus.initial);
 }
