@@ -21,30 +21,29 @@ class TopUpWalletScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return SafeArea(
-        child: Scaffold(
-            appBar: _buildAppBar(context),
-            body: Container(
-                width: double.maxFinite,
-                padding: EdgeInsets.symmetric(vertical: 8.h),
-                child: Column(children: [
-                  SizedBox(height: 24.h),
-                  Expanded(
-                      child: SingleChildScrollView(
-                          child: Padding(
-                              padding: EdgeInsets.only(
-                                  left: 24.w, right: 24.w, bottom: 5.h),
-                              child: Column(children: [
-                                _buildFrameColumn(context),
-                                SizedBox(height: 25.h),
-                                _buildValueColumn(context),
-                                SizedBox(height: 12.h),
-                                _buildFrameRow(context),
-                                SizedBox(height: 12.h),
-                                _buildFrameRow1(context)
-                              ]))))
-                ])),
-            bottomNavigationBar: _buildPurchaseButton(context)));
+    return Scaffold(
+        appBar: _buildAppBar(context),
+        body: Container(
+            width: double.maxFinite,
+            padding: EdgeInsets.symmetric(vertical: 8.h),
+            child: Column(children: [
+              SizedBox(height: 24.h),
+              Expanded(
+                  child: SingleChildScrollView(
+                      child: Padding(
+                          padding: EdgeInsets.only(
+                              left: 24.w, right: 24.w, bottom: 5.h),
+                          child: Column(children: [
+                            _buildFrameColumn(context),
+                            SizedBox(height: 25.h),
+                            _buildValueColumn(context),
+                            SizedBox(height: 12.h),
+                            _buildFrameRow(context),
+                            SizedBox(height: 12.h),
+                            _buildFrameRow1(context)
+                          ]))))
+            ])),
+        bottomNavigationBar: _buildPurchaseButton(context));
   }
 
   /// Section Widget
@@ -59,30 +58,36 @@ class TopUpWalletScreen extends StatelessWidget {
     return Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
       Text("msg_have_a_gift_voucher".tr(), style: theme.textTheme.titleSmall),
       SizedBox(height: 8.h),
-      Container(
-          padding: EdgeInsets.symmetric(horizontal: 11.w, vertical: 9.h),
-          decoration: AppDecoration.outlineBluegray100
-              .copyWith(borderRadius: BorderRadiusStyle.roundedBorder8),
-          child: Row(children: [
-            CustomImageView(
+      TextField(
+        decoration: InputDecoration(
+            hintText: "msg_enter_redeem_code".tr(),
+            hintStyle: CustomTextStyles.bodyMediumBluegray40001_1,
+            suffixIcon: Padding(
+              padding: EdgeInsets.symmetric(vertical: 3.h, horizontal: 12.w),
+              child: CustomElevatedButton(
+                  height: 36.h,
+                  width: 64.w,
+                  onPressed: () {
+                    print('helooo');
+                  },
+                  text: "lbl_apply".tr(),
+                  buttonStyle: CustomButtonStyles.none,
+                  decoration: CustomButtonStyles
+                      .gradientSecondaryContainerToPrimaryTL6Decoration,
+                  buttonTextStyle:
+                      CustomTextStyles.labelLargeOnPrimaryContainer),
+            ),
+            prefixIcon: CustomImageView(
                 imagePath: ImageConstant.imgTelevision,
                 height: 20.adaptSize,
                 width: 20.adaptSize,
-                margin: EdgeInsets.symmetric(vertical: 8.h)),
-            Padding(
-                padding: EdgeInsets.only(left: 6.w, top: 7.h, bottom: 7.h),
-                child: Text("msg_enter_redeem_code".tr(),
-                    style: CustomTextStyles.bodyMediumBluegray40001_1)),
-            Spacer(),
-            CustomElevatedButton(
-                height: 36.h,
-                width: 64.w,
-                text: "lbl_apply".tr(),
-                buttonStyle: CustomButtonStyles.none,
-                decoration: CustomButtonStyles
-                    .gradientSecondaryContainerToPrimaryTL6Decoration,
-                buttonTextStyle: CustomTextStyles.labelLargeOnPrimaryContainer)
-          ]))
+                margin: EdgeInsets.symmetric(vertical: 8.h, horizontal: 12.w)),
+            prefixIconConstraints:
+                BoxConstraints(minWidth: 20.adaptSize, minHeight: 20.adaptSize),
+            border: OutlineInputBorder(
+                borderRadius: BorderRadiusStyle.roundedBorder8,
+                borderSide: BorderSide.none)),
+      ),
     ]);
   }
 
@@ -256,12 +261,6 @@ class TopUpWalletScreen extends StatelessWidget {
             ])));
   }
 
-  /// Displays a bottom sheet widget using the [showModalBottomSheet] method
-  /// of the [Scaffold] class with [isScrollControlled] set to true.
-  ///
-  /// The bottom sheet is built using the [TopUpWalletPaymentMethodBottomsheet]
-  /// class and the [builder] method of the bottom sheet is passed the
-  /// [BuildContext] object.
   onTapPurchaseButton(BuildContext context) {
     showModalBottomSheet(
         context: context,

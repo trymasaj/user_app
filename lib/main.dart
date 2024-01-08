@@ -31,11 +31,6 @@ void main() async {
     WidgetsFlutterBinding.ensureInitialized();
     await EasyLocalization.ensureInitialized();
     await Injector().init();
-    // await Firebase.initializeApp(
-    //   options: DefaultFirebaseOptions.currentPlatform,
-    // );
-
-    //await _initCrashLytics();
     runApp(
       EasyLocalization(
         supportedLocales: const [Locale('en'), Locale('ar')],

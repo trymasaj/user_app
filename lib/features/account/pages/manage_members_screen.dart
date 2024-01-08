@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:masaj/core/app_export.dart';
+import 'package:masaj/core/utils/navigator_helper.dart';
+import 'package:masaj/features/account/pages/add_member_screen.dart';
 import 'package:masaj/features/account/widgets/member_tile.dart';
 import 'package:masaj/features/account/models/member.dart';
 
@@ -41,6 +43,22 @@ class ManageMembersScreen extends StatelessWidget {
   /// Section Widget
   PreferredSizeWidget _buildAppBar(BuildContext context) {
     return AppBar(
+      actions: [
+        GestureDetector(
+          onTap: () {
+            NavigatorHelper.of(context).pushNamed(AddMemberScreen.routeName);
+          },
+          child: Padding(
+            padding: EdgeInsets.symmetric(horizontal: 20),
+            child: Text(
+              "lbl_add".tr(),
+              style: CustomTextStyles.titleMediumSecondaryContainer.copyWith(
+                color: theme.colorScheme.secondaryContainer,
+              ),
+            ),
+          ),
+        )
+      ],
       title: Text("lbl_manage_members".tr()),
     );
   }

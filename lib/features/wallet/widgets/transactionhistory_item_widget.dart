@@ -4,15 +4,15 @@ import '../models/transactionhistory_item_model.dart';
 import 'package:flutter/material.dart';
 
 // ignore: must_be_immutable
-class TransactionhistoryItemWidget extends StatelessWidget {
-  TransactionhistoryItemWidget(
-    this.transactionhistoryItemModelObj, {
+class TransactionItem extends StatelessWidget {
+  const TransactionItem(
+    this.transaction, {
     Key? key,
   }) : super(
           key: key,
         );
 
-  Transaction transactionhistoryItemModelObj;
+  final Transaction transaction;
 
   @override
   Widget build(BuildContext context) {
@@ -34,12 +34,12 @@ class TransactionhistoryItemWidget extends StatelessWidget {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Text(
-                  transactionhistoryItemModelObj.transactionTitle!,
+                  transaction.transactionTitle!,
                   style: theme.textTheme.titleSmall,
                 ),
                 SizedBox(height: 2.h),
                 Text(
-                  transactionhistoryItemModelObj.transactionDate!,
+                  transaction.transactionDate!,
                   style: theme.textTheme.bodySmall,
                 ),
               ],
@@ -48,7 +48,7 @@ class TransactionhistoryItemWidget extends StatelessWidget {
           Padding(
             padding: EdgeInsets.only(bottom: 22.h),
             child: Text(
-              transactionhistoryItemModelObj.transactionAmount!,
+              transaction.transactionAmount!,
               style: CustomTextStyles.bodyMediumLightgreen900,
             ),
           ),

@@ -31,17 +31,5 @@ class MedicalFormBloc extends Cubit<MedicalFormState> {
     ];
   }
 
-  void _onInitialize() async {
-    emit(state.copyWith(
-      editTextController: TextEditingController(),
-      editTextController1: TextEditingController(),
-      editTextController2: TextEditingController(),
-      editTextController3: TextEditingController(),
-      editTextController4: TextEditingController(),
-    ));
-    emit(state.copyWith(
-        medicalFormModelObj: state.medicalFormModelObj?.copyWith(
-      dropdownItemList: fillDropdownItemList(),
-    )));
-  }
+  void _onInitialize() async {}
 }

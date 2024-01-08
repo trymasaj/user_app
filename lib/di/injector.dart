@@ -3,6 +3,9 @@ import 'package:masaj/core/service/location_helper.dart';
 import 'package:masaj/features/account/presentation/blocs/coupon_details_cubit/coupon_details_cubit.dart';
 import 'package:masaj/core/utils/show_case_helper.dart';
 import 'package:masaj/features/intro/presentation/blocs/quiz_page_cubit/quiz_page_cubit.dart';
+import 'package:masaj/features/wallet/bloc/wallet_bloc/wallet_bloc.dart';
+import 'package:masaj/features/wallet/bloc/wallet_bloc/wallet_bloc.dart';
+import 'package:masaj/features/wallet/repos/wallet_repo.dart';
 
 import '../core/data/datasources/device_type_data_source.dart';
 import '../core/data/datasources/external_login_data_source.dart';
@@ -55,9 +58,13 @@ class Injector {
   Injector._internal();
   factory Injector() => _singleton;
 
-  Future<void> init(){
-   return Future.wait([sharedPreferenceLocalClient.init()]);
+  Future<void> init() {
+    return Future.wait([sharedPreferenceLocalClient.init()]);
   }
+
+  //===================[WALLLET_CUBIT]===================
+  WalletBloc get walletBloc =>
+      WalletBloc(WalletState.initial(), walletRepository);
 
   //===================[SPLASH_CUBIT]===================
   SplashCubit get splashCubit => SplashCubit(
@@ -68,6 +75,10 @@ class Injector {
   SplashRepository get splashRepository =>
       _flyweightMap['splashRepository'] ??
       SplashRepositoryImpl(splashLocalDataSource);
+
+  WalletRepository get walletRepository =>
+      _flyweightMap['walletRepository'] ?? WalletRepository();
+
   SharedPreferenceLocalClient get sharedPreferenceLocalClient =>
       _flyweightMap['sharedPreferenceLocalClient'] ??
       SharedPreferenceLocalClient();

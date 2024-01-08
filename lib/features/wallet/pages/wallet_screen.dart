@@ -1,5 +1,8 @@
 import 'package:dartz/dartz.dart';
 import 'package:masaj/core/app_export.dart';
+import 'package:masaj/core/utils/navigator_helper.dart';
+import 'package:masaj/di/injector.dart';
+import 'package:masaj/features/wallet/pages/top_up_wallet_screen.dart';
 import '../widgets/transactionhistory_item_widget.dart';
 import '../bloc/wallet_bloc/wallet_bloc.dart';
 import '../models/transactionhistory_item_model.dart';
@@ -13,24 +16,35 @@ class WalletScreen extends StatelessWidget {
 
   static Widget builder(BuildContext context) {
     return BlocProvider<WalletBloc>(
-        create: (context) =>
-            WalletBloc(WalletState(wallet: Wallet())),
-        child: WalletScreen());
+        child: WalletScreen(),
+        create: (context) => Injector().walletBloc..getTransactionHistory());
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
         appBar: _buildAppBar(context),
-        body: Container(
-            width: double.maxFinite,
-            padding: EdgeInsets.symmetric(horizontal: 24.w, vertical: 23.h),
-            child: Column(children: [
-              _buildTopUp(context),
-              SizedBox(height: 24.h),
-              _buildTransactionHistory(context),
-              SizedBox(height: 5.h)
-            ])));
+        body: Padding(
+          padding: EdgeInsets.symmetric(horizontal: 24.w, vertical: 23.h),
+          child: Column(children: [
+            _buildTopUp(context),
+            SizedBox(height: 24.h),
+            Row(children: [
+              CustomImageView(
+                  imagePath: ImageConstant.imgIcSharpHistory,
+                  height: 22.adaptSize,
+                  width: 22.adaptSize,
+                  margin: EdgeInsets.symmetric(vertical: 2.h)),
+              Padding(
+                  padding: EdgeInsets.only(left: 4.w),
+                  child: Text("msg_transactions_history".tr(),
+                      style: CustomTextStyles.titleMediumGray90003SemiBold))
+            ]),
+            SizedBox(height: 12.h),
+            Expanded(child: _buildTransactionHistory(context)),
+            SizedBox(height: 5.h)
+          ]),
+        ));
   }
 
   /// Section Widget
@@ -86,60 +100,37 @@ class WalletScreen extends StatelessWidget {
                   buttonTextStyle:
                       CustomTextStyles.titleSmallOnPrimaryContainer,
                   onPressed: () {
-                    onTapTopUp(context);
+                    NavigatorHelper.of(context)
+                        .pushNamed(TopUpWalletScreen.routeName);
                   })
             ]));
   }
 
-  /// Section Widget
+  WalletState getState(BuildContext context) =>
+      context.read<WalletBloc>().state;
+
   Widget _buildTransactionHistory(BuildContext context) {
-    return Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
-      Row(children: [
-        CustomImageView(
-            imagePath: ImageConstant.imgIcSharpHistory,
-            height: 22.adaptSize,
-            width: 22.adaptSize,
-            margin: EdgeInsets.symmetric(vertical: 2.h)),
-        Padding(
-            padding: EdgeInsets.only(left: 4.w),
-            child: Text("msg_transactions_history".tr(),
-                style: CustomTextStyles.titleMediumGray90003SemiBold))
-      ]),
-      SizedBox(height: 12.h),
-      BlocSelector<WalletBloc, WalletState, WalletStateStatus>(
-          selector: (state) => state.status,
-          builder: (context, status) {
-            switch(state.) {
-              case :
-
-                break;
-              default:
-            }
-
-            return ListView.separated(
-                physics: NeverScrollableScrollPhysics(),
-                shrinkWrap: true,
-                separatorBuilder: (context, index) {
-                  return SizedBox(height: 12.h);
-                },
-                itemCount:
-                    walletModelObj?.transactions.length ?? 0,
-                itemBuilder: (context, index) {
-                  Transaction model =
-                      walletModelObj?.transactions[index] ??
-                          Transaction();
-                  return TransactionhistoryItemWidget(model);
-                });
-          })
-    ]);
-  }
-
-  /// Navigates to the topUpWalletScreen when the action is triggered.
-  onTapTopUp(BuildContext context) {
-/*
-    NavigatorService.pushNamed(
-      AppRoutes.topUpWalletScreen,
+    return BlocSelector<WalletBloc, WalletState, WalletStateStatus>(
+      builder: (context, status) {
+        if (status == WalletStateStatus.loaded) {
+          final transactions =
+              getState(context).wallet.toNullable()!.transactions;
+          return ListView.separated(
+              separatorBuilder: (context, index) {
+                return SizedBox(height: 12.h);
+              },
+              itemCount: transactions.length,
+              itemBuilder: (context, index) {
+                return TransactionItem(transactions[index]);
+              });
+        }
+        if (status == WalletStateStatus.error) {
+          return Center(child: Text("msg_error".tr()));
+        } else {
+          return Center(child: CircularProgressIndicator());
+        }
+      },
+      selector: (WalletState state) => state.status,
     );
-*/
   }
 }

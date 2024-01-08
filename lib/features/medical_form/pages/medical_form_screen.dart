@@ -1,3 +1,4 @@
+import 'package:flutter_form_builder/flutter_form_builder.dart';
 import 'package:masaj/core/app_export.dart';
 import 'package:masaj/core/widgets/custom_drop_down.dart';
 import 'package:masaj/core/widgets/custom_text_form_field.dart';
@@ -15,9 +16,7 @@ class MedicalFormScreen extends StatelessWidget {
 
   static Widget builder(BuildContext context) {
     return BlocProvider<MedicalFormBloc>(
-      create: (context) => MedicalFormBloc(MedicalFormState(
-        medicalFormModelObj: MedicalFormModel(),
-      )),
+      create: (context) => MedicalFormBloc(MedicalFormState()),
       child: MedicalFormScreen(),
     );
   }
@@ -65,36 +64,29 @@ class MedicalFormScreen extends StatelessWidget {
                         ),
                       ),
                       SizedBox(height: 7.h),
-                      BlocSelector<MedicalFormBloc, MedicalFormState,
-                          MedicalFormModel?>(
-                        selector: (state) => state.medicalFormModelObj,
-                        builder: (context, medicalFormModelObj) {
-                          return CustomDropDown(
-                            icon: Container(
-                              margin:
-                                  EdgeInsets.fromLTRB(30.w, 18.h, 20.w, 18.h),
-                              child: CustomImageView(
-                                imagePath: ImageConstant.imgArrowdownOnprimary,
-                                height: 20.adaptSize,
-                                width: 20.adaptSize,
-                              ),
-                            ),
-                            hintText: "lbl_conditions".tr(),
-                            hintStyle: CustomTextStyles.bodyMediumOnPrimary_1,
-                            items: medicalFormModelObj?.dropdownItemList ?? [],
-                            contentPadding: EdgeInsets.only(
-                              left: 20.w,
-                              top: 17.h,
-                              bottom: 17.h,
-                            ),
-                            onChanged: (value) {
+                      CustomDropDown(
+                        icon: Container(
+                          margin: EdgeInsets.fromLTRB(30.w, 18.h, 20.w, 18.h),
+                          child: CustomImageView(
+                            imagePath: ImageConstant.imgArrowdownOnprimary,
+                            height: 20.adaptSize,
+                            width: 20.adaptSize,
+                          ),
+                        ),
+                        hintText: "lbl_conditions".tr(),
+                        hintStyle: CustomTextStyles.bodyMediumOnPrimary_1,
+                        items:  [],
+                        contentPadding: EdgeInsets.only(
+                          left: 20.w,
+                          top: 17.h,
+                          bottom: 17.h,
+                        ),
+                        onChanged: (value) {
 /*
                               context
                                   .read<MedicalFormBloc>()
                                   .add(ChangeDropDownEvent(value: value));
 */
-                            },
-                          );
                         },
                       ),
                       SizedBox(height: 17.h),
@@ -163,7 +155,7 @@ class MedicalFormScreen extends StatelessWidget {
   /// Section Widget
   Widget _buildFrame(BuildContext context) {
     return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
+      crossAxisAlignment: CrossAxisAlignment.stretch,
       children: [
         Text(
           "lbl_birth_date".tr(),
@@ -171,7 +163,6 @@ class MedicalFormScreen extends StatelessWidget {
         ),
         SizedBox(height: 7.h),
         Container(
-          width: 327.w,
           padding: EdgeInsets.symmetric(
             horizontal: 19.w,
             vertical: 17.h,
@@ -179,10 +170,13 @@ class MedicalFormScreen extends StatelessWidget {
           decoration: AppDecoration.outlineBlueGray.copyWith(
             borderRadius: BorderRadiusStyle.roundedBorder12,
           ),
-          child: CustomImageView(
-            imagePath: ImageConstant.imgCalendarOnprimary20x20,
-            height: 20.adaptSize,
-            width: 20.adaptSize,
+          child: Align(
+            alignment: AlignmentDirectional.centerEnd,
+            child: CustomImageView(
+              imagePath: ImageConstant.imgCalendarOnprimary20x20,
+              height: 20.adaptSize,
+              width: 20.adaptSize,
+            ),
           ),
         ),
       ],
@@ -199,13 +193,8 @@ class MedicalFormScreen extends StatelessWidget {
           style: theme.textTheme.bodyMedium,
         ),
         SizedBox(height: 7.h),
-        BlocSelector<MedicalFormBloc, MedicalFormState, TextEditingController?>(
-          selector: (state) => state.editTextController,
-          builder: (context, editTextController) {
-            return CustomTextFormField(
-              controller: editTextController,
-            );
-          },
+        FormBuilderTextField(
+          name: 'allergies',
         ),
       ],
     );
@@ -226,13 +215,8 @@ class MedicalFormScreen extends StatelessWidget {
           style: theme.textTheme.bodyMedium,
         ),
         SizedBox(height: 7.h),
-        BlocSelector<MedicalFormBloc, MedicalFormState, TextEditingController?>(
-          selector: (state) => state.editTextController1,
-          builder: (context, editTextController1) {
-            return CustomTextFormField(
-              controller: editTextController1,
-            );
-          },
+        FormBuilderTextField(
+          name: 'treatment_goals',
         ),
       ],
     );
@@ -256,13 +240,8 @@ class MedicalFormScreen extends StatelessWidget {
           ),
         ),
         SizedBox(height: 7.h),
-        BlocSelector<MedicalFormBloc, MedicalFormState, TextEditingController?>(
-          selector: (state) => state.editTextController2,
-          builder: (context, editTextController2) {
-            return CustomTextFormField(
-              controller: editTextController2,
-            );
-          },
+        FormBuilderTextField(
+          name: 'avoid_areas',
         ),
       ],
     );
@@ -278,13 +257,8 @@ class MedicalFormScreen extends StatelessWidget {
           style: theme.textTheme.bodyMedium,
         ),
         SizedBox(height: 8.h),
-        BlocSelector<MedicalFormBloc, MedicalFormState, TextEditingController?>(
-          selector: (state) => state.editTextController3,
-          builder: (context, editTextController3) {
-            return CustomTextFormField(
-              controller: editTextController3,
-            );
-          },
+        FormBuilderTextField(
+          name: 'any_instructions',
         ),
       ],
     );
@@ -305,14 +279,8 @@ class MedicalFormScreen extends StatelessWidget {
           style: theme.textTheme.bodyMedium,
         ),
         SizedBox(height: 9.h),
-        BlocSelector<MedicalFormBloc, MedicalFormState, TextEditingController?>(
-          selector: (state) => state.editTextController4,
-          builder: (context, editTextController4) {
-            return CustomTextFormField(
-              controller: editTextController4,
-              textInputAction: TextInputAction.done,
-            );
-          },
+        FormBuilderTextField(
+          name: 'guardian_name',
         ),
       ],
     );
