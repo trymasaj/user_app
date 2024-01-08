@@ -1,4 +1,3 @@
-
 import 'package:flutter/foundation.dart';
 import '../../../../../../core/abstract/base_cubit.dart';
 import '../../../data/repositories/providers_tab_repository.dart';
@@ -11,9 +10,4 @@ class ProvidersTabCubit extends BaseCubit<ProvidersTabState> {
         super(const ProvidersTabState(status: ProvidersTabStateStatus.initial));
 
   final ProvidersTabRepository _providersTabRepository;
-  
-
-  
-    }
-  
-
+}

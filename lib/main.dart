@@ -3,8 +3,13 @@ import 'dart:isolate';
 
 import 'package:flutter/foundation.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:masaj/core/utils/size_utils.dart';
 import 'package:masaj/features/auth/presentation/pages/login_page.dart';
+import 'package:masaj/features/home/presentation/pages/home_page.dart';
+import 'package:masaj/features/intro/presentation/pages/quiz/quiz_page.dart';
+import 'package:masaj/features/intro/presentation/pages/quiz/quiz_start_page.dart';
 import 'package:masaj/features/splash/presentation/pages/splash_page.dart';
+import 'package:masaj/res/theme/theme_helper.dart';
 
 import 'di/injector.dart';
 import 'package:easy_localization/easy_localization.dart';
@@ -25,11 +30,7 @@ void main() async {
   runZonedGuarded<Future<void>>(() async {
     WidgetsFlutterBinding.ensureInitialized();
     await EasyLocalization.ensureInitialized();
-    // await Firebase.initializeApp(
-    //   options: DefaultFirebaseOptions.currentPlatform,
-    // );
-
-    //await _initCrashLytics();
+    await Injector().init();
     runApp(
       EasyLocalization(
         supportedLocales: const [Locale('en'), Locale('ar')],
@@ -109,26 +110,28 @@ class _MyAppState extends State<MyApp> with WidgetsBindingObserver {
     return GestureDetector(
       behavior: HitTestBehavior.opaque,
       onTap: () => FocusManager.instance.primaryFocus?.unfocus(),
-      child: ScreenUtilInit(
-        designSize: const Size(375, 790),
-        minTextAdapt: true,
-        child: Builder(builder: (context) {
-          return MaterialApp(
-            home: const SplashPage(),
-            localizationsDelegates: context.localizationDelegates,
-            supportedLocales: context.supportedLocales,
-            locale: context.locale,
-            debugShowCheckedModeBanner: false,
-            theme: theme(isArabic),
-            //Adding ClampingScrollPhysics() to avoid over scrolling in the app
-            scrollBehavior: const MaterialScrollBehavior().copyWith(
-              physics: const ClampingScrollPhysics(),
-            ),
-            title: 'Masaj',
-            routes: routes,
-            navigatorKey: navigatorKey,
-          );
-        }),
+      child: Sizer(
+        builder: (context, orientation, deviceType) => ScreenUtilInit(
+          designSize: const Size(375, 790),
+          minTextAdapt: true,
+          child: Builder(builder: (context) {
+            return MaterialApp(
+              home: const HomePage(),
+              localizationsDelegates: context.localizationDelegates,
+              supportedLocales: context.supportedLocales,
+              locale: context.locale,
+              debugShowCheckedModeBanner: false,
+              theme: theme,
+              //Adding ClampingScrollPhysics() to avoid over scrolling in the app
+              scrollBehavior: const MaterialScrollBehavior().copyWith(
+                physics: const ClampingScrollPhysics(),
+              ),
+              title: 'Masaj',
+              routes: routes,
+              navigatorKey: navigatorKey,
+            );
+          }),
+        ),
       ),
     );
   }

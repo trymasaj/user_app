@@ -14,7 +14,6 @@ import '../../../../shared_widgets/stateless/custom_app_page.dart';
 import '../../../../shared_widgets/stateless/title_text.dart';
 import '../../../../shared_widgets/text_fields/email_text_form_field.dart';
 import '../../../auth/presentation/blocs/auth_cubit/auth_cubit.dart';
-import '../../../auth/presentation/pages/sign_up_step_1_page.dart';
 import '../../../auth/presentation/pages/sign_up_page.dart';
 import '../../../home/presentation/pages/home_page.dart';
 
@@ -178,9 +177,6 @@ class _GetStartedPageState extends State<GetStartedPage> {
   Future<void> _goToLoginPage(BuildContext context) =>
       NavigatorHelper.of(context).pushReplacementNamed(LoginPage.routeName);
 
-  Future<void> _goToSignUpStep1Page(BuildContext context) =>
-      NavigatorHelper.of(context)
-          .pushReplacementNamed(SignUpStep1Page.routeName);
 
   Widget _buildAppleButton(BuildContext context) {
     final authCubit = context.read<AuthCubit>();
@@ -297,8 +293,9 @@ class _GetStartedPageState extends State<GetStartedPage> {
       onPressed: () {
         if (widget.isLogin)
           _goToLoginPage(context);
-        else
-          _goToSignUpStep1Page(context);
+        //todo
+        // else
+        //   _goToSignUpStep1Page(context);
       },
     );
   }

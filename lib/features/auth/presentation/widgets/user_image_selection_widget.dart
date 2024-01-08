@@ -91,7 +91,7 @@ class _UserImageSelectionState extends State<UserImageSelection> {
                     AssetImage('lib/res/assets/profile_male.webp')),
           ),
           onTap: () {
-            authCubit.selectGender(Gender.Male);
+            authCubit.selectGender(Gender.male);
             setState(() {
               showChoices = !showChoices;
             });
@@ -111,7 +111,7 @@ class _UserImageSelectionState extends State<UserImageSelection> {
             ),
           ),
           onTap: () {
-            authCubit.selectGender(Gender.Female);
+            authCubit.selectGender(Gender.female);
             setState(() {
               showChoices = !showChoices;
             });
