@@ -1,0 +1,53 @@
+import 'package:flutter/material.dart';
+import 'package:flutter_svg/svg.dart';
+import 'package:masaj/core/utils/navigator_helper.dart';
+import 'package:masaj/shared_widgets/stateless/custom_text.dart';
+
+class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
+  const CustomAppBar({
+    super.key,
+    required this.title,
+    this.centerTitle,
+    this.actions,
+  });
+
+  final bool? centerTitle;
+  final List<Widget>? actions;
+
+  final String title;
+  @override
+  Widget build(BuildContext context) {
+    final canPop = Navigator.of(context).canPop();
+    return AppBar(
+      backgroundColor: Colors.white,
+      title: CustomText(
+        text: title,
+        color: Colors.black,
+        fontSize: 20,
+        fontWeight: FontWeight.w600,
+      ),
+      leadingWidth: 75,
+      titleSpacing: 0,
+      leading: canPop ? _buildBackButton(context) : null,
+      // the following line is to center the title when there is no back button
+      centerTitle: centerTitle ?? !canPop,
+      actions: actions,
+      elevation: 1,
+    );
+  }
+
+  Widget _buildBackButton(BuildContext context) {
+    return InkWell(
+      child: Padding(
+        padding: const EdgeInsets.symmetric(horizontal: 16),
+        child: SvgPicture.asset(
+          "lib/res/assets/back_icon.svg",
+        ),
+      ),
+      onTap: NavigatorHelper.of(context).pop,
+    );
+  }
+
+  @override
+  Size get preferredSize => const Size.fromHeight(60);
+}
