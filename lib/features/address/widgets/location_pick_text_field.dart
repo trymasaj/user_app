@@ -5,9 +5,13 @@ import 'package:masaj/core/entities/decoded_address.dart';
 
 class LocationPickTextField extends StatelessWidget {
   const LocationPickTextField(
-      {Key? key, required this.onSelected, required this.onSearch})
+      {Key? key,
+      required this.onSelected,
+      required this.onSearch,
+      required this.focusNode})
       : super(key: key);
   final ValueSetter<GeoCodedAddress> onSelected;
+  final FocusNode focusNode;
   final Future<List<GeoCodedAddress>> Function(String search) onSearch;
 
   @override
@@ -17,9 +21,7 @@ class LocationPickTextField extends StatelessWidget {
         borderRadius: BorderRadius.zero);
     return TypeAheadField<GeoCodedAddress>(
       suggestionsCallback: onSearch,
-      hideOnSelect: true,
-      hideOnUnfocus: true,
-      hideWithKeyboard: true,
+      focusNode: focusNode,
       hideOnEmpty: true,
       builder: (context, controller, focusNode) {
         return TextField(

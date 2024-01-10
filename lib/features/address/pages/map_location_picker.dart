@@ -27,6 +27,7 @@ class MapLocationPicker extends StatefulWidget {
 
 class _MapLocationPickerState extends State<MapLocationPicker> {
   final googleMapController = Completer<GoogleMapController>();
+  final FocusNode focusNode = FocusNode();
 
   @override
   Widget build(BuildContext context) {
@@ -34,12 +35,10 @@ class _MapLocationPickerState extends State<MapLocationPicker> {
 
     return BlocListener<MapLocationPickerCubit, MapLocationPickerState>(
       listener: (_, state) async {
-        print('lattt ${state.latLng.toNullable()}');
         final googleMapController = await this.googleMapController.future;
-
         googleMapController.animateCamera(
             CameraUpdate.newLatLngZoom(state.latLng.toNullable()!, 15));
-        Focus.of(context).unfocus();
+        focusNode.unfocus();
       },
       listenWhen: (previous, current) {
         return previous.latLng != current.latLng;
@@ -65,6 +64,7 @@ class _MapLocationPickerState extends State<MapLocationPicker> {
               Align(
                   alignment: Alignment.topCenter,
                   child: LocationPickTextField(
+                      focusNode: focusNode,
                       onSelected: controller.onSelected,
                       onSearch: controller.onSearch)),
               Align(
