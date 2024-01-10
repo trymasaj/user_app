@@ -10,7 +10,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:collection/collection.dart';
 import '../../../../core/utils/navigator_helper.dart';
 
-import '../../../../di/injector.dart';
+import '../../../../core/di/injector.dart';
 import '../../../../shared_widgets/other/show_snack_bar.dart';
 import '../../../../shared_widgets/stateful/default_button.dart';
 import '../../../../shared_widgets/stateless/dots_indicator.dart';

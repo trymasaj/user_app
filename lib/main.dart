@@ -11,7 +11,7 @@ import 'package:masaj/features/intro/presentation/pages/quiz/quiz_start_page.dar
 import 'package:masaj/features/splash/presentation/pages/splash_page.dart';
 import 'package:masaj/res/theme/theme_helper.dart';
 
-import 'di/injector.dart';
+import 'core/di/injector.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:firebase_crashlytics/firebase_crashlytics.dart';
 import 'package:flutter/material.dart';
@@ -116,6 +116,7 @@ class _MyAppState extends State<MyApp> with WidgetsBindingObserver {
           minTextAdapt: true,
           child: Builder(builder: (context) {
             return MaterialApp(
+              // home: const HomePage(),
               home: const HomePage(),
               localizationsDelegates: context.localizationDelegates,
               supportedLocales: context.supportedLocales,

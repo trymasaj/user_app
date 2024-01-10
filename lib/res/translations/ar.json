@@ -159,5 +159,8 @@
     "resend": "إعادة إرسال",
     "back_to_login": "العودة لتسجيل الدخول",
     "refresh": "تحديث",
+    "selected_address": "العنوان المحدد",
+    "search_location": "ابحث عن موقعك",
+
     "email_sent_successfully": "تم إرسال البريد الإلكتروني بنجاح"
 }

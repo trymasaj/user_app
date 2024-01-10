@@ -7,7 +7,7 @@ import 'package:masaj/features/home/presentation/bloc/notificaions_cubit/notific
 import 'package:masaj/shared_widgets/stateless/subtitle_text.dart';
 
 import '../../../../core/utils/navigator_helper.dart';
-import '../../../../di/injector.dart';
+import '../../../../core/di/injector.dart';
 import '../../../../res/style/app_colors.dart';
 import '../../../../shared_widgets/other/show_snack_bar.dart';
 import '../../../../shared_widgets/stateless/custom_app_page.dart';

@@ -12,7 +12,7 @@ import '../../../../shared_widgets/stateless/custom_app_page.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
-import '../../../../di/injector.dart';
+import '../../../../core/di/injector.dart';
 import '../bloc/home_cubit/home_cubit.dart';
 
 class HomePage extends StatefulWidget {

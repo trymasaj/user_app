@@ -169,6 +169,7 @@ class TextThemes {
           fontFamily: 'Poppins',
           fontWeight: FontWeight.w400,
         ),
+
         bodyMedium: TextStyle(
           color: colorScheme.onPrimary.withOpacity(0.7),
           fontSize: 14.fSize,

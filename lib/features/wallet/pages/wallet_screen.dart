@@ -1,7 +1,7 @@
 import 'package:dartz/dartz.dart';
 import 'package:masaj/core/app_export.dart';
 import 'package:masaj/core/utils/navigator_helper.dart';
-import 'package:masaj/di/injector.dart';
+import 'package:masaj/core/di/injector.dart';
 import 'package:masaj/features/wallet/pages/top_up_wallet_screen.dart';
 import '../widgets/transactionhistory_item_widget.dart';
 import '../bloc/wallet_bloc/wallet_bloc.dart';

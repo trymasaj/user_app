@@ -8,6 +8,7 @@ import 'package:masaj/core/utils/navigator_helper.dart';
 import 'package:masaj/core/widgets/custom_elevated_button.dart';
 import 'package:masaj/core/widgets/custom_switch.dart';
 import 'package:masaj/features/account/pages/account_screen.dart';
+import 'package:masaj/features/address/pages/map_location_picker.dart';
 import 'package:masaj/features/intro/presentation/pages/choose_language_page.dart';
 import 'package:masaj/features/legal/pages/legal_screen.dart';
 import 'package:masaj/features/account/pages/manage_members_screen.dart';
@@ -158,7 +159,11 @@ class SettingsTabPage extends StatelessWidget {
                   text: 'lbl_account',
                   imagePath: ImageConstant.imgLockGray90003),
               SettingTile(
-                  onTap: () {},
+                  onTap: () {
+                    print('helooo');
+                    NavigatorHelper.of(context)
+                        .pushNamed(MapLocationPicker.routeName);
+                  },
                   text: 'lbl_addresses',
                   imagePath: ImageConstant.imgGroup1000003168),
               SettingTile(

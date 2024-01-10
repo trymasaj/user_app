@@ -2,7 +2,7 @@ import 'package:masaj/features/auth/presentation/pages/login_page.dart';
 
 import '../../../../shared_widgets/stateless/app_logo.dart';
 
-import '../../../../di/injector.dart';
+import '../../../../core/di/injector.dart';
 import '../../../auth/presentation/blocs/auth_cubit/auth_cubit.dart';
 import '../../../auth/presentation/pages/email_verification_page.dart';
 import '../../../auth/presentation/pages/sign_up_page.dart';

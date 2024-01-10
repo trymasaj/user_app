@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:masaj/core/app_export.dart';
-import 'package:masaj/di/injector.dart';
+import 'package:masaj/core/di/injector.dart';
 import 'package:masaj/features/intro/presentation/blocs/quiz_page_cubit/quiz_page_cubit.dart';
 import 'package:masaj/features/intro/presentation/pages/quiz/quiz_page.dart';
 import 'package:masaj/res/style/app_colors.dart';

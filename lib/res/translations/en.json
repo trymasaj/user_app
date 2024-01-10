@@ -762,6 +762,7 @@
     "lbl_payment_method": "Payment method",
     "lbl_payment_status": "Payment status",
     "lbl_payment_summary": "Payment summary",
+    "search_location": "Search location",
     "lbl_phone": "Phone",
     "lbl_phone2": "Phone:",
     "lbl_phone_number": "Phone number",
@@ -947,6 +948,7 @@
 
 
     "msg_network_err": "Network Error",
+    "selected_address": "Selected address",
     "msg_something_went_wrong": "Something Went Wrong!",
 
 

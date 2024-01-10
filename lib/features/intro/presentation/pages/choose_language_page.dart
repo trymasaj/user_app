@@ -1,7 +1,7 @@
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:masaj/core/app_export.dart';
 import 'package:masaj/shared_widgets/stateless/custom_text.dart';
-import '../../../../di/injector.dart';
+import '../../../../core/di/injector.dart';
 import '../../../../shared_widgets/stateless/custom_radio_list_tile.dart';
 import '../blocs/choose_language_cubit/choose_language_cubit.dart';
 import 'guide_page.dart';

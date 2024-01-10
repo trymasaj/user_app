@@ -2,6 +2,8 @@ import 'package:masaj/features/account/pages/account_screen.dart';
 import 'package:masaj/features/account/pages/create_new_password_screen.dart';
 import 'package:masaj/features/account/pages/my_profile_screen.dart';
 import 'package:masaj/features/account/pages/phone_screen.dart';
+import 'package:masaj/features/address/overlay/location_bottom_sheet.dart';
+import 'package:masaj/features/address/pages/map_location_picker.dart';
 import 'package:masaj/features/legal/pages/privacy_policy_screen.dart';
 import 'package:masaj/features/legal/pages/terms_and_condititons_screen.dart';
 import 'package:masaj/features/account/models/verification_code_screen.dart';
@@ -31,6 +33,7 @@ import '../features/splash/presentation/pages/splash_page.dart';
 
 final routes = <String, WidgetBuilder>{
   SplashPage.routeName: (context) => const SplashPage(),
+  MapLocationPicker.routeName: (context) => MapLocationPicker.builder(context),
   GuidePage.routeName: (context) => const GuidePage(),
   GetStartedPage.routeName: (context) => const GetStartedPage(),
   LoginPage.routeName: (context) => const LoginPage(),
