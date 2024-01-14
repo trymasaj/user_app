@@ -3,7 +3,7 @@ import 'package:masaj/core/service/network_service.dart';
 import 'package:flutter/material.dart';
 import 'package:geocoding/geocoding.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
-import 'package:masaj/core/entities/decoded_address.dart';
+import 'package:masaj/features/address/models/decoded_address.dart';
 import 'package:masaj/core/service/network_service.dart';
 
 class AddressRepo {
@@ -16,7 +16,8 @@ class AddressRepo {
     final placeMarks =
         await placemarkFromCoordinates(latLng.latitude, latLng.longitude);
     final address = placeMarks.first;
-    print('address is $address');
+    print('address.thoroughfare is ${address.thoroughfare==null }');
+    print('address.administrativeArea is ${address.administrativeArea}');
     return '${address.country} - ${address.thoroughfare} -${address.administrativeArea} - ${address.subAdministrativeArea} - ${address.street} - ${address.name}';
   }
 

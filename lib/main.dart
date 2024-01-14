@@ -117,7 +117,7 @@ class _MyAppState extends State<MyApp> with WidgetsBindingObserver {
           child: Builder(builder: (context) {
             return MaterialApp(
               // home: const HomePage(),
-              home: const HomePage(),
+              home: const QuizStartPage(),
               localizationsDelegates: context.localizationDelegates,
               supportedLocales: context.supportedLocales,
               locale: context.locale,

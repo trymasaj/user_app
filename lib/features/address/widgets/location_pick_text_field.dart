@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_typeahead/flutter_typeahead.dart';
 import 'package:masaj/core/app_export.dart';
-import 'package:masaj/core/entities/decoded_address.dart';
+import 'package:masaj/features/address/models/decoded_address.dart';
 
 class LocationPickTextField extends StatelessWidget {
   const LocationPickTextField(

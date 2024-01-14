@@ -2,7 +2,7 @@ import 'package:bloc/bloc.dart';
 import 'package:dartz/dartz.dart';
 import 'package:equatable/equatable.dart';
 import 'package:google_maps_flutter_platform_interface/src/types/location.dart';
-import 'package:masaj/core/entities/decoded_address.dart';
+import 'package:masaj/features/address/models/decoded_address.dart';
 import 'package:masaj/features/address/repos/address_repo.dart';
 
 part 'map_location_picker_state.dart';
