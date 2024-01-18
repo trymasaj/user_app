@@ -1,4 +1,10 @@
 import 'package:easy_localization/easy_localization.dart';
+import 'package:flutter_svg/svg.dart';
+import 'package:masaj/features/providers_tab/presentation/pages/providers_tab.dart';
+import 'package:masaj/gen/assets.gen.dart';
+import 'package:masaj/features/settings_tab/pages/setting_tab_page.dart';
+import '../../../bookings_tab/presentation/pages/bookings_tab.dart';
+import 'home_tab.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/svg.dart';
@@ -121,13 +127,18 @@ class __CustomNavBarState extends State<_CustomNavBar> {
             items: [
               BottomNavigationBarItem(
                 icon: SvgPicture.asset(
-                  'assets/images/home_icon.svg',
+                  Assets.lib.res.assets.home,
+>>>>>>> origin/moatasem
                   height: 24,
                   width: 24,
                   color: AppColors.GREY_NORMAL_COLOR,
                 ),
                 activeIcon: SvgPicture.asset(
+<<<<<<< HEAD
                   'assets/images/home_icon.svg',
+=======
+                  Assets.lib.res.assets.home,
+>>>>>>> origin/moatasem
                   color: AppColors.FONT_COLOR,
                   height: 24,
                   width: 24,
@@ -136,13 +147,21 @@ class __CustomNavBarState extends State<_CustomNavBar> {
               ),
               BottomNavigationBarItem(
                 icon: SvgPicture.asset(
+<<<<<<< HEAD
                   'assets/images/zones_icon.svg',
+=======
+                  Assets.lib.res.assets.bookmark,
+>>>>>>> origin/moatasem
                   color: AppColors.GREY_NORMAL_COLOR,
                   height: 24,
                   width: 24,
                 ),
                 activeIcon: SvgPicture.asset(
+<<<<<<< HEAD
                   'assets/images/zones_icon.svg',
+=======
+                  Assets.lib.res.assets.bookmark,
+>>>>>>> origin/moatasem
                   color: AppColors.FONT_COLOR,
                   height: 24,
                   width: 24,
@@ -158,14 +177,23 @@ class __CustomNavBarState extends State<_CustomNavBar> {
               ),
               BottomNavigationBarItem(
                 icon: SvgPicture.asset(
+<<<<<<< HEAD
                   'assets/images/calendar_icon.svg',
+=======
+                  Assets.lib.res.assets.fluentPeopleCommunity20Regular,
+>>>>>>> origin/moatasem
                   color: AppColors.GREY_NORMAL_COLOR,
                   height: 24,
                   width: 24,
                 ),
                 activeIcon: SvgPicture.asset(
+<<<<<<< HEAD
                   'assets/images/calendar_icon.svg',
                   color: AppColors.FONT_COLOR,
+=======
+                  Assets.lib.res.assets.fluentPeopleCommunity20Regular,
+                  color: AppColors.GREY_DARK_COLOR,
+>>>>>>> origin/moatasem
                   height: 24,
                   width: 24,
                 ),
@@ -173,13 +201,21 @@ class __CustomNavBarState extends State<_CustomNavBar> {
               ),
               BottomNavigationBarItem(
                 icon: SvgPicture.asset(
+<<<<<<< HEAD
                   'assets/images/more_icon.svg',
+=======
+                  Assets.lib.res.assets.setting,
+>>>>>>> origin/moatasem
                   color: AppColors.GREY_NORMAL_COLOR,
                   height: 24,
                   width: 24,
                 ),
                 activeIcon: SvgPicture.asset(
+<<<<<<< HEAD
                   'assets/images/more_icon.svg',
+=======
+                  Assets.lib.res.assets.setting,
+>>>>>>> origin/moatasem
                   height: 24,
                   width: 24,
                   color: AppColors.FONT_COLOR,

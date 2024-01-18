@@ -6,18 +6,80 @@ import 'package:masaj/core/presentation/widgets/stateless/custom_loading.dart';
 import 'package:masaj/core/presentation/widgets/stateless/empty_page_message.dart';
 import 'package:masaj/features/home/presentation/bloc/home_cubit/home_cubit.dart';
 
+import '../bloc/home_cubit/home_cubit.dart';
+import '../widget/index.dart';
+
 class HomeTab extends StatelessWidget {
   const HomeTab({super.key});
 
   @override
   Widget build(BuildContext context) {
-    final topPadding = MediaQuery.of(context).padding.top;
-
-    return CustomAppPage(
+    return const CustomAppPage(
       safeBottom: false,
       child: Scaffold(
         floatingActionButtonLocation: FloatingActionButtonLocation.startFloat,
-        body: _buildBody(context),
+        body: CustomScrollView(
+          slivers: [
+            FixedAppBar(),
+            SliverToBoxAdapter(
+              child: SizedBox(
+                height: 8,
+              ),
+            ),
+            // search bar
+            SearchField(),
+            SliverToBoxAdapter(
+              child: SizedBox(
+                height: 20,
+              ),
+            ),
+
+// horizontal list view of categories
+            CategoriesList(),
+            SliverToBoxAdapter(
+              child: SizedBox(
+                height: 20,
+              ),
+            ),
+            // title : Repeate session with list view of sessions
+            RepeatedSessions(),
+            SliverToBoxAdapter(
+              child: SizedBox(
+                height: 30,
+              ),
+            ),
+            // image slider
+            Ads(),
+            SliverToBoxAdapter(
+              child: SizedBox(
+                height: 20,
+              ),
+            ),
+            // offers
+            OffersSection(),
+            SliverToBoxAdapter(
+              child: SizedBox(
+                height: 20,
+              ),
+            ),
+            // recommended
+            Recommended(),
+            SliverToBoxAdapter(
+              child: SizedBox(
+                height: 20,
+              ),
+            ),
+            // therapists
+            Therapists(),
+
+            // space of bottom bar height
+            SliverToBoxAdapter(
+              child: SizedBox(
+                height: kBottomNavigationBarHeight + 20,
+              ),
+            ),
+          ],
+        ),
       ),
     );
   }
@@ -57,6 +119,27 @@ class HomeTab extends StatelessWidget {
           ),
         );
       },
+    );
+  }
+}
+
+// create ImageSlider widget
+
+class SectionTitle extends StatelessWidget {
+  const SectionTitle({
+    super.key,
+    required this.title,
+  });
+  final String title;
+
+  @override
+  Widget build(BuildContext context) {
+    return Text(
+      title,
+      style: const TextStyle(
+          fontSize: 15,
+          fontWeight: FontWeight.w500,
+          color: AppColors.FONT_COLOR),
     );
   }
 }
