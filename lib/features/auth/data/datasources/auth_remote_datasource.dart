@@ -1,3 +1,12 @@
+<<<<<<< HEAD
+=======
+import 'package:masaj/features/auth/data/models/login_params.dart';
+import 'package:masaj/features/auth/data/models/sing_up_params.dart';
+
+import '../../../../core/enums/gender.dart';
+import '../../../../core/enums/age_group.dart';
+import '../../../account/data/models/contact_us_message_model.dart';
+>>>>>>> origin/moatasem
 import 'package:dio/dio.dart';
 import 'package:masaj/core/data/clients/network_service.dart';
 import 'package:masaj/core/data/constants/api_end_point.dart';
@@ -11,10 +20,11 @@ import 'package:masaj/features/auth/data/models/user.dart';
 
 abstract class AuthRemoteDataSource {
   Future<User> login(
-    String email,
+    String phoneNumber,
+    String countryCode,
     String password,
     String? mobileAppId,
-    int deviceType,
+    int? deviceType,
   );
 
   Future<User> externalLogin(User user);
@@ -64,8 +74,9 @@ class AuthRemoteDataSourceImpl implements AuthRemoteDataSource {
   Future<User> signUp(User user) async {
     const url = ApiEndPoint.SIGN_UP;
 
-    final formData = await _createFormData(user.toMap());
+    // final formData = await _createFormData(user.toMap());
 
+<<<<<<< HEAD
     return _networkService.post(url, data: formData).then((response) {
       if (![201, 200].contains(response.statusCode)) {
         throw RequestException(message: response.data);
@@ -76,6 +87,16 @@ class AuthRemoteDataSourceImpl implements AuthRemoteDataSource {
         throw RequestException(message: result['msg']);
       }
       return User.fromMap(result['data']);
+=======
+    return _networkService.post(url, data: user.toMap()).then((response) {
+      if (![201, 200].contains(response.statusCode))
+        throw RequestException(response.data);
+      final result = response.data;
+      final resultStatus = result['result'];
+      if (resultStatus == RequestResult.Failed.name)
+        throw RequestException(result['msg']);
+      return User.fromMap(result);
+>>>>>>> origin/moatasem
     });
   }
 
@@ -89,36 +110,44 @@ class AuthRemoteDataSourceImpl implements AuthRemoteDataSource {
 
   @override
   Future<User> login(
-    String email,
+    String phoneNumber,
+    String countryCode,
     String password,
     String? mobileAppId,
-    int deviceType,
+    int? deviceType,
   ) {
     const url = ApiEndPoint.LOGIN;
     final data = {
-      'email': email,
+      "phone": phoneNumber,
+      "countryCode": countryCode,
+      // 'phone': phoneNumber,
       'password': password,
       'mobileAppId': mobileAppId,
       'deviceType': deviceType,
-    };
-
+    }..removeWhere((_, v) => v == null);
+    print(countryCode);
     return _networkService.post(url, data: data).then((response) {
       if (response.statusCode != 200)
         throw RequestException(message: response.data);
       final result = response.data;
       final resultStatus = result['result'];
+<<<<<<< HEAD
       if (resultStatus == RequestResult.Failed.name) {
         throw RequestException(message: result['msg']);
       }
       return User.fromMap(result['data']);
+=======
+      if (resultStatus == RequestResult.Failed.name)
+        throw RequestException(result['msg']);
+      return User.fromMap(result);
+>>>>>>> origin/moatasem
     });
   }
 
   @override
   Future<User> externalLogin(User user) {
     const url = ApiEndPoint.EXTERNAL_LOGIN;
-    final data = user.toMap();
-
+    final data = user.toSocialMediaMap();
     return _networkService.post(url, data: data).then((response) {
       if (response.statusCode != 200)
         throw RequestException(message: response.data);
@@ -373,3 +402,20 @@ class AuthRemoteDataSourceImpl implements AuthRemoteDataSource {
     });
   }
 }
+
+
+// {
+//         "id": 17,
+//         "fullName": "HESHAM",
+//         "phone": "10660726",
+//         "countryCode": "+965",
+//         "countryId": 1,
+//         "email": "sdjbj@jhbahjs.com",
+//         "verified": false,
+//         "profileImage": "https://masaj-s3.fra1.cdn.digitaloceanspaces.com/profile-images/placeholder.png",
+//         "userType": 0,
+//         "isProfileCompleted": false,
+//         "quizAnswered": false,
+//         "token": "eyJhbGciOiJIUzUxMiIsInR5cCI6IkpXVCJ9.eyJqdGkiOiI0NDdkOGQ2YS00NmQ3LTQ3N2EtYjMyNC1mODY5ZjQ2Nzg4NzUiLCJpYXQiOjE3MDU0OTM5ODUsImlkIjoiMTciLCJuYW1lIjoiSEVTSEFNIiwiZW1haWwiOiJzZGpiakBqaGJhaGpzLmNvbSIsInBob25lIjoiMTA2NjA3MjYiLCJ1c2VyVHlwZSI6IkN1c3RvbWVyIiwidmVyaWZpZWQiOiJGYWxzZSIsIm5iZiI6MTcwNTQ5Mzk4NSwiZXhwIjoxNzY3NzAxOTg1LCJpc3MiOiJtYXNhai1iYWNrZW5kIn0.djePZvzExqp33V9Nu__o2clJIRRKQppARKYaZWG90EfjPT99vaJle1fEReBY4V7TyedG9fVZLyyWHyOzdHuSuQ",
+//         "refreshToken": null
+//       }
