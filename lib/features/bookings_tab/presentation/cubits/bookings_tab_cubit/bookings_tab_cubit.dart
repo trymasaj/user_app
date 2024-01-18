@@ -1,7 +1,6 @@
 import 'package:flutter/foundation.dart';
-import 'package:masaj/core/application/controllers/base_cubit.dart';
-import 'package:masaj/features/bookings_tab/data/repositories/bookings_tab_repository.dart';
-
+import '../../../../../../core/abstract/base_cubit.dart';
+import '../../../data/repositories/bookings_tab_repository.dart';
 part 'bookings_tab_state.dart';
 
 class BookingsTabCubit extends BaseCubit<BookingsTabState> {
@@ -11,4 +10,11 @@ class BookingsTabCubit extends BaseCubit<BookingsTabState> {
         super(const BookingsTabState(status: BookingsTabStateStatus.initial));
 
   final BookingsTabRepository _bookingsTabRepository;
+
+  // change type
+  void changeType(BookingsTabStateType type) {
+    emit(state.copyWith(type: type));
+  }
+
+  //
 }

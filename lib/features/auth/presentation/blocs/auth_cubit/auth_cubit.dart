@@ -2,18 +2,21 @@ import 'dart:async';
 import 'dart:developer';
 
 import 'package:firebase_analytics/firebase_analytics.dart';
-import 'package:firebase_crashlytics/firebase_crashlytics.dart';
 import 'package:flutter/foundation.dart';
-import 'package:masaj/core/application/controllers/base_cubit.dart';
-import 'package:masaj/core/data/models/interest_model.dart';
-import 'package:masaj/core/data/show_case_helper.dart';
-import 'package:masaj/core/domain/enums/gender.dart';
-import 'package:masaj/core/domain/exceptions/redundant_request_exception.dart';
-import 'package:masaj/core/domain/exceptions/social_media_login_canceled_exception.dart';
-import 'package:masaj/features/account/data/models/contact_us_message_model.dart';
-import 'package:masaj/features/auth/data/models/user.dart';
-import 'package:masaj/features/auth/data/repositories/auth_repository.dart';
+import 'package:masaj/core/utils/show_case_helper.dart';
+import 'package:masaj/features/auth/data/models/login_params.dart';
+import 'package:masaj/features/auth/data/models/sing_up_params.dart';
+import '../../../../../core/data/models/interest_model.dart';
+import '../../../../../core/enums/gender.dart';
+import '../../../../account/data/models/contact_us_message_model.dart';
+import 'package:firebase_crashlytics/firebase_crashlytics.dart';
+import '../../../../../core/exceptions/social_media_login_canceled_exception.dart';
+import '../../../data/repositories/auth_repository.dart';
 
+import '../../../../../core/abstract/base_cubit.dart';
+import '../../../../../core/exceptions/redundant_request_exception.dart';
+
+import '../../../data/models/user.dart';
 part 'auth_state.dart';
 
 class AuthCubit extends BaseCubit<AuthState> {
@@ -31,15 +34,14 @@ class AuthCubit extends BaseCubit<AuthState> {
     try {
       emit(state.copyWith(status: AuthStateStatus.loading));
       final user = await _authRepository.getUserData();
-      emit(user?.accessToken == null
+      print('---> user: ${user!.token}');
+      emit(user.token == null
           ? state.copyWith(status: AuthStateStatus.guest, user: user)
           : state.copyWith(status: AuthStateStatus.loggedIn, user: user));
 
-      if (user != null) {
-        final userFirebaseId = (user.id ?? '') + (user.fullName ?? '');
-        FirebaseCrashlytics.instance.setUserIdentifier(userFirebaseId);
-        FirebaseAnalytics.instance.setUserId(id: userFirebaseId);
-      }
+      final userFirebaseId = (user.id ?? '') + (user.fullName ?? '');
+      FirebaseCrashlytics.instance.setUserIdentifier(userFirebaseId);
+      FirebaseAnalytics.instance.setUserId(id: userFirebaseId);
     } on RedundantRequestException catch (e) {
       log(e.toString());
     } catch (e) {
@@ -48,10 +50,12 @@ class AuthCubit extends BaseCubit<AuthState> {
     }
   }
 
-  Future<void> login(String email, String password) async {
+  Future<void> login(
+      String phoneNumber, String password, String countryCode) async {
     emit(state.copyWith(status: AuthStateStatus.loading));
     try {
-      final user = await _authRepository.login(email, password);
+      final user =
+          await _authRepository.login(phoneNumber, countryCode, password);
       emit(state.copyWith(status: AuthStateStatus.loggedIn, user: user));
 
       final userFirebaseId = (user.id ?? '') + (user.fullName ?? '');
@@ -155,7 +159,7 @@ class AuthCubit extends BaseCubit<AuthState> {
       emit(state.copyWith(
           status: AuthStateStatus.loggedIn,
           user: user?.copyWith(
-            accessToken: oldUser?.accessToken,
+            token: oldUser?.token,
             refreshToken: oldUser?.refreshToken,
             points: oldUser?.points,
           )));
@@ -181,7 +185,7 @@ class AuthCubit extends BaseCubit<AuthState> {
       emit(state.copyWith(
           status: AuthStateStatus.loggedIn,
           user: user.copyWith(
-            accessToken: oldUser.accessToken,
+            token: oldUser.token,
             refreshToken: oldUser.refreshToken,
           )));
       return true;

@@ -2,28 +2,30 @@ import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:intl_phone_field/phone_number.dart';
-import 'package:masaj/core/data/extensions/extensions.dart';
-import 'package:masaj/core/domain/enums/gender.dart';
-import 'package:masaj/core/presentation/colors/app_colors.dart';
-import 'package:masaj/core/presentation/navigation/navigator_helper.dart';
-import 'package:masaj/core/presentation/overlay/show_snack_bar.dart';
-import 'package:masaj/core/presentation/widgets/stateless/custom_app_page.dart';
-import 'package:masaj/core/presentation/widgets/stateless/custom_chip.dart';
-import 'package:masaj/core/presentation/widgets/stateless/custom_text.dart';
-import 'package:masaj/core/presentation/widgets/stateless/default_button.dart';
-import 'package:masaj/core/presentation/widgets/stateless/text_fields/confirm_password_text_field.dart';
-import 'package:masaj/core/presentation/widgets/stateless/text_fields/default_text_form_field.dart';
-import 'package:masaj/core/presentation/widgets/stateless/text_fields/email_text_form_field.dart';
-import 'package:masaj/core/presentation/widgets/stateless/text_fields/password_text_form_field.dart';
-import 'package:masaj/core/presentation/widgets/stateless/text_fields/phone_number_text_field.dart';
-import 'package:masaj/features/auth/data/models/user.dart';
-import 'package:masaj/features/auth/presentation/blocs/auth_cubit/auth_cubit.dart';
+import 'package:masaj/core/utils/extensions.dart';
+import 'package:masaj/features/auth/data/models/login_params.dart';
+import 'package:masaj/features/auth/data/models/sing_up_params.dart';
 import 'package:masaj/features/auth/presentation/pages/login_page.dart';
-import 'package:masaj/features/home/presentation/pages/home_page.dart';
+import 'package:masaj/shared_widgets/stateless/custom_chip.dart';
+
+import '../../../../core/enums/gender.dart';
+import '../../../../core/utils/navigator_helper.dart';
+import '../../../../res/style/app_colors.dart';
+import '../../../../shared_widgets/other/show_snack_bar.dart';
+import '../../../../shared_widgets/stateful/default_button.dart';
+import '../../../../shared_widgets/stateless/custom_app_page.dart';
+import '../../../../shared_widgets/stateless/custom_text.dart';
+import '../../../../shared_widgets/text_fields/confirm_password_text_field.dart';
+import '../../../../shared_widgets/text_fields/default_text_form_field.dart';
+import '../../../../shared_widgets/text_fields/email_text_form_field.dart';
+import '../../../../shared_widgets/text_fields/password_text_form_field.dart';
+import '../../../../shared_widgets/text_fields/phone_number_text_field.dart';
+import '../../../home/presentation/pages/home_page.dart';
+import '../../data/models/user.dart';
+import '../blocs/auth_cubit/auth_cubit.dart';
 
 class SignUpPage extends StatefulWidget {
   static const routeName = '/SignUp';
-
   const SignUpPage({
     super.key,
     bool startFromSubscriptionStep = false,
@@ -94,10 +96,16 @@ class _SignUpPageState extends State<SignUpPage> {
   Widget build(BuildContext context) {
     return BlocListener<AuthCubit, AuthState>(
       listener: (context, state) {
-        if (state.isError) {
+        if (state.isError)
           return showSnackBar(context, message: state.errorMessage);
-        }
         if (state.isGuest) return _goToHomePage(context);
+        if (state.isLoggedIn) {
+          final user = state.user;
+          return _goToHomePage(
+            context,
+            userFullName: user!.fullName,
+          );
+        }
       },
       child: Builder(
         builder: (context) => CustomAppPage(
@@ -250,12 +258,15 @@ class _SignUpPageState extends State<SignUpPage> {
 
       await authCubit.signUp(
         User(
-          fullName: _fullNameTextController.text.trim(),
-          email: _emailTextController.text.trim(),
-          password: _passwordTextController.text,
-          // confirmPassword: _passwordConfirmTextController.text,
-          mobile: _phoneNumber?.number,
-        ),
+            fullName: _fullNameTextController.text.trim(),
+            email: _emailTextController.text.trim(),
+            password: _passwordTextController.text,
+            confirmPassword: _passwordConfirmTextController.text,
+            phone: _phoneNumber?.number,
+            countryCode: _phoneNumber?.countryCode,
+            birthDate: _birthDateTextController.text.parseDate(),
+            gender: selectedGender,
+            countryId: 1),
       );
     }
 
@@ -287,13 +298,13 @@ class _SignUpPageState extends State<SignUpPage> {
           onChanged: (value) {},
         ),
         const CustomText(
-          text: 'i_agree',
+          text: "i_agree",
           fontSize: 14,
           fontWeight: FontWeight.w400,
         ),
         const SizedBox(width: 4.0),
         const CustomText(
-          text: 'terms_and_conditions',
+          text: "terms_and_conditions",
           fontSize: 14,
           fontWeight: FontWeight.w500,
         ),
@@ -306,21 +317,19 @@ class _SignUpPageState extends State<SignUpPage> {
     String? userFullName,
   }) {
     final authCubit = context.read<AuthCubit>();
-    if (!authCubit.state.isGuest) {
+    if (!authCubit.state.isGuest)
       //To remove old home page from stack due to redundant request error(old cubit still exists)
       NavigatorHelper.of(context).popUntil((_) => false);
-    }
     NavigatorHelper.of(context).pushAndRemoveUntil(
       MaterialPageRoute(builder: (_) => const HomePage()),
       (_) => false,
     );
-    if (userFullName != null) {
+    if (userFullName != null)
       showSnackBar(
         context,
         message: 'welcome_user'.tr(args: [userFullName]),
         margin: const EdgeInsets.fromLTRB(16.0, 4.0, 16.0, 0.0),
       );
-    }
   }
 
   void _goToSignInPage(BuildContext context) {

@@ -1,28 +1,33 @@
 import 'dart:io';
 
-import 'package:easy_localization/easy_localization.dart';
-import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/svg.dart';
-import 'package:masaj/core/presentation/colors/app_colors.dart';
-import 'package:masaj/core/presentation/navigation/navigator_helper.dart';
-import 'package:masaj/core/presentation/overlay/show_snack_bar.dart';
-import 'package:masaj/core/presentation/widgets/stateless/app_logo.dart';
-import 'package:masaj/core/presentation/widgets/stateless/custom_app_page.dart';
-import 'package:masaj/core/presentation/widgets/stateless/custom_text.dart';
-import 'package:masaj/core/presentation/widgets/stateless/default_button.dart';
-import 'package:masaj/core/presentation/widgets/stateless/text_fields/email_text_form_field.dart';
-import 'package:masaj/core/presentation/widgets/stateless/text_fields/password_text_form_field.dart';
-import 'package:masaj/features/auth/presentation/blocs/auth_cubit/auth_cubit.dart';
-import 'package:masaj/features/auth/presentation/pages/email_verification_page.dart';
-import 'package:masaj/features/auth/presentation/pages/forget_password_page.dart';
-import 'package:masaj/features/auth/presentation/pages/sign_up_page.dart';
-import 'package:masaj/features/home/presentation/pages/home_page.dart';
+import 'package:intl_phone_field/phone_number.dart';
+import 'package:masaj/shared_widgets/stateless/app_logo.dart';
+import 'package:masaj/shared_widgets/text_fields/phone_number_text_field.dart';
+
+import '../../../../shared_widgets/stateless/custom_text.dart';
+import '../../../../shared_widgets/text_fields/email_text_form_field.dart';
+
+import '../../../home/presentation/pages/home_page.dart';
+
+import '../../../../core/utils/navigator_helper.dart';
+import '../blocs/auth_cubit/auth_cubit.dart';
+import 'email_verification_page.dart';
+import '../../../../res/style/app_colors.dart';
+import '../../../../shared_widgets/other/show_snack_bar.dart';
+import '../../../../shared_widgets/text_fields/password_text_form_field.dart';
+import '../../../../shared_widgets/stateless/custom_app_page.dart';
+import '../../../../shared_widgets/stateful/default_button.dart';
+import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:easy_localization/easy_localization.dart';
+
+import 'forget_password_page.dart';
+import 'sign_up_page.dart';
 
 class LoginPage extends StatefulWidget {
   static const routeName = '/LoginPage';
-
   const LoginPage({super.key});
 
   @override
@@ -33,10 +38,14 @@ class _LoginPageState extends State<LoginPage> {
   late final GlobalKey<FormState> _formKey;
 
   late final TextEditingController _emailTextController;
+  late final TextEditingController _phoneNumberConttroleer;
+
   late final TextEditingController _passwordTextController;
 
   late final FocusNode _emailFocusNode;
   late final FocusNode _passwordFocusNode;
+  late final FocusNode _phoneFocusNode;
+  PhoneNumber? _phoneNumber;
 
   bool _isAutoValidating = false;
 
@@ -46,9 +55,11 @@ class _LoginPageState extends State<LoginPage> {
 
     _emailTextController = TextEditingController();
     _passwordTextController = TextEditingController();
+    _phoneNumberConttroleer = TextEditingController();
 
     _emailFocusNode = FocusNode();
     _passwordFocusNode = FocusNode();
+    _phoneFocusNode = FocusNode();
 
     super.initState();
   }
@@ -60,6 +71,8 @@ class _LoginPageState extends State<LoginPage> {
 
     _emailFocusNode.dispose();
     _passwordFocusNode.dispose();
+    _phoneNumberConttroleer.dispose();
+    _phoneFocusNode.dispose();
 
     super.dispose();
   }
@@ -80,6 +93,7 @@ class _LoginPageState extends State<LoginPage> {
       },
       child: CustomAppPage(
         withBackground: true,
+        backgroundPath: 'lib/res/assets/images/Bg.png',
         safeBottom: false,
         safeTop: true,
         backgroundFit: BoxFit.fitWidth,
@@ -100,8 +114,10 @@ class _LoginPageState extends State<LoginPage> {
   SizedBox _buildTopSection() {
     return SizedBox(
       height: 120.h,
-      child: const AppLogo(
+      child: AppLogo(
         alignment: Alignment.center,
+        height: 20.h,
+        width: 138.w,
       ),
     );
   }
@@ -165,7 +181,7 @@ class _LoginPageState extends State<LoginPage> {
       labelStyle: labelStyle,
       color: const Color(0xFFF6F6F6),
       icon: SvgPicture.asset(
-        'assets/images/apple.svg',
+        'lib/res/assets/apple.svg',
         color: Colors.black,
       ),
       onPressed: () {
@@ -203,6 +219,7 @@ class _LoginPageState extends State<LoginPage> {
                   //hint: 'email'.tr(),
                   margin: const EdgeInsets.all(8.0),
                 ),
+
                 DefaultButton(
                   label: 'confirm'.tr(),
                   isExpanded: true,
@@ -238,7 +255,7 @@ class _LoginPageState extends State<LoginPage> {
       labelStyle: labelStyle,
       color: const Color(0xFFF6F6F6),
       icon: SvgPicture.asset(
-        'assets/images/google.svg',
+        'lib/res/assets/google.svg',
         color: Colors.black,
       ),
       onPressed: () {
@@ -256,10 +273,17 @@ class _LoginPageState extends State<LoginPage> {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.stretch,
         children: [
-          EmailTextFormField(
-            currentFocusNode: _emailFocusNode,
-            nextFocusNode: _passwordFocusNode,
-            currentController: _emailTextController,
+          // EmailTextFormField(
+          //   currentFocusNode: _emailFocusNode,
+          //   nextFocusNode: _passwordFocusNode,
+          //   currentController: _emailTextController,
+          // ),
+          PhoneTextFormField(
+            currentController: _phoneNumberConttroleer,
+            currentFocusNode: _phoneFocusNode,
+            nextFocusNode: null,
+            initialValue: _phoneNumber,
+            onInputChanged: (value) => _phoneNumber = value,
           ),
           const SizedBox(height: 16.0),
           PasswordTextFormField(
@@ -297,10 +321,11 @@ class _LoginPageState extends State<LoginPage> {
       isExpanded: true,
       onPressed: () async {
         if (_isNotValid()) return;
-        await authCubit.login(
-          _emailTextController.text.trim(),
-          _passwordTextController.text,
-        );
+        await authCubit.login(_phoneNumberConttroleer.text.trim(),
+            _passwordTextController.text, _phoneNumber?.countryCode ?? ''
+
+            //TODO remove this
+            );
       },
     );
   }
@@ -343,9 +368,8 @@ class _LoginPageState extends State<LoginPage> {
       MaterialPageRoute(builder: (_) => const HomePage()),
       (_) => false,
     );
-    if (userFullName != null) {
+    if (userFullName != null)
       showSnackBar(context, message: 'welcome'.tr(args: [userFullName]));
-    }
   }
 
   Widget _buildDoNotHaveAccountButton(BuildContext context) {
@@ -374,9 +398,8 @@ class _LoginPageState extends State<LoginPage> {
   Future<void> _goToForgetPasswordPage(BuildContext context) async {
     final success = await NavigatorHelper.of(context)
         .pushNamed(ForgetPasswordPage.routeName);
-    if (success == true) {
+    if (success == true)
       showSnackBar(context, message: 'forget_password_success');
-    }
   }
 
   void _goToSignUpPage(BuildContext context) =>

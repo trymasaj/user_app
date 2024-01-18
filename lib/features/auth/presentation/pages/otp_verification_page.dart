@@ -1,18 +1,22 @@
+import 'dart:async';
+
+import 'package:easy_localization/easy_localization.dart';
+import 'package:masaj/shared_widgets/stateless/custom_text.dart';
+import 'package:pin_code_fields/pin_code_fields.dart';
+import '../../../../shared_widgets/stateless/back_button.dart';
+
+import '../../../../core/utils/navigator_helper.dart';
+import '../../../../res/style/app_colors.dart';
+import '../../../../shared_widgets/stateless/custom_app_page.dart';
+import '../../../../shared_widgets/stateful/default_button.dart';
+import '../../../../shared_widgets/other/show_snack_bar.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:masaj/core/presentation/colors/app_colors.dart';
-import 'package:masaj/core/presentation/navigation/navigator_helper.dart';
-import 'package:masaj/core/presentation/overlay/show_snack_bar.dart';
-import 'package:masaj/core/presentation/widgets/stateless/back_button.dart';
-import 'package:masaj/core/presentation/widgets/stateless/custom_app_page.dart';
-import 'package:masaj/core/presentation/widgets/stateless/custom_text.dart';
-import 'package:masaj/core/presentation/widgets/stateless/default_button.dart';
-import 'package:masaj/features/auth/presentation/blocs/auth_cubit/auth_cubit.dart';
-import 'package:pin_code_fields/pin_code_fields.dart';
+import './reset_password_page.dart';
+import '../blocs/auth_cubit/auth_cubit.dart';
 
 class OTPVerificationPage extends StatefulWidget {
   static const routeName = '/otp-verification';
-
   const OTPVerificationPage({super.key});
 
   @override
@@ -21,6 +25,32 @@ class OTPVerificationPage extends StatefulWidget {
 
 class _OTPVerificationPageState extends State<OTPVerificationPage> {
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
+  // timer
+  late Timer _timer;
+  int _start = 60;
+  bool _isTimerRunning = false;
+
+  void startTimer() {
+    _isTimerRunning = true;
+    _timer = Timer.periodic(const Duration(seconds: 1), (timer) {
+      if (_start == 0) {
+        setState(() {
+          _isTimerRunning = false;
+        });
+        _timer.cancel();
+      } else {
+        setState(() {
+          _start--;
+        });
+      }
+    });
+  }
+
+  @override
+  void initState() {
+    startTimer();
+    super.initState();
+  }
 
   final otpController = TextEditingController();
 
@@ -29,6 +59,7 @@ class _OTPVerificationPageState extends State<OTPVerificationPage> {
   @override
   void dispose() {
     otpController.dispose();
+    _timer.cancel();
 
     super.dispose();
   }
@@ -37,9 +68,9 @@ class _OTPVerificationPageState extends State<OTPVerificationPage> {
   Widget build(BuildContext context) {
     return BlocListener<AuthCubit, AuthState>(
       listener: (context, state) {
-        if (state.isError) {
+        if (state.isError)
           showSnackBar(context, message: state.errorMessage);
-        } else if (state.isInitial) _goBackToLoginPage(context, true);
+        else if (state.isInitial) _goBackToLoginPage(context, true);
       },
       child: CustomAppPage(
         safeTop: true,
@@ -59,6 +90,8 @@ class _OTPVerificationPageState extends State<OTPVerificationPage> {
               _buildForm(),
               const SizedBox(height: 16.0),
               _buildSendButton(context),
+              const SizedBox(height: 16.0),
+              if (_isTimerRunning) _buildTimer(),
             ],
           ),
         ),
@@ -90,6 +123,8 @@ class _OTPVerificationPageState extends State<OTPVerificationPage> {
       label: 'send',
       backgroundColor: Colors.transparent,
       onPressed: () async {
+        _goToResetPasswordPage(context);
+
         if (_isNotValid()) return;
         //await authCubit.forgetPassword(_emailTextController.text.trim());
       },
@@ -139,12 +174,45 @@ class _OTPVerificationPageState extends State<OTPVerificationPage> {
     );
   }
 
+  // build timer
+  Widget _buildTimer() {
+    return Row(
+      mainAxisAlignment: MainAxisAlignment.center,
+      children: [
+        Text(
+          'do_not_receive_code'.tr(),
+          style: const TextStyle(
+            fontSize: 14,
+            fontWeight: FontWeight.w400,
+            color: AppColors.FONT_COLOR,
+          ),
+        ),
+        Text(
+          'resend_in'.tr(args: ['$_start']),
+          style: const TextStyle(
+            fontSize: 14,
+            fontWeight: FontWeight.w400,
+            color: AppColors.FONT_COLOR,
+          ),
+        ),
+      ],
+    );
+  }
+
   bool _isNotValid() {
     if (!_formKey.currentState!.validate()) {
       setState(() => _isAutoValidating = true);
       return true;
     }
     return false;
+  }
+
+  void _goToResetPasswordPage(BuildContext context) {
+    NavigatorHelper.of(context).push(
+      MaterialPageRoute(
+        builder: (_) => const ResetPasswordPage(),
+      ),
+    );
   }
 
   void _goBackToLoginPage(BuildContext context, bool isSuccess) =>
