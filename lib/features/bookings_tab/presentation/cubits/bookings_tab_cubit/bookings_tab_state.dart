@@ -7,6 +7,14 @@ enum BookingsTabStateStatus {
   error,
 }
 
+enum BookingsTabStateType {
+  upComaing('upcoming'),
+  completed('completed');
+
+  final String name;
+  const BookingsTabStateType(this.name);
+}
+
 extension BookingsTabStateX on BookingsTabState {
   bool get isInitial => status == BookingsTabStateStatus.initial;
 
@@ -21,11 +29,13 @@ extension BookingsTabStateX on BookingsTabState {
 class BookingsTabState {
   final BookingsTabStateStatus status;
   final String? errorMessage;
+  final BookingsTabStateType type;
 
-  const BookingsTabState({
-    this.status = BookingsTabStateStatus.initial,
-    this.errorMessage,
-  });
+  const BookingsTabState(
+      {this.status = BookingsTabStateStatus.initial,
+      this.errorMessage,
+      th,
+      this.type = BookingsTabStateType.upComaing});
 
   @override
   bool operator ==(Object other) {
@@ -33,6 +43,7 @@ class BookingsTabState {
 
     return other.runtimeType == runtimeType &&
         (other as BookingsTabState).status == status &&
+        other.type == type &&
         other.errorMessage == errorMessage;
   }
 
@@ -42,10 +53,12 @@ class BookingsTabState {
   BookingsTabState copyWith({
     BookingsTabStateStatus? status,
     String? errorMessage,
+    BookingsTabStateType? type,
   }) {
     return BookingsTabState(
       status: status ?? this.status,
       errorMessage: errorMessage ?? this.errorMessage,
+      type: type ?? this.type,
     );
   }
 }
