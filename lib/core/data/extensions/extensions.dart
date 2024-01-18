@@ -1,4 +1,5 @@
 import 'package:easy_localization/easy_localization.dart';
+import 'package:flutter/material.dart';
 
 extension DateTimeExtensions on DateTime {
   String formatDate() {
@@ -82,4 +83,8 @@ extension DurationParsing on String {
     );
     return dateFormat.parse(this);
   }
+}
+
+extension IsAr on BuildContext {
+  bool get isAr => EasyLocalization.of(this)!.locale.languageCode == 'ar';
 }

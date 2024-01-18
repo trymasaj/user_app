@@ -728,7 +728,7 @@ class NetworkServiceUtilImpl implements NetworkServiceUtil {
     final userJson = await _cacheService.getUserData();
     if (userJson == null) return null;
     final user = User.fromJson(userJson);
-    return user.accessToken;
+    return user.token;
   }
 
   @override
@@ -757,7 +757,7 @@ class NetworkServiceUtilImpl implements NetworkServiceUtil {
     if (userJson == null) return;
     final user = User.fromJson(userJson);
     final newUser = user.copyWith(
-      accessToken: accessToken ?? user.accessToken,
+      token: accessToken ?? user.token,
       refreshToken: refreshToken ?? user.refreshToken,
     );
     await _cacheService.saveUserData(newUser.toJson());

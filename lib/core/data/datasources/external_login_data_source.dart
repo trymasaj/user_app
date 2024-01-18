@@ -14,7 +14,7 @@ abstract class ExternalLoginDataSource {
 class GoogleExternalLoginDataSourceImpl implements ExternalLoginDataSource {
   final _googleSignIn = GoogleSignIn(
     clientId:
-        '35517194287-ht1iejcvg775nefmmedap7mlfkga68h6.apps.googleusercontent.com',
+        '115887106741-utskq6die37r9e7gf8l6ivf76fppouar.apps.googleusercontent.com',
     scopes: ['email'],
   );
 

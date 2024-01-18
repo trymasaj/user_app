@@ -2,8 +2,8 @@ import 'package:masaj/main.dart';
 
 abstract class ApiEndPoint {
   static const BASE_URL = isRelease
-      ? 'https://api.saudi-events.com'
-      : 'https://api.saudi-events.com';
+      ? 'https://stagingapi.trymasaj.com/masaj'
+      : 'https://stagingapi.trymasaj.com/masaj';
 
   static const _REQUEST_URL = '$BASE_URL/api/v1';
 
@@ -14,10 +14,10 @@ abstract class ApiEndPoint {
       isRelease ? 'https://ticketmx.com' : 'https://dev.ticketmx.com';
 
   //Auth
-  static const SIGN_UP = '$_REQUEST_URL/register';
+  static const SIGN_UP = '$BASE_URL/Identity/register';
   static const CONFIRM_REGISTRATION = '$_REQUEST_URL/confirmregistration';
-  static const LOGIN = '$_REQUEST_URL/login';
-  static const EXTERNAL_LOGIN = '$BASE_URL/api/externallogin';
+  static const LOGIN = '$BASE_URL/Identity/login';
+  static const EXTERNAL_LOGIN = '$BASE_URL/Identity/login/social';
   static const APPLE_REDIRECT_URL = '$BASE_URL/callbacks/sign_in_with_apple';
   static const FORGET_PASSWORD = '$_REQUEST_URL/forgetpassword';
   static const REFRESH_TOKEN = '$_REQUEST_URL/refresh';
