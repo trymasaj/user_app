@@ -1,3 +1,15 @@
+<<<<<<< HEAD
+=======
+import 'package:country_flags/country_flags.dart';
+import 'package:masaj/core/app_export.dart';
+import 'package:masaj/shared_widgets/stateless/custom_text.dart';
+import '../../../../di/injector.dart';
+import '../../../../shared_widgets/stateless/custom_radio_list_tile.dart';
+import '../blocs/choose_language_cubit/choose_language_cubit.dart';
+import 'guide_page.dart';
+import '../../../../shared_widgets/other/show_snack_bar.dart';
+import '../../../../shared_widgets/stateful/default_button.dart';
+>>>>>>> origin/moatasem
 import 'package:flutter/material.dart';
 import 'package:masaj/core/app_export.dart';
 import 'package:masaj/core/data/di/injector.dart';
@@ -64,10 +76,16 @@ class _ChooseLanguagePageState extends State<ChooseLanguagePage> {
             ),
           ),
           CustomRadioListTile(
-            label: const CustomText(
-              text: 'arabic',
-              fontSize: 14.0,
-              fontWeight: FontWeight.w500,
+            label: Row(
+              children: [
+                CountryFlag.fromCountryCode('KW', width: 20.0, height: 20.0),
+                const SizedBox(width: 8.0),
+                const CustomText(
+                  text: 'arabic',
+                  fontSize: 14.0,
+                  fontWeight: FontWeight.w500,
+                ),
+              ],
             ),
             value: const Locale('ar'),
             groupValue: _selectedLocal,
@@ -76,10 +94,16 @@ class _ChooseLanguagePageState extends State<ChooseLanguagePage> {
           ),
           const SizedBox(height: 14.0),
           CustomRadioListTile(
-            label: const CustomText(
-              text: 'english',
-              fontSize: 14.0,
-              fontWeight: FontWeight.w500,
+            label: Row(
+              children: [
+                CountryFlag.fromCountryCode('US', width: 20.0, height: 20.0),
+                const SizedBox(width: 8.0),
+                const CustomText(
+                  text: 'english',
+                  fontSize: 14.0,
+                  fontWeight: FontWeight.w500,
+                ),
+              ],
             ),
             value: const Locale('en'),
             groupValue: _selectedLocal,

@@ -1,6 +1,9 @@
 import 'dart:ui';
 
 import 'package:collection/collection.dart';
+import 'package:masaj/core/data/extensions/extensions.dart';
+
+import '../../data/models/guide_page_tab_model.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:masaj/core/data/di/injector.dart';
@@ -160,11 +163,17 @@ class _GuidePageState extends State<GuidePage> {
             color: Colors.white,
           ),
           const SizedBox(width: 8.0),
-          const Icon(
-            Icons.arrow_circle_right_outlined,
-            size: 16.0,
-            color: Colors.white,
-          ),
+          context.isAr
+              ? const Icon(
+                  Icons.arrow_circle_left_outlined,
+                  size: 16.0,
+                  color: Colors.white,
+                )
+              : const Icon(
+                  Icons.arrow_circle_right_outlined,
+                  size: 16.0,
+                  color: Colors.white,
+                ),
         ],
       ),
     );
@@ -206,7 +215,7 @@ class _GuidePageState extends State<GuidePage> {
           height: 240,
           padding: const EdgeInsets.symmetric(horizontal: 24.0),
           decoration: BoxDecoration(
-            color: Colors.grey.shade200.withOpacity(0.5),
+            color: Colors.grey.shade200.withOpacity(0.2),
           ),
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,

@@ -135,7 +135,7 @@ class _GetStartedPageState extends State<GetStartedPage> {
         labelStyle: textStyle,
         backgroundColor: Colors.transparent,
         icon: const Icon(Icons.arrow_forward),
-        padding: EdgeInsets.symmetric(vertical: verticalPadding),
+        padding: EdgeInsets.symmetric(vertical: verticalPadding - 10),
         iconLocation: DefaultButtonIconLocation.End,
         borderColor: Colors.white,
         onPressed: () async {
