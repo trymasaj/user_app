@@ -1,21 +1,19 @@
 import 'package:masaj/core/app_export.dart';
-import 'package:masaj/core/utils/validation_functions.dart';
-import 'package:masaj/core/widgets/custom_phone_number.dart';
-import 'package:masaj/core/widgets/custom_text_form_field.dart';
+import 'package:masaj/core/data/validator/validation_functions.dart';
+import 'package:masaj/core/presentation/widgets/stateless/custom_phone_number.dart';
+import 'package:masaj/core/presentation/widgets/stateless/custom_text_form_field.dart';
 
-import '../bloc/add_member_bloc/add_member_bloc.dart';
-import '../models/add_member_model.dart';
+import 'package:masaj/features/account/bloc/add_member_bloc/add_member_bloc.dart';
 import 'package:country_pickers/country.dart';
 import 'package:country_pickers/country_pickers.dart';
 import 'package:flutter/material.dart';
-import 'package:outline_gradient_button/outline_gradient_button.dart';
 
 // ignore_for_file: must_be_immutable
 class AddMemberScreen extends StatelessWidget {
-  AddMemberScreen({Key? key}) : super(key: key);
+  AddMemberScreen({super.key});
   static const routeName = '/add-member';
 
-  GlobalKey<FormState> _formKey = GlobalKey<FormState>();
+  final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
 
   static Widget builder(BuildContext context) {
     return BlocProvider<AddMemberBloc>(
@@ -78,18 +76,18 @@ class AddMemberScreen extends StatelessWidget {
   /// Section Widget
   PreferredSizeWidget _buildAppBar(BuildContext context) {
     return AppBar(
-      title: Text("lbl_add_member".tr()),
+      title: Text('lbl_add_member'.tr()),
     );
   }
 
   /// Section Widget
   Widget _buildNameEditText(BuildContext context) {
     return CustomTextFormField(
-        hintText: "lbl_name".tr(),
+        hintText: 'lbl_name'.tr(),
         hintStyle: CustomTextStyles.bodyMediumBluegray40001_1,
         validator: (value) {
           if (!isText(value)) {
-            return "err_msg_please_enter_valid_text".tr();
+            return 'err_msg_please_enter_valid_text'.tr();
           }
           return null;
         });
@@ -111,7 +109,7 @@ class AddMemberScreen extends StatelessWidget {
   /// Section Widget
   Widget _buildSaveButton(BuildContext context) {
     return CustomElevatedButton(
-        text: "lbl_save".tr(),
+        text: 'lbl_save'.tr(),
         buttonStyle: CustomButtonStyles.none,
         decoration:
             CustomButtonStyles.gradientSecondaryContainerToPrimaryDecoration,

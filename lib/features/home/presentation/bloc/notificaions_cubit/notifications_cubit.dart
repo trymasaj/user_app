@@ -1,10 +1,10 @@
 import 'dart:developer';
 
-import 'package:masaj/core/abstract/base_cubit.dart';
+import 'package:masaj/core/application/controllers/base_cubit.dart';
 
-import '../../../../../core/exceptions/redundant_request_exception.dart';
-import '../../../data/repositories/home_repository.dart';
-import 'notifications_state.dart';
+import 'package:masaj/core/domain/exceptions/redundant_request_exception.dart';
+import 'package:masaj/features/home/data/repositories/home_repository.dart';
+import 'package:masaj/features/home/presentation/bloc/notificaions_cubit/notifications_state.dart';
 
 class NotificationsCubit extends BaseCubit<NotificationsState> {
   NotificationsCubit(this._homeRepository) : super(const NotificationsState());

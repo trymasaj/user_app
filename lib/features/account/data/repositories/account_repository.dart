@@ -1,12 +1,12 @@
-import '../../../../core/enums/topic_type.dart';
-import '../models/points_model.dart';
+import 'package:masaj/core/domain/enums/topic_type.dart';
+import 'package:masaj/features/account/data/models/points_model.dart';
 
-import '../../../../core/data/models/coupon_model.dart';
-import '../datasources/account_remote_data_source.dart';
-import '../models/contact_us_message_model.dart';
-import '../models/external_item_model.dart';
-import '../models/redeem_coupon_result.dart';
-import '../models/topics_model.dart';
+import 'package:masaj/core/data/models/coupon_model.dart';
+import 'package:masaj/features/account/data/datasources/account_remote_data_source.dart';
+import 'package:masaj/features/account/data/models/contact_us_message_model.dart';
+import 'package:masaj/features/account/data/models/external_item_model.dart';
+import 'package:masaj/features/account/data/models/redeem_coupon_result.dart';
+import 'package:masaj/features/account/data/models/topics_model.dart';
 
 abstract class AccountRepository {
   Future<Topic> getAboutUs();

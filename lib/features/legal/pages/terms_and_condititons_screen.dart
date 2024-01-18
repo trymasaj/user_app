@@ -1,6 +1,6 @@
 import 'package:masaj/core/app_export.dart';
-import '../bloc/terms_and_condititons_bloc/terms_and_condititons_bloc.dart';
-import '../models/terms_and_condititons_model.dart';
+import 'package:masaj/features/legal/bloc/terms_and_condititons_bloc/terms_and_condititons_bloc.dart';
+import 'package:masaj/features/legal/models/terms_and_condititons_model.dart';
 import 'package:flutter/material.dart';
 
 class TermsAndCondititonsScreen extends StatelessWidget {
@@ -11,9 +11,9 @@ class TermsAndCondititonsScreen extends StatelessWidget {
   static Widget builder(BuildContext context) {
     return BlocProvider<TermsAndCondititonsBloc>(
       create: (context) => TermsAndCondititonsBloc(TermsAndCondititonsState(
-        termsAndCondititonsModelObj: TermsAndCondititonsModel(),
+        termsAndCondititonsModelObj: const TermsAndCondititonsModel(),
       )),
-      child: TermsAndCondititonsScreen(),
+      child: const TermsAndCondititonsScreen(),
     );
   }
 
@@ -28,7 +28,7 @@ class TermsAndCondititonsScreen extends StatelessWidget {
             child: Column(
               children: [
                 Text(
-                  "msg_it_is_a_long_established2".tr(),
+                  'msg_it_is_a_long_established2'.tr(),
                   maxLines: 17,
                   overflow: TextOverflow.ellipsis,
                   style: theme.textTheme.bodyMedium!.copyWith(
@@ -47,7 +47,7 @@ class TermsAndCondititonsScreen extends StatelessWidget {
   PreferredSizeWidget _buildAppBar(BuildContext context) {
     return AppBar(
       title: Text(
-        "msg_terms_conditions".tr(),
+        'msg_terms_conditions'.tr(),
       ),
     );
   }

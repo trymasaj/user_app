@@ -4,7 +4,7 @@ import 'package:masaj/features/providers_tab/data/models/therapist.dart';
 import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 
 class TherapistTile extends StatelessWidget {
-  const TherapistTile({Key? key, required this.therapist}) : super(key: key);
+  const TherapistTile({super.key, required this.therapist});
   final TherapistSummaryData therapist;
   @override
   Widget build(BuildContext context) {
@@ -12,7 +12,7 @@ class TherapistTile extends StatelessWidget {
       child: Row(
         children: [
           ClipRRect(
-              borderRadius: BorderRadius.all(Radius.circular(20)),
+              borderRadius: const BorderRadius.all(Radius.circular(20)),
               child: CachedNetworkImage(imageUrl: 'imageUrl')),
           Column(
             children: [
@@ -22,7 +22,7 @@ class TherapistTile extends StatelessWidget {
                 children: [
                   RatingBarIndicator(
                     rating: 2.75,
-                    itemBuilder: (context, index) => Icon(
+                    itemBuilder: (context, index) => const Icon(
                       Icons.star,
                       color: Colors.amber,
                     ),
@@ -30,7 +30,7 @@ class TherapistTile extends StatelessWidget {
                     itemSize: 50.0,
                     direction: Axis.vertical,
                   ),
-                  Spacer(),
+                  const Spacer(),
                 ],
               ),
             ],

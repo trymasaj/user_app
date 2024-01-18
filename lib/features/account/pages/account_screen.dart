@@ -1,28 +1,25 @@
 import 'package:masaj/core/app_export.dart';
-import 'package:masaj/core/utils/navigator_helper.dart';
-import 'package:masaj/core/widgets/border_tile.dart';
+import 'package:masaj/core/presentation/navigation/navigator_helper.dart';
+import 'package:masaj/core/presentation/widgets/stateless/border_tile.dart';
 import 'package:masaj/features/account/pages/create_new_password_screen.dart';
 import 'package:masaj/features/account/pages/my_profile_screen.dart';
 import 'package:masaj/features/account/pages/phone_screen.dart';
 
-import '../bloc/account_bloc/account_bloc.dart';
-import '../models/account_model.dart';
+import 'package:masaj/features/account/bloc/account_bloc/account_bloc.dart';
+import 'package:masaj/features/account/models/account_model.dart';
 import 'package:flutter/material.dart';
 
 class AccountScreen extends StatelessWidget {
   static const routeName = '/account';
 
-  const AccountScreen({Key? key})
-      : super(
-          key: key,
-        );
+  const AccountScreen({super.key});
 
   static Widget builder(BuildContext context) {
     return BlocProvider<AccountBloc>(
       create: (context) => AccountBloc(AccountState(
-        accountModelObj: AccountModel(),
+        accountModelObj: const AccountModel(),
       )),
-      child: AccountScreen(),
+      child: const AccountScreen(),
     );
   }
 
@@ -43,7 +40,7 @@ class AccountScreen extends StatelessWidget {
                   padding: EdgeInsets.only(right: 7.w),
                   child: _buildTile(
                     image: ImageConstant.imgLockGray90003,
-                    text: "lbl_profile".tr(),
+                    text: 'lbl_profile'.tr(),
                     onTap: () {
                       NavigatorHelper.of(context).pushNamed(
                         MyProfileScreen.routeName,
@@ -56,7 +53,7 @@ class AccountScreen extends StatelessWidget {
                   padding: EdgeInsets.only(right: 7.w),
                   child: _buildTile(
                     image: ImageConstant.imgPhPhoneThin,
-                    text: "lbl_phone_number".tr(),
+                    text: 'lbl_phone_number'.tr(),
                     onTap: () {
                       NavigatorHelper.of(context).pushNamed(
                         PhoneScreen.routeName,
@@ -69,7 +66,7 @@ class AccountScreen extends StatelessWidget {
                   padding: EdgeInsets.only(right: 7.w),
                   child: _buildTile(
                     image: ImageConstant.imgLockGray9000320x20,
-                    text: "lbl_change_password".tr(),
+                    text: 'lbl_change_password'.tr(),
                     onTap: () {
                       NavigatorHelper.of(context).pushNamed(
                         CreateNewPasswordScreen.routeName,
@@ -82,7 +79,7 @@ class AccountScreen extends StatelessWidget {
                   padding: EdgeInsets.only(right: 7.w),
                   child: _buildTile(
                     image: ImageConstant.imgTrash,
-                    text: "lbl_delete_account".tr(),
+                    text: 'lbl_delete_account'.tr(),
                     onTap: () {},
                   ),
                 ),
@@ -98,7 +95,7 @@ class AccountScreen extends StatelessWidget {
   /// Section Widget
   PreferredSizeWidget _buildAppBar(BuildContext context) {
     return AppBar(
-      title: Text("lbl_account".tr()),
+      title: Text('lbl_account'.tr()),
     );
   }
 

@@ -1,8 +1,8 @@
-import '../../../../api_end_point.dart';
-import '../../../../core/enums/request_result_enum.dart';
-import '../../../../core/exceptions/request_exception.dart';
-import '../../../../core/service/network_service.dart';
-import '../../../features/home/data/models/event.dart';
+import 'package:masaj/core/data/constants/api_end_point.dart';
+import 'package:masaj/core/domain/enums/request_result_enum.dart';
+import 'package:masaj/core/domain/exceptions/request_exception.dart';
+import 'package:masaj/core/data/clients/network_service.dart';
+import 'package:masaj/features/home/data/models/event.dart';
 
 abstract class FavoritesRemoteDataSource {
   Future<List<Event>> getFavorites({
@@ -28,12 +28,14 @@ class FavoritesRemoteDataSourceImpl implements FavoritesRemoteDataSource {
     final params = {'take': take, 'skip': skip};
 
     return _networkService.get(url, queryParameters: params).then((response) {
-      if (![200, 201].contains(response.statusCode))
-        throw RequestException(response.data);
+      if (![200, 201].contains(response.statusCode)) {
+        throw RequestException(message: response.data);
+      }
       final result = response.data;
       final resultStatus = result['result'];
-      if (resultStatus == RequestResult.Failed.name)
-        throw RequestException(result['msg']);
+      if (resultStatus == RequestResult.Failed.name) {
+        throw RequestException(message: result['msg']);
+      }
       final data = result['data'] as List;
       return data.map((e) => Event.fromMap(e)).toList();
     });
@@ -51,13 +53,14 @@ class FavoritesRemoteDataSourceImpl implements FavoritesRemoteDataSource {
 
   Future<void> _addOrRemove(int id) {
     const url = ApiEndPoint.ADD_OR_REMOVE_FAV;
-    final params = {"eventId": id};
+    final params = {'eventId': id};
     return _networkService.post(url, queryParameters: params).then((response) {
-      if (response.statusCode != 200) throw RequestException(response.data);
+      if (response.statusCode != 200) throw RequestException(message: response.data);
       final result = response.data;
       final resultStatus = result['result'];
-      if (resultStatus == RequestResult.Failed.name)
-        throw RequestException(result['msg']);
+      if (resultStatus == RequestResult.Failed.name) {
+        throw RequestException(message: result['msg']);
+      }
     });
   }
 }

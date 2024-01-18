@@ -1,13 +1,13 @@
-import '../../../../core/data/models/interest_model.dart';
+import 'package:masaj/core/data/models/interest_model.dart';
 
-import '../../../../core/data/datasources/device_type_data_source.dart';
-import '../../../../core/data/datasources/external_login_data_source.dart';
-import '../../../../core/exceptions/request_exception.dart';
-import '../../../../core/service/notification_service.dart';
-import '../../../account/data/models/contact_us_message_model.dart';
-import '../datasources/auth_local_datasource.dart';
-import '../datasources/auth_remote_datasource.dart';
-import '../models/user.dart';
+import 'package:masaj/core/data/datasources/device_type_data_source.dart';
+import 'package:masaj/core/data/datasources/external_login_data_source.dart';
+import 'package:masaj/core/domain/exceptions/request_exception.dart';
+import 'package:masaj/core/data/device/notification_service.dart';
+import 'package:masaj/features/account/data/models/contact_us_message_model.dart';
+import 'package:masaj/features/auth/data/datasources/auth_local_datasource.dart';
+import 'package:masaj/features/auth/data/datasources/auth_remote_datasource.dart';
+import 'package:masaj/features/auth/data/models/user.dart';
 
 abstract class AuthRepository {
   Future<bool> isLoggedIn();
@@ -106,8 +106,9 @@ class AuthRepositoryImpl implements AuthRepository {
         if (email == null) rethrow;
         final user = await _externalLogin(newAppleUser.copyWith(email: email));
         return user;
-      } else
+      } else {
         rethrow;
+      }
     }
   }
 
@@ -125,8 +126,9 @@ class AuthRepositoryImpl implements AuthRepository {
         if (email == null) rethrow;
         final user = await _externalLogin(externalUser.copyWith(email: email));
         return user;
-      } else
+      } else {
         rethrow;
+      }
     }
   }
 

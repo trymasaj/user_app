@@ -1,6 +1,6 @@
 import 'dart:convert';
 
-import '../../enums/media_type.dart';
+import 'package:masaj/core/domain/enums/media_type.dart';
 
 class Media {
   final String? name;

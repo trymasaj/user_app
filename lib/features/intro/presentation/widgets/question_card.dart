@@ -1,13 +1,7 @@
-import 'package:dartz/dartz.dart' hide State;
-import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:masaj/core/app_export.dart';
-import 'package:masaj/core/widgets/custom_elevated_button.dart';
-import 'package:masaj/core/widgets/custom_radio_button.dart';
-import 'package:masaj/features/intro/data/models/question_model.dart';
-import 'package:masaj/res/style/app_colors.dart';
-import 'package:masaj/res/theme/custom_button_style.dart';
-import 'package:masaj/res/theme/custom_text_style.dart';
+import 'package:masaj/core/presentation/widgets/stateless/custom_radio_button.dart';
+import 'package:masaj/features/quiz/domain/entities/question.dart';
 
 class QuestionCard extends StatefulWidget {
   const QuestionCard(
@@ -46,13 +40,13 @@ class _QuestionCardState extends State<QuestionCard> {
                   onTap: widget.onBack,
                   child: Row(
                     children: [
-                      Icon(
+                      const Icon(
                         Icons.arrow_back_ios,
                         // color: Color(0xff181B28B2),
                       ),
                       Text(
                         'lbl_back'.tr(),
-                        style: TextStyle(
+                        style: const TextStyle(
                             // color: Color(0xff181B28B2),
                             ),
                       ),
@@ -60,7 +54,7 @@ class _QuestionCardState extends State<QuestionCard> {
                   ),
                 ),
               ),
-            Text("msg_select_an_answer".tr(),
+            Text('msg_select_an_answer'.tr(),
                 style: CustomTextStyles.bodyMediumBluegray40001_1),
             SizedBox(height: 2.h),
             Text(widget.question.content.tr(),
@@ -77,12 +71,12 @@ class _QuestionCardState extends State<QuestionCard> {
               Column(
                 children: [
                   TextField(
-                      style: TextStyle(color: Colors.black),
+                      style: const TextStyle(color: Colors.black),
                       decoration: InputDecoration(
                         hintStyle: CustomTextStyles.bodyMediumBluegray40001_1,
-                        hintText: "msg_please_share_your3".tr(),
+                        hintText: 'msg_please_share_your3'.tr(),
                       )),
-                  SizedBox(
+                  const SizedBox(
                     height: 20,
                   ),
                 ],
@@ -91,7 +85,7 @@ class _QuestionCardState extends State<QuestionCard> {
             CustomElevatedButton(
                 height: 48.h,
                 text:
-                    widget.isLastQuestion ? 'lbl_finish'.tr() : "lbl_next".tr(),
+                    widget.isLastQuestion ? 'lbl_finish'.tr() : 'lbl_next'.tr(),
                 buttonStyle: CustomButtonStyles.none,
                 decoration: CustomButtonStyles
                     .gradientSecondaryContainerToPrimaryTL25Decoration,
@@ -131,7 +125,7 @@ class AnswerTile extends StatelessWidget {
         decoration: RadioStyleHelper.gradientSecondaryContainerToDeepOrange(
             answer.id == value),
         isRightCheck: true,
-        onChange: (value) => onChanged(value!),
+        onChange: (value) => onChanged(value),
       ),
     );
   }

@@ -3,15 +3,12 @@ import 'dart:isolate';
 
 import 'package:flutter/foundation.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:masaj/core/utils/size_utils.dart';
-import 'package:masaj/features/auth/presentation/pages/login_page.dart';
-import 'package:masaj/features/home/presentation/pages/home_page.dart';
-import 'package:masaj/features/intro/presentation/pages/quiz/quiz_page.dart';
-import 'package:masaj/features/intro/presentation/pages/quiz/quiz_start_page.dart';
-import 'package:masaj/features/splash/presentation/pages/splash_page.dart';
-import 'package:masaj/res/theme/theme_helper.dart';
+import 'package:masaj/core/presentation/size/size_utils.dart';
+import 'package:masaj/core/data/di/injection_setup.dart';
+import 'package:masaj/features/quiz/presentation/pages/quiz_start_page.dart';
+import 'package:masaj/core/presentation/theme/theme_helper.dart';
 
-import 'di/injector.dart';
+import 'package:masaj/core/data/di/injector.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:firebase_crashlytics/firebase_crashlytics.dart';
 import 'package:flutter/material.dart';
@@ -19,8 +16,7 @@ import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:requests_inspector/requests_inspector.dart';
 
-import 'res/style/theme.dart';
-import 'routes/routes.dart';
+import 'package:masaj/core/presentation/routes/routes.dart';
 
 ///Don't forget to change it in release!!
 const isRelease = false;
@@ -30,11 +26,12 @@ void main() async {
   runZonedGuarded<Future<void>>(() async {
     WidgetsFlutterBinding.ensureInitialized();
     await EasyLocalization.ensureInitialized();
+    configureDependencies();
     await Injector().init();
     runApp(
       EasyLocalization(
         supportedLocales: const [Locale('en'), Locale('ar')],
-        path: 'lib/res/translations',
+        path: 'assets/translations',
         fallbackLocale: const Locale('en'),
         child: RequestsInspector(
           enabled: inspectorEnabled,
@@ -42,7 +39,6 @@ void main() async {
             providers: [
               BlocProvider(create: (context) => Injector().authCubit..init()),
               BlocProvider(create: (context) => Injector().favoritesCubit),
-              //   BlocProvider(create: (context) => Injector().treasureHuntCubit),
             ],
             child: const MyApp(),
           ),
@@ -61,8 +57,9 @@ Future<void> _initCrashLytics() async {
       errorAndStacktrace.last,
     );
   }).sendPort);
-  if (kDebugMode)
+  if (kDebugMode) {
     await FirebaseCrashlytics.instance.setCrashlyticsCollectionEnabled(false);
+  }
 }
 
 final navigatorKey = GlobalKey<NavigatorState>();
@@ -116,7 +113,7 @@ class _MyAppState extends State<MyApp> with WidgetsBindingObserver {
           minTextAdapt: true,
           child: Builder(builder: (context) {
             return MaterialApp(
-              home: const HomePage(),
+              home: const QuizStartPage(),
               localizationsDelegates: context.localizationDelegates,
               supportedLocales: context.supportedLocales,
               locale: context.locale,

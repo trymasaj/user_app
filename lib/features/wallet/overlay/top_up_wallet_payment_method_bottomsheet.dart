@@ -1,25 +1,20 @@
-import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:masaj/core/app_export.dart';
-import 'package:masaj/core/utils/app_decoration.dart';
 
-import '../bloc/top_up_wallet_bottom_sheet/top_up_wallet_payment_method_bloc.dart';
-import '../models/top_up_wallet_payment_method_model.dart';
+import 'package:masaj/features/wallet/bloc/top_up_wallet_bottom_sheet/top_up_wallet_payment_method_bloc.dart';
+import 'package:masaj/features/wallet/models/top_up_wallet_payment_method_model.dart';
 import 'package:flutter/material.dart';
 
 // ignore_for_file: must_be_immutable
 class TopUpWalletPaymentMethodBottomsheet extends StatelessWidget {
-  const TopUpWalletPaymentMethodBottomsheet({Key? key})
-      : super(
-          key: key,
-        );
+  const TopUpWalletPaymentMethodBottomsheet({super.key});
 
   static Widget builder(BuildContext context) {
     return BlocProvider<TopUpWalletPaymentMethodBloc>(
       create: (context) =>
           TopUpWalletPaymentMethodBloc(TopUpWalletPaymentMethodState(
-        topUpWalletPaymentMethodModelObj: TopUpWalletPaymentMethodModel(),
+        topUpWalletPaymentMethodModelObj: const TopUpWalletPaymentMethodModel(),
       )),
-      child: TopUpWalletPaymentMethodBottomsheet(),
+      child: const TopUpWalletPaymentMethodBottomsheet(),
     );
   }
 

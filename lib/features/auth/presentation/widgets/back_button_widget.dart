@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-import '../../../../core/utils/navigator_helper.dart';
+import 'package:masaj/core/presentation/navigation/navigator_helper.dart';
 
 class BackButtonWidget extends StatelessWidget {
   const BackButtonWidget({super.key});
@@ -18,8 +18,9 @@ class BackButtonWidget extends StatelessWidget {
           ),
         ),
         onTap: () {
-          if (NavigatorHelper.of(context).canPop())
+          if (NavigatorHelper.of(context).canPop()) {
             NavigatorHelper.of(context).pop();
+          }
         },
       ),
     );

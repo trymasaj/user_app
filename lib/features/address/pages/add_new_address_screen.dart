@@ -1,26 +1,23 @@
 import 'package:masaj/core/app_export.dart';
-import 'package:masaj/core/utils/validation_functions.dart';
-import 'package:masaj/core/widgets/custom_outlined_button.dart';
-import 'package:masaj/core/widgets/custom_text_form_field.dart';
+import 'package:masaj/core/data/validator/validation_functions.dart';
+import 'package:masaj/core/presentation/widgets/stateless/custom_outlined_button.dart';
+import 'package:masaj/core/presentation/widgets/stateless/custom_text_form_field.dart';
 
-import '../bloc/add_new_address_bloc/add_new_address_bloc.dart';
-import '../models/add_new_address_model.dart';
+import 'package:masaj/features/address/bloc/add_new_address_bloc/add_new_address_bloc.dart';
+import 'package:masaj/features/address/models/add_new_address_model.dart';
 import 'package:flutter/material.dart';
 
 class AddNewAddressScreen extends StatelessWidget {
   static const routeName = '/add-new-address';
 
-  AddNewAddressScreen({Key? key})
-      : super(
-          key: key,
-        );
+  AddNewAddressScreen({super.key});
 
-  GlobalKey<FormState> _formKey = GlobalKey<FormState>();
+  final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
 
   static Widget builder(BuildContext context) {
     return BlocProvider<AddNewAddressBloc>(
       create: (context) => AddNewAddressBloc(AddNewAddressState(
-        addNewAddressModelObj: AddNewAddressModel(),
+        addNewAddressModelObj: const AddNewAddressModel(),
       )),
       child: AddNewAddressScreen(),
     );
@@ -86,7 +83,7 @@ class AddNewAddressScreen extends StatelessWidget {
   /// Section Widget
   PreferredSizeWidget _buildAppBar(BuildContext context) {
     return AppBar(
-      title: Text("lbl_add_new_address2".tr()),
+      title: Text('lbl_add_new_address2'.tr()),
     );
   }
 
@@ -95,7 +92,7 @@ class AddNewAddressScreen extends StatelessWidget {
     return CustomOutlinedButton(
       height: 36.h,
       width: 137.w,
-      text: "lbl_change_location".tr(),
+      text: 'lbl_change_location'.tr(),
       buttonStyle: CustomButtonStyles.outlineGray,
       alignment: Alignment.center,
     );
@@ -132,11 +129,11 @@ class AddNewAddressScreen extends StatelessWidget {
       builder: (context, nameEditTextController) {
         return CustomTextFormField(
           controller: nameEditTextController,
-          hintText: "msg_address_nickname".tr(),
+          hintText: 'msg_address_nickname'.tr(),
           hintStyle: CustomTextStyles.bodyMediumBluegray40001_1,
           validator: (value) {
             if (!isText(value)) {
-              return "err_msg_please_enter_valid_text".tr();
+              return 'err_msg_please_enter_valid_text'.tr();
             }
             return null;
           },
@@ -153,7 +150,7 @@ class AddNewAddressScreen extends StatelessWidget {
       builder: (context, blockEditTextController) {
         return CustomTextFormField(
           controller: blockEditTextController,
-          hintText: "lbl_block".tr(),
+          hintText: 'lbl_block'.tr(),
           hintStyle: CustomTextStyles.bodyMediumBluegray40001_1,
         );
       },
@@ -168,7 +165,7 @@ class AddNewAddressScreen extends StatelessWidget {
       builder: (context, streetEditTextController) {
         return CustomTextFormField(
           controller: streetEditTextController,
-          hintText: "lbl_street".tr(),
+          hintText: 'lbl_street'.tr(),
           hintStyle: CustomTextStyles.bodyMediumBluegray40001_1,
         );
       },
@@ -183,7 +180,7 @@ class AddNewAddressScreen extends StatelessWidget {
       builder: (context, avenueEditTextController) {
         return CustomTextFormField(
           controller: avenueEditTextController,
-          hintText: "lbl_avenue".tr(),
+          hintText: 'lbl_avenue'.tr(),
           hintStyle: CustomTextStyles.bodyMediumBluegray40001_1,
         );
       },
@@ -198,7 +195,7 @@ class AddNewAddressScreen extends StatelessWidget {
       builder: (context, houseBuildingNoEditTextController) {
         return CustomTextFormField(
           controller: houseBuildingNoEditTextController,
-          hintText: "msg_house_building_no".tr(),
+          hintText: 'msg_house_building_no'.tr(),
           hintStyle: CustomTextStyles.bodyMediumBluegray40001_1,
         );
       },
@@ -213,7 +210,7 @@ class AddNewAddressScreen extends StatelessWidget {
       builder: (context, floorEditTextController) {
         return CustomTextFormField(
           controller: floorEditTextController,
-          hintText: "lbl_floor".tr(),
+          hintText: 'lbl_floor'.tr(),
           hintStyle: CustomTextStyles.bodyMediumBluegray40001_1,
         );
       },
@@ -228,7 +225,7 @@ class AddNewAddressScreen extends StatelessWidget {
       builder: (context, apartmentNoEditTextController) {
         return CustomTextFormField(
           controller: apartmentNoEditTextController,
-          hintText: "lbl_apartment_no".tr(),
+          hintText: 'lbl_apartment_no'.tr(),
           hintStyle: CustomTextStyles.bodyMediumBluegray40001_1,
         );
       },
@@ -243,7 +240,7 @@ class AddNewAddressScreen extends StatelessWidget {
       builder: (context, additionalDirectionEditTextController) {
         return CustomTextFormField(
           controller: additionalDirectionEditTextController,
-          hintText: "msg_additional_direction".tr(),
+          hintText: 'msg_additional_direction'.tr(),
           hintStyle: CustomTextStyles.bodyMediumBluegray40001_1,
           textInputAction: TextInputAction.done,
         );
@@ -257,7 +254,7 @@ class AddNewAddressScreen extends StatelessWidget {
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
       children: [
         Text(
-          "msg_set_as_primary_address".tr(),
+          'msg_set_as_primary_address'.tr(),
           style: CustomTextStyles.bodyMediumGray90003,
         ),
         BlocSelector<AddNewAddressBloc, AddNewAddressState, bool?>(
@@ -276,7 +273,7 @@ class AddNewAddressScreen extends StatelessWidget {
   /// Section Widget
   Widget _buildSaveButton(BuildContext context) {
     return CustomElevatedButton(
-      text: "lbl_save".tr(),
+      text: 'lbl_save'.tr(),
       margin: EdgeInsets.only(
         left: 24.w,
         right: 24.w,

@@ -1,5 +1,5 @@
 
-import 'package:masaj/core/utils/image_constant.dart';
+import 'package:masaj/core/presentation/constants/image_constant.dart';
 
 /// This class is used in the [userprofile8_item_widget] screen.
 class Userprofile8ItemModel {
@@ -11,10 +11,10 @@ class Userprofile8ItemModel {
     this.id,
   }) {
     clockImage = clockImage ?? ImageConstant.imgClock;
-    fiveText = fiveText ?? "5";
-    kwdText = kwdText ?? "KWD";
-    freeKwdText = freeKwdText ?? "+ Free 1 KWD";
-    id = id ?? "";
+    fiveText = fiveText ?? '5';
+    kwdText = kwdText ?? 'KWD';
+    freeKwdText = freeKwdText ?? '+ Free 1 KWD';
+    id = id ?? '';
   }
 
   String? clockImage;

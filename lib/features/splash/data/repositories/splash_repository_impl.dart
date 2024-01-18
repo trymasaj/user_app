@@ -1,4 +1,4 @@
-import '../datasources/splash_local_data_source.dart';
+import 'package:masaj/features/splash/data/datasources/splash_local_data_source.dart';
 
 abstract class SplashRepository {
   Future<bool> isFirstLaunch();

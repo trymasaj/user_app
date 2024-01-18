@@ -1,28 +1,32 @@
 import 'package:equatable/equatable.dart';
-import 'package:flutter/material.dart';
-import 'package:masaj/core/abstract/base_cubit.dart';
+import 'package:masaj/core/application/controllers/base_cubit.dart';
+import 'package:masaj/core/application/states/app_state.dart';
+import 'package:masaj/features/wallet/domain/entites/package.dart';
+import 'package:masaj/features/wallet/domain/repos/wallet_repo.dart';
 import 'package:masaj/features/wallet/models/top_up_wallet_model.dart';
-import '/core/app_export.dart';
-import '../../models/userprofile8_item_model.dart';
+import 'package:masaj/core/app_export.dart';
+import 'package:masaj/features/wallet/models/userprofile8_item_model.dart';
+import 'package:masaj/features/wallet/value_objects/coupon_code.dart';
 part 'top_up_wallet_state.dart';
 
 /// A bloc that manages the state of a TopUpWallet according to the event that is dispatched to it.
 class TopUpWalletBloc extends BaseCubit<TopUpWalletState> {
-  TopUpWalletBloc(TopUpWalletState initialState) : super(initialState) {}
+  final WalletRepository _repository;
+  TopUpWalletBloc(this._repository) : super(TopUpWalletState.initial());
 
-  _onInitialize() async {
-    emit(state.copyWith(
-        topUpWalletModelObj: state.topUpWalletModelObj
-            ?.copyWith(userprofile8ItemList: fillUserprofile8ItemList())));
+  void onChangedCouponCode(CouponCode code) {
+    emit(state.copyWith(couponCode: code));
   }
 
-  List<Userprofile8ItemModel> fillUserprofile8ItemList() {
-    return [
-      Userprofile8ItemModel(
-          clockImage: ImageConstant.imgClock,
-          fiveText: "5",
-          kwdText: "KWD",
-          freeKwdText: "+ Free 1 KWD")
-    ];
+  void onSelectPackageIndex(int index) {
+    emit(state.copyWith(selectedPackageIndex: index));
+  }
+
+  Future<void> purchasePackage() async {
+    await _repository.purchasePackage(state.selectedPackage);
+  }
+
+  void redeemCoupon() {
+    _repository.redeemCouponCode(state.couponCode);
   }
 }

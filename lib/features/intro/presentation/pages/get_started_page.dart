@@ -1,21 +1,21 @@
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/svg.dart';
-import '../../../auth/presentation/pages/login_page.dart';
-import '../../../../res/style/app_colors.dart';
-import '../../../../shared_widgets/stateful/default_button.dart';
+import 'package:masaj/features/auth/presentation/pages/login_page.dart';
+import 'package:masaj/core/presentation/colors/app_colors.dart';
+import 'package:masaj/core/presentation/widgets/stateless/default_button.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:size_helper/size_helper.dart';
 
-import '../../../../core/utils/navigator_helper.dart';
-import '../../../../shared_widgets/other/show_snack_bar.dart';
-import '../../../../shared_widgets/stateless/custom_app_page.dart';
-import '../../../../shared_widgets/stateless/title_text.dart';
-import '../../../../shared_widgets/text_fields/email_text_form_field.dart';
-import '../../../auth/presentation/blocs/auth_cubit/auth_cubit.dart';
-import '../../../auth/presentation/pages/sign_up_page.dart';
-import '../../../home/presentation/pages/home_page.dart';
+import 'package:masaj/core/presentation/navigation/navigator_helper.dart';
+import 'package:masaj/core/presentation/overlay/show_snack_bar.dart';
+import 'package:masaj/core/presentation/widgets/stateless/custom_app_page.dart';
+import 'package:masaj/core/presentation/widgets/stateless/title_text.dart';
+import 'package:masaj/core/presentation/widgets/stateless/text_fields/email_text_form_field.dart';
+import 'package:masaj/features/auth/presentation/blocs/auth_cubit/auth_cubit.dart';
+import 'package:masaj/features/auth/presentation/pages/sign_up_page.dart';
+import 'package:masaj/features/home/presentation/pages/home_page.dart';
 
 class GetStartedPage extends StatefulWidget {
   static const routeName = '/GetStartedPage';
@@ -35,7 +35,7 @@ class _GetStartedPageState extends State<GetStartedPage> {
       safeTop: true,
       safeBottom: false,
       withBackground: true,
-      backgroundPath: 'lib/res/assets/get_started_background.svg',
+      backgroundPath: 'assets/images/get_started_background.svg',
       backgroundFit: BoxFit.fitWidth,
       backgroundAlignment: Alignment.topCenter,
       child: Scaffold(
@@ -113,7 +113,7 @@ class _GetStartedPageState extends State<GetStartedPage> {
   }
 
   Widget _buildContinueAsGuestButton(BuildContext context) {
-    final textStyle = Theme.of(context).textTheme.bodyText1!.copyWith(
+    final textStyle = Theme.of(context).textTheme.bodyLarge!.copyWith(
           fontSize: context.sizeHelper(
             mobileExtraLarge: 16.0,
             tabletLarge: 18.0,
@@ -148,7 +148,7 @@ class _GetStartedPageState extends State<GetStartedPage> {
   }
 
   Widget _buildAlreadyHaveAccountButton(BuildContext context) {
-    final textStyle = Theme.of(context).textTheme.bodyText1!.copyWith(
+    final textStyle = Theme.of(context).textTheme.bodyLarge!.copyWith(
           fontSize: context.sizeHelper(
             mobileExtraLarge: 14.0,
             tabletLarge: 16.0,
@@ -191,7 +191,7 @@ class _GetStartedPageState extends State<GetStartedPage> {
       label: 'continue_with_apple'.tr(),
       labelStyle: const TextStyle(color: Colors.white),
       icon: SvgPicture.asset(
-        'lib/res/assets/apple.svg',
+        'assets/images/apple.svg',
         width: context.sizeHelper(
           tabletExtraLarge: 26.0,
           desktopSmall: 40.0,
@@ -262,7 +262,7 @@ class _GetStartedPageState extends State<GetStartedPage> {
       label: 'continue_with_google'.tr(),
       labelStyle: const TextStyle(color: Colors.white),
       icon: SvgPicture.asset(
-        'lib/res/assets/google.svg',
+        'assets/images/google.svg',
         width: context.sizeHelper(
           tabletExtraLarge: 26.0,
           desktopSmall: 40.0,
@@ -284,15 +284,16 @@ class _GetStartedPageState extends State<GetStartedPage> {
       label: 'continue_with_email'.tr(),
       labelStyle: const TextStyle(color: Colors.white),
       icon: SvgPicture.asset(
-        'lib/res/assets/email.svg',
+        'assets/images/email.svg',
         width: context.sizeHelper(
           tabletExtraLarge: 26.0,
           desktopSmall: 40.0,
         ),
       ),
       onPressed: () {
-        if (widget.isLogin)
+        if (widget.isLogin) {
           _goToLoginPage(context);
+        }
         //todo
         // else
         //   _goToSignUpStep1Page(context);
@@ -305,11 +306,12 @@ class _GetStartedPageState extends State<GetStartedPage> {
     String? userFullName,
   }) {
     NavigatorHelper.of(context).pushAndRemoveUntil(
-      MaterialPageRoute(builder: (_) => HomePage()),
+      MaterialPageRoute(builder: (_) => const HomePage()),
       (_) => false,
     );
-    if (userFullName != null)
+    if (userFullName != null) {
       showSnackBar(context, message: 'welcome'.tr(args: [userFullName]));
+    }
   }
 
   void _goToSignUpStep2Page(BuildContext context) =>

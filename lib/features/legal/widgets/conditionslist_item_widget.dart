@@ -1,18 +1,13 @@
 import 'package:masaj/core/app_export.dart';
-import 'package:masaj/core/utils/image_constant.dart';
-import 'package:masaj/core/widgets/custom_image_view.dart';
-import 'package:masaj/res/theme/custom_text_style.dart';
 
-import '../models/conditionslist_item_model.dart';
+import 'package:masaj/features/legal/models/conditionslist_item_model.dart';
 import 'package:flutter/material.dart';
 
 class ConditionsListItem extends StatelessWidget {
   const ConditionsListItem(
     this.item, {
-    Key? key,
-  }) : super(
-          key: key,
-        );
+    super.key,
+  });
 
   final Condition item;
 

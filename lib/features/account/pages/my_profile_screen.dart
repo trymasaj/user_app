@@ -1,25 +1,19 @@
 import 'package:masaj/core/app_export.dart';
-import 'package:masaj/core/utils/validation_functions.dart';
-import 'package:masaj/core/widgets/custom_floating_text_field.dart';
-import 'package:masaj/core/widgets/custom_outlined_button.dart';
-import 'package:outline_gradient_button/outline_gradient_button.dart';
-import '../bloc/my_profile_bloc/my_profile_bloc.dart';
-import '../models/my_profile_model.dart';
+import 'package:masaj/core/presentation/widgets/stateless/custom_outlined_button.dart';
+import 'package:masaj/features/account/bloc/my_profile_bloc/my_profile_bloc.dart';
+import 'package:masaj/features/account/models/my_profile_model.dart';
 import 'package:flutter/material.dart';
 
 class MyProfileScreen extends StatelessWidget {
   static const routeName = '/my_profile';
-  MyProfileScreen({Key? key})
-      : super(
-          key: key,
-        );
+  MyProfileScreen({super.key});
 
-  GlobalKey<FormState> _formKey = GlobalKey<FormState>();
+  final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
 
   static Widget builder(BuildContext context) {
     return BlocProvider<MyProfileBloc>(
       create: (context) => MyProfileBloc(MyProfileState(
-        myProfileModelObj: MyProfileModel(),
+        myProfileModelObj: const MyProfileModel(),
       )),
       child: MyProfileScreen(),
     );
@@ -72,14 +66,14 @@ class MyProfileScreen extends StatelessWidget {
                   SizedBox(height: 8.h),
                   TextFormField(
                     decoration: InputDecoration(
-                      labelText: "lbl_name".tr(),
+                      labelText: 'lbl_name'.tr(),
                       labelStyle: CustomTextStyles.bodyMediumOnPrimary_2,
                     ),
                   ),
                   SizedBox(height: 16.h),
                   TextFormField(
                     decoration: InputDecoration(
-                      labelText: "lbl_email".tr(),
+                      labelText: 'lbl_email'.tr(),
                       labelStyle: CustomTextStyles.bodyMediumOnPrimary_2,
                     ),
                   ),
@@ -102,7 +96,7 @@ class MyProfileScreen extends StatelessWidget {
   /// Section Widget
   PreferredSizeWidget _buildAppBar(BuildContext context) {
     return AppBar(
-      title: Text("lbl_my_profile".tr()),
+      title: Text('lbl_my_profile'.tr()),
     );
   }
 
@@ -111,7 +105,7 @@ class MyProfileScreen extends StatelessWidget {
       children: [
         TextFormField(
             decoration: InputDecoration(
-          labelText: "lbl_birth_date".tr(),
+          labelText: 'lbl_birth_date'.tr(),
           labelStyle: CustomTextStyles.bodyMediumOnPrimary_2,
         )),
         Positioned.fill(
@@ -147,7 +141,7 @@ class MyProfileScreen extends StatelessWidget {
   Widget _buildFemaleButton(BuildContext context) {
     return Expanded(
       child: CustomOutlinedButton(
-        text: "lbl_female".tr(),
+        text: 'lbl_female'.tr(),
         margin: EdgeInsets.only(right: 4.w),
         buttonStyle: CustomButtonStyles.outlineBlueGray,
         buttonTextStyle: CustomTextStyles.bodyMediumBluegray40001_1,
@@ -169,7 +163,7 @@ class MyProfileScreen extends StatelessWidget {
   /// Section Widget
   Widget _buildSaveButton(BuildContext context) {
     return CustomElevatedButton(
-      text: "lbl_save".tr(),
+      text: 'lbl_save'.tr(),
       buttonStyle: CustomButtonStyles.none,
       decoration:
           CustomButtonStyles.gradientSecondaryContainerToPrimaryDecoration,

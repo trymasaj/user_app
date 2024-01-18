@@ -1,4 +1,4 @@
-import '../datasources/providers_tab_remote_data_source.dart';
+import 'package:masaj/features/providers_tab/data/datasources/providers_tab_remote_data_source.dart';
 
 abstract class ProvidersTabRepository {
 

@@ -1,35 +1,28 @@
-import 'package:easy_localization/easy_localization.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:masaj/core/app_export.dart';
-import 'package:masaj/core/utils/app_decoration.dart';
-import 'package:masaj/core/utils/image_constant.dart';
-import 'package:masaj/core/utils/navigator_helper.dart';
-import 'package:masaj/core/widgets/custom_elevated_button.dart';
-import 'package:masaj/core/widgets/custom_switch.dart';
+import 'package:masaj/core/presentation/navigation/navigator_helper.dart';
 import 'package:masaj/features/account/pages/account_screen.dart';
 import 'package:masaj/features/intro/presentation/pages/choose_language_page.dart';
 import 'package:masaj/features/legal/pages/legal_screen.dart';
 import 'package:masaj/features/account/pages/manage_members_screen.dart';
 import 'package:masaj/features/settings_tab/bloc/settings_bloc/setting_bloc.dart';
-import 'package:masaj/features/settings_tab/bloc/settings_bloc/setting_event.dart';
 import 'package:masaj/features/settings_tab/bloc/settings_bloc/setting_state.dart';
 import 'package:masaj/features/medical_form/pages/medical_form_screen.dart';
 import 'package:masaj/features/settings_tab/widgets/setting_tile.dart';
 import 'package:masaj/features/wallet/pages/wallet_screen.dart';
-import '../models/settings_model.dart';
+import 'package:masaj/features/settings_tab/models/settings_model.dart';
 import 'package:flutter/material.dart';
 
 // ignore_for_file: must_be_immutable
 class SettingsTabPage extends StatelessWidget {
-  SettingsTabPage({Key? key}) : super(key: key);
+  const SettingsTabPage({super.key});
 
   static Widget builder(BuildContext context) {
     return BlocProvider<SettingsBloc>(
         create: (context) => SettingsBloc(SettingsState(
             settingsSubscribedToMasajPlusModelObj:
-                SettingsSubscribedToMasajPlusModel())),
-        child: SettingsTabPage());
+                const SettingsSubscribedToMasajPlusModel())),
+        child: const SettingsTabPage());
   }
 
   @override
@@ -54,9 +47,9 @@ class SettingsTabPage extends StatelessWidget {
                       SizedBox(height: 10.h),
                       CustomElevatedButton(
                           height: 48.h,
-                          text: "lbl_logout".tr(),
+                          text: 'lbl_logout'.tr(),
                           buttonStyle: ElevatedButton.styleFrom(
-                              backgroundColor: Color(0xffF9ECEE)),
+                              backgroundColor: const Color(0xffF9ECEE)),
                           buttonTextStyle: CustomTextStyles.titleSmallPink700)
                     ]))))
       ]),
@@ -78,7 +71,7 @@ class SettingsTabPage extends StatelessWidget {
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
                 Text(
-                  "lbl_settings".tr(),
+                  'lbl_settings'.tr(),
                   style:
                       CustomTextStyles.titleLargeOnPrimaryContainer_1.copyWith(
                     color: theme.colorScheme.onPrimaryContainer.withOpacity(1),
@@ -87,7 +80,7 @@ class SettingsTabPage extends StatelessWidget {
                 TextButton.icon(
                   onPressed: () {},
                   icon: SvgPicture.asset(ImageConstant.imgFluentChat24Regular),
-                  label: Text("lbl_support".tr()),
+                  label: Text('lbl_support'.tr()),
                 ),
               ],
             ),
@@ -121,14 +114,14 @@ class SettingsTabPage extends StatelessWidget {
                                       .copyWith(
                                           borderRadius:
                                               BorderRadiusStyle.roundedBorder8),
-                                  child: Text("lbl_plus".tr(),
+                                  child: Text('lbl_plus'.tr(),
                                       style: CustomTextStyles
                                           .labelLargeOnPrimaryContainer_1)),
                               SizedBox(height: 1.h),
-                              Text("lbl_jasmine_sanchez".tr(),
+                              Text('lbl_jasmine_sanchez'.tr(),
                                   style: CustomTextStyles.titleMediumGray90003),
                               SizedBox(height: 2.h),
-                              Text("lbl_965231131123".tr(),
+                              Text('lbl_965231131123'.tr(),
                                   style: theme.textTheme.bodySmall)
                             ]))
                   ])),
@@ -147,7 +140,7 @@ class SettingsTabPage extends StatelessWidget {
             crossAxisAlignment: CrossAxisAlignment.start,
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
-              Text("lbl_general".tr(),
+              Text('lbl_general'.tr(),
                   style: CustomTextStyles.titleSmallOnPrimary_3),
               SizedBox(height: 5.h),
               SettingTile(
@@ -197,13 +190,13 @@ class SettingsTabPage extends StatelessWidget {
             mainAxisSize: MainAxisSize.min,
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              Text("lbl_refer_credit".tr(),
+              Text('lbl_refer_credit'.tr(),
                   style: CustomTextStyles.titleSmallOnPrimary_3),
               SizedBox(height: 17.h),
               SettingTile(
                 imagePath: ImageConstant.imgGroup1000003167,
-                text: "lbl_my_wallet".tr(),
-                trailing: Text("lbl_30_000_kwd".tr(),
+                text: 'lbl_my_wallet'.tr(),
+                trailing: Text('lbl_30_000_kwd'.tr(),
                     style: theme.textTheme.bodyMedium!.copyWith(
                         color: theme.colorScheme.onPrimary.withOpacity(0.7))),
                 onTap: () {
@@ -240,7 +233,7 @@ class SettingsTabPage extends StatelessWidget {
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
               SizedBox(height: 3.h),
-              Text("lbl_app".tr(),
+              Text('lbl_app'.tr(),
                   style: CustomTextStyles.titleSmallOnPrimary_3),
               SizedBox(height: 14.h),
               SettingTile(

@@ -2,19 +2,32 @@
 
 part of 'top_up_wallet_bloc.dart';
 
-/// Represents the state of TopUpWallet in the application.
 class TopUpWalletState extends Equatable {
-  TopUpWalletState({this.topUpWalletModelObj});
+  const TopUpWalletState(
+      {required this.selectedPackageIndex,
+      required this.couponCode,
+      required this.packages});
 
-  TopUpWalletModel? topUpWalletModelObj;
-
+  final CouponCode couponCode;
+  final int selectedPackageIndex;
+  final DataLoadState<List<Package>> packages;
+  List<Package> get loadedPackages =>
+      (packages as DataLoadLoadedState<List<Package>>).data;
+  Package get selectedPackage => loadedPackages[selectedPackageIndex];
   @override
-  List<Object?> get props => [
-        topUpWalletModelObj,
-      ];
-  TopUpWalletState copyWith({TopUpWalletModel? topUpWalletModelObj}) {
+  List<Object> get props => [couponCode, packages, selectedPackageIndex];
+  factory TopUpWalletState.initial() => TopUpWalletState(
+      selectedPackageIndex: -1,
+      couponCode: CouponCode(''),
+      packages: DataLoadState.initial());
+  TopUpWalletState copyWith(
+      {CouponCode? couponCode,
+      DataLoadState<List<Package>>? packages,
+      int? selectedPackageIndex}) {
     return TopUpWalletState(
-      topUpWalletModelObj: topUpWalletModelObj ?? this.topUpWalletModelObj,
+      selectedPackageIndex: selectedPackageIndex ?? this.selectedPackageIndex,
+      couponCode: couponCode ?? this.couponCode,
+      packages: packages ?? this.packages,
     );
   }
 }

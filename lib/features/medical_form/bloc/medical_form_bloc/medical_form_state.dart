@@ -4,11 +4,11 @@ part of 'medical_form_bloc.dart';
 
 /// Represents the state of MedicalForm in the application.
 class MedicalFormState extends Equatable {
-  MedicalFormState();
+  const MedicalFormState();
 
   @override
   List<Object?> get props => [];
   MedicalFormState copyWith() {
-    return MedicalFormState();
+    return const MedicalFormState();
   }
 }

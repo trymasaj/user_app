@@ -12,7 +12,7 @@ extension AboutUsStateX on ConditionsState {
 }
 
 class ConditionsState extends Equatable {
-  ConditionsState({
+  const ConditionsState({
     required this.conditions,
     required this.status,
   });
@@ -29,5 +29,5 @@ class ConditionsState extends Equatable {
   }
 
   factory ConditionsState.initial() =>
-      ConditionsState(status: ConditionsStatus.initial, conditions: []);
+      const ConditionsState(status: ConditionsStatus.initial, conditions: []);
 }

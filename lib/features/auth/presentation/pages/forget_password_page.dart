@@ -1,17 +1,17 @@
 import 'package:masaj/features/auth/presentation/pages/otp_verification_page.dart';
-import 'package:masaj/shared_widgets/stateless/custom_text.dart';
-import '../../../../shared_widgets/stateless/back_button.dart';
+import 'package:masaj/core/presentation/widgets/stateless/custom_text.dart';
+import 'package:masaj/core/presentation/widgets/stateless/back_button.dart';
 
-import '../../../../core/utils/navigator_helper.dart';
-import '../../../../res/style/app_colors.dart';
-import '../../../../shared_widgets/stateless/custom_app_page.dart';
-import '../../../../shared_widgets/stateful/default_button.dart';
-import '../../../../shared_widgets/other/show_snack_bar.dart';
+import 'package:masaj/core/presentation/navigation/navigator_helper.dart';
+import 'package:masaj/core/presentation/colors/app_colors.dart';
+import 'package:masaj/core/presentation/widgets/stateless/custom_app_page.dart';
+import 'package:masaj/core/presentation/widgets/stateless/default_button.dart';
+import 'package:masaj/core/presentation/overlay/show_snack_bar.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
-import '../../../../shared_widgets/text_fields/email_text_form_field.dart';
-import '../blocs/auth_cubit/auth_cubit.dart';
+import 'package:masaj/core/presentation/widgets/stateless/text_fields/email_text_form_field.dart';
+import 'package:masaj/features/auth/presentation/blocs/auth_cubit/auth_cubit.dart';
 
 class ForgetPasswordPage extends StatefulWidget {
   static const routeName = '/ForgetPasswordPage';
@@ -47,9 +47,9 @@ class _ForgetPasswordPageState extends State<ForgetPasswordPage> {
   Widget build(BuildContext context) {
     return BlocListener<AuthCubit, AuthState>(
       listener: (context, state) {
-        if (state.isError)
+        if (state.isError) {
           showSnackBar(context, message: state.errorMessage);
-        else if (state.isInitial) _goBackToLoginPage(context, true);
+        } else if (state.isInitial) _goBackToLoginPage(context, true);
       },
       child: CustomAppPage(
         safeTop: true,

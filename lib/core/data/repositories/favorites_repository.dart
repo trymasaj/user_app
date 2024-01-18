@@ -1,5 +1,5 @@
-import '../../../features/home/data/models/event.dart';
-import '../datasources/favorites_remote_data_source.dart';
+import 'package:masaj/features/home/data/models/event.dart';
+import 'package:masaj/core/data/datasources/favorites_remote_data_source.dart';
 
 abstract class FavoritesRepository {
   Future<List<Event>> getFavorites({int take = 10, int skip = 0});

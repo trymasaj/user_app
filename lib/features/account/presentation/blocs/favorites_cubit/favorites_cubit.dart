@@ -1,8 +1,7 @@
 import 'package:flutter/foundation.dart';
-import 'package:meta/meta.dart';
-import '../../../../../core/abstract/base_cubit.dart';
-import '../../../../../core/data/repositories/favorites_repository.dart';
-import '../../../../home/data/models/event.dart';
+import 'package:masaj/core/application/controllers/base_cubit.dart';
+import 'package:masaj/core/data/repositories/favorites_repository.dart';
+import 'package:masaj/features/home/data/models/event.dart';
 
 part 'favorites_state.dart';
 
@@ -17,7 +16,7 @@ class FavoritesCubit extends BaseCubit<FavoritesState> {
     try {
       if (!refresh) emit(state.copyWith(status: FavoritesStateStatus.loading));
       final favorites =
-          await _favoritesRepository.getFavorites() as List<Event>;
+          await _favoritesRepository.getFavorites();
 
       emit(state.copyWith(
           status: FavoritesStateStatus.loaded, favoritesList: favorites));

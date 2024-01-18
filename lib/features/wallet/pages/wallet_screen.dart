@@ -1,23 +1,21 @@
-import 'package:dartz/dartz.dart';
 import 'package:masaj/core/app_export.dart';
-import 'package:masaj/core/utils/navigator_helper.dart';
-import 'package:masaj/di/injector.dart';
+import 'package:masaj/core/data/di/injection_setup.dart';
+import 'package:masaj/core/presentation/navigation/navigator_helper.dart';
+import 'package:masaj/core/data/di/injector.dart';
 import 'package:masaj/features/wallet/pages/top_up_wallet_screen.dart';
-import '../widgets/transactionhistory_item_widget.dart';
-import '../bloc/wallet_bloc/wallet_bloc.dart';
-import '../models/transactionhistory_item_model.dart';
-import '../models/wallet_model.dart';
+import 'package:masaj/features/wallet/widgets/transactionhistory_item_widget.dart';
+import 'package:masaj/features/wallet/application/wallet_bloc/wallet_bloc.dart';
 import 'package:flutter/material.dart';
 
 class WalletScreen extends StatelessWidget {
   static const routeName = '/wallet';
 
-  const WalletScreen({Key? key}) : super(key: key);
+  const WalletScreen({super.key});
 
   static Widget builder(BuildContext context) {
     return BlocProvider<WalletBloc>(
-        child: WalletScreen(),
-        create: (context) => Injector().walletBloc..getTransactionHistory());
+        child: const WalletScreen(),
+        create: (context) => getIt<WalletBloc>()..getTransactionHistory());
   }
 
   @override
@@ -37,7 +35,7 @@ class WalletScreen extends StatelessWidget {
                   margin: EdgeInsets.symmetric(vertical: 2.h)),
               Padding(
                   padding: EdgeInsets.only(left: 4.w),
-                  child: Text("msg_transactions_history".tr(),
+                  child: Text('msg_transactions_history'.tr(),
                       style: CustomTextStyles.titleMediumGray90003SemiBold))
             ]),
             SizedBox(height: 12.h),
@@ -50,7 +48,7 @@ class WalletScreen extends StatelessWidget {
   /// Section Widget
   PreferredSizeWidget _buildAppBar(BuildContext context) {
     return AppBar(
-      title: Text("lbl_wallet".tr()),
+      title: Text('lbl_wallet'.tr()),
     );
   }
 
@@ -70,22 +68,22 @@ class WalletScreen extends StatelessWidget {
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         Row(children: [
-                          Text("lbl_5000".tr(),
+                          Text('lbl_5000'.tr(),
                               style: theme.textTheme.headlineSmall),
                           Padding(
                               padding: EdgeInsets.only(
                                   left: 4.w, top: 8.h, bottom: 6.h),
-                              child: Text("lbl_kwd".tr(),
+                              child: Text('lbl_kwd'.tr(),
                                   style: CustomTextStyles.titleSmallSemiBold_1))
                         ]),
                         SizedBox(height: 1.h),
-                        Text("lbl_current_balance".tr(),
+                        Text('lbl_current_balance'.tr(),
                             style: theme.textTheme.bodyMedium)
                       ])),
               CustomElevatedButton(
                   height: 36.h,
                   width: 109.w,
-                  text: "lbl_top_up".tr(),
+                  text: 'lbl_top_up'.tr(),
                   margin: EdgeInsets.only(top: 16.h, bottom: 7.h),
                   leftIcon: Container(
                       margin: EdgeInsets.only(right: 5.w),
@@ -125,9 +123,9 @@ class WalletScreen extends StatelessWidget {
               });
         }
         if (status == WalletStateStatus.error) {
-          return Center(child: Text("msg_error".tr()));
+          return Center(child: Text('msg_error'.tr()));
         } else {
-          return Center(child: CircularProgressIndicator());
+          return const Center(child: CircularProgressIndicator());
         }
       },
       selector: (WalletState state) => state.status,

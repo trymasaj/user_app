@@ -4,7 +4,7 @@ part of 'verification_code_bloc.dart';
 
 /// Represents the state of VerificationCode in the application.
 class VerificationCodeState extends Equatable {
-  VerificationCodeState({
+  const VerificationCodeState({
     required this.otp,
   });
 
@@ -24,7 +24,7 @@ class VerificationCodeState extends Equatable {
 
   factory VerificationCodeState.initial() {
     return VerificationCodeState(
-      otp: "",
+      otp: '',
     );
   }
 }

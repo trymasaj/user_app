@@ -48,6 +48,7 @@ dependencies:
   firebase_crashlytics: ^3.1.0
   firebase_messaging: ^14.6.7
   firebase_dynamic_links: ^5.0.12
+  injectable: ^2.3.2
   flutter_apns_only: ^1.6.0
   flutter_bloc: ^8.1.1
   flutter_cache_manager: ^3.3.0
@@ -109,6 +110,8 @@ dev_dependencies:
   # rules and activating additional ones.
   flutter_lints: ^3.0.0
   flutter_launcher_icons: ^0.13.1
+  injectable_generator: ^2.4.1
+  build_runner: ^2.4.4
 
 # For information on the generic Dart part of this file, see the
 # following page: https://dart.dev/tools/pub/pubspec
@@ -121,47 +124,48 @@ flutter:
   uses-material-design: true
 
   assets:
-    - lib/res/translations/
-    - lib/res/assets/
+    - assets/translations/
+    - assets/images/
+    - assets/fonts/
 
   fonts:
     - family: Poppins
       fonts:
-        - asset: lib/res/fonts/PoppinsSemiBold.ttf
+        - asset: assets/fonts/PoppinsSemiBold.ttf
           weight: 600
-        - asset: lib/res/fonts/PoppinsMedium.ttf
+        - asset: assets/fonts/PoppinsMedium.ttf
           weight: 500
-        - asset: lib/res/fonts/PoppinsRegular.ttf
+        - asset: assets/fonts/PoppinsRegular.ttf
           weight: 400
-        - asset: lib/res/fonts/PoppinsBold.ttf
+        - asset: assets/fonts/PoppinsBold.ttf
           weight: 700
     - family: Almarai
       fonts:
-        - asset: lib/res/fonts/AlmaraiRegular.ttf
+        - asset: assets/fonts/AlmaraiRegular.ttf
           weight: 400
     - family: Manrope
       fonts:
-        - asset: lib/res/fonts/ManropeRegular.ttf
+        - asset: assets/fonts/ManropeRegular.ttf
           weight: 400
     - family: DM Sans
       fonts:
-        - asset: lib/res/fonts/DMSansBold.ttf
+        - asset: assets/fonts/DMSansBold.ttf
           weight: 700
-        - asset: lib/res/fonts/DMSansMedium.ttf
+        - asset: assets/fonts/DMSansMedium.ttf
           weight: 500
-        - asset: lib/res/fonts/DMSansRegular.ttf
+        - asset: assets/fonts/DMSansRegular.ttf
           weight: 400
     - family: Sofia Pro
       fonts:
-        - asset: lib/res/fonts/SofiaProBold.ttf
+        - asset: assets/fonts/SofiaProBold.ttf
           weight: 700
     - family: Dancing Script
       fonts:
-        - asset: lib/res/fonts/DancingScriptMedium.ttf
+        - asset: assets/fonts/DancingScriptMedium.ttf
           weight: 500
     - family: Roboto
       fonts:
-        - asset: lib/res/fonts/RobotoRomanRegular.ttf
+        - asset: assets/fonts/RobotoRomanRegular.ttf
           weight: 400
 
 flutter_native_splash:

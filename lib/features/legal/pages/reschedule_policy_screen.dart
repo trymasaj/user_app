@@ -1,23 +1,20 @@
 import 'package:masaj/core/app_export.dart';
-import '../bloc/reschedule_policy_bloc/reschedule_policy_bloc.dart';
-import '../models/reschedule_policy_model.dart';
+import 'package:masaj/features/legal/bloc/reschedule_policy_bloc/reschedule_policy_bloc.dart';
+import 'package:masaj/features/legal/models/reschedule_policy_model.dart';
 import 'package:flutter/material.dart';
 
 class ReschedulePolicyScreen extends StatelessWidget {
   static const routeName = '/reschedule-policy';
 
-  const ReschedulePolicyScreen({Key? key})
-      : super(
-          key: key,
-        );
+  const ReschedulePolicyScreen({super.key});
 
   static Widget builder(BuildContext context) {
     return BlocProvider<ReschedulePolicyBloc>(
       create: (context) => ReschedulePolicyBloc(ReschedulePolicyState(
-        reschedulePolicyModelObj: ReschedulePolicyModel(),
+        reschedulePolicyModelObj: const ReschedulePolicyModel(),
       ))
         ,
-      child: ReschedulePolicyScreen(),
+      child: const ReschedulePolicyScreen(),
     );
   }
 
@@ -32,7 +29,7 @@ class ReschedulePolicyScreen extends StatelessWidget {
             child: Column(
               children: [
                 Text(
-                  "msg_user_cannot_reschedule".tr(),
+                  'msg_user_cannot_reschedule'.tr(),
                   maxLines: 11,
                   overflow: TextOverflow.ellipsis,
                   style: theme.textTheme.bodyMedium!.copyWith(
@@ -51,7 +48,7 @@ class ReschedulePolicyScreen extends StatelessWidget {
   PreferredSizeWidget _buildAppBar(BuildContext context) {
     return AppBar(
       title: Text(
-        "msg_reschedule_policy".tr(),
+        'msg_reschedule_policy'.tr(),
       ),
     );
   }

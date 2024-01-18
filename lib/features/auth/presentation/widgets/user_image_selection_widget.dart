@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
-import '../../../../core/enums/gender.dart';
-import '../../../../res/style/app_colors.dart';
-import '../../../../shared_widgets/stateless/title_text.dart';
-import '../blocs/auth_cubit/auth_cubit.dart';
+import 'package:masaj/core/domain/enums/gender.dart';
+import 'package:masaj/core/presentation/colors/app_colors.dart';
+import 'package:masaj/core/presentation/widgets/stateless/title_text.dart';
+import 'package:masaj/features/auth/presentation/blocs/auth_cubit/auth_cubit.dart';
 
 class UserImageSelection extends StatefulWidget {
   const UserImageSelection({
@@ -30,10 +30,11 @@ class _UserImageSelectionState extends State<UserImageSelection> {
 
   @override
   Widget build(BuildContext context) {
-    if (!showChoices)
+    if (!showChoices) {
       return _buildImage();
-    else
+    } else {
       return _buildGenderChoices(context);
+    }
   }
 
   Widget _buildImage() {
@@ -48,8 +49,8 @@ class _UserImageSelectionState extends State<UserImageSelection> {
             child: CircleAvatar(
               radius: 40.0,
               backgroundImage: AssetImage(_isMale
-                  ? 'lib/res/assets/profile_male.webp'
-                  : 'lib/res/assets/profile_female.webp'),
+                  ? 'assets/images/profile_male.webp'
+                  : 'assets/images/profile_female.webp'),
             ),
           ),
         ),
@@ -88,7 +89,7 @@ class _UserImageSelectionState extends State<UserImageSelection> {
             child: CircleAvatar(
                 radius: 40.0,
                 backgroundImage:
-                    AssetImage('lib/res/assets/profile_male.webp')),
+                    AssetImage('assets/images/profile_male.webp')),
           ),
           onTap: () {
             authCubit.selectGender(Gender.male);
@@ -107,7 +108,7 @@ class _UserImageSelectionState extends State<UserImageSelection> {
             radius: 44.0,
             child: CircleAvatar(
               radius: 40.0,
-              backgroundImage: AssetImage('lib/res/assets/profile_female.webp'),
+              backgroundImage: AssetImage('assets/images/profile_female.webp'),
             ),
           ),
           onTap: () {

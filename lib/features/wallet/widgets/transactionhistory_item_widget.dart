@@ -1,16 +1,14 @@
 import 'package:masaj/core/app_export.dart';
 
-import '../models/transactionhistory_item_model.dart';
+import 'package:masaj/features/wallet/models/transactionhistory_item_model.dart';
 import 'package:flutter/material.dart';
 
 // ignore: must_be_immutable
 class TransactionItem extends StatelessWidget {
   const TransactionItem(
     this.transaction, {
-    Key? key,
-  }) : super(
-          key: key,
-        );
+    super.key,
+  });
 
   final Transaction transaction;
 

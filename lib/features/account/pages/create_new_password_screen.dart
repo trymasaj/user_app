@@ -1,10 +1,7 @@
 import 'package:masaj/core/app_export.dart';
-import 'package:masaj/core/utils/validation_functions.dart';
-import 'package:masaj/core/widgets/custom_text_form_field.dart';
-import 'package:masaj/core/widgets/password_text_field.dart';
+import 'package:masaj/core/presentation/widgets/stateful/password_text_field.dart';
 
-import '../bloc/create_new_password_bloc/create_new_password_bloc.dart';
-import '../models/create_new_password_model.dart';
+import 'package:masaj/features/account/bloc/create_new_password_bloc/create_new_password_bloc.dart';
 import 'package:flutter/material.dart';
 
 class CreateNewPasswordScreen extends StatelessWidget {
@@ -12,7 +9,7 @@ class CreateNewPasswordScreen extends StatelessWidget {
 
   CreateNewPasswordScreen({super.key});
 
-  GlobalKey<FormState> _formKey = GlobalKey<FormState>();
+  final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
 
   static Widget builder(BuildContext context) {
     return BlocProvider<CreateNewPasswordOneBloc>(

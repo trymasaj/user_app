@@ -1,10 +1,10 @@
 import 'dart:developer';
 
 import 'package:flutter/foundation.dart';
-import 'package:masaj/core/exceptions/redundant_request_exception.dart';
-import '../../../../../core/abstract/base_cubit.dart';
-import '../../../data/models/points_model.dart';
-import '../../../data/repositories/account_repository.dart';
+import 'package:masaj/core/domain/exceptions/redundant_request_exception.dart';
+import 'package:masaj/core/application/controllers/base_cubit.dart';
+import 'package:masaj/features/account/data/models/points_model.dart';
+import 'package:masaj/features/account/data/repositories/account_repository.dart';
 
 part 'points_state.dart';
 

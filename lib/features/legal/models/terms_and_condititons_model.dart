@@ -5,10 +5,10 @@ import 'package:equatable/equatable.dart';
 /// This class defines the variables used in the [terms_and_condititons_screen],
 /// and is typically used to hold data that is passed between different parts of the application.
 class TermsAndCondititonsModel extends Equatable {
-  TermsAndCondititonsModel() {}
+  const TermsAndCondititonsModel();
 
   TermsAndCondititonsModel copyWith() {
-    return TermsAndCondititonsModel();
+    return const TermsAndCondititonsModel();
   }
 
   @override

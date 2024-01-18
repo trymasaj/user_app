@@ -4,7 +4,7 @@ part of 'create_new_password_bloc.dart';
 
 /// Represents the state of CreateNewPasswordOne in the application.
 class CreateNewPasswordState extends Equatable {
-  CreateNewPasswordState({
+  const CreateNewPasswordState({
     required this.oldPassword,
     required this.newPassword,
     required this.confirmNewPassword,
@@ -35,7 +35,7 @@ class CreateNewPasswordState extends Equatable {
   }
 
   factory CreateNewPasswordState.initial() {
-    return CreateNewPasswordState(
+    return const CreateNewPasswordState(
       oldPassword: '',
       newPassword: '',
       confirmNewPassword: '',

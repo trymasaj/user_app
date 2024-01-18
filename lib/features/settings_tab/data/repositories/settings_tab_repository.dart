@@ -1,4 +1,4 @@
-import '../datasources/settings_tab_remote_data_source.dart';
+import 'package:masaj/features/settings_tab/data/datasources/settings_tab_remote_data_source.dart';
 
 abstract class SettingsTabRepository {
 

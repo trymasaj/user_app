@@ -1,24 +1,23 @@
-import 'package:country_pickers/countries.dart';
 import 'package:country_pickers/country.dart';
 import 'package:country_pickers/country_pickers.dart';
 import 'package:masaj/core/app_export.dart';
-import 'package:masaj/core/widgets/custom_phone_number.dart';
+import 'package:masaj/core/presentation/widgets/stateless/custom_phone_number.dart';
 
-import '../bloc/phone_bloc/phone_bloc.dart';
-import '../models/phone_model.dart';
+import 'package:masaj/features/account/bloc/phone_bloc/phone_bloc.dart';
+import 'package:masaj/features/account/models/phone_model.dart';
 import 'package:flutter/material.dart';
 
 // ignore_for_file: must_be_immutable
 class PhoneScreen extends StatelessWidget {
   static const routeName = '/phone';
 
-  PhoneScreen({Key? key}) : super(key: key);
+  PhoneScreen({super.key});
 
-  GlobalKey<FormState> _formKey = GlobalKey<FormState>();
+  final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
 
   static Widget builder(BuildContext context) {
     return BlocProvider<PhoneBloc>(
-        create: (context) => PhoneBloc(PhoneState(phoneModelObj: PhoneModel())),
+        create: (context) => PhoneBloc(PhoneState(phoneModelObj: const PhoneModel())),
         child: PhoneScreen());
   }
 
@@ -43,7 +42,7 @@ class PhoneScreen extends StatelessWidget {
                   }),
                   SizedBox(height: 32.h),
                   CustomElevatedButton(
-                      text: "lbl_save".tr(),
+                      text: 'lbl_save'.tr(),
                       buttonStyle: CustomButtonStyles.none,
                       decoration: CustomButtonStyles
                           .gradientSecondaryContainerToPrimaryDecoration,

@@ -1,22 +1,25 @@
 import 'package:masaj/core/app_export.dart';
+import 'package:masaj/core/application/states/app_state.dart';
+import 'package:masaj/core/data/di/injection_setup.dart';
+import 'package:masaj/core/presentation/widgets/stateless/state_widgets.dart';
+import 'package:masaj/features/wallet/domain/entites/package.dart';
 import 'package:masaj/features/wallet/overlay/top_up_wallet_payment_method_bottomsheet.dart';
 
-import '../widgets/userprofile8_item_widget.dart';
-import '../bloc/top_up_wallet_bloc/top_up_wallet_bloc.dart';
-import '../models/top_up_wallet_model.dart';
-import '../models/userprofile8_item_model.dart';
+import 'package:masaj/features/wallet/widgets/userprofile8_item_widget.dart';
+import 'package:masaj/features/wallet/bloc/top_up_wallet_bloc/top_up_wallet_bloc.dart';
+import 'package:masaj/features/wallet/models/top_up_wallet_model.dart';
+import 'package:masaj/features/wallet/models/userprofile8_item_model.dart';
 import 'package:flutter/material.dart';
 
 class TopUpWalletScreen extends StatelessWidget {
   static const routeName = '/top-up-wallet';
 
-  const TopUpWalletScreen({Key? key}) : super(key: key);
+  const TopUpWalletScreen({super.key});
 
   static Widget builder(BuildContext context) {
     return BlocProvider<TopUpWalletBloc>(
-        create: (context) => TopUpWalletBloc(
-            TopUpWalletState(topUpWalletModelObj: TopUpWalletModel())),
-        child: TopUpWalletScreen());
+        create: (context) => getIt<TopUpWalletBloc>(),
+        child: const TopUpWalletScreen());
   }
 
   @override
@@ -36,7 +39,7 @@ class TopUpWalletScreen extends StatelessWidget {
                           child: Column(children: [
                             _buildFrameColumn(context),
                             SizedBox(height: 25.h),
-                            _buildValueColumn(context),
+                            _buildPackages(context),
                             SizedBox(height: 12.h),
                             _buildFrameRow(context),
                             SizedBox(height: 12.h),
@@ -49,18 +52,18 @@ class TopUpWalletScreen extends StatelessWidget {
   /// Section Widget
   PreferredSizeWidget _buildAppBar(BuildContext context) {
     return AppBar(
-      title: Text("lbl_wallet_top_up".tr()),
+      title: Text('lbl_wallet_top_up'.tr()),
     );
   }
 
   /// Section Widget
   Widget _buildFrameColumn(BuildContext context) {
     return Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
-      Text("msg_have_a_gift_voucher".tr(), style: theme.textTheme.titleSmall),
+      Text('msg_have_a_gift_voucher'.tr(), style: theme.textTheme.titleSmall),
       SizedBox(height: 8.h),
       TextField(
         decoration: InputDecoration(
-            hintText: "msg_enter_redeem_code".tr(),
+            hintText: 'msg_enter_redeem_code'.tr(),
             hintStyle: CustomTextStyles.bodyMediumBluegray40001_1,
             suffixIcon: Padding(
               padding: EdgeInsets.symmetric(vertical: 3.h, horizontal: 12.w),
@@ -70,7 +73,7 @@ class TopUpWalletScreen extends StatelessWidget {
                   onPressed: () {
                     print('helooo');
                   },
-                  text: "lbl_apply".tr(),
+                  text: 'lbl_apply'.tr(),
                   buttonStyle: CustomButtonStyles.none,
                   decoration: CustomButtonStyles
                       .gradientSecondaryContainerToPrimaryTL6Decoration,
@@ -92,29 +95,32 @@ class TopUpWalletScreen extends StatelessWidget {
   }
 
   /// Section Widget
-  Widget _buildValueColumn(BuildContext context) {
+  Widget _buildPackages(BuildContext context) {
     return Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
-      Text("msg_top_up_your_wallet".tr(), style: theme.textTheme.titleSmall),
+      Text('msg_top_up_your_wallet'.tr(), style: theme.textTheme.titleSmall),
       SizedBox(height: 8.h),
-      BlocSelector<TopUpWalletBloc, TopUpWalletState, TopUpWalletModel?>(
-          selector: (state) => state.topUpWalletModelObj,
-          builder: (context, topUpWalletModelObj) {
-            return GridView.builder(
-                shrinkWrap: true,
-                gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-                    mainAxisExtent: 121.h,
-                    crossAxisCount: 2,
-                    mainAxisSpacing: 10.w,
-                    crossAxisSpacing: 10.w),
-                physics: NeverScrollableScrollPhysics(),
-                itemCount:
-                    topUpWalletModelObj?.userprofile8ItemList.length ?? 0,
-                itemBuilder: (context, index) {
-                  Userprofile8ItemModel model =
-                      topUpWalletModelObj?.userprofile8ItemList[index] ??
-                          Userprofile8ItemModel();
-                  return Userprofile8ItemWidget(model);
-                });
+      BlocSelector<TopUpWalletBloc, TopUpWalletState,
+              DataLoadState<List<Package>>>(
+          selector: (state) => state.packages,
+          builder: (context, state) {
+            return LoadStateHandler(
+              customState: state,
+              onTapRetry: () {} ,
+              onData: (data) =>
+               GridView.builder(
+                  shrinkWrap: true,
+                  gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                      mainAxisExtent: 121.h,
+                      crossAxisCount: 2,
+                      mainAxisSpacing: 10.w,
+                      crossAxisSpacing: 10.w),
+                  physics: const NeverScrollableScrollPhysics(),
+                  itemCount:
+                  data.length ,
+                  itemBuilder: (context, index) {
+                    return SizedBox();
+                  }),
+            );
           })
     ]);
   }
@@ -136,14 +142,14 @@ class TopUpWalletScreen extends StatelessWidget {
                 padding: EdgeInsets.only(top: 19.h, bottom: 23.h),
                 child: Column(children: [
                   Row(mainAxisAlignment: MainAxisAlignment.center, children: [
-                    Text("lbl_35".tr(), style: theme.textTheme.headlineSmall),
+                    Text('lbl_35'.tr(), style: theme.textTheme.headlineSmall),
                     Padding(
                         padding:
                             EdgeInsets.only(left: 4.w, top: 3.h, bottom: 2.h),
-                        child: Text("lbl_kwd".tr(),
+                        child: Text('lbl_kwd'.tr(),
                             style: CustomTextStyles.titleLargeOnPrimary))
                   ]),
-                  Text("lbl_free_7_kwd".tr(),
+                  Text('lbl_free_7_kwd'.tr(),
                       style: CustomTextStyles.bodyMediumLightgreen900)
                 ]))
           ])),
@@ -158,7 +164,7 @@ class TopUpWalletScreen extends StatelessWidget {
       Card(
           clipBehavior: Clip.antiAlias,
           elevation: 0,
-          margin: EdgeInsets.all(0),
+          margin: const EdgeInsets.all(0),
           color: theme.colorScheme.onPrimaryContainer.withOpacity(1),
           shape: RoundedRectangleBorder(
               side: BorderSide(color: appTheme.blueGray100, width: 1.w),
@@ -180,16 +186,16 @@ class TopUpWalletScreen extends StatelessWidget {
                           Row(
                               mainAxisAlignment: MainAxisAlignment.center,
                               children: [
-                                Text("lbl_502".tr(),
+                                Text('lbl_502'.tr(),
                                     style: theme.textTheme.headlineSmall),
                                 Padding(
                                     padding: EdgeInsets.only(
                                         left: 4.w, top: 3.h, bottom: 2.h),
-                                    child: Text("lbl_kwd".tr(),
+                                    child: Text('lbl_kwd'.tr(),
                                         style: CustomTextStyles
                                             .titleLargeOnPrimary))
                               ]),
-                          Text("lbl_free_10_kwd".tr(),
+                          Text('lbl_free_10_kwd'.tr(),
                               style: CustomTextStyles.bodyMediumLightgreen900)
                         ]))),
                 CustomImageView(
@@ -204,7 +210,7 @@ class TopUpWalletScreen extends StatelessWidget {
   /// Section Widget
   Widget _buildPurchaseButton(BuildContext context) {
     return CustomElevatedButton(
-        text: "lbl_purchase".tr(),
+        text: 'lbl_purchase'.tr(),
         margin: EdgeInsets.only(left: 24.w, right: 24.w, bottom: 31.h),
         buttonStyle: CustomButtonStyles.none,
         decoration: CustomButtonStyles
@@ -220,7 +226,7 @@ class TopUpWalletScreen extends StatelessWidget {
     return Card(
         clipBehavior: Clip.antiAlias,
         elevation: 0,
-        margin: EdgeInsets.all(0),
+        margin: const EdgeInsets.all(0),
         color: theme.colorScheme.onPrimaryContainer.withOpacity(1),
         shape: RoundedRectangleBorder(
             side: BorderSide(color: appTheme.blueGray100, width: 1.w),
@@ -241,16 +247,16 @@ class TopUpWalletScreen extends StatelessWidget {
                         Row(
                             mainAxisAlignment: MainAxisAlignment.center,
                             children: [
-                              Text("lbl_45".tr(),
+                              Text('lbl_45'.tr(),
                                   style: theme.textTheme.headlineSmall),
                               Padding(
                                   padding: EdgeInsets.only(
                                       left: 4.w, top: 3.h, bottom: 2.h),
-                                  child: Text("lbl_kwd".tr(),
+                                  child: Text('lbl_kwd'.tr(),
                                       style:
                                           CustomTextStyles.titleLargeOnPrimary))
                             ]),
-                        Text("lbl_free_9_kwd".tr(),
+                        Text('lbl_free_9_kwd'.tr(),
                             style: CustomTextStyles.bodyMediumLightgreen900)
                       ]))),
               CustomImageView(

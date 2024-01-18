@@ -1,12 +1,12 @@
 import 'dart:developer';
 
-import 'package:masaj/core/service/device_security_service.dart';
+import 'package:masaj/core/data/device/device_security_service.dart';
 
-import '../../../../core/service/notification_service.dart';
-import '../../data/repositories/splash_repository_impl.dart';
+import 'package:masaj/core/data/device/notification_service.dart';
+import 'package:masaj/core/domain/exceptions/redundant_request_exception.dart';
+import 'package:masaj/features/splash/data/repositories/splash_repository_impl.dart';
 
-import '../../../../core/abstract/base_cubit.dart';
-import '../../../../core/exceptions/redundant_request_exception.dart';
+import 'package:masaj/core/application/controllers/base_cubit.dart';
 
 part 'splash_state.dart';
 

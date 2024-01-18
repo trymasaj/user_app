@@ -1,23 +1,20 @@
 import 'package:masaj/core/app_export.dart';
 import 'package:masaj/features/legal/bloc/privacy_policy_bloc/privacy_policy_state.dart';
-import '../bloc/privacy_policy_bloc/privacy_policy_bloc.dart';
-import '../models/privacy_policy_model.dart';
+import 'package:masaj/features/legal/bloc/privacy_policy_bloc/privacy_policy_bloc.dart';
+import 'package:masaj/features/legal/models/privacy_policy_model.dart';
 import 'package:flutter/material.dart';
 
 class PrivacyPolicyScreen extends StatelessWidget {
   static const routeName = '/privacy_policy';
 
-  const PrivacyPolicyScreen({Key? key})
-      : super(
-          key: key,
-        );
+  const PrivacyPolicyScreen({super.key});
 
   static Widget builder(BuildContext context) {
     return BlocProvider<PrivacyPolicyBloc>(
       create: (context) => PrivacyPolicyBloc(PrivacyPolicyState(
-        privacyPolicyModelObj: PrivacyPolicyModel(),
+        privacyPolicyModelObj: const PrivacyPolicyModel(),
       )),
-      child: PrivacyPolicyScreen(),
+      child: const PrivacyPolicyScreen(),
     );
   }
 
@@ -32,7 +29,7 @@ class PrivacyPolicyScreen extends StatelessWidget {
             child: Column(
               children: [
                 Text(
-                  "msg_it_is_a_long_established".tr(),
+                  'msg_it_is_a_long_established'.tr(),
                   maxLines: 14,
                   overflow: TextOverflow.ellipsis,
                   style: theme.textTheme.bodyMedium!.copyWith(
@@ -50,7 +47,7 @@ class PrivacyPolicyScreen extends StatelessWidget {
   PreferredSizeWidget _buildAppBar(BuildContext context) {
     return AppBar(
       title: Text(
-        "lbl_privacy_policy".tr(),
+        'lbl_privacy_policy'.tr(),
       ),
     );
   }

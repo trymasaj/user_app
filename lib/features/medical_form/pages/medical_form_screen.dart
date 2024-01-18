@@ -1,23 +1,18 @@
 import 'package:flutter_form_builder/flutter_form_builder.dart';
 import 'package:masaj/core/app_export.dart';
-import 'package:masaj/core/widgets/custom_drop_down.dart';
-import 'package:masaj/core/widgets/custom_text_form_field.dart';
-import '../bloc/medical_form_bloc/medical_form_bloc.dart';
-import '../../settings_tab/models/medical_form_model.dart';
+import 'package:masaj/core/presentation/widgets/stateless/custom_drop_down.dart';
+import 'package:masaj/features/medical_form/bloc/medical_form_bloc/medical_form_bloc.dart';
 import 'package:flutter/material.dart';
 
 class MedicalFormScreen extends StatelessWidget {
   static const routeName = '/medical-form';
 
-  const MedicalFormScreen({Key? key})
-      : super(
-          key: key,
-        );
+  const MedicalFormScreen({super.key});
 
   static Widget builder(BuildContext context) {
     return BlocProvider<MedicalFormBloc>(
-      create: (context) => MedicalFormBloc(MedicalFormState()),
-      child: MedicalFormScreen(),
+      create: (context) => MedicalFormBloc(const MedicalFormState()),
+      child: const MedicalFormScreen(),
     );
   }
 
@@ -47,7 +42,7 @@ class MedicalFormScreen extends StatelessWidget {
                       Align(
                         alignment: Alignment.centerLeft,
                         child: Text(
-                          "msg_health_condititons".tr(),
+                          'msg_health_condititons'.tr(),
                           style: CustomTextStyles.titleMediumOnPrimary_1,
                         ),
                       ),
@@ -55,7 +50,7 @@ class MedicalFormScreen extends StatelessWidget {
                       SizedBox(
                         width: 325.w,
                         child: Text(
-                          "msg_select_all_the_conditions".tr(),
+                          'msg_select_all_the_conditions'.tr(),
                           maxLines: 2,
                           overflow: TextOverflow.ellipsis,
                           style: theme.textTheme.bodyMedium!.copyWith(
@@ -73,9 +68,9 @@ class MedicalFormScreen extends StatelessWidget {
                             width: 20.adaptSize,
                           ),
                         ),
-                        hintText: "lbl_conditions".tr(),
+                        hintText: 'lbl_conditions'.tr(),
                         hintStyle: CustomTextStyles.bodyMediumOnPrimary_1,
-                        items:  [],
+                        items:  const [],
                         contentPadding: EdgeInsets.only(
                           left: 20.w,
                           top: 17.h,
@@ -98,7 +93,7 @@ class MedicalFormScreen extends StatelessWidget {
                           width: 290.w,
                           margin: EdgeInsets.only(right: 36.w),
                           child: Text(
-                            "msg_are_you_presently".tr(),
+                            'msg_are_you_presently'.tr(),
                             maxLines: 3,
                             overflow: TextOverflow.ellipsis,
                             style: theme.textTheme.bodyMedium!.copyWith(
@@ -147,7 +142,7 @@ class MedicalFormScreen extends StatelessWidget {
   PreferredSizeWidget _buildAppBar(BuildContext context) {
     return AppBar(
       title: Text(
-        "lbl_medical_form".tr(),
+        'lbl_medical_form'.tr(),
       ),
     );
   }
@@ -158,7 +153,7 @@ class MedicalFormScreen extends StatelessWidget {
       crossAxisAlignment: CrossAxisAlignment.stretch,
       children: [
         Text(
-          "lbl_birth_date".tr(),
+          'lbl_birth_date'.tr(),
           style: CustomTextStyles.titleMediumOnPrimary_1,
         ),
         SizedBox(height: 7.h),
@@ -189,7 +184,7 @@ class MedicalFormScreen extends StatelessWidget {
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         Text(
-          "msg_do_you_have_any".tr(),
+          'msg_do_you_have_any'.tr(),
           style: theme.textTheme.bodyMedium,
         ),
         SizedBox(height: 7.h),
@@ -206,12 +201,12 @@ class MedicalFormScreen extends StatelessWidget {
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         Text(
-          "msg_personalize_you".tr(),
+          'msg_personalize_you'.tr(),
           style: CustomTextStyles.titleMediumOnPrimary_1,
         ),
         SizedBox(height: 6.h),
         Text(
-          "msg_what_are_your_treatment".tr(),
+          'msg_what_are_your_treatment'.tr(),
           style: theme.textTheme.bodyMedium,
         ),
         SizedBox(height: 7.h),
@@ -231,7 +226,7 @@ class MedicalFormScreen extends StatelessWidget {
           width: 294.w,
           margin: EdgeInsets.only(right: 32.w),
           child: Text(
-            "msg_during_your_massage".tr(),
+            'msg_during_your_massage'.tr(),
             maxLines: 2,
             overflow: TextOverflow.ellipsis,
             style: theme.textTheme.bodyMedium!.copyWith(
@@ -253,7 +248,7 @@ class MedicalFormScreen extends StatelessWidget {
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         Text(
-          "msg_do_you_have_any2".tr(),
+          'msg_do_you_have_any2'.tr(),
           style: theme.textTheme.bodyMedium,
         ),
         SizedBox(height: 8.h),
@@ -270,12 +265,12 @@ class MedicalFormScreen extends StatelessWidget {
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         Text(
-          "lbl_guardian_name".tr(),
+          'lbl_guardian_name'.tr(),
           style: CustomTextStyles.titleMediumOnPrimary_1,
         ),
         SizedBox(height: 6.h),
         Text(
-          "msg_required_for_quests".tr(),
+          'msg_required_for_quests'.tr(),
           style: theme.textTheme.bodyMedium,
         ),
         SizedBox(height: 9.h),
@@ -289,7 +284,7 @@ class MedicalFormScreen extends StatelessWidget {
   /// Section Widget
   Widget _buildSave(BuildContext context) {
     return CustomElevatedButton(
-      text: "lbl_save".tr(),
+      text: 'lbl_save'.tr(),
       margin: EdgeInsets.only(
         left: 24.w,
         right: 24.w,

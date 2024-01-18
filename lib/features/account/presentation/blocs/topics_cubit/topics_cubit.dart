@@ -1,8 +1,8 @@
-import '../../../../../core/enums/topic_type.dart';
-import '../../../data/repositories/account_repository.dart';
+import 'package:masaj/core/domain/enums/topic_type.dart';
+import 'package:masaj/features/account/data/repositories/account_repository.dart';
 
-import '../../../../../core/abstract/base_cubit.dart';
-import '../../../data/models/topics_model.dart';
+import 'package:masaj/core/application/controllers/base_cubit.dart';
+import 'package:masaj/features/account/data/models/topics_model.dart';
 
 part 'topics_state.dart';
 

@@ -1,16 +1,14 @@
 import 'package:masaj/core/app_export.dart';
 
-import '../models/userprofile8_item_model.dart';
+import 'package:masaj/features/wallet/models/userprofile8_item_model.dart';
 import 'package:flutter/material.dart';
 
 // ignore: must_be_immutable
-class Userprofile8ItemWidget extends StatelessWidget {
-  Userprofile8ItemWidget(
+class WalletPackageCard extends StatelessWidget {
+  WalletPackageCard(
     this.userprofile8ItemModelObj, {
-    Key? key,
-  }) : super(
-          key: key,
-        );
+    super.key,
+  });
 
   Userprofile8ItemModel userprofile8ItemModelObj;
 
@@ -25,7 +23,7 @@ class Userprofile8ItemWidget extends StatelessWidget {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           CustomImageView(
-            imagePath: userprofile8ItemModelObj?.clockImage,
+            imagePath: userprofile8ItemModelObj.clockImage,
             height: 24.adaptSize,
             width: 24.adaptSize,
             margin: EdgeInsets.only(bottom: 76.h),

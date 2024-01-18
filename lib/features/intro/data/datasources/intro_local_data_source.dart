@@ -1,4 +1,4 @@
-import '../../../../core/service/cache_service.dart';
+import 'package:masaj/core/data/clients/cache_service.dart';
 
 abstract class IntroLocalDataSource {
   Future<void> setFirstLaunchToFalse();

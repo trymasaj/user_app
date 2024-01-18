@@ -1,24 +1,24 @@
-import '../../../../shared_widgets/stateless/title_text.dart';
+import 'package:masaj/core/presentation/widgets/stateless/title_text.dart';
 
-import '../../../../core/enums/age_group.dart';
-import '../../../../core/enums/gender.dart';
-import '../../../../res/style/app_colors.dart';
-import '../../../../shared_widgets/stateful/custom_drop_down_menu.dart';
-import '../../data/models/user.dart';
-import '../../../../shared_widgets/stateless/custom_loading.dart';
+import 'package:masaj/core/domain/enums/age_group.dart';
+import 'package:masaj/core/domain/enums/gender.dart';
+import 'package:masaj/core/presentation/colors/app_colors.dart';
+import 'package:masaj/core/presentation/widgets/stateful/custom_drop_down_menu.dart';
+import 'package:masaj/features/auth/data/models/user.dart';
+import 'package:masaj/core/presentation/widgets/stateless/custom_loading.dart';
 
-import '../../../../core/utils/navigator_helper.dart';
-import '../../../../shared_widgets/other/show_snack_bar.dart';
-import '../../../../shared_widgets/text_fields/email_text_form_field.dart';
-import '../../../../shared_widgets/text_fields/first_name_text_form_field.dart';
-import '../../../../shared_widgets/stateless/custom_app_page.dart';
-import '../../../../shared_widgets/stateful/default_button.dart';
+import 'package:masaj/core/presentation/navigation/navigator_helper.dart';
+import 'package:masaj/core/presentation/overlay/show_snack_bar.dart';
+import 'package:masaj/core/presentation/widgets/stateless/text_fields/email_text_form_field.dart';
+import 'package:masaj/core/presentation/widgets/stateless/text_fields/first_name_text_form_field.dart';
+import 'package:masaj/core/presentation/widgets/stateless/custom_app_page.dart';
+import 'package:masaj/core/presentation/widgets/stateless/default_button.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:easy_localization/easy_localization.dart';
 
-import '../blocs/auth_cubit/auth_cubit.dart';
-import '../widgets/user_image_selection_widget.dart';
+import 'package:masaj/features/auth/presentation/blocs/auth_cubit/auth_cubit.dart';
+import 'package:masaj/features/auth/presentation/widgets/user_image_selection_widget.dart';
 
 class EditUserInfoPage extends StatefulWidget {
   static const routeName = '/EditUserInfoPage';
@@ -116,10 +116,11 @@ class _EditUserInfoPageState extends State<EditUserInfoPage> {
   Widget _buildForm() {
     return BlocBuilder<AuthCubit, AuthState>(
       builder: (context, state) {
-        if (state.isInitial || state.isLoading)
+        if (state.isInitial || state.isLoading) {
           return const CustomLoading(
             loadingStyle: LoadingStyle.Default,
           );
+        }
 
         final authCubit = context.read<AuthCubit>();
 
@@ -211,8 +212,9 @@ class _EditUserInfoPageState extends State<EditUserInfoPage> {
         if (isSuccess) {
           NavigatorHelper.of(context).pop();
           showSnackBar(context, message: 'edit_profile_success'.tr());
-        } else
+        } else {
           showSnackBar(context, message: 'nothing_changed');
+        }
       },
     );
   }

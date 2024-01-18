@@ -1,17 +1,14 @@
-import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:masaj/core/app_export.dart';
-import 'package:masaj/shared_widgets/stateless/custom_text.dart';
-import '../../../../di/injector.dart';
-import '../../../../shared_widgets/stateless/custom_radio_list_tile.dart';
-import '../blocs/choose_language_cubit/choose_language_cubit.dart';
-import 'guide_page.dart';
-import '../../../../res/style/app_colors.dart';
-import '../../../../shared_widgets/other/show_snack_bar.dart';
-import '../../../../shared_widgets/stateful/default_button.dart';
-import 'package:easy_localization/easy_localization.dart';
+import 'package:masaj/core/presentation/widgets/stateless/custom_text.dart';
+import 'package:masaj/core/data/di/injector.dart';
+import 'package:masaj/core/presentation/widgets/stateless/custom_radio_list_tile.dart';
+import 'package:masaj/features/intro/presentation/blocs/choose_language_cubit/choose_language_cubit.dart';
+import 'package:masaj/features/intro/presentation/pages/guide_page.dart';
+import 'package:masaj/core/presentation/overlay/show_snack_bar.dart';
+import 'package:masaj/core/presentation/widgets/stateless/default_button.dart';
 import 'package:flutter/material.dart';
 
-import '../../../../shared_widgets/stateless/custom_app_page.dart';
+import 'package:masaj/core/presentation/widgets/stateless/custom_app_page.dart';
 
 class ChooseLanguagePage extends StatefulWidget {
   static const routeName = '/ChooseLanguagePage';
@@ -35,9 +32,9 @@ class _ChooseLanguagePageState extends State<ChooseLanguagePage> {
           builder: (context) =>
               BlocListener<ChooseLanguageCubit, ChooseLanguageState>(
             listener: (context, state) {
-              if (state.isError)
+              if (state.isError) {
                 showSnackBar(context, message: state.errorMessage);
-              else if (state.isLanguageSet) _goToGuidePage(context);
+              } else if (state.isLanguageSet) _goToGuidePage(context);
             },
             child: Scaffold(
                 appBar: AppBar(
@@ -63,7 +60,7 @@ class _ChooseLanguagePageState extends State<ChooseLanguagePage> {
               text: 'msg_choose_you_preferred',
               fontSize: 18.0.fSize,
               fontWeight: FontWeight.w500,
-              margin: EdgeInsets.only(bottom: 4.0),
+              margin: const EdgeInsets.only(bottom: 4.0),
             ),
           ),
           CustomRadioListTile(

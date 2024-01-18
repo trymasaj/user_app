@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
-import '../../../../res/style/app_colors.dart';
-import '../../../../shared_widgets/stateless/custom_app_page.dart';
-import '../../../../shared_widgets/stateless/custom_loading.dart';
-import '../../../../shared_widgets/stateless/empty_page_message.dart';
-import '../bloc/home_cubit/home_cubit.dart';
+import 'package:masaj/core/presentation/colors/app_colors.dart';
+import 'package:masaj/core/presentation/widgets/stateless/custom_app_page.dart';
+import 'package:masaj/core/presentation/widgets/stateless/custom_loading.dart';
+import 'package:masaj/core/presentation/widgets/stateless/empty_page_message.dart';
+import 'package:masaj/features/home/presentation/bloc/home_cubit/home_cubit.dart';
 
 class HomeTab extends StatelessWidget {
   const HomeTab({super.key});
@@ -29,21 +29,23 @@ class HomeTab extends StatelessWidget {
     return BlocBuilder<HomeCubit, HomeState>(
       builder: (context, state) {
         if (state.isLoading) return const CustomLoading();
-        if (state.homeData == null)
+        if (state.homeData == null) {
           return EmptyPageMessage(
             message: 'home_page_is_empty',
             heightRatio: .9,
             onRefresh: cubit.refresh,
           );
+        }
 
         final homeData = state.homeData;
 
-        if (homeData != null)
+        if (homeData != null) {
           return EmptyPageMessage(
             message: 'home_page_is_empty',
             heightRatio: .9,
             onRefresh: cubit.refresh,
           );
+        }
 
         return RefreshIndicator(
           onRefresh: cubit.refresh,
@@ -51,7 +53,7 @@ class HomeTab extends StatelessWidget {
           child: ListView(
             padding: EdgeInsets.zero,
             children: const [
-              Text("home tab"),
+              Text('home tab'),
             ],
           ),
         );

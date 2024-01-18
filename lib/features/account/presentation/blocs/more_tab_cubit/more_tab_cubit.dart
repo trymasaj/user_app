@@ -1,13 +1,13 @@
 import 'package:flutter/foundation.dart';
-import '../../../../../core/abstract/base_cubit.dart';
+import 'package:masaj/core/application/controllers/base_cubit.dart';
 
-import '../../../../../core/enums/show_case_displayed_page.dart';
-import '../../../../../core/utils/show_case_helper.dart';
-import '../../../data/models/external_item_model.dart';
-import '../../../data/repositories/account_repository.dart';
+import 'package:masaj/core/domain/enums/show_case_displayed_page.dart';
+import 'package:masaj/core/data/show_case_helper.dart';
+import 'package:masaj/features/account/data/models/external_item_model.dart';
+import 'package:masaj/features/account/data/repositories/account_repository.dart';
 
-import '../../../../../core/service/app_info_service.dart';
-import '../../../../../core/service/launcher_service.dart';
+import 'package:masaj/core/data/device/app_info_service.dart';
+import 'package:masaj/core/data/device/launcher_service.dart';
 
 part 'more_tab_state.dart';
 
@@ -33,8 +33,9 @@ class MoreTabCubit extends BaseCubit<MoreTabState> {
   Future<void> loadExternalSection([bool refresh = false]) async {
     final appInfo = refresh ? null : await _appInfoService.init();
     try {
-      if (!refresh)
+      if (!refresh) {
         emit(const MoreTabState(status: MoreTabStateStatus.loading));
+      }
       final externalSection = await _accountRepository.getExternalSection();
       emit(MoreTabState(
         status: MoreTabStateStatus.loaded,

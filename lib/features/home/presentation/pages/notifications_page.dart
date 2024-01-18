@@ -4,16 +4,16 @@ import 'package:lazy_load_scrollview/lazy_load_scrollview.dart';
 import 'package:masaj/features/home/data/models/notification.dart';
 import 'package:masaj/features/home/presentation/bloc/notificaions_cubit/notifications_cubit.dart';
 import 'package:masaj/features/home/presentation/bloc/notificaions_cubit/notifications_state.dart';
-import 'package:masaj/shared_widgets/stateless/subtitle_text.dart';
+import 'package:masaj/core/presentation/widgets/stateless/subtitle_text.dart';
 
-import '../../../../core/utils/navigator_helper.dart';
-import '../../../../di/injector.dart';
-import '../../../../res/style/app_colors.dart';
-import '../../../../shared_widgets/other/show_snack_bar.dart';
-import '../../../../shared_widgets/stateless/custom_app_page.dart';
-import '../../../../shared_widgets/stateless/custom_loading.dart';
-import '../../../../shared_widgets/stateless/empty_page_message.dart';
-import '../../../../shared_widgets/stateless/title_text.dart';
+import 'package:masaj/core/presentation/navigation/navigator_helper.dart';
+import 'package:masaj/core/data/di/injector.dart';
+import 'package:masaj/core/presentation/colors/app_colors.dart';
+import 'package:masaj/core/presentation/overlay/show_snack_bar.dart';
+import 'package:masaj/core/presentation/widgets/stateless/custom_app_page.dart';
+import 'package:masaj/core/presentation/widgets/stateless/custom_loading.dart';
+import 'package:masaj/core/presentation/widgets/stateless/empty_page_message.dart';
+import 'package:masaj/core/presentation/widgets/stateless/title_text.dart';
 
 class NotificationsPage extends StatelessWidget {
   static const routeName = '/NotificationsPage';
@@ -56,13 +56,14 @@ class NotificationsPage extends StatelessWidget {
             loadingStyle: LoadingStyle.ShimmerList,
           );
         }
-        if (state.allNotification?.notifications?.isNotEmpty != true)
+        if (state.allNotification?.notifications?.isNotEmpty != true) {
           return EmptyPageMessage(
             message: 'no_notifications',
             textColor: Colors.black,
             onRefresh: cubit.refresh,
             heightRatio: 0.8,
           );
+        }
 
         return LazyLoadScrollView(
           onEndOfPage: cubit.loadMoreNotifications,
@@ -99,7 +100,7 @@ class NotificationsPage extends StatelessWidget {
       ),
       const Spacer(),
       const TitleText(
-        text: "my_notifications",
+        text: 'my_notifications',
         color: Colors.black,
       ),
       const Spacer(),
@@ -143,10 +144,10 @@ class _NotificationCard extends StatelessWidget {
         child: ListTile(
           horizontalTitleGap: 0,
           leading: notificationItem.seen != true
-              ? Column(
+              ? const Column(
                   mainAxisAlignment: MainAxisAlignment.center,
                   crossAxisAlignment: CrossAxisAlignment.center,
-                  children: const [
+                  children: [
                     CircleAvatar(
                       radius: 5,
                       backgroundColor: Colors.redAccent,

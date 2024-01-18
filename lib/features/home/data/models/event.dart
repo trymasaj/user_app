@@ -3,8 +3,8 @@ import 'dart:convert';
 
 import 'package:flutter/foundation.dart';
 
-import '../../../../core/data/models/media.dart';
-import '../../../../core/enums/media_type.dart';
+import 'package:masaj/core/data/models/media.dart';
+import 'package:masaj/core/domain/enums/media_type.dart';
 
 class Events {
   int? cursor;

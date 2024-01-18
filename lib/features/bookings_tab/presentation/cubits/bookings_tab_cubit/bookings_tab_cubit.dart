@@ -1,7 +1,7 @@
 
 import 'package:flutter/foundation.dart';
-import '../../../../../../core/abstract/base_cubit.dart';
-import '../../../data/repositories/bookings_tab_repository.dart';
+import 'package:masaj/core/application/controllers/base_cubit.dart';
+import 'package:masaj/features/bookings_tab/data/repositories/bookings_tab_repository.dart';
 part 'bookings_tab_state.dart';
 
 class BookingsTabCubit extends BaseCubit<BookingsTabState> {

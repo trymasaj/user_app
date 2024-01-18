@@ -1,4 +1,4 @@
-import '../../../../core/service/network_service.dart';
+import 'package:masaj/core/data/clients/network_service.dart';
 
 abstract class ProvidersTabRemoteDataSource {
  

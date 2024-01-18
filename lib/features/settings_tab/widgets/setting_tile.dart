@@ -3,12 +3,11 @@ import 'package:masaj/core/app_export.dart';
 
 class SettingTile extends StatelessWidget {
   const SettingTile(
-      {Key? key,
+      {super.key,
       required this.text,
       required this.imagePath,
       this.trailing = const SizedBox.shrink(),
-      required this.onTap})
-      : super(key: key);
+      required this.onTap});
   final String text;
   final String imagePath;
   final VoidCallback onTap;
@@ -32,7 +31,7 @@ class SettingTile extends StatelessWidget {
                 Padding(
                     padding: EdgeInsets.only(left: 18.w),
                     child: Text(text.tr(), style: theme.textTheme.titleSmall)),
-                Spacer(),
+                const Spacer(),
                 trailing,
               ]),
             ),

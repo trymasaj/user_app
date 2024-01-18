@@ -1,5 +1,5 @@
-import '../../../../../core/abstract/base_cubit.dart';
-import '../../../data/repositories/intro_repository.dart';
+import 'package:masaj/core/application/controllers/base_cubit.dart';
+import 'package:masaj/features/intro/data/repositories/intro_repository.dart';
 
 part 'choose_language_state.dart';
 

@@ -1,22 +1,18 @@
-import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:masaj/core/app_export.dart';
-import 'package:masaj/core/widgets/custom_checkbox_button.dart';
 
-import '../widgets/conditionslist_item_widget.dart';
-import '../bloc/conditions_bloc/conditions_bloc.dart';
-import '../models/conditions_model.dart';
-import '../models/conditionslist_item_model.dart';
+import 'package:masaj/features/legal/widgets/conditionslist_item_widget.dart';
+import 'package:masaj/features/legal/bloc/conditions_bloc/conditions_bloc.dart';
 import 'package:flutter/material.dart';
 
 class ConditionsScreen extends StatelessWidget {
   static const routeName = '/conditions';
 
-  const ConditionsScreen({Key? key}) : super(key: key);
+  const ConditionsScreen({super.key});
 
   static Widget builder(BuildContext context) {
     return BlocProvider<ConditionsBloc>(
         create: (context) => ConditionsBloc(ConditionsState.initial()),
-        child: ConditionsScreen());
+        child: const ConditionsScreen());
   }
 
   @override
@@ -50,14 +46,14 @@ class ConditionsScreen extends StatelessWidget {
   /// Section Widget
   PreferredSizeWidget _buildAppBar(BuildContext context) {
     return AppBar(
-      title: Text("msg_select_conditions".tr()),
+      title: Text('msg_select_conditions'.tr()),
     );
   }
 
   /// Section Widget
   Widget _buildDoneButton(BuildContext context) {
     return CustomElevatedButton(
-        text: "lbl_done".tr(),
+        text: 'lbl_done'.tr(),
         margin: EdgeInsets.only(left: 24.w, right: 24.w, bottom: 32.h),
         buttonStyle: CustomButtonStyles.none,
         decoration:

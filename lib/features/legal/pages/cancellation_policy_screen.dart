@@ -1,22 +1,19 @@
 import 'package:masaj/core/app_export.dart';
-import '../bloc/cancellation_policy_bloc/cancellation_policy_bloc.dart';
-import '../models/cancellation_policy_model.dart';
+import 'package:masaj/features/legal/bloc/cancellation_policy_bloc/cancellation_policy_bloc.dart';
+import 'package:masaj/features/legal/models/cancellation_policy_model.dart';
 import 'package:flutter/material.dart';
 
 class CancellationPolicyScreen extends StatelessWidget {
   static const routeName = '/cancelation-policy';
 
-  const CancellationPolicyScreen({Key? key})
-      : super(
-          key: key,
-        );
+  const CancellationPolicyScreen({super.key});
 
   static Widget builder(BuildContext context) {
     return BlocProvider<CancellationPolicyBloc>(
       create: (context) => CancellationPolicyBloc(CancellationPolicyState(
-        cancellationPolicyModelObj: CancellationPolicyModel(),
+        cancellationPolicyModelObj: const CancellationPolicyModel(),
       )),
-      child: CancellationPolicyScreen(),
+      child: const CancellationPolicyScreen(),
     );
   }
 
@@ -31,7 +28,7 @@ class CancellationPolicyScreen extends StatelessWidget {
             child: Column(
               children: [
                 Text(
-                  "msg_cancellation_refund".tr(),
+                  'msg_cancellation_refund'.tr(),
                   maxLines: 16,
                   overflow: TextOverflow.ellipsis,
                   style: theme.textTheme.bodyMedium!.copyWith(
@@ -50,7 +47,7 @@ class CancellationPolicyScreen extends StatelessWidget {
   PreferredSizeWidget _buildAppBar(BuildContext context) {
     return AppBar(
         title: Text(
-      "msg_cancellation_policy".tr(),
+      'msg_cancellation_policy'.tr(),
     ));
   }
 }

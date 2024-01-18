@@ -1,20 +1,20 @@
 import 'package:flutter/gestures.dart';
 import 'package:flutter_svg/flutter_svg.dart';
-import '../../../intro/presentation/pages/get_started_page.dart';
-import '../../../../shared_widgets/stateless/app_logo.dart';
+import 'package:masaj/features/intro/presentation/pages/get_started_page.dart';
+import 'package:masaj/core/presentation/widgets/stateless/app_logo.dart';
 import 'package:size_helper/size_helper.dart';
 
-import '../../../../core/utils/navigator_helper.dart';
-import '../../../../shared_widgets/stateless/title_text.dart';
+import 'package:masaj/core/presentation/navigation/navigator_helper.dart';
+import 'package:masaj/core/presentation/widgets/stateless/title_text.dart';
 
-import '../../../../res/style/app_colors.dart';
-import '../../../../shared_widgets/other/show_snack_bar.dart';
-import '../../../../shared_widgets/stateless/custom_app_page.dart';
-import '../../../../shared_widgets/stateful/default_button.dart';
+import 'package:masaj/core/presentation/colors/app_colors.dart';
+import 'package:masaj/core/presentation/overlay/show_snack_bar.dart';
+import 'package:masaj/core/presentation/widgets/stateless/custom_app_page.dart';
+import 'package:masaj/core/presentation/widgets/stateless/default_button.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:easy_localization/easy_localization.dart';
-import '../blocs/auth_cubit/auth_cubit.dart';
+import 'package:masaj/features/auth/presentation/blocs/auth_cubit/auth_cubit.dart';
 
 class EmailVerificationPage extends StatefulWidget {
   static const routeName = '/EmailVerificationPage';
@@ -40,7 +40,7 @@ class _EmailVerificationPageState extends State<EmailVerificationPage> {
         withBackground: true,
         safeBottom: false,
         safeTop: true,
-        backgroundPath: 'lib/res/assets/sign_up_step_2_background.svg',
+        backgroundPath: 'assets/images/sign_up_step_2_background.svg',
         backgroundFit: BoxFit.fitWidth,
         backgroundAlignment: Alignment.topCenter,
         child: Scaffold(
@@ -93,7 +93,7 @@ class _EmailVerificationPageState extends State<EmailVerificationPage> {
   }
 
   Widget _buildBackToLoginButton(BuildContext context) {
-    final textStyle = Theme.of(context).textTheme.bodyText1!.copyWith(
+    final textStyle = Theme.of(context).textTheme.bodyLarge!.copyWith(
           fontSize: context.sizeHelper(
             mobileExtraLarge: 16.0,
             tabletLarge: 18.0,
@@ -110,7 +110,7 @@ class _EmailVerificationPageState extends State<EmailVerificationPage> {
       iconLocation: DefaultButtonIconLocation.End,
       labelStyle: textStyle,
       icon: SvgPicture.asset(
-        'lib/res/assets/email.svg',
+        'assets/images/email.svg',
         width: context.sizeHelper(
           tabletExtraLarge: 26.0,
           desktopSmall: 40.0,
@@ -123,7 +123,7 @@ class _EmailVerificationPageState extends State<EmailVerificationPage> {
   Widget _buildRefreshButton(BuildContext context) {
     final authCubit = context.read<AuthCubit>();
 
-    final textStyle = Theme.of(context).textTheme.bodyText1!.copyWith(
+    final textStyle = Theme.of(context).textTheme.bodyLarge!.copyWith(
           fontSize: context.sizeHelper(
             mobileExtraLarge: 16.0,
             tabletLarge: 18.0,
@@ -146,9 +146,9 @@ class _EmailVerificationPageState extends State<EmailVerificationPage> {
     return Expanded(
       flex: 4,
       child: DecoratedBox(
-        decoration: BoxDecoration(
+        decoration: const BoxDecoration(
           color: AppColors.PRIMARY_COLOR,
-          borderRadius: const BorderRadius.vertical(top: Radius.circular(20.0)),
+          borderRadius: BorderRadius.vertical(top: Radius.circular(20.0)),
         ),
         child: SizedBox(
           width: double.infinity,
@@ -166,7 +166,7 @@ class _EmailVerificationPageState extends State<EmailVerificationPage> {
   }
 
   Widget _buildContinueAsGuestButton(BuildContext context) {
-    final textStyle = Theme.of(context).textTheme.bodyText1!.copyWith(
+    final textStyle = Theme.of(context).textTheme.bodyLarge!.copyWith(
           fontSize: context.sizeHelper(
             mobileExtraLarge: 16.0,
             tabletLarge: 18.0,
@@ -203,7 +203,7 @@ class _EmailVerificationPageState extends State<EmailVerificationPage> {
           TextSpan(
             text: 'did_not_receive_email'.tr(),
             style:
-                Theme.of(context).textTheme.bodyText1!.copyWith(fontSize: 14.0),
+                Theme.of(context).textTheme.bodyLarge!.copyWith(fontSize: 14.0),
           ),
           TextSpan(
             text: 'resend'.tr(),

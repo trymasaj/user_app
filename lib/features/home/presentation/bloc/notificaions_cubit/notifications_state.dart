@@ -1,4 +1,4 @@
-import '../../../data/models/notification.dart';
+import 'package:masaj/features/home/data/models/notification.dart';
 
 enum NotificationsStateStatus {
   initial,

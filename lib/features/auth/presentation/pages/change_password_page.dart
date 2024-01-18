@@ -1,16 +1,16 @@
-import '../../../../shared_widgets/stateless/title_text.dart';
+import 'package:masaj/core/presentation/widgets/stateless/text_fields/password_text_form_field.dart';
+import 'package:masaj/core/presentation/widgets/stateless/title_text.dart';
 
-import '../../../../res/style/app_colors.dart';
-import '../../../../shared_widgets/stateless/back_button.dart';
-import '../../../../shared_widgets/stateless/subtitle_text.dart';
-import '../blocs/auth_cubit/auth_cubit.dart';
+import 'package:masaj/core/presentation/colors/app_colors.dart';
+import 'package:masaj/core/presentation/widgets/stateless/back_button.dart';
+import 'package:masaj/core/presentation/widgets/stateless/subtitle_text.dart';
+import 'package:masaj/features/auth/presentation/blocs/auth_cubit/auth_cubit.dart';
 
-import '../../../../core/utils/navigator_helper.dart';
-import '../../../../shared_widgets/stateless/custom_app_page.dart';
-import '../../../../shared_widgets/stateful/default_button.dart';
-import '../../../../shared_widgets/other/show_snack_bar.dart';
-import '../../../../shared_widgets/text_fields/confirm_password_text_field.dart';
-import '../../../../shared_widgets/text_fields/password_text_form_field.dart';
+import 'package:masaj/core/presentation/navigation/navigator_helper.dart';
+import 'package:masaj/core/presentation/widgets/stateless/custom_app_page.dart';
+import 'package:masaj/core/presentation/widgets/stateless/default_button.dart';
+import 'package:masaj/core/presentation/overlay/show_snack_bar.dart';
+import 'package:masaj/core/presentation/widgets/stateless/text_fields/confirm_password_text_field.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -76,7 +76,7 @@ class _ChangePasswordPageState extends State<ChangePasswordPage> {
         safeBottom: false,
         withBackground: true,
         backgroundFit: BoxFit.fitWidth,
-        backgroundPath: 'lib/res/assets/forget_password_background.svg',
+        backgroundPath: 'assets/images/forget_password_background.svg',
         child: Scaffold(
           body: SingleChildScrollView(
             child: SizedBox(

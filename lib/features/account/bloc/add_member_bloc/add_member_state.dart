@@ -32,8 +32,8 @@ class AddMemberState extends Equatable {
   }) {
     return AddMemberState(
       gender: gender ?? this.gender,
-      name: nameEditTextController ?? this.name,
-      phone: phoneNumberController ?? this.phone,
+      name: nameEditTextController ?? name,
+      phone: phoneNumberController ?? phone,
       selectedCountry: selectedCountry ?? this.selectedCountry,
     );
   }

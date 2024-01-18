@@ -5,7 +5,7 @@ part of 'select_language_bloc.dart';
 /// Represents the state of SelectLanguage in the application.
 class SelectLanguageState extends Equatable {
   SelectLanguageState({
-    this.chooseYourPreferredLanguage = "",
+    this.chooseYourPreferredLanguage = '',
     this.selectLanguageModelObj,
   });
 

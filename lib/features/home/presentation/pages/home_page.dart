@@ -2,18 +2,17 @@ import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:masaj/features/providers_tab/presentation/pages/providers_tab.dart';
 import 'package:masaj/features/settings_tab/pages/setting_tab_page.dart';
-import 'package:masaj/res/theme/theme_helper.dart';
-import '../../../../res/style/theme.dart';
-import '../../../bookings_tab/presentation/pages/bookings_tab.dart';
-import 'home_tab.dart';
-import '../../../../res/style/app_colors.dart';
-import '../../../../shared_widgets/other/show_snack_bar.dart';
-import '../../../../shared_widgets/stateless/custom_app_page.dart';
+import 'package:masaj/core/presentation/theme/theme_helper.dart';
+import 'package:masaj/features/bookings_tab/presentation/pages/bookings_tab.dart';
+import 'package:masaj/features/home/presentation/pages/home_tab.dart';
+import 'package:masaj/core/presentation/colors/app_colors.dart';
+import 'package:masaj/core/presentation/overlay/show_snack_bar.dart';
+import 'package:masaj/core/presentation/widgets/stateless/custom_app_page.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
-import '../../../../di/injector.dart';
-import '../bloc/home_cubit/home_cubit.dart';
+import 'package:masaj/core/data/di/injector.dart';
+import 'package:masaj/features/home/presentation/bloc/home_cubit/home_cubit.dart';
 
 class HomePage extends StatefulWidget {
   static const routeName = '/HomePage';
@@ -65,9 +64,9 @@ class _HomePageState extends State<HomePage> {
                 controller: _pageController,
                 physics: const NeverScrollableScrollPhysics(),
                 children: [
-                  HomeTab(),
-                  BookingsTab(),
-                  ProvidersTab(),
+                  const HomeTab(),
+                  const BookingsTab(),
+                  const ProvidersTab(),
                   SettingsTabPage.builder(context),
                 ],
               ),
@@ -123,13 +122,13 @@ class __CustomNavBarState extends State<_CustomNavBar> {
             items: [
               BottomNavigationBarItem(
                 icon: SvgPicture.asset(
-                  'lib/res/assets/home_icon.svg',
+                  'assets/images/home_icon.svg',
                   height: 24,
                   width: 24,
                   color: AppColors.GREY_NORMAL_COLOR,
                 ),
                 activeIcon: SvgPicture.asset(
-                  'lib/res/assets/home_icon.svg',
+                  'assets/images/home_icon.svg',
                   color: AppColors.FONT_COLOR,
                   height: 24,
                   width: 24,
@@ -138,13 +137,13 @@ class __CustomNavBarState extends State<_CustomNavBar> {
               ),
               BottomNavigationBarItem(
                 icon: SvgPicture.asset(
-                  'lib/res/assets/zones_icon.svg',
+                  'assets/images/zones_icon.svg',
                   color: AppColors.GREY_NORMAL_COLOR,
                   height: 24,
                   width: 24,
                 ),
                 activeIcon: SvgPicture.asset(
-                  'lib/res/assets/zones_icon.svg',
+                  'assets/images/zones_icon.svg',
                   color: AppColors.FONT_COLOR,
                   height: 24,
                   width: 24,
@@ -160,13 +159,13 @@ class __CustomNavBarState extends State<_CustomNavBar> {
               ),
               BottomNavigationBarItem(
                 icon: SvgPicture.asset(
-                  'lib/res/assets/calendar_icon.svg',
+                  'assets/images/calendar_icon.svg',
                   color: AppColors.GREY_NORMAL_COLOR,
                   height: 24,
                   width: 24,
                 ),
                 activeIcon: SvgPicture.asset(
-                  'lib/res/assets/calendar_icon.svg',
+                  'assets/images/calendar_icon.svg',
                   color: AppColors.FONT_COLOR,
                   height: 24,
                   width: 24,
@@ -175,13 +174,13 @@ class __CustomNavBarState extends State<_CustomNavBar> {
               ),
               BottomNavigationBarItem(
                 icon: SvgPicture.asset(
-                  'lib/res/assets/more_icon.svg',
+                  'assets/images/more_icon.svg',
                   color: AppColors.GREY_NORMAL_COLOR,
                   height: 24,
                   width: 24,
                 ),
                 activeIcon: SvgPicture.asset(
-                  'lib/res/assets/more_icon.svg',
+                  'assets/images/more_icon.svg',
                   height: 24,
                   width: 24,
                   color: AppColors.FONT_COLOR,

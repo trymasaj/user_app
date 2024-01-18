@@ -2,8 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:masaj/core/app_export.dart';
 import 'package:masaj/features/account/models/member.dart';
 
-import '../bloc/manage_members_bloc/manage_members_bloc.dart';
-import '../models/manage_members_model.dart';
 
 class MemberTile extends StatelessWidget {
   const MemberTile({
@@ -28,7 +26,7 @@ class MemberTile extends StatelessWidget {
             SizedBox(height: 2.h),
             Text(member.phone, style: theme.textTheme.bodyMedium)
           ]),
-          Spacer(),
+          const Spacer(),
           CustomImageView(
               imagePath: ImageConstant.imgArrowRightOnprimary,
               height: 18.adaptSize,

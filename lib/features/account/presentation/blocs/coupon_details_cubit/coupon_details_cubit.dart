@@ -1,7 +1,7 @@
 import 'package:flutter/foundation.dart';
-import '../../../../../core/abstract/base_cubit.dart';
-import '../../../../../core/data/models/coupon_model.dart';
-import '../../../data/repositories/account_repository.dart';
+import 'package:masaj/core/application/controllers/base_cubit.dart';
+import 'package:masaj/core/data/models/coupon_model.dart';
+import 'package:masaj/features/account/data/repositories/account_repository.dart';
 
 part 'coupon_details_state.dart';
 
@@ -14,8 +14,9 @@ class CouponDetailsCubit extends BaseCubit<CouponDetailsState> {
 
   Future<void> loadCouponDetails(int id, [bool refresh = false]) async {
     try {
-      if (!refresh)
+      if (!refresh) {
         emit(state.copyWith(status: CouponDetailsStateStatus.loading));
+      }
       final couponDetails = await _accountRepository.getCouponDetails(id);
 
       emit(state.copyWith(

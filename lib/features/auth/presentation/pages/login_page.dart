@@ -2,27 +2,27 @@ import 'dart:io';
 
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/svg.dart';
-import 'package:masaj/shared_widgets/stateless/app_logo.dart';
+import 'package:masaj/core/presentation/widgets/stateless/app_logo.dart';
 
-import '../../../../shared_widgets/stateless/custom_text.dart';
-import '../../../../shared_widgets/text_fields/email_text_form_field.dart';
+import 'package:masaj/core/presentation/widgets/stateless/custom_text.dart';
+import 'package:masaj/core/presentation/widgets/stateless/text_fields/email_text_form_field.dart';
+import 'package:masaj/core/presentation/widgets/stateless/text_fields/password_text_form_field.dart';
 
-import '../../../home/presentation/pages/home_page.dart';
+import 'package:masaj/features/home/presentation/pages/home_page.dart';
 
-import '../../../../core/utils/navigator_helper.dart';
-import '../blocs/auth_cubit/auth_cubit.dart';
-import 'email_verification_page.dart';
-import '../../../../res/style/app_colors.dart';
-import '../../../../shared_widgets/other/show_snack_bar.dart';
-import '../../../../shared_widgets/text_fields/password_text_form_field.dart';
-import '../../../../shared_widgets/stateless/custom_app_page.dart';
-import '../../../../shared_widgets/stateful/default_button.dart';
+import 'package:masaj/core/presentation/navigation/navigator_helper.dart';
+import 'package:masaj/features/auth/presentation/blocs/auth_cubit/auth_cubit.dart';
+import 'package:masaj/features/auth/presentation/pages/email_verification_page.dart';
+import 'package:masaj/core/presentation/colors/app_colors.dart';
+import 'package:masaj/core/presentation/overlay/show_snack_bar.dart';
+import 'package:masaj/core/presentation/widgets/stateless/custom_app_page.dart';
+import 'package:masaj/core/presentation/widgets/stateless/default_button.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:easy_localization/easy_localization.dart';
 
-import 'forget_password_page.dart';
-import 'sign_up_page.dart';
+import 'package:masaj/features/auth/presentation/pages/forget_password_page.dart';
+import 'package:masaj/features/auth/presentation/pages/sign_up_page.dart';
 
 class LoginPage extends StatefulWidget {
   static const routeName = '/LoginPage';
@@ -168,7 +168,7 @@ class _LoginPageState extends State<LoginPage> {
       labelStyle: labelStyle,
       color: const Color(0xFFF6F6F6),
       icon: SvgPicture.asset(
-        'lib/res/assets/apple.svg',
+        'assets/images/apple.svg',
         color: Colors.black,
       ),
       onPressed: () {
@@ -241,7 +241,7 @@ class _LoginPageState extends State<LoginPage> {
       labelStyle: labelStyle,
       color: const Color(0xFFF6F6F6),
       icon: SvgPicture.asset(
-        'lib/res/assets/google.svg',
+        'assets/images/google.svg',
         color: Colors.black,
       ),
       onPressed: () {
@@ -346,8 +346,9 @@ class _LoginPageState extends State<LoginPage> {
       MaterialPageRoute(builder: (_) => const HomePage()),
       (_) => false,
     );
-    if (userFullName != null)
+    if (userFullName != null) {
       showSnackBar(context, message: 'welcome'.tr(args: [userFullName]));
+    }
   }
 
   Widget _buildDoNotHaveAccountButton(BuildContext context) {
@@ -376,8 +377,9 @@ class _LoginPageState extends State<LoginPage> {
   Future<void> _goToForgetPasswordPage(BuildContext context) async {
     final success = await NavigatorHelper.of(context)
         .pushNamed(ForgetPasswordPage.routeName);
-    if (success == true)
+    if (success == true) {
       showSnackBar(context, message: 'forget_password_success');
+    }
   }
 
   void _goToSignUpPage(BuildContext context) =>
