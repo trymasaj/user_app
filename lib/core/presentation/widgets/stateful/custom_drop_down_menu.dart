@@ -3,13 +3,11 @@ import 'dart:ui';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-
-import 'package:size_helper/size_helper.dart';
-
 import 'package:masaj/core/data/models/id_name_model.dart';
 import 'package:masaj/core/data/typedefs/type_defs.dart';
 import 'package:masaj/core/data/validator/validator.dart';
 import 'package:masaj/core/presentation/colors/app_colors.dart';
+import 'package:size_helper/size_helper.dart';
 
 enum _CustomDropDownMenuType { material, adaptive }
 
@@ -279,6 +277,7 @@ class _CustomDropDownMenuState<T> extends State<CustomDropDownMenu<T>> {
   }
 
   void _setButtonToReady() => setState(() => _isBusy = false);
+
   void _setButtonToBusy() => setState(() => _isBusy = true);
 
   Widget _buildCupertinoDropDown(BuildContext context) {
@@ -381,6 +380,7 @@ class _CupertinoModalPopupWidget<T> extends StatefulWidget {
 class _CupertinoModalPopupWidgetState<T>
     extends State<_CupertinoModalPopupWidget<T>> {
   T? _currentItem;
+
   @override
   void initState() {
     _currentItem = widget._currentItem ?? widget._items.first;

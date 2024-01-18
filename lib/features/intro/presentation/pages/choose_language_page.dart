@@ -1,23 +1,13 @@
+import 'package:flutter/material.dart';
 import 'package:masaj/core/app_export.dart';
-import 'package:masaj/core/presentation/widgets/stateless/custom_text.dart';
 import 'package:masaj/core/data/di/injector.dart';
+import 'package:masaj/core/presentation/overlay/show_snack_bar.dart';
+import 'package:masaj/core/presentation/widgets/stateless/custom_app_page.dart';
 import 'package:masaj/core/presentation/widgets/stateless/custom_radio_list_tile.dart';
+import 'package:masaj/core/presentation/widgets/stateless/custom_text.dart';
+import 'package:masaj/core/presentation/widgets/stateless/default_button.dart';
 import 'package:masaj/features/intro/presentation/blocs/choose_language_cubit/choose_language_cubit.dart';
 import 'package:masaj/features/intro/presentation/pages/guide_page.dart';
-import 'package:masaj/core/presentation/overlay/show_snack_bar.dart';
-import 'package:masaj/core/presentation/widgets/stateless/default_button.dart';
-import 'package:masaj/shared_widgets/stateless/custom_text.dart';
-import '../../../../core/di/injector.dart';
-import '../../../../shared_widgets/stateless/custom_radio_list_tile.dart';
-import '../blocs/choose_language_cubit/choose_language_cubit.dart';
-import 'guide_page.dart';
-import '../../../../res/style/app_colors.dart';
-import '../../../../shared_widgets/other/show_snack_bar.dart';
-import '../../../../shared_widgets/stateful/default_button.dart';
-import 'package:easy_localization/easy_localization.dart';
-import 'package:flutter/material.dart';
-
-import 'package:masaj/core/presentation/widgets/stateless/custom_app_page.dart';
 
 class ChooseLanguagePage extends StatefulWidget {
   static const routeName = '/ChooseLanguagePage';
@@ -30,6 +20,7 @@ class ChooseLanguagePage extends StatefulWidget {
 
 class _ChooseLanguagePageState extends State<ChooseLanguagePage> {
   Locale _selectedLocal = const Locale('en');
+
   @override
   Widget build(BuildContext context) {
     return CustomAppPage(

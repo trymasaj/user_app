@@ -1,27 +1,19 @@
 import 'dart:ui';
 
-import 'package:masaj/core/presentation/widgets/stateless/custom_text.dart';
-
-import 'package:masaj/features/intro/data/models/guide_page_tab_model.dart';
-import 'package:masaj/core/presentation/colors/app_colors.dart';
-import 'package:masaj/core/presentation/widgets/stateless/custom_loading.dart';
+import 'package:collection/collection.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:collection/collection.dart';
-import 'package:masaj/core/presentation/navigation/navigator_helper.dart';
-
 import 'package:masaj/core/data/di/injector.dart';
+import 'package:masaj/core/presentation/colors/app_colors.dart';
+import 'package:masaj/core/presentation/navigation/navigator_helper.dart';
 import 'package:masaj/core/presentation/overlay/show_snack_bar.dart';
+import 'package:masaj/core/presentation/widgets/stateless/custom_loading.dart';
+import 'package:masaj/core/presentation/widgets/stateless/custom_text.dart';
 import 'package:masaj/core/presentation/widgets/stateless/default_button.dart';
 import 'package:masaj/core/presentation/widgets/stateless/dots_indicator.dart';
+import 'package:masaj/features/intro/data/models/guide_page_tab_model.dart';
 import 'package:masaj/features/intro/presentation/blocs/guide_page_cubit/guide_page_cubit.dart';
 import 'package:masaj/features/intro/presentation/pages/get_started_page.dart';
-import '../../../../core/di/injector.dart';
-import '../../../../shared_widgets/other/show_snack_bar.dart';
-import '../../../../shared_widgets/stateful/default_button.dart';
-import '../../../../shared_widgets/stateless/dots_indicator.dart';
-import '../blocs/guide_page_cubit/guide_page_cubit.dart';
-import 'get_started_page.dart';
 
 class GuidePage extends StatefulWidget {
   static const routeName = '/GuidePage';

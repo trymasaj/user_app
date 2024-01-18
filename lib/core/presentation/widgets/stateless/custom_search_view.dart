@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-
 import 'package:masaj/core/app_export.dart';
 
 class CustomSearchView extends StatelessWidget {
@@ -93,6 +92,7 @@ class CustomSearchView extends StatelessWidget {
           },
         ),
       );
+
   InputDecoration get decoration => InputDecoration(
         hintText: hintText ?? '',
         hintStyle: hintStyle ?? CustomTextStyles.bodyMediumBluegray40001_1,

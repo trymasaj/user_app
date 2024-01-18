@@ -12,6 +12,7 @@ class TermsAndCondititonsState extends Equatable {
   List<Object?> get props => [
         termsAndCondititonsModelObj,
       ];
+
   TermsAndCondititonsState copyWith(
       {TermsAndCondititonsModel? termsAndCondititonsModelObj}) {
     return TermsAndCondititonsState(

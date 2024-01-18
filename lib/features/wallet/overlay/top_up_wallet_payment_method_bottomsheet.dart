@@ -1,8 +1,7 @@
+import 'package:flutter/material.dart';
 import 'package:masaj/core/app_export.dart';
-
 import 'package:masaj/features/wallet/bloc/top_up_wallet_bottom_sheet/top_up_wallet_payment_method_bloc.dart';
 import 'package:masaj/features/wallet/models/top_up_wallet_payment_method_model.dart';
-import 'package:flutter/material.dart';
 
 // ignore_for_file: must_be_immutable
 class TopUpWalletPaymentMethodBottomsheet extends StatelessWidget {

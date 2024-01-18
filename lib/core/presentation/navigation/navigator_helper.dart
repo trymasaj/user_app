@@ -3,17 +3,16 @@ import 'package:flutter/material.dart';
 class NavigatorHelper extends Navigator {
   final BuildContext context;
   final bool rootNavigator;
-  const NavigatorHelper._internal(
-      this.context, {
-        required this.rootNavigator,
-      });
 
+  const NavigatorHelper._internal(
+    this.context, {
+    required this.rootNavigator,
+  });
 
   static NavigatorHelper of(
     BuildContext context, {
     bool rootNavigator = false,
   }) {
-
     return NavigatorHelper._internal(context, rootNavigator: rootNavigator);
   }
 
@@ -251,7 +250,4 @@ class NavigatorHelper extends Navigator {
     scaffoldMessenger.clearSnackBars();
     return Navigator.of(context).removeRouteBelow(anchorRoute);
   }
-
-
 }
-

@@ -1,35 +1,33 @@
+import 'package:flutter/material.dart';
+import 'package:masaj/features/account/models/verification_code_screen.dart';
 import 'package:masaj/features/account/pages/account_screen.dart';
+import 'package:masaj/features/account/pages/add_member_screen.dart';
 import 'package:masaj/features/account/pages/create_new_password_screen.dart';
+import 'package:masaj/features/account/pages/manage_members_screen.dart';
 import 'package:masaj/features/account/pages/my_profile_screen.dart';
 import 'package:masaj/features/account/pages/phone_screen.dart';
-import 'package:masaj/features/address/overlay/location_bottom_sheet.dart';
-import 'package:masaj/features/address/pages/map_location_picker.dart';
-import 'package:masaj/features/legal/pages/privacy_policy_screen.dart';
-import 'package:masaj/features/legal/pages/terms_and_condititons_screen.dart';
-import 'package:masaj/features/account/models/verification_code_screen.dart';
-import 'package:masaj/features/home/presentation/pages/home_page.dart';
-import 'package:masaj/features/account/pages/add_member_screen.dart';
 import 'package:masaj/features/address/pages/add_new_address_screen.dart';
-import 'package:masaj/features/legal/pages/cancellation_policy_screen.dart';
-import 'package:masaj/features/legal/pages/conditions_screen.dart';
-import 'package:masaj/features/legal/pages/legal_screen.dart';
-import 'package:masaj/features/account/pages/manage_members_screen.dart';
-import 'package:masaj/features/medical_form/pages/medical_form_screen.dart';
-import 'package:masaj/features/legal/pages/reschedule_policy_screen.dart';
-import 'package:masaj/features/wallet/pages/top_up_wallet_screen.dart';
-import 'package:masaj/features/wallet/pages/wallet_screen.dart';
-
-import 'package:masaj/features/auth/presentation/pages/email_verification_page.dart';
-import 'package:masaj/features/intro/presentation/pages/choose_language_page.dart';
-import 'package:masaj/features/intro/presentation/pages/get_started_page.dart';
-import 'package:masaj/features/intro/presentation/pages/guide_page.dart';
-import 'package:masaj/features/auth/presentation/pages/edit_user_info_page.dart';
-import 'package:flutter/material.dart';
+import 'package:masaj/features/address/pages/map_location_picker.dart';
 import 'package:masaj/features/auth/presentation/pages/change_password_page.dart';
+import 'package:masaj/features/auth/presentation/pages/edit_user_info_page.dart';
+import 'package:masaj/features/auth/presentation/pages/email_verification_page.dart';
 import 'package:masaj/features/auth/presentation/pages/forget_password_page.dart';
 import 'package:masaj/features/auth/presentation/pages/login_page.dart';
 import 'package:masaj/features/auth/presentation/pages/sign_up_page.dart';
+import 'package:masaj/features/home/presentation/pages/home_page.dart';
+import 'package:masaj/features/intro/presentation/pages/choose_language_page.dart';
+import 'package:masaj/features/intro/presentation/pages/get_started_page.dart';
+import 'package:masaj/features/intro/presentation/pages/guide_page.dart';
+import 'package:masaj/features/legal/pages/cancellation_policy_screen.dart';
+import 'package:masaj/features/legal/pages/conditions_screen.dart';
+import 'package:masaj/features/legal/pages/legal_screen.dart';
+import 'package:masaj/features/legal/pages/privacy_policy_screen.dart';
+import 'package:masaj/features/legal/pages/reschedule_policy_screen.dart';
+import 'package:masaj/features/legal/pages/terms_and_condititons_screen.dart';
+import 'package:masaj/features/medical_form/pages/medical_form_screen.dart';
 import 'package:masaj/features/splash/presentation/pages/splash_page.dart';
+import 'package:masaj/features/wallet/pages/top_up_wallet_screen.dart';
+import 'package:masaj/features/wallet/pages/wallet_screen.dart';
 
 final routes = <String, WidgetBuilder>{
   SplashPage.routeName: (context) => const SplashPage(),

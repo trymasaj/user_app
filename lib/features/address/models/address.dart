@@ -1,4 +1,3 @@
-import 'package:flutter/material.dart';
 import 'package:geocoding/geocoding.dart';
 
 class Address {
@@ -64,6 +63,7 @@ class Address {
       subThoroughfare: placemark.subThoroughfare,
     );
   }
+
   String get fullAddress =>
       '${country == null || country!.isEmpty ? '' : country!} - $thoroughfare -$administrativeArea - $subAdministrativeArea - $street - $name';
 }

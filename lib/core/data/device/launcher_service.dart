@@ -1,12 +1,15 @@
-import 'package:url_launcher/url_launcher.dart';
-
 import 'package:masaj/core/domain/exceptions/launcher_exception.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 abstract class LauncherService {
   Future<void> callPhone(String phoneNumber);
+
   Future<void> openWhatsappChat({String? phoneNumber, String? message});
+
   Future<void> openWebsite(String url);
+
   Future<void> openGoogleMaps(String url);
+
   Future<void> sendEmail(String email, [String? emailSubject, String? message]);
 }
 

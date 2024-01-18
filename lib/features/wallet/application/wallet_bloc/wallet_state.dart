@@ -6,8 +6,11 @@ enum WalletStateStatus { initial, loading, loaded, error }
 
 extension WalletStateX on WalletState {
   bool get isInitial => status == WalletStateStatus.initial;
+
   bool get isLoading => status == WalletStateStatus.loading;
+
   bool get isLoaded => status == WalletStateStatus.loaded;
+
   bool get isError => status == WalletStateStatus.error;
 }
 
@@ -22,6 +25,7 @@ class WalletState extends Equatable {
   List<Object?> get props => [
         wallet,
       ];
+
   WalletState copyWith({Option<Wallet>? wallet, WalletStateStatus? status}) {
     return WalletState(
       wallet: wallet ?? this.wallet,

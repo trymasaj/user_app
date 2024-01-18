@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-
 import 'package:masaj/core/domain/enums/gender.dart';
 import 'package:masaj/core/presentation/colors/app_colors.dart';
 import 'package:masaj/core/presentation/widgets/stateless/title_text.dart';
@@ -21,6 +20,7 @@ class UserImageSelection extends StatefulWidget {
 class _UserImageSelectionState extends State<UserImageSelection> {
   late bool _isMale;
   bool showChoices = false;
+
   @override
   void initState() {
     _isMale = widget.isMale;
@@ -88,8 +88,7 @@ class _UserImageSelectionState extends State<UserImageSelection> {
             radius: 44.0,
             child: CircleAvatar(
                 radius: 40.0,
-                backgroundImage:
-                    AssetImage('assets/images/profile_male.webp')),
+                backgroundImage: AssetImage('assets/images/profile_male.webp')),
           ),
           onTap: () {
             authCubit.selectGender(Gender.male);

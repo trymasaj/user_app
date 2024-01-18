@@ -23,6 +23,7 @@ class AddMemberState extends Equatable {
         phone,
         selectedCountry,
       ];
+
   AddMemberState copyWith({
     String? nameEditTextController,
     String? phoneNumberController,

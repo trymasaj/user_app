@@ -22,6 +22,7 @@ class CreateNewPasswordState extends Equatable {
         newPassword,
         confirmNewPassword,
       ];
+
   CreateNewPasswordState copyWith({
     String? oldPassword,
     String? newPassword,

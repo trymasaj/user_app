@@ -22,6 +22,7 @@ class MyProfileState extends Equatable {
         emailFloatingTextFieldController,
         myProfileModelObj,
       ];
+
   MyProfileState copyWith({
     TextEditingController? nameFloatingTextFieldController,
     TextEditingController? emailFloatingTextFieldController,

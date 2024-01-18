@@ -4,8 +4,11 @@ enum TopicsStateStatus { initial, loading, loaded, error }
 
 extension TopicsStateX on TopicsState {
   bool get isInitial => status == TopicsStateStatus.initial;
+
   bool get isLoading => status == TopicsStateStatus.loading;
+
   bool get isLoaded => status == TopicsStateStatus.loaded;
+
   bool get isError => status == TopicsStateStatus.error;
 }
 

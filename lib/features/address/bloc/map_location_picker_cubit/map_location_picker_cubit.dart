@@ -10,6 +10,7 @@ part 'map_location_picker_state.dart';
 class MapLocationPickerCubit extends Cubit<MapLocationPickerState> {
   MapLocationPickerCubit(this._repo) : super(MapLocationPickerState.initial());
   final AddressRepo _repo;
+
   Future<void> onCameraIdle(LatLng latLng) async {
     print(onCameraIdle);
     final address = await _repo.getAddressFromLatLng(latLng);

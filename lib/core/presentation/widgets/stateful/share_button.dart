@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-
 import 'package:masaj/core/data/typedefs/type_defs.dart';
 import 'package:masaj/core/presentation/colors/app_colors.dart';
 

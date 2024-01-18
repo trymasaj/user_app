@@ -3,15 +3,16 @@ import 'dart:io';
 import 'dart:math' as math;
 
 import 'package:firebase_messaging/firebase_messaging.dart';
-import 'package:http/http.dart' as http;
-import 'package:path_provider/path_provider.dart';
 import 'package:flutter_apns_only/flutter_apns_only.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
-import 'package:masaj/core/data/typedefs/type_defs.dart';
+import 'package:http/http.dart' as http;
 import 'package:masaj/core/data/io/url_helper.dart';
+import 'package:masaj/core/data/typedefs/type_defs.dart';
+import 'package:path_provider/path_provider.dart';
 
 class NotificationService {
   late final _connector = ApnsPushConnectorOnly();
+
   Future<void> inti() async {
     await _FlutterLocalNotificationHelper.init();
     if (Platform.isIOS) {

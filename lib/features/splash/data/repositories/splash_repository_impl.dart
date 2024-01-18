@@ -2,6 +2,7 @@ import 'package:masaj/features/splash/data/datasources/splash_local_data_source.
 
 abstract class SplashRepository {
   Future<bool> isFirstLaunch();
+
   Future<bool> isLanguageSet();
 }
 

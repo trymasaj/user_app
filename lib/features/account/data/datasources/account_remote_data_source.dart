@@ -1,9 +1,9 @@
+import 'package:masaj/core/data/clients/network_service.dart';
 import 'package:masaj/core/data/constants/api_end_point.dart';
 import 'package:masaj/core/data/models/coupon_model.dart';
 import 'package:masaj/core/domain/enums/request_result_enum.dart';
 import 'package:masaj/core/domain/enums/topic_type.dart';
 import 'package:masaj/core/domain/exceptions/request_exception.dart';
-import 'package:masaj/core/data/clients/network_service.dart';
 import 'package:masaj/features/account/data/models/contact_us_message_model.dart';
 import 'package:masaj/features/account/data/models/external_item_model.dart';
 import 'package:masaj/features/account/data/models/points_model.dart';
@@ -12,14 +12,18 @@ import 'package:masaj/features/account/data/models/topics_model.dart';
 
 abstract class AccountRemoteDataSource {
   Future<Topic> getAboutUs();
+
   Future<void> sendContactUsMessage(ContactUsMessage data);
+
   Future<Topic?> getTopicData(TopicType id);
+
   Future<List<ExternalItemModel>> getExternalSection();
 
   Future<Coupon> getAllCoupons({
     int? cursor,
     int pageSize = 10,
   });
+
   Future<Coupon> getRedeemedCoupons({
     int? cursor,
     int pageSize = 10,
@@ -38,6 +42,7 @@ abstract class AccountRemoteDataSource {
 
 class AccountRemoteDataSourceImpl implements AccountRemoteDataSource {
   final NetworkService _networkService;
+
   AccountRemoteDataSourceImpl(this._networkService);
 
   @override
@@ -62,7 +67,8 @@ class AccountRemoteDataSourceImpl implements AccountRemoteDataSource {
   Future<void> sendContactUsMessage(ContactUsMessage data) {
     const url = ApiEndPoint.CONTACT_US;
     return _networkService.post(url, data: data.toMap()).then((response) {
-      if (response.statusCode != 200) throw RequestException(message: response.data);
+      if (response.statusCode != 200)
+        throw RequestException(message: response.data);
       final result = response.data;
       final resultStatus = result['result'];
       if (resultStatus == RequestResult.Failed.name) {
@@ -77,11 +83,12 @@ class AccountRemoteDataSourceImpl implements AccountRemoteDataSource {
 
     return _networkService
         .get(url, queryParameters: {'type': id.value}).then((response) {
-      if (response.statusCode != 200) throw RequestException(message: response.data);
+      if (response.statusCode != 200)
+        throw RequestException(message: response.data);
       final result = response.data;
       final resultStatus = result['result'];
       if (resultStatus == RequestResult.Failed.name) {
-        throw RequestException(message:result['msg']);
+        throw RequestException(message: result['msg']);
       }
       return Topic.fromMap(result['data']);
     });
@@ -93,12 +100,12 @@ class AccountRemoteDataSourceImpl implements AccountRemoteDataSource {
 
     return _networkService.get(url).then((response) {
       if (![200, 201].contains(response.statusCode)) {
-        throw RequestException(message:response.data);
+        throw RequestException(message: response.data);
       }
       final result = response.data;
       final resultStatus = result['result'];
       if (resultStatus == RequestResult.Failed.name) {
-        throw RequestException(message:result['msg']);
+        throw RequestException(message: result['msg']);
       }
       final data = result['data'] as List;
       return data.map((e) => ExternalItemModel.fromMap(e)).toList();
@@ -117,12 +124,12 @@ class AccountRemoteDataSourceImpl implements AccountRemoteDataSource {
 
     return _networkService.get(url, queryParameters: params).then((response) {
       if (![200, 201].contains(response.statusCode)) {
-        throw RequestException(message:response.data);
+        throw RequestException(message: response.data);
       }
       final result = response.data;
       final resultStatus = result['result'];
       if (resultStatus == RequestResult.Failed.name) {
-        throw RequestException(message:result['msg']);
+        throw RequestException(message: result['msg']);
       }
       final data = result['data'];
       return Coupon.fromMap(data);
@@ -141,12 +148,12 @@ class AccountRemoteDataSourceImpl implements AccountRemoteDataSource {
 
     return _networkService.get(url, queryParameters: params).then((response) {
       if (![200, 201].contains(response.statusCode)) {
-        throw RequestException(message:response.data);
+        throw RequestException(message: response.data);
       }
       final result = response.data;
       final resultStatus = result['result'];
       if (resultStatus == RequestResult.Failed.name) {
-        throw RequestException(message:result['msg']);
+        throw RequestException(message: result['msg']);
       }
       final data = result['data'];
       return Coupon.fromMap(data);
@@ -161,12 +168,12 @@ class AccountRemoteDataSourceImpl implements AccountRemoteDataSource {
 
     return _networkService.post(url, queryParameters: params).then((response) {
       if (![200, 201].contains(response.statusCode)) {
-        throw RequestException(message:response.data);
+        throw RequestException(message: response.data);
       }
       final result = response.data;
       final resultStatus = result['result'];
       if (resultStatus == RequestResult.Failed.name) {
-        throw RequestException(message:result['msg']);
+        throw RequestException(message: result['msg']);
       }
 
       return RedeemCouponResult.fromMap(result['data']);
@@ -178,11 +185,12 @@ class AccountRemoteDataSourceImpl implements AccountRemoteDataSource {
     const url = ApiEndPoint.GET_USER_POINTS;
 
     return _networkService.get(url).then((response) {
-      if (response.statusCode != 200) throw RequestException(message:response.data);
+      if (response.statusCode != 200)
+        throw RequestException(message: response.data);
       final result = response.data;
       final resultStatus = result['result'];
       if (resultStatus == RequestResult.Failed.name) {
-        throw RequestException(message:result['msg']);
+        throw RequestException(message: result['msg']);
       }
       return PointsModel.fromMap(result['data']);
     });
@@ -195,11 +203,12 @@ class AccountRemoteDataSourceImpl implements AccountRemoteDataSource {
     final params = {'cursor': cursor};
 
     return _networkService.get(url, queryParameters: params).then((response) {
-      if (response.statusCode != 200) throw RequestException(message:response.data);
+      if (response.statusCode != 200)
+        throw RequestException(message: response.data);
       final result = response.data;
       final resultStatus = result['result'];
       if (resultStatus == RequestResult.Failed.name) {
-        throw RequestException(message:result['msg']);
+        throw RequestException(message: result['msg']);
       }
       return PointsModel.fromMap(result['data']);
     });
@@ -212,11 +221,12 @@ class AccountRemoteDataSourceImpl implements AccountRemoteDataSource {
     final params = {'couponId': id};
 
     return _networkService.get(url, queryParameters: params).then((response) {
-      if (response.statusCode != 200) throw RequestException(message:response.data);
+      if (response.statusCode != 200)
+        throw RequestException(message: response.data);
       final result = response.data;
       final resultStatus = result['result'];
       if (resultStatus == RequestResult.Failed.name) {
-        throw RequestException(message:result['msg']);
+        throw RequestException(message: result['msg']);
       }
       return CouponItem.fromMap(result['data']);
     });
@@ -229,11 +239,12 @@ class AccountRemoteDataSourceImpl implements AccountRemoteDataSource {
     final params = {'couponId': id};
 
     return _networkService.get(url, queryParameters: params).then((response) {
-      if (response.statusCode != 200) throw RequestException(message:response.data);
+      if (response.statusCode != 200)
+        throw RequestException(message: response.data);
       final result = response.data;
       final resultStatus = result['result'];
       if (resultStatus == RequestResult.Failed.name) {
-        throw RequestException(message:result['msg']);
+        throw RequestException(message: result['msg']);
       }
       return result['data'];
     });

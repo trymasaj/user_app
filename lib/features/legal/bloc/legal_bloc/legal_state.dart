@@ -12,6 +12,7 @@ class LegalState extends Equatable {
   List<Object?> get props => [
         legalModelObj,
       ];
+
   LegalState copyWith({LegalModel? legalModelObj}) {
     return LegalState(
       legalModelObj: legalModelObj ?? this.legalModelObj,

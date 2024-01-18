@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-
 import 'package:masaj/core/presentation/dialogs/image_interactive_dialog.dart';
 import 'package:masaj/core/presentation/widgets/stateless/custom_cached_network_image.dart';
 

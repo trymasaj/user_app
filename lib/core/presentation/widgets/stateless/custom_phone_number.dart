@@ -96,6 +96,7 @@ class CustomPhoneNumber extends StatelessWidget {
           ),
         ],
       );
+
   void _openCountryPicker(BuildContext context) => showDialog(
         context: context,
         builder: (context) => CountryPickerDialog(

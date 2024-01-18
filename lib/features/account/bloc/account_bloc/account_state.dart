@@ -12,6 +12,7 @@ class AccountState extends Equatable {
   List<Object?> get props => [
         accountModelObj,
       ];
+
   AccountState copyWith({AccountModel? accountModelObj}) {
     return AccountState(
       accountModelObj: accountModelObj ?? this.accountModelObj,

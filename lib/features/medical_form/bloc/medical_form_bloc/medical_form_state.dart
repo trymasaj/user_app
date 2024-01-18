@@ -8,6 +8,7 @@ class MedicalFormState extends Equatable {
 
   @override
   List<Object?> get props => [];
+
   MedicalFormState copyWith() {
     return const MedicalFormState();
   }

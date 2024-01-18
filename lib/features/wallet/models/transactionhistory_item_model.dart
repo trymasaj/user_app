@@ -1,4 +1,3 @@
-
 /// This class is used in the [transactionhistory_item_widget] screen.
 class Transaction {
   Transaction({

@@ -6,6 +6,7 @@ import 'package:flutter/foundation.dart';
 class NotificationsModel {
   final int? cursor;
   final List<Notification>? notifications;
+
   NotificationsModel({
     this.cursor,
     this.notifications,
@@ -73,6 +74,7 @@ class Notification {
   final String? title;
   final String? message;
   final bool? seen;
+
   Notification({
     this.id,
     this.title,

@@ -28,6 +28,7 @@ class Country {
     required this.isActive,
     required this.flagIcon,
   });
+
   factory Country.fromMap(Map<String, dynamic> map) {
     return Country(
       id: map['id'],

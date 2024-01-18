@@ -7,6 +7,7 @@ class NotificationModel {
   final String message;
   final DateTime? date;
   bool isNew;
+
   NotificationModel({
     required this.id,
     this.notificationType,

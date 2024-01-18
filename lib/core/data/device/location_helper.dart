@@ -5,15 +5,20 @@ import 'package:masaj/core/domain/exceptions/location_permission_not_granted_exc
 
 abstract class LocationHelper {
   Future<Position?> getMyLocation();
+
   Future<bool> isLocationServiceEnabled();
+
   double getDistanceBetweenTwoPoints(
     double lat1,
     double lon1,
     double lat2,
     double lon2,
   );
+
   Future<double> getDistanceFromMyLocation(double lat, double lon);
+
   Stream<Position?> getMyLocationStream([LocationSettings? locationSettings]);
+
   Stream<double> getDistanceFromMyLocationStream(
     double lat,
     double lon, {

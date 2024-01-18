@@ -1,23 +1,22 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/gestures.dart';
-import 'package:flutter_svg/flutter_svg.dart';
-import 'package:masaj/features/intro/presentation/pages/get_started_page.dart';
-import 'package:masaj/core/presentation/widgets/stateless/app_logo.dart';
-import 'package:size_helper/size_helper.dart';
-
-import 'package:masaj/core/presentation/navigation/navigator_helper.dart';
-import 'package:masaj/core/presentation/widgets/stateless/title_text.dart';
-
-import 'package:masaj/core/presentation/colors/app_colors.dart';
-import 'package:masaj/core/presentation/overlay/show_snack_bar.dart';
-import 'package:masaj/core/presentation/widgets/stateless/custom_app_page.dart';
-import 'package:masaj/core/presentation/widgets/stateless/default_button.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:easy_localization/easy_localization.dart';
+import 'package:flutter_svg/flutter_svg.dart';
+import 'package:masaj/core/presentation/colors/app_colors.dart';
+import 'package:masaj/core/presentation/navigation/navigator_helper.dart';
+import 'package:masaj/core/presentation/overlay/show_snack_bar.dart';
+import 'package:masaj/core/presentation/widgets/stateless/app_logo.dart';
+import 'package:masaj/core/presentation/widgets/stateless/custom_app_page.dart';
+import 'package:masaj/core/presentation/widgets/stateless/default_button.dart';
+import 'package:masaj/core/presentation/widgets/stateless/title_text.dart';
 import 'package:masaj/features/auth/presentation/blocs/auth_cubit/auth_cubit.dart';
+import 'package:masaj/features/intro/presentation/pages/get_started_page.dart';
+import 'package:size_helper/size_helper.dart';
 
 class EmailVerificationPage extends StatefulWidget {
   static const routeName = '/EmailVerificationPage';
+
   const EmailVerificationPage({super.key});
 
   @override

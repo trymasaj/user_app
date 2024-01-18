@@ -1,8 +1,7 @@
-import 'package:masaj/core/app_export.dart';
-
-import 'package:masaj/features/legal/widgets/conditionslist_item_widget.dart';
-import 'package:masaj/features/legal/bloc/conditions_bloc/conditions_bloc.dart';
 import 'package:flutter/material.dart';
+import 'package:masaj/core/app_export.dart';
+import 'package:masaj/features/legal/bloc/conditions_bloc/conditions_bloc.dart';
+import 'package:masaj/features/legal/widgets/conditionslist_item_widget.dart';
 
 class ConditionsScreen extends StatelessWidget {
   static const routeName = '/conditions';

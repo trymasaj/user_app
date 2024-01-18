@@ -11,10 +11,15 @@ enum CouponStateStatus {
 
 extension CouponStateX on CouponState {
   bool get isInitial => status == CouponStateStatus.initial;
+
   bool get isLoading => status == CouponStateStatus.loading;
+
   bool get isLoaded => status == CouponStateStatus.loaded;
+
   bool get isRedeemSuccess => status == CouponStateStatus.redeemSuccess;
+
   bool get isLoadingMore => status == CouponStateStatus.loadingMore;
+
   bool get isError => status == CouponStateStatus.error;
 }
 

@@ -1,7 +1,7 @@
+import 'package:flutter/material.dart';
 import 'package:masaj/core/app_export.dart';
 import 'package:masaj/features/legal/bloc/terms_and_condititons_bloc/terms_and_condititons_bloc.dart';
 import 'package:masaj/features/legal/models/terms_and_condititons_model.dart';
-import 'package:flutter/material.dart';
 
 class TermsAndCondititonsScreen extends StatelessWidget {
   static const routeName = '/terms-conditions';

@@ -22,6 +22,7 @@ class PhoneState extends Equatable {
         selectedCountry,
         phoneModelObj,
       ];
+
   PhoneState copyWith({
     TextEditingController? phoneNumberController,
     Country? selectedCountry,

@@ -8,11 +8,13 @@ class SettingTile extends StatelessWidget {
       required this.imagePath,
       this.trailing = const SizedBox.shrink(),
       required this.onTap});
+
   final String text;
   final String imagePath;
   final VoidCallback onTap;
   final Widget trailing;
   final verticalPadding = 12;
+
   @override
   Widget build(BuildContext context) {
     return Material(

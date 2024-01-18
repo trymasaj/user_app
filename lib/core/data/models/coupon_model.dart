@@ -5,6 +5,7 @@ import 'package:flutter/foundation.dart';
 class Coupon {
   final int? cursor;
   final List<CouponItem> data;
+
   Coupon({
     this.cursor,
     required this.data,
@@ -63,6 +64,7 @@ class CouponItem {
   final int? points;
   final DateTime startDate;
   final DateTime endDate;
+
   CouponItem({
     required this.id,
     required this.name,

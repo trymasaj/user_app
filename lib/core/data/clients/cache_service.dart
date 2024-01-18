@@ -1,31 +1,38 @@
 import 'dart:async';
 
+import 'package:collection/collection.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:injectable/injectable.dart';
 import 'package:masaj/core/domain/enums/show_case_displayed_page.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-import 'package:collection/collection.dart';
 
 abstract class CacheService {
   Future<bool> saveUserData(String userData);
+
   Future<String?> getUserData();
 
   Future<bool> saveAppleUserData(String userData);
+
   Future<String?> getAppleUserData();
 
   Future<bool?> clearUserData();
 
   Future<String?> getLanguageCode();
+
   Future<void> setLanguageCode(String languageCode);
 
   Future<bool> getIsFirstLaunch();
+
   Future<void> setIsFirstLaunch(bool isFirstLaunch);
 
   Future<bool> getIsQuizCompleted();
+
   Future<bool> setIsQuizCompleted(bool isQuizCompleted);
 
   Future<Set<ShowCaseDisplayedPage>> getShowCaseDisplayedPages();
+
   Future<void> addShowCaseDisplayedPages(ShowCaseDisplayedPage page);
+
   Future<void> resetShowCaseDisplayedPages();
 }
 

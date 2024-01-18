@@ -1,6 +1,6 @@
 import 'package:cached_network_image/cached_network_image.dart';
-import 'package:masaj/core/presentation/colors/app_colors.dart';
 import 'package:flutter/material.dart';
+import 'package:masaj/core/presentation/colors/app_colors.dart';
 import 'package:masaj/core/presentation/widgets/stateless/image_not_exist_place_holder.dart';
 
 enum ImageMode {

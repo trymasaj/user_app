@@ -1,7 +1,6 @@
 import 'package:easy_localization/easy_localization.dart' hide TextDirection;
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-
 import 'package:masaj/core/presentation/colors/app_colors.dart';
 
 abstract class MainTextFormField extends StatefulWidget {
@@ -70,6 +69,7 @@ abstract class MainTextFormField extends StatefulWidget {
 
 class _MainTextFormFieldState extends State<MainTextFormField> {
   TextDirection? _currentDir;
+
   @override
   Widget build(BuildContext context) {
     _currentDir ??= context.locale == const Locale('ar')

@@ -2,16 +2,18 @@ import 'dart:async';
 import 'dart:io';
 
 import 'package:connectivity_plus/connectivity_plus.dart';
-import 'package:rxdart/rxdart.dart';
-
 import 'package:masaj/core/data/constants/api_end_point.dart';
+import 'package:rxdart/rxdart.dart';
 
 class ConnectionChecker {
   static final _singleton = ConnectionChecker._internal();
+
   ConnectionChecker._internal();
+
   factory ConnectionChecker() => _singleton;
 
   bool? _hasConnection;
+
   bool get hasConnection => _hasConnection ?? false;
 
   final _connectionChangeController =

@@ -4,9 +4,13 @@ enum CouponDetailsStateStatus { initial, loading, loaded, showCode, error }
 
 extension CouponDetailsStateX on CouponDetailsState {
   bool get isInitial => status == CouponDetailsStateStatus.initial;
+
   bool get isLoading => status == CouponDetailsStateStatus.loading;
+
   bool get isLoaded => status == CouponDetailsStateStatus.loaded;
+
   bool get isShowCode => status == CouponDetailsStateStatus.showCode;
+
   bool get isError => status == CouponDetailsStateStatus.error;
 }
 

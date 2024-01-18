@@ -56,7 +56,8 @@ abstract class ApiEndPoint {
   static const GET_EVENTS_SECTION_DETAILS =
       '$_REQUEST_URL/geteventssectiondetails';
   static const INFORM_EVENT_SHARE = '$_REQUEST_URL/shareevent';
-  static const SUBMIT_QUIZ= '$_REQUEST_URL/masaj/Identity/submit-quiz';
+  static const SUBMIT_QUIZ = '$_REQUEST_URL/masaj/Identity/submit-quiz';
+
   //Other
   static const TOPICS_DATA = '$_REQUEST_URL/block';
   static const CONTACT_US = '$_REQUEST_URL/contactus';

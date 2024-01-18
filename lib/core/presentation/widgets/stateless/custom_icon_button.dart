@@ -65,6 +65,7 @@ extension IconButtonStyleHelper on CustomIconButton {
         color: appTheme.gray50014,
         borderRadius: BorderRadius.circular(19.w),
       );
+
   static BoxDecoration get gradientSecondaryContainerToDeepOrange =>
       BoxDecoration(
         borderRadius: BorderRadius.circular(12.w),
@@ -77,6 +78,7 @@ extension IconButtonStyleHelper on CustomIconButton {
           ],
         ),
       );
+
   static BoxDecoration get outlineGray => BoxDecoration(
         color: appTheme.gray10002,
         borderRadius: BorderRadius.circular(12.w),
@@ -85,10 +87,12 @@ extension IconButtonStyleHelper on CustomIconButton {
           width: 1.w,
         ),
       );
+
   static BoxDecoration get fillOnPrimaryContainer => BoxDecoration(
         color: theme.colorScheme.onPrimaryContainer.withOpacity(1),
         borderRadius: BorderRadius.circular(22.w),
       );
+
   static BoxDecoration get outlineOnPrimary => BoxDecoration(
         borderRadius: BorderRadius.circular(12.w),
         border: Border.all(
@@ -96,6 +100,7 @@ extension IconButtonStyleHelper on CustomIconButton {
           width: 1.w,
         ),
       );
+
   static BoxDecoration get outlineOnPrimaryContainer => BoxDecoration(
         borderRadius: BorderRadius.circular(9.w),
         border: Border.all(
@@ -103,6 +108,7 @@ extension IconButtonStyleHelper on CustomIconButton {
           width: 1.w,
         ),
       );
+
   static BoxDecoration get outlineGrayTL20 => BoxDecoration(
         color: theme.colorScheme.onPrimaryContainer.withOpacity(1),
         borderRadius: BorderRadius.circular(20.w),
@@ -111,6 +117,7 @@ extension IconButtonStyleHelper on CustomIconButton {
           width: 1.w,
         ),
       );
+
   static BoxDecoration get outlineBlack => BoxDecoration(
         borderRadius: BorderRadius.circular(8.w),
         boxShadow: [
@@ -125,10 +132,12 @@ extension IconButtonStyleHelper on CustomIconButton {
           ),
         ],
       );
+
   static BoxDecoration get fillGrayTL8 => BoxDecoration(
         color: appTheme.gray10002,
         borderRadius: BorderRadius.circular(8.w),
       );
+
   static BoxDecoration get outlineBlackTL15 => BoxDecoration(
         color: theme.colorScheme.onPrimaryContainer.withOpacity(1),
         borderRadius: BorderRadius.circular(15.w),
@@ -144,22 +153,27 @@ extension IconButtonStyleHelper on CustomIconButton {
           ),
         ],
       );
+
   static BoxDecoration get fillGrayTL22 => BoxDecoration(
         color: appTheme.gray10002,
         borderRadius: BorderRadius.circular(22.w),
       );
+
   static BoxDecoration get fillGrayTL18 => BoxDecoration(
         color: appTheme.gray10002,
         borderRadius: BorderRadius.circular(18.w),
       );
+
   static BoxDecoration get fillBlack => BoxDecoration(
         color: appTheme.black90001,
         borderRadius: BorderRadius.circular(22.w),
       );
+
   static BoxDecoration get fillBlackTL17 => BoxDecoration(
         color: appTheme.black90001,
         borderRadius: BorderRadius.circular(17.w),
       );
+
   static BoxDecoration get fillPrimaryTL20 => BoxDecoration(
         color: theme.colorScheme.primary.withOpacity(0.2),
         borderRadius: BorderRadius.circular(20.w),

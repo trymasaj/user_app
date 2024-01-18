@@ -1,4 +1,3 @@
-
 import 'package:masaj/core/domain/exceptions/app_exception.dart';
 
 sealed class DataLoadState<T extends Object?> {

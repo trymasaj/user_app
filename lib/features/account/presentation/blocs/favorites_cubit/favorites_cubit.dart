@@ -15,8 +15,7 @@ class FavoritesCubit extends BaseCubit<FavoritesState> {
   Future<void> loadFavorites([bool refresh = false]) async {
     try {
       if (!refresh) emit(state.copyWith(status: FavoritesStateStatus.loading));
-      final favorites =
-          await _favoritesRepository.getFavorites();
+      final favorites = await _favoritesRepository.getFavorites();
 
       emit(state.copyWith(
           status: FavoritesStateStatus.loaded, favoritesList: favorites));

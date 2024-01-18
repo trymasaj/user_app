@@ -6,6 +6,8 @@ abstract class WalletRepository {
   final NetworkService client;
 
   WalletRepository(this.client);
+
   Future<void> purchasePackage(Package package);
-  Future<void>redeemCouponCode(CouponCode couponCode);
+
+  Future<void> redeemCouponCode(CouponCode couponCode);
 }

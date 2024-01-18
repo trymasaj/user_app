@@ -1,14 +1,13 @@
+import 'package:flutter/material.dart';
 import 'package:masaj/core/app_export.dart';
 import 'package:masaj/core/presentation/navigation/navigator_helper.dart';
 import 'package:masaj/core/presentation/widgets/stateless/border_tile.dart';
-import 'package:masaj/features/legal/pages/privacy_policy_screen.dart';
-import 'package:masaj/features/legal/pages/terms_and_condititons_screen.dart';
-import 'package:masaj/features/legal/pages/cancellation_policy_screen.dart';
-import 'package:masaj/features/legal/pages/reschedule_policy_screen.dart';
-
 import 'package:masaj/features/legal/bloc/legal_bloc/legal_bloc.dart';
 import 'package:masaj/features/legal/models/legal_model.dart';
-import 'package:flutter/material.dart';
+import 'package:masaj/features/legal/pages/cancellation_policy_screen.dart';
+import 'package:masaj/features/legal/pages/privacy_policy_screen.dart';
+import 'package:masaj/features/legal/pages/reschedule_policy_screen.dart';
+import 'package:masaj/features/legal/pages/terms_and_condititons_screen.dart';
 
 class LegalScreen extends StatelessWidget {
   static const routeName = '/legal';
@@ -17,8 +16,8 @@ class LegalScreen extends StatelessWidget {
 
   static Widget builder(BuildContext context) {
     return BlocProvider<LegalBloc>(
-        create: (context) => LegalBloc(LegalState(legalModelObj: const LegalModel()))
-          ,
+        create: (context) =>
+            LegalBloc(LegalState(legalModelObj: const LegalModel())),
         child: const LegalScreen());
   }
 

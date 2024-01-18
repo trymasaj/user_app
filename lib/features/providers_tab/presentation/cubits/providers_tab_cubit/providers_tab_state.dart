@@ -9,13 +9,15 @@ enum ProvidersTabStateStatus {
 
 extension ProvidersTabStateX on ProvidersTabState {
   bool get isInitial => status == ProvidersTabStateStatus.initial;
+
   bool get isLoading => status == ProvidersTabStateStatus.loading;
+
   bool get isLoaded => status == ProvidersTabStateStatus.loaded;
+
   bool get isError => status == ProvidersTabStateStatus.error;
 }
 
 @immutable
-
 class ProvidersTabState {
   final ProvidersTabStateStatus status;
   final String? errorMessage;
@@ -35,7 +37,7 @@ class ProvidersTabState {
   }
 
   @override
-  int get hashCode =>  status.hashCode ^ errorMessage.hashCode;
+  int get hashCode => status.hashCode ^ errorMessage.hashCode;
 
   ProvidersTabState copyWith({
     ProvidersTabStateStatus? status,

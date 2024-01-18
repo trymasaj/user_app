@@ -1,6 +1,5 @@
 // ignore_for_file: must_be_immutable
 
-
 import 'package:equatable/equatable.dart';
 import 'package:masaj/features/settings_tab/models/settings_model.dart';
 
@@ -17,9 +16,10 @@ class SettingsState extends Equatable {
 
   @override
   List<Object?> get props => [
-    isSelectedSwitch,
-    settingsSubscribedToMasajPlusModelObj,
-  ];
+        isSelectedSwitch,
+        settingsSubscribedToMasajPlusModelObj,
+      ];
+
   SettingsState copyWith({
     bool? isSelectedSwitch,
     SettingsSubscribedToMasajPlusModel? settingsSubscribedToMasajPlusModelObj,
@@ -27,8 +27,8 @@ class SettingsState extends Equatable {
     return SettingsState(
       isSelectedSwitch: isSelectedSwitch ?? this.isSelectedSwitch,
       settingsSubscribedToMasajPlusModelObj:
-      settingsSubscribedToMasajPlusModelObj ??
-          this.settingsSubscribedToMasajPlusModelObj,
+          settingsSubscribedToMasajPlusModelObj ??
+              this.settingsSubscribedToMasajPlusModelObj,
     );
   }
 }

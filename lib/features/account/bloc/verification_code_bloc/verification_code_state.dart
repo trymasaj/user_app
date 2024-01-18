@@ -14,6 +14,7 @@ class VerificationCodeState extends Equatable {
   List<Object?> get props => [
         otp,
       ];
+
   VerificationCodeState copyWith({
     String? otp,
   }) {

@@ -10,9 +10,13 @@ enum PointsStateStatus {
 
 extension PointsStateX on PointsState {
   bool get isInitial => status == PointsStateStatus.initial;
+
   bool get isLoading => status == PointsStateStatus.loading;
+
   bool get isLoaded => status == PointsStateStatus.loaded;
+
   bool get isLoadingMore => status == PointsStateStatus.loadingMore;
+
   bool get isError => status == PointsStateStatus.error;
 }
 

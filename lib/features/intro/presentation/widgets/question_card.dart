@@ -12,6 +12,7 @@ class QuestionCard extends StatefulWidget {
       required this.isSomethingElse,
       required this.onBack,
       required this.onChanged});
+
   final Question question;
   final void Function(Question question) onNextPressed;
   final void Function(Answer answer) onChanged;
@@ -109,6 +110,7 @@ class AnswerTile extends StatelessWidget {
       required this.answer,
       required this.value,
       required this.onChanged});
+
   final Answer answer;
   final String? value;
   final ValueChanged<String> onChanged;

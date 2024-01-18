@@ -1,6 +1,7 @@
 import 'package:equatable/equatable.dart';
-import 'package:masaj/features/legal/models/legal_model.dart';
 import 'package:masaj/core/app_export.dart';
+import 'package:masaj/features/legal/models/legal_model.dart';
+
 part 'legal_state.dart';
 
 /// A bloc that manages the state of a Legal according to the event that is dispatched to it.

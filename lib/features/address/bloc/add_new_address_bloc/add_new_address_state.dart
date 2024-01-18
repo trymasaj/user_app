@@ -50,6 +50,7 @@ class AddNewAddressState extends Equatable {
         isSelectedSwitch,
         addNewAddressModelObj,
       ];
+
   AddNewAddressState copyWith({
     TextEditingController? nameEditTextController,
     TextEditingController? blockEditTextController,

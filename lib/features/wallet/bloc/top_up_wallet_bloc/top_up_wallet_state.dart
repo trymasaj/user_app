@@ -11,15 +11,20 @@ class TopUpWalletState extends Equatable {
   final CouponCode couponCode;
   final int selectedPackageIndex;
   final DataLoadState<List<Package>> packages;
+
   List<Package> get loadedPackages =>
       (packages as DataLoadLoadedState<List<Package>>).data;
+
   Package get selectedPackage => loadedPackages[selectedPackageIndex];
+
   @override
   List<Object> get props => [couponCode, packages, selectedPackageIndex];
+
   factory TopUpWalletState.initial() => TopUpWalletState(
       selectedPackageIndex: -1,
       couponCode: CouponCode(''),
       packages: DataLoadState.initial());
+
   TopUpWalletState copyWith(
       {CouponCode? couponCode,
       DataLoadState<List<Package>>? packages,

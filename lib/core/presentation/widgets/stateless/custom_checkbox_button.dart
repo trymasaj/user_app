@@ -63,6 +63,7 @@ class CustomCheckboxButton extends StatelessWidget {
           child: (isRightCheck ?? false) ? rightSideCheckbox : leftSideCheckbox,
         ),
       );
+
   Widget get leftSideCheckbox => Row(
         children: [
           Padding(
@@ -72,6 +73,7 @@ class CustomCheckboxButton extends StatelessWidget {
           isExpandedText ? Expanded(child: textWidget) : textWidget,
         ],
       );
+
   Widget get rightSideCheckbox => Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
@@ -82,11 +84,13 @@ class CustomCheckboxButton extends StatelessWidget {
           ),
         ],
       );
+
   Widget get textWidget => Text(
         text ?? '',
         textAlign: textAlignment ?? TextAlign.center,
         style: textStyle ?? CustomTextStyles.bodyMediumOnPrimary_2,
       );
+
   Widget get checkboxWidget => SizedBox(
         height: iconSize,
         width: iconSize,

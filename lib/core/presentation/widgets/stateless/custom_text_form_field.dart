@@ -96,6 +96,7 @@ class CustomTextFormField extends StatelessWidget {
           validator: validator,
         ),
       );
+
   InputDecoration get decoration => InputDecoration(
         hintText: hintText ?? '',
         hintStyle: hintStyle ?? theme.textTheme.bodyMedium,
@@ -141,23 +142,28 @@ extension TextFormFieldStyleHelper on CustomTextFormField {
         borderRadius: BorderRadius.circular(8.w),
         borderSide: BorderSide.none,
       );
+
   static OutlineInputBorder get fillGrayTL12 => OutlineInputBorder(
         borderRadius: BorderRadius.circular(12.w),
         borderSide: BorderSide.none,
       );
+
   static OutlineInputBorder get fillGrayTL121 => OutlineInputBorder(
         borderRadius: BorderRadius.circular(12.w),
         borderSide: BorderSide.none,
       );
+
   static OutlineInputBorder get gradientSecondaryContainerToDeepOrange =>
       OutlineInputBorder(
         borderRadius: BorderRadius.circular(12.w),
         borderSide: BorderSide.none,
       );
+
   static OutlineInputBorder get fillRed => OutlineInputBorder(
         borderRadius: BorderRadius.circular(8.w),
         borderSide: BorderSide.none,
       );
+
   static OutlineInputBorder get outlineBlueGrayTL12 => OutlineInputBorder(
         borderRadius: BorderRadius.circular(12.w),
         borderSide: BorderSide(

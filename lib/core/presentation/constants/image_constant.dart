@@ -4,6 +4,7 @@ class ImageConstant {
 
   // 4-Splash screen images
   static String imgBg = '$imagePath/img_bg.png';
+
   // 4-Splash screen images
   static String masajBackground = '$imagePath/masaj_background.png';
 

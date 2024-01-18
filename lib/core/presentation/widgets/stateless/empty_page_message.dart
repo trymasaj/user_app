@@ -1,7 +1,6 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
-import 'package:easy_localization/easy_localization.dart';
-
 import 'package:masaj/core/data/connection/connection_checker.dart';
 import 'package:masaj/core/presentation/colors/app_colors.dart';
 import 'package:masaj/core/presentation/widgets/stateless/default_button.dart';
@@ -26,12 +25,14 @@ class EmptyPageMessage extends StatelessWidget {
 
   final String? _message;
   final String? _svgImage;
+
   bool get _isLink => _svgImage?.contains('http') ?? false;
 
   final double _heightRatio;
   final Color? _textColor;
 
   final RefreshCallback? _onRefresh;
+
   @override
   Widget build(BuildContext context) {
     final height = MediaQuery.of(context).size.height;

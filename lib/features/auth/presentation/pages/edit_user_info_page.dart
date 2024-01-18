@@ -1,27 +1,25 @@
-import 'package:masaj/core/presentation/widgets/stateless/title_text.dart';
-
+import 'package:easy_localization/easy_localization.dart';
+import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:masaj/core/domain/enums/age_group.dart';
 import 'package:masaj/core/domain/enums/gender.dart';
 import 'package:masaj/core/presentation/colors/app_colors.dart';
-import 'package:masaj/core/presentation/widgets/stateful/custom_drop_down_menu.dart';
-import 'package:masaj/features/auth/data/models/user.dart';
-import 'package:masaj/core/presentation/widgets/stateless/custom_loading.dart';
-
 import 'package:masaj/core/presentation/navigation/navigator_helper.dart';
 import 'package:masaj/core/presentation/overlay/show_snack_bar.dart';
+import 'package:masaj/core/presentation/widgets/stateful/custom_drop_down_menu.dart';
+import 'package:masaj/core/presentation/widgets/stateless/custom_app_page.dart';
+import 'package:masaj/core/presentation/widgets/stateless/custom_loading.dart';
+import 'package:masaj/core/presentation/widgets/stateless/default_button.dart';
 import 'package:masaj/core/presentation/widgets/stateless/text_fields/email_text_form_field.dart';
 import 'package:masaj/core/presentation/widgets/stateless/text_fields/first_name_text_form_field.dart';
-import 'package:masaj/core/presentation/widgets/stateless/custom_app_page.dart';
-import 'package:masaj/core/presentation/widgets/stateless/default_button.dart';
-import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:easy_localization/easy_localization.dart';
-
+import 'package:masaj/core/presentation/widgets/stateless/title_text.dart';
+import 'package:masaj/features/auth/data/models/user.dart';
 import 'package:masaj/features/auth/presentation/blocs/auth_cubit/auth_cubit.dart';
 import 'package:masaj/features/auth/presentation/widgets/user_image_selection_widget.dart';
 
 class EditUserInfoPage extends StatefulWidget {
   static const routeName = '/EditUserInfoPage';
+
   const EditUserInfoPage({super.key});
 
   @override

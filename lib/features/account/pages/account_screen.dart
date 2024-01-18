@@ -1,13 +1,12 @@
+import 'package:flutter/material.dart';
 import 'package:masaj/core/app_export.dart';
 import 'package:masaj/core/presentation/navigation/navigator_helper.dart';
 import 'package:masaj/core/presentation/widgets/stateless/border_tile.dart';
+import 'package:masaj/features/account/bloc/account_bloc/account_bloc.dart';
+import 'package:masaj/features/account/models/account_model.dart';
 import 'package:masaj/features/account/pages/create_new_password_screen.dart';
 import 'package:masaj/features/account/pages/my_profile_screen.dart';
 import 'package:masaj/features/account/pages/phone_screen.dart';
-
-import 'package:masaj/features/account/bloc/account_bloc/account_bloc.dart';
-import 'package:masaj/features/account/models/account_model.dart';
-import 'package:flutter/material.dart';
 
 class AccountScreen extends StatelessWidget {
   static const routeName = '/account';
@@ -112,6 +111,7 @@ class AccountScreen extends StatelessWidget {
     );
   }
 */
+
   /// Common widget
   Widget _buildTile({
     required String image,

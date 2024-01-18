@@ -3,5 +3,6 @@ enum ProviderEnum {
   Apple(2);
 
   final int value;
+
   const ProviderEnum(this.value);
 }

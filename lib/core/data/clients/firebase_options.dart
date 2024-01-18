@@ -63,8 +63,10 @@ class DefaultFirebaseOptions {
     messagingSenderId: '63212711751',
     projectId: 'padel-rush',
     storageBucket: 'padel-rush.appspot.com',
-    androidClientId: '63212711751-d0bgdv9keueon76o8jjp2l24u9ig5h84.apps.googleusercontent.com',
-    iosClientId: '63212711751-d9muvvreerkqvgmjrb2fa5mghfbthvlt.apps.googleusercontent.com',
+    androidClientId:
+        '63212711751-d0bgdv9keueon76o8jjp2l24u9ig5h84.apps.googleusercontent.com',
+    iosClientId:
+        '63212711751-d9muvvreerkqvgmjrb2fa5mghfbthvlt.apps.googleusercontent.com',
     iosBundleId: 'sa.sela.padel',
   );
 }

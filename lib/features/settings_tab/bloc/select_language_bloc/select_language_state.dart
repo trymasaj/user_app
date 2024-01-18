@@ -18,6 +18,7 @@ class SelectLanguageState extends Equatable {
         chooseYourPreferredLanguage,
         selectLanguageModelObj,
       ];
+
   SelectLanguageState copyWith({
     String? chooseYourPreferredLanguage,
     SelectLanguageModel? selectLanguageModelObj,

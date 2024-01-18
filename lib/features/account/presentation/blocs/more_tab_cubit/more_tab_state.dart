@@ -10,9 +10,13 @@ enum MoreTabStateStatus {
 
 extension MoreTabStateX on MoreTabState {
   bool get isInitial => status == MoreTabStateStatus.initial;
+
   bool get isLoading => status == MoreTabStateStatus.loading;
+
   bool get isLoaded => status == MoreTabStateStatus.loaded;
+
   bool get isError => status == MoreTabStateStatus.error;
+
   bool get isDisplayingShowCase =>
       status == MoreTabStateStatus.displayingShowCase;
 }

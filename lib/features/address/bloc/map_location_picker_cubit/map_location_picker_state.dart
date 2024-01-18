@@ -18,7 +18,8 @@ class MapLocationPickerState extends Equatable {
 
   @override
   // TODO: implement props
-  List<Object?> get props => [address,latLng];
+  List<Object?> get props => [address, latLng];
+
   factory MapLocationPickerState.initial() {
     return MapLocationPickerState(address: '', latLng: none());
   }

@@ -1,7 +1,8 @@
 import 'package:equatable/equatable.dart';
 import 'package:flutter/material.dart';
-import 'package:masaj/features/address/models/add_new_address_model.dart';
 import 'package:masaj/core/app_export.dart';
+import 'package:masaj/features/address/models/add_new_address_model.dart';
+
 part 'add_new_address_state.dart';
 
 /// A bloc that manages the state of a AddNewAddress according to the event that is dispatched to it.

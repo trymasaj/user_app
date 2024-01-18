@@ -5,6 +5,7 @@ import 'package:flutter/material.dart';
 const num FIGMA_DESIGN_WIDTH = 375;
 const num FIGMA_DESIGN_HEIGHT = 812;
 const num FIGMA_DESIGN_STATUS_BAR = 0;
+
 typedef ResponsiveBuild = Widget Function(
   BuildContext context,
   Orientation orientation,

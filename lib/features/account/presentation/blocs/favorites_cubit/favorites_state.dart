@@ -11,10 +11,15 @@ enum FavoritesStateStatus {
 
 extension FavoritesStateX on FavoritesState {
   bool get isInitial => status == FavoritesStateStatus.initial;
+
   bool get isLoading => status == FavoritesStateStatus.loading;
+
   bool get isLoaded => status == FavoritesStateStatus.loaded;
+
   bool get isLoadingMore => status == FavoritesStateStatus.loadingMore;
+
   bool get isError => status == FavoritesStateStatus.error;
+
   bool get isRefreshing => status == FavoritesStateStatus.refreshing;
 }
 

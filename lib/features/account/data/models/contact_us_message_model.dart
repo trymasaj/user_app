@@ -4,6 +4,7 @@ class ContactUsMessage {
   final String name;
   final String email;
   final String message;
+
   ContactUsMessage({
     required this.name,
     required this.email,

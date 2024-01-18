@@ -7,6 +7,7 @@ class BorderTile extends StatelessWidget {
       required this.image,
       required this.text,
       required this.onTap});
+
   final String image;
   final String text;
   final VoidCallback onTap;

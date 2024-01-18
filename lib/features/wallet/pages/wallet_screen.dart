@@ -1,13 +1,10 @@
+import 'package:flutter/material.dart';
 import 'package:masaj/core/app_export.dart';
 import 'package:masaj/core/data/di/injection_setup.dart';
 import 'package:masaj/core/presentation/navigation/navigator_helper.dart';
-import 'package:masaj/core/data/di/injector.dart';
-import 'package:masaj/core/utils/navigator_helper.dart';
-import 'package:masaj/core/di/injector.dart';
+import 'package:masaj/features/wallet/application/wallet_bloc/wallet_bloc.dart';
 import 'package:masaj/features/wallet/pages/top_up_wallet_screen.dart';
 import 'package:masaj/features/wallet/widgets/transactionhistory_item_widget.dart';
-import 'package:masaj/features/wallet/application/wallet_bloc/wallet_bloc.dart';
-import 'package:flutter/material.dart';
 
 class WalletScreen extends StatelessWidget {
   static const routeName = '/wallet';

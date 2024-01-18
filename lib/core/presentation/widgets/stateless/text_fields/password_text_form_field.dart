@@ -1,8 +1,8 @@
-import 'package:masaj/core/data/validator/validator.dart';
-import 'package:masaj/core/presentation/widgets/stateless/text_fields/default_text_form_field.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:masaj/core/data/validator/validator.dart';
+import 'package:masaj/core/presentation/widgets/stateless/text_fields/default_text_form_field.dart';
 
 class PasswordTextFormField extends StatefulWidget {
   const PasswordTextFormField({

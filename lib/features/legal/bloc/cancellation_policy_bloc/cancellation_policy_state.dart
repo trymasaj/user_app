@@ -12,6 +12,7 @@ class CancellationPolicyState extends Equatable {
   List<Object?> get props => [
         cancellationPolicyModelObj,
       ];
+
   CancellationPolicyState copyWith(
       {CancellationPolicyModel? cancellationPolicyModelObj}) {
     return CancellationPolicyState(

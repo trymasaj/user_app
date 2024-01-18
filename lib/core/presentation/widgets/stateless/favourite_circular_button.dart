@@ -2,7 +2,9 @@ import 'package:flutter/material.dart';
 
 class FavouriteCircularButton extends StatelessWidget {
   const FavouriteCircularButton({super.key, required this.isFavourite});
+
   final bool isFavourite;
+
   @override
   Widget build(BuildContext context) {
     return Container(

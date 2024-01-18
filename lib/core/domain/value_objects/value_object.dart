@@ -1,4 +1,4 @@
-import 'package:dartz/dartz.dart';
+
 
 abstract class ValueObject<T> {
   const ValueObject(this.value);
@@ -6,10 +6,8 @@ abstract class ValueObject<T> {
   final T value;
 
   T getOrCrash() {
-
     return value;
   }
-
 
   bool isValid(T input) {
     return true;

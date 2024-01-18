@@ -60,9 +60,11 @@ class CustomRadioButton extends StatelessWidget {
   }
 
   bool get isGradient => gradient != null;
+
   BoxDecoration get gradientDecoration => BoxDecoration(gradient: gradient);
+
   Widget get buildRadioButtonWidget => InkWell(
-    borderRadius:BorderRadius.circular(12.w) ,
+        borderRadius: BorderRadius.circular(12.w),
         onTap: () {
           onChange(value!);
         },
@@ -83,6 +85,7 @@ class CustomRadioButton extends StatelessWidget {
               : leftSideRadioButton,
         ),
       );
+
   Widget get leftSideRadioButton => Row(
         children: [
           Padding(
@@ -92,6 +95,7 @@ class CustomRadioButton extends StatelessWidget {
           textWidget,
         ],
       );
+
   Widget get rightSideRadioButton => Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
@@ -102,11 +106,13 @@ class CustomRadioButton extends StatelessWidget {
           ),
         ],
       );
+
   Widget get textWidget => Text(
         text ?? '',
         textAlign: textAlignment ?? TextAlign.center,
         style: textStyle ?? theme.textTheme.titleSmall,
       );
+
   Widget get radioButtonWidget => SizedBox(
         height: iconSize,
         width: iconSize,
@@ -122,14 +128,14 @@ class CustomRadioButton extends StatelessWidget {
           },
         ),
       );
+
   BoxDecoration get radioButtonDecoration =>
       BoxDecoration(color: backgroundColor);
 }
 
 /// Extension on [CustomFloatingButton] to facilitate inclusion of all types of border style etc
 extension RadioStyleHelper on CustomRadioButton {
-  static BoxDecoration get gradientContainerToDeepOrange =>
-      BoxDecoration(
+  static BoxDecoration get gradientContainerToDeepOrange => BoxDecoration(
         borderRadius: BorderRadius.circular(12.h),
         gradient: LinearGradient(
           begin: const Alignment(0.0, 0),
@@ -140,6 +146,7 @@ extension RadioStyleHelper on CustomRadioButton {
           ],
         ),
       );
+
   static BoxDecoration gradientSecondaryContainerToDeepOrange(
           bool isSelected) =>
       BoxDecoration(
@@ -156,14 +163,17 @@ extension RadioStyleHelper on CustomRadioButton {
           ],
         ),
       );
+
   static BoxDecoration get fillGray => BoxDecoration(
         color: appTheme.gray10002,
         borderRadius: BorderRadius.circular(12.w),
       );
+
   static BoxDecoration get fillGrayTL12 => BoxDecoration(
         color: appTheme.gray10001,
         borderRadius: BorderRadius.circular(12.w),
       );
+
   static BoxDecoration get outline => BoxDecoration(
         color: appTheme.gray10001,
         borderRadius: BorderRadius.circular(12.w),

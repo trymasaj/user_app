@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:masaj/core/presentation/size/size_utils.dart';
 import 'package:masaj/core/presentation/models/selection_popup_model.dart';
+import 'package:masaj/core/presentation/size/size_utils.dart';
 import 'package:masaj/core/presentation/styles/custom_text_style.dart';
 import 'package:masaj/core/presentation/theme/theme_helper.dart';
 
@@ -100,6 +100,7 @@ class CustomDropDown extends StatelessWidget {
           },
         ),
       );
+
   InputDecoration get decoration => InputDecoration(
         hintText: hintText ?? '',
         hintStyle: hintStyle ?? CustomTextStyles.bodyMediumOnErrorContainer,

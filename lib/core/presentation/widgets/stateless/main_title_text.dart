@@ -1,5 +1,5 @@
-import 'package:masaj/core/presentation/colors/app_colors.dart';
 import 'package:flutter/material.dart';
+import 'package:masaj/core/presentation/colors/app_colors.dart';
 
 class MainTitleText extends StatelessWidget {
   const MainTitleText(

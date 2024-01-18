@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-
 import 'package:masaj/core/presentation/navigation/navigator_helper.dart';
 
 class CustomBackButton extends StatelessWidget {
@@ -9,6 +8,7 @@ class CustomBackButton extends StatelessWidget {
     this.onPress,
     this.label,
   });
+
   final Color color;
   final VoidCallback? onPress;
   final String? label;

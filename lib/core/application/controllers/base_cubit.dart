@@ -5,6 +5,7 @@ abstract class BaseCubit<T> extends Cubit<T> {
   BaseCubit(super.initialState) {
     debugPrint('init $runtimeType');
   }
+
   @override
   void emit(T state) {
     if (isClosed) return;

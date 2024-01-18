@@ -1,3 +1,1 @@
-class ProvidersTabModel{
-  
-}
+class ProvidersTabModel {}

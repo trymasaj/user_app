@@ -4,6 +4,7 @@ class Topic {
   final String name;
   final String? content;
   final String? picture;
+
   Topic({
     required this.name,
     required this.content,

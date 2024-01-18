@@ -1,7 +1,6 @@
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:masaj/core/presentation/colors/app_colors.dart';
-
 import 'package:masaj/core/presentation/widgets/stateless/text_fields/main_text_form_field.dart';
 
 class SearchTextFormField extends MainTextFormField {

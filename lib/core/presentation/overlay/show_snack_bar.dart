@@ -1,10 +1,9 @@
 import 'dart:developer';
 
+import 'package:easy_localization/easy_localization.dart' hide TextDirection;
+import 'package:flutter/material.dart';
 import 'package:masaj/core/domain/exceptions/redundant_request_exception.dart';
 import 'package:masaj/core/presentation/colors/app_colors.dart';
-
-import 'package:flutter/material.dart';
-import 'package:easy_localization/easy_localization.dart' hide TextDirection;
 
 void showSnackBar(BuildContext context,
     {required dynamic message,

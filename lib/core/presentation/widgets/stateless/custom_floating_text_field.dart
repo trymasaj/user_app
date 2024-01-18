@@ -102,6 +102,7 @@ class CustomFloatingTextField extends StatelessWidget {
           validator: validator,
         ),
       );
+
   InputDecoration get decoration => InputDecoration(
         hintText: hintText ?? '',
         hintStyle: hintStyle ?? CustomTextStyles.bodyMediumOnErrorContainer,
@@ -167,6 +168,7 @@ extension FloatingTextFormFieldStyleHelper on CustomFloatingTextField {
         borderRadius: BorderRadius.circular(8.w),
         borderSide: BorderSide.none,
       );
+
   static OutlineInputBorder get fillGray => OutlineInputBorder(
         borderRadius: BorderRadius.circular(8.w),
         borderSide: BorderSide.none,

@@ -4,9 +4,13 @@ enum SplashStateStatus { initial, loading, loaded, error, isRooted }
 
 extension SplashStateX on SplashState {
   bool get isInitial => status == SplashStateStatus.initial;
+
   bool get isLoading => status == SplashStateStatus.loading;
+
   bool get isLoaded => status == SplashStateStatus.loaded;
+
   bool get isError => status == SplashStateStatus.error;
+
   bool get isRooted => status == SplashStateStatus.isRooted;
 }
 
@@ -15,6 +19,7 @@ class SplashState {
   final String? errorMessage;
   final bool? isFirstLaunch;
   final bool? isLanguageSet;
+
   const SplashState({
     this.status = SplashStateStatus.initial,
     this.errorMessage,

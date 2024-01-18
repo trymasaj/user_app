@@ -1,6 +1,4 @@
-import 'dart:ui';
 import 'package:flutter/material.dart';
-import 'package:masaj/core/data/clients/local/shared_preference_local_client.dart';
 import 'package:masaj/core/presentation/size/size_utils.dart';
 
 const navbarHeight = 62.0;
@@ -46,7 +44,6 @@ class ThemeHelper {
         _supportedColorScheme[_appTheme] ?? ColorSchemes.primaryColorScheme;
     return ThemeData(
       inputDecorationTheme: InputDecorationTheme(
-
           errorStyle: TextStyle(
             color: appTheme.redA700,
             fontSize: 12.fSize,
@@ -169,7 +166,6 @@ class TextThemes {
           fontFamily: 'Poppins',
           fontWeight: FontWeight.w400,
         ),
-
         bodyMedium: TextStyle(
           color: colorScheme.onPrimary.withOpacity(0.7),
           fontSize: 14.fSize,
@@ -268,24 +264,37 @@ class ColorSchemes {
 class PrimaryColors {
   // Black
   Color get black900 => const Color(0XFF0C0C0C);
+
   Color get black90001 => const Color(0XFF000000);
 
   // Blue
   Color get blue50 => const Color(0XFFE3EFF7);
+
   Color get blue5001 => const Color(0XFFE4EFF8);
+
   Color get blue5002 => const Color(0XFFD8ECFE);
+
   Color get blue60026 => const Color(0X262C9CDB);
 
   // BlueGray
   Color get blueGray100 => const Color(0XFFD9D9D9);
+
   Color get blueGray10001 => const Color(0XFFCFCFCF);
+
   Color get blueGray400 => const Color(0XFF729EB7);
+
   Color get blueGray40001 => const Color(0XFF8C8C8C);
+
   Color get blueGray500 => const Color(0XFF4C86A8);
+
   Color get blueGray800 => const Color(0XFF37474F);
+
   Color get blueGray900 => const Color(0XFF19223C);
+
   Color get blueGray90001 => const Color(0XFF292A30);
+
   Color get blueGray90002 => const Color(0XFF2C2E42);
+
   Color get blueGray90003 => const Color(0XFF18213C);
 
   // Cyan
@@ -293,9 +302,13 @@ class PrimaryColors {
 
   // DeepOrange
   Color get deepOrange200 => const Color(0XFFEFB286);
+
   Color get deepOrange20016 => const Color(0X16EFB287);
+
   Color get deepOrange400 => const Color(0XFFFC8B3C);
+
   Color get deepOrangeA100 => const Color(0XFFF3A46C);
+
   Color get deepOrangeA10001 => const Color(0XFFECA573);
 
   // DeepPurple
@@ -303,36 +316,67 @@ class PrimaryColors {
 
   // Gray
   Color get gray100 => const Color(0XFFF8F7F7);
+
   Color get gray10001 => const Color(0XFFF6F6F6);
+
   Color get gray10002 => const Color(0XFFF5F5F5);
+
   Color get gray200 => const Color(0XFFECECEC);
+
   Color get gray20001 => const Color(0XFFEEEEEE);
+
   Color get gray20002 => const Color(0XFFF0F0F0);
+
   Color get gray20003 => const Color(0XFFEAEAEA);
+
   Color get gray300 => const Color(0XFFE6E6E6);
+
   Color get gray30001 => const Color(0XFFDDDDDD);
+
   Color get gray400 => const Color(0XFFC4A0B0);
+
   Color get gray40001 => const Color(0XFFB1B1B1);
+
   Color get gray40002 => const Color(0XFFBDBDBD);
+
   Color get gray40003 => const Color(0XFFD1A6BA);
+
   Color get gray50 => const Color(0XFFF9F9F9);
+
   Color get gray500 => const Color(0XFFA0A0A0);
+
   Color get gray50001 => const Color(0XFF9D9898);
+
   Color get gray50014 => const Color(0X14BCA687);
+
   Color get gray50033 => const Color(0X33989898);
+
   Color get gray5001 => const Color(0XFFF8F8F8);
+
   Color get gray5002 => const Color(0XFFF7F8FB);
+
   Color get gray5042 => const Color(0X42FCFCFC);
+
   Color get gray600 => const Color(0XFF7F7979);
+
   Color get gray60001 => const Color(0XFF737373);
+
   Color get gray60002 => const Color(0XFF696E79);
+
   Color get gray700 => const Color(0XFF5C5E5E);
+
   Color get gray800 => const Color(0XFF434343);
+
   Color get gray80070 => const Color(0X703C3C3C);
+
   Color get gray900 => const Color(0XFF222222);
+
   Color get gray90001 => const Color(0XFF1D212C);
+
   Color get gray90002 => const Color(0XFF302C18);
+
   Color get gray90003 => const Color(0XFF1D202B);
+
   Color get gray => const Color(0xff181b28b2);
 
   // Grayf
@@ -340,11 +384,14 @@ class PrimaryColors {
 
   // Green
   Color get green700 => const Color(0XFF3D9635);
+
   Color get green70001 => const Color(0XFF1A8A4D);
+
   Color get green800 => const Color(0XFF287D3C);
 
   // Indigo
   Color get indigo20021 => const Color(0X219CB1D5);
+
   Color get indigo600 => const Color(0XFF2E52B2);
 
   // LightBlue
@@ -358,21 +405,31 @@ class PrimaryColors {
 
   // Pink
   Color get pink100 => const Color(0XFFEBC0D4);
+
   Color get pink10001 => const Color(0XFFFFB3C7);
+
   Color get pink700 => const Color(0XFFB63D52);
+
   Color get pink70019 => const Color(0X19B73E53);
 
   // Red
   Color get red200 => const Color(0XFFE0AD88);
+
   Color get red400 => const Color(0XFFF56161);
+
   Color get red50 => const Color(0XFFFEEFEF);
+
   Color get red600 => const Color(0XFFE43E2B);
+
   Color get red800 => const Color(0XFF9A3A3A);
+
   Color get red80014 => const Color(0X149A3B3B);
+
   Color get redA700 => const Color(0XFFDA1414);
 
   // Teal
   Color get teal200 => const Color(0XFF74ACCD);
+
   Color get teal800 => const Color(0XFF007F42);
 
   // Yellow
@@ -380,4 +437,5 @@ class PrimaryColors {
 }
 
 PrimaryColors get appTheme => ThemeHelper().themeColor();
+
 ThemeData get theme => ThemeHelper().themeData();

@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 
 class ProvidersTab extends StatelessWidget {
   const ProvidersTab({super.key});
+
   static const routeName = '/ProvidersTabPage';
 
   @override

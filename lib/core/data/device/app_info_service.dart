@@ -6,6 +6,7 @@ abstract class AppInfoService {
 
 class AppInfoServiceImpl implements AppInfoService {
   AppInfo? _appInfo;
+
   @override
   Future<AppInfo> init() async {
     if (_appInfo != null) return _appInfo!;

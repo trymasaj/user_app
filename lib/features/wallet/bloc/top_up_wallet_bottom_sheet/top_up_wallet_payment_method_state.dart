@@ -12,6 +12,7 @@ class TopUpWalletPaymentMethodState extends Equatable {
   List<Object?> get props => [
         topUpWalletPaymentMethodModelObj,
       ];
+
   TopUpWalletPaymentMethodState copyWith(
       {TopUpWalletPaymentMethodModel? topUpWalletPaymentMethodModelObj}) {
     return TopUpWalletPaymentMethodState(

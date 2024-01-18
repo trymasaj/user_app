@@ -1,7 +1,6 @@
+import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:masaj/core/presentation/widgets/stateless/custom_cached_network_image.dart';
-
-import 'package:flutter/material.dart';
 
 class CustomAppPage extends StatelessWidget {
   ///If `backgroundPath` empty then the default option is `assets/images/background.png`

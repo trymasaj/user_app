@@ -1,30 +1,22 @@
 import 'package:flutter/material.dart' hide Notification;
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:lazy_load_scrollview/lazy_load_scrollview.dart';
-import 'package:masaj/features/home/data/models/notification.dart';
-import 'package:masaj/features/home/presentation/bloc/notificaions_cubit/notifications_cubit.dart';
-import 'package:masaj/features/home/presentation/bloc/notificaions_cubit/notifications_state.dart';
-import 'package:masaj/core/presentation/widgets/stateless/subtitle_text.dart';
-
-import 'package:masaj/core/presentation/navigation/navigator_helper.dart';
 import 'package:masaj/core/data/di/injector.dart';
 import 'package:masaj/core/presentation/colors/app_colors.dart';
+import 'package:masaj/core/presentation/navigation/navigator_helper.dart';
 import 'package:masaj/core/presentation/overlay/show_snack_bar.dart';
 import 'package:masaj/core/presentation/widgets/stateless/custom_app_page.dart';
 import 'package:masaj/core/presentation/widgets/stateless/custom_loading.dart';
 import 'package:masaj/core/presentation/widgets/stateless/empty_page_message.dart';
+import 'package:masaj/core/presentation/widgets/stateless/subtitle_text.dart';
 import 'package:masaj/core/presentation/widgets/stateless/title_text.dart';
-import '../../../../core/utils/navigator_helper.dart';
-import '../../../../core/di/injector.dart';
-import '../../../../res/style/app_colors.dart';
-import '../../../../shared_widgets/other/show_snack_bar.dart';
-import '../../../../shared_widgets/stateless/custom_app_page.dart';
-import '../../../../shared_widgets/stateless/custom_loading.dart';
-import '../../../../shared_widgets/stateless/empty_page_message.dart';
-import '../../../../shared_widgets/stateless/title_text.dart';
+import 'package:masaj/features/home/data/models/notification.dart';
+import 'package:masaj/features/home/presentation/bloc/notificaions_cubit/notifications_cubit.dart';
+import 'package:masaj/features/home/presentation/bloc/notificaions_cubit/notifications_state.dart';
 
 class NotificationsPage extends StatelessWidget {
   static const routeName = '/NotificationsPage';
+
   const NotificationsPage({
     super.key,
   });

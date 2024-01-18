@@ -1,12 +1,12 @@
+import 'package:collection/collection.dart';
 import 'package:flutter/material.dart';
 import 'package:masaj/core/app_export.dart';
-import 'package:masaj/features/quiz/domain/entities/question.dart';
-import 'package:masaj/features/quiz/application/quiz_page_cubit.dart';
-import 'package:masaj/features/intro/presentation/widgets/question_card.dart';
-import 'package:masaj/core/presentation/widgets/stateless/dots_indicator.dart';
-import 'package:collection/collection.dart';
-import 'package:masaj/core/presentation/widgets/stateless/default_button.dart';
 import 'package:masaj/core/presentation/widgets/stateless/custom_text.dart';
+import 'package:masaj/core/presentation/widgets/stateless/default_button.dart';
+import 'package:masaj/core/presentation/widgets/stateless/dots_indicator.dart';
+import 'package:masaj/features/intro/presentation/widgets/question_card.dart';
+import 'package:masaj/features/quiz/application/quiz_page_cubit.dart';
+import 'package:masaj/features/quiz/domain/entities/question.dart';
 
 class QuizPage extends StatefulWidget {
   const QuizPage({super.key});
@@ -18,6 +18,7 @@ class QuizPage extends StatefulWidget {
 class _QuizPageState extends State<QuizPage> {
   List<Question> get questions =>
       context.read<QuizPageCubit>().state.questions.questions;
+
   @override
   Widget build(BuildContext context) {
     final cubit = context.read<QuizPageCubit>();

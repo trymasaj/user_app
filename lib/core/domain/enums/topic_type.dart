@@ -4,5 +4,6 @@ enum TopicType {
   Terms(3);
 
   final int value;
+
   const TopicType(this.value);
 }

@@ -36,7 +36,10 @@ class ChooseLanguageState {
   int get hashCode => status.hashCode ^ errorMessage.hashCode;
 
   bool get isInitial => status == ChooseLanguageStateStatus.initial;
+
   bool get isLoading => status == ChooseLanguageStateStatus.loading;
+
   bool get isLanguageSet => status == ChooseLanguageStateStatus.languageSet;
+
   bool get isError => status == ChooseLanguageStateStatus.error;
 }

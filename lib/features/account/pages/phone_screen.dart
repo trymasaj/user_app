@@ -1,11 +1,10 @@
 import 'package:country_pickers/country.dart';
 import 'package:country_pickers/country_pickers.dart';
+import 'package:flutter/material.dart';
 import 'package:masaj/core/app_export.dart';
 import 'package:masaj/core/presentation/widgets/stateless/custom_phone_number.dart';
-
 import 'package:masaj/features/account/bloc/phone_bloc/phone_bloc.dart';
 import 'package:masaj/features/account/models/phone_model.dart';
-import 'package:flutter/material.dart';
 
 // ignore_for_file: must_be_immutable
 class PhoneScreen extends StatelessWidget {
@@ -17,7 +16,8 @@ class PhoneScreen extends StatelessWidget {
 
   static Widget builder(BuildContext context) {
     return BlocProvider<PhoneBloc>(
-        create: (context) => PhoneBloc(PhoneState(phoneModelObj: const PhoneModel())),
+        create: (context) =>
+            PhoneBloc(PhoneState(phoneModelObj: const PhoneModel())),
         child: PhoneScreen());
   }
 

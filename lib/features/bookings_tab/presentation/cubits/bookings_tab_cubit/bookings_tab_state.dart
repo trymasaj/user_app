@@ -9,13 +9,15 @@ enum BookingsTabStateStatus {
 
 extension BookingsTabStateX on BookingsTabState {
   bool get isInitial => status == BookingsTabStateStatus.initial;
+
   bool get isLoading => status == BookingsTabStateStatus.loading;
+
   bool get isLoaded => status == BookingsTabStateStatus.loaded;
+
   bool get isError => status == BookingsTabStateStatus.error;
 }
 
 @immutable
-
 class BookingsTabState {
   final BookingsTabStateStatus status;
   final String? errorMessage;
@@ -35,7 +37,7 @@ class BookingsTabState {
   }
 
   @override
-  int get hashCode =>  status.hashCode ^ errorMessage.hashCode;
+  int get hashCode => status.hashCode ^ errorMessage.hashCode;
 
   BookingsTabState copyWith({
     BookingsTabStateStatus? status,

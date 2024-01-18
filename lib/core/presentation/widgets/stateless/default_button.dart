@@ -2,8 +2,8 @@ import 'dart:async';
 
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
-import 'package:masaj/core/presentation/colors/app_colors.dart';
 import 'package:masaj/core/data/typedefs/type_defs.dart';
+import 'package:masaj/core/presentation/colors/app_colors.dart';
 
 class DefaultButton extends StatefulWidget {
   const DefaultButton(

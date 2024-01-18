@@ -1,11 +1,13 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
-import 'package:masaj/features/providers_tab/data/models/therapist.dart';
 import 'package:flutter_rating_bar/flutter_rating_bar.dart';
+import 'package:masaj/features/providers_tab/data/models/therapist.dart';
 
 class TherapistTile extends StatelessWidget {
   const TherapistTile({super.key, required this.therapist});
+
   final TherapistSummaryData therapist;
+
   @override
   Widget build(BuildContext context) {
     return Container(

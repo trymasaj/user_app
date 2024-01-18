@@ -6,6 +6,7 @@ class Media {
   final String? name;
   final String src;
   final MediaType mediaType;
+
   Media({
     this.name,
     required this.src,

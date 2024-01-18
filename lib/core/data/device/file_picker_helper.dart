@@ -1,5 +1,4 @@
 import 'package:image_picker/image_picker.dart';
-
 import 'package:masaj/core/domain/exceptions/exceed_file_size_limit_exception.dart';
 
 enum PickerType {

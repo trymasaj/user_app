@@ -12,6 +12,7 @@ class ReschedulePolicyState extends Equatable {
   List<Object?> get props => [
         reschedulePolicyModelObj,
       ];
+
   ReschedulePolicyState copyWith(
       {ReschedulePolicyModel? reschedulePolicyModelObj}) {
     return ReschedulePolicyState(

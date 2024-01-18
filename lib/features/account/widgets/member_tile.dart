@@ -2,13 +2,13 @@ import 'package:flutter/material.dart';
 import 'package:masaj/core/app_export.dart';
 import 'package:masaj/features/account/models/member.dart';
 
-
 class MemberTile extends StatelessWidget {
   const MemberTile({
-    super.key, required this.member,
+    super.key,
+    required this.member,
   });
-  final Member member;
 
+  final Member member;
 
   @override
   Widget build(BuildContext context) {

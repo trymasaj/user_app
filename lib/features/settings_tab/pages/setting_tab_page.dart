@@ -1,18 +1,18 @@
+import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:masaj/core/app_export.dart';
 import 'package:masaj/core/presentation/navigation/navigator_helper.dart';
 import 'package:masaj/features/account/pages/account_screen.dart';
+import 'package:masaj/features/account/pages/manage_members_screen.dart';
 import 'package:masaj/features/address/pages/map_location_picker.dart';
 import 'package:masaj/features/intro/presentation/pages/choose_language_page.dart';
 import 'package:masaj/features/legal/pages/legal_screen.dart';
-import 'package:masaj/features/account/pages/manage_members_screen.dart';
+import 'package:masaj/features/medical_form/pages/medical_form_screen.dart';
 import 'package:masaj/features/settings_tab/bloc/settings_bloc/setting_bloc.dart';
 import 'package:masaj/features/settings_tab/bloc/settings_bloc/setting_state.dart';
-import 'package:masaj/features/medical_form/pages/medical_form_screen.dart';
+import 'package:masaj/features/settings_tab/models/settings_model.dart';
 import 'package:masaj/features/settings_tab/widgets/setting_tile.dart';
 import 'package:masaj/features/wallet/pages/wallet_screen.dart';
-import 'package:masaj/features/settings_tab/models/settings_model.dart';
-import 'package:flutter/material.dart';
 
 // ignore_for_file: must_be_immutable
 class SettingsTabPage extends StatelessWidget {

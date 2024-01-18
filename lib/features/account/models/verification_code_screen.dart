@@ -1,11 +1,11 @@
+import 'package:flutter/material.dart';
 import 'package:masaj/core/app_export.dart';
 import 'package:masaj/core/presentation/widgets/stateless/custom_pin_code_text_field.dart';
-
 import 'package:masaj/features/account/bloc/verification_code_bloc/verification_code_bloc.dart';
-import 'package:flutter/material.dart';
 
 class VerificationCodeScreen extends StatefulWidget {
   static const routeName = '/verification-code';
+
   const VerificationCodeScreen({super.key});
 
   static Widget builder(BuildContext context) {
@@ -21,6 +21,7 @@ class VerificationCodeScreen extends StatefulWidget {
 
 class _VerificationCodeScreenState extends State<VerificationCodeScreen> {
   final otpController = TextEditingController();
+
   @override
   void dispose() {
     otpController.dispose();

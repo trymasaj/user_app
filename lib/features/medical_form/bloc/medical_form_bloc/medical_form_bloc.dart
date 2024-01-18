@@ -1,6 +1,7 @@
 import 'package:equatable/equatable.dart';
-import 'package:masaj/core/presentation/models/selection_popup_model.dart';
 import 'package:masaj/core/app_export.dart';
+import 'package:masaj/core/presentation/models/selection_popup_model.dart';
+
 part 'medical_form_state.dart';
 
 /// A bloc that manages the state of a MedicalForm according to the event that is dispatched to it.

@@ -3,15 +3,14 @@ import 'package:masaj/core/application/controllers/base_cubit.dart';
 import 'package:masaj/core/application/states/app_state.dart';
 import 'package:masaj/features/wallet/domain/entites/package.dart';
 import 'package:masaj/features/wallet/domain/repos/wallet_repo.dart';
-import 'package:masaj/features/wallet/models/top_up_wallet_model.dart';
-import 'package:masaj/core/app_export.dart';
-import 'package:masaj/features/wallet/models/userprofile8_item_model.dart';
 import 'package:masaj/features/wallet/value_objects/coupon_code.dart';
+
 part 'top_up_wallet_state.dart';
 
 /// A bloc that manages the state of a TopUpWallet according to the event that is dispatched to it.
 class TopUpWalletBloc extends BaseCubit<TopUpWalletState> {
   final WalletRepository _repository;
+
   TopUpWalletBloc(this._repository) : super(TopUpWalletState.initial());
 
   void onChangedCouponCode(CouponCode code) {

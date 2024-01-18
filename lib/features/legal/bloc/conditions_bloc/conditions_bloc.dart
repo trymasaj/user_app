@@ -1,6 +1,7 @@
 import 'package:equatable/equatable.dart';
 import 'package:masaj/core/app_export.dart';
 import 'package:masaj/features/legal/models/conditionslist_item_model.dart';
+
 part 'conditions_state.dart';
 
 /// A bloc that manages the state of a Conditions according to the event that is dispatched to it.

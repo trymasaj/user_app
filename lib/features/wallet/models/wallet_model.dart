@@ -18,5 +18,6 @@ class Wallet extends Equatable {
 
   @override
   List<Object?> get props => [transactions];
+
   factory Wallet.initial() => Wallet(transactions: const []);
 }

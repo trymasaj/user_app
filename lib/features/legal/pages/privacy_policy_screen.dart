@@ -1,8 +1,8 @@
-import 'package:masaj/core/app_export.dart';
-import 'package:masaj/features/legal/bloc/privacy_policy_bloc/privacy_policy_state.dart';
-import 'package:masaj/features/legal/bloc/privacy_policy_bloc/privacy_policy_bloc.dart';
-import 'package:masaj/features/legal/models/privacy_policy_model.dart';
 import 'package:flutter/material.dart';
+import 'package:masaj/core/app_export.dart';
+import 'package:masaj/features/legal/bloc/privacy_policy_bloc/privacy_policy_bloc.dart';
+import 'package:masaj/features/legal/bloc/privacy_policy_bloc/privacy_policy_state.dart';
+import 'package:masaj/features/legal/models/privacy_policy_model.dart';
 
 class PrivacyPolicyScreen extends StatelessWidget {
   static const routeName = '/privacy_policy';

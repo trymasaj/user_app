@@ -5,6 +5,7 @@ class ExternalItemModel {
   final String? description;
   final String? picture;
   final String? url;
+
   ExternalItemModel({
     required this.name,
     this.description,

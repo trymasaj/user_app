@@ -5,13 +5,12 @@ import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
-import 'package:size_helper/size_helper.dart';
-
-import 'package:masaj/core/domain/exceptions/exceed_file_size_limit_exception.dart';
 import 'package:masaj/core/data/device/file_picker_helper.dart';
-import 'package:masaj/core/presentation/navigation/navigator_helper.dart';
+import 'package:masaj/core/domain/exceptions/exceed_file_size_limit_exception.dart';
 import 'package:masaj/core/presentation/colors/app_colors.dart';
+import 'package:masaj/core/presentation/navigation/navigator_helper.dart';
 import 'package:masaj/core/presentation/overlay/show_snack_bar.dart';
+import 'package:size_helper/size_helper.dart';
 
 class UserProfileImagePicker extends StatefulWidget {
   const UserProfileImagePicker({
@@ -168,7 +167,8 @@ class _UserProfileImagePickerState extends State<UserProfileImagePicker> {
     } on ExceedFileSizeLimitException catch (e) {
       showSnackBar(
         context,
-        message: 'image_exceed_size_limit${e.fileSizeLimit == null ? '' : ': 5mb'}',
+        message:
+            'image_exceed_size_limit${e.fileSizeLimit == null ? '' : ': 5mb'}',
       );
     } catch (e) {
       log(e.toString());

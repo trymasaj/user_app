@@ -38,6 +38,7 @@ class Questions {
       ],
     );
   }
+
   Map<String, dynamic> toMap() {
     return {
       'quizAnswers': questions.map((e) => e.toMap()).toList(),
@@ -49,7 +50,9 @@ class Question with EquatableMixin {
   final String content, id;
   final List<Answer> answers;
   final Option<Answer> selectedAnswer;
+
   bool get isAnswered => selectedAnswer.isSome();
+
   Question(
       {required this.id,
       required this.content,
@@ -86,9 +89,12 @@ class Answer with EquatableMixin {
     required this.id,
     required this.content,
   });
+
   bool get isSomethingElse => id == '8';
+
   @override
   List<Object?> get props => [id];
+
   factory Answer.someThingElse() =>
       Answer(id: '8', content: 'question3_answer3');
 }

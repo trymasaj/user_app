@@ -4,8 +4,11 @@ enum AboutUsStateStatus { initial, loading, loaded, error }
 
 extension AboutUsStateX on AboutUsState {
   bool get isInitial => status == AboutUsStateStatus.initial;
+
   bool get isLoading => status == AboutUsStateStatus.loading;
+
   bool get isLoaded => status == AboutUsStateStatus.loaded;
+
   bool get isError => status == AboutUsStateStatus.error;
 }
 

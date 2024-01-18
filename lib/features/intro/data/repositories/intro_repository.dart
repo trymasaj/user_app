@@ -1,8 +1,8 @@
-
 import 'package:masaj/features/intro/data/datasources/intro_local_data_source.dart';
 
 abstract class IntroRepository {
   Future<void> setFirstLaunchToFalse();
+
   Future<void> setLanguageCode(String languageCode);
 }
 
@@ -18,5 +18,4 @@ class IntroRepositoryImpl implements IntroRepository {
   @override
   Future<void> setLanguageCode(String languageCode) =>
       _guideLocalDataSource.setLanguageCode(languageCode);
-
 }

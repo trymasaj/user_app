@@ -12,6 +12,7 @@ class ManageMembersState extends Equatable {
   List<Object?> get props => [
         manageMembersModelObj,
       ];
+
   ManageMembersState copyWith({ManageMembersModel? manageMembersModelObj}) {
     return ManageMembersState(
       manageMembersModelObj:

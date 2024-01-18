@@ -2,6 +2,7 @@ import 'package:masaj/core/data/clients/cache_service.dart';
 
 abstract class SplashLocalDataSource {
   Future<bool> isFirstLaunch();
+
   Future<bool> isLanguageSet();
 }
 

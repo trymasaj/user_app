@@ -4,6 +4,7 @@ class GuidePageTabModel {
   final String? title;
   final String? description;
   final String? image;
+
   const GuidePageTabModel({
     this.title,
     this.description,

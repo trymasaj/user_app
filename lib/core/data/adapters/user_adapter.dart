@@ -1,7 +1,6 @@
-import 'package:masaj/core/domain/enums/provider_enum.dart';
-
-import 'package:masaj/features/auth/data/models/user.dart';
 import 'package:google_sign_in/google_sign_in.dart';
+import 'package:masaj/core/domain/enums/provider_enum.dart';
+import 'package:masaj/features/auth/data/models/user.dart';
 import 'package:sign_in_with_apple/sign_in_with_apple.dart';
 
 class UserAdapter {

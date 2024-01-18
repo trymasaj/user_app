@@ -5,6 +5,7 @@ import 'package:masaj/features/home/data/models/notification.dart';
 
 abstract class HomeRepository {
   Future<HomeData> getHomePageData();
+
   Future<Events> getHomeSearch({
     required String text,
     int? cursor,
@@ -18,6 +19,7 @@ abstract class HomeRepository {
 
 class HomeRepositoryImpl implements HomeRepository {
   final HomeRemoteDataSource _homeRemoteDataSource;
+
   HomeRepositoryImpl({required HomeRemoteDataSource homeRemoteDataSource})
       : _homeRemoteDataSource = homeRemoteDataSource;
 

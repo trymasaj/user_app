@@ -4,6 +4,7 @@ class Preferences {
   final int id;
   final String name;
   final bool selected;
+
   Preferences({
     required this.id,
     required this.name,
@@ -40,7 +41,8 @@ class Preferences {
 
   String toJson() => json.encode(toMap());
 
-  factory Preferences.fromJson(String source) => Preferences.fromMap(json.decode(source));
+  factory Preferences.fromJson(String source) =>
+      Preferences.fromMap(json.decode(source));
 
   @override
   String toString() => 'Preferences(id: $id, name: $name, selected: $selected)';
@@ -48,11 +50,11 @@ class Preferences {
   @override
   bool operator ==(Object other) {
     if (identical(this, other)) return true;
-  
+
     return other is Preferences &&
-      other.id == id &&
-      other.name == name &&
-      other.selected == selected;
+        other.id == id &&
+        other.name == name &&
+        other.selected == selected;
   }
 
   @override

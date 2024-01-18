@@ -49,6 +49,7 @@ class SubtitleText extends StatelessWidget {
           fontFamily: fontFamily,
           maxLines: maxLines,
         );
+
   const SubtitleText.medium({
     Key? key,
     required String text,

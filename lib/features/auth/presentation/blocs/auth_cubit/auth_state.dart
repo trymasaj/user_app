@@ -13,12 +13,19 @@ enum AuthStateStatus {
 
 extension AuthStateX on AuthState {
   bool get isInitial => status == AuthStateStatus.initial;
+
   bool get isLoading => status == AuthStateStatus.loading;
+
   bool get isInterestsLoaded => status == AuthStateStatus.interestsLoaded;
+
   bool get isProjectsLoaded => status == AuthStateStatus.projectsLoaded;
+
   bool get isLoggedIn => status == AuthStateStatus.loggedIn;
+
   bool get isGuest => status == AuthStateStatus.guest;
+
   bool get isError => status == AuthStateStatus.error;
+
   bool get isSelectingProject => status == AuthStateStatus.selectingProject;
 }
 

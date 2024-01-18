@@ -5,6 +5,7 @@ class InterestModel {
   final String name;
   final String icon;
   final bool selected;
+
   InterestModel({
     required this.id,
     required this.name,

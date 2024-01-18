@@ -10,7 +10,9 @@ enum HomeStateStatus {
 
 extension HomeStateX on HomeState {
   bool get isInitial => status == HomeStateStatus.initial;
+
   bool get isLoading => status == HomeStateStatus.loading;
+
   bool get isLoaded => status == HomeStateStatus.loaded;
 
   bool get isError => status == HomeStateStatus.error;

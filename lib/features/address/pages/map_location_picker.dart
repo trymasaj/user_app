@@ -1,10 +1,9 @@
 import 'dart:async';
 
 import 'package:flutter/material.dart';
-import 'package:flutter_typeahead/flutter_typeahead.dart';
 import 'package:map_location_picker/map_location_picker.dart';
 import 'package:masaj/core/app_export.dart';
-import 'package:masaj/core/di/injector.dart';
+import 'package:masaj/core/data/di/injector.dart';
 import 'package:masaj/core/extenstions/context_extensions.dart';
 import 'package:masaj/features/address/bloc/map_location_picker_cubit/map_location_picker_cubit.dart';
 import 'package:masaj/features/address/overlay/location_bottom_sheet.dart';

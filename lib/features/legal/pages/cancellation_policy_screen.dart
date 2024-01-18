@@ -1,7 +1,7 @@
+import 'package:flutter/material.dart';
 import 'package:masaj/core/app_export.dart';
 import 'package:masaj/features/legal/bloc/cancellation_policy_bloc/cancellation_policy_bloc.dart';
 import 'package:masaj/features/legal/models/cancellation_policy_model.dart';
-import 'package:flutter/material.dart';
 
 class CancellationPolicyScreen extends StatelessWidget {
   static const routeName = '/cancelation-policy';

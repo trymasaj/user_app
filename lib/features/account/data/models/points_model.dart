@@ -85,6 +85,7 @@ class PointItem {
   final int? points;
   final bool? isEarned;
   final DateTime? date;
+
   PointItem({
     required this.id,
     this.title,

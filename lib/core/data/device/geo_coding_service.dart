@@ -1,3 +1,1 @@
-
-class GeoCodingService {
-}
+class GeoCodingService {}

@@ -1,13 +1,11 @@
 import 'package:flutter/foundation.dart';
 import 'package:masaj/core/application/controllers/base_cubit.dart';
-
-import 'package:masaj/core/domain/enums/show_case_displayed_page.dart';
-import 'package:masaj/core/data/show_case_helper.dart';
-import 'package:masaj/features/account/data/models/external_item_model.dart';
-import 'package:masaj/features/account/data/repositories/account_repository.dart';
-
 import 'package:masaj/core/data/device/app_info_service.dart';
 import 'package:masaj/core/data/device/launcher_service.dart';
+import 'package:masaj/core/data/show_case_helper.dart';
+import 'package:masaj/core/domain/enums/show_case_displayed_page.dart';
+import 'package:masaj/features/account/data/models/external_item_model.dart';
+import 'package:masaj/features/account/data/repositories/account_repository.dart';
 
 part 'more_tab_state.dart';
 

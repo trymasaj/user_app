@@ -2,13 +2,13 @@
 import 'dart:convert';
 
 import 'package:flutter/foundation.dart';
-
 import 'package:masaj/core/data/models/media.dart';
 import 'package:masaj/core/domain/enums/media_type.dart';
 
 class Events {
   int? cursor;
   List<Event>? events;
+
   Events({
     this.cursor,
     this.events,
@@ -476,6 +476,7 @@ class EventDate {
 class EventAvailableDateTime {
   final DateTime date;
   final List<StartEndTime> times;
+
   EventAvailableDateTime({
     required this.date,
     required this.times,
@@ -532,6 +533,7 @@ class EventAvailableDateTime {
 class StartEndTime {
   final DateTime startTime;
   final DateTime endTime;
+
   StartEndTime({
     required this.startTime,
     required this.endTime,

@@ -3,6 +3,7 @@ import 'dart:convert';
 class RedeemCouponResult {
   final int currentPoints;
   final bool? success;
+
   RedeemCouponResult({
     required this.currentPoints,
     this.success,

@@ -1,12 +1,11 @@
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
-
-import 'package:masaj/features/home/data/models/event.dart';
 import 'package:masaj/core/presentation/colors/app_colors.dart';
-import 'package:masaj/core/presentation/widgets/stateless/default_button.dart';
 import 'package:masaj/core/presentation/widgets/stateless/custom_cached_network_image.dart';
+import 'package:masaj/core/presentation/widgets/stateless/default_button.dart';
 import 'package:masaj/core/presentation/widgets/stateless/subtitle_text.dart';
 import 'package:masaj/core/presentation/widgets/stateless/title_text.dart';
+import 'package:masaj/features/home/data/models/event.dart';
 
 class EventTabItemCard extends StatelessWidget {
   const EventTabItemCard({
@@ -23,6 +22,7 @@ class EventTabItemCard extends StatelessWidget {
   final VoidCallback onTap;
   final String? date;
   final String? _heroTag;
+
   @override
   Widget build(BuildContext context) {
     Widget child = Padding(

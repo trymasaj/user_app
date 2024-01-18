@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 
 class BookingsTab extends StatelessWidget {
   const BookingsTab({super.key});
+
   static const routeName = '/BookingsTabPage';
 
   @override

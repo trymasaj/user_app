@@ -1,11 +1,10 @@
+import 'package:flutter/material.dart';
 import 'package:masaj/core/app_export.dart';
 import 'package:masaj/core/data/validator/validation_functions.dart';
 import 'package:masaj/core/presentation/widgets/stateless/custom_outlined_button.dart';
 import 'package:masaj/core/presentation/widgets/stateless/custom_text_form_field.dart';
-
 import 'package:masaj/features/address/bloc/add_new_address_bloc/add_new_address_bloc.dart';
 import 'package:masaj/features/address/models/add_new_address_model.dart';
-import 'package:flutter/material.dart';
 
 class AddNewAddressScreen extends StatelessWidget {
   static const routeName = '/add-new-address';

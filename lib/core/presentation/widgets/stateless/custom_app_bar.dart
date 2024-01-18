@@ -15,6 +15,7 @@ class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
   final List<Widget>? actions;
 
   final String title;
+
   @override
   Widget build(BuildContext context) {
     final canPop = Navigator.of(context).canPop();

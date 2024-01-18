@@ -2,23 +2,21 @@ import 'dart:async';
 import 'dart:developer';
 import 'dart:typed_data';
 
-import 'package:injectable/injectable.dart';
-
-import 'package:masaj/core/data/datasources/device_type_data_source.dart';
-import 'package:masaj/core/domain/enums/request_result_enum.dart';
-import 'package:masaj/core/data/debug/custom_printer.dart';
-import 'package:masaj/core/data/clients/cache_service.dart';
 import 'package:dio/dio.dart';
 import 'package:http/http.dart' as http;
-import 'package:requests_inspector/requests_inspector.dart';
-
+import 'package:injectable/injectable.dart';
+import 'package:masaj/core/data/clients/cache_service.dart';
 import 'package:masaj/core/data/constants/api_end_point.dart';
-import 'package:masaj/features/auth/data/models/user.dart';
-import 'package:masaj/features/auth/presentation/pages/login_page.dart';
-import 'package:masaj/main.dart';
+import 'package:masaj/core/data/datasources/device_type_data_source.dart';
+import 'package:masaj/core/data/debug/custom_printer.dart';
+import 'package:masaj/core/domain/enums/request_result_enum.dart';
 import 'package:masaj/core/domain/exceptions/connection_exception.dart';
 import 'package:masaj/core/domain/exceptions/redundant_request_exception.dart';
 import 'package:masaj/core/domain/exceptions/request_exception.dart';
+import 'package:masaj/features/auth/data/models/user.dart';
+import 'package:masaj/features/auth/presentation/pages/login_page.dart';
+import 'package:masaj/main.dart';
+import 'package:requests_inspector/requests_inspector.dart';
 
 abstract class NetworkService {
   Future<Response> get(
@@ -81,7 +79,9 @@ abstract class NetworkService {
   );
 
   Future<Map<String, String>> createRefreshTokenBody();
+
   Future<void> updateCurrentTokens(Map data);
+
   Future<void> logout();
 }
 
@@ -702,12 +702,16 @@ class NetworkServiceImpl implements NetworkService {
 
 abstract class NetworkServiceUtil {
   Future<String?> getCurrentAccessToken();
+
   Future<String?> getCurrentRefreshToken();
+
   Future<String?> getLanguageCode();
+
   Future<void> updateCurrentTokens({
     String? accessToken,
     String? refreshToken,
   });
+
   Future<void> clearCurrentUserData();
 }
 
@@ -716,7 +720,9 @@ abstract class NetworkServiceUtil {
 @LazySingleton(as: NetworkServiceUtil)
 class NetworkServiceUtilImpl implements NetworkServiceUtil {
   NetworkServiceUtilImpl(this._cacheService);
+
   final CacheService _cacheService;
+
   @override
   Future<String?> getCurrentAccessToken() async {
     final userJson = await _cacheService.getUserData();

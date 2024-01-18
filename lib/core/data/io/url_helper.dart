@@ -14,6 +14,5 @@ class UrlHelper {
 
     final fileNameWithExtension = url.split('/').last.split('.');
     return fileNameWithExtension.last;
-
   }
 }

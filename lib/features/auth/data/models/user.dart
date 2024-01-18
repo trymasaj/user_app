@@ -3,7 +3,6 @@ import 'dart:convert';
 
 import 'package:collection/collection.dart';
 import 'package:masaj/core/domain/enums/age_group.dart';
-
 import 'package:masaj/core/domain/enums/gender.dart';
 
 class User {

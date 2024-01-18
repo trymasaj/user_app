@@ -10,8 +10,7 @@ class ConditionsModel extends Equatable {
 
   List<Condition> conditionslistItemList;
 
-  ConditionsModel copyWith(
-      {List<Condition>? conditionslistItemList}) {
+  ConditionsModel copyWith({List<Condition>? conditionslistItemList}) {
     return ConditionsModel(
       conditionslistItemList:
           conditionslistItemList ?? this.conditionslistItemList,

@@ -4,8 +4,11 @@ enum ContactUsStateStatus { initial, loading, success, error }
 
 extension ContactUsStatusX on ContactUsState {
   bool get isInitial => status == ContactUsStateStatus.initial;
+
   bool get isLoading => status == ContactUsStateStatus.loading;
+
   bool get isSuccess => status == ContactUsStateStatus.success;
+
   bool get isError => status == ContactUsStateStatus.error;
 }
 

@@ -11,10 +11,15 @@ enum NotificationsStateStatus {
 
 extension NotificationsStatusX on NotificationsState {
   bool get isInitial => status == NotificationsStateStatus.initial;
+
   bool get isLoading => status == NotificationsStateStatus.loading;
+
   bool get isLoaded => status == NotificationsStateStatus.loaded;
+
   bool get isError => status == NotificationsStateStatus.error;
+
   bool get isLoadingMore => status == NotificationsStateStatus.loadingMore;
+
   bool get isRefreshing => status == NotificationsStateStatus.refreshing;
 }
 

@@ -1,7 +1,7 @@
+import 'package:masaj/core/data/clients/network_service.dart';
 import 'package:masaj/core/data/constants/api_end_point.dart';
 import 'package:masaj/core/domain/enums/request_result_enum.dart';
 import 'package:masaj/core/domain/exceptions/request_exception.dart';
-import 'package:masaj/core/data/clients/network_service.dart';
 import 'package:masaj/features/home/data/models/event.dart';
 
 abstract class FavoritesRemoteDataSource {
@@ -11,11 +11,13 @@ abstract class FavoritesRemoteDataSource {
   });
 
   Future<void> addToFav(int id);
+
   Future<void> removeFromFav(int id);
 }
 
 class FavoritesRemoteDataSourceImpl implements FavoritesRemoteDataSource {
   final NetworkService _networkService;
+
   FavoritesRemoteDataSourceImpl(this._networkService);
 
   @override
@@ -55,7 +57,8 @@ class FavoritesRemoteDataSourceImpl implements FavoritesRemoteDataSource {
     const url = ApiEndPoint.ADD_OR_REMOVE_FAV;
     final params = {'eventId': id};
     return _networkService.post(url, queryParameters: params).then((response) {
-      if (response.statusCode != 200) throw RequestException(message: response.data);
+      if (response.statusCode != 200)
+        throw RequestException(message: response.data);
       final result = response.data;
       final resultStatus = result['result'];
       if (resultStatus == RequestResult.Failed.name) {

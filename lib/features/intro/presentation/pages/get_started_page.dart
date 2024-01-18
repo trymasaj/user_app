@@ -1,21 +1,20 @@
-import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:flutter_svg/svg.dart';
-import 'package:masaj/features/auth/presentation/pages/login_page.dart';
-import 'package:masaj/core/presentation/colors/app_colors.dart';
-import 'package:masaj/core/presentation/widgets/stateless/default_button.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
-import 'package:size_helper/size_helper.dart';
-
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_svg/svg.dart';
+import 'package:masaj/core/presentation/colors/app_colors.dart';
 import 'package:masaj/core/presentation/navigation/navigator_helper.dart';
 import 'package:masaj/core/presentation/overlay/show_snack_bar.dart';
 import 'package:masaj/core/presentation/widgets/stateless/custom_app_page.dart';
-import 'package:masaj/core/presentation/widgets/stateless/title_text.dart';
+import 'package:masaj/core/presentation/widgets/stateless/default_button.dart';
 import 'package:masaj/core/presentation/widgets/stateless/text_fields/email_text_form_field.dart';
+import 'package:masaj/core/presentation/widgets/stateless/title_text.dart';
 import 'package:masaj/features/auth/presentation/blocs/auth_cubit/auth_cubit.dart';
+import 'package:masaj/features/auth/presentation/pages/login_page.dart';
 import 'package:masaj/features/auth/presentation/pages/sign_up_page.dart';
 import 'package:masaj/features/home/presentation/pages/home_page.dart';
+import 'package:size_helper/size_helper.dart';
 
 class GetStartedPage extends StatefulWidget {
   static const routeName = '/GetStartedPage';
@@ -176,7 +175,6 @@ class _GetStartedPageState extends State<GetStartedPage> {
 
   Future<void> _goToLoginPage(BuildContext context) =>
       NavigatorHelper.of(context).pushReplacementNamed(LoginPage.routeName);
-
 
   Widget _buildAppleButton(BuildContext context) {
     final authCubit = context.read<AuthCubit>();

@@ -4,7 +4,11 @@ import 'package:masaj/core/data/validator/validation_functions.dart';
 
 class PasswordTextField extends StatefulWidget {
   const PasswordTextField(
-      {super.key, required this.controller, this.validator, required this.hint});
+      {super.key,
+      required this.controller,
+      this.validator,
+      required this.hint});
+
   final TextEditingController controller;
   final FormFieldValidator<String>? validator;
   final String hint;
@@ -15,6 +19,7 @@ class PasswordTextField extends StatefulWidget {
 
 class _PasswordTextFieldState extends State<PasswordTextField> {
   bool isShowPassword = false;
+
   @override
   Widget build(BuildContext context) {
     return TextFormField(

@@ -1,6 +1,5 @@
 // ignore_for_file: must_be_immutable
 
-
 import 'package:equatable/equatable.dart';
 import 'package:flutter/foundation.dart';
 
@@ -12,8 +11,7 @@ import 'package:flutter/foundation.dart';
 abstract class SettingsSubscribedToMasajPlusEvent extends Equatable {}
 
 /// Event that is dispatched when the SettingsSubscribedToMasajPlus widget is first created.
-class SettingsEvent
-    extends SettingsSubscribedToMasajPlusEvent {
+class SettingsEvent extends SettingsSubscribedToMasajPlusEvent {
   @override
   List<Object?> get props => [];
 }
@@ -26,6 +24,6 @@ class ChangeSwitchEvent extends SettingsSubscribedToMasajPlusEvent {
 
   @override
   List<Object?> get props => [
-    value,
-  ];
+        value,
+      ];
 }

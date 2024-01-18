@@ -1,9 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:youtube_player_flutter/youtube_player_flutter.dart';
-
 import 'package:masaj/core/presentation/widgets/stateless/back_button.dart';
 import 'package:masaj/core/presentation/widgets/stateless/custom_cached_network_image.dart';
+import 'package:youtube_player_flutter/youtube_player_flutter.dart';
 
 class VideoGalleryItem extends StatelessWidget {
   const VideoGalleryItem({

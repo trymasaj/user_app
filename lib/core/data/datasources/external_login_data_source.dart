@@ -1,14 +1,13 @@
-import 'package:masaj/core/domain/exceptions/social_media_login_canceled_exception.dart';
-
-import 'package:masaj/core/data/adapters/user_adapter.dart';
-import 'package:masaj/features/auth/data/models/user.dart';
 import 'package:google_sign_in/google_sign_in.dart';
-import 'package:sign_in_with_apple/sign_in_with_apple.dart';
-
+import 'package:masaj/core/data/adapters/user_adapter.dart';
 import 'package:masaj/core/data/constants/api_end_point.dart';
+import 'package:masaj/core/domain/exceptions/social_media_login_canceled_exception.dart';
+import 'package:masaj/features/auth/data/models/user.dart';
+import 'package:sign_in_with_apple/sign_in_with_apple.dart';
 
 abstract class ExternalLoginDataSource {
   Future<User> login();
+
   Future<void> logOut();
 }
 
@@ -56,7 +55,7 @@ class AppleExternalLoginDataSourceImpl implements ExternalLoginDataSource {
       final user = await userAdapter.adapt(appleCredential);
       return user;
     } on SignInWithAppleAuthorizationException catch (_) {
-      throw SocialLoginCanceledException(message:"User didn't login");
+      throw SocialLoginCanceledException(message: "User didn't login");
     }
   }
 
