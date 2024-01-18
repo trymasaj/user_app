@@ -1,4 +1,4 @@
-package com.masaj
+package com.masajapp
 
 import io.flutter.embedding.android.FlutterActivity
 
