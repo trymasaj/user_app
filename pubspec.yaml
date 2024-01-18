@@ -35,11 +35,17 @@ dependencies:
   cached_network_image: ^3.2.1
   cached_network_svg_image: ^0.0.4
   flutter_form_builder: ^9.1.1
+  flutter_typeahead: ^5.0.1
+
 
   flutter_rating_bar: ^4.0.1
   carousel_slider: ^4.2.1
   connectivity_plus: ^3.0.6
+  geocoding: ^2.1.1
   dartz: ^0.10.1
+  injectable: ^2.3.2
+  get_it: ^7.6.4
+
   dio: ^5.3.3
   dotted_border: ^2.0.0+3
   easy_localization: ^3.0.1
@@ -48,7 +54,6 @@ dependencies:
   firebase_crashlytics: ^3.1.0
   firebase_messaging: ^14.6.7
   firebase_dynamic_links: ^5.0.12
-  injectable: ^2.3.2
   flutter_apns_only: ^1.6.0
   flutter_bloc: ^8.1.1
   flutter_cache_manager: ^3.3.0
@@ -103,6 +108,8 @@ dependency_overrides:
   http: ^1.1.0
 
 dev_dependencies:
+  build_runner: ^2.4.7
+  injectable_generator: ^2.4.1
   # The "flutter_lints" package below contains a set of recommended lints to
   # encourage good coding practices. The lint set provided by the package is
   # activated in the `analysis_options.yaml` file located at the root of your
@@ -110,8 +117,6 @@ dev_dependencies:
   # rules and activating additional ones.
   flutter_lints: ^3.0.0
   flutter_launcher_icons: ^0.13.1
-  injectable_generator: ^2.4.1
-  build_runner: ^2.4.4
 
 # For information on the generic Dart part of this file, see the
 # following page: https://dart.dev/tools/pub/pubspec

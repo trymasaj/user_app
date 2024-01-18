@@ -9,6 +9,7 @@ import 'package:masaj/features/quiz/presentation/pages/quiz_start_page.dart';
 import 'package:masaj/core/presentation/theme/theme_helper.dart';
 
 import 'package:masaj/core/data/di/injector.dart';
+import 'core/di/injector.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:firebase_crashlytics/firebase_crashlytics.dart';
 import 'package:flutter/material.dart';

@@ -13,6 +13,8 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 
 import 'package:masaj/core/data/di/injector.dart';
 import 'package:masaj/features/home/presentation/bloc/home_cubit/home_cubit.dart';
+import '../../../../core/di/injector.dart';
+import '../bloc/home_cubit/home_cubit.dart';
 
 class HomePage extends StatefulWidget {
   static const routeName = '/HomePage';

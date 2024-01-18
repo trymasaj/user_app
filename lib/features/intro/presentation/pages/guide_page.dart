@@ -16,6 +16,12 @@ import 'package:masaj/core/presentation/widgets/stateless/default_button.dart';
 import 'package:masaj/core/presentation/widgets/stateless/dots_indicator.dart';
 import 'package:masaj/features/intro/presentation/blocs/guide_page_cubit/guide_page_cubit.dart';
 import 'package:masaj/features/intro/presentation/pages/get_started_page.dart';
+import '../../../../core/di/injector.dart';
+import '../../../../shared_widgets/other/show_snack_bar.dart';
+import '../../../../shared_widgets/stateful/default_button.dart';
+import '../../../../shared_widgets/stateless/dots_indicator.dart';
+import '../blocs/guide_page_cubit/guide_page_cubit.dart';
+import 'get_started_page.dart';
 
 class GuidePage extends StatefulWidget {
   static const routeName = '/GuidePage';

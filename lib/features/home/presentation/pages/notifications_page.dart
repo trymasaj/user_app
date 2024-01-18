@@ -14,6 +14,14 @@ import 'package:masaj/core/presentation/widgets/stateless/custom_app_page.dart';
 import 'package:masaj/core/presentation/widgets/stateless/custom_loading.dart';
 import 'package:masaj/core/presentation/widgets/stateless/empty_page_message.dart';
 import 'package:masaj/core/presentation/widgets/stateless/title_text.dart';
+import '../../../../core/utils/navigator_helper.dart';
+import '../../../../core/di/injector.dart';
+import '../../../../res/style/app_colors.dart';
+import '../../../../shared_widgets/other/show_snack_bar.dart';
+import '../../../../shared_widgets/stateless/custom_app_page.dart';
+import '../../../../shared_widgets/stateless/custom_loading.dart';
+import '../../../../shared_widgets/stateless/empty_page_message.dart';
+import '../../../../shared_widgets/stateless/title_text.dart';
 
 class NotificationsPage extends StatelessWidget {
   static const routeName = '/NotificationsPage';

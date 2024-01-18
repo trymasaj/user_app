@@ -7,6 +7,14 @@ import 'package:masaj/core/presentation/colors/app_colors.dart';
 import 'package:masaj/core/presentation/overlay/show_snack_bar.dart';
 import 'package:masaj/core/presentation/widgets/stateless/default_button.dart';
 import 'package:masaj/core/presentation/widgets/stateless/custom_text.dart';
+import 'package:masaj/core/di/injector.dart';
+import 'package:masaj/features/intro/presentation/blocs/quiz_page_cubit/quiz_page_cubit.dart';
+import 'package:masaj/features/intro/presentation/pages/quiz/quiz_page.dart';
+import 'package:masaj/res/style/app_colors.dart';
+import 'package:masaj/shared_widgets/other/show_snack_bar.dart';
+import 'package:masaj/shared_widgets/stateful/default_button.dart';
+import 'package:masaj/shared_widgets/stateless/custom_app_page.dart';
+import 'package:masaj/shared_widgets/stateless/custom_text.dart';
 
 import 'package:masaj/core/presentation/navigation/navigator_helper.dart';
 import 'package:masaj/features/home/presentation/pages/home_page.dart';

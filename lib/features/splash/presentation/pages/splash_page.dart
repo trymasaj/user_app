@@ -11,6 +11,15 @@ import 'package:masaj/features/intro/presentation/pages/guide_page.dart';
 import 'package:masaj/features/splash/presentation/splash_cubit/splash_cubit.dart';
 import 'package:masaj/core/presentation/widgets/stateless/custom_app_page.dart';
 import 'package:masaj/core/presentation/overlay/show_snack_bar.dart';
+import '../../../../core/di/injector.dart';
+import '../../../auth/presentation/blocs/auth_cubit/auth_cubit.dart';
+import '../../../auth/presentation/pages/email_verification_page.dart';
+import '../../../auth/presentation/pages/sign_up_page.dart';
+import '../../../intro/presentation/pages/choose_language_page.dart';
+import '../../../intro/presentation/pages/guide_page.dart';
+import '../splash_cubit/splash_cubit.dart';
+import '../../../../shared_widgets/stateless/custom_app_page.dart';
+import '../../../../shared_widgets/other/show_snack_bar.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
