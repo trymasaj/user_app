@@ -1,6 +1,11 @@
 import 'dart:async';
 import 'dart:isolate';
 
+import 'package:firebase_core/firebase_core.dart';
+import 'package:flutter/foundation.dart';
+import 'package:flutter_native_splash/flutter_native_splash.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:masaj/features/splash/presentation/pages/splash_page.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:firebase_crashlytics/firebase_crashlytics.dart';
 import 'package:flutter/foundation.dart';
@@ -22,10 +27,17 @@ const inspectorEnabled = true;
 
 void main() async {
   runZonedGuarded<Future<void>>(() async {
-    WidgetsFlutterBinding.ensureInitialized();
+    final widgetsBinding = WidgetsFlutterBinding.ensureInitialized();
     await EasyLocalization.ensureInitialized();
     configureDependencies();
     await Injector().init();
+
+    await Firebase.initializeApp();
+
+    // await _initCrashLytics();
+
+    FlutterNativeSplash.preserve(widgetsBinding: widgetsBinding);
+
     runApp(
       EasyLocalization(
         supportedLocales: const [Locale('en'), Locale('ar')],
@@ -111,7 +123,7 @@ class _MyAppState extends State<MyApp> with WidgetsBindingObserver {
           minTextAdapt: true,
           child: Builder(builder: (context) {
             return MaterialApp(
-              home: const QuizStartPage(),
+              home: const SplashPage(),
               localizationsDelegates: context.localizationDelegates,
               supportedLocales: context.supportedLocales,
               locale: context.locale,
@@ -122,7 +134,6 @@ class _MyAppState extends State<MyApp> with WidgetsBindingObserver {
                 physics: const ClampingScrollPhysics(),
               ),
               title: 'Masaj',
-              routes: routes,
               navigatorKey: navigatorKey,
             );
           }),

@@ -1,0 +1,49 @@
+POST
+https://stagingapi.trymasaj.com/masaj/Identity/register
+
+body 
+{
+  "fullName": "string",
+  "email": "la@gmail.com",
+  "password": "string",
+  "confirmPassword": "string",
+  "phone": "01066072812",
+  "countryCode": "+2",
+  "countryId": 1,
+  "birthDate": "2024-01-11T20:53:19.388Z",
+  "gender": 0
+}
+
+
+
+post 
+https://stagingapi.trymasaj.com/masaj/Identity/login
+
+{
+
+    "phoneNumber": "01066072812",
+  "countryCode": "+2",
+  "password": "string"
+}
+
+
+
+[log] [REGISTER] body: {fullName: hesham, email: hesham@gmail.com, password: education2016, confirmPassword: education2016, phone: 11111111, countryCode: +965, countryId: 1, gender: 0, birthDate: 2024-01-17T00:00:00.000}
+
+
+
+[log] {
+        "id": 18,
+        "fullName": "hesham",
+        "phone": "11111111",
+        "countryCode": "+965",
+        "countryId": 1,
+        "email": "hesham@gmail.com",
+        "verified": false,
+        "profileImage": "https://masaj-s3.fra1.cdn.digitaloceanspaces.com/profile-images/placeholder.png",
+        "userType": 0,
+        "isProfileCompleted": false,
+        "quizAnswered": false,
+        "token": "eyJhbGciOiJIUzUxMiIsInR5cCI6IkpXVCJ9.eyJqdGkiOiIzMDFmYjIxNy1kY2MwLTQwMTgtYThmMi04OTJmNWI0MmZhYzMiLCJpYXQiOjE3MDU0OTQ2MjksImlkIjoiMTgiLCJuYW1lIjoiaGVzaGFtIiwiZW1haWwiOiJoZXNoYW1AZ21haWwuY29tIiwicGhvbmUiOiIxMTExMTExMSIsInVzZXJUeXBlIjoiQ3VzdG9tZXIiLCJ2ZXJpZmllZCI6IkZhbHNlIiwibmJmIjoxNzA1NDk0NjI5LCJleHAiOjE3Njc3MDI2MjksImlzcyI6Im1hc2FqLWJhY2tlbmQifQ.ydD0eM64ltV_Vg1G-Aw50KLJi9wp7iTMq9bVJCaaB-z5WAL35NpD68-1n0j5hodjWPJEWvPyeAOeHudjxB3uww",
+        "refreshToken": null
+      }
