@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 import 'package:country_pickers/country.dart';
 import 'package:country_pickers/country_pickers.dart';
 import 'package:flutter/material.dart';
@@ -6,11 +7,25 @@ import 'package:masaj/core/data/validator/validation_functions.dart';
 import 'package:masaj/core/presentation/widgets/stateless/custom_phone_number.dart';
 import 'package:masaj/core/presentation/widgets/stateless/custom_text_form_field.dart';
 import 'package:masaj/features/account/bloc/add_member_bloc/add_member_bloc.dart';
+=======
+import 'package:masaj/core/app_export.dart';
+import 'package:masaj/core/utils/validation_functions.dart';
+import 'package:masaj/core/widgets/custom_phone_number.dart';
+import 'package:masaj/core/widgets/custom_text_form_field.dart';
+
+import '../bloc/add_member_bloc/add_member_bloc.dart';
+import 'package:country_pickers/country.dart';
+import 'package:country_pickers/country_pickers.dart';
+import 'package:flutter/material.dart';
+>>>>>>> origin/moatasem
 
 // ignore_for_file: must_be_immutable
 class AddMemberScreen extends StatelessWidget {
   AddMemberScreen({super.key});
+<<<<<<< HEAD
 
+=======
+>>>>>>> origin/moatasem
   static const routeName = '/add-member';
 
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();

@@ -78,6 +78,7 @@ class AuthLocalDataSourceImpl implements AuthLocalDataSource {
   Future<User?> getUserData() async {
     final userString = await _cacheService.getUserData();
     if (userString == null) return null;
+    print('userString: $userString');
     return User.fromJson(userString);
   }
 
