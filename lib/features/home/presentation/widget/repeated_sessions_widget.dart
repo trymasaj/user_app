@@ -16,7 +16,7 @@ class RepeatedSessions extends StatelessWidget {
         margin: const EdgeInsets.symmetric(horizontal: 20),
         child: Column(
           children: [
-             Row(
+            Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
                 SectionTitle(title: 'repeated_sessions'.tr()),

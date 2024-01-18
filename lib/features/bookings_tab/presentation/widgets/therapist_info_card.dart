@@ -153,9 +153,11 @@ class _InfoItem extends StatelessWidget {
     // ignore: unused_element
     this.subtitle,
   });
+
   final String iconPath;
   final String title;
   final String? subtitle;
+
   @override
   Widget build(BuildContext context) {
     return Row(

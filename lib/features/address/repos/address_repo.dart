@@ -8,7 +8,7 @@ class AddressRepo {
 
   AddressRepo(this.networkService);
 
-  final apiKey = "AIzaSyBi3wkpn58eD7WGMb_24psMehqejdg6wu0";
+  final apiKey = 'AIzaSyBi3wkpn58eD7WGMb_24psMehqejdg6wu0';
 
   Future<String> getAddressFromLatLng(LatLng latLng) async {
     final placeMarks =
@@ -28,7 +28,7 @@ class AddressRepo {
   }
 
   Future<List<GeoCodedAddress>> getSuggestion(String input) async {
-    final baseURL =
+    const baseURL =
         'https://maps.googleapis.com/maps/api/place/autocomplete/json';
     final request = '$baseURL?input=$input&key=$apiKey';
     var response = await networkService.get(request);

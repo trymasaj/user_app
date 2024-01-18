@@ -9,6 +9,7 @@ class Therapists extends StatelessWidget {
   const Therapists({
     super.key,
   });
+
   //Book with therapists
 
   @override
@@ -18,7 +19,7 @@ class Therapists extends StatelessWidget {
         margin: const EdgeInsets.symmetric(horizontal: 20),
         child: Column(
           children: [
-             Row(
+            Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
                 SectionTitle(title: 'book_with_therapists'.tr()),
@@ -50,6 +51,7 @@ class TherapistWidget extends StatelessWidget {
     super.key,
     this.withFiv = false,
   });
+
   final bool withFiv;
 
   @override

@@ -112,7 +112,7 @@ class TopUpWalletScreen extends StatelessWidget {
                   physics: const NeverScrollableScrollPhysics(),
                   itemCount: data.length,
                   itemBuilder: (context, index) {
-                    return SizedBox();
+                    return const SizedBox();
                   }),
             );
           })

@@ -1,9 +1,7 @@
-import 'package:masaj/core/app_export.dart';
-import '../bloc/my_profile_bloc/my_profile_bloc.dart';
-import '../models/my_profile_model.dart';
 import 'package:flutter/material.dart';
 import 'package:masaj/core/app_export.dart';
 import 'package:masaj/core/presentation/widgets/stateless/custom_outlined_button.dart';
+
 import 'package:masaj/features/account/bloc/my_profile_bloc/my_profile_bloc.dart';
 import 'package:masaj/features/account/models/my_profile_model.dart';
 
@@ -11,7 +9,6 @@ class MyProfileScreen extends StatelessWidget {
   static const routeName = '/my_profile';
 
   MyProfileScreen({super.key});
-
 
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
 

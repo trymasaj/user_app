@@ -1,24 +1,20 @@
 import 'dart:async';
 import 'dart:isolate';
 
-import 'package:firebase_core/firebase_core.dart';
-import 'package:flutter/foundation.dart';
-import 'package:flutter_native_splash/flutter_native_splash.dart';
-import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:masaj/features/splash/presentation/pages/splash_page.dart';
 import 'package:easy_localization/easy_localization.dart';
+import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_crashlytics/firebase_crashlytics.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_native_splash/flutter_native_splash.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:masaj/core/data/di/injection_setup.dart';
 import 'package:masaj/core/data/di/injector.dart';
-import 'package:masaj/core/presentation/routes/routes.dart';
 import 'package:masaj/core/presentation/size/size_utils.dart';
 import 'package:masaj/core/presentation/theme/theme_helper.dart';
-import 'package:masaj/features/quiz/presentation/pages/quiz_start_page.dart';
+import 'package:masaj/features/splash/presentation/pages/splash_page.dart';
 import 'package:requests_inspector/requests_inspector.dart';
 
 ///Don't forget to change it in release!!

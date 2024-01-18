@@ -5,7 +5,8 @@ import 'package:masaj/core/presentation/theme/theme_helper.dart';
 import 'package:masaj/core/presentation/widgets/stateless/base_button.dart';
 
 class CustomElevatedButton extends BaseButton {
-  const CustomElevatedButton({super.key,
+  const CustomElevatedButton({
+    super.key,
     this.decoration,
     this.leftIcon,
     this.rightIcon,

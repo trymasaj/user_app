@@ -10,13 +10,13 @@ import 'package:masaj/features/address/overlay/location_bottom_sheet.dart';
 import 'package:masaj/features/address/widgets/location_pick_text_field.dart';
 
 class MapLocationPicker extends StatefulWidget {
-  MapLocationPicker({Key? key}) : super(key: key);
+  const MapLocationPicker({super.key});
   static const routeName = '/address-location-picker';
 
   static Widget builder(BuildContext context) {
     return BlocProvider<MapLocationPickerCubit>(
       create: (context) => Injector().mapLocationBloc,
-      child: MapLocationPicker(),
+      child: const MapLocationPicker(),
     );
   }
 
@@ -59,7 +59,7 @@ class _MapLocationPickerState extends State<MapLocationPicker> {
                   },
                   myLocationEnabled: true,
                   initialCameraPosition:
-                      CameraPosition(target: LatLng(30, 30))),
+                      const CameraPosition(target: LatLng(30, 30))),
               Align(
                   alignment: Alignment.topCenter,
                   child: LocationPickTextField(

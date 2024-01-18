@@ -28,8 +28,9 @@ class HomeRemoteDataSourceImpl implements HomeRemoteDataSource {
     const url = ApiEndPoint.GET_HOME_PAGE_DATA;
 
     return _networkService.get(url).then((response) {
-      if (response.statusCode != 200)
+      if (response.statusCode != 200) {
         throw RequestException(message: response.data);
+      }
       final result = response.data;
       final resultStatus = result['result'];
       if (resultStatus == RequestResult.Failed.name) {
@@ -55,8 +56,9 @@ class HomeRemoteDataSourceImpl implements HomeRemoteDataSource {
     return _networkService
         .post(url, queryParameters: params)
         .then((response) async {
-      if (response.statusCode != 200)
+      if (response.statusCode != 200) {
         throw RequestException(message: response.data);
+      }
       final result = response.data;
       final resultStatus = result['result'];
       if (resultStatus == RequestResult.Failed.name) {
@@ -76,8 +78,9 @@ class HomeRemoteDataSourceImpl implements HomeRemoteDataSource {
     return _networkService
         .get(url, queryParameters: params)
         .then((response) async {
-      if (response.statusCode != 200)
+      if (response.statusCode != 200) {
         throw RequestException(message: response.data);
+      }
       final result = response.data;
       final resultStatus = result['result'];
       if (resultStatus == RequestResult.Failed.name) {

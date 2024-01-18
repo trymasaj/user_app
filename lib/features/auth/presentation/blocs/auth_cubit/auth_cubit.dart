@@ -2,21 +2,19 @@ import 'dart:async';
 import 'dart:developer';
 
 import 'package:firebase_analytics/firebase_analytics.dart';
+import 'package:firebase_crashlytics/firebase_crashlytics.dart';
 import 'package:flutter/foundation.dart';
 import 'package:masaj/core/application/controllers/base_cubit.dart';
 import 'package:masaj/core/data/show_case_helper.dart';
 import 'package:masaj/core/domain/enums/gender.dart';
 import 'package:masaj/core/domain/exceptions/redundant_request_exception.dart';
 import 'package:masaj/core/domain/exceptions/social_media_login_canceled_exception.dart';
-import 'package:masaj/features/auth/data/models/login_params.dart';
-import 'package:masaj/features/auth/data/models/sing_up_params.dart';
 import 'package:masaj/features/auth/data/repositories/auth_repository.dart';
-import '../../../../../core/data/models/interest_model.dart';
-import '../../../../account/data/models/contact_us_message_model.dart';
-import 'package:firebase_crashlytics/firebase_crashlytics.dart';
 
+import 'package:masaj/core/data/models/interest_model.dart';
+import 'package:masaj/features/account/data/models/contact_us_message_model.dart';
+import 'package:masaj/features/auth/data/models/user.dart';
 
-import '../../../data/models/user.dart';
 part 'auth_state.dart';
 
 class AuthCubit extends BaseCubit<AuthState> {

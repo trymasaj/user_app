@@ -5,6 +5,7 @@ import 'package:masaj/core/presentation/colors/app_colors.dart';
 import 'package:masaj/core/presentation/widgets/stateless/custom_text.dart';
 import 'package:masaj/core/presentation/widgets/stateless/text_with_gradiant.dart';
 import 'package:masaj/gen/assets.gen.dart';
+
 class BookingCard extends StatelessWidget {
   const BookingCard({
     super.key,

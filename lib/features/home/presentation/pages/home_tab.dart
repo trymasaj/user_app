@@ -6,8 +6,7 @@ import 'package:masaj/core/presentation/widgets/stateless/custom_loading.dart';
 import 'package:masaj/core/presentation/widgets/stateless/empty_page_message.dart';
 import 'package:masaj/features/home/presentation/bloc/home_cubit/home_cubit.dart';
 
-import '../bloc/home_cubit/home_cubit.dart';
-import '../widget/index.dart';
+import 'package:masaj/features/home/presentation/widget/index.dart';
 
 class HomeTab extends StatelessWidget {
   const HomeTab({super.key});
@@ -130,6 +129,7 @@ class SectionTitle extends StatelessWidget {
     super.key,
     required this.title,
   });
+
   final String title;
 
   @override

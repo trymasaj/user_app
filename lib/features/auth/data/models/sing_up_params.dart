@@ -3,7 +3,6 @@ import 'dart:convert';
 
 import 'package:masaj/core/domain/enums/gender.dart';
 
-
 class SignUpParams {
   final String? id;
   final String? fullName;
@@ -55,15 +54,15 @@ class SignUpParams {
 
   // toMap
   Map<String, dynamic> toMap() => <String, dynamic>{
-        "fullName": fullName,
-        "email": email,
-        "password": password,
-        "confirmPassword": confirmPassword,
-        "phone": phone,
-        "countryCode": countryCode,
-        "countryId": countryId,
-        "gender": gender?.index,
-        if (birthDate != null) "birthDate": birthDate!.toIso8601String()
+        'fullName': fullName,
+        'email': email,
+        'password': password,
+        'confirmPassword': confirmPassword,
+        'phone': phone,
+        'countryCode': countryCode,
+        'countryId': countryId,
+        'gender': gender?.index,
+        if (birthDate != null) 'birthDate': birthDate!.toIso8601String()
       };
 
   // fromMap
@@ -87,7 +86,8 @@ class SignUpParams {
   String toJson() => json.encode(toMap());
 
   // fromJson
-  factory SignUpParams.fromJson(String source) => SignUpParams.fromMap(json.decode(source));
+  factory SignUpParams.fromJson(String source) =>
+      SignUpParams.fromMap(json.decode(source));
 
   @override
   bool operator ==(Object other) =>

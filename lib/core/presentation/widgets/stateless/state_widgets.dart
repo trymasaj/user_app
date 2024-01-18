@@ -22,7 +22,7 @@ class Progress extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Center(child: CircularProgressIndicator());
+    return const Center(child: CircularProgressIndicator());
   }
 }
 
@@ -31,7 +31,7 @@ class Empty extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Center(
+    return const Center(
       child: Text('Empty'),
     );
   }

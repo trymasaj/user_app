@@ -32,10 +32,13 @@ class User {
   final bool? verified;
   final DateTime? birthDate;
   final String? profileImage;
+
   // userType
   final UserType? userType;
+
   //isProfileCompleted
   final bool? isProfileCompleted;
+
   //quizAnswered
   final bool? quizAnswered;
 

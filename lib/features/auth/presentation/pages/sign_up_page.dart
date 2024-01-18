@@ -16,15 +16,15 @@ import 'package:masaj/core/presentation/widgets/stateless/text_fields/default_te
 import 'package:masaj/core/presentation/widgets/stateless/text_fields/email_text_form_field.dart';
 import 'package:masaj/core/presentation/widgets/stateless/text_fields/password_text_form_field.dart';
 import 'package:masaj/core/presentation/widgets/stateless/text_fields/phone_number_text_field.dart';
-import 'package:masaj/features/auth/data/models/login_params.dart';
-import 'package:masaj/features/auth/data/models/sing_up_params.dart';
 import 'package:masaj/features/auth/presentation/pages/login_page.dart';
-import '../../../home/presentation/pages/home_page.dart';
-import '../../data/models/user.dart';
-import '../blocs/auth_cubit/auth_cubit.dart';
+
+import 'package:masaj/features/home/presentation/pages/home_page.dart';
+import 'package:masaj/features/auth/data/models/user.dart';
+import 'package:masaj/features/auth/presentation/blocs/auth_cubit/auth_cubit.dart';
 
 class SignUpPage extends StatefulWidget {
   static const routeName = '/SignUp';
+
   const SignUpPage({
     super.key,
     bool startFromSubscriptionStep = false,
@@ -95,8 +95,9 @@ class _SignUpPageState extends State<SignUpPage> {
   Widget build(BuildContext context) {
     return BlocListener<AuthCubit, AuthState>(
       listener: (context, state) {
-        if (state.isError)
+        if (state.isError) {
           return showSnackBar(context, message: state.errorMessage);
+        }
         if (state.isGuest) return _goToHomePage(context);
         if (state.isLoggedIn) {
           final user = state.user;
@@ -297,13 +298,13 @@ class _SignUpPageState extends State<SignUpPage> {
           onChanged: (value) {},
         ),
         const CustomText(
-          text: "i_agree",
+          text: 'i_agree',
           fontSize: 14,
           fontWeight: FontWeight.w400,
         ),
         const SizedBox(width: 4.0),
         const CustomText(
-          text: "terms_and_conditions",
+          text: 'terms_and_conditions',
           fontSize: 14,
           fontWeight: FontWeight.w500,
         ),
@@ -316,19 +317,21 @@ class _SignUpPageState extends State<SignUpPage> {
     String? userFullName,
   }) {
     final authCubit = context.read<AuthCubit>();
-    if (!authCubit.state.isGuest)
+    if (!authCubit.state.isGuest) {
       //To remove old home page from stack due to redundant request error(old cubit still exists)
       NavigatorHelper.of(context).popUntil((_) => false);
+    }
     NavigatorHelper.of(context).pushAndRemoveUntil(
       MaterialPageRoute(builder: (_) => const HomePage()),
       (_) => false,
     );
-    if (userFullName != null)
+    if (userFullName != null) {
       showSnackBar(
         context,
         message: 'welcome_user'.tr(args: [userFullName]),
         margin: const EdgeInsets.fromLTRB(16.0, 4.0, 16.0, 0.0),
       );
+    }
   }
 
   void _goToSignInPage(BuildContext context) {

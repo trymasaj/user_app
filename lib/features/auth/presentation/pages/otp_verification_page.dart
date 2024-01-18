@@ -1,6 +1,8 @@
 import 'dart:async';
 
 import 'package:easy_localization/easy_localization.dart';
+import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:masaj/core/presentation/colors/app_colors.dart';
 import 'package:masaj/core/presentation/navigation/navigator_helper.dart';
 import 'package:masaj/core/presentation/overlay/show_snack_bar.dart';
@@ -9,13 +11,13 @@ import 'package:masaj/core/presentation/widgets/stateless/custom_app_page.dart';
 import 'package:masaj/core/presentation/widgets/stateless/custom_text.dart';
 import 'package:masaj/core/presentation/widgets/stateless/default_button.dart';
 import 'package:pin_code_fields/pin_code_fields.dart';
-import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
-import './reset_password_page.dart';
-import '../blocs/auth_cubit/auth_cubit.dart';
+
+import 'package:masaj/features/auth/presentation/blocs/auth_cubit/auth_cubit.dart';
+import 'package:masaj/features/auth/presentation/pages/reset_password_page.dart';
 
 class OTPVerificationPage extends StatefulWidget {
   static const routeName = '/otp-verification';
+
   const OTPVerificationPage({super.key});
 
   @override
@@ -24,6 +26,7 @@ class OTPVerificationPage extends StatefulWidget {
 
 class _OTPVerificationPageState extends State<OTPVerificationPage> {
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
+
   // timer
   late Timer _timer;
   int _start = 60;
@@ -67,9 +70,9 @@ class _OTPVerificationPageState extends State<OTPVerificationPage> {
   Widget build(BuildContext context) {
     return BlocListener<AuthCubit, AuthState>(
       listener: (context, state) {
-        if (state.isError)
+        if (state.isError) {
           showSnackBar(context, message: state.errorMessage);
-        else if (state.isInitial) _goBackToLoginPage(context, true);
+        } else if (state.isInitial) _goBackToLoginPage(context, true);
       },
       child: CustomAppPage(
         safeTop: true,

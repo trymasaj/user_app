@@ -2,6 +2,7 @@ import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
 import 'package:masaj/core/presentation/colors/app_colors.dart';
 import 'package:masaj/gen/assets.gen.dart';
+
 class Ads extends StatefulWidget {
   const Ads({
     super.key,
@@ -14,6 +15,7 @@ class Ads extends StatefulWidget {
 class _AdsState extends State<Ads> {
   late CarouselController _carouselController;
   int current = 0;
+
   @override
   void initState() {
     _carouselController = CarouselController();

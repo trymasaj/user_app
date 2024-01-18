@@ -57,8 +57,9 @@ class FavoritesRemoteDataSourceImpl implements FavoritesRemoteDataSource {
     const url = ApiEndPoint.ADD_OR_REMOVE_FAV;
     final params = {'eventId': id};
     return _networkService.post(url, queryParameters: params).then((response) {
-      if (response.statusCode != 200)
+      if (response.statusCode != 200) {
         throw RequestException(message: response.data);
+      }
       final result = response.data;
       final resultStatus = result['result'];
       if (resultStatus == RequestResult.Failed.name) {

@@ -3,9 +3,8 @@ import 'package:flutter_svg/flutter_svg.dart';
 import 'package:masaj/core/app_export.dart';
 
 class LocationBottomSheet extends StatelessWidget {
-  LocationBottomSheet(
-      {Key? key, required this.address, required this.onTapContinue})
-      : super(key: key);
+  const LocationBottomSheet(
+      {super.key, required this.address, required this.onTapContinue});
   final String address;
   final VoidCallback onTapContinue;
 
@@ -15,7 +14,7 @@ class LocationBottomSheet extends StatelessWidget {
       padding: EdgeInsets.symmetric(
         horizontal: 20.w,
       ),
-      decoration: BoxDecoration(
+      decoration: const BoxDecoration(
         color: Colors.white,
         borderRadius: BorderRadius.only(
             topLeft: Radius.circular(20), topRight: Radius.circular(20)),
@@ -32,7 +31,7 @@ class LocationBottomSheet extends StatelessWidget {
               height: 5.h,
               width: 42.w,
               decoration: BoxDecoration(
-                color: Color(0xffBDBDBD),
+                color: const Color(0xffBDBDBD),
                 borderRadius: BorderRadius.circular(5),
               ),
             ),
@@ -58,7 +57,7 @@ class LocationBottomSheet extends StatelessWidget {
                 child: Text(
                   address,
                   style: TextStyle(
-                    color: Color(0xff1D212C),
+                    color: const Color(0xff1D212C),
                     fontSize: 18.fSize,
                     fontFamily: 'Poppins',
                     fontWeight: FontWeight.w400,
@@ -69,7 +68,7 @@ class LocationBottomSheet extends StatelessWidget {
           ),
           SizedBox(height: 10.h),
           CustomElevatedButton(
-            text: "lbl_continue".tr(),
+            text: 'lbl_continue'.tr(),
             buttonStyle: CustomButtonStyles.none,
             decoration: CustomButtonStyles
                 .gradientSecondaryContainerToPrimaryDecoration,

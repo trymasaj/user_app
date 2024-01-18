@@ -20,6 +20,7 @@ class ProvidersTab extends StatefulWidget {
 class _ProvidersTabState extends State<ProvidersTab>
     with SingleTickerProviderStateMixin {
   late ScrollController _scrollController;
+
   @override
   void initState() {
     _scrollController = ScrollController();
@@ -29,6 +30,7 @@ class _ProvidersTabState extends State<ProvidersTab>
   final tabs = ['all', 'past', 'favorites'];
 
   int current = 0;
+
   bool isSelected(int index) => current == index;
 
   Widget buildBorderWidget(int index, Widget child) => Container(
@@ -170,6 +172,7 @@ class _ProvidersTabState extends State<ProvidersTab>
 class TabBarDelegate extends SliverPersistentHeaderDelegate {
   final double? maxHeight;
   final double? minHeight;
+
   TabBarDelegate(
       {required this.tabBar,
       this.bgColor = Colors.white,

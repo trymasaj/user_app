@@ -1,10 +1,4 @@
 import 'package:easy_localization/easy_localization.dart';
-import 'package:flutter_svg/svg.dart';
-import 'package:masaj/features/providers_tab/presentation/pages/providers_tab.dart';
-import 'package:masaj/gen/assets.gen.dart';
-import 'package:masaj/features/settings_tab/pages/setting_tab_page.dart';
-import '../../../bookings_tab/presentation/pages/bookings_tab.dart';
-import 'home_tab.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/svg.dart';
@@ -13,11 +7,13 @@ import 'package:masaj/core/presentation/colors/app_colors.dart';
 import 'package:masaj/core/presentation/overlay/show_snack_bar.dart';
 import 'package:masaj/core/presentation/theme/theme_helper.dart';
 import 'package:masaj/core/presentation/widgets/stateless/custom_app_page.dart';
-import 'package:masaj/features/bookings_tab/presentation/pages/bookings_tab.dart';
 import 'package:masaj/features/home/presentation/bloc/home_cubit/home_cubit.dart';
-import 'package:masaj/features/home/presentation/pages/home_tab.dart';
 import 'package:masaj/features/providers_tab/presentation/pages/providers_tab.dart';
 import 'package:masaj/features/settings_tab/pages/setting_tab_page.dart';
+import 'package:masaj/gen/assets.gen.dart';
+
+import 'package:masaj/features/bookings_tab/presentation/pages/bookings_tab.dart';
+import 'package:masaj/features/home/presentation/pages/home_tab.dart';
 
 class HomePage extends StatefulWidget {
   static const routeName = '/HomePage';

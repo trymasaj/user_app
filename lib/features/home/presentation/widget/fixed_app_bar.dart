@@ -129,12 +129,14 @@ class _SliverAppBarDelegate extends SliverPersistentHeaderDelegate {
     required this.maxHeight,
     required this.child,
   });
+
   final double minHeight;
   final double maxHeight;
   final Widget child;
 
   @override
   double get minExtent => minHeight;
+
   @override
   double get maxExtent => max(maxHeight, minHeight);
 

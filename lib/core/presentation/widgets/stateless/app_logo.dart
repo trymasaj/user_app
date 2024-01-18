@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_svg/svg.dart';
 import 'package:masaj/gen/assets.gen.dart';
 
 class AppLogo extends StatelessWidget {
@@ -25,19 +24,19 @@ class AppLogo extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     Widget child = Hero(
-      tag: 'APP_LOGO',
-      transitionOnUserGestures: true,
-      child: Material(
-        color: Colors.transparent,
-        child: Align(
-          alignment: Alignment.center,
-          child: Image.asset(
-            Assets.lib.res.assets.logoText.path,
-            height: _height,
-            width: _width,
+        tag: 'APP_LOGO',
+        transitionOnUserGestures: true,
+        child: Material(
+          color: Colors.transparent,
+          child: Align(
+            alignment: Alignment.center,
+            child: Image.asset(
+              Assets.lib.res.assets.logoText.path,
+              height: _height,
+              width: _width,
+            ),
           ),
-      ),
-    ));
+        ));
     if (_padding != null) child = Padding(padding: _padding!, child: child);
     if (_alignment != null) child = Align(alignment: _alignment!, child: child);
     if (_margin != null) child = Padding(padding: _margin!, child: child);

@@ -24,7 +24,7 @@ class TextWithGradiant extends StatelessWidget {
   final TextOverflow overflow;
   final TextAlign textAlign;
   final Color color;
-  final double? height; 
+  final double? height;
 
   @override
   Widget build(BuildContext context) {
@@ -39,7 +39,7 @@ class TextWithGradiant extends StatelessWidget {
         fontSize: fontSize,
         fontWeight: fontWeight,
         height: height,
-        
+
         maxLines: maxLines,
         // overflow: overflow,
         textAlign: textAlign,

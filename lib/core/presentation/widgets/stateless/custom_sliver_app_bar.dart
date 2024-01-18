@@ -3,7 +3,9 @@ import 'package:masaj/core/presentation/widgets/stateless/custom_text.dart';
 
 class CustomSliverAppBar extends StatelessWidget {
   const CustomSliverAppBar({super.key, required this.title});
+
   final String title;
+
   @override
   Widget build(BuildContext context) {
     return SliverAppBar(

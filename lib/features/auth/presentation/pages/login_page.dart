@@ -1,5 +1,8 @@
 import 'dart:io';
 
+import 'package:easy_localization/easy_localization.dart';
+import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:intl_phone_field/phone_number.dart';
@@ -14,19 +17,15 @@ import 'package:masaj/core/presentation/widgets/stateless/text_fields/email_text
 import 'package:masaj/core/presentation/widgets/stateless/text_fields/password_text_form_field.dart';
 import 'package:masaj/core/presentation/widgets/stateless/text_fields/phone_number_text_field.dart';
 
-import '../../../home/presentation/pages/home_page.dart';
-
-import '../blocs/auth_cubit/auth_cubit.dart';
-import 'email_verification_page.dart';
-import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:easy_localization/easy_localization.dart';
-
-import 'forget_password_page.dart';
-import 'sign_up_page.dart';
+import 'package:masaj/features/home/presentation/pages/home_page.dart';
+import 'package:masaj/features/auth/presentation/blocs/auth_cubit/auth_cubit.dart';
+import 'package:masaj/features/auth/presentation/pages/email_verification_page.dart';
+import 'package:masaj/features/auth/presentation/pages/forget_password_page.dart';
+import 'package:masaj/features/auth/presentation/pages/sign_up_page.dart';
 
 class LoginPage extends StatefulWidget {
   static const routeName = '/LoginPage';
+
   const LoginPage({super.key});
 
   @override
@@ -367,8 +366,9 @@ class _LoginPageState extends State<LoginPage> {
       MaterialPageRoute(builder: (_) => const HomePage()),
       (_) => false,
     );
-    if (userFullName != null)
+    if (userFullName != null) {
       showSnackBar(context, message: 'welcome'.tr(args: [userFullName]));
+    }
   }
 
   Widget _buildDoNotHaveAccountButton(BuildContext context) {
@@ -397,8 +397,9 @@ class _LoginPageState extends State<LoginPage> {
   Future<void> _goToForgetPasswordPage(BuildContext context) async {
     final success = await NavigatorHelper.of(context)
         .pushNamed(ForgetPasswordPage.routeName);
-    if (success == true)
+    if (success == true) {
       showSnackBar(context, message: 'forget_password_success');
+    }
   }
 
   void _goToSignUpPage(BuildContext context) =>

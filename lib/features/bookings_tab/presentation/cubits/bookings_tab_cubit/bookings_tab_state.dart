@@ -12,6 +12,7 @@ enum BookingsTabStateType {
   completed('completed');
 
   final String name;
+
   const BookingsTabStateType(this.name);
 }
 

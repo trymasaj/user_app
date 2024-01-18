@@ -1,5 +1,3 @@
-
-
 abstract class ValueObject<T> {
   const ValueObject(this.value);
 

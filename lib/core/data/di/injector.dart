@@ -75,21 +75,21 @@ class Injector {
 
   SplashRepository get splashRepository =>
       _flyweightMap['splashRepository'] ??
-          SplashRepositoryImpl(splashLocalDataSource);
+      SplashRepositoryImpl(splashLocalDataSource);
 
   SharedPreferenceLocalClient get sharedPreferenceLocalClient =>
       _flyweightMap['sharedPreferenceLocalClient'] ??
-          SharedPreferenceLocalClient();
+      SharedPreferenceLocalClient();
 
   SplashLocalDataSource get splashLocalDataSource =>
       _flyweightMap['splashLocalDataSource'] ??
-          SplashLocalDataSourceImpl(cacheService);
+      SplashLocalDataSourceImpl(cacheService);
 
   //===================[AUTH_CUBIT]===================
   AuthCubit get authCubit => AuthCubit(
-    authRepository: authRepository,
-    showCaseHelper: showCaseHelper,
-  );
+        authRepository: authRepository,
+        showCaseHelper: showCaseHelper,
+      );
 
   AuthRepository get authRepository =>
       _flyweightMap['authRepository'] ??= AuthRepositoryImpl(
@@ -114,11 +114,11 @@ class Injector {
 
   IntroRepository get introRepository =>
       _flyweightMap['introRepository'] ??
-          IntroRepositoryImpl(introLocalDataSource);
+      IntroRepositoryImpl(introLocalDataSource);
 
   IntroLocalDataSource get introLocalDataSource =>
       _flyweightMap['introLocalDataSource'] ??
-          IntroLocalDataSourceImpl(cacheService);
+      IntroLocalDataSourceImpl(cacheService);
 
   //===================[CHOOSE_LANGUAGE_CUBIT]===================
   ChooseLanguageCubit get chooseLanguageCubit =>
@@ -126,9 +126,9 @@ class Injector {
 
   //===================[HOME_CUBIT]===================
   HomeCubit get homeCubit => HomeCubit(
-    homeRepository,
-    launcherService,
-  );
+        homeRepository,
+        launcherService,
+      );
 
   HomeRepository get homeRepository =>
       _flyweightMap['homeRepository'] ??= HomeRepositoryImpl(
@@ -158,11 +158,11 @@ class Injector {
 
   //===================[MORE_TAB_CUBIT]===================
   MoreTabCubit get moreTabCubit => MoreTabCubit(
-    accountRepository: accountRepository,
-    launcherService: launcherService,
-    appInfoService: appInfoService,
-    showCaseHelper: showCaseHelper,
-  );
+        accountRepository: accountRepository,
+        launcherService: launcherService,
+        appInfoService: appInfoService,
+        showCaseHelper: showCaseHelper,
+      );
 
   //===================[FAVORITES_CUBIT]===================
 

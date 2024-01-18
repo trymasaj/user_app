@@ -67,8 +67,9 @@ class AccountRemoteDataSourceImpl implements AccountRemoteDataSource {
   Future<void> sendContactUsMessage(ContactUsMessage data) {
     const url = ApiEndPoint.CONTACT_US;
     return _networkService.post(url, data: data.toMap()).then((response) {
-      if (response.statusCode != 200)
+      if (response.statusCode != 200) {
         throw RequestException(message: response.data);
+      }
       final result = response.data;
       final resultStatus = result['result'];
       if (resultStatus == RequestResult.Failed.name) {
@@ -83,8 +84,9 @@ class AccountRemoteDataSourceImpl implements AccountRemoteDataSource {
 
     return _networkService
         .get(url, queryParameters: {'type': id.value}).then((response) {
-      if (response.statusCode != 200)
+      if (response.statusCode != 200) {
         throw RequestException(message: response.data);
+      }
       final result = response.data;
       final resultStatus = result['result'];
       if (resultStatus == RequestResult.Failed.name) {
@@ -185,8 +187,9 @@ class AccountRemoteDataSourceImpl implements AccountRemoteDataSource {
     const url = ApiEndPoint.GET_USER_POINTS;
 
     return _networkService.get(url).then((response) {
-      if (response.statusCode != 200)
+      if (response.statusCode != 200) {
         throw RequestException(message: response.data);
+      }
       final result = response.data;
       final resultStatus = result['result'];
       if (resultStatus == RequestResult.Failed.name) {
@@ -203,8 +206,9 @@ class AccountRemoteDataSourceImpl implements AccountRemoteDataSource {
     final params = {'cursor': cursor};
 
     return _networkService.get(url, queryParameters: params).then((response) {
-      if (response.statusCode != 200)
+      if (response.statusCode != 200) {
         throw RequestException(message: response.data);
+      }
       final result = response.data;
       final resultStatus = result['result'];
       if (resultStatus == RequestResult.Failed.name) {
@@ -221,8 +225,9 @@ class AccountRemoteDataSourceImpl implements AccountRemoteDataSource {
     final params = {'couponId': id};
 
     return _networkService.get(url, queryParameters: params).then((response) {
-      if (response.statusCode != 200)
+      if (response.statusCode != 200) {
         throw RequestException(message: response.data);
+      }
       final result = response.data;
       final resultStatus = result['result'];
       if (resultStatus == RequestResult.Failed.name) {
@@ -239,8 +244,9 @@ class AccountRemoteDataSourceImpl implements AccountRemoteDataSource {
     final params = {'couponId': id};
 
     return _networkService.get(url, queryParameters: params).then((response) {
-      if (response.statusCode != 200)
+      if (response.statusCode != 200) {
         throw RequestException(message: response.data);
+      }
       final result = response.data;
       final resultStatus = result['result'];
       if (resultStatus == RequestResult.Failed.name) {

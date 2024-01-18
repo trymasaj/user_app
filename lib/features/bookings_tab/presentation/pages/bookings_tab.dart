@@ -1,10 +1,6 @@
-import 'package:dotted_border/dotted_border.dart';
-import 'package:dotted_line/dotted_line.dart';
-import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:flutter_svg/svg.dart';
 import 'package:gradient_borders/box_borders/gradient_box_border.dart';
 import 'package:masaj/core/data/di/injector.dart';
 import 'package:masaj/core/presentation/colors/app_colors.dart';
@@ -16,9 +12,7 @@ import 'package:masaj/features/bookings_tab/data/datasources/bookings_tab_remote
 import 'package:masaj/features/bookings_tab/data/repositories/bookings_tab_repository.dart';
 import 'package:masaj/features/bookings_tab/presentation/cubits/bookings_tab_cubit/bookings_tab_cubit.dart';
 import 'package:masaj/features/bookings_tab/presentation/widgets/booking_card.dart';
-import 'package:masaj/features/bookings_tab/presentation/widgets/payment_info_card.dart';
 import 'package:masaj/features/providers_tab/presentation/pages/providers_tab.dart';
-import 'package:masaj/gen/assets.gen.dart';
 
 class BookingsTab extends StatefulWidget {
   const BookingsTab({super.key});
@@ -31,6 +25,7 @@ class BookingsTab extends StatefulWidget {
 
 class _BookingsTabState extends State<BookingsTab> {
   late BookingsTabCubit cubit;
+
   @override
   void initState() {
     cubit = BookingsTabCubit(
@@ -176,6 +171,7 @@ class DateModel {
   final String weekDay;
   final String month;
   final String year;
+
   // am or pm
   final String time;
 

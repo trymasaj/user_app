@@ -1,6 +1,8 @@
 import 'package:flutter/foundation.dart';
 import 'package:masaj/core/application/controllers/base_cubit.dart';
-import '../../../data/repositories/bookings_tab_repository.dart';
+
+import 'package:masaj/features/bookings_tab/data/repositories/bookings_tab_repository.dart';
+
 part 'bookings_tab_state.dart';
 
 class BookingsTabCubit extends BaseCubit<BookingsTabState> {
@@ -16,5 +18,5 @@ class BookingsTabCubit extends BaseCubit<BookingsTabState> {
     emit(state.copyWith(type: type));
   }
 
-  //
+//
 }

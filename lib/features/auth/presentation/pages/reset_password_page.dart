@@ -1,5 +1,4 @@
 import 'package:easy_localization/easy_localization.dart';
-
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:masaj/core/presentation/colors/app_colors.dart';
@@ -11,10 +10,11 @@ import 'package:masaj/core/presentation/widgets/stateless/custom_text.dart';
 import 'package:masaj/core/presentation/widgets/stateless/default_button.dart';
 import 'package:masaj/core/presentation/widgets/stateless/text_fields/password_text_form_field.dart';
 
-import '../blocs/auth_cubit/auth_cubit.dart';
+import 'package:masaj/features/auth/presentation/blocs/auth_cubit/auth_cubit.dart';
 
 class ResetPasswordPage extends StatefulWidget {
   static const routeName = '/resetPasswordPage';
+
   const ResetPasswordPage({super.key});
 
   @override
@@ -30,6 +30,7 @@ class _ResetPasswordPageState extends State<ResetPasswordPage> {
 
   bool _isAutoValidating = false;
   late final FocusNode _passwordFocusNode;
+
   @override
   void initState() {
     _formKey = GlobalKey<FormState>();
@@ -53,9 +54,9 @@ class _ResetPasswordPageState extends State<ResetPasswordPage> {
   Widget build(BuildContext context) {
     return BlocListener<AuthCubit, AuthState>(
       listener: (context, state) {
-        if (state.isError)
+        if (state.isError) {
           showSnackBar(context, message: state.errorMessage);
-        else if (state.isInitial) _goBackToLoginPage(context, true);
+        } else if (state.isInitial) _goBackToLoginPage(context, true);
       },
       child: CustomAppPage(
         safeTop: true,

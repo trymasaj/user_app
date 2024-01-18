@@ -1,7 +1,4 @@
 import 'package:country_flags/country_flags.dart';
-import 'package:masaj/core/app_export.dart';
-import '../blocs/choose_language_cubit/choose_language_cubit.dart';
-import 'guide_page.dart';
 import 'package:flutter/material.dart';
 import 'package:masaj/core/app_export.dart';
 import 'package:masaj/core/data/di/injector.dart';
@@ -10,6 +7,7 @@ import 'package:masaj/core/presentation/widgets/stateless/custom_app_page.dart';
 import 'package:masaj/core/presentation/widgets/stateless/custom_radio_list_tile.dart';
 import 'package:masaj/core/presentation/widgets/stateless/custom_text.dart';
 import 'package:masaj/core/presentation/widgets/stateless/default_button.dart';
+
 import 'package:masaj/features/intro/presentation/blocs/choose_language_cubit/choose_language_cubit.dart';
 import 'package:masaj/features/intro/presentation/pages/guide_page.dart';
 

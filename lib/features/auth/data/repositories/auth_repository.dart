@@ -1,19 +1,17 @@
 import 'package:masaj/core/data/device/notification_service.dart';
 import 'package:masaj/core/domain/exceptions/request_exception.dart';
-import 'package:masaj/features/auth/data/models/login_params.dart';
-import 'package:masaj/features/auth/data/models/sing_up_params.dart';
 
-import '../../../../core/data/models/interest_model.dart';
-
-import '../../../../core/data/datasources/device_type_data_source.dart';
-import '../../../../core/data/datasources/external_login_data_source.dart';
-import '../../../account/data/models/contact_us_message_model.dart';
-import '../datasources/auth_local_datasource.dart';
-import '../datasources/auth_remote_datasource.dart';
-import '../models/user.dart';
+import 'package:masaj/core/data/datasources/device_type_data_source.dart';
+import 'package:masaj/core/data/datasources/external_login_data_source.dart';
+import 'package:masaj/core/data/models/interest_model.dart';
+import 'package:masaj/features/account/data/models/contact_us_message_model.dart';
+import 'package:masaj/features/auth/data/datasources/auth_local_datasource.dart';
+import 'package:masaj/features/auth/data/datasources/auth_remote_datasource.dart';
+import 'package:masaj/features/auth/data/models/user.dart';
 
 abstract class AuthRepository {
   Future<bool> isLoggedIn();
+
   Future<User> login(
     String phoneNumber,
     String countryCode,
@@ -21,22 +19,35 @@ abstract class AuthRepository {
   );
 
   Future<User> loginWithGoogle(Future<String?> Function() onEmailRequiredError);
+
   Future<User> loginWithApple(Future<String?> Function() onEmailRequiredError);
+
   Future<User> signUp(User params);
+
   Future<void> forgetPassword(String email);
+
   Future<void> logout();
+
   Future<User?> getUserData([bool fromRemote = false]);
+
   Future<void> changePassword(String oldPassword, String newPassword);
+
   Future<User> editAccountData(User newUser);
+
   Future<void> deleteAccount(ContactUsMessage message);
+
   Future<void> updateUserNotificationStatus(bool isEnabled);
+
   Future<void> updateUserPoints(int points);
+
   Future<void> informBackendAboutLanguageChanges(String languageCode);
 
   Future<List<InterestModel>> getInterestData();
+
   Future<void> editUserInterests(List<int> selectedInterests);
 
   Future<void> resendVerificationEmail();
+
   Future<bool> checkEmailVerified();
 
   Future<User> loginAsGuest();
@@ -58,6 +69,7 @@ class AuthRepositoryImpl implements AuthRepository {
     this._appleExternalDataSource,
     this._googleExternalDataSource,
   );
+
   @override
   Future<bool> isLoggedIn() {
     return _localDataSource.checkUserDataExist();
@@ -118,8 +130,9 @@ class AuthRepositoryImpl implements AuthRepository {
         if (email == null) rethrow;
         final user = await _externalLogin(newAppleUser.copyWith(email: email));
         return user;
-      } else
+      } else {
         rethrow;
+      }
     }
   }
 
@@ -137,8 +150,9 @@ class AuthRepositoryImpl implements AuthRepository {
         if (email == null) rethrow;
         final user = await _externalLogin(externalUser.copyWith(email: email));
         return user;
-      } else
+      } else {
         rethrow;
+      }
     }
   }
 

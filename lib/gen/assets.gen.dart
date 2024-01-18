@@ -19,6 +19,7 @@ class $LibResGen {
   const $LibResGen();
 
   $LibResAssetsGen get assets => const $LibResAssetsGen();
+
   $LibResTranslationsGen get translations => const $LibResTranslationsGen();
 }
 
