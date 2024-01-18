@@ -47,7 +47,7 @@ class LocationBottomSheet extends StatelessWidget {
               Padding(
                 padding: const EdgeInsets.only(top: 5),
                 child: SvgPicture.asset(
-                  'lib/res/assets/pin.svg',
+                  'assets/images/pin.svg',
                   height: 20.h,
                   width: 20.w,
                 ),

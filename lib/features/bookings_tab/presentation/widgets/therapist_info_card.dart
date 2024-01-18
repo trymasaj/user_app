@@ -79,7 +79,7 @@ class TherapistInfoCard extends StatelessWidget {
                     radius: (36 / 2).r,
                     backgroundColor: const Color(0xffF5F5F5),
                     child: SvgPicture.asset(
-                      'lib/res/assets/wa_logo.svg',
+                      'assets/images/wa_logo.svg',
                     ),
                   ),
                   SizedBox(width: 8.w),
@@ -87,7 +87,7 @@ class TherapistInfoCard extends StatelessWidget {
                     radius: (36 / 2).r,
                     backgroundColor: const Color(0xffF5F5F5),
                     child: SvgPicture.asset(
-                      'lib/res/assets/phone.svg',
+                      'assets/images/phone.svg',
                     ),
                   ),
                 ],
@@ -126,7 +126,7 @@ class TherapistInfoCard extends StatelessWidget {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               SvgPicture.asset(
-                'lib/res/assets/img_alert_circle.svg',
+                'assets/images/img_alert_circle.svg',
                 color: AppColors.FONT_LIGHT.withOpacity(.7),
               ),
               SizedBox(width: 5.w),

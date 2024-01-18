@@ -185,8 +185,8 @@ flutter_native_splash:
   ios: true
   android_gravity: fill
   ios_content_mode: scaleAspectFill
-  image: lib/res/assets/images/Bg.png
-  background_image: lib/res/assets/images/Bg.png
+  image: assets/images/Bg.png
+  background_image: assets/images/Bg.png
   android_12:
-    background_image: lib/res/assets/images/Bg.png
-    image: lib/res/assets/images/Bg.png
+    background_image: assets/images/Bg.png
+    image: assets/images/Bg.png

@@ -91,7 +91,7 @@ class _LoginPageState extends State<LoginPage> {
       },
       child: CustomAppPage(
         withBackground: true,
-        backgroundPath: 'lib/res/assets/images/Bg.png',
+        backgroundPath: 'assets/images/Bg.png',
         safeBottom: false,
         safeTop: true,
         backgroundFit: BoxFit.fitWidth,
@@ -179,7 +179,7 @@ class _LoginPageState extends State<LoginPage> {
       labelStyle: labelStyle,
       color: const Color(0xFFF6F6F6),
       icon: SvgPicture.asset(
-        'lib/res/assets/apple.svg',
+        'assets/images/apple.svg',
         color: Colors.black,
       ),
       onPressed: () {
@@ -253,7 +253,7 @@ class _LoginPageState extends State<LoginPage> {
       labelStyle: labelStyle,
       color: const Color(0xFFF6F6F6),
       icon: SvgPicture.asset(
-        'lib/res/assets/google.svg',
+        'assets/images/google.svg',
         color: Colors.black,
       ),
       onPressed: () {

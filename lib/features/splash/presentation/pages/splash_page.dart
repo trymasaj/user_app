@@ -76,7 +76,7 @@ class _SplashPageState extends State<SplashPage> {
         child: CustomAppPage(
             withBackground: true,
             // safeBottom: false,
-            backgroundPath: 'lib/res/assets/images/Bg.png',
+            backgroundPath: 'assets/images/Bg.png',
             child: Center(
               child: AppLogo(
                 width: 208.w,
