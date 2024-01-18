@@ -119,7 +119,8 @@ class _MyAppState extends State<MyApp> with WidgetsBindingObserver {
           designSize: const Size(375, 790),
           minTextAdapt: true,
           child: Builder(builder: (context) {
-            return MaterialApp(routes: routes,
+            return MaterialApp(
+              routes: routes,
               home: const SplashPage(),
               localizationsDelegates: context.localizationDelegates,
               supportedLocales: context.supportedLocales,
