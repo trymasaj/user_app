@@ -1,3 +1,5 @@
+import 'custom_cached_network_image.dart';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:masaj/core/presentation/widgets/stateless/custom_cached_network_image.dart';
@@ -69,7 +71,7 @@ class CustomAppPage extends StatelessWidget {
                     height: _height,
                     width: _width,
                   )
-                : SvgPicture.asset(
+                : Image.asset(
                     _backgroundPath?.isNotEmpty == true
                         ? _backgroundPath!
                         : 'assets/images/background.svg',

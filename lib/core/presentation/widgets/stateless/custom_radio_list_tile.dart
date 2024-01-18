@@ -7,6 +7,7 @@ class CustomRadioListTile<T> extends StatelessWidget {
   final T value;
   final T groupValue;
   final ValueChanged<T> onValueSelected;
+  final Widget? leading;
 
   const CustomRadioListTile({
     super.key,
@@ -14,6 +15,7 @@ class CustomRadioListTile<T> extends StatelessWidget {
     required this.value,
     required this.groupValue,
     required this.onValueSelected,
+    this.leading,
   });
 
   @override
@@ -43,6 +45,7 @@ class CustomRadioListTile<T> extends StatelessWidget {
           color: isSelected ? null : const Color(0xFFF6F6F6),
         ),
         child: ListTile(
+          leading: leading,
           title: label,
           trailing: _buildTrailingIndicator(isSelected: isSelected),
         ),
