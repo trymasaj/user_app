@@ -12,6 +12,7 @@ import 'package:flutter_native_splash/flutter_native_splash.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:masaj/core/data/di/injection_setup.dart';
 import 'package:masaj/core/data/di/injector.dart';
+import 'package:masaj/core/presentation/routes/routes.dart';
 import 'package:masaj/core/presentation/size/size_utils.dart';
 import 'package:masaj/core/presentation/theme/theme_helper.dart';
 import 'package:masaj/features/splash/presentation/pages/splash_page.dart';
@@ -118,7 +119,7 @@ class _MyAppState extends State<MyApp> with WidgetsBindingObserver {
           designSize: const Size(375, 790),
           minTextAdapt: true,
           child: Builder(builder: (context) {
-            return MaterialApp(
+            return MaterialApp(routes: routes,
               home: const SplashPage(),
               localizationsDelegates: context.localizationDelegates,
               supportedLocales: context.supportedLocales,
