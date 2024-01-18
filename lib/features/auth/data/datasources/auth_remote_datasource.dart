@@ -1,65 +1,45 @@
-<<<<<<< HEAD
-=======
-import 'package:masaj/features/auth/data/models/login_params.dart';
-import 'package:masaj/features/auth/data/models/sing_up_params.dart';
-
-import '../../../../core/enums/gender.dart';
-import '../../../../core/enums/age_group.dart';
-import '../../../account/data/models/contact_us_message_model.dart';
->>>>>>> origin/moatasem
-import 'package:dio/dio.dart';
 import 'package:masaj/core/data/clients/network_service.dart';
 import 'package:masaj/core/data/constants/api_end_point.dart';
-import 'package:masaj/core/data/models/interest_model.dart';
 import 'package:masaj/core/domain/enums/age_group.dart';
 import 'package:masaj/core/domain/enums/gender.dart';
 import 'package:masaj/core/domain/enums/request_result_enum.dart';
 import 'package:masaj/core/domain/exceptions/request_exception.dart';
-import 'package:masaj/features/account/data/models/contact_us_message_model.dart';
-import 'package:masaj/features/auth/data/models/user.dart';
+import 'package:masaj/features/auth/data/models/login_params.dart';
+import 'package:masaj/features/auth/data/models/sing_up_params.dart';
+
+import '../../../account/data/models/contact_us_message_model.dart';
+import 'package:dio/dio.dart';
+
+import '../../../../core/data/models/interest_model.dart';
+import '../models/user.dart';
 
 abstract class AuthRemoteDataSource {
   Future<User> login(
-    String phoneNumber,
-    String countryCode,
-    String password,
-    String? mobileAppId,
-    int? deviceType,
-  );
-
+      String phoneNumber,
+      String countryCode,
+      String password,
+      String? mobileAppId,
+      int? deviceType,
+      );
   Future<User> externalLogin(User user);
-
   Future<User> signUp(User user);
-
   Future<void> forgetPassword(String email);
-
   Future<void> changePassword(String oldPassword, String newPassword);
-
   Future<User?> getUserData();
-
   Future<User> editAccountData(User newUser);
-
   Future<void> logout(String userId);
-
   Future<void> deleteAccount(ContactUsMessage message);
-
   Future<void> informBackendAboutLanguageChanges(String languageCode);
-
   Future<String?> completeRegistration({
     required String fullName,
     required String mobile,
     Gender? gender,
     AgeGroup? ageGroup,
   });
-
   Future<List<InterestModel>> getInterestData();
-
   Future<void> editUserInterests(List<int> selectedInterests);
-
   Future<bool> checkEmailVerified();
-
   Future<void> resendVerificationEmail();
-
   Future<void> selectProject(int projectId);
 
   Future<void> updateUserNotificationStatus(bool isEnabled);
@@ -76,27 +56,14 @@ class AuthRemoteDataSourceImpl implements AuthRemoteDataSource {
 
     // final formData = await _createFormData(user.toMap());
 
-<<<<<<< HEAD
-    return _networkService.post(url, data: formData).then((response) {
-      if (![201, 200].contains(response.statusCode)) {
-        throw RequestException(message: response.data);
-      }
-      final result = response.data;
-      final resultStatus = result['result'];
-      if (resultStatus == RequestResult.Failed.name) {
-        throw RequestException(message: result['msg']);
-      }
-      return User.fromMap(result['data']);
-=======
     return _networkService.post(url, data: user.toMap()).then((response) {
       if (![201, 200].contains(response.statusCode))
-        throw RequestException(response.data);
+        throw RequestException(message:response.data);
       final result = response.data;
       final resultStatus = result['result'];
       if (resultStatus == RequestResult.Failed.name)
-        throw RequestException(result['msg']);
+        throw RequestException(message:result['msg']);
       return User.fromMap(result);
->>>>>>> origin/moatasem
     });
   }
 
@@ -110,12 +77,12 @@ class AuthRemoteDataSourceImpl implements AuthRemoteDataSource {
 
   @override
   Future<User> login(
-    String phoneNumber,
-    String countryCode,
-    String password,
-    String? mobileAppId,
-    int? deviceType,
-  ) {
+      String phoneNumber,
+      String countryCode,
+      String password,
+      String? mobileAppId,
+      int? deviceType,
+      ) {
     const url = ApiEndPoint.LOGIN;
     final data = {
       "phone": phoneNumber,
@@ -127,20 +94,12 @@ class AuthRemoteDataSourceImpl implements AuthRemoteDataSource {
     }..removeWhere((_, v) => v == null);
     print(countryCode);
     return _networkService.post(url, data: data).then((response) {
-      if (response.statusCode != 200)
-        throw RequestException(message: response.data);
+      if (response.statusCode != 200) throw RequestException(message:response.data);
       final result = response.data;
       final resultStatus = result['result'];
-<<<<<<< HEAD
-      if (resultStatus == RequestResult.Failed.name) {
-        throw RequestException(message: result['msg']);
-      }
-      return User.fromMap(result['data']);
-=======
       if (resultStatus == RequestResult.Failed.name)
-        throw RequestException(result['msg']);
+        throw RequestException(message: result['msg']);
       return User.fromMap(result);
->>>>>>> origin/moatasem
     });
   }
 
@@ -149,12 +108,11 @@ class AuthRemoteDataSourceImpl implements AuthRemoteDataSource {
     const url = ApiEndPoint.EXTERNAL_LOGIN;
     final data = user.toSocialMediaMap();
     return _networkService.post(url, data: data).then((response) {
-      if (response.statusCode != 200)
-        throw RequestException(message: response.data);
+      if (response.statusCode != 200) throw RequestException(message:response.data);
       final result = response.data;
       final resultStatus = result['result'];
       if (resultStatus == RequestResult.Failed.name) {
-        throw RequestException(message: result['msg']);
+        throw RequestException(message:result['msg']);
       }
 
       return User.fromMap(result['data']);
@@ -166,13 +124,11 @@ class AuthRemoteDataSourceImpl implements AuthRemoteDataSource {
     const url = ApiEndPoint.FORGET_PASSWORD;
     final data = {'email': email};
     return _networkService.post(url, data: data).then((response) {
-      if (response.statusCode != 200)
-        throw RequestException(message: response.data);
+      if (response.statusCode != 200) throw RequestException(message:response.data);
       final result = response.data;
       final resultStatus = result['result'];
-      if (resultStatus == RequestResult.Failed.name) {
-        throw RequestException(message: result['msg']);
-      }
+      if (resultStatus == RequestResult.Failed.name)
+        throw RequestException(message:result['msg']);
     });
   }
 
@@ -180,18 +136,16 @@ class AuthRemoteDataSourceImpl implements AuthRemoteDataSource {
   Future<void> changePassword(String oldPassword, String newPassword) {
     const url = ApiEndPoint.CHANGE_PASSWORD;
     final data = {
-      'OldPassword': oldPassword,
-      'NewPassword': newPassword,
+      "OldPassword": oldPassword,
+      "NewPassword": newPassword,
     };
 
     return _networkService.post(url, data: data).then((response) {
-      if (response.statusCode != 200)
-        throw RequestException(message: response.data);
+      if (response.statusCode != 200) throw RequestException(message:response.data);
       final result = response.data;
       final resultStatus = result['result'];
-      if (resultStatus == RequestResult.Failed.name) {
-        throw RequestException(message: result['msg']);
-      }
+      if (resultStatus == RequestResult.Failed.name)
+        throw RequestException(message:result['msg']);
     });
   }
 
@@ -200,13 +154,11 @@ class AuthRemoteDataSourceImpl implements AuthRemoteDataSource {
     const url = ApiEndPoint.USER_INFO;
 
     return _networkService.get(url).then((response) {
-      if (response.statusCode != 200)
-        throw RequestException(message: response.data);
+      if (response.statusCode != 200) throw RequestException(message:response.data);
       final result = response.data;
       final resultStatus = result['result'];
-      if (resultStatus == RequestResult.Failed.name) {
-        throw RequestException(message: result['msg']);
-      }
+      if (resultStatus == RequestResult.Failed.name)
+        throw RequestException(message:result['msg']);
       return User.fromMap(result['data']);
     });
   }
@@ -218,13 +170,11 @@ class AuthRemoteDataSourceImpl implements AuthRemoteDataSource {
     final formData = await _createFormData(newUser.toMap());
 
     return _networkService.post(url, data: formData).then((response) {
-      if (response.statusCode != 200)
-        throw RequestException(message: response.data);
+      if (response.statusCode != 200) throw RequestException(message:response.data);
       final result = response.data;
       final resultStatus = result['result'];
-      if (resultStatus == RequestResult.Failed.name) {
-        throw RequestException(message: result['msg']);
-      }
+      if (resultStatus == RequestResult.Failed.name)
+        throw RequestException(message:result['msg']);
       return User.fromMap(result['data']);
     });
   }
@@ -235,13 +185,11 @@ class AuthRemoteDataSourceImpl implements AuthRemoteDataSource {
     final data = {'userId': userId};
 
     return _networkService.post(url, data: data).then((response) {
-      if (response.statusCode != 200)
-        throw RequestException(message: response.data);
+      if (response.statusCode != 200) throw RequestException(message:response.data);
       final result = response.data;
       final resultStatus = result['result'];
-      if (resultStatus == RequestResult.Failed.name) {
-        throw RequestException(message: result['msg']);
-      }
+      if (resultStatus == RequestResult.Failed.name)
+        throw RequestException(message:result['msg']);
     });
   }
 
@@ -250,13 +198,11 @@ class AuthRemoteDataSourceImpl implements AuthRemoteDataSource {
     const url = ApiEndPoint.CONTACT_US;
 
     return _networkService.post(url, data: message.toMap()).then((response) {
-      if (response.statusCode != 200)
-        throw RequestException(message: response.data);
+      if (response.statusCode != 200) throw RequestException(message:response.data);
       final result = response.data;
       final resultStatus = result['result'];
-      if (resultStatus == RequestResult.Failed.name) {
-        throw RequestException(message: result['msg']);
-      }
+      if (resultStatus == RequestResult.Failed.name)
+        throw RequestException(message:result['msg']);
     });
   }
 
@@ -266,13 +212,11 @@ class AuthRemoteDataSourceImpl implements AuthRemoteDataSource {
     final params = {'language': languageCode};
 
     return _networkService.post(url, queryParameters: params).then((response) {
-      if (response.statusCode != 200)
-        throw RequestException(message: response.data);
+      if (response.statusCode != 200) throw RequestException(message:response.data);
       final result = response.data;
       final resultStatus = result['result'];
-      if (resultStatus == RequestResult.Failed.name) {
-        throw RequestException(message: result['msg']);
-      }
+      if (resultStatus == RequestResult.Failed.name)
+        throw RequestException(message:result['msg']);
     });
   }
 
@@ -293,13 +237,11 @@ class AuthRemoteDataSourceImpl implements AuthRemoteDataSource {
 
     final formData = await _createFormData(data);
     return _networkService.post(url, data: formData).then((response) {
-      if (response.statusCode != 200)
-        throw RequestException(message: response.data);
+      if (response.statusCode != 200) throw RequestException(message:response.data);
       final result = response.data;
       final resultStatus = result['result'];
-      if (resultStatus == RequestResult.Failed.name) {
-        throw RequestException(message: result['msg']);
-      }
+      if (resultStatus == RequestResult.Failed.name)
+        throw RequestException(message:result['msg']);
 
       return result['data']['ticketMXAccessToken'];
     });
@@ -310,13 +252,11 @@ class AuthRemoteDataSourceImpl implements AuthRemoteDataSource {
     const url = ApiEndPoint.GET_INTERESTS;
 
     return _networkService.get(url).then((response) {
-      if (response.statusCode != 200)
-        throw RequestException(message: response.data);
+      if (response.statusCode != 200) throw RequestException(message:response.data);
       final result = response.data;
       final resultStatus = result['result'];
-      if (resultStatus == RequestResult.Failed.name) {
-        throw RequestException(message: result['msg']);
-      }
+      if (resultStatus == RequestResult.Failed.name)
+        throw RequestException(message:result['msg']);
 
       final data = result['data'] as List;
       return data.map((e) => InterestModel.fromMap(e)).toList();
@@ -329,13 +269,11 @@ class AuthRemoteDataSourceImpl implements AuthRemoteDataSource {
     final data = {'userInterests': selectedInterests};
 
     return _networkService.post(url, data: data).then((response) {
-      if (response.statusCode != 200)
-        throw RequestException(message: response.data);
+      if (response.statusCode != 200) throw RequestException(message:response.data);
       final result = response.data;
       final resultStatus = result['result'];
-      if (resultStatus == RequestResult.Failed.name) {
-        throw RequestException(message: result['msg']);
-      }
+      if (resultStatus == RequestResult.Failed.name)
+        throw RequestException(message:result['msg']);
     });
   }
 
@@ -344,13 +282,11 @@ class AuthRemoteDataSourceImpl implements AuthRemoteDataSource {
     const url = ApiEndPoint.CHECK_EMAIL_VERIFIED;
 
     return _networkService.post(url).then((response) {
-      if (response.statusCode != 200)
-        throw RequestException(message: response.data);
+      if (response.statusCode != 200) throw RequestException(message:response.data);
       final result = response.data;
       final resultStatus = result['result'];
-      if (resultStatus == RequestResult.Failed.name) {
-        throw RequestException(message: result['msg']);
-      }
+      if (resultStatus == RequestResult.Failed.name)
+        throw RequestException(message:result['msg']);
       return result['data'];
     });
   }
@@ -360,13 +296,11 @@ class AuthRemoteDataSourceImpl implements AuthRemoteDataSource {
     const url = ApiEndPoint.RESEND_VERIFICATION_EMAIL;
 
     return _networkService.post(url).then((response) {
-      if (response.statusCode != 200)
-        throw RequestException(message: response.data);
+      if (response.statusCode != 200) throw RequestException(message:response.data);
       final result = response.data;
       final resultStatus = result['result'];
-      if (resultStatus == RequestResult.Failed.name) {
-        throw RequestException(message: result['msg']);
-      }
+      if (resultStatus == RequestResult.Failed.name)
+        throw RequestException(message:result['msg']);
     });
   }
 
@@ -376,13 +310,11 @@ class AuthRemoteDataSourceImpl implements AuthRemoteDataSource {
     final params = {'id': projectId};
 
     return _networkService.post(url, queryParameters: params).then((response) {
-      if (response.statusCode != 200)
-        throw RequestException(message: response.data);
+      if (response.statusCode != 200) throw RequestException(message:response.data);
       final result = response.data;
       final resultStatus = result['result'];
-      if (resultStatus == RequestResult.Failed.name) {
-        throw RequestException(message: result['msg']);
-      }
+      if (resultStatus == RequestResult.Failed.name)
+        throw RequestException(message:result['msg']);
     });
   }
 
@@ -392,13 +324,11 @@ class AuthRemoteDataSourceImpl implements AuthRemoteDataSource {
     final params = {'enabled': isEnabled};
 
     return _networkService.post(url, queryParameters: params).then((response) {
-      if (response.statusCode != 200)
-        throw RequestException(message: response.data);
+      if (response.statusCode != 200) throw RequestException(message:response.data);
       final result = response.data;
       final resultStatus = result['result'];
-      if (resultStatus == RequestResult.Failed.name) {
-        throw RequestException(message: result['msg']);
-      }
+      if (resultStatus == RequestResult.Failed.name)
+        throw RequestException(message:result['msg']);
     });
   }
 }

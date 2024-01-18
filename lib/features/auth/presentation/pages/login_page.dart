@@ -3,22 +3,21 @@ import 'dart:io';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:intl_phone_field/phone_number.dart';
-import 'package:masaj/shared_widgets/stateless/app_logo.dart';
-import 'package:masaj/shared_widgets/text_fields/phone_number_text_field.dart';
-
-import '../../../../shared_widgets/stateless/custom_text.dart';
-import '../../../../shared_widgets/text_fields/email_text_form_field.dart';
+import 'package:masaj/core/presentation/colors/app_colors.dart';
+import 'package:masaj/core/presentation/navigation/navigator_helper.dart';
+import 'package:masaj/core/presentation/overlay/show_snack_bar.dart';
+import 'package:masaj/core/presentation/widgets/stateless/app_logo.dart';
+import 'package:masaj/core/presentation/widgets/stateless/custom_app_page.dart';
+import 'package:masaj/core/presentation/widgets/stateless/custom_text.dart';
+import 'package:masaj/core/presentation/widgets/stateless/default_button.dart';
+import 'package:masaj/core/presentation/widgets/stateless/text_fields/email_text_form_field.dart';
+import 'package:masaj/core/presentation/widgets/stateless/text_fields/password_text_form_field.dart';
+import 'package:masaj/core/presentation/widgets/stateless/text_fields/phone_number_text_field.dart';
 
 import '../../../home/presentation/pages/home_page.dart';
 
-import '../../../../core/utils/navigator_helper.dart';
 import '../blocs/auth_cubit/auth_cubit.dart';
 import 'email_verification_page.dart';
-import '../../../../res/style/app_colors.dart';
-import '../../../../shared_widgets/other/show_snack_bar.dart';
-import '../../../../shared_widgets/text_fields/password_text_form_field.dart';
-import '../../../../shared_widgets/stateless/custom_app_page.dart';
-import '../../../../shared_widgets/stateful/default_button.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:easy_localization/easy_localization.dart';

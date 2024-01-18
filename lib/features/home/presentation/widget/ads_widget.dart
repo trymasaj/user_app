@@ -1,7 +1,7 @@
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
+import 'package:masaj/core/presentation/colors/app_colors.dart';
 import 'package:masaj/gen/assets.gen.dart';
-import 'package:masaj/res/style/app_colors.dart';
 class Ads extends StatefulWidget {
   const Ads({
     super.key,

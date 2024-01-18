@@ -128,17 +128,12 @@ class __CustomNavBarState extends State<_CustomNavBar> {
               BottomNavigationBarItem(
                 icon: SvgPicture.asset(
                   Assets.lib.res.assets.home,
->>>>>>> origin/moatasem
                   height: 24,
                   width: 24,
                   color: AppColors.GREY_NORMAL_COLOR,
                 ),
                 activeIcon: SvgPicture.asset(
-<<<<<<< HEAD
-                  'assets/images/home_icon.svg',
-=======
                   Assets.lib.res.assets.home,
->>>>>>> origin/moatasem
                   color: AppColors.FONT_COLOR,
                   height: 24,
                   width: 24,
@@ -147,21 +142,13 @@ class __CustomNavBarState extends State<_CustomNavBar> {
               ),
               BottomNavigationBarItem(
                 icon: SvgPicture.asset(
-<<<<<<< HEAD
-                  'assets/images/zones_icon.svg',
-=======
                   Assets.lib.res.assets.bookmark,
->>>>>>> origin/moatasem
                   color: AppColors.GREY_NORMAL_COLOR,
                   height: 24,
                   width: 24,
                 ),
                 activeIcon: SvgPicture.asset(
-<<<<<<< HEAD
-                  'assets/images/zones_icon.svg',
-=======
                   Assets.lib.res.assets.bookmark,
->>>>>>> origin/moatasem
                   color: AppColors.FONT_COLOR,
                   height: 24,
                   width: 24,
@@ -177,23 +164,13 @@ class __CustomNavBarState extends State<_CustomNavBar> {
               ),
               BottomNavigationBarItem(
                 icon: SvgPicture.asset(
-<<<<<<< HEAD
-                  'assets/images/calendar_icon.svg',
-=======
                   Assets.lib.res.assets.fluentPeopleCommunity20Regular,
->>>>>>> origin/moatasem
                   color: AppColors.GREY_NORMAL_COLOR,
                   height: 24,
                   width: 24,
                 ),
                 activeIcon: SvgPicture.asset(
-<<<<<<< HEAD
-                  'assets/images/calendar_icon.svg',
-                  color: AppColors.FONT_COLOR,
-=======
                   Assets.lib.res.assets.fluentPeopleCommunity20Regular,
-                  color: AppColors.GREY_DARK_COLOR,
->>>>>>> origin/moatasem
                   height: 24,
                   width: 24,
                 ),
@@ -201,21 +178,13 @@ class __CustomNavBarState extends State<_CustomNavBar> {
               ),
               BottomNavigationBarItem(
                 icon: SvgPicture.asset(
-<<<<<<< HEAD
-                  'assets/images/more_icon.svg',
-=======
                   Assets.lib.res.assets.setting,
->>>>>>> origin/moatasem
                   color: AppColors.GREY_NORMAL_COLOR,
                   height: 24,
                   width: 24,
                 ),
                 activeIcon: SvgPicture.asset(
-<<<<<<< HEAD
-                  'assets/images/more_icon.svg',
-=======
                   Assets.lib.res.assets.setting,
->>>>>>> origin/moatasem
                   height: 24,
                   width: 24,
                   color: AppColors.FONT_COLOR,

@@ -1,12 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:gradient_borders/box_borders/gradient_box_border.dart';
+import 'package:masaj/core/presentation/colors/app_colors.dart';
+import 'package:masaj/core/presentation/widgets/stateless/custom_app_page.dart';
+import 'package:masaj/core/presentation/widgets/stateless/custom_sliver_app_bar.dart';
+import 'package:masaj/core/presentation/widgets/stateless/custom_text.dart';
+import 'package:masaj/core/presentation/widgets/stateless/text_with_gradiant.dart';
 import 'package:masaj/features/home/presentation/widget/search_field.dart';
 import 'package:masaj/features/home/presentation/widget/tehrapists_widget.dart';
-import 'package:masaj/res/style/app_colors.dart';
-import 'package:masaj/shared_widgets/stateless/custom_app_page.dart';
-import 'package:masaj/shared_widgets/stateless/custom_sliver_app_bar.dart';
-import 'package:masaj/shared_widgets/stateless/custom_text.dart';
-import 'package:masaj/shared_widgets/stateless/text_with_gradiant.dart';
 
 class ProvidersTab extends StatefulWidget {
   const ProvidersTab({super.key});

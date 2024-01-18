@@ -1,47 +1,45 @@
+import 'package:masaj/core/data/clients/cache_service.dart';
 import 'package:masaj/core/data/clients/local/shared_preference_local_client.dart';
-import 'package:masaj/core/service/location_helper.dart';
+import 'package:masaj/core/data/clients/network_service.dart';
+import 'package:masaj/core/data/datasources/device_type_data_source.dart';
+import 'package:masaj/core/data/datasources/external_login_data_source.dart';
+import 'package:masaj/core/data/datasources/favorites_remote_data_source.dart';
+import 'package:masaj/core/data/device/app_info_service.dart';
+import 'package:masaj/core/data/device/device_security_service.dart';
+import 'package:masaj/core/data/device/launcher_service.dart';
+import 'package:masaj/core/data/device/location_helper.dart';
+import 'package:masaj/core/data/device/notification_service.dart';
+import 'package:masaj/core/data/device/share_service.dart';
+import 'package:masaj/core/data/repositories/favorites_repository.dart';
+import 'package:masaj/core/data/services/add_to_apple_wallet_service.dart';
+import 'package:masaj/core/data/show_case_helper.dart';
+import 'package:masaj/features/account/data/datasources/account_remote_data_source.dart';
+import 'package:masaj/features/account/data/repositories/account_repository.dart';
+import 'package:masaj/features/account/presentation/blocs/about_us_cubit/about_us_cubit.dart';
+import 'package:masaj/features/account/presentation/blocs/contact_us_cubit/contact_us_cubit.dart';
+import 'package:masaj/features/account/presentation/blocs/coupon_cubit/coupon_cubit.dart';
 import 'package:masaj/features/account/presentation/blocs/coupon_details_cubit/coupon_details_cubit.dart';
-import 'package:masaj/core/utils/show_case_helper.dart';
-import 'package:masaj/features/intro/presentation/blocs/quiz_page_cubit/quiz_page_cubit.dart';
-import 'package:masaj/features/wallet/bloc/wallet_bloc/wallet_bloc.dart';
-import 'package:masaj/features/wallet/repos/wallet_repo.dart';
-
-import '../core/data/datasources/device_type_data_source.dart';
-import '../core/data/datasources/external_login_data_source.dart';
-import '../core/data/datasources/favorites_remote_data_source.dart';
-import '../core/data/repositories/favorites_repository.dart';
-import '../core/service/add_to_apple_wallet_service.dart';
-import '../core/service/app_info_service.dart';
-import '../core/service/cache_service.dart';
-import '../core/service/device_security_service.dart';
-import '../core/service/launcher_service.dart';
-import '../core/service/network_service.dart';
-import '../core/service/notification_service.dart';
-import '../core/service/share_service.dart';
-import '../features/account/data/datasources/account_remote_data_source.dart';
-import '../features/account/data/repositories/account_repository.dart';
-import '../features/account/presentation/blocs/about_us_cubit/about_us_cubit.dart';
-import '../features/account/presentation/blocs/contact_us_cubit/contact_us_cubit.dart';
-import '../features/account/presentation/blocs/coupon_cubit/coupon_cubit.dart';
-import '../features/account/presentation/blocs/favorites_cubit/favorites_cubit.dart';
-import '../features/account/presentation/blocs/more_tab_cubit/more_tab_cubit.dart';
-import '../features/account/presentation/blocs/points_cubit/points_cubit.dart';
-import '../features/account/presentation/blocs/topics_cubit/topics_cubit.dart';
-import '../features/auth/data/datasources/auth_local_datasource.dart';
-import '../features/auth/data/datasources/auth_remote_datasource.dart';
-import '../features/auth/data/repositories/auth_repository.dart';
-import '../features/auth/presentation/blocs/auth_cubit/auth_cubit.dart';
-import '../features/home/presentation/bloc/notificaions_cubit/notifications_cubit.dart';
-import '../features/intro/data/datasources/intro_local_data_source.dart';
-import '../features/intro/presentation/blocs/choose_language_cubit/choose_language_cubit.dart';
-import '../features/intro/presentation/blocs/guide_page_cubit/guide_page_cubit.dart';
-import '../features/home/data/datasources/home_remote_data_source.dart';
-import '../features/home/data/repositories/home_repository.dart';
-import '../features/home/presentation/bloc/home_cubit/home_cubit.dart';
-import '../features/intro/data/repositories/intro_repository.dart';
-import '../features/splash/data/datasources/splash_local_data_source.dart';
-import '../features/splash/data/repositories/splash_repository_impl.dart';
-import '../features/splash/presentation/splash_cubit/splash_cubit.dart';
+import 'package:masaj/features/account/presentation/blocs/favorites_cubit/favorites_cubit.dart';
+import 'package:masaj/features/account/presentation/blocs/more_tab_cubit/more_tab_cubit.dart';
+import 'package:masaj/features/account/presentation/blocs/points_cubit/points_cubit.dart';
+import 'package:masaj/features/account/presentation/blocs/topics_cubit/topics_cubit.dart';
+import 'package:masaj/features/address/bloc/map_location_picker_cubit/map_location_picker_cubit.dart';
+import 'package:masaj/features/address/repos/address_repo.dart';
+import 'package:masaj/features/auth/data/datasources/auth_local_datasource.dart';
+import 'package:masaj/features/auth/data/datasources/auth_remote_datasource.dart';
+import 'package:masaj/features/auth/data/repositories/auth_repository.dart';
+import 'package:masaj/features/auth/presentation/blocs/auth_cubit/auth_cubit.dart';
+import 'package:masaj/features/home/data/datasources/home_remote_data_source.dart';
+import 'package:masaj/features/home/data/repositories/home_repository.dart';
+import 'package:masaj/features/home/presentation/bloc/home_cubit/home_cubit.dart';
+import 'package:masaj/features/home/presentation/bloc/notificaions_cubit/notifications_cubit.dart';
+import 'package:masaj/features/intro/data/datasources/intro_local_data_source.dart';
+import 'package:masaj/features/intro/data/repositories/intro_repository.dart';
+import 'package:masaj/features/intro/presentation/blocs/choose_language_cubit/choose_language_cubit.dart';
+import 'package:masaj/features/intro/presentation/blocs/guide_page_cubit/guide_page_cubit.dart';
+import 'package:masaj/features/splash/data/datasources/splash_local_data_source.dart';
+import 'package:masaj/features/splash/data/repositories/splash_repository_impl.dart';
+import 'package:masaj/features/splash/presentation/splash_cubit/splash_cubit.dart';
 
 ///Implementing
 ///
@@ -55,6 +53,7 @@ class Injector {
   static final _singleton = Injector._internal();
 
   Injector._internal();
+
   factory Injector() => _singleton;
 
   Future<void> init() {
@@ -62,8 +61,11 @@ class Injector {
   }
 
   //===================[WALLLET_CUBIT]===================
-  WalletBloc get walletBloc =>
-      WalletBloc(WalletState.initial(), walletRepository);
+  MapLocationPickerCubit get mapLocationBloc =>
+      MapLocationPickerCubit(addressRepo);
+
+  AddressRepo get addressRepo =>
+      _flyweightMap['addressRepo'] ?? AddressRepo(networkService);
 
   //===================[SPLASH_CUBIT]===================
   SplashCubit get splashCubit => SplashCubit(
@@ -73,24 +75,21 @@ class Injector {
 
   SplashRepository get splashRepository =>
       _flyweightMap['splashRepository'] ??
-      SplashRepositoryImpl(splashLocalDataSource);
-
-  WalletRepository get walletRepository =>
-      _flyweightMap['walletRepository'] ?? WalletRepository();
+          SplashRepositoryImpl(splashLocalDataSource);
 
   SharedPreferenceLocalClient get sharedPreferenceLocalClient =>
       _flyweightMap['sharedPreferenceLocalClient'] ??
-      SharedPreferenceLocalClient();
+          SharedPreferenceLocalClient();
 
   SplashLocalDataSource get splashLocalDataSource =>
       _flyweightMap['splashLocalDataSource'] ??
-      SplashLocalDataSourceImpl(cacheService);
+          SplashLocalDataSourceImpl(cacheService);
 
   //===================[AUTH_CUBIT]===================
   AuthCubit get authCubit => AuthCubit(
-        authRepository: authRepository,
-        showCaseHelper: showCaseHelper,
-      );
+    authRepository: authRepository,
+    showCaseHelper: showCaseHelper,
+  );
 
   AuthRepository get authRepository =>
       _flyweightMap['authRepository'] ??= AuthRepositoryImpl(
@@ -105,6 +104,7 @@ class Injector {
   AuthRemoteDataSource get authRemoteDataSource =>
       _flyweightMap['authRemoteDataSource'] ??=
           AuthRemoteDataSourceImpl(networkService);
+
   AuthLocalDataSource get authLocalDataSource =>
       _flyweightMap['authLocalDataSource'] ??=
           AuthLocalDataSourceImpl(cacheService);
@@ -114,29 +114,27 @@ class Injector {
 
   IntroRepository get introRepository =>
       _flyweightMap['introRepository'] ??
-      IntroRepositoryImpl(introLocalDataSource);
+          IntroRepositoryImpl(introLocalDataSource);
 
   IntroLocalDataSource get introLocalDataSource =>
       _flyweightMap['introLocalDataSource'] ??
-      IntroLocalDataSourceImpl(cacheService);
+          IntroLocalDataSourceImpl(cacheService);
 
   //===================[CHOOSE_LANGUAGE_CUBIT]===================
   ChooseLanguageCubit get chooseLanguageCubit =>
       ChooseLanguageCubit(introRepository);
 
-  //===================[QUIZ_CUBIT]==============================
-  QuizPageCubit get quizPageCubit => QuizPageCubit(introRepository);
-
   //===================[HOME_CUBIT]===================
   HomeCubit get homeCubit => HomeCubit(
-        homeRepository,
-        launcherService,
-      );
+    homeRepository,
+    launcherService,
+  );
 
   HomeRepository get homeRepository =>
       _flyweightMap['homeRepository'] ??= HomeRepositoryImpl(
         homeRemoteDataSource: homeRemoteDataSource,
       );
+
   HomeRemoteDataSource get homeRemoteDataSource =>
       _flyweightMap['homeRemoteDataSource'] ??=
           HomeRemoteDataSourceImpl(networkService);
@@ -160,11 +158,11 @@ class Injector {
 
   //===================[MORE_TAB_CUBIT]===================
   MoreTabCubit get moreTabCubit => MoreTabCubit(
-        accountRepository: accountRepository,
-        launcherService: launcherService,
-        appInfoService: appInfoService,
-        showCaseHelper: showCaseHelper,
-      );
+    accountRepository: accountRepository,
+    launcherService: launcherService,
+    appInfoService: appInfoService,
+    showCaseHelper: showCaseHelper,
+  );
 
   //===================[FAVORITES_CUBIT]===================
 
@@ -224,6 +222,7 @@ class Injector {
   ExternalLoginDataSource get appleExternalDataSource =>
       _flyweightMap['appleExternalDataSource'] ??=
           AppleExternalLoginDataSourceImpl();
+
   ExternalLoginDataSource get googleExternalDataSource =>
       _flyweightMap['googleExternalDataSource'] ??=
           GoogleExternalLoginDataSourceImpl();

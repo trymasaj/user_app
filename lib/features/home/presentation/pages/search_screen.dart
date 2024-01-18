@@ -1,10 +1,10 @@
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
-import 'package:masaj/core/utils/extensions.dart';
+import 'package:masaj/core/data/extensions/extensions.dart';
+import 'package:masaj/core/presentation/colors/app_colors.dart';
+import 'package:masaj/core/presentation/widgets/stateless/custom_text.dart';
 import 'package:masaj/gen/assets.gen.dart';
-import 'package:masaj/res/style/app_colors.dart';
-import 'package:masaj/shared_widgets/stateless/custom_text.dart';
 
 class SearchScreen extends StatefulWidget {
   const SearchScreen({super.key});

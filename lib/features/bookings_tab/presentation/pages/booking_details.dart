@@ -4,16 +4,14 @@ import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/svg.dart';
+import 'package:masaj/core/presentation/colors/app_colors.dart';
+import 'package:masaj/core/presentation/widgets/stateless/custom_app_bar.dart';
+import 'package:masaj/core/presentation/widgets/stateless/custom_app_page.dart';
+import 'package:masaj/core/presentation/widgets/stateless/default_button.dart';
 import 'package:masaj/features/bookings_tab/presentation/widgets/booking_card.dart';
 import 'package:masaj/features/bookings_tab/presentation/widgets/payment_info_card.dart';
 import 'package:masaj/features/bookings_tab/presentation/widgets/therapist_info_card.dart';
 import 'package:masaj/gen/assets.gen.dart';
-import 'package:masaj/res/style/app_colors.dart';
-import 'package:masaj/shared_widgets/stateful/default_button.dart';
-import 'package:masaj/shared_widgets/stateless/custom_app_bar.dart';
-import 'package:masaj/shared_widgets/stateless/custom_app_page.dart';
-import 'package:masaj/shared_widgets/stateless/custom_text.dart';
-import 'package:masaj/shared_widgets/stateless/text_with_gradiant.dart';
 
 class BookingDetialsScreen extends StatelessWidget {
   const BookingDetialsScreen({super.key});

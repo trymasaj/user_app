@@ -1,15 +1,7 @@
-<<<<<<< HEAD
-=======
 import 'package:country_flags/country_flags.dart';
 import 'package:masaj/core/app_export.dart';
-import 'package:masaj/shared_widgets/stateless/custom_text.dart';
-import '../../../../di/injector.dart';
-import '../../../../shared_widgets/stateless/custom_radio_list_tile.dart';
 import '../blocs/choose_language_cubit/choose_language_cubit.dart';
 import 'guide_page.dart';
-import '../../../../shared_widgets/other/show_snack_bar.dart';
-import '../../../../shared_widgets/stateful/default_button.dart';
->>>>>>> origin/moatasem
 import 'package:flutter/material.dart';
 import 'package:masaj/core/app_export.dart';
 import 'package:masaj/core/data/di/injector.dart';

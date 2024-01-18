@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:masaj/res/style/app_colors.dart';
-import 'package:masaj/shared_widgets/stateless/custom_text.dart';
+import 'package:masaj/core/presentation/colors/app_colors.dart';
+import 'package:masaj/core/presentation/widgets/stateless/custom_text.dart';
 
 // gradient text
 class TextWithGradiant extends StatelessWidget {

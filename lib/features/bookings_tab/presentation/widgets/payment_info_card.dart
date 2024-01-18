@@ -1,10 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:masaj/core/presentation/colors/app_colors.dart';
+import 'package:masaj/core/presentation/widgets/stateless/custom_text.dart';
 import 'package:masaj/gen/assets.gen.dart';
-import 'package:masaj/res/style/app_colors.dart';
-import 'package:masaj/shared_widgets/stateless/custom_text.dart';
-import 'package:masaj/shared_widgets/stateless/text_with_gradiant.dart';
 
 class PaymentInfoCard extends StatelessWidget {
   const PaymentInfoCard({

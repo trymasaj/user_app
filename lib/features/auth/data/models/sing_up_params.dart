@@ -1,7 +1,8 @@
 // ignore_for_file: public_member_api_docs, sort_constructors_first
 import 'dart:convert';
 
-import '../../../../core/enums/gender.dart';
+import 'package:masaj/core/domain/enums/gender.dart';
+
 
 class SignUpParams {
   final String? id;
