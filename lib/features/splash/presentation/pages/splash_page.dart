@@ -1,3 +1,13 @@
+import 'package:flutter_native_splash/flutter_native_splash.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:masaj/features/auth/presentation/pages/login_page.dart';
+
+import '../../../auth/presentation/blocs/auth_cubit/auth_cubit.dart';
+import '../../../auth/presentation/pages/email_verification_page.dart';
+import '../../../auth/presentation/pages/sign_up_page.dart';
+import '../../../intro/presentation/pages/choose_language_page.dart';
+import '../../../intro/presentation/pages/guide_page.dart';
+import '../splash_cubit/splash_cubit.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/flutter_svg.dart';
@@ -27,6 +37,9 @@ class SplashPage extends StatefulWidget {
 class _SplashPageState extends State<SplashPage> {
   @override
   void initState() {
+    Future.delayed(const Duration(seconds: 1), () {
+      FlutterNativeSplash.remove();
+    });
     //TODO: just A Workaround for the issue of flutter_svg
     // Don't forget to remove it once the issue is fixed!!
     svg.cache.maximumSize = 1000;
@@ -67,17 +80,16 @@ class _SplashPageState extends State<SplashPage> {
             );
           }
         },
-        child: const CustomAppPage(
-          withBackground: true,
-          safeBottom: false,
-          child: Column(
-            children: [
-              Spacer(),
-              AppLogo(),
-              Spacer(),
-            ],
-          ),
-        ),
+        child: CustomAppPage(
+            withBackground: true,
+            // safeBottom: false,
+            backgroundPath: 'lib/res/assets/images/Bg.png',
+            child: Center(
+              child: AppLogo(
+                width: 208.w,
+                height: 34.h,
+              ),
+            )),
       ),
     );
   }

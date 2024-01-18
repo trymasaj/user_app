@@ -17,6 +17,7 @@ class SplashLocalDataSourceImpl implements SplashLocalDataSource {
   @override
   Future<bool> isLanguageSet() async {
     final languageCode = await _cacheService.getLanguageCode();
+
     return languageCode != null;
   }
 }
