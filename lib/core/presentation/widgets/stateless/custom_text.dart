@@ -10,6 +10,7 @@ class CustomText extends StatelessWidget {
     super.key,
     required this.text,
     this.subtractedSize = 0.0,
+
     this.color,
     this.margin,
     this.textAlign = TextAlign.start,
@@ -20,6 +21,7 @@ class CustomText extends StatelessWidget {
     this.fixedFontSize,
     this.fontWeight,
     this.decoration,
+    this.height,
   });
 
   final String text;
@@ -35,9 +37,12 @@ class CustomText extends StatelessWidget {
   final FontWeight? fontWeight;
   final TextDecoration? decoration;
 
+final double? height;
+
   @override
   Widget build(BuildContext context) {
     final textStyleAfter = TextStyle(
+      height: height,
       fontSize:
           fixedFontSize ?? (min(fontSize.sp, fontSize) - subtractedSize.sp),
       fontFamily: 'Poppins',
@@ -48,6 +53,8 @@ class CustomText extends StatelessWidget {
     Widget child = Text(
       text.tr(context: context),
       softWrap: true,
+      
+
       maxLines: maxLines,
       overflow: TextOverflow.ellipsis,
       textAlign: textAlign,
