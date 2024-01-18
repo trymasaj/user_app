@@ -247,8 +247,8 @@ class AppDecoration {
         ),
       );
 
-  static BoxDecoration get outlineDeepPurpleA => const BoxDecoration();
 
+  static BoxDecoration get outlineDeepPurpleA => const BoxDecoration();
   static BoxDecoration get outlineDeeppurpleA200 => BoxDecoration(
         color: theme.colorScheme.onPrimaryContainer.withOpacity(1),
       );
@@ -308,7 +308,6 @@ class AppDecoration {
           ),
         ],
       );
-
   static BoxDecoration get outlineIndigo20021 => const BoxDecoration();
 
   // White decorations

@@ -6,6 +6,12 @@ import 'package:masaj/features/account/pages/create_new_password_screen.dart';
 import 'package:masaj/features/account/pages/manage_members_screen.dart';
 import 'package:masaj/features/account/pages/my_profile_screen.dart';
 import 'package:masaj/features/account/pages/phone_screen.dart';
+import 'package:masaj/features/bookings_tab/presentation/pages/booking_details.dart';
+import 'package:masaj/features/legal/pages/privacy_policy_screen.dart';
+import 'package:masaj/features/legal/pages/terms_and_condititons_screen.dart';
+import 'package:masaj/features/account/models/verification_code_screen.dart';
+import 'package:masaj/features/home/presentation/pages/home_page.dart';
+import 'package:masaj/features/account/pages/add_member_screen.dart';
 import 'package:masaj/features/address/pages/add_new_address_screen.dart';
 import 'package:masaj/features/address/pages/map_location_picker.dart';
 import 'package:masaj/features/auth/presentation/pages/change_password_page.dart';
@@ -32,6 +38,7 @@ import 'package:masaj/features/wallet/pages/wallet_screen.dart';
 final routes = <String, WidgetBuilder>{
   SplashPage.routeName: (context) => const SplashPage(),
   MapLocationPicker.routeName: (context) => MapLocationPicker.builder(context),
+  BookingDetialsScreen.routeName: (context) => const BookingDetialsScreen(),
   GuidePage.routeName: (context) => const GuidePage(),
   GetStartedPage.routeName: (context) => const GetStartedPage(),
   LoginPage.routeName: (context) => const LoginPage(),
@@ -55,7 +62,7 @@ final routes = <String, WidgetBuilder>{
   MedicalFormScreen.routeName: (context) => MedicalFormScreen.builder(context),
   ManageMembersScreen.routeName: (context) =>
       ManageMembersScreen.builder(context),
-  AddMemberScreen.routeName: (context) => AddMemberScreen.builder(context),
+  // AddMemberScreen.routeName: (context) => AddMemberScreen.builder(context),
   AddNewAddressScreen.routeName: (context) =>
       AddNewAddressScreen.builder(context),
   ConditionsScreen.routeName: (context) => ConditionsScreen.builder(context),
