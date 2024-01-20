@@ -129,12 +129,12 @@ class AuthRemoteDataSourceImpl implements AuthRemoteDataSource {
         throw RequestException(message: response.data);
       }
       final result = response.data;
-      final resultStatus = result['result'];
-      if (resultStatus == RequestResult.Failed.name) {
-        throw RequestException(message: result['msg']);
-      }
+      // final resultStatus = result['result'];
+      // if (resultStatus == RequestResult.Failed.name) {
+      //   throw RequestException(message: result['msg']);
+      // }
 
-      return User.fromMap(result['data']);
+      return User.fromMap(result);
     });
   }
 

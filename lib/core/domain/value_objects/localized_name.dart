@@ -5,8 +5,8 @@ class LocalizedName {
 
   Map<String, dynamic> toMap() {
     return {
-      'nameEn': this.nameEn,
-      'nameAr': this.nameAr,
+      'nameEn': nameEn,
+      'nameAr': nameAr,
     };
   }
 

@@ -12,11 +12,7 @@ abstract class ExternalLoginDataSource {
 }
 
 class GoogleExternalLoginDataSourceImpl implements ExternalLoginDataSource {
-  final _googleSignIn = GoogleSignIn(
-    clientId:
-        '115887106741-utskq6die37r9e7gf8l6ivf76fppouar.apps.googleusercontent.com',
-    scopes: ['email'],
-  );
+  final _googleSignIn = GoogleSignIn();
 
   @override
   Future<User> login() async {

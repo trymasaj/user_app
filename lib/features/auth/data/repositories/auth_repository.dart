@@ -142,7 +142,7 @@ class AuthRepositoryImpl implements AuthRepository {
     late User externalUser;
     try {
       externalUser = await _googleExternalDataSource.login();
-      final user = await _externalLogin(externalUser);
+      final user = await _externalLogin(externalUser.copyWith(countryId: 1));
       return user;
     } on RequestException catch (e) {
       if (e.message.contains('Email Required')) {
