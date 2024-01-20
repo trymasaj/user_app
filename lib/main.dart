@@ -4,17 +4,21 @@ import 'dart:isolate';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_crashlytics/firebase_crashlytics.dart';
+import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_native_splash/flutter_native_splash.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:masaj/core/data/clients/firebase_options.dart';
 import 'package:masaj/core/data/di/injection_setup.dart';
 import 'package:masaj/core/data/di/injector.dart';
 import 'package:masaj/core/presentation/routes/routes.dart';
 import 'package:masaj/core/presentation/size/size_utils.dart';
 import 'package:masaj/core/presentation/theme/theme_helper.dart';
+import 'package:masaj/features/auth/presentation/pages/login_page.dart';
+import 'package:masaj/features/intro/presentation/pages/guide_page.dart';
 import 'package:masaj/features/splash/presentation/pages/splash_page.dart';
 import 'package:requests_inspector/requests_inspector.dart';
 
@@ -23,13 +27,14 @@ const isRelease = false;
 const inspectorEnabled = true;
 
 void main() async {
+  final widgetsBinding = WidgetsFlutterBinding.ensureInitialized();
+
+  await Firebase.initializeApp();
+
   runZonedGuarded<Future<void>>(() async {
-    final widgetsBinding = WidgetsFlutterBinding.ensureInitialized();
     await EasyLocalization.ensureInitialized();
     configureDependencies();
     await Injector().init();
-
-    await Firebase.initializeApp();
 
     FlutterNativeSplash.preserve(widgetsBinding: widgetsBinding);
 
@@ -110,7 +115,6 @@ class _MyAppState extends State<MyApp> with WidgetsBindingObserver {
       DeviceOrientation.portraitUp,
     ]);
 
-    final isArabic = context.locale == const Locale('ar');
     return GestureDetector(
       behavior: HitTestBehavior.opaque,
       onTap: () => FocusManager.instance.primaryFocus?.unfocus(),
@@ -121,7 +125,7 @@ class _MyAppState extends State<MyApp> with WidgetsBindingObserver {
           child: Builder(builder: (context) {
             return MaterialApp(
               routes: routes,
-              home: const SplashPage(),
+              initialRoute: SplashPage.routeName,
               localizationsDelegates: context.localizationDelegates,
               supportedLocales: context.supportedLocales,
               locale: context.locale,

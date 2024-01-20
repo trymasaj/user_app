@@ -1,8 +1,10 @@
+import 'dart:io';
 import 'dart:ui';
 
 import 'package:collection/collection.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:masaj/core/app_export.dart';
 import 'package:masaj/core/data/di/injector.dart';
 import 'package:masaj/core/data/extensions/extensions.dart';
 import 'package:masaj/core/presentation/colors/app_colors.dart';
@@ -141,7 +143,6 @@ class _GuidePageState extends State<GuidePage> {
 
   Widget _buildNextButton(BuildContext context, bool isLastTab) {
     final cubit = context.read<GuidePageCubit>();
-
     return GestureDetector(
       onTap: () {
         if (!isLastTab) {
@@ -152,6 +153,42 @@ class _GuidePageState extends State<GuidePage> {
         }
         cubit.setFirstLaunchToFalse(onDone: _goToGetStartPage(context, true));
       },
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.center,
+        crossAxisAlignment: CrossAxisAlignment.center,
+        children: [
+          Text(
+            (isLastTab ? 'get_started' : "lbl_next").tr(),
+            style: theme.textTheme.titleMedium,
+          ),
+          SizedBox(width: 7.0.w),
+          Padding(
+              padding: EdgeInsets.only(
+                top: 2.h,
+              ),
+              child: CustomImageView(
+                imagePath: ImageConstant.imgChevronLeft,
+                color: Colors.white,
+              )
+/*
+            child: CustomIconButton(
+              height: 20.h,
+              width: 20.w,
+              padding: EdgeInsets.all(4.w),
+              decoration: IconButtonStyleHelper.outlineOnPrimaryContainer,
+              child: Transform.flip(
+                flipX: context.isAr,
+                child: CustomImageView(
+                  imagePath: ImageConstant.imgChevronLeft,
+                  color: Colors.white,
+                ),
+              ),
+            ),
+*/
+              ),
+        ],
+      ),
+/*
       child: Row(
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
@@ -175,6 +212,7 @@ class _GuidePageState extends State<GuidePage> {
                 ),
         ],
       ),
+*/
     );
   }
 
@@ -210,36 +248,32 @@ class _GuidePageState extends State<GuidePage> {
       child: BackdropFilter(
         filter: ImageFilter.blur(sigmaX: 10.0, sigmaY: 10.0),
         child: Container(
+          padding: EdgeInsets.symmetric(
+              horizontal: 18.w, vertical: state.tabNumber == 1 ? 30.h : 42.h),
           width: width - 48,
-          height: 240,
-          padding: const EdgeInsets.symmetric(horizontal: 24.0),
           decoration: BoxDecoration(
             color: Colors.grey.shade200.withOpacity(0.2),
           ),
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
-              if (tab.title?.isNotEmpty == true)
-                CustomText(
-                  text: '${tab.title}',
-                  textAlign: TextAlign.center,
-                  fontSize: 24.0,
-                  fontWeight: FontWeight.w600,
-                  color: Colors.white,
+              Text(
+                tab.title!.tr(),
+                style: CustomTextStyles.headlineSmallGray5001,
+              ),
+              SizedBox(height: 5.0.h),
+              Text(
+                tab.description!.tr(),
+                maxLines: 2,
+                overflow: TextOverflow.ellipsis,
+                textAlign: TextAlign.center,
+                style: theme.textTheme.bodyLarge!.copyWith(
+                  height: 1.50,
                 ),
-              const SizedBox(height: 16.0),
-              if (tab.description?.isNotEmpty == true)
-                CustomText(
-                  text: '${tab.description}',
-                  margin: const EdgeInsets.symmetric(horizontal: 8.0),
-                  fontSize: 16.0,
-                  color: Colors.white,
-                  fontWeight: FontWeight.w400,
-                  textAlign: TextAlign.center,
-                ),
-              const SizedBox(height: 16.0),
+              ),
+              SizedBox(height: 16.0.h),
               _buildDotsIndicator(context),
-              const SizedBox(height: 16.0),
+              SizedBox(height: 28.0.h),
               _buildNextButton(context, isLastTab)
             ],
           ),
