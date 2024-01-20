@@ -5,6 +5,7 @@ import 'package:masaj/core/presentation/navigation/navigator_helper.dart';
 import 'package:masaj/features/account/pages/account_screen.dart';
 import 'package:masaj/features/account/pages/manage_members_screen.dart';
 import 'package:masaj/features/address/pages/map_location_picker.dart';
+import 'package:masaj/features/auth/application/auth_cubit/auth_cubit.dart';
 import 'package:masaj/features/intro/presentation/pages/choose_language_page.dart';
 import 'package:masaj/features/legal/pages/legal_screen.dart';
 import 'package:masaj/features/medical_form/pages/medical_form_screen.dart';
@@ -47,6 +48,9 @@ class SettingsTabPage extends StatelessWidget {
                       ]),
                       SizedBox(height: 10.h),
                       CustomElevatedButton(
+                          onPressed: () {
+                            context.read<AuthCubit>().logout();
+                          },
                           height: 48.h,
                           text: 'lbl_logout'.tr(context: context),
                           buttonStyle: ElevatedButton.styleFrom(

@@ -37,10 +37,10 @@ class AppleExternalLoginDataSourceImpl implements ExternalLoginDataSource {
   Future<User> login() async {
     try {
       final appleCredential = await SignInWithApple.getAppleIDCredential(
-        webAuthenticationOptions: WebAuthenticationOptions(
-          clientId: 'sa.sela.saudieventsweb',
-          redirectUri: Uri.parse(ApiEndPoint.APPLE_REDIRECT_URL),
-        ),
+        // webAuthenticationOptions: WebAuthenticationOptions(
+        //   clientId: 'sa.sela.saudieventsweb',
+        //   redirectUri: Uri.parse(ApiEndPoint.APPLE_REDIRECT_URL),
+        // ),
         scopes: [
           AppleIDAuthorizationScopes.email,
           AppleIDAuthorizationScopes.fullName,

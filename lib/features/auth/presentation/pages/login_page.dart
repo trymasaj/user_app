@@ -163,14 +163,14 @@ class _LoginPageState extends State<LoginPage> {
 
   Widget _buildAppleButton(BuildContext context) {
     final authCubit = context.read<AuthCubit>();
-    const labelStyle = TextStyle(
-      fontSize: 14.0,
-      color: Colors.black,
-      fontWeight: FontWeight.w500,
-    );
-    return SizedBox();
+    // const labelStyle = TextStyle(
+    //   fontSize: 14.0,
+    //   color: Colors.black,
+    //   fontWeight: FontWeight.w500,
+    // );
+    // return SizedBox();
     return CustomElevatedButton(
-        text: "lbl_sign_with_apple".tr(),
+        text: 'lbl_sign_with_apple'.tr(),
         leftIcon: Container(
             margin: EdgeInsets.only(right: 10.w),
             child: CustomImageView(
