@@ -7,52 +7,7 @@
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:115887106741:android:2fef1b1486a63eaadc2cfc",
-        "android_client_info": {
-          "package_name": "com.masaj"
-        }
-      },
-      "oauth_client": [
-        {
-          "client_id": "115887106741-2dsr7fp1d5j03kfoouf5rjn7m7epb792.apps.googleusercontent.com",
-          "client_type": 1,
-          "android_info": {
-            "package_name": "com.masaj",
-            "certificate_hash": "f142da46f77adb01b48abae82f38e98ba7cb9366"
-          }
-        },
-        {
-          "client_id": "115887106741-p0fsk5hc6jhf4qecquji37no141217q5.apps.googleusercontent.com",
-          "client_type": 1,
-          "android_info": {
-            "package_name": "com.masaj",
-            "certificate_hash": "5f4de830bd0649bf180f8fc040208be6627872f3"
-          }
-        },
-        {
-          "client_id": "115887106741-utskq6die37r9e7gf8l6ivf76fppouar.apps.googleusercontent.com",
-          "client_type": 3
-        }
-      ],
-      "api_key": [
-        {
-          "current_key": "AIzaSyAk41f1NXpIksRFniV8ihz-xywh9dtGGp8"
-        }
-      ],
-      "services": {
-        "appinvite_service": {
-          "other_platform_oauth_client": [
-            {
-              "client_id": "115887106741-utskq6die37r9e7gf8l6ivf76fppouar.apps.googleusercontent.com",
-              "client_type": 3
-            }
-          ]
-        }
-      }
-    },
-    {
-      "client_info": {
-        "mobilesdk_app_id": "1:115887106741:android:7d5cd11df4580879dc2cfc",
+        "mobilesdk_app_id": "1:115887106741:android:49ab71222ac64f25dc2cfc",
         "android_client_info": {
           "package_name": "com.masajapp"
         }
@@ -74,6 +29,13 @@
             {
               "client_id": "115887106741-utskq6die37r9e7gf8l6ivf76fppouar.apps.googleusercontent.com",
               "client_type": 3
+            },
+            {
+              "client_id": "115887106741-3mrp1nltv1b8r39t2gr1umrfqt2260gi.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.masajapp"
+              }
             }
           ]
         }
