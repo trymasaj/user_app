@@ -51,7 +51,7 @@ class DefaultFirebaseOptions {
 
   static const FirebaseOptions android = FirebaseOptions(
     apiKey: 'AIzaSyAk41f1NXpIksRFniV8ihz-xywh9dtGGp8',
-    appId: '1:115887106741:android:49ab71222ac64f25dc2cfc',
+    appId: '1:115887106741:android:15f2abd1a234b512dc2cfc',
     messagingSenderId: '115887106741',
     projectId: 'masaj-23e10',
     storageBucket: 'masaj-23e10.appspot.com',
@@ -59,12 +59,14 @@ class DefaultFirebaseOptions {
 
   static const FirebaseOptions ios = FirebaseOptions(
     apiKey: 'AIzaSyBdoPd7fzdpXYkJoW2J6lEzXKWaElmQH1w',
-    appId: '1:115887106741:ios:9531d4884d9c814edc2cfc',
+    appId: '1:115887106741:ios:103d06d5f103d7d1dc2cfc',
     messagingSenderId: '115887106741',
     projectId: 'masaj-23e10',
     storageBucket: 'masaj-23e10.appspot.com',
-    androidClientId: '115887106741-2dsr7fp1d5j03kfoouf5rjn7m7epb792.apps.googleusercontent.com',
-    iosClientId: '115887106741-3mrp1nltv1b8r39t2gr1umrfqt2260gi.apps.googleusercontent.com',
+    androidClientId:
+        '115887106741-2dsr7fp1d5j03kfoouf5rjn7m7epb792.apps.googleusercontent.com',
+    iosClientId:
+        '115887106741-3mrp1nltv1b8r39t2gr1umrfqt2260gi.apps.googleusercontent.com',
     iosBundleId: 'com.masajapp',
   );
 }

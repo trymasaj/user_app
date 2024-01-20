@@ -7,7 +7,7 @@
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:115887106741:android:49ab71222ac64f25dc2cfc",
+        "mobilesdk_app_id": "1:115887106741:android:15f2abd1a234b512dc2cfc",
         "android_client_info": {
           "package_name": "com.masajapp"
         }
@@ -31,10 +31,10 @@
               "client_type": 3
             },
             {
-              "client_id": "115887106741-3mrp1nltv1b8r39t2gr1umrfqt2260gi.apps.googleusercontent.com",
+              "client_id": "115887106741-1qev50cjhiu967f77d4hjsbklvep3n0b.apps.googleusercontent.com",
               "client_type": 2,
               "ios_info": {
-                "bundle_id": "com.masajapp"
+                "bundle_id": "com.example.masajMobile"
               }
             }
           ]

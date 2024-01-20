@@ -1,66 +1,48 @@
+import 'dart:async';
 import 'dart:developer';
 import 'dart:io';
 import 'dart:math' as math;
 
 import 'package:firebase_messaging/firebase_messaging.dart';
-import 'package:flutter_apns_only/flutter_apns_only.dart';
-import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:http/http.dart' as http;
 import 'package:masaj/core/data/io/url_helper.dart';
-import 'package:masaj/core/data/typedefs/type_defs.dart';
 import 'package:path_provider/path_provider.dart';
+import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 
+import 'package:injectable/injectable.dart';
+
+typedef FutureCallback<T> = FutureOr<T> Function();
+typedef FutureCallbackWithData<T, V> = FutureOr<T> Function(V data);
+typedef FutureValueChanged<T> = FutureOr<void> Function(T);
+
+@singleton
 class NotificationService {
-  late final _connector = ApnsPushConnectorOnly();
-
-  Future<void> inti() async {
+  Future<void> init() async {
     await _FlutterLocalNotificationHelper.init();
-    if (Platform.isIOS) {
-      _initIOS();
-    } else {
-      await _initAndroid();
-    }
+
+    await _init();
+
     try {
-      await getDeviceTokenId();
+      final deviceTokenId = await getDeviceTokenId();
+      await cancelAll();
     } on Exception catch (e) {
       log(e.toString());
     }
   }
 
-  void _initIOS([FutureCallback? onReceiveNewNotification]) {
-    _connector.configureApns(
-      onLaunch: _openNotificationsPageIfAppOpenedFromTerminatedIos,
-      onMessage: (iosNotification) {
-        if (onReceiveNewNotification != null) onReceiveNewNotification();
-        return _FlutterLocalNotificationHelper.showFCMNotification(
-          title: iosNotification.payload['notification']['title'],
-          body: iosNotification.payload['notification']['body'],
-          image: iosNotification.payload['data']['image'],
-        );
-      },
-      onResume: (iosNotification) async {
-        if (onReceiveNewNotification != null) onReceiveNewNotification();
-        // return navigateToNotificationPage(
-        //     iosNotification.payload['data']['notificationId']);
-      },
-    );
-  }
-
-  Future<void> _initAndroid([FutureCallback? onReceiveNewNotification]) async {
+  Future<void> _init([FutureCallback? onReceiveNewNotification]) async {
     FirebaseMessaging.onMessage.listen((RemoteMessage message) {
       if (onReceiveNewNotification != null) onReceiveNewNotification();
 
       final notification = message.notification;
-      final android = message.notification?.android;
       final image = message.data['image'];
 
-      if (notification != null && android != null) {
+      if (notification != null)
         _FlutterLocalNotificationHelper.showFCMNotification(
           title: notification.title,
           body: notification.body,
           image: image,
         );
-      }
     });
 
     FirebaseMessaging.onMessageOpenedApp.listen((notification) {
@@ -69,37 +51,37 @@ class NotificationService {
       //     int.tryParse(notification.data['notificationId'].toString()));
     });
 
-    await _openNotificationsPageIfAppOpenedFromTerminatedAndroid();
+    // await _openNotificationsPageIfAppOpenedFromTerminated();
   }
 
-  static Future<void>
-      _openNotificationsPageIfAppOpenedFromTerminatedAndroid() async {
-    final notification = await FirebaseMessaging.instance.getInitialMessage();
-    if (notification != null) {
-      await Future.delayed(const Duration(milliseconds: 500));
-      // navigateToNotificationPage(
-      //     int.tryParse(notification.data['notificationId'].toString()));
-    }
-  }
-
-  static Future<void> _openNotificationsPageIfAppOpenedFromTerminatedIos(
-      ApnsRemoteMessage iosNotification) async {
-    await Future.delayed(const Duration(milliseconds: 500));
-    // navigateToNotificationPage(
-    //     iosNotification.payload['data']['notificationId']);
-  }
+  // static Future<void> _openNotificationsPageIfAppOpenedFromTerminated() async {
+  //   final notification = await FirebaseMessaging.instance.getInitialMessage();
+  //   if (notification != null) {
+  //     await Future.delayed(const Duration(milliseconds: 500));
+  //     // navigateToNotificationPage(
+  //     //     int.tryParse(notification.data['notificationId'].toString()));
+  //   }
+  // }
 
   Future<String> getDeviceTokenId() async {
-    if (Platform.isIOS) {
-      _connector.requestNotificationPermissions();
-      final token = _connector.token.value;
-      return token ?? '';
-    } else if (Platform.isAndroid) {
+    if (Platform.isIOS || Platform.isAndroid) {
+      await _requestPermission();
+
       final messaging = FirebaseMessaging.instance;
       final token = await messaging.getToken();
       return token!;
     } else
       throw Exception('Not supported platform');
+  }
+
+  Future<void> _requestPermission() async {
+    final notificationSettings =
+        await FirebaseMessaging.instance.requestPermission();
+
+    if (notificationSettings.authorizationStatus ==
+        AuthorizationStatus.denied) {
+      log('User denied permission');
+    }
   }
 
   Future<void> cancelAll() => _FlutterLocalNotificationHelper.cancelAll();
@@ -116,6 +98,13 @@ class _FlutterLocalNotificationHelper {
 
   static Future<void> init() async {
     flutterLocalNotificationsPlugin = FlutterLocalNotificationsPlugin();
+
+    if (Platform.isAndroid) {
+      flutterLocalNotificationsPlugin!
+          .resolvePlatformSpecificImplementation<
+              AndroidFlutterLocalNotificationsPlugin>()!
+          .requestPermission();
+    }
 
     await flutterLocalNotificationsPlugin!
         .resolvePlatformSpecificImplementation<
