@@ -10,16 +10,20 @@ class PasswordTextFormField extends StatefulWidget {
     required this.currentFocusNode,
     this.nextFocusNode,
     required this.currentController,
+    this.prefixIcon,
     this.margin,
     this.hint,
     this.validator,
+    this.contentPadding,
   });
 
+  final EdgeInsetsGeometry? contentPadding;
   final FocusNode currentFocusNode;
   final FocusNode? nextFocusNode;
   final TextEditingController currentController;
   final EdgeInsetsGeometry? margin;
   final String? hint;
+  final Widget? prefixIcon;
   final String? Function(String?)? validator;
 
   @override
@@ -34,6 +38,7 @@ class _PasswordTextFormFieldState extends State<PasswordTextFormField> {
     return Container(
       margin: widget.margin,
       child: DefaultTextFormField(
+        contentPadding: widget.margin,
         currentController: widget.currentController,
         currentFocusNode: widget.currentFocusNode,
         nextFocusNode: widget.nextFocusNode,

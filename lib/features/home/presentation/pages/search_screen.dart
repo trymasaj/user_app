@@ -151,7 +151,7 @@ class ServicesResults extends StatelessWidget {
                   borderRadius: BorderRadius.circular(12),
                   image: DecorationImage(
                     image: AssetImage(
-                      Assets.lib.res.assets.imgGroup8.path,
+                      Assets.images.imgGroup8.path,
                     ),
                     fit: BoxFit.cover,
                   ),
@@ -201,7 +201,7 @@ class ProvidersResults extends StatelessWidget {
                   borderRadius: BorderRadius.circular(12),
                   image: DecorationImage(
                     image: AssetImage(
-                      Assets.lib.res.assets.imgGroup8.path,
+                      Assets.images.imgGroup8.path,
                     ),
                     fit: BoxFit.cover,
                   ),
@@ -252,7 +252,7 @@ class RecenetHostory extends StatelessWidget {
                           right: context.isAr ? 0 : 10,
                           left: context.isAr ? 10 : 0),
                       child: SvgPicture.asset(
-                        Assets.lib.res.assets.imgSolarHistoryOutline,
+                        Assets.images.imgSolarHistoryOutline,
                         color: AppColors.ACCENT_COLOR,
                       ),
                     ),
@@ -273,7 +273,7 @@ class RecenetHostory extends StatelessWidget {
                       child: Container(
                         margin: const EdgeInsets.only(left: 10),
                         child: SvgPicture.asset(
-                          Assets.lib.res.assets.imgCloseOnprimary,
+                          Assets.images.imgCloseOnprimary,
                           color: AppColors.PlaceholderColor,
                         ),
                       ),
@@ -327,7 +327,7 @@ class SearchBarWidget extends StatelessWidget {
               left: context.isAr ? 0 : 20, right: context.isAr ? 20 : 0),
           child: context.isAr
               ? SvgPicture.asset(
-                  Assets.lib.res.assets.imgArrowRight,
+                  Assets.images.imgArrowRight,
                   color: AppColors.ACCENT_COLOR,
                   height: 30,
                   width: 30,
@@ -335,7 +335,7 @@ class SearchBarWidget extends StatelessWidget {
               : SvgPicture.asset(
                   height: 30,
                   width: 30,
-                  Assets.lib.res.assets.imgArrowLeft,
+                  Assets.images.imgArrowLeft,
                   color: AppColors.ACCENT_COLOR,
                   // height: 20,
                   // width: 20,
@@ -387,12 +387,12 @@ class SearchBarWidget extends StatelessWidget {
                         _searchController.clear();
                       },
                       child: SvgPicture.asset(
-                        Assets.lib.res.assets.imgCloseOnprimary,
+                        Assets.images.imgCloseOnprimary,
                         color: AppColors.PlaceholderColor,
                       ),
                     )
                   : SvgPicture.asset(
-                      Assets.lib.res.assets.imgSearch,
+                      Assets.images.imgSearch,
                       color: AppColors.ACCENT_COLOR,
                     ),
             ),

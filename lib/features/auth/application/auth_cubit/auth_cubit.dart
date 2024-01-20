@@ -13,7 +13,7 @@ import 'package:masaj/features/auth/data/repositories/auth_repository.dart';
 
 import 'package:masaj/core/data/models/interest_model.dart';
 import 'package:masaj/features/account/data/models/contact_us_message_model.dart';
-import 'package:masaj/features/auth/data/models/user.dart';
+import 'package:masaj/features/auth/domain/entities/user.dart';
 
 part 'auth_state.dart';
 
@@ -106,6 +106,23 @@ class AuthCubit extends BaseCubit<AuthState> {
     }
   }
 
+/*
+{
+  "id": 25,
+  "fullName": "Mohamed Gaber",
+  "phone": "1283894969",
+  "countryCode": "+20",
+  "countryId": 1,
+  "email": "moohammed.gaber@gmail.com",
+  "verified": false,
+  "profileImage": "https://masaj-s3.fra1.cdn.digitaloceanspaces.com/profile-images/placeholder.png",
+  "userType": 0,
+  "isProfileCompleted": true,
+  "quizAnswered": false,
+  "token": "eyJhbGciOiJIUzUxMiIsInR5cCI6IkpXVCJ9.eyJqdGkiOiJiMDE5YWJhZC0yODYyLTQxMTktOGJhNi05MjE1ZTg2MGI4NWYiLCJpYXQiOjE3MDU2ODk5OTgsImlkIjoiMjUiLCJuYW1lIjoiTW9oYW1lZCBHYWJlciIsImVtYWlsIjoibW9vaGFtbWVkLmdhYmVyQGdtYWlsLmNvbSIsInBob25lIjoiMTI4Mzg5NDk2OSIsInVzZXJUeXBlIjoiQ3VzdG9tZXIiLCJ2ZXJpZmllZCI6IkZhbHNlIiwibmJmIjoxNzA1Njg5OTk4LCJleHAiOjE3Njc4OTc5OTgsImlzcyI6Im1hc2FqLWJhY2tlbmQifQ.qdKfmqngoXp7ykW0Vzpjt5qGQEgnZU8w6scYFE7ZtRC7L9OS9QXoADGmw-X5oYDtPI_zMJHafj4kE6ZnjeBPqw",
+  "refreshToken": null
+}
+ */
   Future<void> signUp(User user) async {
     emit(state.copyWith(status: AuthStateStatus.loading));
     try {

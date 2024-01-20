@@ -16,7 +16,6 @@ import 'package:masaj/features/auth/presentation/pages/sign_up_page.dart';
 import 'package:masaj/features/bookings_tab/presentation/pages/booking_details.dart';
 import 'package:masaj/features/home/presentation/pages/home_page.dart';
 import 'package:masaj/features/intro/presentation/pages/choose_language_page.dart';
-import 'package:masaj/features/intro/presentation/pages/get_started_page.dart';
 import 'package:masaj/features/intro/presentation/pages/guide_page.dart';
 import 'package:masaj/features/legal/pages/cancellation_policy_screen.dart';
 import 'package:masaj/features/legal/pages/conditions_screen.dart';
@@ -34,7 +33,6 @@ final routes = <String, WidgetBuilder>{
   MapLocationPicker.routeName: (context) => MapLocationPicker.builder(context),
   BookingDetialsScreen.routeName: (context) => const BookingDetialsScreen(),
   GuidePage.routeName: (context) => const GuidePage(),
-  GetStartedPage.routeName: (context) => const GetStartedPage(),
   LoginPage.routeName: (context) => const LoginPage(),
   SignUpPage.routeName: (context) => const SignUpPage(),
   ForgetPasswordPage.routeName: (context) => const ForgetPasswordPage(),

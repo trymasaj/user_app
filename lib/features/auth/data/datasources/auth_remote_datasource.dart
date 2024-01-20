@@ -8,7 +8,7 @@ import 'package:masaj/core/domain/exceptions/request_exception.dart';
 
 import 'package:masaj/core/data/models/interest_model.dart';
 import 'package:masaj/features/account/data/models/contact_us_message_model.dart';
-import 'package:masaj/features/auth/data/models/user.dart';
+import 'package:masaj/features/auth/domain/entities/user.dart';
 
 abstract class AuthRemoteDataSource {
   Future<User> login(

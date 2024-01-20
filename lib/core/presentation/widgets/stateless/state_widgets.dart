@@ -56,8 +56,8 @@ class LoadStateHandler<T extends Object> extends StatelessWidget {
     return switch (customState) {
       DataLoadLoadedState(data: final T data) => onData(data),
       DataLoadErrorState() => Retry(onTap: onTapRetry),
-      DataLoadEmptyState() => empty ?? const Empty(),
-      _ => const Progress()
+      DataLoadLoadingState() =>  const Progress(),
+      _ => const SizedBox.shrink()
     };
   }
 }

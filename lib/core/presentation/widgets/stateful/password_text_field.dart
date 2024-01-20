@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:masaj/core/app_export.dart';
 import 'package:masaj/core/data/validator/validation_functions.dart';
 
@@ -6,12 +7,14 @@ class PasswordTextField extends StatefulWidget {
   const PasswordTextField(
       {super.key,
       required this.controller,
+      this.iconColor = const Color(0xff000000),
       this.validator,
       required this.hint});
 
   final TextEditingController controller;
   final FormFieldValidator<String>? validator;
   final String hint;
+  final Color iconColor;
 
   @override
   State<PasswordTextField> createState() => _PasswordTextFieldState();
@@ -27,13 +30,13 @@ class _PasswordTextFieldState extends State<PasswordTextField> {
       controller: widget.controller,
       decoration: InputDecoration(
         contentPadding: EdgeInsets.symmetric(vertical: 17.h),
-        filled: false,
         prefixIcon: Container(
           margin: EdgeInsets.fromLTRB(18.w, 18.h, 8.w, 18.h),
           child: CustomImageView(
             imagePath: ImageConstant.imgLocation,
             height: 20.adaptSize,
             width: 20.adaptSize,
+            color: widget.iconColor,
           ),
         ),
         prefixIconConstraints: BoxConstraints(
@@ -45,7 +48,9 @@ class _PasswordTextFieldState extends State<PasswordTextField> {
           padding: const EdgeInsets.all(8.0),
           child: IconButton(
             icon: Icon(
-              isShowPassword ? Icons.visibility : Icons.visibility_off,
+              isShowPassword ? FontAwesomeIcons.eye : FontAwesomeIcons.eyeSlash,
+              size: 15,
+              color: appTheme.blueGray40001,
             ),
             onPressed: () {
               setState(() {

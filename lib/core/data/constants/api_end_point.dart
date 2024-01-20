@@ -42,6 +42,8 @@ abstract class ApiEndPoint {
   static const CHECK_TREASURE_HUNT_CODE = '$_REQUEST_URL/scanqrcode';
   static const GET_HOME_SEARCH = '$_REQUEST_URL/homesearch';
   static const GET_HOME_NOTIFICATIONS = '$_REQUEST_URL/usernotification';
+  static const GET_COUNTRIES = '$BASE_URL/Countries';
+  static const GET_CITIES = '$BASE_URL/Countries/cities';
 
   //Zones
   static const GET_ZONES = '$_REQUEST_URL/getzones';

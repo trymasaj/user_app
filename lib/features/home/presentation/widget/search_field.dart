@@ -24,7 +24,7 @@ class SearchField extends StatelessWidget {
         child: Row(
           children: [
             SvgPicture.asset(
-              Assets.lib.res.assets.imgSearch,
+              Assets.images.imgSearch,
               color: AppColors.PlaceholderColor,
             ),
             const SizedBox(

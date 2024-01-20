@@ -1,6 +1,9 @@
 import 'package:easy_localization/easy_localization.dart';
 
 class Validator {
+  static final Validator _instance = Validator._();
+  factory Validator() => _instance;
+  Validator._();
   String? validateEmail(String? email) {
     if (email == null || email.isEmpty) {
       return tr('empty_field_not_valid');

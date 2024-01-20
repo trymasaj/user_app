@@ -6,6 +6,8 @@ import 'package:masaj/core/presentation/theme/theme_helper.dart';
 class CustomTextFormField extends StatelessWidget {
   const CustomTextFormField({
     super.key,
+    this.readOnly =false,
+     this.onTap,
     this.alignment,
     this.width,
     this.controller,
@@ -70,7 +72,8 @@ class CustomTextFormField extends StatelessWidget {
   final bool? filled;
 
   final FormFieldValidator<String>? validator;
-
+  final bool readOnly;
+  final Function()? onTap;
   @override
   Widget build(BuildContext context) {
     return alignment != null
@@ -84,6 +87,8 @@ class CustomTextFormField extends StatelessWidget {
   Widget get textFormFieldWidget => SizedBox(
         width: width ?? double.maxFinite,
         child: TextFormField(
+          readOnly: readOnly,
+          onTap: onTap,
           controller: controller,
           focusNode: focusNode ?? FocusNode(),
           autofocus: autofocus!,

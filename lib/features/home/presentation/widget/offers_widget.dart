@@ -56,7 +56,7 @@ class OffersSection extends StatelessWidget {
                                   borderRadius: BorderRadius.circular(12),
                                   image: DecorationImage(
                                     image: AssetImage(
-                                      Assets.lib.res.assets.imgGroup8.path,
+                                      Assets.images.imgGroup8.path,
                                     ),
                                     fit: BoxFit.cover,
                                   ),

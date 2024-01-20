@@ -12,7 +12,6 @@ class User {
   final String? email;
   final String? password;
   final String? confirmPassword;
-
   final String? token;
   final String? refreshToken;
   final String? idToken;

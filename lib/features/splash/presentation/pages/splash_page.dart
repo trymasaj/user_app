@@ -8,10 +8,11 @@ import 'package:masaj/core/presentation/navigation/navigator_helper.dart';
 import 'package:masaj/core/presentation/overlay/show_snack_bar.dart';
 import 'package:masaj/core/presentation/widgets/stateless/app_logo.dart';
 import 'package:masaj/core/presentation/widgets/stateless/custom_app_page.dart';
+import 'package:masaj/features/address/pages/select_location_screen.dart';
 import 'package:masaj/features/auth/presentation/pages/login_page.dart';
 import 'package:masaj/features/home/presentation/pages/home_page.dart';
 
-import 'package:masaj/features/auth/presentation/blocs/auth_cubit/auth_cubit.dart';
+import 'package:masaj/features/auth/application/auth_cubit/auth_cubit.dart';
 import 'package:masaj/features/auth/presentation/pages/email_verification_page.dart';
 import 'package:masaj/features/auth/presentation/pages/sign_up_page.dart';
 import 'package:masaj/features/intro/presentation/pages/choose_language_page.dart';
@@ -42,7 +43,7 @@ class _SplashPageState extends State<SplashPage> {
   @override
   Widget build(BuildContext context) {
     final authCubit = context.read<AuthCubit>();
-
+return SelectLocationScreen.builder(context);
     return BlocProvider(
       create: (_) => Injector().splashCubit..init(),
       lazy: false,

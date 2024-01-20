@@ -91,9 +91,9 @@ class GradientText extends StatelessWidget {
       },
       child: CustomText(
         text: text,
-        fontSize: 12,
+        fontSize: 14,
         color: Colors.white,
-        fontWeight: FontWeight.w600,
+        fontWeight: FontWeight.w400,
         textAlign: textAlign ?? TextAlign.start,
         maxLines: maxLines,
       ),

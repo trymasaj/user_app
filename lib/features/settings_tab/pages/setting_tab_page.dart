@@ -48,7 +48,7 @@ class SettingsTabPage extends StatelessWidget {
                       SizedBox(height: 10.h),
                       CustomElevatedButton(
                           height: 48.h,
-                          text: 'lbl_logout'.tr(),
+                          text: 'lbl_logout'.tr(context: context),
                           buttonStyle: ElevatedButton.styleFrom(
                               backgroundColor: const Color(0xffF9ECEE)),
                           buttonTextStyle: CustomTextStyles.titleSmallPink700)

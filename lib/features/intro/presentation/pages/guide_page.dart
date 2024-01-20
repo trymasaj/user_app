@@ -12,8 +12,8 @@ import 'package:masaj/core/presentation/widgets/stateless/custom_loading.dart';
 import 'package:masaj/core/presentation/widgets/stateless/custom_text.dart';
 import 'package:masaj/core/presentation/widgets/stateless/default_button.dart';
 import 'package:masaj/core/presentation/widgets/stateless/dots_indicator.dart';
+import 'package:masaj/features/auth/presentation/pages/login_page.dart';
 import 'package:masaj/features/intro/presentation/blocs/guide_page_cubit/guide_page_cubit.dart';
-import 'package:masaj/features/intro/presentation/pages/get_started_page.dart';
 
 import 'package:masaj/features/intro/data/models/guide_page_tab_model.dart';
 
@@ -192,10 +192,10 @@ class _GuidePageState extends State<GuidePage> {
   }
 
   VoidCallback _goToGetStartPage(BuildContext context, bool isLogin) =>
-      () => NavigatorHelper.of(context).pushAndRemoveUntil(
-              MaterialPageRoute(builder: (_) {
-            return GetStartedPage(isLogin: isLogin);
-          }), (route) => false);
+      () => NavigatorHelper.of(context).pushNamedAndRemoveUntil(
+            LoginPage.routeName,
+            (route) => false,
+          );
 
   Widget _buildGlassContainer(BuildContext context) {
     final cubit = context.watch<GuidePageCubit>();

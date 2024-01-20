@@ -10,8 +10,8 @@ import 'package:masaj/core/presentation/widgets/stateless/app_logo.dart';
 import 'package:masaj/core/presentation/widgets/stateless/custom_app_page.dart';
 import 'package:masaj/core/presentation/widgets/stateless/default_button.dart';
 import 'package:masaj/core/presentation/widgets/stateless/title_text.dart';
-import 'package:masaj/features/auth/presentation/blocs/auth_cubit/auth_cubit.dart';
-import 'package:masaj/features/intro/presentation/pages/get_started_page.dart';
+import 'package:masaj/features/auth/application/auth_cubit/auth_cubit.dart';
+import 'package:masaj/features/auth/presentation/pages/login_page.dart';
 import 'package:size_helper/size_helper.dart';
 
 class EmailVerificationPage extends StatefulWidget {
@@ -222,7 +222,7 @@ class _EmailVerificationPageState extends State<EmailVerificationPage> {
 
   Future<void> _goToLoginPage(BuildContext context) =>
       NavigatorHelper.of(context).pushNamedAndRemoveUntil(
-        GetStartedPage.routeName,
+        LoginPage.routeName,
         (route) => false,
       );
 

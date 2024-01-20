@@ -13,8 +13,8 @@ import 'package:masaj/core/presentation/widgets/stateless/default_button.dart';
 import 'package:masaj/core/presentation/widgets/stateless/text_fields/email_text_form_field.dart';
 import 'package:masaj/core/presentation/widgets/stateless/text_fields/first_name_text_form_field.dart';
 import 'package:masaj/core/presentation/widgets/stateless/title_text.dart';
-import 'package:masaj/features/auth/data/models/user.dart';
-import 'package:masaj/features/auth/presentation/blocs/auth_cubit/auth_cubit.dart';
+import 'package:masaj/features/auth/domain/entities/user.dart';
+import 'package:masaj/features/auth/application/auth_cubit/auth_cubit.dart';
 import 'package:masaj/features/auth/presentation/widgets/user_image_selection_widget.dart';
 
 class EditUserInfoPage extends StatefulWidget {

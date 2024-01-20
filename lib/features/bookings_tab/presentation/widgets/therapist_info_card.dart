@@ -48,7 +48,7 @@ class TherapistInfoCard extends StatelessWidget {
                     borderRadius: BorderRadius.circular(10),
                     image: DecorationImage(
                         image: AssetImage(
-                            Assets.lib.res.assets.imgRectangle2850x50.path),
+                            Assets.images.imgRectangle2850x50.path),
                         fit: BoxFit.cover)),
               ),
               SizedBox(width: 10.w),
@@ -100,20 +100,20 @@ class TherapistInfoCard extends StatelessWidget {
           ),
           SizedBox(height: 15.h),
           _InfoItem(
-            iconPath: Assets.lib.res.assets.imgMaterialSymbolBlueGray90003,
+            iconPath: Assets.images.imgMaterialSymbolBlueGray90003,
             title: 'Khaled Ahmed',
             subtitle: '+9983747228',
           ),
           SizedBox(height: 10.h),
           _InfoItem(
-            iconPath: Assets.lib.res.assets.imgMaterialSymbolOnprimary,
+            iconPath: Assets.images.imgMaterialSymbolOnprimary,
             title: 'Deep Tissue massage',
             subtitle: '(60 min)',
           ),
 
           SizedBox(height: 10.h),
           _InfoItem(
-            iconPath: Assets.lib.res.assets.imgTablerApps,
+            iconPath: Assets.images.imgTablerApps,
             title: 'Hot stone, Herbal compresses',
           ),
           SizedBox(height: 20.h),
@@ -163,7 +163,7 @@ class _InfoItem extends StatelessWidget {
     return Row(
       children: [
         //Khaled Ahmed
-        // SvgPicture.asset(Assets.lib.res.assets.imgMaterialSymbolBlueGray90003),
+        // SvgPicture.asset(Assets.images.imgMaterialSymbolBlueGray90003),
         SvgPicture.asset(iconPath),
 
         SizedBox(width: 5.w),

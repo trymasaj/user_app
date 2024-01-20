@@ -1,5 +1,6 @@
 import 'package:country_flags/country_flags.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 import 'package:masaj/core/app_export.dart';
 import 'package:masaj/core/data/di/injector.dart';
 import 'package:masaj/core/presentation/overlay/show_snack_bar.dart';
@@ -7,6 +8,8 @@ import 'package:masaj/core/presentation/widgets/stateless/custom_app_page.dart';
 import 'package:masaj/core/presentation/widgets/stateless/custom_radio_list_tile.dart';
 import 'package:masaj/core/presentation/widgets/stateless/custom_text.dart';
 import 'package:masaj/core/presentation/widgets/stateless/default_button.dart';
+import 'package:masaj/features/address/pages/select_location_screen.dart';
+import 'package:masaj/features/auth/presentation/pages/login_page.dart';
 
 import 'package:masaj/features/intro/presentation/blocs/choose_language_cubit/choose_language_cubit.dart';
 import 'package:masaj/features/intro/presentation/pages/guide_page.dart';
@@ -25,6 +28,7 @@ class _ChooseLanguagePageState extends State<ChooseLanguagePage> {
 
   @override
   Widget build(BuildContext context) {
+
     return CustomAppPage(
       safeTop: true,
       safeBottom: false,
@@ -38,11 +42,7 @@ class _ChooseLanguagePageState extends State<ChooseLanguagePage> {
                 showSnackBar(context, message: state.errorMessage);
               } else if (state.isLanguageSet) _goToGuidePage(context);
             },
-            child: Scaffold(
-                appBar: AppBar(
-                  title: Text('lbl_language'.tr()),
-                ),
-                body: _buildBody(context)),
+            child: Scaffold(appBar: AppBar(), body: _buildBody(context)),
           ),
         ),
       ),
@@ -54,17 +54,19 @@ class _ChooseLanguagePageState extends State<ChooseLanguagePage> {
       padding: const EdgeInsets.symmetric(horizontal: 24.0),
       child: Column(
         mainAxisAlignment: MainAxisAlignment.start,
-        crossAxisAlignment: CrossAxisAlignment.start,
+        crossAxisAlignment: CrossAxisAlignment.center,
         children: [
-          Padding(
-            padding: EdgeInsets.symmetric(vertical: 20.w),
-            child: CustomText(
-              text: 'msg_choose_you_preferred',
-              fontSize: 18.0.fSize,
-              fontWeight: FontWeight.w500,
-              margin: const EdgeInsets.only(bottom: 4.0),
-            ),
-          ),
+          CustomImageView(
+              imagePath: ImageConstant.imgLayer2Gray90003,
+              height: 19.h,
+              width: 121.w),
+          SizedBox(height: 18.h),
+          Text("msg_choose_app_language".tr(),
+              style: CustomTextStyles.titleMediumGray90002),
+          SizedBox(height: 4.h),
+          Text("msg_please_select_your".tr(),
+              style: CustomTextStyles.bodyMediumGray60002),
+          SizedBox(height: 19.h),
           CustomRadioListTile(
             label: Row(
               children: [
@@ -100,7 +102,7 @@ class _ChooseLanguagePageState extends State<ChooseLanguagePage> {
             onValueSelected: (value) =>
                 setState(() => _selectedLocal = const Locale('en')),
           ),
-          const SizedBox(height: 24.0),
+          SizedBox(height: 24.h),
           _buildNextButton(context),
         ],
       ),
@@ -109,9 +111,8 @@ class _ChooseLanguagePageState extends State<ChooseLanguagePage> {
 
   Widget _buildNextButton(BuildContext context) {
     final cubit = context.read<ChooseLanguageCubit>();
-
     return DefaultButton(
-      label: 'lbl_save'.tr(),
+      label: 'lbl_continue'.tr(),
       onPressed: () {
         context.setLocale(_selectedLocal);
         return cubit.saveLanguageCode(_selectedLocal.languageCode);

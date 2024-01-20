@@ -10,7 +10,7 @@ import 'package:masaj/core/presentation/widgets/stateless/custom_text.dart';
 import 'package:masaj/core/presentation/widgets/stateless/default_button.dart';
 import 'package:masaj/core/presentation/widgets/stateless/text_fields/password_text_form_field.dart';
 
-import 'package:masaj/features/auth/presentation/blocs/auth_cubit/auth_cubit.dart';
+import 'package:masaj/features/auth/application/auth_cubit/auth_cubit.dart';
 
 class ResetPasswordPage extends StatefulWidget {
   static const routeName = '/resetPasswordPage';

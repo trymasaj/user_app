@@ -13,7 +13,7 @@ import 'package:masaj/core/domain/enums/request_result_enum.dart';
 import 'package:masaj/core/domain/exceptions/connection_exception.dart';
 import 'package:masaj/core/domain/exceptions/redundant_request_exception.dart';
 import 'package:masaj/core/domain/exceptions/request_exception.dart';
-import 'package:masaj/features/auth/data/models/user.dart';
+import 'package:masaj/features/auth/domain/entities/user.dart';
 import 'package:masaj/features/auth/presentation/pages/login_page.dart';
 import 'package:masaj/main.dart';
 import 'package:requests_inspector/requests_inspector.dart';

@@ -32,7 +32,7 @@ class CustomChip<T> extends StatelessWidget {
         height: height ?? 36,
         alignment: Alignment.center,
         decoration: BoxDecoration(
-          borderRadius: BorderRadius.circular(30.0),
+          borderRadius: BorderRadius.circular(10.0),
           border: isSelected
               ? _buildGradientBorder()
               : Border.all(
@@ -62,8 +62,8 @@ class CustomChip<T> extends StatelessWidget {
                     const Color(0xFFEDA674),
                   ]
                 : [
-                    const Color(0xFF181B28).withOpacity(0.7),
-                    const Color(0xFF181B28).withOpacity(0.7),
+                    const Color(0xFF8C8C8C).withOpacity(0.7),
+                    const Color(0xFF8C8C8C).withOpacity(0.7),
                   ],
           ),
         ),

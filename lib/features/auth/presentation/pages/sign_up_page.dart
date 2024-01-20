@@ -2,14 +2,19 @@ import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:intl_phone_field/phone_number.dart';
+import 'package:masaj/core/app_export.dart';
 import 'package:masaj/core/data/extensions/extensions.dart';
+import 'package:masaj/core/data/validator/validation_functions.dart';
+import 'package:masaj/core/data/validator/validator.dart';
 import 'package:masaj/core/domain/enums/gender.dart';
 import 'package:masaj/core/presentation/colors/app_colors.dart';
 import 'package:masaj/core/presentation/navigation/navigator_helper.dart';
 import 'package:masaj/core/presentation/overlay/show_snack_bar.dart';
+import 'package:masaj/core/presentation/widgets/stateful/password_text_field.dart';
 import 'package:masaj/core/presentation/widgets/stateless/custom_app_page.dart';
 import 'package:masaj/core/presentation/widgets/stateless/custom_chip.dart';
 import 'package:masaj/core/presentation/widgets/stateless/custom_text.dart';
+import 'package:masaj/core/presentation/widgets/stateless/custom_text_form_field.dart';
 import 'package:masaj/core/presentation/widgets/stateless/default_button.dart';
 import 'package:masaj/core/presentation/widgets/stateless/text_fields/confirm_password_text_field.dart';
 import 'package:masaj/core/presentation/widgets/stateless/text_fields/default_text_form_field.dart';
@@ -19,8 +24,8 @@ import 'package:masaj/core/presentation/widgets/stateless/text_fields/phone_numb
 import 'package:masaj/features/auth/presentation/pages/login_page.dart';
 
 import 'package:masaj/features/home/presentation/pages/home_page.dart';
-import 'package:masaj/features/auth/data/models/user.dart';
-import 'package:masaj/features/auth/presentation/blocs/auth_cubit/auth_cubit.dart';
+import 'package:masaj/features/auth/domain/entities/user.dart';
+import 'package:masaj/features/auth/application/auth_cubit/auth_cubit.dart';
 
 class SignUpPage extends StatefulWidget {
   static const routeName = '/SignUp';
@@ -36,41 +41,25 @@ class SignUpPage extends StatefulWidget {
 
 class _SignUpPageState extends State<SignUpPage> {
   Gender selectedGender = Gender.male;
-  late final GlobalKey<FormState> _formKey;
+  late final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
 
-  late final TextEditingController _fullNameTextController;
-  late final TextEditingController _phoneTextController;
-  late final TextEditingController _emailTextController;
-  late final TextEditingController _passwordTextController;
-  late final TextEditingController _passwordConfirmTextController;
-  late final TextEditingController _birthDateTextController;
+  final TextEditingController _fullNameTextController = TextEditingController(),
+      _emailTextController = TextEditingController(),
+      _passwordTextController = TextEditingController(),
+      _passwordConfirmTextController = TextEditingController(),
+      _phoneTextController = TextEditingController(),
+      _birthDateTextController = TextEditingController();
 
-  late final FocusNode _fullNameFocusNode;
-  late final FocusNode _emailFocusNode;
-  late final FocusNode _passwordFocusNode;
-  late final FocusNode _passwordConfirmFocusNode;
-  late final FocusNode _phoneFocusNode;
-  late final FocusNode _birthDateFocusNode;
+  late final FocusNode _fullNameFocusNode = FocusNode(),
+      _emailFocusNode = FocusNode(),
+      _passwordFocusNode = FocusNode(),
+      _passwordConfirmFocusNode = FocusNode(),
+      _phoneFocusNode = FocusNode(),
+      _birthDateFocusNode = FocusNode();
   bool _isAutoValidating = false;
   PhoneNumber? _phoneNumber;
-
   @override
   void initState() {
-    _formKey = GlobalKey<FormState>();
-
-    _fullNameTextController = TextEditingController();
-    _emailTextController = TextEditingController();
-    _passwordTextController = TextEditingController();
-    _passwordConfirmTextController = TextEditingController();
-    _phoneTextController = TextEditingController();
-    _birthDateTextController = TextEditingController();
-
-    _fullNameFocusNode = FocusNode();
-    _emailFocusNode = FocusNode();
-    _passwordFocusNode = FocusNode();
-    _passwordConfirmFocusNode = FocusNode();
-    _phoneFocusNode = FocusNode();
-    _birthDateFocusNode = FocusNode();
     super.initState();
   }
 
@@ -82,7 +71,6 @@ class _SignUpPageState extends State<SignUpPage> {
     _passwordConfirmTextController.dispose();
     _phoneTextController.dispose();
     _birthDateTextController.dispose();
-
     _fullNameFocusNode.dispose();
     _emailFocusNode.dispose();
     _passwordFocusNode.dispose();
@@ -107,18 +95,10 @@ class _SignUpPageState extends State<SignUpPage> {
           );
         }
       },
-      child: Builder(
-        builder: (context) => CustomAppPage(
-          withBackground: true,
-          child: CustomAppPage(
-            safeTop: true,
-            child: Scaffold(
-              resizeToAvoidBottomInset: false,
-              body: SingleChildScrollView(
-                child: _buildBody(context),
-              ),
-            ),
-          ),
+      child: Scaffold(
+        appBar: AppBar(),
+        body: SingleChildScrollView(
+          child: _buildBody(context),
         ),
       ),
     );
@@ -130,18 +110,21 @@ class _SignUpPageState extends State<SignUpPage> {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          const SizedBox(height: 28.0),
+          SizedBox(height: 0.h),
           const CustomText(
             text: 'create_an_account',
             fontSize: 20.0,
             fontWeight: FontWeight.w600,
           ),
-          const SizedBox(height: 6.0),
+          SizedBox(height: 6.0.h),
           _buildHaveAccountRow(context),
           _buildSignUpForm(),
           _buildGenderRow(context),
+          SizedBox(
+            height: 10.h,
+          ),
           _buildTermsAndConditions(context),
-          const SizedBox(height: 16.0),
+          SizedBox(height: 16.0.h),
           _buildSignUpButton(context),
           _buildContinueAsGuestButton(context),
         ],
@@ -180,73 +163,157 @@ class _SignUpPageState extends State<SignUpPage> {
   }
 
   Widget _buildForm() {
-    return Form(
-      key: _formKey,
-      autovalidateMode: _isAutoValidating
-          ? AutovalidateMode.onUserInteraction
-          : AutovalidateMode.disabled,
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.stretch,
-        children: [
-          DefaultTextFormField(
-            currentController: _fullNameTextController,
-            currentFocusNode: _fullNameFocusNode,
-            nextFocusNode: _emailFocusNode,
-            hint: 'full_name',
-            isRequired: true,
+    const style = TextStyle(
+      fontSize: 14.0,
+      fontFamily: 'Poppins',
+      color: Colors.black,
+      fontWeight: FontWeight.w400,
+    );
+    final border = OutlineInputBorder(
+      borderRadius: BorderRadius.circular(12.w),
+      borderSide: BorderSide.none,
+    );
+    final constraints = BoxConstraints(
+      maxHeight: 56.h,
+    );
+    final contentPadding =
+        EdgeInsets.only(top: 17.h, right: 30.w, bottom: 17.h);
+
+    return Theme(
+      data: Theme.of(context).copyWith(
+
+        inputDecorationTheme: InputDecorationTheme(
+          contentPadding: const EdgeInsets.symmetric(
+            vertical: 17.0,
+            horizontal: 30.0,
           ),
-          const SizedBox(height: 18.0),
-          EmailTextFormField(
-            currentController: _emailTextController,
-            currentFocusNode: _emailFocusNode,
-            nextFocusNode: _passwordFocusNode,
+          fillColor: appTheme.gray5001,
+          border: border,
+          constraints: BoxConstraints(
+            minHeight: 56.h,
           ),
-          const SizedBox(height: 18.0),
-          PhoneTextFormField(
-            currentController: _phoneTextController,
-            currentFocusNode: _phoneFocusNode,
-            nextFocusNode: null,
-            initialValue: _phoneNumber,
-            onInputChanged: (value) => _phoneNumber = value,
-          ),
-          const SizedBox(height: 18.0),
-          DefaultTextFormField(
-            currentFocusNode: _birthDateFocusNode,
-            currentController: _birthDateTextController,
-            keyboardType: TextInputType.datetime,
-            suffixIcon:
-                const Icon(Icons.calendar_month_outlined, color: Colors.black),
-            isRequired: true,
-            hint: 'birth_date',
-            readOnly: true,
-            onTap: () async {
-              final initialDate = _birthDateTextController.text.isNotEmpty
-                  ? _birthDateTextController.text.parseDate()
-                  : DateTime.now();
-              final pickedDate = await showDatePicker(
-                context: context,
-                initialDate: initialDate,
-                firstDate: DateTime.now().subtract(const Duration(days: 43800)),
-                lastDate: DateTime.now(),
-              );
-              if (pickedDate != null) {
-                _birthDateTextController.text = pickedDate.formatDate();
-              }
-            },
-          ),
-          const SizedBox(height: 18.0),
-          PasswordTextFormField(
-              currentFocusNode: _passwordFocusNode,
-              nextFocusNode: _passwordConfirmFocusNode,
-              currentController: _passwordTextController),
-          const SizedBox(height: 18.0),
-          ConfirmPasswordTextFormField(
-            currentFocusNode: _passwordConfirmFocusNode,
-            currentController: _passwordConfirmTextController,
-            passwordController: _passwordTextController,
-            hint: 'confirm_password',
-          ),
-        ],
+          prefixIconColor: appTheme.blueGray40001,
+          filled: true,
+          hintStyle: CustomTextStyles.bodyMediumBluegray40001_1,
+        ),
+      ),
+      child: Form(
+        key: _formKey,
+        autovalidateMode: _isAutoValidating
+            ? AutovalidateMode.onUserInteraction
+            : AutovalidateMode.disabled,
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.stretch,
+          children: [
+            TextFormField(
+              validator: Validator().validateEmptyField,
+              focusNode: _fullNameFocusNode,
+              controller: _fullNameTextController,
+              style: style,
+              decoration: InputDecoration(
+                  prefixIconConstraints: constraints,
+                  prefixIcon: buildImage(ImageConstant.imgLock),
+                  hintText: 'lbl_name'.tr(),
+                  contentPadding: contentPadding),
+            ),
+            SizedBox(height: 18.h),
+            TextFormField(
+              controller: _emailTextController,
+              validator: (value) {
+                if (value == null || (!isValidEmail(value, isRequired: true))) {
+                  return "err_msg_please_enter_valid_email".tr();
+                }
+                return null;
+              },
+              focusNode: _emailFocusNode,
+              style: style,
+              decoration: InputDecoration(
+                  prefixIconConstraints: constraints,
+                  prefixIcon:
+                      buildImage(ImageConstant.imgCheckmarkBlueGray40001),
+                  hintText: 'lbl_email'.tr(),
+                  contentPadding: contentPadding),
+            ),
+            SizedBox(height: 18.h),
+            PhoneTextFormField(
+              currentController: _phoneTextController,
+              currentFocusNode: _phoneFocusNode,
+              nextFocusNode: null,
+              initialValue: _phoneNumber,
+              onInputChanged: (value) => _phoneNumber = value,
+            ),
+            const SizedBox(height: 18.0),
+            TextFormField(readOnly: true,
+
+              style: style,
+              onTap: () async {
+                final initialDate = _birthDateTextController.text.isNotEmpty
+                    ? _birthDateTextController.text.parseDate()
+                    : DateTime.now();
+                final pickedDate = await showDatePicker(
+                  context: context,
+                  initialDate: initialDate,
+                  firstDate:
+                      DateTime.now().subtract(const Duration(days: 43800)),
+                  lastDate: DateTime.now(),
+                  builder: (context, child) {
+                    return Theme(
+                      data: Theme.of(context).copyWith(
+                        colorScheme: ColorScheme.light(primary:  AppColors.PRIMARY_COLOR ),
+                        buttonTheme: ButtonThemeData(textTheme: ButtonTextTheme.primary),
+                      ),
+                      child: child!,
+                    );
+                  }
+
+                    );
+                if (pickedDate != null) {
+                  _birthDateTextController.text = pickedDate.formatDate();
+                }
+              },
+              validator: Validator().validateEmptyField,
+              focusNode: _birthDateFocusNode,
+              controller: _birthDateTextController,
+              decoration: InputDecoration(
+                contentPadding: contentPadding,
+                prefixIconConstraints: constraints,
+                prefixIcon: buildImage(ImageConstant.imgCalendar),
+                hintText: "lbl_birth_date".tr(),
+                suffixIcon: Padding(
+                  padding: EdgeInsets.fromLTRB(18.w, 19.h, 10.w, 19.h),
+                  child: CustomImageView(
+                      imagePath: ImageConstant.imgCalendar,
+                      height: 20.adaptSize,
+                      color: appTheme.blueGray40001,
+                      width: 20.adaptSize),
+                ),
+                suffixIconConstraints: constraints,
+              ),
+            ),
+            const SizedBox(height: 18.0),
+            PasswordTextField(
+                iconColor: appTheme.blueGray40001,
+                controller: _passwordTextController,
+                hint: 'password'.tr()),
+            const SizedBox(height: 18.0),
+            PasswordTextField(
+                iconColor: appTheme.blueGray40001,
+                controller: _passwordConfirmTextController,
+                hint: 'confirm_password'.tr()),
+          ],
+        ),
+      ),
+    );
+  }
+
+  Padding buildImage(String imagePath) {
+    return Padding(
+      padding: EdgeInsets.fromLTRB(18.w, 17.h, 10.w, 19.h),
+      child: CustomImageView(
+        imagePath: imagePath,
+        height: 20.h,
+        width: 20.w,
+        color: appTheme.blueGray40001,
       ),
     );
   }
@@ -255,18 +322,18 @@ class _SignUpPageState extends State<SignUpPage> {
     final authCubit = context.read<AuthCubit>();
     Future<void> signUpCallBack() async {
       if (_isNotValid()) return;
-
+      final user = User(
+          fullName: _fullNameTextController.text.trim(),
+          email: _emailTextController.text.trim(),
+          password: _passwordTextController.text,
+          confirmPassword: _passwordConfirmTextController.text,
+          phone: _phoneNumber?.number,
+          countryCode: _phoneNumber?.countryCode,
+          birthDate: _birthDateTextController.text.parseDate(),
+          gender: selectedGender,
+          countryId: 1);
       await authCubit.signUp(
-        User(
-            fullName: _fullNameTextController.text.trim(),
-            email: _emailTextController.text.trim(),
-            password: _passwordTextController.text,
-            confirmPassword: _passwordConfirmTextController.text,
-            phone: _phoneNumber?.number,
-            countryCode: _phoneNumber?.countryCode,
-            birthDate: _birthDateTextController.text.parseDate(),
-            gender: selectedGender,
-            countryId: 1),
+        user,
       );
     }
 
@@ -282,7 +349,6 @@ class _SignUpPageState extends State<SignUpPage> {
   bool _isNotValid() {
     _fullNameTextController.text = _fullNameTextController.text.trim();
     _emailTextController.text = _emailTextController.text.trim();
-
     if (!_formKey.currentState!.validate()) {
       setState(() => _isAutoValidating = true);
       return true;
@@ -296,6 +362,8 @@ class _SignUpPageState extends State<SignUpPage> {
         Checkbox(
           value: true,
           onChanged: (value) {},
+          fillColor: MaterialStateProperty.all(AppColors.PRIMARY_COLOR),
+          checkColor: Colors.white,
         ),
         const CustomText(
           text: 'i_agree',
@@ -365,8 +433,8 @@ class _SignUpPageState extends State<SignUpPage> {
     return Row(
       children: [
         CustomChip(
-            height: 56,
-            label: Gender.male.toString(),
+            height: 56.h,
+            label: 'lbl_male'.tr(),
             value: Gender.male,
             groupValue: selectedGender,
             isExpanded: true,
@@ -375,8 +443,8 @@ class _SignUpPageState extends State<SignUpPage> {
             }),
         const SizedBox(width: 8.0),
         CustomChip(
-          height: 56,
-          label: Gender.female.toString(),
+          height: 56.h,
+          label: 'lbl_female'.tr(),
           value: Gender.female,
           groupValue: selectedGender,
           isExpanded: true,

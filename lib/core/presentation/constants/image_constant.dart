@@ -56,8 +56,9 @@ class ImageConstant {
 
   static String imgVectorGray20002 = '$imagePath/img_vector_gray_200_02.svg';
 
-  // 1-Onboarding One images
   static String img1OnboardingOne = '$imagePath/img_1_onboarding_one.png';
+  static String imgOnBoardingTwo = '$imagePath/onBoarding-image2.png';
+  static String imgOnBoardingThree = '$imagePath/onBoarding-image3.png';
 
   static String imgGroup8 = '$imagePath/img_group_8.png';
 

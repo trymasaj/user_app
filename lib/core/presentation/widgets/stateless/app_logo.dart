@@ -31,7 +31,7 @@ class AppLogo extends StatelessWidget {
           child: Align(
             alignment: Alignment.center,
             child: Image.asset(
-              Assets.lib.res.assets.logoText.path,
+              Assets.images.logoText.path,
               height: _height,
               width: _width,
             ),

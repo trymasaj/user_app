@@ -7,7 +7,7 @@ import 'package:masaj/core/data/models/interest_model.dart';
 import 'package:masaj/features/account/data/models/contact_us_message_model.dart';
 import 'package:masaj/features/auth/data/datasources/auth_local_datasource.dart';
 import 'package:masaj/features/auth/data/datasources/auth_remote_datasource.dart';
-import 'package:masaj/features/auth/data/models/user.dart';
+import 'package:masaj/features/auth/domain/entities/user.dart';
 
 abstract class AuthRepository {
   Future<bool> isLoggedIn();

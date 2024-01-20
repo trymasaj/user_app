@@ -86,7 +86,7 @@ class BookingCard extends StatelessWidget {
             Row(
               children: [
                 SvgPicture.asset(
-                    Assets.lib.res.assets.imgMaterialSymbolBlueGray90003),
+                    Assets.images.imgMaterialSymbolBlueGray90003),
                 SizedBox(width: 5.w),
                 CustomText(
                   text: 'Khaled Ahmed',
@@ -107,7 +107,7 @@ class BookingCard extends StatelessWidget {
             Row(
               children: [
                 SvgPicture.asset(
-                    Assets.lib.res.assets.imgMaterialSymbolOnprimary),
+                    Assets.images.imgMaterialSymbolOnprimary),
                 SizedBox(width: 5.w),
                 CustomText(
                   text: 'Deep Tissue massage',

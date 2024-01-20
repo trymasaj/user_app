@@ -1,5 +1,7 @@
 // ignore_for_file: public_member_api_docs, sort_constructors_first
 
+import 'package:masaj/core/presentation/constants/image_constant.dart';
+
 class GuidePageTabModel {
   final String? title;
   final String? description;
@@ -10,4 +12,22 @@ class GuidePageTabModel {
     this.description,
     this.image,
   });
+
+  static final guidePageTabs = [
+    const GuidePageTabModel(
+      description: 'guide1_description',
+      title: 'guide1_title',
+      image: 'assets/images/guide1.jpg',
+    ),
+    const GuidePageTabModel(
+      description: 'guide2_description',
+      title: 'guide2_title',
+      image: 'assets/images/guide2.jpg',
+    ),
+    const GuidePageTabModel(
+      description: 'guide3_description',
+      title: 'guide3_title',
+      image: 'assets/images/guide3.jpg',
+    ),
+  ];
 }

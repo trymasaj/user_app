@@ -2,6 +2,7 @@ import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:masaj/core/data/validator/validator.dart';
+import 'package:masaj/core/presentation/theme/theme_helper.dart';
 import 'package:masaj/core/presentation/widgets/stateless/text_fields/default_text_form_field.dart';
 
 class ConfirmPasswordTextFormField extends StatefulWidget {
@@ -52,9 +53,11 @@ class _ConfirmPasswordTextFormFieldState
                 ? FontAwesomeIcons.eyeSlash
                 : FontAwesomeIcons.eye,
             size: 18.0,
-            color: Colors.grey,
+            color: appTheme.blueGray40001,
           ),
+
         ),
+
         validator: (confPassword) => Validator()
             .validateConfPassword(widget.passwordController.text, confPassword),
       ),

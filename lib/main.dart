@@ -31,8 +31,6 @@ void main() async {
 
     await Firebase.initializeApp();
 
-    // await _initCrashLytics();
-
     FlutterNativeSplash.preserve(widgetsBinding: widgetsBinding);
 
     runApp(
@@ -52,7 +50,9 @@ void main() async {
         ),
       ),
     );
-  }, (error, stack) => FirebaseCrashlytics.instance.recordError(error, stack));
+  }, (error, stack) {
+    // FirebaseCrashlytics.instance.recordError(error, stack);
+  });
 }
 
 Future<void> _initCrashLytics() async {
@@ -127,7 +127,6 @@ class _MyAppState extends State<MyApp> with WidgetsBindingObserver {
               locale: context.locale,
               debugShowCheckedModeBanner: false,
               theme: theme,
-              //Adding ClampingScrollPhysics() to avoid over scrolling in the app
               scrollBehavior: const MaterialScrollBehavior().copyWith(
                 physics: const ClampingScrollPhysics(),
               ),

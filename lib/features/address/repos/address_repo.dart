@@ -1,14 +1,38 @@
 import 'package:geocoding/geocoding.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
+import 'package:injectable/injectable.dart';
 import 'package:masaj/core/data/clients/network_service.dart';
+import 'package:masaj/core/data/constants/api_end_point.dart';
+import 'package:masaj/features/address/entities/city.dart';
+import 'package:masaj/features/address/entities/country.dart';
 import 'package:masaj/features/address/models/decoded_address.dart';
 
+@LazySingleton()
 class AddressRepo {
   final NetworkService networkService;
 
   AddressRepo(this.networkService);
 
   final apiKey = 'AIzaSyBi3wkpn58eD7WGMb_24psMehqejdg6wu0';
+
+  @override
+  Future<List<Country>> getCountries() async {
+    final response = await networkService.get(ApiEndPoint.GET_COUNTRIES);
+    final result =
+        (response.data as List).map((e) => Country.fromMap(e)).toList();
+    return result;
+  }
+
+  Future<List<City>> getCities(int countryId) async {
+    print('countryId $countryId');
+    final response = await networkService.get(ApiEndPoint.GET_CITIES,
+        headers: {'x-country-id': countryId.toString()});
+    print('response ${response.data}');
+
+    final result = (response.data as List).map((e) => City.fromMap(e)).toList();
+   print('result ${result.length}');
+    return result;
+  }
 
   Future<String> getAddressFromLatLng(LatLng latLng) async {
     final placeMarks =

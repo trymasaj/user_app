@@ -9,22 +9,67 @@
 
 import 'package:flutter/widgets.dart';
 
-class $LibGen {
-  const $LibGen();
+class $AssetsFontsGen {
+  const $AssetsFontsGen();
 
-  $LibResGen get res => const $LibResGen();
+  /// File path: assets/fonts/AlmaraiRegular.ttf
+  String get almaraiRegular => 'assets/fonts/AlmaraiRegular.ttf';
+
+  /// File path: assets/fonts/DMSansBold.ttf
+  String get dMSansBold => 'assets/fonts/DMSansBold.ttf';
+
+  /// File path: assets/fonts/DMSansMedium.ttf
+  String get dMSansMedium => 'assets/fonts/DMSansMedium.ttf';
+
+  /// File path: assets/fonts/DMSansRegular.ttf
+  String get dMSansRegular => 'assets/fonts/DMSansRegular.ttf';
+
+  /// File path: assets/fonts/DancingScriptMedium.ttf
+  String get dancingScriptMedium => 'assets/fonts/DancingScriptMedium.ttf';
+
+  /// File path: assets/fonts/ManropeRegular.ttf
+  String get manropeRegular => 'assets/fonts/ManropeRegular.ttf';
+
+  /// File path: assets/fonts/PoppinsBold.ttf
+  String get poppinsBold => 'assets/fonts/PoppinsBold.ttf';
+
+  /// File path: assets/fonts/PoppinsMedium.ttf
+  String get poppinsMedium => 'assets/fonts/PoppinsMedium.ttf';
+
+  /// File path: assets/fonts/PoppinsRegular.ttf
+  String get poppinsRegular => 'assets/fonts/PoppinsRegular.ttf';
+
+  /// File path: assets/fonts/PoppinsSemiBold.ttf
+  String get poppinsSemiBold => 'assets/fonts/PoppinsSemiBold.ttf';
+
+  /// File path: assets/fonts/RobotoRomanRegular.ttf
+  String get robotoRomanRegular => 'assets/fonts/RobotoRomanRegular.ttf';
+
+  /// File path: assets/fonts/SofiaProBold.ttf
+  String get sofiaProBold => 'assets/fonts/SofiaProBold.ttf';
+
+  /// List of all assets
+  List<String> get values => [
+        almaraiRegular,
+        dMSansBold,
+        dMSansMedium,
+        dMSansRegular,
+        dancingScriptMedium,
+        manropeRegular,
+        poppinsBold,
+        poppinsMedium,
+        poppinsRegular,
+        poppinsSemiBold,
+        robotoRomanRegular,
+        sofiaProBold
+      ];
 }
 
-class $LibResGen {
-  const $LibResGen();
+class $AssetsImagesGen {
+  const $AssetsImagesGen();
 
-  $LibResAssetsGen get assets => const $LibResAssetsGen();
-
-  $LibResTranslationsGen get translations => const $LibResTranslationsGen();
-}
-
-class $LibResAssetsGen {
-  const $LibResAssetsGen();
+  /// File path: assets/images/Bg.png
+  AssetGenImage get bg => const AssetGenImage('assets/images/Bg.png');
 
   /// File path: assets/images/Group 1800.svg
   String get group1800 => 'assets/images/Group 1800.svg';
@@ -35,6 +80,9 @@ class $LibResAssetsGen {
   /// File path: assets/images/Setting.svg
   String get setting => 'assets/images/Setting.svg';
 
+  /// File path: assets/images/alert-circle.svg
+  String get alertCircle => 'assets/images/alert-circle.svg';
+
   /// File path: assets/images/app_logo.png
   AssetGenImage get appLogoPng =>
       const AssetGenImage('assets/images/app_logo.png');
@@ -44,6 +92,9 @@ class $LibResAssetsGen {
 
   /// File path: assets/images/apple.svg
   String get apple => 'assets/images/apple.svg';
+
+  /// File path: assets/images/back_icon.svg
+  String get backIcon => 'assets/images/back_icon.svg';
 
   /// File path: assets/images/background.svg
   String get background => 'assets/images/background.svg';
@@ -88,8 +139,7 @@ class $LibResAssetsGen {
       'assets/images/forget_password_background.svg';
 
   /// File path: assets/images/get_started_background.svg
-  String get getStartedBackground =>
-      'assets/images/get_started_background.svg';
+  String get getStartedBackground => 'assets/images/get_started_background.svg';
 
   /// File path: assets/images/google.svg
   String get google => 'assets/images/google.svg';
@@ -103,8 +153,11 @@ class $LibResAssetsGen {
   /// File path: assets/images/guide3.jpg
   AssetGenImage get guide3 => const AssetGenImage('assets/images/guide3.jpg');
 
+  /// File path: assets/images/heart.svg
+  String get heartSvg => 'assets/images/heart.svg';
+
   /// File path: assets/images/heart.zip
-  String get heart => 'assets/images/heart.zip';
+  String get heartZip => 'assets/images/heart.zip';
 
   /// File path: assets/images/heart_img.zip
   String get heartImg => 'assets/images/heart_img.zip';
@@ -124,8 +177,6 @@ class $LibResAssetsGen {
   /// File path: assets/images/image_not_found.png
   AssetGenImage get imageNotFound =>
       const AssetGenImage('assets/images/image_not_found.png');
-
-  $LibResAssetsImagesGen get images => const $LibResAssetsImagesGen();
 
   /// File path: assets/images/img_1_onboarding_one.png
   AssetGenImage get img1OnboardingOne =>
@@ -212,8 +263,7 @@ class $LibResAssetsGen {
   String get imgCalendar => 'assets/images/img_calendar.svg';
 
   /// File path: assets/images/img_calendar_onprimary.svg
-  String get imgCalendarOnprimary =>
-      'assets/images/img_calendar_onprimary.svg';
+  String get imgCalendarOnprimary => 'assets/images/img_calendar_onprimary.svg';
 
   /// File path: assets/images/img_calendar_onprimary_20x20.svg
   String get imgCalendarOnprimary20x20 =>
@@ -289,8 +339,7 @@ class $LibResAssetsGen {
   String get imgContrast => 'assets/images/img_contrast.svg';
 
   /// File path: assets/images/img_contrast_onprimary.svg
-  String get imgContrastOnprimary =>
-      'assets/images/img_contrast_onprimary.svg';
+  String get imgContrastOnprimary => 'assets/images/img_contrast_onprimary.svg';
 
   /// File path: assets/images/img_contrast_onprimarycontainer.svg
   String get imgContrastOnprimarycontainer =>
@@ -910,8 +959,7 @@ class $LibResAssetsGen {
   String get imgSettingsGray50 => 'assets/images/img_settings_gray_50.svg';
 
   /// File path: assets/images/img_settings_onprimary.svg
-  String get imgSettingsOnprimary =>
-      'assets/images/img_settings_onprimary.svg';
+  String get imgSettingsOnprimary => 'assets/images/img_settings_onprimary.svg';
 
   /// File path: assets/images/img_signal.svg
   String get imgSignal => 'assets/images/img_signal.svg';
@@ -1046,6 +1094,13 @@ class $LibResAssetsGen {
   AssetGenImage get logoText =>
       const AssetGenImage('assets/images/logo_text.png');
 
+  /// File path: assets/images/masaj_background.png
+  AssetGenImage get masajBackgroundPng =>
+      const AssetGenImage('assets/images/masaj_background.png');
+
+  /// File path: assets/images/masaj_background.svg
+  String get masajBackgroundSvg => 'assets/images/masaj_background.svg';
+
   /// File path: assets/images/more_background.svg
   String get moreBackground => 'assets/images/more_background.svg';
 
@@ -1064,6 +1119,24 @@ class $LibResAssetsGen {
 
   /// File path: assets/images/notification_icon.svg
   String get notificationIcon => 'assets/images/notification_icon.svg';
+
+  /// File path: assets/images/onBoarding-image1.png
+  AssetGenImage get onBoardingImage1 =>
+      const AssetGenImage('assets/images/onBoarding-image1.png');
+
+  /// File path: assets/images/onBoarding-image2.png
+  AssetGenImage get onBoardingImage2 =>
+      const AssetGenImage('assets/images/onBoarding-image2.png');
+
+  /// File path: assets/images/onBoarding-image3.png
+  AssetGenImage get onBoardingImage3 =>
+      const AssetGenImage('assets/images/onBoarding-image3.png');
+
+  /// File path: assets/images/phone.svg
+  String get phone => 'assets/images/phone.svg';
+
+  /// File path: assets/images/pin.svg
+  String get pin => 'assets/images/pin.svg';
 
   /// File path: assets/images/points-deduct.svg
   String get pointsDeduct => 'assets/images/points-deduct.svg';
@@ -1120,6 +1193,12 @@ class $LibResAssetsGen {
   /// File path: assets/images/support_icon.svg
   String get supportIcon => 'assets/images/support_icon.svg';
 
+  /// File path: assets/images/text_logo_black.svg
+  String get textLogoBlack => 'assets/images/text_logo_black.svg';
+
+  /// File path: assets/images/wa_logo.svg
+  String get waLogo => 'assets/images/wa_logo.svg';
+
   /// File path: assets/images/wallet.svg
   String get wallet => 'assets/images/wallet.svg';
 
@@ -1140,12 +1219,15 @@ class $LibResAssetsGen {
 
   /// List of all assets
   List<dynamic> get values => [
+        bg,
         group1800,
         group1801,
         setting,
+        alertCircle,
         appLogoPng,
         appLogoSvg,
         apple,
+        backIcon,
         background,
         bell,
         bookmark,
@@ -1164,7 +1246,8 @@ class $LibResAssetsGen {
         guide1,
         guide2,
         guide3,
-        heart,
+        heartSvg,
+        heartZip,
         heartImg,
         help,
         helpLayerIcon,
@@ -1425,12 +1508,19 @@ class $LibResAssetsGen {
         kidsNotAllowedIcon,
         languageIcon,
         logoText,
+        masajBackgroundPng,
+        masajBackgroundSvg,
         moreBackground,
         moreIcon,
         myTicketsIcon,
         newGlassSearchImg,
         noPoints,
         notificationIcon,
+        onBoardingImage1,
+        onBoardingImage2,
+        onBoardingImage3,
+        phone,
+        pin,
         pointsDeduct,
         pointsAdd,
         pointsBackground,
@@ -1447,6 +1537,8 @@ class $LibResAssetsGen {
         splashVideo,
         successIcon,
         supportIcon,
+        textLogoBlack,
+        waLogo,
         wallet,
         zoneHorizontalList,
         zoneMapDisplay,
@@ -1455,46 +1547,25 @@ class $LibResAssetsGen {
       ];
 }
 
-class $LibResTranslationsGen {
-  const $LibResTranslationsGen();
+class $AssetsTranslationsGen {
+  const $AssetsTranslationsGen();
 
-  /// File path: lib/res/translations/ar.json
-  String get ar => 'lib/res/translations/ar.json';
+  /// File path: assets/translations/ar.json
+  String get ar => 'assets/translations/ar.json';
 
-  /// File path: lib/res/translations/en.json
-  String get en => 'lib/res/translations/en.json';
+  /// File path: assets/translations/en.json
+  String get en => 'assets/translations/en.json';
 
   /// List of all assets
   List<String> get values => [ar, en];
 }
 
-class $LibResAssetsImagesGen {
-  const $LibResAssetsImagesGen();
-
-  /// File path: assets/images/Bg.png
-  AssetGenImage get bg => const AssetGenImage('assets/images/Bg.png');
-
-  /// File path: assets/images/onBoarding-image1.png
-  AssetGenImage get onBoardingImage1 =>
-      const AssetGenImage('assets/images/onBoarding-image1.png');
-
-  /// File path: assets/images/onBoarding-image2.png
-  AssetGenImage get onBoardingImage2 =>
-      const AssetGenImage('assets/images/onBoarding-image2.png');
-
-  /// File path: assets/images/onBoarding-image3.png
-  AssetGenImage get onBoardingImage3 =>
-      const AssetGenImage('assets/images/onBoarding-image3.png');
-
-  /// List of all assets
-  List<AssetGenImage> get values =>
-      [bg, onBoardingImage1, onBoardingImage2, onBoardingImage3];
-}
-
 class Assets {
   Assets._();
 
-  static const $LibGen lib = $LibGen();
+  static const $AssetsFontsGen fonts = $AssetsFontsGen();
+  static const $AssetsImagesGen images = $AssetsImagesGen();
+  static const $AssetsTranslationsGen translations = $AssetsTranslationsGen();
 }
 
 class AssetGenImage {

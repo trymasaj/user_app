@@ -11,7 +11,7 @@ import 'package:masaj/core/presentation/widgets/stateless/subtitle_text.dart';
 import 'package:masaj/core/presentation/widgets/stateless/text_fields/confirm_password_text_field.dart';
 import 'package:masaj/core/presentation/widgets/stateless/text_fields/password_text_form_field.dart';
 import 'package:masaj/core/presentation/widgets/stateless/title_text.dart';
-import 'package:masaj/features/auth/presentation/blocs/auth_cubit/auth_cubit.dart';
+import 'package:masaj/features/auth/application/auth_cubit/auth_cubit.dart';
 
 class ChangePasswordPage extends StatefulWidget {
   static const routeName = '/ChangePasswordPage';

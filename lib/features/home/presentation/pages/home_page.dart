@@ -123,13 +123,13 @@ class __CustomNavBarState extends State<_CustomNavBar> {
             items: [
               BottomNavigationBarItem(
                 icon: SvgPicture.asset(
-                  Assets.lib.res.assets.home,
+                  Assets.images.home,
                   height: 24,
                   width: 24,
                   color: AppColors.GREY_NORMAL_COLOR,
                 ),
                 activeIcon: SvgPicture.asset(
-                  Assets.lib.res.assets.home,
+                  Assets.images.home,
                   color: AppColors.FONT_COLOR,
                   height: 24,
                   width: 24,
@@ -138,13 +138,13 @@ class __CustomNavBarState extends State<_CustomNavBar> {
               ),
               BottomNavigationBarItem(
                 icon: SvgPicture.asset(
-                  Assets.lib.res.assets.bookmark,
+                  Assets.images.bookmark,
                   color: AppColors.GREY_NORMAL_COLOR,
                   height: 24,
                   width: 24,
                 ),
                 activeIcon: SvgPicture.asset(
-                  Assets.lib.res.assets.bookmark,
+                  Assets.images.bookmark,
                   color: AppColors.FONT_COLOR,
                   height: 24,
                   width: 24,
@@ -160,13 +160,13 @@ class __CustomNavBarState extends State<_CustomNavBar> {
               ),
               BottomNavigationBarItem(
                 icon: SvgPicture.asset(
-                  Assets.lib.res.assets.fluentPeopleCommunity20Regular,
+                  Assets.images.fluentPeopleCommunity20Regular,
                   color: AppColors.GREY_NORMAL_COLOR,
                   height: 24,
                   width: 24,
                 ),
                 activeIcon: SvgPicture.asset(
-                  Assets.lib.res.assets.fluentPeopleCommunity20Regular,
+                  Assets.images.fluentPeopleCommunity20Regular,
                   height: 24,
                   width: 24,
                 ),
@@ -174,13 +174,13 @@ class __CustomNavBarState extends State<_CustomNavBar> {
               ),
               BottomNavigationBarItem(
                 icon: SvgPicture.asset(
-                  Assets.lib.res.assets.setting,
+                  Assets.images.setting,
                   color: AppColors.GREY_NORMAL_COLOR,
                   height: 24,
                   width: 24,
                 ),
                 activeIcon: SvgPicture.asset(
-                  Assets.lib.res.assets.setting,
+                  Assets.images.setting,
                   height: 24,
                   width: 24,
                   color: AppColors.FONT_COLOR,

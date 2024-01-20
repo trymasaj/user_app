@@ -46,7 +46,7 @@ class CustomText extends StatelessWidget {
           fixedFontSize ?? (min(fontSize.sp, fontSize) - subtractedSize.sp),
       fontFamily: 'Poppins',
       color: color ?? Colors.black,
-      fontWeight: fontWeight ?? FontWeight.w600,
+      fontWeight: fontWeight ?? FontWeight.w400,
       decoration: decoration,
     );
     Widget child = Text(

@@ -18,7 +18,7 @@ import 'package:masaj/core/presentation/widgets/stateless/text_fields/password_t
 import 'package:masaj/core/presentation/widgets/stateless/text_fields/phone_number_text_field.dart';
 
 import 'package:masaj/features/home/presentation/pages/home_page.dart';
-import 'package:masaj/features/auth/presentation/blocs/auth_cubit/auth_cubit.dart';
+import 'package:masaj/features/auth/application/auth_cubit/auth_cubit.dart';
 import 'package:masaj/features/auth/presentation/pages/email_verification_page.dart';
 import 'package:masaj/features/auth/presentation/pages/forget_password_page.dart';
 import 'package:masaj/features/auth/presentation/pages/sign_up_page.dart';
@@ -403,11 +403,11 @@ class _LoginPageState extends State<LoginPage> {
   }
 
   void _goToSignUpPage(BuildContext context) =>
-      NavigatorHelper.of(context).pushReplacementNamed(SignUpPage.routeName);
+      NavigatorHelper.of(context).pushNamed(SignUpPage.routeName);
 
   void _goToEmailVerificationPage(BuildContext context) =>
       NavigatorHelper.of(context)
-          .pushReplacementNamed(EmailVerificationPage.routeName);
+          .pushNamed(EmailVerificationPage.routeName);
 
   Widget _buildVerticalLineSplittedWithORText(BuildContext context) {
     return Row(

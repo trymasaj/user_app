@@ -51,7 +51,7 @@ class FixedAppBar extends StatelessWidget {
                         crossAxisAlignment: CrossAxisAlignment.center,
                         children: [
                           SvgPicture.asset(
-                            Assets.lib.res.assets.imgFluentLocation48Filled,
+                            Assets.images.imgFluentLocation48Filled,
                           ),
                           const SizedBox(
                             width: 5,
@@ -67,7 +67,7 @@ class FixedAppBar extends StatelessWidget {
                             width: 5,
                           ),
                           SvgPicture.asset(
-                            Assets.lib.res.assets.imgArrowDown,
+                            Assets.images.imgArrowDown,
                           ),
                         ],
                       ),
@@ -90,7 +90,7 @@ class FixedAppBar extends StatelessWidget {
                           ),
                         ),
                         child: SvgPicture.asset(
-                          Assets.lib.res.assets.fluentPeopleCommunity20Regular,
+                          Assets.images.fluentPeopleCommunity20Regular,
                         ),
                       ),
                       Container(
@@ -107,7 +107,7 @@ class FixedAppBar extends StatelessWidget {
                           ),
                         ),
                         child: SvgPicture.asset(
-                          Assets.lib.res.assets.bell,
+                          Assets.images.bell,
                           color: AppColors.ACCENT_COLOR,
                         ),
                       ),

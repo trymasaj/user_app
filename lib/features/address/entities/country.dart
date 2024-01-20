@@ -1,17 +1,17 @@
 class Country {
-  final int id;
-  final String nameEn;
-  final String nameAr;
-  final String code;
-  final String currencyEn;
-  final String currencyAr;
-  final int decimalNumber;
-  final String currencyIso;
-  final String isoCode;
-  final String capital;
+  final int? id;
+  final String? nameEn;
+  final String? nameAr;
+  final String? code;
+  final String? currencyEn;
+  final String? currencyAr;
+  final int? decimalNumber;
+  final String? currencyIso;
+  final String? isoCode;
+  final String? capital;
   final int usdExchangeRate;
-  final bool isActive;
-  final String flagIcon;
+  final bool? isActive;
+  final String? flagIcon;
 
   Country({
     required this.id,
@@ -29,7 +29,7 @@ class Country {
     required this.flagIcon,
   });
 
-  factory Country.fromMap(Map<String, dynamic> map) {
+  factory Country.fromMap(Map<String?, dynamic> map) {
     return Country(
       id: map['id'],
       nameEn: map['nameEn'],
