@@ -85,6 +85,9 @@ class ThemeHelper {
           )),
       visualDensity: VisualDensity.standard,
       colorScheme: colorScheme,
+      textSelectionTheme: const TextSelectionThemeData(
+        cursorColor: Colors.black,
+      ),
       textTheme: TextThemes.textTheme(colorScheme),
       scaffoldBackgroundColor: colorScheme.onPrimaryContainer.withOpacity(1),
       elevatedButtonTheme: ElevatedButtonThemeData(

@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:masaj/core/app_export.dart';
 import 'package:masaj/core/data/validator/validation_functions.dart';
+import 'package:masaj/core/presentation/colors/app_colors.dart';
 
 class PasswordTextField extends StatefulWidget {
   const PasswordTextField(
@@ -26,7 +27,12 @@ class _PasswordTextFieldState extends State<PasswordTextField> {
   @override
   Widget build(BuildContext context) {
     return TextFormField(
-      style: const TextStyle(color: Colors.black),
+      style: const TextStyle(
+        fontFamily: 'Poppins',
+        fontSize: 14.0,
+        fontWeight: FontWeight.w400,
+        color: AppColors.FONT_COLOR,
+      ),
       controller: widget.controller,
       decoration: InputDecoration(
         contentPadding: EdgeInsets.symmetric(vertical: 17.h),
@@ -69,7 +75,7 @@ class _PasswordTextFieldState extends State<PasswordTextField> {
         }
         return null;
       },
-      obscureText: isShowPassword,
+      obscureText: !isShowPassword,
     );
   }
 }

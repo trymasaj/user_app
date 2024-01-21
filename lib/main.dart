@@ -48,6 +48,7 @@ void main() async {
           showInspectorOn: ShowInspectorOn.LongPress,
           child: MultiBlocProvider(
             providers: [
+              BlocProvider(create: (context) => Injector().splashCubit..init()),
               BlocProvider(create: (context) => Injector().authCubit..init()),
               BlocProvider(create: (context) => Injector().favoritesCubit),
             ],

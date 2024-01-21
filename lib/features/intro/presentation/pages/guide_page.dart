@@ -3,21 +3,20 @@ import 'dart:ui';
 
 import 'package:collection/collection.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:masaj/core/app_export.dart';
 import 'package:masaj/core/data/di/injector.dart';
-import 'package:masaj/core/data/extensions/extensions.dart';
 import 'package:masaj/core/presentation/colors/app_colors.dart';
 import 'package:masaj/core/presentation/navigation/navigator_helper.dart';
 import 'package:masaj/core/presentation/overlay/show_snack_bar.dart';
 import 'package:masaj/core/presentation/widgets/stateless/custom_loading.dart';
-import 'package:masaj/core/presentation/widgets/stateless/custom_text.dart';
 import 'package:masaj/core/presentation/widgets/stateless/default_button.dart';
 import 'package:masaj/core/presentation/widgets/stateless/dots_indicator.dart';
+import 'package:masaj/features/address/pages/select_location_screen.dart';
 import 'package:masaj/features/auth/presentation/pages/login_page.dart';
 import 'package:masaj/features/intro/presentation/blocs/guide_page_cubit/guide_page_cubit.dart';
 
 import 'package:masaj/features/intro/data/models/guide_page_tab_model.dart';
+import 'package:masaj/features/splash/presentation/splash_cubit/splash_cubit.dart';
 
 class GuidePage extends StatefulWidget {
   static const routeName = '/GuidePage';
@@ -229,11 +228,23 @@ class _GuidePageState extends State<GuidePage> {
     );
   }
 
-  VoidCallback _goToGetStartPage(BuildContext context, bool isLogin) =>
-      () => NavigatorHelper.of(context).pushNamedAndRemoveUntil(
-            LoginPage.routeName,
+  VoidCallback _goToGetStartPage(BuildContext context, bool isLogin) {
+    final splashCubit = context.read<SplashCubit>();
+    final splashState = splashCubit.state;
+    final countryNotSet = splashState.isCountrySet != true;
+
+    if (countryNotSet) {
+      return () => NavigatorHelper.of(context).pushNamedAndRemoveUntil(
+            SelectLocationScreen.routeName,
             (route) => false,
           );
+    }
+
+    return () => NavigatorHelper.of(context).pushNamedAndRemoveUntil(
+          LoginPage.routeName,
+          (route) => false,
+        );
+  }
 
   Widget _buildGlassContainer(BuildContext context) {
     final cubit = context.watch<GuidePageCubit>();

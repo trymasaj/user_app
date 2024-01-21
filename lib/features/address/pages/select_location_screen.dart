@@ -28,7 +28,7 @@ class SelectLocationScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     final controller = context.read<SelectLocationBloc>();
     return Scaffold(
-        appBar: AppBar(),
+        //  appBar: AppBar(),
         body: Container(
             width: double.maxFinite,
             padding: EdgeInsets.only(left: 24.w, top: 62.h, right: 24.w),
