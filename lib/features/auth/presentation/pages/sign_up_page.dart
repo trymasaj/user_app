@@ -1,6 +1,4 @@
-import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:intl_phone_field/phone_number.dart';
 import 'package:masaj/core/app_export.dart';
 import 'package:masaj/core/data/extensions/extensions.dart';
@@ -11,15 +9,9 @@ import 'package:masaj/core/presentation/colors/app_colors.dart';
 import 'package:masaj/core/presentation/navigation/navigator_helper.dart';
 import 'package:masaj/core/presentation/overlay/show_snack_bar.dart';
 import 'package:masaj/core/presentation/widgets/stateful/password_text_field.dart';
-import 'package:masaj/core/presentation/widgets/stateless/custom_app_page.dart';
 import 'package:masaj/core/presentation/widgets/stateless/custom_chip.dart';
 import 'package:masaj/core/presentation/widgets/stateless/custom_text.dart';
-import 'package:masaj/core/presentation/widgets/stateless/custom_text_form_field.dart';
 import 'package:masaj/core/presentation/widgets/stateless/default_button.dart';
-import 'package:masaj/core/presentation/widgets/stateless/text_fields/confirm_password_text_field.dart';
-import 'package:masaj/core/presentation/widgets/stateless/text_fields/default_text_form_field.dart';
-import 'package:masaj/core/presentation/widgets/stateless/text_fields/email_text_form_field.dart';
-import 'package:masaj/core/presentation/widgets/stateless/text_fields/password_text_form_field.dart';
 import 'package:masaj/core/presentation/widgets/stateless/text_fields/phone_number_text_field.dart';
 import 'package:masaj/features/auth/presentation/pages/login_page.dart';
 
@@ -96,7 +88,6 @@ class _SignUpPageState extends State<SignUpPage> {
         }
       },
       child: Scaffold(
-        appBar: AppBar(),
         body: SingleChildScrollView(
           child: _buildBody(context),
         ),
@@ -105,12 +96,14 @@ class _SignUpPageState extends State<SignUpPage> {
   }
 
   Widget _buildBody(BuildContext context) {
+    final mediaQuery = MediaQuery.of(context);
+    final topPadding = mediaQuery.padding.top;
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 20.0),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          SizedBox(height: 0.h),
+          SizedBox(height: topPadding + 20.h),
           const CustomText(
             text: 'create_an_account',
             fontSize: 20.0,
@@ -181,7 +174,6 @@ class _SignUpPageState extends State<SignUpPage> {
 
     return Theme(
       data: Theme.of(context).copyWith(
-
         inputDecorationTheme: InputDecorationTheme(
           contentPadding: const EdgeInsets.symmetric(
             vertical: 17.0,
@@ -243,30 +235,29 @@ class _SignUpPageState extends State<SignUpPage> {
               onInputChanged: (value) => _phoneNumber = value,
             ),
             const SizedBox(height: 18.0),
-            TextFormField(readOnly: true,
-
+            TextFormField(
+              readOnly: true,
               style: style,
               onTap: () async {
                 final initialDate = _birthDateTextController.text.isNotEmpty
                     ? _birthDateTextController.text.parseDate()
                     : DateTime.now();
                 final pickedDate = await showDatePicker(
-                  context: context,
-                  initialDate: initialDate,
-                  firstDate:
-                      DateTime.now().subtract(const Duration(days: 43800)),
-                  lastDate: DateTime.now(),
-                  builder: (context, child) {
-                    return Theme(
-                      data: Theme.of(context).copyWith(
-                        colorScheme: ColorScheme.light(primary:  AppColors.PRIMARY_COLOR ),
-                        buttonTheme: ButtonThemeData(textTheme: ButtonTextTheme.primary),
-                      ),
-                      child: child!,
-                    );
-                  }
-
-                    );
+                    context: context,
+                    initialDate: initialDate,
+                    firstDate:
+                        DateTime.now().subtract(const Duration(days: 43800)),
+                    lastDate: DateTime.now(),
+                    builder: (context, child) {
+                      return Theme(
+                        data: ThemeData.light().copyWith(
+                          colorScheme: const ColorScheme.light(
+                            primary: AppColors.PRIMARY_COLOR,
+                          ),
+                        ),
+                        child: child!,
+                      );
+                    });
                 if (pickedDate != null) {
                   _birthDateTextController.text = pickedDate.formatDate();
                 }
