@@ -13,6 +13,7 @@ import 'package:masaj/features/auth/presentation/pages/login_page.dart';
 
 import 'package:masaj/features/intro/presentation/blocs/choose_language_cubit/choose_language_cubit.dart';
 import 'package:masaj/features/intro/presentation/pages/guide_page.dart';
+import 'package:masaj/features/splash/presentation/splash_cubit/splash_cubit.dart';
 
 class ChooseLanguagePage extends StatefulWidget {
   static const routeName = '/ChooseLanguagePage';
@@ -28,7 +29,6 @@ class _ChooseLanguagePageState extends State<ChooseLanguagePage> {
 
   @override
   Widget build(BuildContext context) {
-
     return CustomAppPage(
       safeTop: true,
       safeBottom: false,
@@ -38,11 +38,29 @@ class _ChooseLanguagePageState extends State<ChooseLanguagePage> {
           builder: (context) =>
               BlocListener<ChooseLanguageCubit, ChooseLanguageState>(
             listener: (context, state) {
+              final splashCubit = context.read<SplashCubit>();
+              final splashState = splashCubit.state;
               if (state.isError) {
                 showSnackBar(context, message: state.errorMessage);
-              } else if (state.isLanguageSet) _goToGuidePage(context);
+                return;
+              }
+              final isFirstLaunch = splashState.isFirstLaunch ?? true;
+              final countryNotSet = splashState.isCountrySet != true;
+              if (state.isLanguageSet && isFirstLaunch) {
+                _goToGuidePage(context);
+                return;
+              }
+              if (state.isLanguageSet && countryNotSet) {
+                Navigator.of(context).pushReplacementNamed(
+                  SelectLocationScreen.routeName,
+                );
+                return;
+              }
+              Navigator.of(context).pushReplacementNamed(
+                LoginPage.routeName,
+              );
             },
-            child: Scaffold(appBar: AppBar(), body: _buildBody(context)),
+            child: Scaffold(body: _buildBody(context)),
           ),
         ),
       ),
@@ -56,6 +74,7 @@ class _ChooseLanguagePageState extends State<ChooseLanguagePage> {
         mainAxisAlignment: MainAxisAlignment.start,
         crossAxisAlignment: CrossAxisAlignment.center,
         children: [
+          SizedBox(height: 62.h),
           CustomImageView(
               imagePath: ImageConstant.imgLayer2Gray90003,
               height: 19.h,
@@ -111,6 +130,7 @@ class _ChooseLanguagePageState extends State<ChooseLanguagePage> {
 
   Widget _buildNextButton(BuildContext context) {
     final cubit = context.read<ChooseLanguageCubit>();
+
     return DefaultButton(
       label: 'lbl_continue'.tr(),
       onPressed: () {
