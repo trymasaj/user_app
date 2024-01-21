@@ -161,29 +161,6 @@ class _LoginPageState extends State<LoginPage> {
     );
   }
 
-  Widget _buildAppleButton(BuildContext context) {
-    final authCubit = context.read<AuthCubit>();
-    // const labelStyle = TextStyle(
-    //   fontSize: 14.0,
-    //   color: Colors.black,
-    //   fontWeight: FontWeight.w500,
-    // );
-    // return SizedBox();
-    return CustomElevatedButton(
-        text: 'lbl_sign_with_apple'.tr(),
-        leftIcon: Container(
-            margin: EdgeInsets.only(right: 10.w),
-            child: CustomImageView(
-                imagePath: ImageConstant.imgSvgexport1861,
-                height: 26.adaptSize,
-                width: 26.adaptSize)),
-        buttonStyle: CustomButtonStyles.fillGrayTL28,
-        buttonTextStyle: theme.textTheme.titleSmall!,
-        onPressed: () {
-          authCubit.loginWithApple(() => _showEmailDialog(context));
-        });
-  }
-
   Future<String?> _showEmailDialog(BuildContext context) {
     return showDialog<String>(
       context: context,
@@ -245,7 +222,7 @@ class _LoginPageState extends State<LoginPage> {
       contentAlignment: MainAxisAlignment.start,
       backgroundColor: Colors.transparent,
       margin: const EdgeInsets.symmetric(vertical: 4.0),
-      label: 'continue_with_google'.tr(),
+      label: 'lbl_sign_with_google'.tr(),
       labelStyle: labelStyle,
       color: const Color(0xFFF6F6F6),
       icon: SvgPicture.asset(
@@ -254,6 +231,33 @@ class _LoginPageState extends State<LoginPage> {
       ),
       onPressed: () {
         return authCubit.loginWithGoogle(() => _showEmailDialog(context));
+      },
+    );
+  }
+
+  Widget _buildAppleButton(BuildContext context) {
+    final authCubit = context.read<AuthCubit>();
+    const labelStyle = TextStyle(
+      fontSize: 14.0,
+      color: Colors.black,
+      fontWeight: FontWeight.w500,
+    );
+
+    return DefaultButton(
+      padding: const EdgeInsets.symmetric(vertical: 12.0),
+      isExpanded: true,
+      contentAlignment: MainAxisAlignment.start,
+      backgroundColor: Colors.transparent,
+      margin: const EdgeInsets.symmetric(vertical: 4.0),
+      label: 'lbl_sign_with_apple'.tr(),
+      labelStyle: labelStyle,
+      color: const Color(0xFFF6F6F6),
+      icon: SvgPicture.asset(
+        'assets/images/apple.svg',
+        color: Colors.black,
+      ),
+      onPressed: () {
+        return authCubit.loginWithApple(() => _showEmailDialog(context));
       },
     );
   }
