@@ -44,7 +44,6 @@ class _SplashPageState extends State<SplashPage> {
   @override
   Widget build(BuildContext context) {
     // return Scaffold();
-    return GuidePage();
     final authCubit = context.read<AuthCubit>();
     return BlocProvider(
       create: (_) => Injector().splashCubit..init(),

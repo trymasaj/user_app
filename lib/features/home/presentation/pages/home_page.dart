@@ -7,6 +7,7 @@ import 'package:masaj/core/presentation/colors/app_colors.dart';
 import 'package:masaj/core/presentation/overlay/show_snack_bar.dart';
 import 'package:masaj/core/presentation/theme/theme_helper.dart';
 import 'package:masaj/core/presentation/widgets/stateless/custom_app_page.dart';
+import 'package:masaj/features/auth/application/auth_cubit/auth_cubit.dart';
 import 'package:masaj/features/home/presentation/bloc/home_cubit/home_cubit.dart';
 import 'package:masaj/features/providers_tab/presentation/pages/providers_tab.dart';
 import 'package:masaj/features/settings_tab/pages/setting_tab_page.dart';
@@ -53,29 +54,39 @@ class _HomePageState extends State<HomePage> {
         // BlocProvider(create: (context) => Injector().zonesCubit..init()),
         // BlocProvider(create: (context) => Injector().eventsCubit..init()),
       ],
-      child: BlocListener<HomeCubit, HomeState>(
-          listener: (context, state) {
-            if (state.isError) showSnackBar(context, message: state.message);
-          },
-          child: CustomAppPage(
-            safeBottom: true,
-            child: Scaffold(
-              extendBody: true,
-              body: PageView(
-                controller: _pageController,
-                physics: const NeverScrollableScrollPhysics(),
-                children: [
-                  const HomeTab(),
-                  const BookingsTab(),
-                  const ProvidersTab(),
-                  SettingsTabPage.builder(context),
-                ],
+      child: BlocListener<AuthCubit, AuthState>(
+        listenWhen: (previous, current) =>
+            previous.isLoggedIn != current.isLoggedIn,
+        listener: (context, state) {
+          if (!state.isLoggedIn) {
+            Navigator.of(context)
+                .pushNamedAndRemoveUntil('/LoginPage', (route) => false);
+          }
+        },
+        child: BlocListener<HomeCubit, HomeState>(
+            listener: (context, state) {
+              if (state.isError) showSnackBar(context, message: state.message);
+            },
+            child: CustomAppPage(
+              safeBottom: true,
+              child: Scaffold(
+                extendBody: true,
+                body: PageView(
+                  controller: _pageController,
+                  physics: const NeverScrollableScrollPhysics(),
+                  children: [
+                    const HomeTab(),
+                    const BookingsTab(),
+                    const ProvidersTab(),
+                    SettingsTabPage.builder(context),
+                  ],
+                ),
+                bottomNavigationBar: _CustomNavBar(
+                  pageController: _pageController,
+                ),
               ),
-              bottomNavigationBar: _CustomNavBar(
-                pageController: _pageController,
-              ),
-            ),
-          )),
+            )),
+      ),
     );
   }
 }

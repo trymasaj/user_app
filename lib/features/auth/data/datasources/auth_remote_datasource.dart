@@ -70,7 +70,8 @@ class AuthRemoteDataSourceImpl implements AuthRemoteDataSource {
 
     return _networkService.post(url, data: user.toMap()).then((response) {
       if (![201, 200].contains(response.statusCode)) {
-        throw RequestException(message: response.data);
+        throw RequestException.fromStatusCode(
+            statusCode: response.statusCode!, response: response.data);
       }
       final result = response.data;
       final resultStatus = result['result'];
@@ -106,10 +107,10 @@ class AuthRemoteDataSourceImpl implements AuthRemoteDataSource {
       'mobileAppId': mobileAppId,
       'deviceType': deviceType,
     }..removeWhere((_, v) => v == null);
-    print(countryCode);
     return _networkService.post(url, data: data).then((response) {
       if (response.statusCode != 200) {
-        throw RequestException(message: response.data);
+        throw RequestException.fromStatusCode(
+            statusCode: response.statusCode!, response: response.data);
       }
       final result = response.data;
       final resultStatus = result['result'];
@@ -126,7 +127,8 @@ class AuthRemoteDataSourceImpl implements AuthRemoteDataSource {
     final data = user.toSocialMediaMap();
     return _networkService.post(url, data: data).then((response) {
       if (response.statusCode != 200) {
-        throw RequestException(message: response.data);
+        throw RequestException.fromStatusCode(
+            statusCode: response.statusCode!, response: response.data);
       }
       final result = response.data;
       // final resultStatus = result['result'];
@@ -144,7 +146,8 @@ class AuthRemoteDataSourceImpl implements AuthRemoteDataSource {
     final data = {'email': email};
     return _networkService.post(url, data: data).then((response) {
       if (response.statusCode != 200) {
-        throw RequestException(message: response.data);
+        throw RequestException.fromStatusCode(
+            statusCode: response.statusCode!, response: response.data);
       }
       final result = response.data;
       final resultStatus = result['result'];
@@ -164,7 +167,8 @@ class AuthRemoteDataSourceImpl implements AuthRemoteDataSource {
 
     return _networkService.post(url, data: data).then((response) {
       if (response.statusCode != 200) {
-        throw RequestException(message: response.data);
+        throw RequestException.fromStatusCode(
+            statusCode: response.statusCode!, response: response.data);
       }
       final result = response.data;
       final resultStatus = result['result'];
@@ -180,7 +184,8 @@ class AuthRemoteDataSourceImpl implements AuthRemoteDataSource {
 
     return _networkService.get(url).then((response) {
       if (response.statusCode != 200) {
-        throw RequestException(message: response.data);
+        throw RequestException.fromStatusCode(
+            statusCode: response.statusCode!, response: response.data);
       }
       final result = response.data;
       final resultStatus = result['result'];
@@ -199,7 +204,8 @@ class AuthRemoteDataSourceImpl implements AuthRemoteDataSource {
 
     return _networkService.post(url, data: formData).then((response) {
       if (response.statusCode != 200) {
-        throw RequestException(message: response.data);
+        throw RequestException.fromStatusCode(
+            statusCode: response.statusCode!, response: response.data);
       }
       final result = response.data;
       final resultStatus = result['result'];
@@ -217,7 +223,8 @@ class AuthRemoteDataSourceImpl implements AuthRemoteDataSource {
 
     return _networkService.post(url, data: data).then((response) {
       if (response.statusCode != 200) {
-        throw RequestException(message: response.data);
+        throw RequestException.fromStatusCode(
+            statusCode: response.statusCode!, response: response.data);
       }
       final result = response.data;
       final resultStatus = result['result'];
@@ -233,7 +240,8 @@ class AuthRemoteDataSourceImpl implements AuthRemoteDataSource {
 
     return _networkService.post(url, data: message.toMap()).then((response) {
       if (response.statusCode != 200) {
-        throw RequestException(message: response.data);
+        throw RequestException.fromStatusCode(
+            statusCode: response.statusCode!, response: response.data);
       }
       final result = response.data;
       final resultStatus = result['result'];
@@ -250,7 +258,8 @@ class AuthRemoteDataSourceImpl implements AuthRemoteDataSource {
 
     return _networkService.post(url, queryParameters: params).then((response) {
       if (response.statusCode != 200) {
-        throw RequestException(message: response.data);
+        throw RequestException.fromStatusCode(
+            statusCode: response.statusCode!, response: response.data);
       }
       final result = response.data;
       final resultStatus = result['result'];
