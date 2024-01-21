@@ -19,12 +19,14 @@ class SplashState {
   final String? errorMessage;
   final bool? isFirstLaunch;
   final bool? isLanguageSet;
+  final bool? isCountrySet;
 
   const SplashState({
     this.status = SplashStateStatus.initial,
     this.errorMessage,
     this.isFirstLaunch,
     this.isLanguageSet,
+    this.isCountrySet,
   });
 
   @override
@@ -35,7 +37,8 @@ class SplashState {
         (other as SplashState).status == status &&
         other.errorMessage == errorMessage &&
         other.isFirstLaunch == isFirstLaunch &&
-        other.isLanguageSet == isLanguageSet;
+        other.isLanguageSet == isLanguageSet &&
+        other.isCountrySet == isCountrySet;
   }
 
   @override
@@ -50,12 +53,14 @@ class SplashState {
     String? errorMessage,
     bool? isFirstLaunch,
     bool? isLanguageSet,
+    bool? isCountrySet,
   }) {
     return SplashState(
       status: status ?? this.status,
       errorMessage: errorMessage ?? this.errorMessage,
       isFirstLaunch: isFirstLaunch ?? this.isFirstLaunch,
       isLanguageSet: isLanguageSet ?? this.isLanguageSet,
+      isCountrySet: isCountrySet ?? this.isCountrySet,
     );
   }
 }

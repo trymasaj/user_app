@@ -1,25 +1,18 @@
 import 'package:cached_network_image/cached_network_image.dart';
-import 'package:dartz/dartz.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:flutter_svg/flutter_svg.dart';
 import 'package:masaj/core/app_export.dart';
 import 'package:masaj/core/application/states/app_state.dart';
 import 'package:masaj/core/data/di/injection_setup.dart';
-import 'package:masaj/core/presentation/models/selection_popup_model.dart';
 import 'package:masaj/core/presentation/navigation/navigator_helper.dart';
-import 'package:masaj/core/presentation/styles/custom_text_style.dart';
-import 'package:masaj/core/presentation/widgets/stateless/custom_drop_down.dart';
 import 'package:masaj/core/presentation/widgets/stateless/state_widgets.dart';
 import 'package:masaj/features/address/bloc/select_location_bloc/select_location_bloc.dart';
 import 'package:masaj/features/address/entities/city.dart';
 import 'package:masaj/features/address/entities/country.dart';
-import 'package:masaj/features/address/models/select_location_model.dart';
-import 'package:masaj/features/address/repos/address_repo.dart';
 import 'package:masaj/features/auth/presentation/pages/login_page.dart';
 
 class SelectLocationScreen extends StatelessWidget {
-  SelectLocationScreen({Key? key}) : super(key: key);
+  static const routeName = '/select-location';
+  SelectLocationScreen({super.key});
 
   static Widget builder(BuildContext context) {
     return BlocProvider<SelectLocationBloc>(
@@ -141,7 +134,7 @@ class SelectLocationScreen extends StatelessWidget {
                                         CrossAxisAlignment.center,
                                     mainAxisSize: MainAxisSize.max,
                                     children: [
-                                      SizedBox(width: 3),
+                                      const SizedBox(width: 3),
                                       Text(
                                         e.name.nameEn ?? '',
                                         style: CustomTextStyles
@@ -169,7 +162,11 @@ class SelectLocationScreen extends StatelessWidget {
             ])));
   }
 
-  onTapContinue(BuildContext context) {
-    NavigatorHelper.of(context).pushReplacementNamed(LoginPage.routeName);
+  onTapContinue(BuildContext context) async {
+    final cubit = context.read<SelectLocationBloc>();
+    final isCountrySet = await cubit.onContinuePressed();
+    if (isCountrySet) {
+      NavigatorHelper.of(context).pushReplacementNamed(LoginPage.routeName);
+    }
   }
 }

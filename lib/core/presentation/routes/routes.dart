@@ -7,6 +7,7 @@ import 'package:masaj/features/account/pages/my_profile_screen.dart';
 import 'package:masaj/features/account/pages/phone_screen.dart';
 import 'package:masaj/features/address/pages/add_new_address_screen.dart';
 import 'package:masaj/features/address/pages/map_location_picker.dart';
+import 'package:masaj/features/address/pages/select_location_screen.dart';
 import 'package:masaj/features/auth/presentation/pages/change_password_page.dart';
 import 'package:masaj/features/auth/presentation/pages/edit_user_info_page.dart';
 import 'package:masaj/features/auth/presentation/pages/email_verification_page.dart';
@@ -37,6 +38,8 @@ final routes = <String, WidgetBuilder>{
   SignUpPage.routeName: (context) => const SignUpPage(),
   ForgetPasswordPage.routeName: (context) => const ForgetPasswordPage(),
   ChangePasswordPage.routeName: (context) => const ChangePasswordPage(),
+  SelectLocationScreen.routeName: (context) =>
+      SelectLocationScreen.builder(context),
   EditUserInfoPage.routeName: (context) => const EditUserInfoPage(),
   ChooseLanguagePage.routeName: (context) => const ChooseLanguagePage(),
   EmailVerificationPage.routeName: (context) => const EmailVerificationPage(),

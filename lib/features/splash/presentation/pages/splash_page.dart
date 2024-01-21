@@ -1,4 +1,3 @@
-import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_native_splash/flutter_native_splash.dart';
@@ -65,8 +64,10 @@ class _SplashPageState extends State<SplashPage> {
 
             final isFirstLaunch = state.isFirstLaunch ?? true;
             final languageNotSet = state.isLanguageSet != true;
+            final countryNotSet = state.isCountrySet != true;
 
             if (languageNotSet) return _goToChooseLanguagePage(context);
+            if (countryNotSet) return _goToSelectLocationPage(context);
             if (isFirstLaunch) return _goToGuidePage(context);
             if (notLoggedIn) return _goToLoginPage(context);
 
@@ -108,6 +109,10 @@ class _SplashPageState extends State<SplashPage> {
   void _goToChooseLanguagePage(BuildContext context) =>
       NavigatorHelper.of(context)
           .pushReplacementNamed(ChooseLanguagePage.routeName);
+
+  void _goToSelectLocationPage(BuildContext context) =>
+      NavigatorHelper.of(context)
+          .pushReplacementNamed(SelectLocationScreen.routeName);
 
   void _goToEmailVerificationPage(BuildContext context) =>
       NavigatorHelper.of(context)

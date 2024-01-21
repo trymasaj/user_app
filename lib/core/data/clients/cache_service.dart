@@ -21,6 +21,10 @@ abstract class CacheService {
 
   Future<void> setLanguageCode(String languageCode);
 
+  Future<String?> getCountryCode();
+
+  Future<void> setCountryCode(String countryCode);
+
   Future<bool> getIsFirstLaunch();
 
   Future<void> setIsFirstLaunch(bool isFirstLaunch);
@@ -45,6 +49,7 @@ class CacheServiceImplV2 implements CacheService {
   static const _IS_QUIZ_COMPLETED = 'IS_QUIZ_COMPLETED';
   static const _HAS_RUN_BEFORE = 'HAS_RUN_BEFORE';
   static const _SHOW_CASE_DISPLAYED = 'SHOW_CASE_DISPLAYED';
+  static const _COUNTRY_CODE = 'COUNTRY_CODE';
 
   final _completer = Completer<FlutterSecureStorage>();
 
@@ -163,5 +168,17 @@ class CacheServiceImplV2 implements CacheService {
 
     await storage.delete(key: _USERDATA);
     return true;
+  }
+
+  @override
+  Future<String?> getCountryCode() async {
+    final prefs = await SharedPreferences.getInstance();
+    return prefs.getString(_COUNTRY_CODE);
+  }
+
+  @override
+  Future<void> setCountryCode(String countryCode) async {
+    final prefs = await SharedPreferences.getInstance();
+    await prefs.setString(_COUNTRY_CODE, countryCode);
   }
 }

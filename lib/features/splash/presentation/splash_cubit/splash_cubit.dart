@@ -26,12 +26,14 @@ class SplashCubit extends BaseCubit<SplashState> {
     try {
       final isLanguageSet = await _splashRepository.isLanguageSet();
       final isFirstLaunch = await _splashRepository.isFirstLaunch();
+      final isCountrySet = await _splashRepository.isCountrySet();
       //await _notificationService.inti();
       await Future.delayed(const Duration(seconds: 4));
       emit(state.copyWith(
         status: SplashStateStatus.loaded,
         isFirstLaunch: isFirstLaunch,
         isLanguageSet: isLanguageSet,
+        isCountrySet: isCountrySet,
       ));
     } on RedundantRequestException catch (e) {
       log(e.toString());

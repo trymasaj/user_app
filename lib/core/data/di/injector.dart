@@ -65,7 +65,7 @@ class Injector {
       MapLocationPickerCubit(addressRepo);
 
   AddressRepo get addressRepo =>
-      _flyweightMap['addressRepo'] ?? AddressRepo(networkService);
+      _flyweightMap['addressRepo'] ?? AddressRepo(networkService, cacheService);
 
   //===================[SPLASH_CUBIT]===================
   SplashCubit get splashCubit => SplashCubit(
