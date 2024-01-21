@@ -1,6 +1,7 @@
 import 'package:geocoding/geocoding.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:injectable/injectable.dart';
+import 'package:masaj/core/data/clients/cache_service.dart';
 import 'package:masaj/core/data/clients/network_service.dart';
 import 'package:masaj/core/data/constants/api_end_point.dart';
 import 'package:masaj/features/address/entities/city.dart';
@@ -10,8 +11,9 @@ import 'package:masaj/features/address/models/decoded_address.dart';
 @LazySingleton()
 class AddressRepo {
   final NetworkService networkService;
+  final CacheService cacheService;
 
-  AddressRepo(this.networkService);
+  AddressRepo(this.networkService, this.cacheService);
 
   final apiKey = 'AIzaSyBi3wkpn58eD7WGMb_24psMehqejdg6wu0';
 
@@ -30,7 +32,7 @@ class AddressRepo {
     print('response ${response.data}');
 
     final result = (response.data as List).map((e) => City.fromMap(e)).toList();
-   print('result ${result.length}');
+    print('result ${result.length}');
     return result;
   }
 
@@ -59,5 +61,11 @@ class AddressRepo {
     return ((response.data)['predictions'] as List)
         .map((e) => GeoCodedAddress.fromMap(e))
         .toList();
+  }
+
+  Future<void> setCountry(Country country) async {
+    //TODO: check if country code is null throw exception
+    if (country.code == null) return;
+    await cacheService.setCountryCode(country.code!);
   }
 }

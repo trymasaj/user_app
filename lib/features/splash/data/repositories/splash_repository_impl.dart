@@ -4,6 +4,8 @@ abstract class SplashRepository {
   Future<bool> isFirstLaunch();
 
   Future<bool> isLanguageSet();
+
+  Future<bool> isCountrySet();
 }
 
 class SplashRepositoryImpl implements SplashRepository {
@@ -16,4 +18,7 @@ class SplashRepositoryImpl implements SplashRepository {
 
   @override
   Future<bool> isLanguageSet() => _splashLocalDataSource.isLanguageSet();
+
+  @override
+  Future<bool> isCountrySet() => _splashLocalDataSource.isCountrySet();
 }

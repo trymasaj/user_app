@@ -77,6 +77,18 @@ class $AssetsImagesGen {
   /// File path: assets/images/Group 1801.svg
   String get group1801 => 'assets/images/Group 1801.svg';
 
+  /// File path: assets/images/Onboarding1.png
+  AssetGenImage get onboarding1 =>
+      const AssetGenImage('assets/images/Onboarding1.png');
+
+  /// File path: assets/images/Onboarding2.png
+  AssetGenImage get onboarding2 =>
+      const AssetGenImage('assets/images/Onboarding2.png');
+
+  /// File path: assets/images/Onboarding3.png
+  AssetGenImage get onboarding3 =>
+      const AssetGenImage('assets/images/Onboarding3.png');
+
   /// File path: assets/images/Setting.svg
   String get setting => 'assets/images/Setting.svg';
 
@@ -177,10 +189,6 @@ class $AssetsImagesGen {
   /// File path: assets/images/image_not_found.png
   AssetGenImage get imageNotFound =>
       const AssetGenImage('assets/images/image_not_found.png');
-
-  /// File path: assets/images/img_1_onboarding_one.png
-  AssetGenImage get img1OnboardingOne =>
-      const AssetGenImage('assets/images/img_1_onboarding_one.png');
 
   /// File path: assets/images/img_3449089_2.png
   AssetGenImage get img34490892 =>
@@ -1120,18 +1128,6 @@ class $AssetsImagesGen {
   /// File path: assets/images/notification_icon.svg
   String get notificationIcon => 'assets/images/notification_icon.svg';
 
-  /// File path: assets/images/onBoarding-image1.png
-  AssetGenImage get onBoardingImage1 =>
-      const AssetGenImage('assets/images/onBoarding-image1.png');
-
-  /// File path: assets/images/onBoarding-image2.png
-  AssetGenImage get onBoardingImage2 =>
-      const AssetGenImage('assets/images/onBoarding-image2.png');
-
-  /// File path: assets/images/onBoarding-image3.png
-  AssetGenImage get onBoardingImage3 =>
-      const AssetGenImage('assets/images/onBoarding-image3.png');
-
   /// File path: assets/images/phone.svg
   String get phone => 'assets/images/phone.svg';
 
@@ -1222,6 +1218,9 @@ class $AssetsImagesGen {
         bg,
         group1800,
         group1801,
+        onboarding1,
+        onboarding2,
+        onboarding3,
         setting,
         alertCircle,
         appLogoPng,
@@ -1254,7 +1253,6 @@ class $AssetsImagesGen {
         home,
         homeIcon,
         imageNotFound,
-        img1OnboardingOne,
         img34490892,
         img34490892124x328,
         img3449089299x327,
@@ -1516,9 +1514,6 @@ class $AssetsImagesGen {
         newGlassSearchImg,
         noPoints,
         notificationIcon,
-        onBoardingImage1,
-        onBoardingImage2,
-        onBoardingImage3,
         phone,
         pin,
         pointsDeduct,

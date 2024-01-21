@@ -72,7 +72,6 @@
     "now": "now",
     "sorry_no_result_found": "No data found",
     "gallery": "Gallery",
-    
     "camera": "Camera",
     "cancel": "Cancel",
     "connection_error": "Connection error",
@@ -166,9 +165,8 @@
     "passwords_not_match": "Passwords not match",
     "do_not_receive_code": "Didn't receive a code? ",
     "resend_in": "Resend in {} ",
-    
-
-    "lbl_icons": "Icons", "lbl_menu_icons": "Menu icons",
+    "lbl_icons": "Icons",
+    "lbl_menu_icons": "Menu icons",
     "lbl_correct_input": "Correct input",
     "lbl_default_input": "Default input",
     "lbl_empty_input": "Empty input",
@@ -176,11 +174,8 @@
     "lbl_input": "Input",
     "lbl_input_error": "Input error",
     "lbl_inputs": "Inputs",
-
-
-    "lbl_50": "50%", "lbl_candle": "Candle",
-
-
+    "lbl_50": "50%",
+    "lbl_candle": "Candle",
     "lbl_best_selling": "Best selling",
     "lbl_candles": "Candles",
     "lbl_herbal": "Herbal",
@@ -196,148 +191,92 @@
     "lbl_category": "Category",
     "lbl_rating": "Rating",
     "lbl_skin_care": "Skin care",
-
-
     "lbl_20": "(20)",
     "lbl_add_to_cart": "Add to cart",
     "lbl_in_stock": "In stock",
-    "msg_it_is_a_textile":
-    "It is a textile made from super-fine synthetic yarns split into millions of microscopic fibers that are up to 100 times finer than a human hair. This gives it an enormous amount of surface area and makes it highly absorbent",
-
-
-    "lbl_0": "0", "lbl_12": "12", "lbl_23_ratings": "23 ratings", "lbl_4": "4",
+    "msg_it_is_a_textile": "It is a textile made from super-fine synthetic yarns split into millions of microscopic fibers that are up to 100 times finer than a human hair. This gives it an enormous amount of surface area and makes it highly absorbent",
+    "lbl_0": "0",
+    "lbl_12": "12",
+    "lbl_23_ratings": "23 ratings",
+    "lbl_4": "4",
     "lbl_4_3": "4.3",
-
-
-    "msg_please_share_your":
-    "Please share your opinion about the product\n(optional)",
+    "msg_please_share_your": "Please share your opinion about the product\n(optional)",
     "msg_please_share_your2": "Please share your opinion about the product\n",
-
-
     "lbl_20_off": "20% off",
     "lbl_70_kwd": "70 KWD",
     "lbl_bundle_items": "Bundle items",
     "lbl_bundle_name": "Bundle name",
-    "msg_enhance_your_savings":
-    "Enhance your savings by adding items to your bundle and unlocking exclusive discounts.",
-
-
+    "msg_enhance_your_savings": "Enhance your savings by adding items to your bundle and unlocking exclusive discounts.",
     "lbl_edit_bundle": "Edit bundle",
     "msg_yoga_starter_kit": "“Yoga Starter kit”",
-
-
     "lbl_57_kwd": "57 KWD",
     "lbl_apple_pay": "Apple pay",
     "lbl_google_pay": "Google pay",
     "lbl_klarna": "Klarna",
     "lbl_shipping": "Shipping",
     "msg_continue_to_checkout": "Continue to checkout",
-
-
     "msg_abdullah_al_mubarak2": "Abdullah Al Mubarak Al sabah, Street",
-
-
     "lbl_view_order": "View order",
     "msg_order_has_been_sent": "Order has been sent successfully!",
-
-
-    "lbl_cancelled": "Cancelled", "lbl_total_amount": "Total Amount:",
-
-
+    "lbl_cancelled": "Cancelled",
+    "lbl_total_amount": "Total Amount:",
     "lbl_orders": "Orders",
-
-
     "lbl_reorder": "Reorder",
-
-
-    "lbl_1679_30": "$ 1679.30", "msg_choose_app_language": "Choose app language",
+    "lbl_1679_30": "$ 1679.30",
+    "msg_choose_app_language": "Choose app language",
     "msg_please_select_your": "Please select your preferred language",
-
-
     "lbl_treat_your_self": "Treat your self",
-    "msg_professional_therapists":
-    "Professional therapists will help you restore balance and \nwell-being",
-    "msg_restore_balance":
-    "Restore balance, and feel refreshed. the ultimate relaxation",
+    "msg_professional_therapists": "Professional therapists will help you restore balance and \nwell-being",
+    "msg_restore_balance": "Restore balance, and feel refreshed. the ultimate relaxation",
     "msg_transform_performance": "Transform Performance",
-    "msg_we_provide_personalized":
-    "We provide personalized Sports therapy services.",
+    "msg_we_provide_personalized": "We provide personalized Sports therapy services.",
     "msg_you_are_in_good": "You are in good hands",
-
-
     "lbl_region_area": "Region/Area",
-
-
-    "lbl_202": "+20", "lbl_egypt": "Egypt", "lbl_kuwait": "Kuwait",
+    "lbl_202": "+20",
+    "lbl_egypt": "Egypt",
+    "lbl_kuwait": "Kuwait",
     "lbl_saudi_arabia": "Saudi Arabia",
-
-
     "lbl_or": "OR",
     "lbl_welcome_back": "Welcome back!",
     "msg_don_t_have_an_account": "Don’t have an account?",
     "msg_forgot_password": "Forgot password ?",
-
-
     "lbl_forgot_password": "Forgot password",
-    "msg_please_enter_your":
-    "Please enter your email or phone number to reset your password",
-
-
+    "msg_please_enter_your": "Please enter your email or phone number to reset your password",
     "lbl_reset_password": "Reset password",
     "msg_please_create_new": "Please create new password for you account",
-
-
     "lbl_i_agree_to": "I agree to ",
     "msg_already_have_an": "Already have an account?",
     "msg_confirm_password": "Confirm password",
     "msg_create_an_account": "Create an account",
-
-
-    "msg_to_personalize":
-    "To personalize your\nexperience we’ve got\na few questions for you",
-
-
-    "lbl_1_3": "1/3", "lbl_no": "No", "lbl_yes": "Yes",
+    "msg_to_personalize": "To personalize your\nexperience we’ve got\na few questions for you",
+    "lbl_1_3": "1/3",
+    "lbl_no": "No",
+    "lbl_yes": "Yes",
     "msg_have_you_ever_had": "Have you ever had \na professional massage before?",
-
-
     "lbl_2_32": "2/3",
     "lbl_firm": "Firm",
     "lbl_light": "Light",
     "lbl_medium": "Medium",
-    "msg_what_type_of_pressure":
-    "What type of pressure do you prefer during a massage?",
-
-
+    "msg_what_type_of_pressure": "What type of pressure do you prefer during a massage?",
     "lbl_3_3": "3/3",
     "lbl_finish": "Finish",
     "lbl_something_else": "Something else",
     "msg_improved_flexibility": "Improved flexibility",
     "msg_please_share_your3": "Please share your goal",
     "msg_relaxation_pain": "Relaxation, pain relief",
-    "msg_what_is_your_primary":
-    "What is your primary goal for this massage session?",
-
-
-    "lbl_led_facial": "LED facial", "lbl_recommended": "Recommended",
-    "lbl_spa": "SPA", "msg_book_with_therapists": "Book with therapists",
-
-
-    "lbl_f": "F", "lbl_fahad_mohamed": "Fahad Mohamed",
+    "msg_what_is_your_primary": "What is your primary goal for this massage session?",
+    "lbl_led_facial": "LED facial",
+    "lbl_recommended": "Recommended",
+    "lbl_spa": "SPA",
+    "msg_book_with_therapists": "Book with therapists",
+    "lbl_f": "F",
+    "lbl_fahad_mohamed": "Fahad Mohamed",
     "lbl_fared_khaled": "Fared Khaled",
-
-
     "msg_mohamed_ali_street": "Mohamed ALi street, Kuwait",
-
-
     "msg_selected_therapist": "Selected therapist",
-
-
     "msg_pick_a_therapist2": "Pick a therapist",
     "msg_select_available2": "Select available therapist",
     "msg_try_new_therapist2": "Try new therapist",
-
-
     "lbl_4_8": "4.8 .",
     "lbl_dr_ali_saber": "Dr. Ali Saber",
     "lbl_select": "Select",
@@ -345,56 +284,32 @@
     "msg_available_therapist": "Available therapist",
     "msg_dr_sara_mohamed": "Dr. Sara Mohamed",
     "msg_select_therapist": "Select Therapist",
-
-
     "msg_book_with_dr_mahmoud": "Book with DR. mahmoud",
-
-
     "msg_invite_friends": "Invite friends, Get rewards",
     "msg_payment_successful": "Payment successful!",
-
-
-    "lbl_failed": "Failed", "lbl_payment_failed": "Payment Failed",
+    "lbl_failed": "Failed",
+    "lbl_payment_failed": "Payment Failed",
     "lbl_try_again": "Try again",
-
-
     "msg_congratulations": "Congratulations!",
-    "msg_you_hit_a_10_sessions":
-    "You hit a 10 sessions! You have earned a FREE SESSION",
-
-
+    "msg_you_hit_a_10_sessions": "You hit a 10 sessions! You have earned a FREE SESSION",
     "lbl_4_10_left": "4/10 left",
     "msg_hit_10_sessions": "Hit 10 sessions and earn \n a free session!",
-
-
     "lbl_maybe_later": "Maybe later",
     "msg_25_discount_on": " 25% discount on all services!",
     "msg_upgrade_now_and": "Upgrade now and enjoy a 25% discount all services!",
-
-
     "lbl_all2": "All ",
-
-
     "lbl_reschedule": "Reschedule",
-
-
-    "lbl_cancel_booking": "Cancel booking", "lbl_discard": "Discard",
+    "lbl_cancel_booking": "Cancel booking",
+    "lbl_discard": "Discard",
     "msg_are_you_sure_you": "Are you sure you want to cancel booking?",
-
-
     "msg_your_booking_has": "Your booking has been cancelled",
-
-
     "lbl_optional2": "(Optional)",
     "lbl_review": "Review",
     "lbl_tips": "Tips ",
     "lbl_tips_amount": "Tips amount",
     "lbl_tips_optional": "Tips (Optional)",
-    "msg_please_share_your4":
-    "Please share your opinion about the session\n(optional)",
+    "msg_please_share_your4": "Please share your opinion about the session\n(optional)",
     "msg_please_share_your5": "Please share your opinion about the session\n",
-
-
     "lbl_2_kwd": "2 KWD",
     "lbl_opinion": "Opinion",
     "lbl_tips2": "Tips",
@@ -402,46 +317,29 @@
     "msg_it_was_nice_experience": "It was nice experience",
     "msg_service_improvment": "Service improvment",
     "msg_therapist_timing": "Therapist timing",
-
-
     "lbl_monday": "Monday",
-
-
-    "lbl_sat": "Sat", "lbl_tuesday": "Tuesday",
-
-
+    "lbl_sat": "Sat",
+    "lbl_tuesday": "Tuesday",
     "lbl_completed": "Completed",
-
-
-    "lbl_copy_code": "Copy code", "lbl_gift_card": "Gift card",
+    "lbl_copy_code": "Copy code",
+    "lbl_gift_card": "Gift card",
     "lbl_your_gift_card": "Your gift card",
-
-
     "lbl_plus": "Plus",
-
-
-    "lbl_delete_account": "Delete account", "lbl_profile": "Profile",
-
-
-    "lbl_country2": "Country*", "lbl_region_area2": "Region/Area*",
-
-
+    "lbl_delete_account": "Delete account",
+    "lbl_profile": "Profile",
+    "lbl_country2": "Country*",
+    "lbl_region_area2": "Region/Area*",
     "lbl_conditions": "Conditions",
     "lbl_guardian_name": "Guardian name",
-    "msg_are_you_presently":
-    "Are you presently taking any medications (prescribed, over-the-counter, or supplements)?",
+    "msg_are_you_presently": "Are you presently taking any medications (prescribed, over-the-counter, or supplements)?",
     "msg_do_you_have_any": "Do you have any allergies?",
     "msg_do_you_have_any2": "Do you have any instructions ?",
-    "msg_during_your_massage":
-    "During your massage, are there any areas that you would like us to avoid ?",
+    "msg_during_your_massage": "During your massage, are there any areas that you would like us to avoid ?",
     "msg_health_condititons": "Health condititons",
     "msg_personalize_you": "Personalize you experience",
     "msg_required_for_quests": "(Required for quests aged 12-17 years)",
-    "msg_select_all_the_conditions":
-    "Select all the conditions that currently apply to you",
+    "msg_select_all_the_conditions": "Select all the conditions that currently apply to you",
     "msg_what_are_your_treatment": "What are your treatment goals?",
-
-
     "lbl_allergies": "Allergies",
     "lbl_cancer": "Cancer",
     "lbl_chest_pain": "Chest pain",
@@ -463,22 +361,15 @@
     "msg_select_conditions": "Select conditions",
     "msg_select_your_conditions": "Select your conditions",
     "msg_skin_sensitivity": "Skin sensitivity",
-
-
     "lbl_100": "100",
-
-
     "msg_your_purchase_was": "Your purchase was \ncompleted successfully!",
-
-
-    "lbl_25_kwd": "25 KWD", "lbl_gift_100_off": "Gift 100 OFF",
+    "lbl_25_kwd": "25 KWD",
+    "lbl_gift_100_off": "Gift 100 OFF",
     "lbl_gift_25_off": "Gift 25 OFF",
-
-
-    "lbl_gift_cards": "Gift cards", "lbl_my_gifts": "My gifts", "lbl_new": "New",
+    "lbl_gift_cards": "Gift cards",
+    "lbl_my_gifts": "My gifts",
+    "lbl_new": "New",
     "lbl_purchased": "Purchased",
-
-
     "lbl_12_00_kd": "+ 12.00 KD",
     "lbl_28_00_kd": "- 28.00 KD",
     "lbl_5000": "5000 ",
@@ -488,8 +379,6 @@
     "lbl_top_up": "Top up",
     "msg_12_march_2023": "12 march 2023 - 2:00 pm",
     "msg_transactions_history": "Transactions history",
-
-
     "lbl_15": "15",
     "lbl_203": "20",
     "lbl_30": "30",
@@ -510,15 +399,9 @@
     "msg_enter_redeem_code": "Enter redeem code",
     "msg_have_a_gift_voucher": "Have a gift voucher ?",
     "msg_top_up_your_wallet": "Top up your wallet",
-
-
     "lbl_my_profile": "My profile",
     "msg_j_sanchez_gmail_com": "J.sanchez@gmail.com",
-
-
     "msg_current_password": "Current password",
-
-
     "lbl_01": "01",
     "lbl_02": "02",
     "lbl_friend": "Friend",
@@ -530,30 +413,18 @@
     "lbl_yasser_samy": "Yasser Samy",
     "msg_earn_30_discount": "Earn 30% discount",
     "msg_masaj_app_link_3341faswwaq": "Masaj.app.link/3341faswwaq",
-
-
-    "msg_are_you_sure_you2":
-    "Are you sure you want to cancel you\n subscription?",
-
-
+    "msg_are_you_sure_you2": "Are you sure you want to cancel you\n subscription?",
     "lbl_154": "15 ",
     "lbl_masaj_plus2": "Masaj\nPlus+",
     "lbl_summary": "Summary",
     "msg_masaj_plus_membership": "Masaj plus membership",
     "msg_membership_details": "Membership details",
-
-
     "msg_plan_upgraded_successfully": "Plan upgraded successfully!",
     "msg_your_membership": "Your membership has been upgraded",
-
-
     "lbl_sign_with_phone": "Sign with phone",
     "msg_don_t_have_an_account2": "Don’t have an account",
-    "msg_in_order_to_accessing":
-    "In order to accessing full app services you have to login or create an account",
+    "msg_in_order_to_accessing": "In order to accessing full app services you have to login or create an account",
     "msg_login_or_create": "Login or create an account",
-
-
     "lbl": ": ",
     "lbl_09_55_pm": "09:55 pm",
     "lbl_0_kwd": "0 KWD",
@@ -802,6 +673,7 @@
     "lbl_sign_in": "Sign in",
     "lbl_sign_up": "Sign up",
     "lbl_sign_with_apple": "Sign with Apple",
+    "lbl_sign_with_google": "Sign with Google",
     "lbl_skip": "Skip",
     "lbl_spa2": "Spa",
     "lbl_sports_massage": "Sports massage",
@@ -839,12 +711,9 @@
     "msg_20_02_2023_01_00": "20/02/2023 01:00 PM",
     "msg_20_10_2023_05_00": "20/10/2023 . 05:00 PM",
     "msg_2131_street_kuwait": "2131 Street, Kuwait",
-    "msg_a_sports_massage":
-    "A sports massage therapist is a professional who uses massage techniques to treat and care for athletes who are suffering injuries or pain. They work with their clients on rehabilitation processes, aiming to reduce pain.",
-    "msg_a_therapeutic_experience":
-    "A therapeutic experience that focuses on the needs of the individual",
-    "msg_abdullah_al_mubarak":
-    "Abdullah Al Mubarak Al sabah, Street\n10,building 10,10",
+    "msg_a_sports_massage": "A sports massage therapist is a professional who uses massage techniques to treat and care for athletes who are suffering injuries or pain. They work with their clients on rehabilitation processes, aiming to reduce pain.",
+    "msg_a_therapeutic_experience": "A therapeutic experience that focuses on the needs of the individual",
+    "msg_abdullah_al_mubarak": "Abdullah Al Mubarak Al sabah, Street\n10,building 10,10",
     "msg_add_on_s_hot_stone": "Add on’s: Hot stone, Herbal Compresses ",
     "msg_additional_direction": "Additional direction (optional)",
     "msg_address_nickname": "Address nickname (optional)",
@@ -857,8 +726,7 @@
     "msg_book_with_dr_mahmoud2": "Book with DR. Mahmoud",
     "msg_cancel_subscription": "Cancel subscription",
     "msg_cancellation_policy": "Cancellation policy",
-    "msg_cancellation_refund":
-    "Cancellation refund setup goes to Wallet\r\nBooking cancellation happens 6 hours prior to session start time, customer get No refund, \r\nBooking cancellation happens 6 -24 hours prior to session start time, customer get  50% refund in Wallet (bank charges and local taxes applicable)\r\nBooking cancellation happens 24 hours prior to session start time, customer gets 100% refund (bank charges and local taxes applicable)\r\nIn any above case the remaining amount gets added to Wallet\r\nAdmin will have right to change any policy content , time and % based on ",
+    "msg_cancellation_refund": "Cancellation refund setup goes to Wallet\r\nBooking cancellation happens 6 hours prior to session start time, customer get No refund, \r\nBooking cancellation happens 6 -24 hours prior to session start time, customer get  50% refund in Wallet (bank charges and local taxes applicable)\r\nBooking cancellation happens 24 hours prior to session start time, customer gets 100% refund (bank charges and local taxes applicable)\r\nIn any above case the remaining amount gets added to Wallet\r\nAdmin will have right to change any policy content , time and % based on ",
     "msg_chat_with_support": "Chat with Support",
     "msg_check_the_latest": "Check the latest offers with masaj",
     "msg_check_the_latest2": "Check the latest offers with ",
@@ -887,15 +755,11 @@
     "msg_how_to_become_a": "How to become a member?",
     "msg_improved_circulation": "Improved circulation",
     "msg_improved_range_of": "Improved range of motion and flexibility",
-    "msg_invite_your_friends":
-    "Invite your friends to Masaj App and you will receive 30% discount per invite! ",
-    "msg_it_is_a_long_established":
-    "It is a long established fact that a reader will be distracted by the readable content of a page when looking at its layout. The point of using Lorem Ipsum is that it has a more-or-less normal distribution of letters, as opposed to using 'Content here, content here', making it look like readable English. Many desktop publishing packages and web page editors now use Lorem Ipsum as their default model text, and a search for 'lorem ipsum' will uncover many web sites still in their infancy. Various versions have evolved over the years, sometimes by accident, sometimes on purpose (injected humour and the like).",
-    "msg_it_is_a_long_established2":
-    "It is a long established fact that a reader will be distracted by the readable content of a page when looking at its layout. The point of using Lorem Ipsum is that it has a more-or-less normal distribution of letters, as opposed to using 'Content here, content here', making it look like readable English. Many desktop publishing packages and web page editors now use Lorem Ipsum as their default model text, and a search for 'lorem ipsum' will uncover many web sites still in their infancy. Various versions have evolved over the years, sometimes by accident, sometimes on purpose (injected humour and the like).\ntheir infancy. Various versions have evolved over the years, sometimes by accident, sometimes on purpose",
+    "msg_invite_your_friends": "Invite your friends to Masaj App and you will receive 30% discount per invite! ",
+    "msg_it_is_a_long_established": "It is a long established fact that a reader will be distracted by the readable content of a page when looking at its layout. The point of using Lorem Ipsum is that it has a more-or-less normal distribution of letters, as opposed to using 'Content here, content here', making it look like readable English. Many desktop publishing packages and web page editors now use Lorem Ipsum as their default model text, and a search for 'lorem ipsum' will uncover many web sites still in their infancy. Various versions have evolved over the years, sometimes by accident, sometimes on purpose (injected humour and the like).",
+    "msg_it_is_a_long_established2": "It is a long established fact that a reader will be distracted by the readable content of a page when looking at its layout. The point of using Lorem Ipsum is that it has a more-or-less normal distribution of letters, as opposed to using 'Content here, content here', making it look like readable English. Many desktop publishing packages and web page editors now use Lorem Ipsum as their default model text, and a search for 'lorem ipsum' will uncover many web sites still in their infancy. Various versions have evolved over the years, sometimes by accident, sometimes on purpose (injected humour and the like).\ntheir infancy. Various versions have evolved over the years, sometimes by accident, sometimes on purpose",
     "msg_knet_credit_card": "KNET/Credit card",
-    "msg_late_arrivals_my":
-    "Late arrivals my result in lost treatment time unless our schedule allows us to offer full service",
+    "msg_late_arrivals_my": "Late arrivals my result in lost treatment time unless our schedule allows us to offer full service",
     "msg_male_female_and_couples": "Male,Female and\nCouples",
     "msg_medical_therapist": "Medical therapist",
     "msg_microfiber_towel": "Microfiber Towel",
@@ -906,15 +770,13 @@
     "msg_pick_a_therapist": "Pick \na therapist",
     "msg_please_delete_my": "Please delete my account",
     "msg_please_select_your2": "Please select your country and region",
-    "msg_really_convenient":
-    "Really convenient and the points system helps benefit loyalty. Some mild glitches here and there, but nothing too egregious. Obviously needs to roll out to more remote.",
+    "msg_really_convenient": "Really convenient and the points system helps benefit loyalty. Some mild glitches here and there, but nothing too egregious. Obviously needs to roll out to more remote.",
     "msg_really_great_product": "Really great product I love it",
     "msg_relaxation_and_stress": "Relaxation and stress relief",
     "msg_renew_at_10_11_2023": "Renew at: 10/11/2023",
     "msg_repeat_a_session": "Repeat a session",
     "msg_reschedule_policy": "Reschedule policy",
-    "msg_save_on_services":
-    "Save on services and enjoy members \nonly discounts ",
+    "msg_save_on_services": "Save on services and enjoy members \nonly discounts ",
     "msg_select_an_answer": "Select an answer",
     "msg_select_available": "Select available\n therapist",
     "msg_select_your_location": "Select your location",
@@ -927,38 +789,29 @@
     "msg_terms_conditions": "Terms & conditions",
     "msg_terms_conditions2": "Terms&Conditions",
     "msg_the_perfect_gift": "The perfect gift for your \nloved ones",
-    "msg_to_define_a_specific":
-    "To define a specific area of focus, you can write the name of the focus area and visually select it",
+    "msg_to_define_a_specific": "To define a specific area of focus, you can write the name of the focus area and visually select it",
     "msg_today_05_00_pm": "Today . 05:00 PM",
     "msg_total_service_duration": "Total service duration",
     "msg_treat_your_self": "Treat your self with SPA",
     "msg_try_new_therapist": "Try new \ntherapist",
     "msg_unlimited_listings": "Unlimited Listings",
     "msg_unlimited_members": "Unlimited members",
-    "msg_upgrade_now_and2":
-    "Upgrade now and enjoy a 25% discount on these services!",
+    "msg_upgrade_now_and2": "Upgrade now and enjoy a 25% discount on these services!",
     "msg_use_dis30_to_get": "Use DIS30 to get 30% off your order",
     "msg_use_wallet_payment": "Use wallet payment (200 KWD)",
     "msg_use_wallet_payment2": "Use wallet payment",
-    "msg_user_cannot_reschedule":
-    "User cannot reschedule appointment within 4 hours prior to session start time booked\nUser can rescheduled appointment within\n      4 -24 hours prior to session start time,\n      and session will be allocated to any     \n      available therapist chosen by system, \r\n No reschedule beyond 24 hours prior to session start time\r\n Admin will have right to change any time\n      and %",
+    "msg_user_cannot_reschedule": "User cannot reschedule appointment within 4 hours prior to session start time booked\nUser can rescheduled appointment within\n      4 -24 hours prior to session start time,\n      and session will be allocated to any     \n      available therapist chosen by system, \r\n No reschedule beyond 24 hours prior to session start time\r\n Admin will have right to change any time\n      and %",
     "msg_verification_code": "Verification code",
     "msg_what_is_you_rate": "What is you rate?",
     "msg_with_our_facial": "with our facial servicse",
     "msg_write_a_message": "Write a message...",
     "msg_yesterday_05_00": "Yesterday . 05:00 PM",
-    "msg_you_undertake_to":
-    "You undertake to not select a different gender than yours, We shall cancel any order violate this terms without notice",
-    "msg_you_will_receive":
-    "You will receive 4-digits number to verify your phone number",
+    "msg_you_undertake_to": "You undertake to not select a different gender than yours, We shall cancel any order violate this terms without notice",
+    "msg_you_will_receive": "You will receive 4-digits number to verify your phone number",
     "msg_your_order_212": "Your order #212 has been booked successfully!",
-
-
     "msg_network_err": "Network Error",
     "selected_address": "Selected address",
     "msg_something_went_wrong": "Something Went Wrong!",
-
-
     "err_msg_please_enter_valid_phone_number": "Please enter valid phone number",
     "err_msg_please_enter_valid_text": "Please enter valid text",
     "err_msg_please_enter_valid_password": "Please enter valid password",
@@ -972,7 +825,7 @@
     "enjoy_offers": "Enjoy offers",
     "recommended": "Recommended",
     "book_with_therapists": "Book with therapists",
-    "recent_searches":"Recent searches",
+    "recent_searches": "Recent searches",
     "upcoming": "Upcoming",
     "completed": "Completed",
     "payment_summary": "Payment summary",
@@ -988,5 +841,4 @@
     "reschedule": "Reschedule",
     "allow_up_to_1_hour": "Allow up to 1 hour for the therapist to reach out",
     "therapist_info": "Therapist info"
-
 }

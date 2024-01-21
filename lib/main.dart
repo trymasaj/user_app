@@ -45,6 +45,7 @@ void main() async {
         fallbackLocale: const Locale('en'),
         child: RequestsInspector(
           enabled: inspectorEnabled,
+          showInspectorOn: ShowInspectorOn.LongPress,
           child: MultiBlocProvider(
             providers: [
               BlocProvider(create: (context) => Injector().authCubit..init()),

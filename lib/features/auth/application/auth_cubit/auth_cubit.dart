@@ -32,12 +32,11 @@ class AuthCubit extends BaseCubit<AuthState> {
     try {
       emit(state.copyWith(status: AuthStateStatus.loading));
       final user = await _authRepository.getUserData();
-      print('---> user: ${user!.token}');
-      emit(user.token == null
+      emit(user?.token == null
           ? state.copyWith(status: AuthStateStatus.guest, user: user)
           : state.copyWith(status: AuthStateStatus.loggedIn, user: user));
 
-      final userFirebaseId = (user.id ?? '') + (user.fullName ?? '');
+      final userFirebaseId = (user?.id ?? '') + (user?.fullName ?? '');
       FirebaseCrashlytics.instance.setUserIdentifier(userFirebaseId);
       FirebaseAnalytics.instance.setUserId(id: userFirebaseId);
     } on RedundantRequestException catch (e) {
