@@ -63,6 +63,10 @@ class SettingsTabPage extends StatelessWidget {
 
   /// Section Widget
   Widget _buildSettingsColumn(BuildContext context) {
+    final user = context.select((AuthCubit cubit) => cubit.state.user);
+    final String? fullName = context.read<AuthCubit>().state.isLoggedIn
+        ? user?.fullName
+        : 'lbl_guest'.tr(context: context);
     return Container(
         padding: EdgeInsets.symmetric(vertical: 12.h),
         decoration: BoxDecoration(
@@ -123,7 +127,10 @@ class SettingsTabPage extends StatelessWidget {
                                       style: CustomTextStyles
                                           .labelLargeOnPrimaryContainer_1)),
                               SizedBox(height: 1.h),
-                              Text('lbl_jasmine_sanchez'.tr(),
+                              Text(
+                                  fullName!.isNotEmpty
+                                      ? fullName
+                                      : 'lbl_jasmine_sanchez'.tr(),
                                   style: CustomTextStyles.titleMediumGray90003),
                               SizedBox(height: 2.h),
                               Text('lbl_965231131123'.tr(),

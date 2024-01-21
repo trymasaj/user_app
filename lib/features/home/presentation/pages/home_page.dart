@@ -50,7 +50,9 @@ class _HomePageState extends State<HomePage> {
   Widget build(BuildContext context) {
     return MultiBlocProvider(
       providers: [
-        BlocProvider(create: (context) => Injector().homeCubit..loadHome()),
+        // BlocProvider(create: (context) => Injector().homeCubit..loadHome()),
+        BlocProvider(create: (context) => Injector().homeCubit),
+
         // BlocProvider(create: (context) => Injector().zonesCubit..init()),
         // BlocProvider(create: (context) => Injector().eventsCubit..init()),
       ],

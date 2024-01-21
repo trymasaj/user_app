@@ -51,6 +51,8 @@ abstract class AuthRepository {
   Future<bool> checkEmailVerified();
 
   Future<User> loginAsGuest();
+  //TODO: delete this after testing
+  Future<User?> verifyOtp(User user);
 }
 
 class AuthRepositoryImpl implements AuthRepository {
@@ -254,5 +256,11 @@ class AuthRepositoryImpl implements AuthRepository {
   @override
   Future<void> updateUserPoints(int points) async {
     await _localDataSource.updateUserPoints(points);
+  }
+
+  @override
+  Future<User?> verifyOtp(User user) async {
+    await _localDataSource.saveUserData(user.copyWith(verified: true));
+    return await _localDataSource.getUserData();
   }
 }

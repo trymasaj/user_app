@@ -11,6 +11,7 @@ import 'package:masaj/core/presentation/widgets/stateless/app_logo.dart';
 import 'package:masaj/core/presentation/widgets/stateless/custom_app_page.dart';
 import 'package:masaj/features/address/pages/select_location_screen.dart';
 import 'package:masaj/features/auth/presentation/pages/login_page.dart';
+import 'package:masaj/features/auth/presentation/pages/otp_verification_page.dart';
 import 'package:masaj/features/home/presentation/pages/home_page.dart';
 
 import 'package:masaj/features/auth/application/auth_cubit/auth_cubit.dart';
@@ -65,10 +66,12 @@ class _SplashPageState extends State<SplashPage> {
 
             final isFirstLaunch = state.isFirstLaunch ?? true;
             final languageNotSet = state.isLanguageSet != true;
+            final isNotVerified = user?.verified != true;
 
             if (languageNotSet) return _goToChooseLanguagePage(context);
             if (isFirstLaunch) return _goToGuidePage(context);
             if (notLoggedIn) return _goToLoginPage(context);
+            if (isNotVerified) return _goToOtpVerify(context);
 
             return _goToHomePage(
               context,
@@ -112,4 +115,6 @@ class _SplashPageState extends State<SplashPage> {
   void _goToEmailVerificationPage(BuildContext context) =>
       NavigatorHelper.of(context)
           .pushReplacementNamed(EmailVerificationPage.routeName);
+  void _goToOtpVerify(BuildContext context) => NavigatorHelper.of(context)
+      .pushReplacementNamed(OTPVerificationPage.routeName);
 }

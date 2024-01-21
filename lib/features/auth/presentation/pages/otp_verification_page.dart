@@ -10,6 +10,7 @@ import 'package:masaj/core/presentation/widgets/stateless/back_button.dart';
 import 'package:masaj/core/presentation/widgets/stateless/custom_app_page.dart';
 import 'package:masaj/core/presentation/widgets/stateless/custom_text.dart';
 import 'package:masaj/core/presentation/widgets/stateless/default_button.dart';
+import 'package:masaj/features/home/presentation/pages/home_page.dart';
 import 'package:pin_code_fields/pin_code_fields.dart';
 
 import 'package:masaj/features/auth/application/auth_cubit/auth_cubit.dart';
@@ -64,6 +65,15 @@ class _OTPVerificationPageState extends State<OTPVerificationPage> {
     _timer.cancel();
 
     super.dispose();
+  }
+
+  //TODO hard coded verify
+  void dummyVerfiying(String otp, BuildContext context) async {
+    if (otp == '1234') {
+      context.read<AuthCubit>().verifyUser();
+
+      __goToHome(context);
+    }
   }
 
   @override
@@ -125,8 +135,8 @@ class _OTPVerificationPageState extends State<OTPVerificationPage> {
       label: 'send',
       backgroundColor: Colors.transparent,
       onPressed: () async {
-        _goToResetPasswordPage(context);
-
+        // _goToResetPasswordPage(context);
+        dummyVerfiying(otpController.text, context);
         if (_isNotValid()) return;
         //await authCubit.forgetPassword(_emailTextController.text.trim());
       },
@@ -154,7 +164,7 @@ class _OTPVerificationPageState extends State<OTPVerificationPage> {
         inactiveColor: Colors.transparent,
         activeColor: Colors.transparent,
       ),
-      length: 5,
+      length: 4,
       autoFocus: true,
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
       obscureText: false,
@@ -171,7 +181,8 @@ class _OTPVerificationPageState extends State<OTPVerificationPage> {
       controller: otpController,
       keyboardType: TextInputType.number,
       onCompleted: (value) {
-        //context.read<OtpCubit>().setCode(value);
+        dummyVerfiying(value, context);
+        // context.read<OtpCubit>().setCode(value);
       },
     );
   }
@@ -219,4 +230,10 @@ class _OTPVerificationPageState extends State<OTPVerificationPage> {
 
   void _goBackToLoginPage(BuildContext context, bool isSuccess) =>
       NavigatorHelper.of(context).pop(isSuccess);
+}
+
+void __goToHome(BuildContext context) {
+  NavigatorHelper.of(context).pushReplacement(
+    MaterialPageRoute(builder: (_) => const HomePage()),
+  );
 }

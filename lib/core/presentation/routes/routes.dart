@@ -12,6 +12,7 @@ import 'package:masaj/features/auth/presentation/pages/edit_user_info_page.dart'
 import 'package:masaj/features/auth/presentation/pages/email_verification_page.dart';
 import 'package:masaj/features/auth/presentation/pages/forget_password_page.dart';
 import 'package:masaj/features/auth/presentation/pages/login_page.dart';
+import 'package:masaj/features/auth/presentation/pages/otp_verification_page.dart';
 import 'package:masaj/features/auth/presentation/pages/sign_up_page.dart';
 import 'package:masaj/features/bookings_tab/presentation/pages/booking_details.dart';
 import 'package:masaj/features/home/presentation/pages/home_page.dart';
@@ -30,6 +31,7 @@ import 'package:masaj/features/wallet/pages/wallet_screen.dart';
 
 final routes = <String, WidgetBuilder>{
   SplashPage.routeName: (context) => const SplashPage(),
+  OTPVerificationPage.routeName: (context) => const OTPVerificationPage(),
   MapLocationPicker.routeName: (context) => MapLocationPicker.builder(context),
   BookingDetialsScreen.routeName: (context) => const BookingDetialsScreen(),
   GuidePage.routeName: (context) => const GuidePage(),
