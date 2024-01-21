@@ -44,49 +44,45 @@ class _SplashPageState extends State<SplashPage> {
   Widget build(BuildContext context) {
     // return Scaffold();
     final authCubit = context.read<AuthCubit>();
-    return BlocProvider(
-      create: (_) => Injector().splashCubit..init(),
-      lazy: false,
-      child: BlocListener<SplashCubit, SplashState>(
-        listener: (context, state) {
-          if (state.isError) {
-            return showSnackBar(context, message: state.errorMessage);
-          }
+    return BlocListener<SplashCubit, SplashState>(
+      listener: (context, state) {
+        if (state.isError) {
+          return showSnackBar(context, message: state.errorMessage);
+        }
 
-          if (state.isLoaded) {
-            final user = authCubit.state.user;
-            // if (authCubit.state.isGuest)
-            //   return _goToHomePage(
-            //     context,
-            //   );
+        if (state.isLoaded) {
+          final user = authCubit.state.user;
+          // if (authCubit.state.isGuest)
+          //   return _goToHomePage(
+          //     context,
+          //   );
 
-            final notLoggedIn = !authCubit.state.isLoggedIn;
+          final notLoggedIn = !authCubit.state.isLoggedIn;
 
-            final isFirstLaunch = state.isFirstLaunch ?? true;
-            final languageNotSet = state.isLanguageSet != true;
-            final countryNotSet = state.isCountrySet != true;
+          final isFirstLaunch = state.isFirstLaunch ?? true;
+          final languageNotSet = state.isLanguageSet != true;
+          final countryNotSet = state.isCountrySet != true;
 
-            if (languageNotSet) return _goToChooseLanguagePage(context);
-            if (countryNotSet) return _goToSelectLocationPage(context);
-            if (isFirstLaunch) return _goToGuidePage(context);
-            if (notLoggedIn) return _goToLoginPage(context);
+          if (languageNotSet) return _goToChooseLanguagePage(context);
+          if (isFirstLaunch) return _goToGuidePage(context);
+          if (countryNotSet) return _goToSelectLocationPage(context);
+          if (notLoggedIn) return _goToLoginPage(context);
 
-            return _goToHomePage(
-              context,
-            );
-          }
-        },
-        child: CustomAppPage(
-            withBackground: true,
-            // safeBottom: false,
-            backgroundPath: 'assets/images/Bg.png',
-            child: Center(
-              child: AppLogo(
-                width: 208.w,
-                height: 34.h,
-              ),
-            )),
-      ),
+          return _goToHomePage(
+            context,
+          );
+        }
+      },
+      child: CustomAppPage(
+          withBackground: true,
+          // safeBottom: false,
+          backgroundPath: 'assets/images/Bg.png',
+          child: Center(
+            child: AppLogo(
+              width: 208.w,
+              height: 34.h,
+            ),
+          )),
     );
   }
 
