@@ -16,6 +16,7 @@ import 'package:masaj/core/presentation/widgets/stateless/default_button.dart';
 import 'package:masaj/core/presentation/widgets/stateless/text_fields/email_text_form_field.dart';
 import 'package:masaj/core/presentation/widgets/stateless/text_fields/password_text_form_field.dart';
 import 'package:masaj/core/presentation/widgets/stateless/text_fields/phone_number_text_field.dart';
+import 'package:masaj/features/auth/presentation/pages/otp_verification_page.dart';
 
 import 'package:masaj/features/home/presentation/pages/home_page.dart';
 import 'package:masaj/features/auth/application/auth_cubit/auth_cubit.dart';
@@ -74,7 +75,8 @@ class _LoginPageState extends State<LoginPage> {
 
     super.dispose();
   }
-
+  void _goToOtpVerify(BuildContext context) => NavigatorHelper.of(context)
+      .pushReplacementNamed(OTPVerificationPage.routeName);
   @override
   Widget build(BuildContext context) {
     return BlocListener<AuthCubit, AuthState>(
@@ -83,6 +85,10 @@ class _LoginPageState extends State<LoginPage> {
 
         if (state.isLoggedIn) {
           final user = state.user;
+          if (user?.verified != true) {
+            return _goToOtpVerify(context);
+          }
+          
           return _goToHomePage(
             context,
             userFullName: user!.fullName,

@@ -1,9 +1,11 @@
 import 'dart:async';
+import 'dart:convert';
 
 import 'package:collection/collection.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:injectable/injectable.dart';
 import 'package:masaj/core/domain/enums/show_case_displayed_page.dart';
+import 'package:masaj/features/address/entities/country.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 abstract class CacheService {
@@ -22,8 +24,10 @@ abstract class CacheService {
   Future<void> setLanguageCode(String languageCode);
 
   Future<String?> getCountryCode();
+  Future<Country?> getCountry();
 
   Future<void> setCountryCode(String countryCode);
+  Future<void> setCounterey(Country countery);
 
   Future<bool> getIsFirstLaunch();
 
@@ -50,6 +54,7 @@ class CacheServiceImplV2 implements CacheService {
   static const _HAS_RUN_BEFORE = 'HAS_RUN_BEFORE';
   static const _SHOW_CASE_DISPLAYED = 'SHOW_CASE_DISPLAYED';
   static const _COUNTRY_CODE = 'COUNTRY_CODE';
+  static const _COUNTRY = 'COUNTRY';
 
   final _completer = Completer<FlutterSecureStorage>();
 
@@ -181,4 +186,18 @@ class CacheServiceImplV2 implements CacheService {
     final prefs = await SharedPreferences.getInstance();
     await prefs.setString(_COUNTRY_CODE, countryCode);
   }
+
+  @override
+  Future<void> setCounterey(Country countery) async {
+    final prefs = await SharedPreferences.getInstance();
+    await prefs.setString(_COUNTRY, jsonEncode(countery.toMap()));
+  }
+  
+  @override
+  Future<Country?> getCountry() async{
+    final prefs = await SharedPreferences.getInstance();
+    final country = prefs.getString(_COUNTRY);
+    return Country.fromMap(jsonDecode(country!));
+  }
+
 }

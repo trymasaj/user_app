@@ -1,3 +1,4 @@
+import 'package:masaj/core/data/clients/cache_service.dart';
 import 'package:masaj/core/data/device/notification_service.dart';
 import 'package:masaj/core/domain/exceptions/request_exception.dart';
 
@@ -144,7 +145,10 @@ class AuthRepositoryImpl implements AuthRepository {
     late User externalUser;
     try {
       externalUser = await _googleExternalDataSource.login();
-      final user = await _externalLogin(externalUser.copyWith(countryId: 1));
+      final savedCountery = await CacheServiceImplV2().getCountry();
+
+      final user = await _externalLogin(
+          externalUser.copyWith(countryId: savedCountery?.id ?? 1));
       return user;
     } on RequestException catch (e) {
       if (e.message.contains('Email Required')) {

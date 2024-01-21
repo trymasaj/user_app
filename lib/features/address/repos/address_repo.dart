@@ -66,6 +66,12 @@ class AddressRepo {
   Future<void> setCountry(Country country) async {
     //TODO: check if country code is null throw exception
     if (country.code == null) return;
+
     await cacheService.setCountryCode(country.code!);
+    await cacheService.setCounterey(country);
+  }
+
+  Future<Country?> getSavedCountry() async {
+    return await cacheService.getCountry();
   }
 }
