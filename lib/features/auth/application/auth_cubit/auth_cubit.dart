@@ -144,7 +144,7 @@ class AuthCubit extends BaseCubit<AuthState> {
     try {
       final userAfterSignUp = await _authRepository.signUp(user);
       emit(state.copyWith(
-          status: AuthStateStatus.loggedIn, user: userAfterSignUp));
+          status: AuthStateStatus.signUpIn, user: userAfterSignUp));
       final userFirebaseId = (user.id ?? '') + (user.fullName ?? '');
       FirebaseCrashlytics.instance.setUserIdentifier(userFirebaseId);
       FirebaseAnalytics.instance.setUserId(id: userFirebaseId);

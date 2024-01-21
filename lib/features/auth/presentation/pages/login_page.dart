@@ -23,6 +23,7 @@ import 'package:masaj/features/auth/application/auth_cubit/auth_cubit.dart';
 import 'package:masaj/features/auth/presentation/pages/email_verification_page.dart';
 import 'package:masaj/features/auth/presentation/pages/forget_password_page.dart';
 import 'package:masaj/features/auth/presentation/pages/sign_up_page.dart';
+import 'package:masaj/features/quiz/presentation/pages/quiz_start_page.dart';
 
 class LoginPage extends StatefulWidget {
   static const routeName = '/LoginPage';
@@ -75,8 +76,11 @@ class _LoginPageState extends State<LoginPage> {
 
     super.dispose();
   }
+
   void _goToOtpVerify(BuildContext context) => NavigatorHelper.of(context)
       .pushReplacementNamed(OTPVerificationPage.routeName);
+  void _goToQuiz(BuildContext context) =>
+      NavigatorHelper.of(context).pushReplacementNamed(QuizStartPage.routeName);
   @override
   Widget build(BuildContext context) {
     return BlocListener<AuthCubit, AuthState>(
@@ -88,7 +92,10 @@ class _LoginPageState extends State<LoginPage> {
           if (user?.verified != true) {
             return _goToOtpVerify(context);
           }
-          
+          if (user?.quizAnswered != true) {
+            return _goToQuiz(context);
+          }
+
           return _goToHomePage(
             context,
             userFullName: user!.fullName,

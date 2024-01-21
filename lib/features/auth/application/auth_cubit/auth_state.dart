@@ -6,6 +6,7 @@ enum AuthStateStatus {
   interestsLoaded,
   projectsLoaded,
   loggedIn,
+  signUpIn,
   guest,
   error,
   selectingProject,
@@ -15,6 +16,7 @@ extension AuthStateX on AuthState {
   bool get isInitial => status == AuthStateStatus.initial;
 
   bool get isLoading => status == AuthStateStatus.loading;
+  bool get isSignUpIn => status == AuthStateStatus.signUpIn;
 
   bool get isInterestsLoaded => status == AuthStateStatus.interestsLoaded;
 

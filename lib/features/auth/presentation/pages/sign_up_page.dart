@@ -80,6 +80,13 @@ class _SignUpPageState extends State<SignUpPage> {
           return showSnackBar(context, message: state.errorMessage);
         }
         if (state.isGuest) return _goToHomePage(context);
+        if (state.isSignUpIn) {
+          NavigatorHelper.of(context).pushNamedAndRemoveUntil(
+            LoginPage.routeName,
+            (_) => false,
+          );
+          return;
+        }
         if (state.isLoggedIn) {
           final user = state.user;
           if (!user!.verified!) {

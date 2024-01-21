@@ -88,7 +88,8 @@ class AuthRepositoryImpl implements AuthRepository {
       mobileAppId: mobileAppId,
       deviceType: deviceType,
     ));
-    await _localDataSource.saveUserData(resultUser);
+    //Todo: delete this after testing
+    // await _localDataSource.saveUserData(resultUser);
     return resultUser;
   }
 
