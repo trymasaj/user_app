@@ -26,6 +26,7 @@ import 'package:masaj/features/legal/pages/privacy_policy_screen.dart';
 import 'package:masaj/features/legal/pages/reschedule_policy_screen.dart';
 import 'package:masaj/features/legal/pages/terms_and_condititons_screen.dart';
 import 'package:masaj/features/medical_form/pages/medical_form_screen.dart';
+import 'package:masaj/features/quiz/presentation/pages/quiz_start_page.dart';
 import 'package:masaj/features/splash/presentation/pages/splash_page.dart';
 import 'package:masaj/features/wallet/pages/top_up_wallet_screen.dart';
 import 'package:masaj/features/wallet/pages/wallet_screen.dart';
@@ -34,6 +35,7 @@ final routes = <String, WidgetBuilder>{
   SplashPage.routeName: (context) => const SplashPage(),
   OTPVerificationPage.routeName: (context) => const OTPVerificationPage(),
   MapLocationPicker.routeName: (context) => MapLocationPicker.builder(context),
+  QuizStartPage.routeName: (context) => const QuizStartPage(),
   BookingDetialsScreen.routeName: (context) => const BookingDetialsScreen(),
   GuidePage.routeName: (context) => const GuidePage(),
   LoginPage.routeName: (context) => const LoginPage(),

@@ -390,4 +390,18 @@ class AuthCubit extends BaseCubit<AuthState> {
       user: state.user!.copyWith(ticketMXAccessToken: token),
     ));
   }
+
+  Future<void> submitQuizAnsewerd() async {
+    try {
+      final user = await _authRepository.updateUser(
+        state.user!.copyWith(quizAnswered: true),
+      );
+      emit(state.copyWith(status: AuthStateStatus.loggedIn, user: user));
+    } catch (e) {
+      emit(state.copyWith(
+        status: AuthStateStatus.error,
+        errorMessage: e.toString(),
+      ));
+    }
+  }
 }

@@ -11,6 +11,7 @@ import 'package:masaj/core/presentation/widgets/stateless/custom_app_page.dart';
 import 'package:masaj/core/presentation/widgets/stateless/custom_text.dart';
 import 'package:masaj/core/presentation/widgets/stateless/default_button.dart';
 import 'package:masaj/features/home/presentation/pages/home_page.dart';
+import 'package:masaj/features/quiz/presentation/pages/quiz_start_page.dart';
 import 'package:pin_code_fields/pin_code_fields.dart';
 
 import 'package:masaj/features/auth/application/auth_cubit/auth_cubit.dart';
@@ -71,6 +72,14 @@ class _OTPVerificationPageState extends State<OTPVerificationPage> {
   void dummyVerfiying(String otp, BuildContext context) async {
     if (otp == '1234') {
       context.read<AuthCubit>().verifyUser();
+      final user = context.read<AuthCubit>().state.user;
+      if (user?.quizAnswered != true) {
+        NavigatorHelper.of(context).pushNamedAndRemoveUntil(
+          QuizStartPage.routeName,
+          (_) => false,
+        );
+        return;
+      }
 
       __goToHome(context);
     }

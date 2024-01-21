@@ -102,6 +102,7 @@ class User {
       String? confirmPassword}) {
     return User(
       id: id ?? this.id,
+      quizAnswered: quizAnswered ?? this.quizAnswered,
       fullName: fullName ?? this.fullName,
       email: email ?? this.email,
       password: password ?? this.password,

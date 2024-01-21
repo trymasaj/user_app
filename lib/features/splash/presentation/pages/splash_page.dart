@@ -18,6 +18,7 @@ import 'package:masaj/features/auth/presentation/pages/email_verification_page.d
 import 'package:masaj/features/auth/presentation/pages/sign_up_page.dart';
 import 'package:masaj/features/intro/presentation/pages/choose_language_page.dart';
 import 'package:masaj/features/intro/presentation/pages/guide_page.dart';
+import 'package:masaj/features/quiz/presentation/pages/quiz_start_page.dart';
 import 'package:masaj/features/splash/presentation/splash_cubit/splash_cubit.dart';
 
 class SplashPage extends StatefulWidget {
@@ -64,12 +65,14 @@ class _SplashPageState extends State<SplashPage> {
           final languageNotSet = state.isLanguageSet != true;
           final isNotVerified = user?.verified != true;
           final countryNotSet = state.isCountrySet != true;
+          final quicIsNotAnswered = user?.quizAnswered != true;
 
           if (languageNotSet) return _goToChooseLanguagePage(context);
           if (countryNotSet) return _goToSelectLocationPage(context);
           if (isFirstLaunch) return _goToGuidePage(context);
           if (notLoggedIn) return _goToLoginPage(context);
           if (isNotVerified) return _goToOtpVerify(context);
+          if (quicIsNotAnswered) return gotToQuiz(context);
 
           if (languageNotSet) return _goToChooseLanguagePage(context);
           if (isFirstLaunch) return _goToGuidePage(context);
@@ -123,4 +126,6 @@ class _SplashPageState extends State<SplashPage> {
           .pushReplacementNamed(EmailVerificationPage.routeName);
   void _goToOtpVerify(BuildContext context) => NavigatorHelper.of(context)
       .pushReplacementNamed(OTPVerificationPage.routeName);
+  void gotToQuiz(BuildContext context) =>
+      NavigatorHelper.of(context).pushReplacementNamed(QuizStartPage.routeName);
 }

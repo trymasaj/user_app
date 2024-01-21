@@ -1,9 +1,12 @@
 import 'package:collection/collection.dart';
 import 'package:flutter/material.dart';
 import 'package:masaj/core/app_export.dart';
+import 'package:masaj/core/presentation/navigation/navigator_helper.dart';
 import 'package:masaj/core/presentation/widgets/stateless/custom_text.dart';
 import 'package:masaj/core/presentation/widgets/stateless/default_button.dart';
 import 'package:masaj/core/presentation/widgets/stateless/dots_indicator.dart';
+import 'package:masaj/features/auth/application/auth_cubit/auth_cubit.dart';
+import 'package:masaj/features/auth/presentation/pages/otp_verification_page.dart';
 import 'package:masaj/features/intro/presentation/widgets/question_card.dart';
 import 'package:masaj/features/quiz/application/quiz_page_cubit.dart';
 import 'package:masaj/features/quiz/domain/entities/question.dart';
@@ -28,7 +31,18 @@ class _QuizPageState extends State<QuizPage> {
           listenWhen: (previous, current) =>
               previous.questionIndex != current.questionIndex ||
               previous.result != current.result,
-          listener: (context, state) {},
+          listener: (context, state) {
+            AuthCubit authCubit = context.read<AuthCubit>();
+            authCubit.submitQuizAnsewerd();
+            final user = authCubit.state.user;
+            if (user?.verified != true) {
+              NavigatorHelper.of(context).pushNamedAndRemoveUntil(
+                OTPVerificationPage.routeName,
+                (_) => false,
+              );
+              return;
+            }
+          },
         ),
       ],
       child: BlocBuilder<QuizPageCubit, QuizPageState>(

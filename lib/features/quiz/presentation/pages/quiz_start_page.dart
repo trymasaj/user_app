@@ -6,6 +6,8 @@ import 'package:masaj/core/presentation/navigation/navigator_helper.dart';
 import 'package:masaj/core/presentation/overlay/show_snack_bar.dart';
 import 'package:masaj/core/presentation/widgets/stateless/custom_text.dart';
 import 'package:masaj/core/presentation/widgets/stateless/default_button.dart';
+import 'package:masaj/features/auth/application/auth_cubit/auth_cubit.dart';
+import 'package:masaj/features/auth/presentation/pages/otp_verification_page.dart';
 import 'package:masaj/features/home/presentation/pages/home_page.dart';
 import 'package:masaj/features/quiz/application/quiz_page_cubit.dart';
 import 'package:masaj/features/quiz/presentation/pages/quiz_page.dart';
@@ -23,19 +25,31 @@ class QuizStartPage extends StatelessWidget {
         return MultiBlocListener(
           listeners: [
             BlocListener<QuizPageCubit, QuizPageState>(
-                listenWhen: (previous, current) =>
-                    previous.result != current.result,
+
+                // listenWhen: (previous, current) =>
+                //     previous.result != current.result,
                 listener: (context, state) {
-                  if (state.result == QuizSubmitResult.skip ||
-                      state.result == QuizSubmitResult.success) {
-                    _goToHomePage(context);
-                  } else {
-                    showSnackBar(
-                      context,
-                      message: 'Something went wrong, please try again later',
-                    );
-                  }
-                }),
+              if (state.result == QuizSubmitResult.skip ||
+                  state.result == QuizSubmitResult.success) {
+                AuthCubit authCubit = context.read<AuthCubit>();
+                authCubit.submitQuizAnsewerd();
+                final user = authCubit.state.user;
+                if (user?.verified != true) {
+                  NavigatorHelper.of(context).pushNamedAndRemoveUntil(
+                    OTPVerificationPage.routeName,
+                    (_) => false,
+                  );
+                  return;
+                }
+
+                _goToHomePage(context);
+              } else {
+                showSnackBar(
+                  context,
+                  message: 'Something went wrong, please try again later',
+                );
+              }
+            }),
           ],
           child: Scaffold(
               backgroundColor: Colors.transparent, body: _buildBody(context)),
@@ -103,6 +117,8 @@ class QuizStartPage extends StatelessWidget {
       color: Colors.transparent,
       onPressed: () {
         cubit.skipQuiz();
+        AuthCubit authCubit = context.read<AuthCubit>();
+        authCubit.submitQuizAnsewerd();
       },
     );
   }

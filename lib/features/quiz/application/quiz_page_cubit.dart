@@ -17,6 +17,7 @@ class QuizPageCubit extends BaseCubit<QuizPageState> {
     try {
       await _repo.submitQuiz(state.questions);
       emit(state.copyWith(result: QuizSubmitResult.success));
+      
     } catch (e) {
       emit(state.copyWith(result: QuizSubmitResult.failed));
     }
