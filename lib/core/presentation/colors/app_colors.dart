@@ -8,7 +8,7 @@ class AppColors {
   static const BORDER_COLOR = Color(0xFFEAEAEA);
   static const SECONDARY_COLOR = Color(0xFF4C8DBE);
   static const THIRD_COLOR = Color(0xFFFB8636);
-  static const ACCENT_COLOR = Color(0xFF31225D);
+  static const ACCENT_COLOR = Colors.black;
   static const BACKGROUND_COLOR = Color(0xFFE5E5E5);
   static const GREY_LIGHT_COLOR = Color(0xFFE2E2E2);
   static const GREY_NORMAL_COLOR = Color(0xFFB9B9B9);
