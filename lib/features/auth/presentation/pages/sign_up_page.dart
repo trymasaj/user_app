@@ -22,6 +22,7 @@ import 'package:masaj/core/presentation/widgets/stateless/text_fields/email_text
 import 'package:masaj/core/presentation/widgets/stateless/text_fields/password_text_form_field.dart';
 import 'package:masaj/core/presentation/widgets/stateless/text_fields/phone_number_text_field.dart';
 import 'package:masaj/features/auth/presentation/pages/login_page.dart';
+import 'package:masaj/features/auth/presentation/pages/otp_verification_page.dart';
 
 import 'package:masaj/features/home/presentation/pages/home_page.dart';
 import 'package:masaj/features/auth/domain/entities/user.dart';
@@ -89,9 +90,13 @@ class _SignUpPageState extends State<SignUpPage> {
         if (state.isGuest) return _goToHomePage(context);
         if (state.isLoggedIn) {
           final user = state.user;
+          if (!user!.verified!) {
+            _goToOtpVerify(context);
+            return;
+          }
           return _goToHomePage(
             context,
-            userFullName: user!.fullName,
+            userFullName: user.fullName,
           );
         }
       },
@@ -181,7 +186,6 @@ class _SignUpPageState extends State<SignUpPage> {
 
     return Theme(
       data: Theme.of(context).copyWith(
-
         inputDecorationTheme: InputDecorationTheme(
           contentPadding: const EdgeInsets.symmetric(
             vertical: 17.0,
@@ -221,7 +225,7 @@ class _SignUpPageState extends State<SignUpPage> {
               controller: _emailTextController,
               validator: (value) {
                 if (value == null || (!isValidEmail(value, isRequired: true))) {
-                  return "err_msg_please_enter_valid_email".tr();
+                  return 'err_msg_please_enter_valid_email'.tr();
                 }
                 return null;
               },
@@ -243,30 +247,30 @@ class _SignUpPageState extends State<SignUpPage> {
               onInputChanged: (value) => _phoneNumber = value,
             ),
             const SizedBox(height: 18.0),
-            TextFormField(readOnly: true,
-
+            TextFormField(
+              readOnly: true,
               style: style,
               onTap: () async {
                 final initialDate = _birthDateTextController.text.isNotEmpty
                     ? _birthDateTextController.text.parseDate()
                     : DateTime.now();
                 final pickedDate = await showDatePicker(
-                  context: context,
-                  initialDate: initialDate,
-                  firstDate:
-                      DateTime.now().subtract(const Duration(days: 43800)),
-                  lastDate: DateTime.now(),
-                  builder: (context, child) {
-                    return Theme(
-                      data: Theme.of(context).copyWith(
-                        colorScheme: ColorScheme.light(primary:  AppColors.PRIMARY_COLOR ),
-                        buttonTheme: ButtonThemeData(textTheme: ButtonTextTheme.primary),
-                      ),
-                      child: child!,
-                    );
-                  }
-
-                    );
+                    context: context,
+                    initialDate: initialDate,
+                    firstDate:
+                        DateTime.now().subtract(const Duration(days: 43800)),
+                    lastDate: DateTime.now(),
+                    builder: (context, child) {
+                      return Theme(
+                        data: Theme.of(context).copyWith(
+                          colorScheme: const ColorScheme.light(
+                              primary: AppColors.PRIMARY_COLOR),
+                          buttonTheme: const ButtonThemeData(
+                              textTheme: ButtonTextTheme.primary),
+                        ),
+                        child: child!,
+                      );
+                    });
                 if (pickedDate != null) {
                   _birthDateTextController.text = pickedDate.formatDate();
                 }
@@ -278,7 +282,7 @@ class _SignUpPageState extends State<SignUpPage> {
                 contentPadding: contentPadding,
                 prefixIconConstraints: constraints,
                 prefixIcon: buildImage(ImageConstant.imgCalendar),
-                hintText: "lbl_birth_date".tr(),
+                hintText: 'lbl_birth_date'.tr(),
                 suffixIcon: Padding(
                   padding: EdgeInsets.fromLTRB(18.w, 19.h, 10.w, 19.h),
                   child: CustomImageView(
@@ -400,6 +404,11 @@ class _SignUpPageState extends State<SignUpPage> {
         margin: const EdgeInsets.fromLTRB(16.0, 4.0, 16.0, 0.0),
       );
     }
+  }
+
+  _goToOtpVerify(BuildContext context) {
+    NavigatorHelper.of(context).pushNamedAndRemoveUntil(
+        OTPVerificationPage.routeName, (route) => false);
   }
 
   void _goToSignInPage(BuildContext context) {
