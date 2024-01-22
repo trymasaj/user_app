@@ -27,6 +27,7 @@ class SelectLocationScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final controller = context.read<SelectLocationBloc>();
+    final isArabic = context.locale == const Locale('ar');
     return Scaffold(
         //  appBar: AppBar(),
         body: Container(
@@ -82,7 +83,9 @@ class SelectLocationScreen extends StatelessWidget {
                                             width: 20.w),
                                       SizedBox(width: 3.w),
                                       Text(
-                                        e.nameEn!,
+                                        isArabic
+                                            ? e.nameAr ?? ''
+                                            : e.nameEn ?? '',
                                         style: CustomTextStyles
                                             .bodyMediumOnErrorContainer,
                                       ),
@@ -136,7 +139,9 @@ class SelectLocationScreen extends StatelessWidget {
                                     children: [
                                       const SizedBox(width: 3),
                                       Text(
-                                        e.name.nameEn ?? '',
+                                        isArabic
+                                            ? e.name.nameAr
+                                            : e.name.nameEn,
                                         style: CustomTextStyles
                                             .bodyMediumOnErrorContainer,
                                       ),
