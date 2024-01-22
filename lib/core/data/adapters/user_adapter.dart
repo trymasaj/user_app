@@ -30,7 +30,7 @@ class UserAdapter {
     final firstName = user.givenName;
     final lastName = user.familyName;
     final email = user.email;
-    final idToken = user.authorizationCode;
+    final idToken = user.identityToken;
     return User(
       fullName: '$firstName $lastName',
       email: email,
