@@ -37,12 +37,14 @@ class AuthState {
   final User? user;
   final Gender? selectedGender;
   final String? errorMessage;
+  final DateTime? beginResendTimer;
 
   const AuthState({
     this.status = AuthStateStatus.initial,
     this.user,
     this.selectedGender,
     this.errorMessage,
+    this.beginResendTimer,
   });
 
   @override
@@ -53,6 +55,7 @@ class AuthState {
         (other as AuthState).status == status &&
         other.user == user &&
         other.selectedGender == selectedGender &&
+        other.beginResendTimer == beginResendTimer &&
         other.errorMessage == errorMessage;
   }
 
@@ -70,12 +73,14 @@ class AuthState {
     List<InterestModel>? interests,
     List<int?>? selectedInterests,
     Gender? selectedGender,
+    DateTime? beginResendTimer,
   }) {
     return AuthState(
       status: status ?? this.status,
       user: user ?? this.user,
       errorMessage: errorMessage ?? this.errorMessage,
       selectedGender: selectedGender ?? this.selectedGender,
+      beginResendTimer: beginResendTimer ?? this.beginResendTimer,
     );
   }
 }

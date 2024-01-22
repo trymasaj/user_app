@@ -81,10 +81,7 @@ class _SignUpPageState extends State<SignUpPage> {
         }
         if (state.isGuest) return _goToHomePage(context);
         if (state.isSignUpIn) {
-          NavigatorHelper.of(context).pushNamedAndRemoveUntil(
-            LoginPage.routeName,
-            (_) => false,
-          );
+          _goToOtpVerify(context);
           return;
         }
         if (state.isLoggedIn) {

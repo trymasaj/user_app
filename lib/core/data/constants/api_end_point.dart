@@ -15,6 +15,10 @@ abstract class ApiEndPoint {
 
   //Auth
   static const SIGN_UP = '$BASE_URL/Identity/register';
+  //VERIFY_OTP
+  static const VERIFY_OTP = '$BASE_URL/Identity/verify-otp';
+  // resend otp
+  static const RESEND_OTP = '$BASE_URL/Identity/resend-otp';
   static const CONFIRM_REGISTRATION = '$_REQUEST_URL/confirmregistration';
   static const LOGIN = '$BASE_URL/Identity/login';
   static const EXTERNAL_LOGIN = '$BASE_URL/Identity/login/social';

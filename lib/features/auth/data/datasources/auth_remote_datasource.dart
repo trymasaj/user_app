@@ -55,6 +55,8 @@ abstract class AuthRemoteDataSource {
   Future<void> selectProject(int projectId);
 
   Future<void> updateUserNotificationStatus(bool isEnabled);
+  Future<User?> verifyOtp(User user, String otp);
+  Future<void> resendOtp(User user);
 }
 
 class AuthRemoteDataSourceImpl implements AuthRemoteDataSource {
@@ -401,20 +403,39 @@ class AuthRemoteDataSourceImpl implements AuthRemoteDataSource {
       }
     });
   }
-}
 
-// {
-//         "id": 17,
-//         "fullName": "HESHAM",
-//         "phone": "10660726",
-//         "countryCode": "+965",
-//         "countryId": 1,
-//         "email": "sdjbj@jhbahjs.com",
-//         "verified": false,
-//         "profileImage": "https://masaj-s3.fra1.cdn.digitaloceanspaces.com/profile-images/placeholder.png",
-//         "userType": 0,
-//         "isProfileCompleted": false,
-//         "quizAnswered": false,
-//         "token": "eyJhbGciOiJIUzUxMiIsInR5cCI6IkpXVCJ9.eyJqdGkiOiI0NDdkOGQ2YS00NmQ3LTQ3N2EtYjMyNC1mODY5ZjQ2Nzg4NzUiLCJpYXQiOjE3MDU0OTM5ODUsImlkIjoiMTciLCJuYW1lIjoiSEVTSEFNIiwiZW1haWwiOiJzZGpiakBqaGJhaGpzLmNvbSIsInBob25lIjoiMTA2NjA3MjYiLCJ1c2VyVHlwZSI6IkN1c3RvbWVyIiwidmVyaWZpZWQiOiJGYWxzZSIsIm5iZiI6MTcwNTQ5Mzk4NSwiZXhwIjoxNzY3NzAxOTg1LCJpc3MiOiJtYXNhai1iYWNrZW5kIn0.djePZvzExqp33V9Nu__o2clJIRRKQppARKYaZWG90EfjPT99vaJle1fEReBY4V7TyedG9fVZLyyWHyOzdHuSuQ",
-//         "refreshToken": null
-//       }
+  @override
+  Future<User?> verifyOtp(User user, String otp) {
+    const url = ApiEndPoint.VERIFY_OTP;
+    final data = {
+      'otp': otp,
+    };
+    // bearerToken: user.token,
+    final headers = {'Authorization': 'Bearer ${user.token}'};
+
+    return _networkService
+        .post(url, data: data, headers: headers)
+        .then((response) {
+      if (response.statusCode != 200) {
+        throw RequestException.fromStatusCode(
+            statusCode: response.statusCode!, response: response.data);
+      }
+      final result = response.data;
+
+      return User.fromMap(result);
+    });
+  }
+
+  @override
+  Future<void> resendOtp(User user) async {
+    const url = ApiEndPoint.RESEND_OTP;
+    final headers = {'Authorization': 'Bearer ${user.token}'};
+
+    return _networkService.post(url, headers: headers).then((response) {
+      if (response.statusCode != 200) {
+        throw RequestException.fromStatusCode(
+            statusCode: response.statusCode!, response: response.data);
+      }
+    });
+  }
+}

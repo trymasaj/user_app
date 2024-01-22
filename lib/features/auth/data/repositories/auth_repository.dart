@@ -53,8 +53,9 @@ abstract class AuthRepository {
 
   Future<User> loginAsGuest();
   //TODO: delete this after testing
-  Future<User?> verifyOtp(User user);
+  Future<User?> verifyOtp(User user, String otp, {bool afterLogin = false});
   Future<User?> updateUser(User user);
+  Future<void> resendOtp(User user);
 }
 
 class AuthRepositoryImpl implements AuthRepository {
@@ -265,14 +266,24 @@ class AuthRepositoryImpl implements AuthRepository {
   }
 
   @override
-  Future<User?> verifyOtp(User user) async {
-    await _localDataSource.saveUserData(user.copyWith(verified: true));
-    return await _localDataSource.getUserData();
+  Future<User?> verifyOtp(User user, String otp,
+      {bool afterLogin = false}) async {
+    //  by remote
+    final verifiedUser = await _remoteDataSource.verifyOtp(user, otp);
+    if (verifiedUser != null && afterLogin) {
+      await _localDataSource.saveUserData(verifiedUser);
+    }
+    return verifiedUser;
   }
 
   @override
   Future<User?> updateUser(User user) async {
     await _localDataSource.saveUserData(user);
     return await _localDataSource.getUserData();
+  }
+
+  @override
+  Future<void> resendOtp(User user) async {
+    await _remoteDataSource.resendOtp(user);
   }
 }

@@ -105,13 +105,41 @@ class AuthCubit extends BaseCubit<AuthState> {
     }
   }
 
-  Future<void> verifyUser() async {
+  Future<void> verifyUser(String otp) async {
     if (state.user == null) return;
+    final afterLogin = state.status != AuthStateStatus.signUpIn;
 
     emit(state.copyWith(status: AuthStateStatus.loading));
     try {
-      final user = await _authRepository.verifyOtp(state.user!);
-      emit(state.copyWith(status: AuthStateStatus.loggedIn, user: user));
+      final user = await _authRepository.verifyOtp(state.user!, otp,
+          afterLogin: afterLogin);
+      emit(state.copyWith(
+          status:
+              afterLogin ? AuthStateStatus.loggedIn : AuthStateStatus.signUpIn,
+          user: user));
+    } on SocialLoginCanceledException catch (e) {
+      log(e.toString());
+    } on RedundantRequestException catch (e) {
+      log(e.toString());
+    } catch (e) {
+      emit(state.copyWith(
+          status: AuthStateStatus.error, errorMessage: e.toString()));
+    }
+  }
+
+  // resendOtp
+  Future<void> resendOtp() async {
+    if (state.user == null) return;
+    // final afterLogin = state.status != AuthStateStatus.signUpIn;
+
+    // emit(state.copyWith(status: AuthStateStatus.loading));
+    try {
+      await _authRepository.resendOtp(
+        state.user!,
+      );
+      await Future.delayed(const Duration(seconds: 2), () {});
+
+      emit(state.copyWith(beginResendTimer: DateTime.now()));
     } on SocialLoginCanceledException catch (e) {
       log(e.toString());
     } on RedundantRequestException catch (e) {

@@ -10,6 +10,7 @@ import 'package:masaj/core/presentation/widgets/stateless/back_button.dart';
 import 'package:masaj/core/presentation/widgets/stateless/custom_app_page.dart';
 import 'package:masaj/core/presentation/widgets/stateless/custom_text.dart';
 import 'package:masaj/core/presentation/widgets/stateless/default_button.dart';
+import 'package:masaj/features/auth/presentation/pages/login_page.dart';
 import 'package:masaj/features/home/presentation/pages/home_page.dart';
 import 'package:masaj/features/quiz/presentation/pages/quiz_start_page.dart';
 import 'package:pin_code_fields/pin_code_fields.dart';
@@ -31,8 +32,9 @@ class _OTPVerificationPageState extends State<OTPVerificationPage> {
 
   // timer
   late Timer _timer;
-  int _start = 60;
+  int _start = 10;
   bool _isTimerRunning = false;
+  StreamSubscription? _subscription;
 
   void startTimer() {
     _isTimerRunning = true;
@@ -52,6 +54,12 @@ class _OTPVerificationPageState extends State<OTPVerificationPage> {
 
   @override
   void initState() {
+    _subscription = context.read<AuthCubit>().stream.listen((state) {
+      print(state.beginResendTimer);
+      if (state.beginResendTimer != null) {
+        startTimer();
+      }
+    });
     startTimer();
     super.initState();
   }
@@ -64,6 +72,7 @@ class _OTPVerificationPageState extends State<OTPVerificationPage> {
   void dispose() {
     otpController.dispose();
     _timer.cancel();
+    _subscription?.cancel();
 
     super.dispose();
   }
@@ -71,17 +80,7 @@ class _OTPVerificationPageState extends State<OTPVerificationPage> {
   //TODO hard coded verify
   void dummyVerfiying(String otp, BuildContext context) async {
     if (otp == '1234') {
-      context.read<AuthCubit>().verifyUser();
-      final user = context.read<AuthCubit>().state.user;
-      if (user?.quizAnswered != true) {
-        NavigatorHelper.of(context).pushNamedAndRemoveUntil(
-          QuizStartPage.routeName,
-          (_) => false,
-        );
-        return;
-      }
-
-      __goToHome(context);
+      context.read<AuthCubit>().verifyUser(otp);
     }
   }
 
@@ -89,6 +88,28 @@ class _OTPVerificationPageState extends State<OTPVerificationPage> {
   Widget build(BuildContext context) {
     return BlocListener<AuthCubit, AuthState>(
       listener: (context, state) {
+        final user = context.read<AuthCubit>().state.user;
+        if (state.isSignUpIn) {
+          NavigatorHelper.of(context).pushNamedAndRemoveUntil(
+            LoginPage.routeName,
+            (_) => false,
+          );
+          return;
+        }
+
+        if (state.isLoggedIn && user?.quizAnswered != true) {
+          NavigatorHelper.of(context).pushNamedAndRemoveUntil(
+            QuizStartPage.routeName,
+            (_) => false,
+          );
+          return;
+        }
+        if (state.isLoggedIn && user?.quizAnswered == true) {
+          __goToHome(context);
+
+          return;
+        }
+
         if (state.isError) {
           showSnackBar(context, message: state.errorMessage);
         } else if (state.isInitial) _goBackToLoginPage(context, true);
@@ -112,7 +133,8 @@ class _OTPVerificationPageState extends State<OTPVerificationPage> {
               const SizedBox(height: 16.0),
               _buildSendButton(context),
               const SizedBox(height: 16.0),
-              if (_isTimerRunning) _buildTimer(),
+              // if (_isTimerRunning)
+              _buildTimer(),
             ],
           ),
         ),
@@ -209,14 +231,29 @@ class _OTPVerificationPageState extends State<OTPVerificationPage> {
             color: AppColors.FONT_COLOR,
           ),
         ),
-        Text(
-          'resend_in'.tr(args: ['$_start']),
-          style: const TextStyle(
-            fontSize: 14,
-            fontWeight: FontWeight.w400,
-            color: AppColors.FONT_COLOR,
+        if (_isTimerRunning)
+          Text(
+            'resend_in'.tr(args: ['$_start']),
+            style: const TextStyle(
+              fontSize: 14,
+              fontWeight: FontWeight.w400,
+              color: AppColors.FONT_COLOR,
+            ),
+          )
+        else
+          TextButton(
+            onPressed: () {
+              context.read<AuthCubit>().resendOtp();
+            },
+            child: Text(
+              'resend'.tr(),
+              style: const TextStyle(
+                fontSize: 14,
+                fontWeight: FontWeight.w400,
+                color: AppColors.PRIMARY_COLOR,
+              ),
+            ),
           ),
-        ),
       ],
     );
   }
