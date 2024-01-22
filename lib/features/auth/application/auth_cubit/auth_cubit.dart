@@ -32,7 +32,10 @@ class AuthCubit extends BaseCubit<AuthState> {
     try {
       emit(state.copyWith(status: AuthStateStatus.loading));
       final user = await _authRepository.getUserData();
-      emit(user?.token == null
+      //TODO this is need refactoring by puting status in cubit and when user press continure as guest we will change the status to guest
+      emit(user?.token == null ||
+              user?.verified == false ||
+              user?.isProfileCompleted == false
           ? state.copyWith(status: AuthStateStatus.guest, user: user)
           : state.copyWith(status: AuthStateStatus.loggedIn, user: user));
 
@@ -71,8 +74,13 @@ class AuthCubit extends BaseCubit<AuthState> {
     emit(state.copyWith(status: AuthStateStatus.loading));
     try {
       final user = await _authRepository.loginWithGoogle(onEmailRequiredError);
+      final isLoggedIn =
+          (user.isProfileCompleted ?? false) && (user.verified ?? false);
 
-      emit(state.copyWith(status: AuthStateStatus.loggedIn, user: user));
+      isLoggedIn
+          ? emit(state.copyWith(status: AuthStateStatus.loggedIn, user: user))
+          : emit(state.copyWith(
+              status: AuthStateStatus.completeSignUp, user: user));
       final userFirebaseId = (user.id ?? '') + (user.fullName ?? '');
       FirebaseCrashlytics.instance.setUserIdentifier(userFirebaseId);
       FirebaseAnalytics.instance.setUserId(id: userFirebaseId);
@@ -91,7 +99,12 @@ class AuthCubit extends BaseCubit<AuthState> {
     emit(state.copyWith(status: AuthStateStatus.loading));
     try {
       final user = await _authRepository.loginWithApple(onEmailRequiredError);
-      emit(state.copyWith(status: AuthStateStatus.loggedIn, user: user));
+      final isLoggedIn =
+          (user.isProfileCompleted ?? false) && (user.verified ?? false);
+      isLoggedIn
+          ? emit(state.copyWith(status: AuthStateStatus.loggedIn, user: user))
+          : emit(state.copyWith(
+              status: AuthStateStatus.completeSignUp, user: user));
       final userFirebaseId = (user.id ?? '') + (user.fullName ?? '');
       FirebaseCrashlytics.instance.setUserIdentifier(userFirebaseId);
       FirebaseAnalytics.instance.setUserId(id: userFirebaseId);
@@ -151,23 +164,6 @@ class AuthCubit extends BaseCubit<AuthState> {
     }
   }
 
-/*
-{
-  "id": 25,
-  "fullName": "Mohamed Gaber",
-  "phone": "1283894969",
-  "countryCode": "+20",
-  "countryId": 1,
-  "email": "moohammed.gaber@gmail.com",
-  "verified": false,
-  "profileImage": "https://masaj-s3.fra1.cdn.digitaloceanspaces.com/profile-images/placeholder.png",
-  "userType": 0,
-  "isProfileCompleted": true,
-  "quizAnswered": false,
-  "token": "eyJhbGciOiJIUzUxMiIsInR5cCI6IkpXVCJ9.eyJqdGkiOiJiMDE5YWJhZC0yODYyLTQxMTktOGJhNi05MjE1ZTg2MGI4NWYiLCJpYXQiOjE3MDU2ODk5OTgsImlkIjoiMjUiLCJuYW1lIjoiTW9oYW1lZCBHYWJlciIsImVtYWlsIjoibW9vaGFtbWVkLmdhYmVyQGdtYWlsLmNvbSIsInBob25lIjoiMTI4Mzg5NDk2OSIsInVzZXJUeXBlIjoiQ3VzdG9tZXIiLCJ2ZXJpZmllZCI6IkZhbHNlIiwibmJmIjoxNzA1Njg5OTk4LCJleHAiOjE3Njc4OTc5OTgsImlzcyI6Im1hc2FqLWJhY2tlbmQifQ.qdKfmqngoXp7ykW0Vzpjt5qGQEgnZU8w6scYFE7ZtRC7L9OS9QXoADGmw-X5oYDtPI_zMJHafj4kE6ZnjeBPqw",
-  "refreshToken": null
-}
- */
   Future<void> signUp(User user) async {
     emit(state.copyWith(status: AuthStateStatus.loading));
     try {
@@ -180,6 +176,25 @@ class AuthCubit extends BaseCubit<AuthState> {
     } on RedundantRequestException catch (e) {
       log(e.toString());
     } catch (e) {
+      emit(state.copyWith(
+          status: AuthStateStatus.error, errorMessage: e.toString()));
+    }
+  }
+
+  Future<void> updateProfileInformation(User user) async {
+    emit(state.copyWith(status: AuthStateStatus.loading));
+    try {
+      final userAfterSignUp =
+          await _authRepository.updateProfileInformation(user);
+      emit(state.copyWith(
+          status: AuthStateStatus.loggedIn, user: userAfterSignUp));
+      final userFirebaseId = (user.id ?? '') + (user.fullName ?? '');
+      FirebaseCrashlytics.instance.setUserIdentifier(userFirebaseId);
+      FirebaseAnalytics.instance.setUserId(id: userFirebaseId);
+    } on RedundantRequestException catch (e) {
+      log(e.toString());
+    } catch (e) {
+      print(e.toString());
       emit(state.copyWith(
           status: AuthStateStatus.error, errorMessage: e.toString()));
     }

@@ -23,6 +23,8 @@ abstract class AuthRemoteDataSource {
 
   Future<User> signUp(User user);
 
+  Future<User> updateProfileInformation(User user);
+
   Future<void> forgetPassword(String email);
 
   Future<void> changePassword(String oldPassword, String newPassword);
@@ -124,7 +126,9 @@ class AuthRemoteDataSourceImpl implements AuthRemoteDataSource {
   }
 
   @override
-  Future<User> externalLogin(User user) {
+  Future<User> externalLogin(
+    User user,
+  ) {
     const url = ApiEndPoint.EXTERNAL_LOGIN;
     final data = user.toSocialMediaMap();
     return _networkService.post(url, data: data).then((response) {
@@ -436,6 +440,34 @@ class AuthRemoteDataSourceImpl implements AuthRemoteDataSource {
         throw RequestException.fromStatusCode(
             statusCode: response.statusCode!, response: response.data);
       }
+    });
+  }
+
+  @override
+  Future<User> updateProfileInformation(User user) {
+    const url = ApiEndPoint.UPDATE_PROFILE_INFORMATION;
+    final data = {
+      'userId': user.id,
+      'fullName': user.fullName,
+      'email': user.email,
+      'phone': user.phone,
+      'gender': user.gender?.id,
+      'countryCode': user.countryCode,
+      'countryId': user.countryId,
+      'birthDate': user.birthDate?.toIso8601String(),
+    }..removeWhere((_, v) => v == null);
+
+    return _networkService.post(
+      url,
+      data: data,
+      headers: {'Authorization': 'Bearer ${user.token}'},
+    ).then((response) {
+      if (response.statusCode != 200) {
+        throw RequestException.fromStatusCode(
+            statusCode: response.statusCode!, response: response.data);
+      }
+
+      return User.fromMap(response.data);
     });
   }
 }

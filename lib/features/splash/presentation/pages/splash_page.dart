@@ -73,6 +73,8 @@ class _SplashPageState extends State<SplashPage> {
           if (isNotVerified) return _goToOtpVerify(context);
           if (quicIsNotAnswered) return gotToQuiz(context);
 
+          //TODO need refactoring
+
           if (languageNotSet) return _goToChooseLanguagePage(context);
           if (isFirstLaunch) return _goToGuidePage(context);
           if (countryNotSet) return _goToSelectLocationPage(context);

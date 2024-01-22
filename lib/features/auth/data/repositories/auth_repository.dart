@@ -24,6 +24,7 @@ abstract class AuthRepository {
   Future<User> loginWithApple(Future<String?> Function() onEmailRequiredError);
 
   Future<User> signUp(User params);
+  Future<User> updateProfileInformation(User user);
 
   Future<void> forgetPassword(String email);
 
@@ -118,6 +119,8 @@ class AuthRepositoryImpl implements AuthRepository {
   ) async {
     late User newAppleUser;
     try {
+      final country = await _localDataSource.getCountry();
+      final countryId = country?.id;
       final appleUser = await _appleExternalDataSource.login();
       final savedAppleUserData = await _localDataSource.getAppleUserData();
 
@@ -127,7 +130,9 @@ class AuthRepositoryImpl implements AuthRepository {
           : User.fromJson(savedAppleUserData)
               .copyWith(idToken: appleUser.idToken);
       await _localDataSource.saveAppleUserData(newAppleUser);
-      final user = await _externalLogin(newAppleUser);
+      final user = await _externalLogin(newAppleUser.copyWith(
+        countryId: countryId ?? 0,
+      ));
       return user;
     } on RequestException catch (e) {
       if (e.message.contains('Email Required')) {
@@ -146,11 +151,11 @@ class AuthRepositoryImpl implements AuthRepository {
       Future<String?> Function() onEmailRequiredError) async {
     late User externalUser;
     try {
+      final country = await _localDataSource.getCountry();
+      final countryID = country?.id;
       externalUser = await _googleExternalDataSource.login();
-      final savedCountery = await CacheServiceImplV2().getCountry();
-
       final user = await _externalLogin(
-          externalUser.copyWith(countryId: savedCountery?.id ?? 1));
+          externalUser.copyWith(countryId: countryID ?? 0));
       return user;
     } on RequestException catch (e) {
       if (e.message.contains('Email Required')) {
@@ -284,5 +289,10 @@ class AuthRepositoryImpl implements AuthRepository {
   @override
   Future<void> resendOtp(User user) async {
     await _remoteDataSource.resendOtp(user);
+  }
+
+  @override
+  Future<User> updateProfileInformation(User user) {
+    return _remoteDataSource.updateProfileInformation(user);
   }
 }

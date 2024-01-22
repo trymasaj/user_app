@@ -19,13 +19,16 @@ import 'package:masaj/features/auth/presentation/pages/otp_verification_page.dar
 import 'package:masaj/features/home/presentation/pages/home_page.dart';
 import 'package:masaj/features/auth/domain/entities/user.dart';
 import 'package:masaj/features/auth/application/auth_cubit/auth_cubit.dart';
+import 'package:video_player/video_player.dart';
 
 class SignUpPage extends StatefulWidget {
   static const routeName = '/SignUp';
+  final bool isFromSocial;
 
   const SignUpPage({
     super.key,
     bool startFromSubscriptionStep = false,
+    this.isFromSocial = false,
   });
 
   @override
@@ -53,6 +56,13 @@ class _SignUpPageState extends State<SignUpPage> {
   PhoneNumber? _phoneNumber;
   @override
   void initState() {
+    final authCubit = context.read<AuthCubit>();
+    if (widget.isFromSocial) {
+      final user = authCubit.state.user;
+      _emailTextController.text = user?.email ?? '';
+      _fullNameTextController.text = user?.fullName ?? '';
+      selectedGender = user?.gender ?? selectedGender;
+    }
     super.initState();
   }
 
@@ -119,7 +129,7 @@ class _SignUpPageState extends State<SignUpPage> {
             fontWeight: FontWeight.w600,
           ),
           SizedBox(height: 6.0.h),
-          _buildHaveAccountRow(context),
+          if (!widget.isFromSocial) _buildHaveAccountRow(context),
           _buildSignUpForm(),
           _buildGenderRow(context),
           SizedBox(
@@ -128,7 +138,7 @@ class _SignUpPageState extends State<SignUpPage> {
           _buildTermsAndConditions(context),
           SizedBox(height: 16.0.h),
           _buildSignUpButton(context),
-          _buildContinueAsGuestButton(context),
+          if (!widget.isFromSocial) _buildContinueAsGuestButton(context),
         ],
       ),
     );
@@ -290,16 +300,29 @@ class _SignUpPageState extends State<SignUpPage> {
                 suffixIconConstraints: constraints,
               ),
             ),
-            const SizedBox(height: 18.0),
-            PasswordTextField(
-                iconColor: appTheme.blueGray40001,
-                controller: _passwordTextController,
-                hint: 'password'.tr()),
-            const SizedBox(height: 18.0),
-            PasswordTextField(
+            if (!widget.isFromSocial) ...[
+              const SizedBox(height: 18.0),
+              PasswordTextField(
+                  iconColor: appTheme.blueGray40001,
+                  controller: _passwordTextController,
+                  hint: 'password'.tr(),
+                  validator: widget.isFromSocial
+                      ? (value) {
+                          return null;
+                        }
+                      : null),
+              const SizedBox(height: 18.0),
+              PasswordTextField(
                 iconColor: appTheme.blueGray40001,
                 controller: _passwordConfirmTextController,
-                hint: 'confirm_password'.tr()),
+                hint: 'confirm_password'.tr(),
+                validator: widget.isFromSocial
+                    ? (value) {
+                        return null;
+                      }
+                    : null,
+              ),
+            ],
           ],
         ),
       ),
@@ -322,16 +345,24 @@ class _SignUpPageState extends State<SignUpPage> {
     final authCubit = context.read<AuthCubit>();
     Future<void> signUpCallBack() async {
       if (_isNotValid()) return;
+      final oldUser = authCubit.state.user;
       final user = User(
-          fullName: _fullNameTextController.text.trim(),
-          email: _emailTextController.text.trim(),
-          password: _passwordTextController.text,
-          confirmPassword: _passwordConfirmTextController.text,
-          phone: _phoneNumber?.number,
-          countryCode: _phoneNumber?.countryCode,
-          birthDate: _birthDateTextController.text.parseDate(),
-          gender: selectedGender,
-          countryId: 1);
+        id: oldUser?.id,
+        fullName: _fullNameTextController.text.trim(),
+        email: _emailTextController.text.trim(),
+        password: _passwordTextController.text,
+        confirmPassword: _passwordConfirmTextController.text,
+        phone: _phoneNumber?.number,
+        countryCode: _phoneNumber?.countryCode,
+        birthDate: _birthDateTextController.text.parseDate(),
+        gender: selectedGender,
+        countryId: 1,
+        token: oldUser?.token,
+      );
+      if (widget.isFromSocial) {
+        await authCubit.updateProfileInformation(user);
+        return;
+      }
       await authCubit.signUp(
         user,
       );

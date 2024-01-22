@@ -86,9 +86,15 @@ class _LoginPageState extends State<LoginPage> {
     return BlocListener<AuthCubit, AuthState>(
       listener: (context, state) {
         if (state.isError) showSnackBar(context, message: state.errorMessage);
+        final user = state.user;
+        if (state.isCompleteSignUp) {
+          _goToCompleteSignUpPage(context);
+        }
 
         if (state.isLoggedIn) {
-          final user = state.user;
+          if (user?.isProfileCompleted != true) {
+            return _goToCompleteSignUpPage(context);
+          }
           if (user?.verified != true) {
             return _goToOtpVerify(context);
           }
@@ -446,4 +452,13 @@ class _LoginPageState extends State<LoginPage> {
       ],
     );
   }
+
+  void _goToCompleteSignUpPage(BuildContext context) =>
+      NavigatorHelper.of(context).pushReplacement(
+        MaterialPageRoute(
+          builder: (_) => const SignUpPage(
+            isFromSocial: true,
+          ),
+        ),
+      );
 }
