@@ -107,15 +107,14 @@ class AuthCubit extends BaseCubit<AuthState> {
 
   Future<void> verifyUser(String otp) async {
     if (state.user == null) return;
-    final afterLogin = state.status != AuthStateStatus.signUpIn;
+    final afterLogin = state.status != AuthStateStatus.guest;
 
     emit(state.copyWith(status: AuthStateStatus.loading));
     try {
       final user = await _authRepository.verifyOtp(state.user!, otp,
           afterLogin: afterLogin);
       emit(state.copyWith(
-          status:
-              afterLogin ? AuthStateStatus.loggedIn : AuthStateStatus.signUpIn,
+          status: afterLogin ? AuthStateStatus.loggedIn : AuthStateStatus.guest,
           user: user));
     } on SocialLoginCanceledException catch (e) {
       log(e.toString());
@@ -130,16 +129,18 @@ class AuthCubit extends BaseCubit<AuthState> {
   // resendOtp
   Future<void> resendOtp() async {
     if (state.user == null) return;
-    // final afterLogin = state.status != AuthStateStatus.signUpIn;
+    final afterLogin = state.status != AuthStateStatus.guest;
 
-    // emit(state.copyWith(status: AuthStateStatus.loading));
+    emit(state.copyWith(status: AuthStateStatus.loading));
     try {
       await _authRepository.resendOtp(
         state.user!,
       );
-      await Future.delayed(const Duration(seconds: 2), () {});
 
-      emit(state.copyWith(beginResendTimer: DateTime.now()));
+      emit(state.copyWith(
+        beginResendTimer: DateTime.now(),
+        status: afterLogin ? AuthStateStatus.loggedIn : AuthStateStatus.guest,
+      ));
     } on SocialLoginCanceledException catch (e) {
       log(e.toString());
     } on RedundantRequestException catch (e) {
@@ -171,8 +172,8 @@ class AuthCubit extends BaseCubit<AuthState> {
     emit(state.copyWith(status: AuthStateStatus.loading));
     try {
       final userAfterSignUp = await _authRepository.signUp(user);
-      emit(state.copyWith(
-          status: AuthStateStatus.signUpIn, user: userAfterSignUp));
+      emit(
+          state.copyWith(status: AuthStateStatus.guest, user: userAfterSignUp));
       final userFirebaseId = (user.id ?? '') + (user.fullName ?? '');
       FirebaseCrashlytics.instance.setUserIdentifier(userFirebaseId);
       FirebaseAnalytics.instance.setUserId(id: userFirebaseId);
@@ -433,3 +434,25 @@ class AuthCubit extends BaseCubit<AuthState> {
     }
   }
 }
+
+
+/*
+{
+  status: 404,
+    errorType: ValidationError,
+  message: User not found,
+  errors:{
+    fieldName: [
+
+    ],
+    fieldName2: [
+
+    ]
+
+  }
+  timepStamp: 2021-09-30T12:00:00Z
+  
+
+}
+
+*/

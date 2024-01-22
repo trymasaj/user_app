@@ -52,7 +52,6 @@ abstract class AuthRepository {
   Future<bool> checkEmailVerified();
 
   Future<User> loginAsGuest();
-  //TODO: delete this after testing
   Future<User?> verifyOtp(User user, String otp, {bool afterLogin = false});
   Future<User?> updateUser(User user);
   Future<void> resendOtp(User user);

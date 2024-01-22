@@ -1,8 +1,10 @@
 import 'dart:async';
 
 import 'package:easy_localization/easy_localization.dart';
+import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:masaj/core/data/di/injector.dart';
 import 'package:masaj/core/presentation/colors/app_colors.dart';
 import 'package:masaj/core/presentation/navigation/navigator_helper.dart';
 import 'package:masaj/core/presentation/overlay/show_snack_bar.dart';
@@ -10,6 +12,7 @@ import 'package:masaj/core/presentation/widgets/stateless/back_button.dart';
 import 'package:masaj/core/presentation/widgets/stateless/custom_app_page.dart';
 import 'package:masaj/core/presentation/widgets/stateless/custom_text.dart';
 import 'package:masaj/core/presentation/widgets/stateless/default_button.dart';
+import 'package:masaj/features/auth/application/resend_cubit/resend_cubit.dart';
 import 'package:masaj/features/auth/presentation/pages/login_page.dart';
 import 'package:masaj/features/home/presentation/pages/home_page.dart';
 import 'package:masaj/features/quiz/presentation/pages/quiz_start_page.dart';
@@ -30,37 +33,8 @@ class OTPVerificationPage extends StatefulWidget {
 class _OTPVerificationPageState extends State<OTPVerificationPage> {
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
 
-  // timer
-  late Timer _timer;
-  int _start = 10;
-  bool _isTimerRunning = false;
-  StreamSubscription? _subscription;
-
-  void startTimer() {
-    _isTimerRunning = true;
-    _timer = Timer.periodic(const Duration(seconds: 1), (timer) {
-      if (_start == 0) {
-        setState(() {
-          _isTimerRunning = false;
-        });
-        _timer.cancel();
-      } else {
-        setState(() {
-          _start--;
-        });
-      }
-    });
-  }
-
   @override
   void initState() {
-    _subscription = context.read<AuthCubit>().stream.listen((state) {
-      print(state.beginResendTimer);
-      if (state.beginResendTimer != null) {
-        startTimer();
-      }
-    });
-    startTimer();
     super.initState();
   }
 
@@ -70,72 +44,81 @@ class _OTPVerificationPageState extends State<OTPVerificationPage> {
 
   @override
   void dispose() {
-    otpController.dispose();
-    _timer.cancel();
-    _subscription?.cancel();
+    // otpController.dispose();
 
     super.dispose();
   }
 
   //TODO hard coded verify
   void dummyVerfiying(String otp, BuildContext context) async {
-    if (otp == '1234') {
-      context.read<AuthCubit>().verifyUser(otp);
-    }
+    context.read<AuthCubit>().verifyUser(otp);
   }
 
   @override
   Widget build(BuildContext context) {
-    return BlocListener<AuthCubit, AuthState>(
-      listener: (context, state) {
-        final user = context.read<AuthCubit>().state.user;
-        if (state.isSignUpIn) {
-          NavigatorHelper.of(context).pushNamedAndRemoveUntil(
-            LoginPage.routeName,
-            (_) => false,
-          );
-          return;
-        }
+    return BlocProvider(
+      create: (context) => ResendCubit(
+        authRepository: Injector().authRepository,
+      ),
+      child: BlocListener<AuthCubit, AuthState>(
+        listener: (context, state) {
+          final user = context.read<AuthCubit>().state.user;
 
-        if (state.isLoggedIn && user?.quizAnswered != true) {
-          NavigatorHelper.of(context).pushNamedAndRemoveUntil(
-            QuizStartPage.routeName,
-            (_) => false,
-          );
-          return;
-        }
-        if (state.isLoggedIn && user?.quizAnswered == true) {
-          __goToHome(context);
+          if (state.isGuest) {
+            NavigatorHelper.of(context).pushNamedAndRemoveUntil(
+              LoginPage.routeName,
+              (_) => false,
+            );
+            return;
+          }
 
-          return;
-        }
+          if (state.isLoggedIn && user?.quizAnswered != true) {
+            NavigatorHelper.of(context).pushNamedAndRemoveUntil(
+              QuizStartPage.routeName,
+              (_) => false,
+            );
+            return;
+          }
+          if (state.isLoggedIn && user?.quizAnswered == true) {
+            __goToHome(context);
 
-        if (state.isError) {
-          showSnackBar(context, message: state.errorMessage);
-        } else if (state.isInitial) _goBackToLoginPage(context, true);
-      },
-      child: CustomAppPage(
-        safeTop: true,
-        safeBottom: true,
-        child: Scaffold(
-          body: ListView(
-            padding: const EdgeInsets.all(16.0),
-            children: [
-              const CustomBackButton(
-                color: Colors.black,
+            return;
+          }
+
+          if (state.isError) {
+            showSnackBar(context, message: state.errorMessage);
+          }
+        },
+        child: BlocListener<ResendCubit, ResendState>(
+          listener: (context, state) {
+            if (state.errorMessage != null) {
+              showSnackBar(context, message: state.errorMessage);
+            }
+          },
+          child: CustomAppPage(
+            safeTop: true,
+            safeBottom: true,
+            child: Scaffold(
+              body: ListView(
+                padding: const EdgeInsets.all(16.0),
+                children: [
+                  const CustomBackButton(
+                    color: Colors.black,
+                  ),
+                  const SizedBox(height: 16.0),
+                  _buildMainText(context),
+                  const SizedBox(height: 8.0),
+                  _buildSubText(context),
+                  const SizedBox(height: 16.0),
+                  _buildForm(),
+                  const SizedBox(height: 16.0),
+                  _buildSendButton(context),
+                  const SizedBox(height: 16.0),
+                  // if (_isTimerRunning)
+                  _buildTimer(),
+                ],
               ),
-              const SizedBox(height: 16.0),
-              _buildMainText(context),
-              const SizedBox(height: 8.0),
-              _buildSubText(context),
-              const SizedBox(height: 16.0),
-              _buildForm(),
-              const SizedBox(height: 16.0),
-              _buildSendButton(context),
-              const SizedBox(height: 16.0),
-              // if (_isTimerRunning)
-              _buildTimer(),
-            ],
+            ),
           ),
         ),
       ),
@@ -167,8 +150,11 @@ class _OTPVerificationPageState extends State<OTPVerificationPage> {
       backgroundColor: Colors.transparent,
       onPressed: () async {
         // _goToResetPasswordPage(context);
-        dummyVerfiying(otpController.text, context);
         if (_isNotValid()) return;
+        context.read<AuthCubit>().verifyUser(
+              otpController.text,
+            );
+
         //await authCubit.forgetPassword(_emailTextController.text.trim());
       },
     );
@@ -212,7 +198,9 @@ class _OTPVerificationPageState extends State<OTPVerificationPage> {
       controller: otpController,
       keyboardType: TextInputType.number,
       onCompleted: (value) {
-        dummyVerfiying(value, context);
+        context.read<AuthCubit>().verifyUser(
+              otpController.text,
+            );
         // context.read<OtpCubit>().setCode(value);
       },
     );
@@ -220,41 +208,49 @@ class _OTPVerificationPageState extends State<OTPVerificationPage> {
 
   // build timer
   Widget _buildTimer() {
-    return Row(
-      mainAxisAlignment: MainAxisAlignment.center,
-      children: [
-        Text(
-          'do_not_receive_code'.tr(),
-          style: const TextStyle(
-            fontSize: 14,
-            fontWeight: FontWeight.w400,
-            color: AppColors.FONT_COLOR,
-          ),
-        ),
-        if (_isTimerRunning)
-          Text(
-            'resend_in'.tr(args: ['$_start']),
-            style: const TextStyle(
-              fontSize: 14,
-              fontWeight: FontWeight.w400,
-              color: AppColors.FONT_COLOR,
-            ),
-          )
-        else
-          TextButton(
-            onPressed: () {
-              context.read<AuthCubit>().resendOtp();
-            },
-            child: Text(
-              'resend'.tr(),
+    return BlocBuilder<ResendCubit, ResendState>(
+      builder: (context, state) {
+        return Row(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            Text(
+              'do_not_receive_code'.tr(),
               style: const TextStyle(
                 fontSize: 14,
                 fontWeight: FontWeight.w400,
-                color: AppColors.PRIMARY_COLOR,
+                color: AppColors.FONT_COLOR,
               ),
             ),
-          ),
-      ],
+            if (state.isTimerRunning)
+              Text(
+                'resend_in'.tr(args: ['${state.remainingTime}']),
+                style: const TextStyle(
+                  fontSize: 14,
+                  fontWeight: FontWeight.w400,
+                  color: AppColors.FONT_COLOR,
+                ),
+              )
+            else
+              RichText(
+                text: TextSpan(
+                  text: 'resend'.tr(),
+                  style: const TextStyle(
+                    decoration: TextDecoration.underline,
+                    fontSize: 14,
+                    fontWeight: FontWeight.w400,
+                    color: AppColors.FONT_COLOR,
+                  ),
+                  recognizer: TapGestureRecognizer()
+                    ..onTap = () {
+                      context.read<ResendCubit>().resendOtp(
+                            context.read<AuthCubit>().state.user!,
+                          );
+                    },
+                ),
+              )
+          ],
+        );
+      },
     );
   }
 

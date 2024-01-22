@@ -79,8 +79,8 @@ class _SignUpPageState extends State<SignUpPage> {
         if (state.isError) {
           return showSnackBar(context, message: state.errorMessage);
         }
-        if (state.isGuest) return _goToHomePage(context);
-        if (state.isSignUpIn) {
+        // if (state.isGuest) return _goToHomePage(context);
+        if (state.isGuest) {
           _goToOtpVerify(context);
           return;
         }
