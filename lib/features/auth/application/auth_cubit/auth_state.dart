@@ -10,6 +10,7 @@ enum AuthStateStatus {
   guest,
   error,
   selectingProject,
+  completeSignUp,
 }
 
 extension AuthStateX on AuthState {
@@ -29,6 +30,8 @@ extension AuthStateX on AuthState {
   bool get isError => status == AuthStateStatus.error;
 
   bool get isSelectingProject => status == AuthStateStatus.selectingProject;
+
+  bool get isCompleteSignUp => status == AuthStateStatus.completeSignUp;
 }
 
 @immutable
