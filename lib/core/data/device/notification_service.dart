@@ -100,10 +100,12 @@ class _FlutterLocalNotificationHelper {
     flutterLocalNotificationsPlugin = FlutterLocalNotificationsPlugin();
 
     if (Platform.isAndroid) {
+/*
       flutterLocalNotificationsPlugin!
           .resolvePlatformSpecificImplementation<
               AndroidFlutterLocalNotificationsPlugin>()!
           .requestPermission();
+*/
     }
 
     await flutterLocalNotificationsPlugin!
