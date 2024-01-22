@@ -4,6 +4,7 @@ import 'package:masaj/core/app_export.dart';
 import 'package:masaj/core/presentation/widgets/stateless/custom_text.dart';
 import 'package:masaj/core/presentation/widgets/stateless/default_button.dart';
 import 'package:masaj/core/presentation/widgets/stateless/dots_indicator.dart';
+import 'package:masaj/features/auth/application/auth_cubit/auth_cubit.dart';
 import 'package:masaj/features/intro/presentation/widgets/question_card.dart';
 import 'package:masaj/features/quiz/application/quiz_page_cubit.dart';
 import 'package:masaj/features/quiz/domain/entities/question.dart';
@@ -66,34 +67,11 @@ class _QuizPageState extends State<QuizPage> {
                                         : () => cubit.onBackButtonPressed(),
                                     onChanged: cubit.onAnswerSelected,
                                     question: e,
-                                    onNextPressed: cubit.onNextPressed,
+                                    onNextPressed: (question) =>
+                                        cubit.onNextPressed(context.read<AuthCubit>().state.user!.id!, question),
                                   ))
                               .toList(),
                         ),
-
-                        /*
-                        SizedBox(
-                          height: 500.h,
-                          child: PageView.builder(
-                            physics: state.currentQuestion.isAnswered
-                                ? const AlwaysScrollableScrollPhysics()
-                                : const NeverScrollableScrollPhysics(),
-                            controller: _pageController,
-                            itemCount: state.questions.questions.length,
-                            onPageChanged: cubit.updateQuestionIndex,
-                            itemBuilder: (context, index) {
-                              return QuestionCard(
-                                onBack: index == 0
-                                    ? null
-                                    : () => cubit.onBackButtonPressed(),
-                                onChanged: cubit.onAnswerSelected,
-                                question: state.questions.questions[index],
-                                onNextPressed: cubit.onNextPressed,
-                              );
-                            },
-                          ),
-                        ),
-            */
                       ],
                     ),
                   ),
@@ -135,7 +113,7 @@ class _QuizPageState extends State<QuizPage> {
       backgroundColor: Colors.transparent,
       color: Colors.transparent,
       onPressed: () {
-        cubit.submitQuiz();
+        cubit.skipQuiz();
       },
     );
   }
