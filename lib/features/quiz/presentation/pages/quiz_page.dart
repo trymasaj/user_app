@@ -19,7 +19,12 @@ class QuizPage extends StatefulWidget {
 class _QuizPageState extends State<QuizPage> {
   List<Question> get questions =>
       context.read<QuizPageCubit>().state.questions.questions;
-
+@override
+  void didChangeDependencies() {
+    // TODO: implement didChangeDependencies
+    super.didChangeDependencies();
+    FocusScope.of(context).unfocus();
+  }
   @override
   Widget build(BuildContext context) {
     final cubit = context.read<QuizPageCubit>();
