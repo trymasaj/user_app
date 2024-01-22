@@ -427,7 +427,7 @@ class _SignUpPageState extends State<SignUpPage> {
     if (userFullName != null) {
       showSnackBar(
         context,
-        message: 'welcome_user'.tr(args: [userFullName]),
+        message: 'welcome'.tr(args: [userFullName]),
         margin: const EdgeInsets.fromLTRB(16.0, 4.0, 16.0, 0.0),
       );
     }
