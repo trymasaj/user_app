@@ -21,6 +21,12 @@ class QuizPage extends StatefulWidget {
 class _QuizPageState extends State<QuizPage> {
   List<Question> get questions =>
       context.read<QuizPageCubit>().state.questions.questions;
+  @override
+  void didChangeDependencies() {
+    // TODO: implement didChangeDependencies
+    super.didChangeDependencies();
+    FocusScope.of(context).unfocus();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -80,34 +86,17 @@ class _QuizPageState extends State<QuizPage> {
                                         : () => cubit.onBackButtonPressed(),
                                     onChanged: cubit.onAnswerSelected,
                                     question: e,
-                                    onNextPressed: cubit.onNextPressed,
+                                    onNextPressed: (question) =>
+                                        cubit.onNextPressed(
+                                            context
+                                                .read<AuthCubit>()
+                                                .state
+                                                .user!
+                                                .id!,
+                                            question),
                                   ))
                               .toList(),
                         ),
-
-                        /*
-                        SizedBox(
-                          height: 500.h,
-                          child: PageView.builder(
-                            physics: state.currentQuestion.isAnswered
-                                ? const AlwaysScrollableScrollPhysics()
-                                : const NeverScrollableScrollPhysics(),
-                            controller: _pageController,
-                            itemCount: state.questions.questions.length,
-                            onPageChanged: cubit.updateQuestionIndex,
-                            itemBuilder: (context, index) {
-                              return QuestionCard(
-                                onBack: index == 0
-                                    ? null
-                                    : () => cubit.onBackButtonPressed(),
-                                onChanged: cubit.onAnswerSelected,
-                                question: state.questions.questions[index],
-                                onNextPressed: cubit.onNextPressed,
-                              );
-                            },
-                          ),
-                        ),
-            */
                       ],
                     ),
                   ),
@@ -149,7 +138,7 @@ class _QuizPageState extends State<QuizPage> {
       backgroundColor: Colors.transparent,
       color: Colors.transparent,
       onPressed: () {
-        cubit.submitQuiz();
+        cubit.skipQuiz();
       },
     );
   }

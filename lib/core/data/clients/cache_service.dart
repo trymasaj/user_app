@@ -27,7 +27,7 @@ abstract class CacheService {
   Future<Country?> getCountry();
 
   Future<void> setCountryCode(String countryCode);
-  Future<void> setCounterey(Country countery);
+  Future<void> setCountry(Country country);
 
   Future<bool> getIsFirstLaunch();
 
@@ -188,16 +188,15 @@ class CacheServiceImplV2 implements CacheService {
   }
 
   @override
-  Future<void> setCounterey(Country countery) async {
+  Future<void> setCountry(Country countery) async {
     final prefs = await SharedPreferences.getInstance();
     await prefs.setString(_COUNTRY, jsonEncode(countery.toMap()));
   }
-  
+
   @override
-  Future<Country?> getCountry() async{
+  Future<Country?> getCountry() async {
     final prefs = await SharedPreferences.getInstance();
     final country = prefs.getString(_COUNTRY);
     return Country.fromMap(jsonDecode(country!));
   }
-
 }
