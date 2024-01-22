@@ -75,7 +75,7 @@ class Question with EquatableMixin {
 
 // to map
   Map<String, dynamic> toMap() {
-    return {'question': content, 'answer': selectedAnswer.toNullable()!};
+    return {'question': content, 'answer': selectedAnswer.toNullable()!.content};
   }
 
   @override
