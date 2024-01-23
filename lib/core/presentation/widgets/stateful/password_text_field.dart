@@ -69,15 +69,16 @@ class _PasswordTextFieldState extends State<PasswordTextField> {
           maxHeight: 56.h,
         ),
       ),
-      validator: (value) {
-        if (value == null || value.isEmpty || value.length < 6) {
-          return 'err_msg_please_enter_valid_password'.tr();
-        }
-        // if (value == null || (!isValidPassword(value, isRequired: true))) {
-        //   return 'err_msg_please_enter_valid_password'.tr();
-        // }
-        return null;
-      },
+      validator: widget.validator ??
+          (value) {
+            if (value == null || value.isEmpty || value.length < 6) {
+              return 'err_msg_please_enter_valid_password'.tr();
+            }
+            // if (value == null || (!isValidPassword(value, isRequired: true))) {
+            //   return 'err_msg_please_enter_valid_password'.tr();
+            // }
+            return null;
+          },
       obscureText: !isShowPassword,
     );
   }

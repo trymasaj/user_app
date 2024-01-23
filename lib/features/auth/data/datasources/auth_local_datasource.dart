@@ -1,6 +1,8 @@
 import 'package:masaj/core/data/clients/cache_service.dart';
 import 'package:masaj/features/auth/domain/entities/user.dart';
 
+import '../../../address/entities/country.dart';
+
 abstract class AuthLocalDataSource {
   Future<bool> checkUserDataExist();
 
@@ -19,6 +21,8 @@ abstract class AuthLocalDataSource {
   Future<bool> updateUserNotification(bool isEnabled);
 
   Future<bool> updateUserPoints(int points);
+
+  Future<Country?> getCountry();
 }
 
 class AuthLocalDataSourceImpl implements AuthLocalDataSource {
@@ -89,5 +93,12 @@ class AuthLocalDataSourceImpl implements AuthLocalDataSource {
     final oldUser = User.fromJson(userString);
     final newUser = oldUser.copyWith(points: points);
     return _cacheService.saveUserData(newUser.toJson());
+  }
+
+  @override
+  Future<Country?> getCountry() async {
+    final country = await _cacheService.getCountry();
+    if (country == null) return null;
+    return country;
   }
 }

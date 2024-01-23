@@ -15,7 +15,8 @@ abstract class ApiEndPoint {
 
   //Auth
   static const SIGN_UP = '$BASE_URL/Identity/register';
-  //VERIFY_OTP
+  static const UPDATE_PROFILE_INFORMATION = '$BASE_URL/Identity/update-profile';
+
   static const VERIFY_OTP = '$BASE_URL/Identity/verify-otp';
   // resend otp
   static const RESEND_OTP = '$BASE_URL/Identity/resend-otp';

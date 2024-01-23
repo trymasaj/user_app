@@ -1,6 +1,6 @@
 enum ProviderEnum {
-  Google(1),
-  Apple(0);
+  Google(0),
+  Apple(1);
 
   final int value;
 

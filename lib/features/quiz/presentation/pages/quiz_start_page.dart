@@ -44,10 +44,11 @@ class QuizStartPage extends StatelessWidget {
 
                 _goToHomePage(context);
               } else {
-                showSnackBar(
-                  context,
-                  message: 'Something went wrong, please try again later',
-                );
+                //TODO I removed this temp cause it was causing a bug
+                // showSnackBar(
+                //   context,
+                //   message: 'Something went wrong, please try again later',
+                // );
               }
             }),
           ],
