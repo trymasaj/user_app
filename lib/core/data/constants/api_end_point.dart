@@ -23,7 +23,12 @@ abstract class ApiEndPoint {
   static const LOGIN = '$BASE_URL/Identity/login';
   static const EXTERNAL_LOGIN = '$BASE_URL/Identity/login/social';
   static const APPLE_REDIRECT_URL = '$BASE_URL/callbacks/sign_in_with_apple';
-  static const FORGET_PASSWORD = '$_REQUEST_URL/forgetpassword';
+  static const FORGET_PASSWORD = '$BASE_URL/Identity/forget-password';
+  // VERIFY_FORGET_PASSWORD
+  static const VERIFY_FORGET_PASSWORD =
+      '$BASE_URL/Identity/verify-forget-password';
+      //RESET_PASSWORD
+  static const RESET_PASSWORD = '$BASE_URL/Identity/reset-password';
   static const REFRESH_TOKEN = '$_REQUEST_URL/refresh';
   static const LOGOUT = '$_REQUEST_URL/revoke';
   static const ABOUT_US_DETAILS = '$_REQUEST_URL/getaboutus';

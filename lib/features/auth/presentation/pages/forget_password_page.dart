@@ -48,7 +48,7 @@ class _ForgetPasswordPageState extends State<ForgetPasswordPage> {
       listener: (context, state) {
         if (state.isError) {
           showSnackBar(context, message: state.errorMessage);
-        } else if (state.isInitial) _goBackToLoginPage(context, true);
+        } else if (state.isInitial) _goToOtpVerificationPage(context);
       },
       child: CustomAppPage(
         safeTop: true,
@@ -99,9 +99,9 @@ class _ForgetPasswordPageState extends State<ForgetPasswordPage> {
       label: 'continue',
       backgroundColor: Colors.transparent,
       onPressed: () async {
-        // if (_isNotValid()) return;
-        // await authCubit.forgetPassword(_emailTextController.text.trim());
-        _goToOtpVerificationPage(context);
+        if (_isNotValid()) return;
+        await authCubit.forgetPassword(_emailTextController.text.trim());
+        // _goToOtpVerificationPage(context);
       },
     );
   }
@@ -138,7 +138,10 @@ class _ForgetPasswordPageState extends State<ForgetPasswordPage> {
   void _goToOtpVerificationPage(BuildContext context) {
     NavigatorHelper.of(context).push(
       MaterialPageRoute(
-        builder: (_) => const OTPVerificationPage(),
+        builder: (_) => OTPVerificationPage(
+          fromForgetPassword: true,
+          email: _emailTextController.text.trim(),
+        ),
       ),
     );
   }

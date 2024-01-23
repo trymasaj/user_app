@@ -24,8 +24,10 @@ import 'package:masaj/features/auth/presentation/pages/reset_password_page.dart'
 class OTPVerificationPage extends StatefulWidget {
   static const routeName = '/otp-verification';
 
-  const OTPVerificationPage({super.key});
-
+  const OTPVerificationPage(
+      {super.key, this.fromForgetPassword = false, this.email});
+  final bool fromForgetPassword;
+  final String? email;
   @override
   State<OTPVerificationPage> createState() => _OTPVerificationPageState();
 }
@@ -63,6 +65,16 @@ class _OTPVerificationPageState extends State<OTPVerificationPage> {
       child: BlocListener<AuthCubit, AuthState>(
         listener: (context, state) {
           final user = context.read<AuthCubit>().state.user;
+
+          if (state.isInitial && state.user != null) {
+            if (widget.fromForgetPassword) {
+              Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                      builder: (context) => const ResetPasswordPage()));
+              return;
+            }
+          }
 
           if (state.isGuest) {
             NavigatorHelper.of(context).pushNamedAndRemoveUntil(
@@ -151,6 +163,13 @@ class _OTPVerificationPageState extends State<OTPVerificationPage> {
       onPressed: () async {
         // _goToResetPasswordPage(context);
         if (_isNotValid()) return;
+        if (widget.fromForgetPassword) {
+          context.read<AuthCubit>().verifyForgetPassword(
+                widget.email!,
+                otpController.text,
+              );
+          return;
+        }
         context.read<AuthCubit>().verifyUser(
               otpController.text,
             );
@@ -198,6 +217,13 @@ class _OTPVerificationPageState extends State<OTPVerificationPage> {
       controller: otpController,
       keyboardType: TextInputType.number,
       onCompleted: (value) {
+        if (widget.fromForgetPassword) {
+          context.read<AuthCubit>().verifyForgetPassword(
+                widget.email!,
+                otpController.text,
+              );
+          return;
+        }
         context.read<AuthCubit>().verifyUser(
               otpController.text,
             );

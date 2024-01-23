@@ -198,6 +198,34 @@ class AuthCubit extends BaseCubit<AuthState> {
     }
   }
 
+  Future<void> verifyForgetPassword(String otp, String email) async {
+    emit(state.copyWith(status: AuthStateStatus.loading));
+    try {
+      final user = await _authRepository.verifyForgetPassword(otp, email);
+      emit(state.copyWith(status: AuthStateStatus.initial, user: user));
+    } on RedundantRequestException catch (e) {
+      log(e.toString());
+    } catch (e) {
+      emit(state.copyWith(
+          status: AuthStateStatus.error, errorMessage: e.toString()));
+    }
+  }
+
+  Future<void> resetPassword(
+      String password, String passwordConfirm, int userId,String token) async {
+    emit(state.copyWith(status: AuthStateStatus.loading));
+    try {
+      final user =
+          await _authRepository.resetPassword(password, password, userId,token);
+      emit(state.copyWith(status: AuthStateStatus.guest, user: user));
+    } on RedundantRequestException catch (e) {
+      log(e.toString());
+    } catch (e) {
+      emit(state.copyWith(
+          status: AuthStateStatus.error, errorMessage: e.toString()));
+    }
+  }
+
   Future<void> changePassword(String oldPassword, String newPassword) async {
     try {
       emit(state.copyWith(status: AuthStateStatus.loading));

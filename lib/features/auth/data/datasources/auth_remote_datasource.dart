@@ -24,6 +24,9 @@ abstract class AuthRemoteDataSource {
   Future<User> signUp(User user);
 
   Future<void> forgetPassword(String email);
+  Future<User> verifyForgetPassword(String email, String otp);
+  Future<User> resetPassword(
+      String newPassword, String confirmPassword, int userId, String token);
 
   Future<void> changePassword(String oldPassword, String newPassword);
 
@@ -145,13 +148,15 @@ class AuthRemoteDataSourceImpl implements AuthRemoteDataSource {
   @override
   Future<void> forgetPassword(String email) {
     const url = ApiEndPoint.FORGET_PASSWORD;
-    final data = {'email': email};
+    final data = {'emailOrPhone': email};
     return _networkService.post(url, data: data).then((response) {
       if (response.statusCode != 200) {
         throw RequestException.fromStatusCode(
             statusCode: response.statusCode!, response: response.data);
       }
       final result = response.data;
+      print('*' * 100);
+      print(result);
       final resultStatus = result['result'];
       if (resultStatus == RequestResult.Failed.name) {
         throw RequestException(message: result['msg']);
@@ -436,6 +441,46 @@ class AuthRemoteDataSourceImpl implements AuthRemoteDataSource {
         throw RequestException.fromStatusCode(
             statusCode: response.statusCode!, response: response.data);
       }
+    });
+  }
+
+  @override
+  Future<User> verifyForgetPassword(String email, String otp) async {
+    const url = ApiEndPoint.VERIFY_FORGET_PASSWORD;
+    final data = {
+      'emailOrPhone': email,
+      'otp': otp,
+    };
+
+    return _networkService.post(url, data: data).then((response) {
+      if (response.statusCode != 200) {
+        throw RequestException.fromStatusCode(
+            statusCode: response.statusCode!, response: response.data);
+      }
+      return User.fromMap(response.data);
+    });
+  }
+
+  @override
+  Future<User> resetPassword(String newPassword, String confirmPassword,
+      int userId, String token) async {
+    const url = ApiEndPoint.RESET_PASSWORD;
+    final data = {
+      'password': newPassword,
+      'confirmPassword': confirmPassword,
+      'userId': userId,
+    };
+    final headers = {'Authorization': 'Bearer $token'};
+
+    return _networkService
+        .post(url, data: data, headers: headers)
+        .then((response) {
+      if (response.statusCode != 200) {
+        throw RequestException.fromStatusCode(
+            statusCode: response.statusCode!, response: response.data);
+      }
+
+      return User.fromMap(response.data);
     });
   }
 }

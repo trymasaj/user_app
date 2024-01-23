@@ -26,6 +26,9 @@ abstract class AuthRepository {
   Future<User> signUp(User params);
 
   Future<void> forgetPassword(String email);
+  Future<User> verifyForgetPassword(String email, String otp);
+  Future<User> resetPassword(
+      String newPassword, String confirmPassword, int userId,String token);
 
   Future<void> logout();
 
@@ -284,5 +287,17 @@ class AuthRepositoryImpl implements AuthRepository {
   @override
   Future<void> resendOtp(User user) async {
     await _remoteDataSource.resendOtp(user);
+  }
+
+  @override
+  Future<User> verifyForgetPassword(String email, String otp) {
+    return _remoteDataSource.verifyForgetPassword(email, otp);
+  }
+
+  @override
+  Future<User> resetPassword(
+      String newPassword, String confirmPassword, int userId,String token) async {
+    return _remoteDataSource.resetPassword(
+        newPassword, confirmPassword, userId,token);
   }
 }

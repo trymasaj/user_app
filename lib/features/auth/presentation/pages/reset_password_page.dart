@@ -11,6 +11,7 @@ import 'package:masaj/core/presentation/widgets/stateless/default_button.dart';
 import 'package:masaj/core/presentation/widgets/stateless/text_fields/password_text_form_field.dart';
 
 import 'package:masaj/features/auth/application/auth_cubit/auth_cubit.dart';
+import 'package:masaj/features/auth/presentation/pages/login_page.dart';
 
 class ResetPasswordPage extends StatefulWidget {
   static const routeName = '/resetPasswordPage';
@@ -56,7 +57,7 @@ class _ResetPasswordPageState extends State<ResetPasswordPage> {
       listener: (context, state) {
         if (state.isError) {
           showSnackBar(context, message: state.errorMessage);
-        } else if (state.isInitial) _goBackToLoginPage(context, true);
+        } else if (state.isGuest) _goToLoginpage(context);
       },
       child: CustomAppPage(
         safeTop: true,
@@ -107,8 +108,14 @@ class _ResetPasswordPageState extends State<ResetPasswordPage> {
       label: 'send',
       backgroundColor: Colors.transparent,
       onPressed: () async {
-        // if (_isNotValid()) return;
-        // await authCubit.forgetPassword(_emailTextController.text.trim());
+        if (_isNotValid()) return;
+        if (context.read<AuthCubit>().state.user != null) {
+          await authCubit.resetPassword(
+              _passwordTextController.text,
+              _confirmPasswordTextController.text,
+              int.parse(context.read<AuthCubit>().state.user!.id!),
+              context.read<AuthCubit>().state.user!.token!);
+        }
       },
     );
   }
@@ -130,12 +137,19 @@ class _ResetPasswordPageState extends State<ResetPasswordPage> {
           ),
           const SizedBox(height: 16.0),
           PasswordTextFormField(
-            currentFocusNode: _passwordFocusNode,
-            currentController: _passwordTextController,
+            currentFocusNode: _confirmPasswordFocusNode,
+            currentController: _confirmPasswordTextController,
             nextFocusNode: _confirmPasswordFocusNode,
             hint: 'confirm_new_password'.tr(),
             validator: (value) {
-              if (value != _passwordTextController.text) {
+              if (value != _confirmPasswordTextController.text) {
+                return 'passwords_not_match'.tr();
+              }
+              if (value!.isEmpty) {
+                return 'password_required'.tr();
+              }
+              if (_confirmPasswordTextController.text !=
+                  _passwordTextController.text) {
                 return 'passwords_not_match'.tr();
               }
               return null;
@@ -156,4 +170,10 @@ class _ResetPasswordPageState extends State<ResetPasswordPage> {
 
   void _goBackToLoginPage(BuildContext context, bool isSuccess) =>
       NavigatorHelper.of(context).pop(isSuccess);
+  void _goToLoginpage(BuildContext context) {
+    NavigatorHelper.of(context).pushNamedAndRemoveUntil(
+      LoginPage.routeName,
+      (route) => false,
+    );
+  }
 }
