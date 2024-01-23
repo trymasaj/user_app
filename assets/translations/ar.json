@@ -228,6 +228,7 @@
   "msg_health_condititons": "الحالات الصحية",
   "msg_personalize_you": "قم بتخصيص تجربتك",
   "msg_required_for_quests": "(مطلوب للمهمات العمرية 12-17 سنة)",
+  "phone_number_is_required": "رقم الهاتف مطلوب",
   "msg_select_all_the_conditions": "حدد جميع الظروف التي تنطبق عليك حاليًا",
   "msg_what_are_your_treatment": "ما هي أهداف العلاج الخاصة بك؟",
   "lbl_allergies": "الحساسية",
@@ -729,5 +730,6 @@
   "payment_status": "حالة الدفع",
   "reschedule": "إعادة الجدولة",
   "allow_up_to_1_hour": "السماح حتى ساعة واحدة للعلاج للوصول",
-  "therapist_info": "معلومات المعالج"
+  "therapist_info": "معلومات المعالج",
+  "email_or_phone_number_required": "البريد الإلكتروني أو رقم الهاتف مطلوب"
 }

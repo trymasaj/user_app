@@ -63,7 +63,7 @@ class PhoneTextFormField extends StatelessWidget {
               fontWeight: FontWeight.w400,
             ),
             contentPadding: const EdgeInsets.fromLTRB(20, 20, 20, 20),
-            fillColor:  Colors.blueGrey.withOpacity(0.5),
+            fillColor: Colors.blueGrey.withOpacity(0.5),
             filled: true,
             border: OutlineInputBorder(
               borderRadius: BorderRadius.circular(12.0),

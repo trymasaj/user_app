@@ -337,6 +337,7 @@
     "msg_during_your_massage": "During your massage, are there any areas that you would like us to avoid ?",
     "msg_health_condititons": "Health condititons",
     "msg_personalize_you": "Personalize you experience",
+    "phone_number_is_required": "Phone number is required",
     "msg_required_for_quests": "(Required for quests aged 12-17 years)",
     "msg_select_all_the_conditions": "Select all the conditions that currently apply to you",
     "msg_what_are_your_treatment": "What are your treatment goals?",
@@ -840,5 +841,6 @@
     "payment_status": "Payment status",
     "reschedule": "Reschedule",
     "allow_up_to_1_hour": "Allow up to 1 hour for the therapist to reach out",
-    "therapist_info": "Therapist info"
+    "therapist_info": "Therapist info",
+    "email_or_phone_number_required": "Email or phone number is required"
 }
