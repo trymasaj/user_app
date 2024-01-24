@@ -40,14 +40,25 @@
 	</array>
 	<key>CFBundleVersion</key>
 	<string>$(FLUTTER_BUILD_NUMBER)</string>
+	<key>ITSAppUsesNonExemptEncryption</key>
+	<false/>
 	<key>LSRequiresIPhoneOS</key>
 	<true/>
+	<key>NSLocationAlwaysAndWhenInUseUsageDescription</key>
+	<string>This app requires your location to provide personalized recommendations based on your location.</string>
 	<key>NSLocationAlwaysUsageDescription</key>
 	<string>Location permission needed to show location on the map in background</string>
 	<key>NSLocationWhenInUseUsageDescription</key>
 	<string>Location permission needed to show location on the map</string>
+	<key>NSPhotoLibraryUsageDescription</key>
+	<string>This app requires access to the photo library to save images.</string>
 	<key>UIApplicationSupportsIndirectInputEvents</key>
 	<true/>
+	<key>UIBackgroundModes</key>
+	<array>
+		<string>fetch</string>
+		<string>remote-notification</string>
+	</array>
 	<key>UILaunchStoryboardName</key>
 	<string>LaunchScreen</string>
 	<key>UIMainStoryboardFile</key>
@@ -71,13 +82,5 @@
 	<false/>
 	<key>io.flutter.embedded_views_preview</key>
 	<string>YES</string>
-	<key>NSPhotoLibraryUsageDescription</key>
-    <string>This app requires access to the photo library to save images.</string>
-	<key>NSLocationAlwaysAndWhenInUseUsageDescription</key>
-	<string>This app requires your location to provide personalized recommendations based on your location.</string>
-	<key>ITSAppUsesNonExemptEncryption</key>
-	<false/>
-
-
 </dict>
 </plist>
