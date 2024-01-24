@@ -64,14 +64,20 @@ class NotificationService {
   // }
 
   Future<String> getDeviceTokenId() async {
-    if (Platform.isIOS || Platform.isAndroid) {
-      await _requestPermission();
+    //TODO: we need to rempove this try catch and improve error handling
+    try {
+      if (Platform.isIOS || Platform.isAndroid) {
+        await _requestPermission();
 
-      final messaging = FirebaseMessaging.instance;
-      final token = await messaging.getToken();
-      return token!;
-    } else
-      throw Exception('Not supported platform');
+        final messaging = FirebaseMessaging.instance;
+        final token = await messaging.getToken();
+        return token!;
+      } else {
+        throw Exception('Not supported platform');
+      }
+    } on Exception catch (e) {
+      return '';
+    }
   }
 
   Future<void> _requestPermission() async {
