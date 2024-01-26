@@ -23,7 +23,7 @@ class AppColors {
   static const FONT_LIGHT_COLOR = Color.fromRGBO(24, 27, 40, 0.7);
 
   static const SUCCESS_COLOR = Color(0xFF24770F);
-  static const ERROR_COLOR = Color(0xFFB73E53);
+  static const ERROR_COLOR = Color(0xFFDA1414);
 
   //background: #F6F6F6;
   static const ExtraLight = Color(0xFFF6F6F6);

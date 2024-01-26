@@ -13,6 +13,15 @@ class Validator {
       return null;
   }
 
+  String? validateEmailWithoutRequired(String? email) {
+    if (email == null || email.isEmpty) {
+      return null;
+    } else if (_isInvalidEmail(email))
+      return tr('invalid_email_address');
+    else
+      return null;
+  }
+
   bool _isInvalidEmail(String? email) {
     if (email == null) return true;
     final regExp = RegExp(
