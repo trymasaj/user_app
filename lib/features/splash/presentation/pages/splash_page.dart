@@ -46,7 +46,6 @@ class _SplashPageState extends State<SplashPage> {
   @override
   Widget build(BuildContext context) {
     final authCubit = context.read<AuthCubit>();
-    return QuizStartPage();
     return BlocListener<SplashCubit, SplashState>(
       listener: (context, state) {
         if (state.isError) {
