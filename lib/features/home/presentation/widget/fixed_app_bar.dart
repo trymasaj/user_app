@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:masaj/core/presentation/colors/app_colors.dart';
 import 'package:masaj/core/presentation/widgets/stateless/custom_text.dart';
+import 'package:masaj/features/address/presentation/overlay/select_location_bottom_sheet.dart';
 import 'package:masaj/gen/assets.gen.dart';
 
 class FixedAppBar extends StatelessWidget {
@@ -34,44 +35,53 @@ class FixedAppBar extends StatelessWidget {
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 crossAxisAlignment: CrossAxisAlignment.end,
                 children: [
-                  Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    mainAxisAlignment: MainAxisAlignment.end,
-                    children: [
-                      const CustomText(
-                        text: 'location',
-                        fontSize: 14,
-                        fontWeight: FontWeight.w400,
-                        color: Color.fromRGBO(24, 27, 40, .7),
-                      ),
-                      const SizedBox(
-                        height: 5,
-                      ),
-                      Row(
-                        crossAxisAlignment: CrossAxisAlignment.center,
-                        children: [
-                          SvgPicture.asset(
-                            Assets.images.imgFluentLocation48Filled,
-                          ),
-                          const SizedBox(
-                            width: 5,
-                          ),
-                          const Text(
-                            '2131 Street, Kuwait',
-                            style: TextStyle(
-                                fontSize: 14,
-                                fontWeight: FontWeight.w400,
-                                color: AppColors.FONT_COLOR),
-                          ),
-                          const SizedBox(
-                            width: 5,
-                          ),
-                          SvgPicture.asset(
-                            Assets.images.imgArrowDown,
-                          ),
-                        ],
-                      ),
-                    ],
+                  GestureDetector(
+                    onTap: () {
+                      showModalBottomSheet(
+                        context: context,
+                        builder: (context) =>
+                            SelectLocationBottomSheet.builder(context),
+                      );
+                    },
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      mainAxisAlignment: MainAxisAlignment.end,
+                      children: [
+                        const CustomText(
+                          text: 'location',
+                          fontSize: 14,
+                          fontWeight: FontWeight.w400,
+                          color: Color.fromRGBO(24, 27, 40, .7),
+                        ),
+                        const SizedBox(
+                          height: 5,
+                        ),
+                        Row(
+                          crossAxisAlignment: CrossAxisAlignment.center,
+                          children: [
+                            SvgPicture.asset(
+                              Assets.images.imgFluentLocation48Filled,
+                            ),
+                            const SizedBox(
+                              width: 5,
+                            ),
+                            const Text(
+                              '2131 Street, Kuwait',
+                              style: TextStyle(
+                                  fontSize: 14,
+                                  fontWeight: FontWeight.w400,
+                                  color: AppColors.FONT_COLOR),
+                            ),
+                            const SizedBox(
+                              width: 5,
+                            ),
+                            SvgPicture.asset(
+                              Assets.images.imgArrowDown,
+                            ),
+                          ],
+                        ),
+                      ],
+                    ),
                   ),
                   Row(
                     crossAxisAlignment: CrossAxisAlignment.start,

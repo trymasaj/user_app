@@ -8,7 +8,7 @@ import 'package:masaj/core/presentation/widgets/stateless/custom_app_page.dart';
 import 'package:masaj/core/presentation/widgets/stateless/custom_radio_list_tile.dart';
 import 'package:masaj/core/presentation/widgets/stateless/custom_text.dart';
 import 'package:masaj/core/presentation/widgets/stateless/default_button.dart';
-import 'package:masaj/features/address/pages/select_location_screen.dart';
+import 'package:masaj/features/address/presentation/pages/select_location_screen.dart';
 import 'package:masaj/features/auth/presentation/pages/login_page.dart';
 
 import 'package:masaj/features/intro/presentation/blocs/choose_language_cubit/choose_language_cubit.dart';

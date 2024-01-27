@@ -164,7 +164,7 @@ class ThemeHelper {
 class TextThemes {
   static TextTheme textTheme(ColorScheme colorScheme) => TextTheme(
         bodyLarge: TextStyle(
-          color: appTheme.gray5001.withOpacity(0.7),
+          color: Colors.black,
           fontSize: 16.fSize,
           fontFamily: 'Poppins',
           fontWeight: FontWeight.w400,

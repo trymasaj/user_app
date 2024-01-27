@@ -5,7 +5,7 @@ import 'package:collection/collection.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:injectable/injectable.dart';
 import 'package:masaj/core/domain/enums/show_case_displayed_page.dart';
-import 'package:masaj/features/address/entities/country.dart';
+import 'package:masaj/features/address/domain/entities/country.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 abstract class CacheService {

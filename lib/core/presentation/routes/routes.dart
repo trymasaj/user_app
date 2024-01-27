@@ -5,9 +5,11 @@ import 'package:masaj/features/account/pages/create_new_password_screen.dart';
 import 'package:masaj/features/account/pages/manage_members_screen.dart';
 import 'package:masaj/features/account/pages/my_profile_screen.dart';
 import 'package:masaj/features/account/pages/phone_screen.dart';
-import 'package:masaj/features/address/pages/add_new_address_screen.dart';
-import 'package:masaj/features/address/pages/map_location_picker.dart';
-import 'package:masaj/features/address/pages/select_location_screen.dart';
+import 'package:masaj/features/address/application/blocs/add_new_address_bloc/update_address_bloc.dart';
+import 'package:masaj/features/address/presentation/pages/address_page.dart';
+import 'package:masaj/features/address/presentation/pages/update_address_screen.dart';
+import 'package:masaj/features/address/presentation/pages/map_location_picker.dart';
+import 'package:masaj/features/address/presentation/pages/select_location_screen.dart';
 import 'package:masaj/features/auth/presentation/pages/change_password_page.dart';
 import 'package:masaj/features/auth/presentation/pages/edit_user_info_page.dart';
 import 'package:masaj/features/auth/presentation/pages/email_verification_page.dart';
@@ -31,46 +33,106 @@ import 'package:masaj/features/splash/presentation/pages/splash_page.dart';
 import 'package:masaj/features/wallet/pages/top_up_wallet_screen.dart';
 import 'package:masaj/features/wallet/pages/wallet_screen.dart';
 
-final routes = <String, WidgetBuilder>{
-  SplashPage.routeName: (context) => const SplashPage(),
-  OTPVerificationPage.routeName: (context) => const OTPVerificationPage(),
-  MapLocationPicker.routeName: (context) => MapLocationPicker.builder(context),
-  QuizStartPage.routeName: (context) => const QuizStartPage(),
-  BookingDetialsScreen.routeName: (context) => const BookingDetialsScreen(),
-  GuidePage.routeName: (context) => const GuidePage(),
-  LoginPage.routeName: (context) => const LoginPage(),
-  SignUpPage.routeName: (context) => const SignUpPage(),
-  ForgetPasswordPage.routeName: (context) => const ForgetPasswordPage(),
-  ChangePasswordPage.routeName: (context) => const ChangePasswordPage(),
-  SelectLocationScreen.routeName: (context) =>
-      SelectLocationScreen.builder(context),
-  EditUserInfoPage.routeName: (context) => const EditUserInfoPage(),
-  ChooseLanguagePage.routeName: (context) => const ChooseLanguagePage(),
-  EmailVerificationPage.routeName: (context) => const EmailVerificationPage(),
-  HomePage.routeName: (context) => const HomePage(),
-  LegalScreen.routeName: (context) => LegalScreen.builder(context),
-  PrivacyPolicyScreen.routeName: (context) =>
-      PrivacyPolicyScreen.builder(context),
-  TermsAndCondititonsScreen.routeName: (context) =>
-      TermsAndCondititonsScreen.builder(context),
-  ReschedulePolicyScreen.routeName: (context) =>
-      ReschedulePolicyScreen.builder(context),
-  CancellationPolicyScreen.routeName: (context) =>
-      CancellationPolicyScreen.builder(context),
-  WalletScreen.routeName: (context) => WalletScreen.builder(context),
-  MedicalFormScreen.routeName: (context) => MedicalFormScreen.builder(context),
-  ManageMembersScreen.routeName: (context) =>
-      ManageMembersScreen.builder(context),
-  // AddMemberScreen.routeName: (context) => AddMemberScreen.builder(context),
-  AddNewAddressScreen.routeName: (context) =>
-      AddNewAddressScreen.builder(context),
-  ConditionsScreen.routeName: (context) => ConditionsScreen.builder(context),
-  TopUpWalletScreen.routeName: (context) => TopUpWalletScreen.builder(context),
-  VerificationCodeScreen.routeName: (context) =>
-      VerificationCodeScreen.builder(context),
-  PhoneScreen.routeName: (context) => PhoneScreen.builder(context),
-  AccountScreen.routeName: (context) => AccountScreen.builder(context),
-  CreateNewPasswordScreen.routeName: (context) =>
-      CreateNewPasswordScreen.builder(context),
-  MyProfileScreen.routeName: (context) => MyProfileScreen.builder(context),
-};
+Route<dynamic>? onGenerateRoute(RouteSettings settings) {
+  final arguments = settings.arguments;
+  final name = settings.name;
+  switch (name) {
+    case SplashPage.routeName:
+      return MaterialPageRoute(builder: (context) => const SplashPage());
+    case OTPVerificationPage.routeName:
+      return MaterialPageRoute(
+          builder: (context) => const OTPVerificationPage());
+    case MapLocationPicker.routeName:
+      return MaterialPageRoute(
+          builder: (context) => MapLocationPicker.builder(
+                arguments as MapLocationPickerArguments,
+              ));
+    case AddressPage.routeName:
+      return MaterialPageRoute(builder: (context) => AddressPage());
+
+    case QuizStartPage.routeName:
+      return MaterialPageRoute(builder: (context) => const QuizStartPage());
+    case BookingDetialsScreen.routeName:
+      return MaterialPageRoute(
+          builder: (context) => const BookingDetialsScreen());
+    case GuidePage.routeName:
+      return MaterialPageRoute(builder: (context) => const GuidePage());
+    case LoginPage.routeName:
+      return MaterialPageRoute(builder: (context) => const LoginPage());
+    case SignUpPage.routeName:
+      return MaterialPageRoute(builder: (context) => const SignUpPage());
+    case ForgetPasswordPage.routeName:
+      return MaterialPageRoute(
+          builder: (context) => const ForgetPasswordPage());
+    case ChangePasswordPage.routeName:
+      return MaterialPageRoute(
+          builder: (context) => const ChangePasswordPage());
+    case SelectLocationScreen.routeName:
+      return MaterialPageRoute(
+          builder: (context) => SelectLocationScreen.builder(context));
+    case EditUserInfoPage.routeName:
+      return MaterialPageRoute(builder: (context) => const EditUserInfoPage());
+    case ChooseLanguagePage.routeName:
+      return MaterialPageRoute(
+          builder: (context) => const ChooseLanguagePage());
+    case EmailVerificationPage.routeName:
+      return MaterialPageRoute(
+          builder: (context) => const EmailVerificationPage());
+    case HomePage.routeName:
+      return MaterialPageRoute(builder: (context) => const HomePage());
+    case LegalScreen.routeName:
+      return MaterialPageRoute(
+          builder: (context) => LegalScreen.builder(context));
+    case PrivacyPolicyScreen.routeName:
+      return MaterialPageRoute(
+          builder: (context) => PrivacyPolicyScreen.builder(context));
+    case TermsAndCondititonsScreen.routeName:
+      return MaterialPageRoute(
+          builder: (context) => TermsAndCondititonsScreen.builder(context));
+    case ReschedulePolicyScreen.routeName:
+      return MaterialPageRoute(
+          builder: (context) => ReschedulePolicyScreen.builder(context));
+    case CancellationPolicyScreen.routeName:
+      return MaterialPageRoute(
+          builder: (context) => CancellationPolicyScreen.builder(context));
+    case WalletScreen.routeName:
+      return MaterialPageRoute(
+          builder: (context) => WalletScreen.builder(context));
+    case MedicalFormScreen.routeName:
+      return MaterialPageRoute(
+          builder: (context) => MedicalFormScreen.builder(context));
+    case ManageMembersScreen.routeName:
+      return MaterialPageRoute(
+          builder: (context) => ManageMembersScreen.builder(context));
+    // case AddMemberScreen.routeName:
+    //   return MaterialPageRoute(builder: (context) => AddMemberScreen.builder(context));
+    case UpdateAddressScreen.routeName:
+      return MaterialPageRoute(
+          builder: (context) => UpdateAddressScreen.builder(
+                arguments as UpdateAddressArguments,
+              ));
+    case ConditionsScreen.routeName:
+      return MaterialPageRoute(
+          builder: (context) => ConditionsScreen.builder(context));
+    case TopUpWalletScreen.routeName:
+      return MaterialPageRoute(
+          builder: (context) => TopUpWalletScreen.builder(context));
+    case VerificationCodeScreen.routeName:
+      return MaterialPageRoute(
+          builder: (context) => VerificationCodeScreen.builder(context));
+    case PhoneScreen.routeName:
+      return MaterialPageRoute(
+          builder: (context) => PhoneScreen.builder(context));
+    case AccountScreen.routeName:
+      return MaterialPageRoute(
+          builder: (context) => AccountScreen.builder(context));
+    case CreateNewPasswordScreen.routeName:
+      return MaterialPageRoute(
+          builder: (context) => CreateNewPasswordScreen.builder(context));
+    case MyProfileScreen.routeName:
+      return MaterialPageRoute(
+          builder: (context) => MyProfileScreen.builder(context));
+
+    default:
+  }
+}

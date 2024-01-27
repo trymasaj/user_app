@@ -1,7 +1,7 @@
 import 'package:masaj/core/data/clients/cache_service.dart';
 import 'package:masaj/features/auth/domain/entities/user.dart';
 
-import '../../../address/entities/country.dart';
+import '../../../address/domain/entities/country.dart';
 
 abstract class AuthLocalDataSource {
   Future<bool> checkUserDataExist();

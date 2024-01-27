@@ -23,8 +23,8 @@ import 'package:masaj/features/account/presentation/blocs/favorites_cubit/favori
 import 'package:masaj/features/account/presentation/blocs/more_tab_cubit/more_tab_cubit.dart';
 import 'package:masaj/features/account/presentation/blocs/points_cubit/points_cubit.dart';
 import 'package:masaj/features/account/presentation/blocs/topics_cubit/topics_cubit.dart';
-import 'package:masaj/features/address/bloc/map_location_picker_cubit/map_location_picker_cubit.dart';
-import 'package:masaj/features/address/repos/address_repo.dart';
+import 'package:masaj/features/address/application/blocs/map_location_picker_cubit/map_location_picker_cubit.dart';
+import 'package:masaj/features/address/infrastructure/repos/address_repo.dart';
 import 'package:masaj/features/auth/data/datasources/auth_local_datasource.dart';
 import 'package:masaj/features/auth/data/datasources/auth_remote_datasource.dart';
 import 'package:masaj/features/auth/data/repositories/auth_repository.dart';
@@ -60,12 +60,7 @@ class Injector {
     return Future.wait([sharedPreferenceLocalClient.init()]);
   }
 
-  //===================[WALLLET_CUBIT]===================
-  MapLocationPickerCubit get mapLocationBloc =>
-      MapLocationPickerCubit(addressRepo);
 
-  AddressRepo get addressRepo =>
-      _flyweightMap['addressRepo'] ?? AddressRepo(networkService, cacheService);
 
   //===================[SPLASH_CUBIT]===================
   SplashCubit get splashCubit => SplashCubit(
@@ -233,8 +228,8 @@ class Injector {
   ShareService get shareService =>
       _flyweightMap['shareService'] ??= ShareServiceImpl();
 
-  LocationHelper get locationHelper =>
-      _flyweightMap['locationHelper'] ??= LocationHelperImpl();
+  DeviceLocation get locationHelper =>
+      _flyweightMap['locationHelper'] ??= DeviceLocationImpl();
 
   ShowCaseHelper get showCaseHelper =>
       _flyweightMap['showCaseHelper'] ??= ShowCaseHelper(cacheService);

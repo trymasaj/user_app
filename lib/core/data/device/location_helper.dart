@@ -1,9 +1,10 @@
 import 'dart:async';
 
 import 'package:geolocator/geolocator.dart';
+import 'package:injectable/injectable.dart';
 import 'package:masaj/core/domain/exceptions/location_permission_not_granted_exception.dart';
 
-abstract class LocationHelper {
+abstract class DeviceLocation {
   Future<Position?> getMyLocation();
 
   Future<bool> isLocationServiceEnabled();
@@ -26,7 +27,8 @@ abstract class LocationHelper {
   });
 }
 
-class LocationHelperImpl extends LocationHelper {
+@LazySingleton(as: DeviceLocation)
+class DeviceLocationImpl extends DeviceLocation {
   @override
   Future<Position?> getMyLocation() async {
     LocationPermission? permission;
