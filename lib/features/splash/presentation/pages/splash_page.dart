@@ -18,6 +18,7 @@ import 'package:masaj/features/auth/presentation/pages/email_verification_page.d
 import 'package:masaj/features/auth/presentation/pages/sign_up_page.dart';
 import 'package:masaj/features/intro/presentation/pages/choose_language_page.dart';
 import 'package:masaj/features/intro/presentation/pages/guide_page.dart';
+import 'package:masaj/features/quiz/presentation/pages/quiz_page.dart';
 import 'package:masaj/features/quiz/presentation/pages/quiz_start_page.dart';
 import 'package:masaj/features/splash/presentation/splash_cubit/splash_cubit.dart';
 
@@ -45,6 +46,7 @@ class _SplashPageState extends State<SplashPage> {
   @override
   Widget build(BuildContext context) {
     final authCubit = context.read<AuthCubit>();
+    return QuizStartPage();
     return BlocListener<SplashCubit, SplashState>(
       listener: (context, state) {
         if (state.isError) {

@@ -25,7 +25,6 @@ class _QuizPageState extends State<QuizPage> {
   void didChangeDependencies() {
     // TODO: implement didChangeDependencies
     super.didChangeDependencies();
-    FocusScope.of(context).unfocus();
   }
 
   @override
@@ -66,38 +65,43 @@ class _QuizPageState extends State<QuizPage> {
                   ),
                   Padding(
                     padding: EdgeInsets.symmetric(horizontal: 24.w),
-                    child: Column(
-                      children: [
-                        SizedBox(height: 19.h),
-                        _buildTopSection(context),
-                        SizedBox(height: 25.h),
-                        _buildDotIndicator(context),
-                        SizedBox(height: 33.h),
-                        IndexedStack(
-                          index: state.questionIndex,
-                          children: questions
-                              .mapIndexed((index, e) => QuestionCard(
-                                    isSomethingElse: e.selectedAnswer.fold(
-                                        () => false, (a) => a.isSomethingElse),
-                                    isLastQuestion:
-                                        index == questions.length - 1,
-                                    onBack: state.questionIndex == 0
-                                        ? null
-                                        : () => cubit.onBackButtonPressed(),
-                                    onChanged: cubit.onAnswerSelected,
-                                    question: e,
-                                    onNextPressed: (question) =>
-                                        cubit.onNextPressed(
-                                            context
-                                                .read<AuthCubit>()
-                                                .state
-                                                .user!
-                                                .id!,
-                                            question),
-                                  ))
-                              .toList(),
-                        ),
-                      ],
+                    child: SingleChildScrollView(
+                      child: Column(
+                        children: [
+                          SizedBox(height: 19.h),
+                          _buildTopSection(context),
+                          SizedBox(height: 25.h),
+                          _buildDotIndicator(context),
+                          SizedBox(height: 33.h),
+                          IndexedStack(
+                            index: state.questionIndex,
+                            children: questions
+                                .mapIndexed((index, e) => QuestionCard(
+                                      onChangedSomethingElse: (value) =>
+                                          cubit.onChangedSomethingElse(value),
+                                      isSomethingElse: e.selectedAnswer.fold(
+                                          () => false,
+                                          (a) => a.isSomethingElse),
+                                      isLastQuestion:
+                                          index == questions.length - 1,
+                                      onBack: state.questionIndex == 0
+                                          ? null
+                                          : () => cubit.onBackButtonPressed(),
+                                      onChanged: cubit.onAnswerSelected,
+                                      question: e,
+                                      onNextPressed: (question) =>
+                                          cubit.onNextPressed(
+                                              context
+                                                  .read<AuthCubit>()
+                                                  .state
+                                                  .user!
+                                                  .id!,
+                                              question),
+                                    ))
+                                .toList(),
+                          ),
+                        ],
+                      ),
                     ),
                   ),
                 ],

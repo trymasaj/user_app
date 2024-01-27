@@ -17,7 +17,6 @@ class QuizPageCubit extends BaseCubit<QuizPageState> {
     try {
       await _repo.submitQuiz(userId, state.questions);
       emit(state.copyWith(result: QuizSubmitResult.success));
-      
     } catch (e) {
       emit(state.copyWith(result: QuizSubmitResult.failed));
       rethrow;
@@ -32,7 +31,7 @@ class QuizPageCubit extends BaseCubit<QuizPageState> {
   void updateQuestionIndex(int questionIndex) =>
       emit(state.copyWith(questionIndex: questionIndex));
 
-  void onNextPressed(String userId,Question question) {
+  void onNextPressed(String userId, Question question) {
     if (state.questionIndex == state.questions.questions.length - 1) {
       submitQuiz(userId);
     } else {
@@ -51,5 +50,14 @@ class QuizPageCubit extends BaseCubit<QuizPageState> {
     if (state.questionIndex != 0) {
       updateQuestionIndex(state.questionIndex - 1);
     }
+  }
+
+  onChangedSomethingElse(String value) {
+    final questions = state.questions.questions;
+    questions[state.questionIndex] = questions[state.questionIndex].copyWith(
+        selectedAnswer: some(Answer.someThingElse().copyWith(
+      content: value,
+    )));
+    emit(state.copyWith(questions: Questions(questions: questions)));
   }
 }
