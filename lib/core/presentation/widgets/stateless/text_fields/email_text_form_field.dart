@@ -1,4 +1,5 @@
 import 'package:easy_localization/easy_localization.dart';
+import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:masaj/core/data/validator/validator.dart';
 import 'package:masaj/core/presentation/widgets/stateless/text_fields/main_text_form_field.dart';
@@ -11,6 +12,7 @@ class EmailTextFormField extends MainTextFormField {
     required super.currentController,
     super.margin = null,
     super.enabled,
+    required super.prefixIcon,
   }) : super(
             validator: Validator().validateEmail,
             hintText: 'email_address'.tr(),

@@ -208,6 +208,8 @@ class _LoginPageState extends State<LoginPage> {
                   currentFocusNode: emailFocusNode,
                   //hint: 'email'.tr(),
                   margin: const EdgeInsets.all(8.0),
+                  prefixIcon:
+                      buildImage(ImageConstant.imgCheckmarkBlueGray40001),
                 ),
 
                 DefaultButton(
@@ -224,6 +226,18 @@ class _LoginPageState extends State<LoginPage> {
           ),
         );
       },
+    );
+  }
+
+  Padding buildImage(String imagePath) {
+    return Padding(
+      padding: EdgeInsets.fromLTRB(18.w, 17.h, 10.w, 19.h),
+      child: CustomImageView(
+        imagePath: imagePath,
+        height: 20.h,
+        width: 20.w,
+        color: appTheme.blueGray40001,
+      ),
     );
   }
 
@@ -298,7 +312,7 @@ class _LoginPageState extends State<LoginPage> {
           PhoneTextFormField(
             currentController: _phoneNumberConttroleer,
             currentFocusNode: _phoneFocusNode,
-            nextFocusNode: null,
+            nextFocusNode: _passwordFocusNode,
             initialValue: _phoneNumber,
             onInputChanged: (value) => _phoneNumber = value,
           ),

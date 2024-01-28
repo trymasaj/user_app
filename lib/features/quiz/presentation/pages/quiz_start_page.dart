@@ -117,8 +117,10 @@ class QuizStartPage extends StatelessWidget {
       backgroundColor: Colors.transparent,
       color: Colors.transparent,
       onPressed: () {
-        cubit.skipQuiz();
-        AuthCubit authCubit = context.read<AuthCubit>();
+        final authCubit = context.read<AuthCubit>();
+        final userId = authCubit.state.user?.id;
+        if (userId != null) cubit.skipQuiz(userId);
+
         authCubit.submitQuizAnsewerd();
       },
     );

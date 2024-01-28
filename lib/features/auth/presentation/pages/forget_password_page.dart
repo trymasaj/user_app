@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:intl_phone_field/phone_number.dart';
 import 'package:masaj/core/app_export.dart';
+import 'package:masaj/core/data/validator/validator.dart';
 import 'package:masaj/core/presentation/colors/app_colors.dart';
 import 'package:masaj/core/presentation/navigation/navigator_helper.dart';
 import 'package:masaj/core/presentation/overlay/show_snack_bar.dart';
@@ -9,6 +10,7 @@ import 'package:masaj/core/presentation/widgets/stateless/back_button.dart';
 import 'package:masaj/core/presentation/widgets/stateless/custom_app_page.dart';
 import 'package:masaj/core/presentation/widgets/stateless/custom_text.dart';
 import 'package:masaj/core/presentation/widgets/stateless/default_button.dart';
+import 'package:masaj/core/presentation/widgets/stateless/text_fields/default_text_form_field.dart';
 import 'package:masaj/core/presentation/widgets/stateless/text_fields/email_text_form_field.dart';
 import 'package:masaj/core/presentation/widgets/stateless/text_fields/phone_number_text_field.dart';
 import 'package:masaj/features/auth/application/auth_cubit/auth_cubit.dart';
@@ -24,7 +26,8 @@ class ForgetPasswordPage extends StatefulWidget {
 }
 
 class _ForgetPasswordPageState extends State<ForgetPasswordPage> {
-  late final GlobalKey<FormState> _formKey;
+  late final GlobalKey<FormState> _emailFormKey;
+  late final GlobalKey<FormState> _phoneFormKey;
   late final TextEditingController _emailTextController;
   late final FocusNode _emailFocusNode;
   late final TextEditingController _phoneNumberController;
@@ -34,19 +37,33 @@ class _ForgetPasswordPageState extends State<ForgetPasswordPage> {
 
   @override
   void initState() {
-    _formKey = GlobalKey<FormState>();
+    super.initState();
+
+    _emailFormKey = GlobalKey<FormState>();
+    _phoneFormKey = GlobalKey<FormState>();
     _emailTextController = TextEditingController();
     _emailFocusNode = FocusNode();
     _phoneNumberController = TextEditingController();
     _phoneFocusNode = FocusNode();
-    super.initState();
+
+    // Add listeners
+    _emailTextController.addListener(_onFieldChanged);
+    _phoneNumberController.addListener(_onFieldChanged);
   }
 
   @override
   void dispose() {
+    _emailTextController.removeListener(_onFieldChanged);
     _emailTextController.dispose();
     _emailFocusNode.dispose();
+    _phoneNumberController.removeListener(_onFieldChanged);
+    _phoneNumberController.dispose();
+    _phoneFocusNode.dispose();
     super.dispose();
+  }
+
+  void _onFieldChanged() {
+    setState(() {});
   }
 
   @override
@@ -119,38 +136,76 @@ class _ForgetPasswordPageState extends State<ForgetPasswordPage> {
   }
 
   Widget _buildForm() {
-    return Form(
-      key: _formKey,
-      autovalidateMode: _isAutoValidating
-          ? AutovalidateMode.onUserInteraction
-          : AutovalidateMode.disabled,
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.stretch,
-        children: [
-          PhoneTextFormField(
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.stretch,
+      children: [
+        Form(
+          key: _phoneFormKey,
+          autovalidateMode: _isAutoValidating
+              ? AutovalidateMode.onUserInteraction
+              : AutovalidateMode.disabled,
+          child: PhoneTextFormField(
+            isEnabled: _emailTextController.text.trim().isEmpty,
             currentController: _phoneNumberController,
             currentFocusNode: _phoneFocusNode,
             nextFocusNode: null,
             initialValue: _phoneNumber,
             onInputChanged: (value) => _phoneNumber = value,
           ),
-          const SizedBox(height: 12.0),
-          _buildVerticalLineSplittedWithORText(context),
-          const SizedBox(height: 12.0),
-          EmailTextFormField(
+        ),
+        const SizedBox(height: 12.0),
+        _buildVerticalLineSplittedWithORText(context),
+        const SizedBox(height: 12.0),
+        Form(
+          key: _emailFormKey,
+          autovalidateMode: _isAutoValidating
+              ? AutovalidateMode.onUserInteraction
+              : AutovalidateMode.disabled,
+          child: DefaultTextFormField(
+            enabled: _phoneNumberController.text.trim().isEmpty,
             currentFocusNode: _emailFocusNode,
             currentController: _emailTextController,
+            prefixIcon: buildImage(ImageConstant.imgCheckmarkBlueGray40001),
+            hint: 'email_address'.tr(),
+            validator: Validator().validateEmailWithoutRequired,
           ),
-        ],
+        ),
+      ],
+    );
+  }
+
+  Padding buildImage(String imagePath) {
+    return Padding(
+      padding: EdgeInsets.fromLTRB(18.w, 17.h, 10.w, 19.h),
+      child: CustomImageView(
+        imagePath: imagePath,
+        height: 20.h,
+        width: 20.w,
+        color: appTheme.blueGray40001,
       ),
     );
   }
 
   bool _isNotValid() {
-    if (_emailTextController.text.trim().isEmpty &&
-        _phoneNumberController.text.trim().isEmpty) {
+    bool isEmailEmpty = _emailTextController.text.trim().isEmpty;
+    bool isPhoneEmpty = _phoneNumberController.text.trim().isEmpty;
+
+    if (isEmailEmpty && isPhoneEmpty) {
       showSnackBar(context, message: 'email_or_phone_number_required'.tr());
       return true;
+    }
+    if (!isEmailEmpty) {
+      if (!_emailFormKey.currentState!.validate()) {
+        setState(() => _isAutoValidating = true);
+        return true;
+      }
+    }
+
+    if (!isPhoneEmpty) {
+      if (!_phoneFormKey.currentState!.validate()) {
+        setState(() => _isAutoValidating = true);
+        return true;
+      }
     }
 
     return false;

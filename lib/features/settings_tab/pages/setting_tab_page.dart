@@ -105,12 +105,12 @@ class SettingsTabPage extends StatelessWidget {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   mainAxisSize: MainAxisSize.max,
                   children: [
-                    CustomImageView(
-                        imagePath: ImageConstant.imgRectangle4236,
-                        height: 60.adaptSize,
-                        width: 60.adaptSize,
-                        radius: BorderRadius.circular(8.w),
-                        margin: EdgeInsets.only(top: 4.h, bottom: 5.h)),
+                    // CustomImageView(
+                    //     imagePath: ImageConstant.imgRectangle4236,
+                    //     height: 60.adaptSize,
+                    //     width: 60.adaptSize,
+                    //     radius: BorderRadius.circular(8.w),
+                    //     margin: EdgeInsets.only(top: 4.h, bottom: 5.h)),
                     Padding(
                         padding: EdgeInsets.only(left: 16.w, bottom: 2.h),
                         child: Column(

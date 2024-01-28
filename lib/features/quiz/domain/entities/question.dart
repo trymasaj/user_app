@@ -97,4 +97,14 @@ class Answer with EquatableMixin {
 
   factory Answer.someThingElse() =>
       Answer(id: '8', content: 'question3_answer3');
+
+  Answer copyWith({
+    String? content,
+    String? id,
+  }) {
+    return Answer(
+      content: content ?? this.content,
+      id: id ?? this.id,
+    );
+  }
 }

@@ -9,9 +9,11 @@ class QuestionCard extends StatefulWidget {
       required this.question,
       required this.isLastQuestion,
       required this.onNextPressed,
+      required this.onChangedSomethingElse,
       required this.isSomethingElse,
       required this.onBack,
       required this.onChanged});
+  final ValueChanged<String> onChangedSomethingElse;
 
   final Question question;
   final void Function(Question question) onNextPressed;
@@ -72,6 +74,7 @@ class _QuestionCardState extends State<QuestionCard> {
               Column(
                 children: [
                   TextField(
+                    onChanged: widget.onChangedSomethingElse,
                       style: const TextStyle(color: Colors.black),
                       decoration: InputDecoration(
                         hintStyle: CustomTextStyles.bodyMediumBluegray40001_1,

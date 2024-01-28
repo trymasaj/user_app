@@ -12,6 +12,9 @@ import 'package:masaj/core/presentation/widgets/stateful/password_text_field.dar
 import 'package:masaj/core/presentation/widgets/stateless/custom_chip.dart';
 import 'package:masaj/core/presentation/widgets/stateless/custom_text.dart';
 import 'package:masaj/core/presentation/widgets/stateless/default_button.dart';
+import 'package:masaj/core/presentation/widgets/stateless/text_fields/default_text_form_field.dart';
+import 'package:masaj/core/presentation/widgets/stateless/text_fields/email_text_form_field.dart';
+import 'package:masaj/core/presentation/widgets/stateless/text_fields/password_text_form_field.dart';
 import 'package:masaj/core/presentation/widgets/stateless/text_fields/phone_number_text_field.dart';
 import 'package:masaj/features/auth/presentation/pages/login_page.dart';
 import 'package:masaj/features/auth/presentation/pages/otp_verification_page.dart';
@@ -19,7 +22,6 @@ import 'package:masaj/features/auth/presentation/pages/otp_verification_page.dar
 import 'package:masaj/features/home/presentation/pages/home_page.dart';
 import 'package:masaj/features/auth/domain/entities/user.dart';
 import 'package:masaj/features/auth/application/auth_cubit/auth_cubit.dart';
-import 'package:video_player/video_player.dart';
 
 class SignUpPage extends StatefulWidget {
   static const routeName = '/SignUp';
@@ -84,6 +86,7 @@ class _SignUpPageState extends State<SignUpPage> {
 
   @override
   Widget build(BuildContext context) {
+    final topPadding = MediaQuery.of(context).padding.top;
     return BlocListener<AuthCubit, AuthState>(
       listener: (context, state) {
         if (state.isError) {
@@ -104,29 +107,32 @@ class _SignUpPageState extends State<SignUpPage> {
         }
       },
       child: Scaffold(
-        body: SingleChildScrollView(
-          child: _buildBody(context),
+        body: Padding(
+          padding: EdgeInsets.only(top: topPadding),
+          child: SingleChildScrollView(
+            child: _buildBody(context),
+          ),
         ),
       ),
     );
   }
 
   Widget _buildBody(BuildContext context) {
-    final mediaQuery = MediaQuery.of(context);
-    final topPadding = mediaQuery.padding.top;
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 20.0),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          SizedBox(height: topPadding + 20.h),
-          const CustomText(
-            text: 'create_an_account',
+          SizedBox(height: 20.h),
+          CustomText(
+            text: widget.isFromSocial ? 'one_more_step' : 'create_an_account',
             fontSize: 20.0,
             fontWeight: FontWeight.w600,
           ),
-          SizedBox(height: 6.0.h),
-          if (!widget.isFromSocial) _buildHaveAccountRow(context),
+          if (!widget.isFromSocial) ...[
+            SizedBox(height: 6.0.h),
+            _buildHaveAccountRow(context),
+          ],
           _buildSignUpForm(),
           _buildGenderRow(context),
           SizedBox(
@@ -172,156 +178,107 @@ class _SignUpPageState extends State<SignUpPage> {
   }
 
   Widget _buildForm() {
-    const style = TextStyle(
-      fontSize: 14.0,
-      fontFamily: 'Poppins',
-      color: Colors.black,
-      fontWeight: FontWeight.w400,
-    );
-    final border = OutlineInputBorder(
-      borderRadius: BorderRadius.circular(12.w),
-      borderSide: BorderSide.none,
-    );
-    final constraints = BoxConstraints(
-      maxHeight: 56.h,
-    );
-    final contentPadding =
-        EdgeInsets.only(top: 17.h, right: 30.w, bottom: 17.h);
-
-    return Theme(
-      data: Theme.of(context).copyWith(
-        inputDecorationTheme: InputDecorationTheme(
-          contentPadding: const EdgeInsets.symmetric(
-            vertical: 17.0,
-            horizontal: 30.0,
-          ),
-          fillColor: appTheme.gray5001,
-          border: border,
-          constraints: BoxConstraints(
-            minHeight: 56.h,
-          ),
-          prefixIconColor: appTheme.blueGray40001,
-          filled: true,
-          hintStyle: CustomTextStyles.bodyMediumBluegray40001_1,
-        ),
-      ),
-      child: Form(
-        key: _formKey,
-        autovalidateMode: _isAutoValidating
-            ? AutovalidateMode.onUserInteraction
-            : AutovalidateMode.disabled,
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.stretch,
-          children: [
-            TextFormField(
-              validator: Validator().validateEmptyField,
-              focusNode: _fullNameFocusNode,
-              controller: _fullNameTextController,
-              style: style,
-              decoration: InputDecoration(
-                  prefixIconConstraints: constraints,
-                  prefixIcon: buildImage(ImageConstant.imgLock),
-                  hintText: 'lbl_name'.tr(),
-                  contentPadding: contentPadding),
+    return Form(
+      key: _formKey,
+      autovalidateMode: _isAutoValidating
+          ? AutovalidateMode.onUserInteraction
+          : AutovalidateMode.disabled,
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.stretch,
+        children: [
+          if (!widget.isFromSocial) ...[
+            DefaultTextFormField(
+              isRequired: true,
+              currentFocusNode: _fullNameFocusNode,
+              currentController: _fullNameTextController,
+              nextFocusNode: _emailFocusNode,
+              hint: 'lbl_name',
+              prefixIcon: buildImage(ImageConstant.imgLock),
             ),
             SizedBox(height: 18.h),
-            TextFormField(
-              controller: _emailTextController,
-              validator: (value) {
-                if (value == null || (!isValidEmail(value, isRequired: true))) {
-                  return 'err_msg_please_enter_valid_email'.tr();
-                }
-                return null;
-              },
-              focusNode: _emailFocusNode,
-              style: style,
-              decoration: InputDecoration(
-                  prefixIconConstraints: constraints,
-                  prefixIcon:
-                      buildImage(ImageConstant.imgCheckmarkBlueGray40001),
-                  hintText: 'lbl_email'.tr(),
-                  contentPadding: contentPadding),
+            EmailTextFormField(
+              currentController: _emailTextController,
+              currentFocusNode: _emailFocusNode,
+              nextFocusNode: _phoneFocusNode,
+              prefixIcon: buildImage(ImageConstant.imgCheckmarkBlueGray40001),
             ),
             SizedBox(height: 18.h),
-            PhoneTextFormField(
-              currentController: _phoneTextController,
-              currentFocusNode: _phoneFocusNode,
-              nextFocusNode: null,
-              initialValue: _phoneNumber,
-              onInputChanged: (value) => _phoneNumber = value,
-            ),
-            const SizedBox(height: 18.0),
-            TextFormField(
-              readOnly: true,
-              style: style,
-              onTap: () async {
-                final initialDate = _birthDateTextController.text.isNotEmpty
-                    ? _birthDateTextController.text.parseDate()
-                    : DateTime.now();
-                final pickedDate = await showDatePicker(
-                    context: context,
-                    initialDate: initialDate,
-                    firstDate:
-                        DateTime.now().subtract(const Duration(days: 43800)),
-                    lastDate: DateTime.now(),
-                    builder: (context, child) {
-                      return Theme(
-                        data: ThemeData.light().copyWith(
-                          colorScheme: const ColorScheme.light(
-                            primary: AppColors.PRIMARY_COLOR,
-                          ),
+          ],
+          PhoneTextFormField(
+            currentController: _phoneTextController,
+            currentFocusNode: _phoneFocusNode,
+            nextFocusNode: _birthDateFocusNode,
+            initialValue: _phoneNumber,
+            onInputChanged: (value) => _phoneNumber = value,
+          ),
+          const SizedBox(height: 18.0),
+          DefaultTextFormField(
+            isRequired: true,
+            readOnly: true,
+            currentFocusNode: _birthDateFocusNode,
+            currentController: _birthDateTextController,
+            nextFocusNode: _passwordFocusNode,
+            hint: 'lbl_birth_date',
+            prefixIcon: buildImage(ImageConstant.imgCalendar),
+            suffixIcon: buildImage(ImageConstant.imgCalendar),
+            onTap: () async {
+              final initialDate = _birthDateTextController.text.isNotEmpty
+                  ? _birthDateTextController.text.parseDate()
+                  : DateTime.now();
+              final pickedDate = await showDatePicker(
+                  context: context,
+                  initialDate: initialDate,
+                  firstDate:
+                      DateTime.now().subtract(const Duration(days: 43800)),
+                  lastDate: DateTime.now(),
+                  builder: (context, child) {
+                    return Theme(
+                      data: ThemeData.light().copyWith(
+                        colorScheme: const ColorScheme.light(
+                          primary: AppColors.PRIMARY_COLOR,
                         ),
-                        child: child!,
-                      );
-                    });
-                if (pickedDate != null) {
-                  _birthDateTextController.text = pickedDate.formatDate();
-                }
-              },
-              validator: Validator().validateEmptyField,
-              focusNode: _birthDateFocusNode,
-              controller: _birthDateTextController,
-              decoration: InputDecoration(
-                contentPadding: contentPadding,
-                prefixIconConstraints: constraints,
-                prefixIcon: buildImage(ImageConstant.imgCalendar),
-                hintText: 'lbl_birth_date'.tr(),
-                suffixIcon: Padding(
-                  padding: EdgeInsets.fromLTRB(18.w, 19.h, 10.w, 19.h),
-                  child: CustomImageView(
-                      imagePath: ImageConstant.imgCalendar,
-                      height: 20.adaptSize,
-                      color: appTheme.blueGray40001,
-                      width: 20.adaptSize),
-                ),
-                suffixIconConstraints: constraints,
-              ),
-            ),
-            if (!widget.isFromSocial) ...[
-              const SizedBox(height: 18.0),
-              PasswordTextField(
-                  iconColor: appTheme.blueGray40001,
-                  controller: _passwordTextController,
-                  hint: 'password'.tr(),
-                  validator: widget.isFromSocial
-                      ? (value) {
-                          return null;
-                        }
-                      : null),
-              const SizedBox(height: 18.0),
-              PasswordTextField(
-                iconColor: appTheme.blueGray40001,
-                controller: _passwordConfirmTextController,
-                hint: 'confirm_password'.tr(),
+                      ),
+                      child: child!,
+                    );
+                  });
+              if (pickedDate != null) {
+                _birthDateTextController.text = pickedDate.formatDate();
+              }
+            },
+          ),
+          if (!widget.isFromSocial) ...[
+            const SizedBox(height: 18.0),
+            PasswordTextFormField(
+                currentController: _passwordTextController,
+                currentFocusNode: _passwordFocusNode,
+                nextFocusNode: _passwordConfirmFocusNode,
+                hint: 'password'.tr(),
                 validator: widget.isFromSocial
                     ? (value) {
                         return null;
                       }
-                    : null,
-              ),
-            ],
+                    : null),
+            const SizedBox(height: 18.0),
+            PasswordTextFormField(
+              currentFocusNode: _passwordConfirmFocusNode,
+              currentController: _passwordConfirmTextController,
+              hint: 'confirm_password'.tr(),
+              validator: widget.isFromSocial
+                  ? (value) {
+                      return null;
+                    }
+                  : (value) {
+                      if (value == null || value.isEmpty) {
+                        return 'empty_field_not_valid'.tr();
+                      }
+                      if (value != _passwordTextController.text) {
+                        return 'passwords_not_match'.tr();
+                      }
+                      return null;
+                    },
+            ),
           ],
-        ),
+        ],
       ),
     );
   }

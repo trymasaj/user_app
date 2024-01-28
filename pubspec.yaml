@@ -188,6 +188,3 @@ flutter_native_splash:
   ios_content_mode: scaleAspectFill
   image: assets/images/Bg.png
   background_image: assets/images/Bg.png
-  android_12:
-    background_image: assets/images/Bg.png
-    image: assets/images/Bg.png

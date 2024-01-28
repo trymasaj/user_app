@@ -22,6 +22,7 @@ class DefaultTextFormField extends MainTextFormField {
     super.onChanged,
     super.readOnly,
     super.onTap,
+    super.prefixIcon,
   }) : super(
           validator:
               validator ?? (isRequired ? Validator().validateEmptyField : null),
