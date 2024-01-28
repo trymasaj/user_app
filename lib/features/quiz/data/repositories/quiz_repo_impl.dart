@@ -20,15 +20,13 @@ class QuizRepoImpl implements QuizRepo {
     final result = await _networkService.post(ApiEndPoint.SUBMIT_QUIZ,
         data: {'userId': userId, ...questions.toMap()});
     print('result.data ${result.data}');
-    await markQuizAsCompleted();
-  }
-
-  Future<bool> markQuizAsCompleted() {
-    return _cacheService.setIsQuizCompleted(true);
   }
 
   @override
-  Future<void> skipQuiz() {
-    return markQuizAsCompleted();
+  Future<void> skipQuiz(String userId) async {
+    await _networkService.post(ApiEndPoint.SUBMIT_QUIZ, data: {
+      'userId': userId,
+      'quizAnswers': [{}],
+    });
   }
 }

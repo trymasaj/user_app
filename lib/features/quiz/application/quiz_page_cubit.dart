@@ -23,8 +23,8 @@ class QuizPageCubit extends BaseCubit<QuizPageState> {
     }
   }
 
-  Future<void> skipQuiz() async {
-    await _repo.skipQuiz();
+  Future<void> skipQuiz(String userId) async {
+    await _repo.skipQuiz(userId);
     emit(state.copyWith(result: QuizSubmitResult.success));
   }
 
