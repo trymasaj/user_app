@@ -50,6 +50,7 @@
     "empty_field_not_valid": "Empty field is not valid",
     "invalid_email_address": "Invalid email address",
     "invalid_password_less_than_characters": "Invalid password less than 6 characters",
+    "invalid_password_should_has_1_capital_letter": "Invalid password should has 1 capital letter",
     "password_must_contains_characters": "Password must contains characters",
     "password_must_contains_numbers": "Password must contains numbers",
     "does_not_match_with_password": "Does not match with password",

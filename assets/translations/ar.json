@@ -50,6 +50,7 @@
   "empty_field_not_valid": "الحقل الفارغ غير صالح",
   "invalid_email_address": "عنوان البريد الإلكتروني غير صالح",
   "invalid_password_less_than_characters": "كلمة المرور غير صالحة أقل من 6 أحرف",
+  "invalid_password_should_has_1_capital_letter": "كلمة المرور يجب أن تحتوي على حرف كبير واحد على الأقل",
   "password_must_contains_characters": "يجب أن تحتوي كلمة المرور على أحرف",
   "password_must_contains_numbers": "يجب أن تحتوي كلمة المرور على أرقام",
   "does_not_match_with_password": "لا يتطابق مع كلمة المرور",

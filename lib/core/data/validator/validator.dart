@@ -34,6 +34,10 @@ class Validator {
       return tr('empty_field_not_valid');
     } else if (password.length < 6)
       return tr('invalid_password_less_than_characters');
+    //should has 1 capital letter,
+    else if (!RegExp(r'^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9]).{6,}$')
+        .hasMatch(password))
+      return tr('invalid_password_should_has_1_capital_letter');
     else
       return null;
   }
