@@ -10,6 +10,7 @@ import 'package:masaj/core/presentation/widgets/stateless/custom_app_page.dart';
 import 'package:masaj/features/auth/application/auth_cubit/auth_cubit.dart';
 import 'package:masaj/features/home/presentation/bloc/home_cubit/home_cubit.dart';
 import 'package:masaj/features/providers_tab/presentation/pages/providers_tab.dart';
+import 'package:masaj/features/services/application/service_catgory_cubit/service_category_cubit.dart';
 import 'package:masaj/features/settings_tab/pages/setting_tab_page.dart';
 import 'package:masaj/gen/assets.gen.dart';
 
@@ -52,6 +53,9 @@ class _HomePageState extends State<HomePage> {
       providers: [
         // BlocProvider(create: (context) => Injector().homeCubit..loadHome()),
         BlocProvider(create: (context) => Injector().homeCubit),
+        BlocProvider<ServiceCategoryCubit>(
+            create: (context) =>
+                Injector().serviceCategoryCubit..getServiceCategories()),
 
         // BlocProvider(create: (context) => Injector().zonesCubit..init()),
         // BlocProvider(create: (context) => Injector().eventsCubit..init()),
@@ -70,6 +74,8 @@ class _HomePageState extends State<HomePage> {
               if (state.isError) showSnackBar(context, message: state.message);
             },
             child: CustomAppPage(
+              
+              
               safeBottom: true,
               child: Scaffold(
                 extendBody: true,

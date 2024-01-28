@@ -91,4 +91,8 @@ abstract class ApiEndPoint {
   static const ORDERS = '$_TICKETMX_API_URL/orders';
   static const TICKETS = '$_TICKETMX_API_URL/tickets';
   static const TICKET_PASSBOOK = '$TICKETMX_WEB_URL/api/v1/ticketpassbook';
+  // service categories
+  static const SERVICE_CATEGORIES = '$BASE_URL/service-category';
+  // services
+  static const SERVICES = '$BASE_URL/services';
 }

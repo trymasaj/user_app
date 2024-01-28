@@ -37,6 +37,10 @@ import 'package:masaj/features/intro/data/datasources/intro_local_data_source.da
 import 'package:masaj/features/intro/data/repositories/intro_repository.dart';
 import 'package:masaj/features/intro/presentation/blocs/choose_language_cubit/choose_language_cubit.dart';
 import 'package:masaj/features/intro/presentation/blocs/guide_page_cubit/guide_page_cubit.dart';
+import 'package:masaj/features/services/application/service_catgory_cubit/service_category_cubit.dart';
+import 'package:masaj/features/services/data/datasource/service_datasource.dart';
+import 'package:masaj/features/services/data/models/service_category_model.dart';
+import 'package:masaj/features/services/data/repository/service_repository.dart';
 import 'package:masaj/features/splash/data/datasources/splash_local_data_source.dart';
 import 'package:masaj/features/splash/data/repositories/splash_repository_impl.dart';
 import 'package:masaj/features/splash/presentation/splash_cubit/splash_cubit.dart';
@@ -104,6 +108,16 @@ class Injector {
   AuthRemoteDataSource get authRemoteDataSource =>
       _flyweightMap['authRemoteDataSource'] ??=
           AuthRemoteDataSourceImpl(networkService);
+  ServiceRemoteDataSource get serviceRemoteDataSource =>
+      _flyweightMap['serviceRemoteDataSource'] ??=
+          ServiceRemoteDataSourceImpl(networkService);
+
+  ServiceRepository get serviceRepository =>
+      _flyweightMap['serviceRepository'] ??=
+          ServiceRepositoryImpl(serviceRemoteDataSource);
+
+  ServiceCategoryCubit get serviceCategoryCubit =>
+      ServiceCategoryCubit(serviceRepository);
 
   AuthLocalDataSource get authLocalDataSource =>
       _flyweightMap['authLocalDataSource'] ??=

@@ -1,78 +1,79 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:masaj/core/presentation/colors/app_colors.dart';
+import 'package:masaj/core/presentation/size/size_utils.dart';
 import 'package:masaj/core/presentation/widgets/stateless/custom_app_page.dart';
 import 'package:masaj/core/presentation/widgets/stateless/custom_loading.dart';
 import 'package:masaj/core/presentation/widgets/stateless/empty_page_message.dart';
 import 'package:masaj/features/home/presentation/bloc/home_cubit/home_cubit.dart';
 
 import 'package:masaj/features/home/presentation/widget/index.dart';
+import 'package:masaj/features/services/application/service_catgory_cubit/service_category_cubit.dart';
 
 class HomeTab extends StatelessWidget {
   const HomeTab({super.key});
 
   @override
   Widget build(BuildContext context) {
-    return const CustomAppPage(
+    return CustomAppPage(
       safeBottom: false,
       child: Scaffold(
         floatingActionButtonLocation: FloatingActionButtonLocation.startFloat,
         body: CustomScrollView(
           slivers: [
-            FixedAppBar(),
+            const FixedAppBar(),
             SliverToBoxAdapter(
-              child: SizedBox(
-                height: 8,
-              ),
-            ),
+                child: SizedBox(
+              height: 20.h,
+            )),
             // search bar
-            SearchField(),
+            const SearchField(),
             SliverToBoxAdapter(
               child: SizedBox(
-                height: 20,
+                height: 20.h,
               ),
             ),
 
 // horizontal list view of categories
-            CategoriesList(),
+            const CategoriesList(),
             SliverToBoxAdapter(
               child: SizedBox(
-                height: 20,
+                height: 20.h,
               ),
             ),
             // title : Repeate session with list view of sessions
-            RepeatedSessions(),
+            const RepeatedSessions(),
             SliverToBoxAdapter(
               child: SizedBox(
-                height: 30,
+                height: 30.h,
               ),
             ),
             // image slider
-            Ads(),
+            const Ads(),
             SliverToBoxAdapter(
               child: SizedBox(
-                height: 20,
+                height: 20.h,
               ),
             ),
             // offers
-            OffersSection(),
+            const OffersSection(),
             SliverToBoxAdapter(
               child: SizedBox(
-                height: 20,
+                height: 20.h,
               ),
             ),
             // recommended
-            Recommended(),
+            const Recommended(),
             SliverToBoxAdapter(
               child: SizedBox(
-                height: 20,
+                height: 20.h,
               ),
             ),
             // therapists
-            Therapists(),
+            const Therapists(),
 
             // space of bottom bar height
-            SliverToBoxAdapter(
+            const SliverToBoxAdapter(
               child: SizedBox(
                 height: kBottomNavigationBarHeight + 20,
               ),
