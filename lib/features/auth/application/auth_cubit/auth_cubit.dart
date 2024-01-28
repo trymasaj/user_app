@@ -168,8 +168,8 @@ class AuthCubit extends BaseCubit<AuthState> {
     emit(state.copyWith(status: AuthStateStatus.loading));
     try {
       final userAfterSignUp = await _authRepository.signUp(user);
-      emit(
-          state.copyWith(status: AuthStateStatus.guest, user: userAfterSignUp));
+      emit(state.copyWith(
+          status: AuthStateStatus.loggedIn, user: userAfterSignUp));
       final userFirebaseId = (user.id ?? '') + (user.fullName ?? '');
       FirebaseCrashlytics.instance.setUserIdentifier(userFirebaseId);
       FirebaseAnalytics.instance.setUserId(id: userFirebaseId);
@@ -227,11 +227,11 @@ class AuthCubit extends BaseCubit<AuthState> {
   }
 
   Future<void> resetPassword(
-      String password, String passwordConfirm, int userId,String token) async {
+      String password, String passwordConfirm, int userId, String token) async {
     emit(state.copyWith(status: AuthStateStatus.loading));
     try {
-      final user =
-          await _authRepository.resetPassword(password, password, userId,token);
+      final user = await _authRepository.resetPassword(
+          password, password, userId, token);
       emit(state.copyWith(status: AuthStateStatus.guest, user: user));
     } on RedundantRequestException catch (e) {
       log(e.toString());
