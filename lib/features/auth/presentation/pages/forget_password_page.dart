@@ -72,6 +72,7 @@ class _ForgetPasswordPageState extends State<ForgetPasswordPage> {
       listener: (context, state) {
         if (state.isError) {
           showSnackBar(context, message: state.errorMessage);
+          //TODO: moatasem what the hell is this ??
         } else if (state.isInitial) _goToOtpVerificationPage(context);
       },
       child: CustomAppPage(
@@ -230,11 +231,14 @@ class _ForgetPasswordPageState extends State<ForgetPasswordPage> {
       NavigatorHelper.of(context).pop(isSuccess);
 
   void _goToOtpVerificationPage(BuildContext context) {
+    final emailOrPhone = _phoneNumberController.text.trim().isEmpty
+        ? _emailTextController.text.trim()
+        : _phoneNumber!.completeNumber;
     NavigatorHelper.of(context).push(
       MaterialPageRoute(
         builder: (_) => OTPVerificationPage(
           fromForgetPassword: true,
-          email: _emailTextController.text.trim(),
+          emailOrPhoneNumber: emailOrPhone,
         ),
       ),
     );
