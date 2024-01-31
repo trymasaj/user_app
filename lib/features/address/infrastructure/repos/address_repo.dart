@@ -90,7 +90,7 @@ class AddressRepo {
   Future<Address?> addAddress(Address address) async {
     final user = await localDataSource.getUserData();
 
-    log(jsonEncode({...address.toMap(), 'userId': user!.id}));
+    log(jsonEncode({...address.toMap(), 'customerId': user!.id}));
     print('address to map' );
     final result = await networkService.post(ApiEndPoint.ADDRESS,
         data: {...address.toMap(), 'customerId': user!.id})
@@ -101,7 +101,7 @@ class AddressRepo {
   Future<Address?> updateAddress(int addressId, Address newAddress) async {
     final user = await localDataSource.getUserData();
     final result = await networkService.put('${ApiEndPoint.ADDRESS}/$addressId',
-        data: {...newAddress.toMap(), 'userId': user!.id});
+        data: {...newAddress.toMap(), 'customerId': user!.id});
     return newAddress;
   }
 
