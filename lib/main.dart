@@ -119,7 +119,6 @@ class _MyAppState extends State<MyApp> with WidgetsBindingObserver {
       DeviceOrientation.portraitDown,
       DeviceOrientation.portraitUp,
     ]);
-
     final isArabic = context.locale == const Locale('ar');
     return GestureDetector(
       behavior: HitTestBehavior.opaque,

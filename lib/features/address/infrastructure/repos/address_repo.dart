@@ -1,3 +1,6 @@
+import 'dart:convert';
+import 'dart:developer';
+
 import 'package:geocoding/geocoding.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:injectable/injectable.dart';
@@ -10,14 +13,17 @@ import 'package:masaj/features/address/domain/entities/city.dart';
 import 'package:masaj/features/address/domain/entities/country.dart';
 import 'package:masaj/features/address/domain/entities/geo_coded_address.dart';
 import 'package:masaj/features/address/domain/entities/suggestion_address.dart';
+import 'package:masaj/features/auth/data/datasources/auth_local_datasource.dart';
 
 @LazySingleton()
 class AddressRepo {
   final NetworkService networkService;
   final CacheService cacheService;
   final DeviceLocation deviceLocation;
+  final AuthLocalDataSource localDataSource;
 
-  AddressRepo(this.networkService, this.cacheService, this.deviceLocation);
+  AddressRepo(this.networkService, this.cacheService, this.deviceLocation,
+      this.localDataSource);
 
   final apiKey = 'AIzaSyBi3wkpn58eD7WGMb_24psMehqejdg6wu0';
 
@@ -82,12 +88,34 @@ class AddressRepo {
   }
 
   Future<Address?> addAddress(Address address) async {
-    await Future.delayed(Duration(seconds: 1));
-    return address;
+    final user = await localDataSource.getUserData();
+
+    log(jsonEncode({...address.toMap(), 'userId': user!.id}));
+    print('address to map' );
+    final result = await networkService.post(ApiEndPoint.ADDRESS,
+        data: {...address.toMap(), 'customerId': user!.id})
+    ;
+    return Address.fromMap(result.data);
   }
 
   Future<Address?> updateAddress(int addressId, Address newAddress) async {
-    await Future.delayed(Duration(seconds: 1));
+    final user = await localDataSource.getUserData();
+    final result = await networkService.put('${ApiEndPoint.ADDRESS}/$addressId',
+        data: {...newAddress.toMap(), 'userId': user!.id});
     return newAddress;
+  }
+
+  Future<List<Address>> getAddresses() async {
+    final response = await networkService.get(
+      ApiEndPoint.ADDRESS,
+    );
+    final result =
+        (response.data as List).map((e) => Address.fromMap(e)).toList();
+    return result;
+  }
+  // delete
+
+  Future<void> deleteAddress(int addressId) async {
+    await networkService.delete('${ApiEndPoint.ADDRESS}/$addressId');
   }
 }

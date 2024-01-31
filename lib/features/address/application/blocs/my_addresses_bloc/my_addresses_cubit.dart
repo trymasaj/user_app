@@ -4,50 +4,24 @@ import 'package:injectable/injectable.dart';
 import 'package:masaj/core/application/controllers/base_cubit.dart';
 import 'package:masaj/core/application/states/app_state.dart';
 import 'package:masaj/features/address/domain/entities/address.dart';
+import 'package:masaj/features/address/infrastructure/repos/address_repo.dart';
 import 'package:meta/meta.dart';
 part 'my_addresses_state.dart';
 
 @LazySingleton()
 class MyAddressesCubit extends BaseCubit<MyAddressesState> {
-  MyAddressesCubit() : super(MyAddressesState.initial());
+  MyAddressesCubit(this._repo) : super(MyAddressesState.initial());
+  final AddressRepo _repo;
+
 
   Future<void> getAddresses() async {
     emit(state.copyWith(addresses: DataLoadState.loading()));
-    await Future.delayed(Duration(seconds: 3));
-    emit(state.copyWith(
-        addresses: DataLoadState.loaded([
-      Address(
-        id: 1,
-        type: AddressType.home,
-        additionalDirection: "Ev",
-        apartment: "Daire",
-        avenue: "Cadde",
-        block: "Blok",
-        building: "Bina",
-        country: "Türkiye",
-        floor: 'Kat',
-        nickName: "Ev",
-        region: "Bölge",
-        street: "Sokak",
-      ),
-      Address(
-        id: 2,
-        type: AddressType.work,
-        additionalDirection: "İş",
-        apartment: "Daire",
-        avenue: "Cadde",
-        block: "Blok",
-        building: "Bina",
-        country: "Türkiye",
-        floor: 'Kat',
-        nickName: "İş",
-        region: "Bölge",
-        street: "Sokak",
-      ),
-    ])));
+    final result = await _repo.getAddresses();
+    emit(state.copyWith(addresses: DataLoadState.loaded(result)));
   }
 
-  void add(Address result) {
+  Future<void> add(Address result) async {
+    await _repo.addAddress(result);
     final addresses = state.addressesData;
 
     if (result.isPrimary) {
@@ -70,7 +44,9 @@ class MyAddressesCubit extends BaseCubit<MyAddressesState> {
     emit(state.copyWith(addresses: DataLoadState.loaded(addresses)));
   }
 
-  void update(int index, Address result) {
+  Future<void> update(int index, Address result) async {
+    await _repo.updateAddress(index, result);
+
     final addresses = state.addressesData;
 
     if (result.isPrimary) {
@@ -82,7 +58,8 @@ class MyAddressesCubit extends BaseCubit<MyAddressesState> {
     emit(state.copyWith(addresses: DataLoadState.loaded(addresses)));
   }
 
-  void deleteAddress(int index) {
+  Future<void> deleteAddress(int index) async {
+    await _repo.deleteAddress(index);
     final addresses = state.addressesData;
     addresses.removeAt(index);
     emit(state.copyWith(addresses: DataLoadState.loaded(addresses)));

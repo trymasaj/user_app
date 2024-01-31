@@ -71,7 +71,7 @@ class CreateAddressUpdater extends AddressUpdater {
           Address.blockKey: 'test block',
           Address.regionKey: 'test region',
           Address.countryKey: 'test country',
-          Address.additionalDirectionKey: 'test additional direction',
+          Address.additionalDetailsKey: 'test additional direction',
           Address.nickNameKey: 'test nick name',
         }
       : {};

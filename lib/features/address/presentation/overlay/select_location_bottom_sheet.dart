@@ -56,7 +56,7 @@ class SelectLocationBottomSheet extends StatelessWidget {
                                     padding:
                                         EdgeInsets.symmetric(vertical: 5.h),
                                     child: MyAddressTile(
-                                      title: address.type.name,
+                                      title: address.type,
                                       isPrimary: address.isPrimary,
                                       subTitle: address.formattedAddress,
                                       imagePath: ImageConstant

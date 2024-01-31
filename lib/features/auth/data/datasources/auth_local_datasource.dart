@@ -1,3 +1,4 @@
+import 'package:injectable/injectable.dart';
 import 'package:masaj/core/data/clients/cache_service.dart';
 import 'package:masaj/features/auth/domain/entities/user.dart';
 
@@ -25,6 +26,7 @@ abstract class AuthLocalDataSource {
   Future<Country?> getCountry();
 }
 
+@LazySingleton(as: AuthLocalDataSource)
 class AuthLocalDataSourceImpl implements AuthLocalDataSource {
   final CacheService _cacheService;
 

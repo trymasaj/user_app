@@ -271,7 +271,7 @@ class _UpdateAddressScreenState extends State<UpdateAddressScreen> {
   /// Section Widget
   Widget _buildAdditionalDirectionEditText(BuildContext context) {
     return FormBuilderTextField(
-      name: Address.additionalDirectionKey,
+      name: Address.additionalDetailsKey,
       validator: FormBuilderValidators.compose([]),
       decoration: InputDecoration(
         hintText: 'msg_additional_direction'.tr(),
@@ -313,7 +313,12 @@ class _UpdateAddressScreenState extends State<UpdateAddressScreen> {
         return context
             .read<UpdateAddressCubit>()
             .save(Address.fromMap(formKey.currentState!.value).copyWith(
-              country: context
+              areaId: context
+                  .read<SelectLocationBloc>()
+                  .state
+                  .selectedCity
+                  .toNullable()!.id
+              /*country: context
                   .read<SelectLocationBloc>()
                   .state
                   .selectedCountry
@@ -325,7 +330,7 @@ class _UpdateAddressScreenState extends State<UpdateAddressScreen> {
                   .selectedCity
                   .toNullable()!
                   .name
-                  .nameEn,
+                  .nameEn,*/
             ));
       },
     );
