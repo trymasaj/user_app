@@ -84,16 +84,16 @@ class _CountryAndRegionSelectorState extends State<CountryAndRegionSelector> {
               }),
           SizedBox(height: 18.h),
           BlocSelector<SelectLocationBloc, SelectLocationState,
-                  DataLoadState<List<City>>>(
+                  DataLoadState<List<Area>>>(
               selector: (state) => state.cities,
               builder: (context, state) {
                 return LoadStateHandler(
                   customState: state,
                   onTapRetry: controller.getCities,
                   onData: (data) {
-                    return FormBuilderDropdown<City>(
+                    return FormBuilderDropdown<Area>(
                       name: 'city',
-                      initialValue: controller.state.selectedCity.toNullable(),
+                      initialValue: controller.state.selectedArea.toNullable(),
                       isExpanded: true,
                       decoration: widget.decoration.copyWith(
                         hintText: "lbl_region_area".tr(),

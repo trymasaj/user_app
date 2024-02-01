@@ -24,7 +24,7 @@ class SelectLocationBloc extends Cubit<SelectLocationState> {
     final selectedCountry = state.selectedCountry.toNullable();
     if (selectedCountry == null) return;
     emit(state.copyWith(cities: const DataLoadState.loading()));
-    final cities = await _repo.getCities(selectedCountry.id!);
+    final cities = await _repo.getAreas(selectedCountry.id!);
     emit(state.copyWith(cities: DataLoadState.loaded(cities)));
   }
 
@@ -33,13 +33,13 @@ class SelectLocationBloc extends Cubit<SelectLocationState> {
     await getCities();
   }
 
-  void onCityChanged(City city) {
-    emit(state.copyWith(selectedCity: some(city)));
+  void onCityChanged(Area city) {
+    emit(state.copyWith(selectedArea: some(city)));
   }
 
   Future<bool> onContinuePressed() async {
     final selectedCountry = state.selectedCountry.toNullable();
-    final selectedCity = state.selectedCity.toNullable();
+    final selectedCity = state.selectedArea.toNullable();
     if (selectedCountry == null || selectedCity == null) {
       return false;
     }

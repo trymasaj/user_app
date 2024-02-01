@@ -1,3 +1,4 @@
+import 'package:flutter_form_builder/flutter_form_builder.dart';
 import 'package:masaj/features/address/presentation/widgets/country_and_region_selector.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
@@ -11,7 +12,7 @@ import 'package:masaj/features/address/domain/entities/city.dart';
 import 'package:masaj/features/address/domain/entities/country.dart';
 import 'package:masaj/features/auth/presentation/pages/login_page.dart';
 
-class SelectLocationScreen extends StatelessWidget {
+class SelectLocationScreen extends StatefulWidget {
   static const routeName = '/select-location';
   SelectLocationScreen({super.key});
 
@@ -21,10 +22,18 @@ class SelectLocationScreen extends StatelessWidget {
         child: SelectLocationScreen());
   }
 
+  @override
+  State<SelectLocationScreen> createState() => _SelectLocationScreenState();
+}
+
+class _SelectLocationScreenState extends State<SelectLocationScreen> {
+
+  final formKey = GlobalKey<FormBuilderState>();
   final border = OutlineInputBorder(
     borderSide: BorderSide.none,
     borderRadius: BorderRadius.circular(10.w),
   );
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -42,19 +51,20 @@ class SelectLocationScreen extends StatelessWidget {
                   child: Text("msg_please_select_your2".tr(),
                       style: CustomTextStyles.bodyMediumGray60002)),
               SizedBox(height: 19.h),
-              CountryAndRegionSelector(decoration: InputDecoration(
-                  contentPadding: EdgeInsets.symmetric(
-                      horizontal: 18.w, vertical: 18.h),
-                  hintText: "lbl_country".tr(),
-                  hintStyle: CustomTextStyles.bodyMediumBluegray40001_1,
-                  filled: true,
-                  fillColor: appTheme.gray5001,
-                  enabledBorder: border,
-                  focusedBorder: border,
-                  border: border,
-                  disabledBorder: border,
-                  errorBorder: border,
-                  focusedErrorBorder: border)),
+              CountryAndRegionSelector(
+                  decoration: InputDecoration(
+                      contentPadding: EdgeInsets.symmetric(
+                          horizontal: 18.w, vertical: 18.h),
+                      hintText: "lbl_country".tr(),
+                      hintStyle: CustomTextStyles.bodyMediumBluegray40001_1,
+                      filled: true,
+                      fillColor: appTheme.gray5001,
+                      enabledBorder: border,
+                      focusedBorder: border,
+                      border: border,
+                      disabledBorder: border,
+                      errorBorder: border,
+                      focusedErrorBorder: border)),
               SizedBox(height: 24.h),
               CustomElevatedButton(
                   text: "lbl_continue".tr(),

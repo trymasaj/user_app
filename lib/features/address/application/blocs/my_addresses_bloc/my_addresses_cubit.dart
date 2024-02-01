@@ -59,9 +59,11 @@ class MyAddressesCubit extends BaseCubit<MyAddressesState> {
   }
 
   Future<void> deleteAddress(int index) async {
-    await _repo.deleteAddress(index);
     final addresses = state.addressesData;
+    await _repo.deleteAddress(addresses[index].id);
     addresses.removeAt(index);
     emit(state.copyWith(addresses: DataLoadState.loaded(addresses)));
   }
+
+  void saveAddress() {}
 }

@@ -7,34 +7,34 @@ class SelectLocationState extends Equatable {
 
   const SelectLocationState({
     required this.selectedCountry,
-    required this.selectedCity,
+    required this.selectedArea,
     required this.countries,
     required this.cities,
   });
 
   List<Country> get countriesLoaded =>
       (countries as DataLoadLoadedState<List<Country>>).data;
-  List<City> get citiesLoaded =>
-      (cities as DataLoadLoadedState<List<City>>).data;
+  List<Area> get citiesLoaded =>
+      (cities as DataLoadLoadedState<List<Area>>).data;
   final DataLoadState<List<Country>> countries;
-  final DataLoadState<List<City>> cities;
+  final DataLoadState<List<Area>> cities;
   final Option<Country> selectedCountry;
-  final Option<City> selectedCity;
+  final Option<Area> selectedArea;
 
   @override
-  List<Object?> get props => [selectedCountry, selectedCity, countries, cities];
+  List<Object?> get props => [selectedCountry, selectedArea, countries, cities];
 
   SelectLocationState copyWith({
     Option<Country>? selectedCountry,
-    Option<City>? selectedCity,
+    Option<Area>? selectedArea,
     DataLoadState<List<Country>>? countries,
-    DataLoadState<List<City>>? cities,
+    DataLoadState<List<Area>>? cities,
   }) {
     return SelectLocationState(
       cities: cities ?? this.cities,
       countries: countries ?? this.countries,
       selectedCountry: selectedCountry ?? this.selectedCountry,
-      selectedCity: selectedCity ?? this.selectedCity,
+      selectedArea: selectedArea ?? this.selectedArea,
     );
   }
 
@@ -43,7 +43,7 @@ class SelectLocationState extends Equatable {
       selectedCountry: none(),
       countries: const DataLoadState.initial(),
       cities: const DataLoadState.initial(),
-      selectedCity: none(),
+      selectedArea: none(),
     );
   }
 }

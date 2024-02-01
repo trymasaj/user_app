@@ -14,14 +14,12 @@ import 'package:collection/collection.dart';
 
 // ignore_for_file: must_be_immutable
 class SelectLocationBottomSheet extends StatelessWidget {
-  const SelectLocationBottomSheet({Key? key})
+  const SelectLocationBottomSheet({Key? key, required this.onSave})
       : super(
           key: key,
         );
+  final VoidCallback onSave;
 
-  static Widget builder(BuildContext context) {
-    return const SelectLocationBottomSheet();
-  }
 
   @override
   Widget build(BuildContext context) {
@@ -56,7 +54,7 @@ class SelectLocationBottomSheet extends StatelessWidget {
                                     padding:
                                         EdgeInsets.symmetric(vertical: 5.h),
                                     child: MyAddressTile(
-                                      title: address.type,
+                                      title: address.googleMapAddress,
                                       isPrimary: address.isPrimary,
                                       subTitle: address.formattedAddress,
                                       imagePath: ImageConstant
@@ -106,9 +104,7 @@ class SelectLocationBottomSheet extends StatelessWidget {
             ),
 */
             DefaultButton(
-              onPressed: () {
-                NavigatorHelper.of(context).pop();
-              },
+              onPressed:onSave,
               label: "lbl_save".tr(),
             ),
             SizedBox(height: 22.h),

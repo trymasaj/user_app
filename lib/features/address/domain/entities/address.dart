@@ -5,11 +5,11 @@ import 'package:google_maps_flutter/google_maps_flutter.dart';
 enum AddressType { home, work, other }
 
 class Address with EquatableMixin {
-  final int id, areaId;
   final LatLng? latlng;
   final String? nickName, additionalDetails;
-  final block, street, avenue, building, floor, apartment;
-  final String type;
+  final int id, areaId;
+  final String block, street, avenue, building, floor, apartment;
+  final String googleMapAddress;
   final bool isPrimary;
 
   Address(
@@ -19,7 +19,7 @@ class Address with EquatableMixin {
       required this.id,
       this.isPrimary = false,
       this.latlng,
-      required this.type,
+      required this.googleMapAddress,
       required this.block,
       required this.street,
       required this.avenue,
@@ -27,7 +27,7 @@ class Address with EquatableMixin {
       required this.floor,
       required this.apartment});
   static const nickNameKey = 'nickName';
-  static const idKey = 'nickName';
+  static const idKey = 'id';
   static const additionalDetailsKey = 'additionalDetails';
   static const countryKey = 'country';
   static const regionKey = 'region';
@@ -53,11 +53,8 @@ class Address with EquatableMixin {
       ].where((element) => element.isNotEmpty).join(', ');
   factory Address.fromMap(Map<String, dynamic> map) {
     return Address(
-      areaId: 0,
-      id: 0,
-      type: 'type',
-      latlng: null,
-      // latlng: map[latKey] == null ? null : LatLng(map[latKey], map[longKey]),
+      id: map[idKey]??0,
+      googleMapAddress: map[typeKey],
       nickName: map[nickNameKey],
       additionalDetails: map[additionalDetailsKey],
       block: map[blockKey],
@@ -67,6 +64,7 @@ class Address with EquatableMixin {
       floor: map[floorKey],
       apartment: map[apartmentKey],
       isPrimary: map[isPrimaryKey],
+      areaId: 0,
     );
   }
 
@@ -81,12 +79,12 @@ class Address with EquatableMixin {
       buildingKey: building,
       floorKey: floor,
       apartmentKey: apartment,
-      latKey: latlng?.latitude ?? 30,
-      longKey: latlng?.longitude ?? 30,
-      typeKey: type,
+      latKey: latlng?.latitude,
+      longKey: latlng?.longitude,
+      typeKey: googleMapAddress,
       isPrimaryKey: isPrimary,
       areaIdKey: areaId,
-    };
+    }..removeWhere((key, value) => value == null);
   }
 
   Address copyWith(
@@ -114,7 +112,7 @@ class Address with EquatableMixin {
       building: building ?? this.building,
       floor: floor ?? this.floor,
       apartment: apartment ?? this.apartment,
-      type: type ?? this.type,
+      googleMapAddress: type ?? this.googleMapAddress,
       isPrimary: isPrimary ?? this.isPrimary,
     );
   }

@@ -1,14 +1,14 @@
 import 'package:masaj/core/domain/value_objects/localized_name.dart';
 
-class City {
+class Area {
   final LocalizedName name;
   final int id;
 
-  City({required this.name, required this.id});
+  Area({required this.name, required this.id});
 
 
-  factory City.fromMap(Map<String, dynamic> map) {
-    return City(
+  factory Area.fromMap(Map<String, dynamic> map) {
+    return Area(
       name: LocalizedName.fromMap(map) ,
       id: map['id'] as int,
     );

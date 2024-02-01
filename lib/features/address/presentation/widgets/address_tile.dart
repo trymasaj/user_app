@@ -58,7 +58,7 @@ class AddressTile extends StatelessWidget {
                           Row(
                             children: [
                               CustomText(
-                                text: address.type,
+                                text: address.googleMapAddress,
                                 fontSize: 16.fSize,
                                 fontWeight: FontWeight.w500,
                                 color: Color(0xff181B28),

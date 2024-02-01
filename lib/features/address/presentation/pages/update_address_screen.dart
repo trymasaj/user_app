@@ -138,10 +138,6 @@ class _UpdateAddressScreenState extends State<UpdateAddressScreen> {
           ),
         ) as LatLng?;
         if (result != null) {
-          print('out ${result}');
-          /*
-
-           */
           context.read<UpdateAddressCubit>().updateLatLng(result);
         }
       },
@@ -310,28 +306,14 @@ class _UpdateAddressScreenState extends State<UpdateAddressScreen> {
       onPressed: () {
         final isValid = formKey.currentState!.saveAndValidate();
         if (!isValid) return Future.value();
-        return context
-            .read<UpdateAddressCubit>()
-            .save(Address.fromMap(formKey.currentState!.value).copyWith(
-              areaId: context
-                  .read<SelectLocationBloc>()
-                  .state
-                  .selectedCity
-                  .toNullable()!.id
-              /*country: context
-                  .read<SelectLocationBloc>()
-                  .state
-                  .selectedCountry
-                  .toNullable()!
-                  .nameEn!,
-              region: context
-                  .read<SelectLocationBloc>()
-                  .state
-                  .selectedCity
-                  .toNullable()!
-                  .name
-                  .nameEn,*/
-            ));
+        return context.read<UpdateAddressCubit>().save(
+            Address.fromMap(formKey.currentState!.value).copyWith(
+                areaId: context
+                    .read<SelectLocationBloc>()
+                    .state
+                    .selectedArea
+                    .toNullable()!
+                    .id));
       },
     );
   }

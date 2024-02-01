@@ -125,7 +125,6 @@ class _MapLocationPickerState extends State<MapLocationPicker> {
                         return LocationBottomSheet(
                           address: address,
                           onTapContinue: () async {
-                            print('xxxxss');
                             final googleMapController =
                                 await this.googleMapController.future;
                             final latLng = await googleMapController
