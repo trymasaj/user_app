@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:masaj/core/app_export.dart';
 import 'package:masaj/core/data/di/injection_setup.dart';
 import 'package:masaj/core/presentation/navigation/navigator_helper.dart';
+import 'package:masaj/core/presentation/widgets/stateless/custom_app_bar.dart';
 import 'package:masaj/core/presentation/widgets/stateless/state_widgets.dart';
 import 'package:masaj/features/address/application/blocs/add_new_address_bloc/update_address_bloc.dart';
 import 'package:masaj/features/address/application/blocs/my_addresses_bloc/my_addresses_cubit.dart';
@@ -16,7 +17,7 @@ class AddressPage extends StatelessWidget {
   Widget build(BuildContext context) {
     final controller = context.read<MyAddressesCubit>();
     return Scaffold(
-        appBar: AppBar(
+        appBar: CustomAppBar(
           actions: [
             TextButton(
                 onPressed: () async {
@@ -32,7 +33,7 @@ class AddressPage extends StatelessWidget {
                   style: TextStyle(fontSize: 14.fSize),
                 ))
           ],
-          title: Text('lbl_addresses'.tr()),
+          title: 'lbl_addresses'.tr(),
         ),
         body: BlocBuilder<MyAddressesCubit, MyAddressesState>(
           builder: (context, state) {

@@ -5,6 +5,7 @@ import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:masaj/core/app_export.dart';
 import 'package:masaj/core/data/di/injection_setup.dart';
 import 'package:masaj/core/data/validator/validation_functions.dart';
+import 'package:masaj/core/presentation/widgets/stateless/custom_app_bar.dart';
 import 'package:masaj/core/presentation/widgets/stateless/custom_outlined_button.dart';
 import 'package:masaj/core/presentation/widgets/stateless/custom_text_form_field.dart';
 import 'package:masaj/core/presentation/widgets/stateless/default_button.dart';
@@ -203,8 +204,8 @@ class UpdateAddressScreen<T extends UpdateAddressCubit,
 
   /// Section Widget
   PreferredSizeWidget _buildAppBar(BuildContext context) {
-    return AppBar(
-      title: Text(title),
+    return CustomAppBar(
+      title: title,
     );
   }
 
@@ -257,6 +258,7 @@ class UpdateAddressScreen<T extends UpdateAddressCubit,
   /// Section Widget
   Widget _buildNameEditText(BuildContext context) {
     return FormBuilderTextField(
+      style: CustomTextStyles.bodyMediumGray90003,
       decoration: InputDecoration(
         hintText: 'msg_address_nickname'.tr(),
         hintStyle: CustomTextStyles.bodyMediumBluegray40001_1,
@@ -271,6 +273,7 @@ class UpdateAddressScreen<T extends UpdateAddressCubit,
       validator: FormBuilderValidators.compose([
         FormBuilderValidators.required(),
       ]),
+      style: CustomTextStyles.bodyMediumGray90003,
       decoration: InputDecoration(
         hintText: 'lbl_block'.tr(),
         hintStyle: CustomTextStyles.bodyMediumBluegray40001_1,
@@ -285,6 +288,7 @@ class UpdateAddressScreen<T extends UpdateAddressCubit,
       validator: FormBuilderValidators.compose([
         FormBuilderValidators.required(),
       ]),
+      style: CustomTextStyles.bodyMediumGray90003,
       decoration: InputDecoration(
         hintText: 'lbl_street'.tr(),
         hintStyle: CustomTextStyles.bodyMediumBluegray40001_1,
@@ -311,6 +315,7 @@ class UpdateAddressScreen<T extends UpdateAddressCubit,
       validator: FormBuilderValidators.compose([
         FormBuilderValidators.required(),
       ]),
+      style: CustomTextStyles.bodyMediumGray90003,
       decoration: InputDecoration(
         helperText: '',
         hintText: 'lbl_avenue'.tr(),
@@ -327,6 +332,7 @@ class UpdateAddressScreen<T extends UpdateAddressCubit,
         FormBuilderValidators.required(),
       ]),
       name: Address.buildingKey,
+      style: CustomTextStyles.bodyMediumGray90003,
       decoration: InputDecoration(
         helperText: '',
         hintText: 'msg_house_building_no'.tr(),
@@ -341,6 +347,7 @@ class UpdateAddressScreen<T extends UpdateAddressCubit,
       validator: FormBuilderValidators.compose([
         FormBuilderValidators.required(),
       ]),
+      style: CustomTextStyles.bodyMediumGray90003,
       decoration: InputDecoration(
         helperText: '',
         hintText: 'lbl_floor'.tr(),
@@ -357,6 +364,7 @@ class UpdateAddressScreen<T extends UpdateAddressCubit,
         FormBuilderValidators.required(),
       ]),
       name: Address.apartmentKey,
+      style: CustomTextStyles.bodyMediumGray90003,
       decoration: InputDecoration(
         helperText: '',
         hintText: 'lbl_apartment_no'.tr(),
@@ -370,6 +378,7 @@ class UpdateAddressScreen<T extends UpdateAddressCubit,
     return FormBuilderTextField(
       name: Address.additionalDetailsKey,
       validator: FormBuilderValidators.compose([]),
+      style: CustomTextStyles.bodyMediumGray90003,
       decoration: InputDecoration(
         hintText: 'msg_additional_direction'.tr(),
         hintStyle: CustomTextStyles.bodyMediumBluegray40001_1,
