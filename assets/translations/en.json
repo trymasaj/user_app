@@ -23,6 +23,8 @@
     "didnt_receive_code": "Didn't receive a code? ",
     "resend_code": "Resend Code",
     "send": "Send",
+    "lbl_update_address": "Update Address",
+
     "continue": "Continue",
     "old_password": "Old Password",
     "new_password": "New Password",

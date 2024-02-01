@@ -91,6 +91,7 @@ class AuthCubit extends BaseCubit<AuthState> {
     } catch (e) {
       emit(state.copyWith(
           status: AuthStateStatus.error, errorMessage: e.toString()));
+      rethrow;
     }
   }
 

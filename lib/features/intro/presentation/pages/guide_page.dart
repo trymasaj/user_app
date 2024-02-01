@@ -11,7 +11,7 @@ import 'package:masaj/core/presentation/overlay/show_snack_bar.dart';
 import 'package:masaj/core/presentation/widgets/stateless/custom_loading.dart';
 import 'package:masaj/core/presentation/widgets/stateless/default_button.dart';
 import 'package:masaj/core/presentation/widgets/stateless/dots_indicator.dart';
-import 'package:masaj/features/address/pages/select_location_screen.dart';
+import 'package:masaj/features/address/presentation/pages/select_location_screen.dart';
 import 'package:masaj/features/auth/presentation/pages/login_page.dart';
 import 'package:masaj/features/intro/presentation/blocs/guide_page_cubit/guide_page_cubit.dart';
 

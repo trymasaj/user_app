@@ -74,9 +74,6 @@ class $AssetsImagesGen {
   /// File path: assets/images/Group 1800.svg
   String get group1800 => 'assets/images/Group 1800.svg';
 
-  /// File path: assets/images/Group 1801.svg
-  String get group1801 => 'assets/images/Group 1801.svg';
-
   /// File path: assets/images/Onboarding1.png
   AssetGenImage get onboarding1 =>
       const AssetGenImage('assets/images/Onboarding1.png');
@@ -95,21 +92,14 @@ class $AssetsImagesGen {
   /// File path: assets/images/alert-circle.svg
   String get alertCircle => 'assets/images/alert-circle.svg';
 
-  /// File path: assets/images/app_logo.png
-  AssetGenImage get appLogoPng =>
-      const AssetGenImage('assets/images/app_logo.png');
-
   /// File path: assets/images/app_logo.svg
-  String get appLogoSvg => 'assets/images/app_logo.svg';
+  String get appLogo => 'assets/images/app_logo.svg';
 
   /// File path: assets/images/apple.svg
   String get apple => 'assets/images/apple.svg';
 
   /// File path: assets/images/back_icon.svg
   String get backIcon => 'assets/images/back_icon.svg';
-
-  /// File path: assets/images/background.svg
-  String get background => 'assets/images/background.svg';
 
   /// File path: assets/images/bell.svg
   String get bell => 'assets/images/bell.svg';
@@ -122,10 +112,6 @@ class $AssetsImagesGen {
 
   /// File path: assets/images/change_password_icon.svg
   String get changePasswordIcon => 'assets/images/change_password_icon.svg';
-
-  /// File path: assets/images/choose_language_background.svg
-  String get chooseLanguageBackground =>
-      'assets/images/choose_language_background.svg';
 
   /// File path: assets/images/coupon_icon.svg
   String get couponIcon => 'assets/images/coupon_icon.svg';
@@ -146,36 +132,11 @@ class $AssetsImagesGen {
   String get fluentPeopleCommunity20Regular =>
       'assets/images/fluent_people-community-20-regular.svg';
 
-  /// File path: assets/images/forget_password_background.svg
-  String get forgetPasswordBackground =>
-      'assets/images/forget_password_background.svg';
-
-  /// File path: assets/images/get_started_background.svg
-  String get getStartedBackground => 'assets/images/get_started_background.svg';
-
   /// File path: assets/images/google.svg
   String get google => 'assets/images/google.svg';
 
-  /// File path: assets/images/guide1.jpg
-  AssetGenImage get guide1 => const AssetGenImage('assets/images/guide1.jpg');
-
-  /// File path: assets/images/guide2.jpg
-  AssetGenImage get guide2 => const AssetGenImage('assets/images/guide2.jpg');
-
-  /// File path: assets/images/guide3.jpg
-  AssetGenImage get guide3 => const AssetGenImage('assets/images/guide3.jpg');
-
   /// File path: assets/images/heart.svg
-  String get heartSvg => 'assets/images/heart.svg';
-
-  /// File path: assets/images/heart.zip
-  String get heartZip => 'assets/images/heart.zip';
-
-  /// File path: assets/images/heart_img.zip
-  String get heartImg => 'assets/images/heart_img.zip';
-
-  /// File path: assets/images/help.svg
-  String get help => 'assets/images/help.svg';
+  String get heart => 'assets/images/heart.svg';
 
   /// File path: assets/images/help_layer_icon.svg
   String get helpLayerIcon => 'assets/images/help_layer_icon.svg';
@@ -193,14 +154,6 @@ class $AssetsImagesGen {
   /// File path: assets/images/img_3449089_2.png
   AssetGenImage get img34490892 =>
       const AssetGenImage('assets/images/img_3449089_2.png');
-
-  /// File path: assets/images/img_3449089_2_124x328.png
-  AssetGenImage get img34490892124x328 =>
-      const AssetGenImage('assets/images/img_3449089_2_124x328.png');
-
-  /// File path: assets/images/img_3449089_2_99x327.png
-  AssetGenImage get img3449089299x327 =>
-      const AssetGenImage('assets/images/img_3449089_2_99x327.png');
 
   /// File path: assets/images/img_8_starting_the_quiz.png
   AssetGenImage get img8StartingTheQuiz =>
@@ -381,14 +334,6 @@ class $AssetsImagesGen {
   AssetGenImage get imgDreamstimeXxl1928518051 =>
       const AssetGenImage('assets/images/img_dreamstime_xxl_192851805_1.png');
 
-  /// File path: assets/images/img_dreamstime_xxl_192851805_2.png
-  AssetGenImage get imgDreamstimeXxl1928518052 =>
-      const AssetGenImage('assets/images/img_dreamstime_xxl_192851805_2.png');
-
-  /// File path: assets/images/img_dreamstime_xxl_192851805_505x159.png
-  AssetGenImage get imgDreamstimeXxl192851805505x159 => const AssetGenImage(
-      'assets/images/img_dreamstime_xxl_192851805_505x159.png');
-
   /// File path: assets/images/img_effects.svg
   String get imgEffects => 'assets/images/img_effects.svg';
 
@@ -537,14 +482,6 @@ class $AssetsImagesGen {
   AssetGenImage get imgGroup1175 =>
       const AssetGenImage('assets/images/img_group_1175.png');
 
-  /// File path: assets/images/img_group_1499.png
-  AssetGenImage get imgGroup1499 =>
-      const AssetGenImage('assets/images/img_group_1499.png');
-
-  /// File path: assets/images/img_group_1499_blue_50_02.png
-  AssetGenImage get imgGroup1499Blue5002 =>
-      const AssetGenImage('assets/images/img_group_1499_blue_50_02.png');
-
   /// File path: assets/images/img_group_33341.png
   AssetGenImage get imgGroup33341 =>
       const AssetGenImage('assets/images/img_group_33341.png');
@@ -598,22 +535,6 @@ class $AssetsImagesGen {
   AssetGenImage get imgIconoirSelectWindow24x24 =>
       const AssetGenImage('assets/images/img_iconoir_select_window_24x24.png');
 
-  /// File path: assets/images/img_image.png
-  AssetGenImage get imgImage =>
-      const AssetGenImage('assets/images/img_image.png');
-
-  /// File path: assets/images/img_imgbin_candle_w.png
-  AssetGenImage get imgImgbinCandleW =>
-      const AssetGenImage('assets/images/img_imgbin_candle_w.png');
-
-  /// File path: assets/images/img_imgbin_towel_png.png
-  AssetGenImage get imgImgbinTowelPng =>
-      const AssetGenImage('assets/images/img_imgbin_towel_png.png');
-
-  /// File path: assets/images/img_imgbin_towel_png_57x58.png
-  AssetGenImage get imgImgbinTowelPng57x58 =>
-      const AssetGenImage('assets/images/img_imgbin_towel_png_57x58.png');
-
   /// File path: assets/images/img_layer_2.svg
   String get imgLayer2 => 'assets/images/img_layer_2.svg';
 
@@ -648,54 +569,6 @@ class $AssetsImagesGen {
 
   /// File path: assets/images/img_masaj_logo.svg
   String get imgMasajLogo => 'assets/images/img_masaj_logo.svg';
-
-  /// File path: assets/images/img_mask_group.png
-  AssetGenImage get imgMaskGroup =>
-      const AssetGenImage('assets/images/img_mask_group.png');
-
-  /// File path: assets/images/img_mask_group_1.png
-  AssetGenImage get imgMaskGroup1 =>
-      const AssetGenImage('assets/images/img_mask_group_1.png');
-
-  /// File path: assets/images/img_mask_group_10.png
-  AssetGenImage get imgMaskGroup10 =>
-      const AssetGenImage('assets/images/img_mask_group_10.png');
-
-  /// File path: assets/images/img_mask_group_122x158.png
-  AssetGenImage get imgMaskGroup122x158 =>
-      const AssetGenImage('assets/images/img_mask_group_122x158.png');
-
-  /// File path: assets/images/img_mask_group_2.png
-  AssetGenImage get imgMaskGroup2 =>
-      const AssetGenImage('assets/images/img_mask_group_2.png');
-
-  /// File path: assets/images/img_mask_group_3.png
-  AssetGenImage get imgMaskGroup3 =>
-      const AssetGenImage('assets/images/img_mask_group_3.png');
-
-  /// File path: assets/images/img_mask_group_4.png
-  AssetGenImage get imgMaskGroup4 =>
-      const AssetGenImage('assets/images/img_mask_group_4.png');
-
-  /// File path: assets/images/img_mask_group_5.png
-  AssetGenImage get imgMaskGroup5 =>
-      const AssetGenImage('assets/images/img_mask_group_5.png');
-
-  /// File path: assets/images/img_mask_group_6.png
-  AssetGenImage get imgMaskGroup6 =>
-      const AssetGenImage('assets/images/img_mask_group_6.png');
-
-  /// File path: assets/images/img_mask_group_7.png
-  AssetGenImage get imgMaskGroup7 =>
-      const AssetGenImage('assets/images/img_mask_group_7.png');
-
-  /// File path: assets/images/img_mask_group_8.png
-  AssetGenImage get imgMaskGroup8 =>
-      const AssetGenImage('assets/images/img_mask_group_8.png');
-
-  /// File path: assets/images/img_mask_group_9.png
-  AssetGenImage get imgMaskGroup9 =>
-      const AssetGenImage('assets/images/img_mask_group_9.png');
 
   /// File path: assets/images/img_material_symbol.svg
   String get imgMaterialSymbol => 'assets/images/img_material_symbol.svg';
@@ -801,153 +674,17 @@ class $AssetsImagesGen {
   AssetGenImage get imgRadioButtonOnprimarycontainer => const AssetGenImage(
       'assets/images/img_radio_button_onprimarycontainer.png');
 
-  /// File path: assets/images/img_rectangle_1629.png
-  AssetGenImage get imgRectangle1629 =>
-      const AssetGenImage('assets/images/img_rectangle_1629.png');
-
-  /// File path: assets/images/img_rectangle_1629_1.png
-  AssetGenImage get imgRectangle16291 =>
-      const AssetGenImage('assets/images/img_rectangle_1629_1.png');
-
-  /// File path: assets/images/img_rectangle_1629_2.png
-  AssetGenImage get imgRectangle16292 =>
-      const AssetGenImage('assets/images/img_rectangle_1629_2.png');
-
-  /// File path: assets/images/img_rectangle_1629_3.png
-  AssetGenImage get imgRectangle16293 =>
-      const AssetGenImage('assets/images/img_rectangle_1629_3.png');
-
-  /// File path: assets/images/img_rectangle_1629_4.png
-  AssetGenImage get imgRectangle16294 =>
-      const AssetGenImage('assets/images/img_rectangle_1629_4.png');
-
-  /// File path: assets/images/img_rectangle_1629_5.png
-  AssetGenImage get imgRectangle16295 =>
-      const AssetGenImage('assets/images/img_rectangle_1629_5.png');
-
-  /// File path: assets/images/img_rectangle_1629_6.png
-  AssetGenImage get imgRectangle16296 =>
-      const AssetGenImage('assets/images/img_rectangle_1629_6.png');
-
-  /// File path: assets/images/img_rectangle_1629_7.png
-  AssetGenImage get imgRectangle16297 =>
-      const AssetGenImage('assets/images/img_rectangle_1629_7.png');
-
-  /// File path: assets/images/img_rectangle_1629_8.png
-  AssetGenImage get imgRectangle16298 =>
-      const AssetGenImage('assets/images/img_rectangle_1629_8.png');
-
-  /// File path: assets/images/img_rectangle_1629_82x83.png
-  AssetGenImage get imgRectangle162982x83 =>
-      const AssetGenImage('assets/images/img_rectangle_1629_82x83.png');
-
-  /// File path: assets/images/img_rectangle_27.png
-  AssetGenImage get imgRectangle27 =>
-      const AssetGenImage('assets/images/img_rectangle_27.png');
-
-  /// File path: assets/images/img_rectangle_27_117x257.png
-  AssetGenImage get imgRectangle27117x257 =>
-      const AssetGenImage('assets/images/img_rectangle_27_117x257.png');
-
-  /// File path: assets/images/img_rectangle_28.png
-  AssetGenImage get imgRectangle28 =>
-      const AssetGenImage('assets/images/img_rectangle_28.png');
-
-  /// File path: assets/images/img_rectangle_28_1.png
-  AssetGenImage get imgRectangle281 =>
-      const AssetGenImage('assets/images/img_rectangle_28_1.png');
-
-  /// File path: assets/images/img_rectangle_28_2.png
-  AssetGenImage get imgRectangle282 =>
-      const AssetGenImage('assets/images/img_rectangle_28_2.png');
-
-  /// File path: assets/images/img_rectangle_28_217x375.png
-  AssetGenImage get imgRectangle28217x375 =>
-      const AssetGenImage('assets/images/img_rectangle_28_217x375.png');
-
-  /// File path: assets/images/img_rectangle_28_3.png
-  AssetGenImage get imgRectangle283 =>
-      const AssetGenImage('assets/images/img_rectangle_28_3.png');
-
   /// File path: assets/images/img_rectangle_28_4.png
   AssetGenImage get imgRectangle284 =>
       const AssetGenImage('assets/images/img_rectangle_28_4.png');
-
-  /// File path: assets/images/img_rectangle_28_48x48.png
-  AssetGenImage get imgRectangle2848x48 =>
-      const AssetGenImage('assets/images/img_rectangle_28_48x48.png');
 
   /// File path: assets/images/img_rectangle_28_5.png
   AssetGenImage get imgRectangle285 =>
       const AssetGenImage('assets/images/img_rectangle_28_5.png');
 
-  /// File path: assets/images/img_rectangle_28_50x50.png
-  AssetGenImage get imgRectangle2850x50 =>
-      const AssetGenImage('assets/images/img_rectangle_28_50x50.png');
-
-  /// File path: assets/images/img_rectangle_28_6.png
-  AssetGenImage get imgRectangle286 =>
-      const AssetGenImage('assets/images/img_rectangle_28_6.png');
-
-  /// File path: assets/images/img_rectangle_28_70x70.png
-  AssetGenImage get imgRectangle2870x70 =>
-      const AssetGenImage('assets/images/img_rectangle_28_70x70.png');
-
-  /// File path: assets/images/img_rectangle_28_72x72.png
-  AssetGenImage get imgRectangle2872x72 =>
-      const AssetGenImage('assets/images/img_rectangle_28_72x72.png');
-
-  /// File path: assets/images/img_rectangle_29.png
-  AssetGenImage get imgRectangle29 =>
-      const AssetGenImage('assets/images/img_rectangle_29.png');
-
-  /// File path: assets/images/img_rectangle_39370.png
-  AssetGenImage get imgRectangle39370 =>
-      const AssetGenImage('assets/images/img_rectangle_39370.png');
-
-  /// File path: assets/images/img_rectangle_39370_140x327.png
-  AssetGenImage get imgRectangle39370140x327 =>
-      const AssetGenImage('assets/images/img_rectangle_39370_140x327.png');
-
-  /// File path: assets/images/img_rectangle_39370_270x375.png
-  AssetGenImage get imgRectangle39370270x375 =>
-      const AssetGenImage('assets/images/img_rectangle_39370_270x375.png');
-
   /// File path: assets/images/img_rectangle_39428.png
   AssetGenImage get imgRectangle39428 =>
       const AssetGenImage('assets/images/img_rectangle_39428.png');
-
-  /// File path: assets/images/img_rectangle_39431.png
-  AssetGenImage get imgRectangle39431 =>
-      const AssetGenImage('assets/images/img_rectangle_39431.png');
-
-  /// File path: assets/images/img_rectangle_39431_77x115.png
-  AssetGenImage get imgRectangle3943177x115 =>
-      const AssetGenImage('assets/images/img_rectangle_39431_77x115.png');
-
-  /// File path: assets/images/img_rectangle_39436.png
-  AssetGenImage get imgRectangle39436 =>
-      const AssetGenImage('assets/images/img_rectangle_39436.png');
-
-  /// File path: assets/images/img_rectangle_39436_50x50.png
-  AssetGenImage get imgRectangle3943650x50 =>
-      const AssetGenImage('assets/images/img_rectangle_39436_50x50.png');
-
-  /// File path: assets/images/img_rectangle_4236.png
-  AssetGenImage get imgRectangle4236 =>
-      const AssetGenImage('assets/images/img_rectangle_4236.png');
-
-  /// File path: assets/images/img_rectangle_4237.png
-  AssetGenImage get imgRectangle4237 =>
-      const AssetGenImage('assets/images/img_rectangle_4237.png');
-
-  /// File path: assets/images/img_rectangle_4237_35x35.png
-  AssetGenImage get imgRectangle423735x35 =>
-      const AssetGenImage('assets/images/img_rectangle_4237_35x35.png');
-
-  /// File path: assets/images/img_screenshot_2023.png
-  AssetGenImage get imgScreenshot2023 =>
-      const AssetGenImage('assets/images/img_screenshot_2023.png');
 
   /// File path: assets/images/img_search.svg
   String get imgSearch => 'assets/images/img_search.svg';
@@ -1032,35 +769,11 @@ class $AssetsImagesGen {
   /// File path: assets/images/img_u_check_circle.svg
   String get imgUCheckCircle => 'assets/images/img_u_check_circle.svg';
 
-  /// File path: assets/images/img_unsplash_dukv_jtyrlg.png
-  AssetGenImage get imgUnsplashDukvJtyrlg =>
-      const AssetGenImage('assets/images/img_unsplash_dukv_jtyrlg.png');
-
-  /// File path: assets/images/img_unsplash_dukv_jtyrlg_1.png
-  AssetGenImage get imgUnsplashDukvJtyrlg1 =>
-      const AssetGenImage('assets/images/img_unsplash_dukv_jtyrlg_1.png');
-
-  /// File path: assets/images/img_unsplash_dukv_jtyrlg_2.png
-  AssetGenImage get imgUnsplashDukvJtyrlg2 =>
-      const AssetGenImage('assets/images/img_unsplash_dukv_jtyrlg_2.png');
-
-  /// File path: assets/images/img_unsplash_dukv_jtyrlg_3.png
-  AssetGenImage get imgUnsplashDukvJtyrlg3 =>
-      const AssetGenImage('assets/images/img_unsplash_dukv_jtyrlg_3.png');
-
-  /// File path: assets/images/img_unsplash_dukv_jtyrlg_67x67.png
-  AssetGenImage get imgUnsplashDukvJtyrlg67x67 =>
-      const AssetGenImage('assets/images/img_unsplash_dukv_jtyrlg_67x67.png');
-
   /// File path: assets/images/img_user.svg
   String get imgUser => 'assets/images/img_user.svg';
 
   /// File path: assets/images/img_user_gray_100_02.svg
   String get imgUserGray10002 => 'assets/images/img_user_gray_100_02.svg';
-
-  /// File path: assets/images/img_vecteezy_3d_ski.png
-  AssetGenImage get imgVecteezy3dSki =>
-      const AssetGenImage('assets/images/img_vecteezy_3d_ski.png');
 
   /// File path: assets/images/img_vector.svg
   String get imgVector => 'assets/images/img_vector.svg';
@@ -1085,16 +798,6 @@ class $AssetsImagesGen {
   /// File path: assets/images/img_x.svg
   String get imgX => 'assets/images/img_x.svg';
 
-  /// File path: assets/images/img_x37_1.svg
-  String get imgX371 => 'assets/images/img_x37_1.svg';
-
-  /// File path: assets/images/interest_background.svg
-  String get interestBackground => 'assets/images/interest_background.svg';
-
-  /// File path: assets/images/kids_not_allowed_icon.png
-  AssetGenImage get kidsNotAllowedIcon =>
-      const AssetGenImage('assets/images/kids_not_allowed_icon.png');
-
   /// File path: assets/images/language_icon.svg
   String get languageIcon => 'assets/images/language_icon.svg';
 
@@ -1109,21 +812,11 @@ class $AssetsImagesGen {
   /// File path: assets/images/masaj_background.svg
   String get masajBackgroundSvg => 'assets/images/masaj_background.svg';
 
-  /// File path: assets/images/more_background.svg
-  String get moreBackground => 'assets/images/more_background.svg';
-
   /// File path: assets/images/more_icon.svg
   String get moreIcon => 'assets/images/more_icon.svg';
 
   /// File path: assets/images/my_tickets_icon.svg
   String get myTicketsIcon => 'assets/images/my_tickets_icon.svg';
-
-  /// File path: assets/images/new_glass_search_img.png
-  AssetGenImage get newGlassSearchImg =>
-      const AssetGenImage('assets/images/new_glass_search_img.png');
-
-  /// File path: assets/images/no_points.svg
-  String get noPoints => 'assets/images/no_points.svg';
 
   /// File path: assets/images/notification_icon.svg
   String get notificationIcon => 'assets/images/notification_icon.svg';
@@ -1133,9 +826,6 @@ class $AssetsImagesGen {
 
   /// File path: assets/images/pin.svg
   String get pin => 'assets/images/pin.svg';
-
-  /// File path: assets/images/points-deduct.svg
-  String get pointsDeduct => 'assets/images/points-deduct.svg';
 
   /// File path: assets/images/points_add.svg
   String get pointsAdd => 'assets/images/points_add.svg';
@@ -1149,39 +839,8 @@ class $AssetsImagesGen {
   /// File path: assets/images/privacy_icon.svg
   String get privacyIcon => 'assets/images/privacy_icon.svg';
 
-  /// File path: assets/images/profile_female.webp
-  AssetGenImage get profileFemale =>
-      const AssetGenImage('assets/images/profile_female.webp');
-
-  /// File path: assets/images/profile_male.webp
-  AssetGenImage get profileMale =>
-      const AssetGenImage('assets/images/profile_male.webp');
-
-  /// File path: assets/images/reward_star_icon.png
-  AssetGenImage get rewardStarIcon =>
-      const AssetGenImage('assets/images/reward_star_icon.png');
-
-  /// File path: assets/images/saudi_place_holder.png
-  AssetGenImage get saudiPlaceHolder =>
-      const AssetGenImage('assets/images/saudi_place_holder.png');
-
-  /// File path: assets/images/selecting_project_background.svg
-  String get selectingProjectBackground =>
-      'assets/images/selecting_project_background.svg';
-
   /// File path: assets/images/settings_icon.svg
   String get settingsIcon => 'assets/images/settings_icon.svg';
-
-  /// File path: assets/images/sign_up_step_1_background.svg
-  String get signUpStep1Background =>
-      'assets/images/sign_up_step_1_background.svg';
-
-  /// File path: assets/images/sign_up_step_2_background.svg
-  String get signUpStep2Background =>
-      'assets/images/sign_up_step_2_background.svg';
-
-  /// File path: assets/images/splash_video.mp4
-  String get splashVideo => 'assets/images/splash_video.mp4';
 
   /// File path: assets/images/success_icon.svg
   String get successIcon => 'assets/images/success_icon.svg';
@@ -1198,18 +857,6 @@ class $AssetsImagesGen {
   /// File path: assets/images/wallet.svg
   String get wallet => 'assets/images/wallet.svg';
 
-  /// File path: assets/images/zone_horizontal_list.png
-  AssetGenImage get zoneHorizontalList =>
-      const AssetGenImage('assets/images/zone_horizontal_list.png');
-
-  /// File path: assets/images/zone_map_display.png
-  AssetGenImage get zoneMapDisplay =>
-      const AssetGenImage('assets/images/zone_map_display.png');
-
-  /// File path: assets/images/zone_vertical_list.png
-  AssetGenImage get zoneVerticalList =>
-      const AssetGenImage('assets/images/zone_vertical_list.png');
-
   /// File path: assets/images/zones_icon.svg
   String get zonesIcon => 'assets/images/zones_icon.svg';
 
@@ -1217,45 +864,31 @@ class $AssetsImagesGen {
   List<dynamic> get values => [
         bg,
         group1800,
-        group1801,
         onboarding1,
         onboarding2,
         onboarding3,
         setting,
         alertCircle,
-        appLogoPng,
-        appLogoSvg,
+        appLogo,
         apple,
         backIcon,
-        background,
         bell,
         bookmark,
         calendarIcon,
         changePasswordIcon,
-        chooseLanguageBackground,
         couponIcon,
         deleteAccountIcon,
         email,
         errorIcon,
         favIcon,
         fluentPeopleCommunity20Regular,
-        forgetPasswordBackground,
-        getStartedBackground,
         google,
-        guide1,
-        guide2,
-        guide3,
-        heartSvg,
-        heartZip,
-        heartImg,
-        help,
+        heart,
         helpLayerIcon,
         home,
         homeIcon,
         imageNotFound,
         img34490892,
-        img34490892124x328,
-        img3449089299x327,
         img8StartingTheQuiz,
         imgAlertCircle,
         imgAlertCircleOnprimary,
@@ -1307,8 +940,6 @@ class $AssetsImagesGen {
         imgDemo,
         imgDreamstimeXxl192851805,
         imgDreamstimeXxl1928518051,
-        imgDreamstimeXxl1928518052,
-        imgDreamstimeXxl192851805505x159,
         imgEffects,
         imgEffectsOnprimarycontainer,
         imgFavorite,
@@ -1352,8 +983,6 @@ class $AssetsImagesGen {
         imgGroup115,
         imgGroup1171,
         imgGroup1175,
-        imgGroup1499,
-        imgGroup1499Blue5002,
         imgGroup33341,
         imgGroup49x49,
         imgGroup8,
@@ -1369,10 +998,6 @@ class $AssetsImagesGen {
         imgIconOutlineCheck,
         imgIconoirSelectWindow,
         imgIconoirSelectWindow24x24,
-        imgImage,
-        imgImgbinCandleW,
-        imgImgbinTowelPng,
-        imgImgbinTowelPng57x58,
         imgLayer2,
         imgLayer2Gray90003,
         imgLocation,
@@ -1384,18 +1009,6 @@ class $AssetsImagesGen {
         imgMapPin,
         imgMapPinOnprimary,
         imgMasajLogo,
-        imgMaskGroup,
-        imgMaskGroup1,
-        imgMaskGroup10,
-        imgMaskGroup122x158,
-        imgMaskGroup2,
-        imgMaskGroup3,
-        imgMaskGroup4,
-        imgMaskGroup5,
-        imgMaskGroup6,
-        imgMaskGroup7,
-        imgMaskGroup8,
-        imgMaskGroup9,
         imgMaterialSymbol,
         imgMaterialSymbolBlueGray90003,
         imgMaterialSymbolBlueGray9000319x19,
@@ -1425,43 +1038,9 @@ class $AssetsImagesGen {
         imgRadioButton,
         imgRadioButtonOnprimary,
         imgRadioButtonOnprimarycontainer,
-        imgRectangle1629,
-        imgRectangle16291,
-        imgRectangle16292,
-        imgRectangle16293,
-        imgRectangle16294,
-        imgRectangle16295,
-        imgRectangle16296,
-        imgRectangle16297,
-        imgRectangle16298,
-        imgRectangle162982x83,
-        imgRectangle27,
-        imgRectangle27117x257,
-        imgRectangle28,
-        imgRectangle281,
-        imgRectangle282,
-        imgRectangle28217x375,
-        imgRectangle283,
         imgRectangle284,
-        imgRectangle2848x48,
         imgRectangle285,
-        imgRectangle2850x50,
-        imgRectangle286,
-        imgRectangle2870x70,
-        imgRectangle2872x72,
-        imgRectangle29,
-        imgRectangle39370,
-        imgRectangle39370140x327,
-        imgRectangle39370270x375,
         imgRectangle39428,
-        imgRectangle39431,
-        imgRectangle3943177x115,
-        imgRectangle39436,
-        imgRectangle3943650x50,
-        imgRectangle4236,
-        imgRectangle4237,
-        imgRectangle423735x35,
-        imgScreenshot2023,
         imgSearch,
         imgSend,
         imgSettings,
@@ -1486,14 +1065,8 @@ class $AssetsImagesGen {
         imgThumbsUpPink100,
         imgTrash,
         imgUCheckCircle,
-        imgUnsplashDukvJtyrlg,
-        imgUnsplashDukvJtyrlg1,
-        imgUnsplashDukvJtyrlg2,
-        imgUnsplashDukvJtyrlg3,
-        imgUnsplashDukvJtyrlg67x67,
         imgUser,
         imgUserGray10002,
-        imgVecteezy3dSki,
         imgVector,
         imgVectorGray20002,
         imgVectorOnprimarycontainer,
@@ -1501,43 +1074,25 @@ class $AssetsImagesGen {
         imgVideocamera,
         imgVolume,
         imgX,
-        imgX371,
-        interestBackground,
-        kidsNotAllowedIcon,
         languageIcon,
         logoText,
         masajBackgroundPng,
         masajBackgroundSvg,
-        moreBackground,
         moreIcon,
         myTicketsIcon,
-        newGlassSearchImg,
-        noPoints,
         notificationIcon,
         phone,
         pin,
-        pointsDeduct,
         pointsAdd,
         pointsBackground,
         pointsIcon,
         privacyIcon,
-        profileFemale,
-        profileMale,
-        rewardStarIcon,
-        saudiPlaceHolder,
-        selectingProjectBackground,
         settingsIcon,
-        signUpStep1Background,
-        signUpStep2Background,
-        splashVideo,
         successIcon,
         supportIcon,
         textLogoBlack,
         waLogo,
         wallet,
-        zoneHorizontalList,
-        zoneMapDisplay,
-        zoneVerticalList,
         zonesIcon
       ];
 }

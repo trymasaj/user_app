@@ -14,6 +14,14 @@ sealed class DataLoadState<T extends Object?> {
   const factory DataLoadState.empty() = DataLoadEmptyState;
 
   const factory DataLoadState.initial() = DataLoadInitialState;
+
+  @override
+  bool operator ==(Object other) =>
+      identical(this, other) ||
+      other is DataLoadState && runtimeType == other.runtimeType;
+
+  @override
+  int get hashCode => 0;
 }
 
 class DataLoadEmptyState<T extends Object?> extends DataLoadState<T> {
