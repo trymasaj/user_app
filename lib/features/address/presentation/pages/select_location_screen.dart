@@ -18,7 +18,8 @@ class SelectLocationScreen extends StatefulWidget {
 
   static Widget builder(BuildContext context) {
     return BlocProvider<SelectAreaCubit>(
-        create: (context) => getIt<SelectAreaCubit>()..getCountries(),
+        create: (context) =>
+            getIt<NotInitiallySelectAreaCubit>()..getCountries(),
         child: SelectLocationScreen());
   }
 
@@ -27,7 +28,6 @@ class SelectLocationScreen extends StatefulWidget {
 }
 
 class _SelectLocationScreenState extends State<SelectLocationScreen> {
-
   final formKey = GlobalKey<FormBuilderState>();
   final border = OutlineInputBorder(
     borderSide: BorderSide.none,
@@ -52,7 +52,7 @@ class _SelectLocationScreenState extends State<SelectLocationScreen> {
                       style: CustomTextStyles.bodyMediumGray60002)),
               SizedBox(height: 19.h),
               CountryAndRegionSelector(
-                form: formKey,
+                  form: formKey,
                   decoration: InputDecoration(
                       contentPadding: EdgeInsets.symmetric(
                           horizontal: 18.w, vertical: 18.h),
