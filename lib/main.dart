@@ -134,11 +134,6 @@ class _MyAppState extends State<MyApp> with WidgetsBindingObserver {
                     lazy: true,
                     create: (context) =>
                         getIt<MyAddressesCubit>()..getAddresses()),
-                BlocProvider<SelectLocationBloc>(
-                  lazy: true,
-                  create: (context) =>
-                      getIt<SelectLocationBloc>()..getCountries(),
-                )
               ],
               child: MaterialApp(
                 onGenerateRoute: onGenerateRoute,

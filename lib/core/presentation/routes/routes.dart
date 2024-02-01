@@ -106,11 +106,14 @@ Route<dynamic>? onGenerateRoute(RouteSettings settings) {
           builder: (context) => ManageMembersScreen.builder(context));
     // case AddMemberScreen.routeName:
     //   return MaterialPageRoute(builder: (context) => AddMemberScreen.builder(context));
-    case UpdateAddressScreen.routeName:
+    case AddAddressScreen.routeName:
       return MaterialPageRoute(
-          builder: (context) => UpdateAddressScreen.builder(
-                arguments as UpdateAddressArguments,
-              ));
+          builder: (context) => AddAddressScreen.builder());
+    case EditAddressScreen.routeName:
+      return MaterialPageRoute(
+          builder: (context) =>
+              EditAddressScreen.builder(arguments as EditAddressArguments));
+
     case ConditionsScreen.routeName:
       return MaterialPageRoute(
           builder: (context) => ConditionsScreen.builder(context));

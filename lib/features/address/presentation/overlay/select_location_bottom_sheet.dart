@@ -12,14 +12,23 @@ import 'package:masaj/features/address/presentation/pages/update_address_screen.
 import 'package:masaj/features/address/presentation/widgets/my_address_tile.dart';
 import 'package:collection/collection.dart';
 
-// ignore_for_file: must_be_immutable
-class SelectLocationBottomSheet extends StatelessWidget {
+class SelectLocationBottomSheet extends StatefulWidget {
   const SelectLocationBottomSheet({Key? key, required this.onSave})
       : super(
           key: key,
         );
   final VoidCallback onSave;
 
+  @override
+  State<SelectLocationBottomSheet> createState() =>
+      _SelectLocationBottomSheetState();
+}
+
+class _SelectLocationBottomSheetState extends State<SelectLocationBottomSheet> {
+  @override
+  void initState() {
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -54,15 +63,16 @@ class SelectLocationBottomSheet extends StatelessWidget {
                                     padding:
                                         EdgeInsets.symmetric(vertical: 5.h),
                                     child: MyAddressTile(
-                                      title: address.googleMapAddress,
-                                      isPrimary: address.isPrimary,
+                                      title: address.addressTitle,
+                                      isPrimary:
+                                          state.selectedAddressIndex == index,
                                       subTitle: address.formattedAddress,
                                       imagePath: ImageConstant
                                           .imgFluentLocation20Regular,
                                       onTap: () {
                                         context
                                             .read<MyAddressesCubit>()
-                                            .setAsPrimary(index);
+                                            .onSelectAddressAsPrimary(index);
                                       },
                                     ),
                                   )),
@@ -71,12 +81,10 @@ class SelectLocationBottomSheet extends StatelessWidget {
                             child: MyAddressTile(
                               isRadioButtonVisible: false,
                               onTap: () async {
-                                final result = await NavigatorHelper.of(context)
-                                    .pushNamed(UpdateAddressScreen.routeName,
-                                        arguments: UpdateAddressArguments(
-                                          updater:
-                                              getIt<CreateAddressUpdater>(),
-                                        )) as Address?;
+                                final result =
+                                    await NavigatorHelper.of(context).pushNamed(
+                                  AddAddressScreen.routeName,
+                                ) as Address?;
                                 if (result != null) {
                                   context.read<MyAddressesCubit>().add(result);
                                 }
@@ -95,16 +103,8 @@ class SelectLocationBottomSheet extends StatelessWidget {
               ),
             ),
             SizedBox(height: 15.h),
-/*
-            CustomElevatedButton(
-              text: "lbl_save".tr(),
-              buttonStyle: CustomButtonStyles.none,
-              decoration: CustomButtonStyles
-                  .gradientSecondaryContainerToPrimaryDecoration,
-            ),
-*/
             DefaultButton(
-              onPressed:onSave,
+              onPressed: widget.onSave,
               label: "lbl_save".tr(),
             ),
             SizedBox(height: 22.h),

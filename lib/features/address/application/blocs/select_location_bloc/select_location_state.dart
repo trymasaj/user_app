@@ -3,9 +3,9 @@
 part of 'select_location_bloc.dart';
 
 /// Represents the state of SelectLocation in the application.
-class SelectLocationState extends Equatable {
+class SelectAreaState extends Equatable {
 
-  const SelectLocationState({
+  const SelectAreaState({
     required this.selectedCountry,
     required this.selectedArea,
     required this.countries,
@@ -24,13 +24,13 @@ class SelectLocationState extends Equatable {
   @override
   List<Object?> get props => [selectedCountry, selectedArea, countries, cities];
 
-  SelectLocationState copyWith({
+  SelectAreaState copyWith({
     Option<Country>? selectedCountry,
     Option<Area>? selectedArea,
     DataLoadState<List<Country>>? countries,
     DataLoadState<List<Area>>? cities,
   }) {
-    return SelectLocationState(
+    return SelectAreaState(
       cities: cities ?? this.cities,
       countries: countries ?? this.countries,
       selectedCountry: selectedCountry ?? this.selectedCountry,
@@ -38,8 +38,8 @@ class SelectLocationState extends Equatable {
     );
   }
 
-  factory SelectLocationState.initial() {
-    return SelectLocationState(
+  factory SelectAreaState.initial() {
+    return SelectAreaState(
       selectedCountry: none(),
       countries: const DataLoadState.initial(),
       cities: const DataLoadState.initial(),

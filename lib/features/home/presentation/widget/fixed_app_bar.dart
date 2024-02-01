@@ -41,10 +41,14 @@ class FixedAppBar extends StatelessWidget {
                     onTap: () {
                       showModalBottomSheet(
                         context: context,
-                        builder: (context) =>
-                            SelectLocationBottomSheet(onSave: () {
-                              // context.read<MyAddressesCubit>().saveAddress( ));
-                            },),
+                        builder: (context) => SelectLocationBottomSheet(
+                          onSave: () async {
+                            await context
+                                .read<MyAddressesCubit>()
+                                .saveAddress();
+                            Navigator.pop(context);
+                          },
+                        ),
                       );
                     },
                     child: Column(

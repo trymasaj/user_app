@@ -8,29 +8,44 @@ import 'package:masaj/features/address/infrastructure/repos/address_repo.dart';
 import 'package:masaj/core/app_export.dart';
 part 'select_location_state.dart';
 
-@Injectable()
-class SelectLocationBloc extends Cubit<SelectLocationState> {
+class SelectAreaArguments {
+  final int countryId, areaId;
+
+  SelectAreaArguments({required this.countryId, required this.areaId});
+}
+
+abstract class SelectAreaCubit extends Cubit<SelectAreaState> {
   static const routeName = '/select-location';
-  SelectLocationBloc(this._repo) : super(SelectLocationState.initial()) {}
+  SelectAreaCubit(
+    this._repo,
+  ) : super(SelectAreaState.initial());
   final AddressRepo _repo;
 
-  Future<void> getCountries() async {
+  Future<void> init();
+
+  Future<List<Country>> getCountries() async {
     emit(state.copyWith(countries: const DataLoadState.loading()));
     final countries = await _repo.getCountries();
     emit(state.copyWith(countries: DataLoadState.loaded(countries)));
+    return countries;
   }
 
-  Future<void> getCities() async {
+  Future<List<Area>> getAreasFromCountry(Country selectedCountry) async {
+    emit(state.copyWith(cities: const DataLoadState.loading()));
+    final areas = await _repo.getAreas(selectedCountry.id!);
+    emit(state.copyWith(cities: DataLoadState.loaded(areas)));
+    return areas;
+  }
+
+  Future<void> getAreas() async {
     final selectedCountry = state.selectedCountry.toNullable();
     if (selectedCountry == null) return;
-    emit(state.copyWith(cities: const DataLoadState.loading()));
-    final cities = await _repo.getAreas(selectedCountry.id!);
-    emit(state.copyWith(cities: DataLoadState.loaded(cities)));
+    await getAreasFromCountry(selectedCountry);
   }
 
   Future<void> onCountryChanged(Country country) async {
     emit(state.copyWith(selectedCountry: some(country)));
-    await getCities();
+    await getAreas();
   }
 
   void onCityChanged(Area city) {
@@ -45,5 +60,44 @@ class SelectLocationBloc extends Cubit<SelectLocationState> {
     }
     await _repo.setCountry(selectedCountry);
     return true;
+  }
+}
+
+@Injectable()
+class InitiallySelectAreaCubit extends SelectAreaCubit {
+  final SelectAreaArguments arguments;
+
+  InitiallySelectAreaCubit(super.repo, @factoryParam this.arguments);
+
+  Future<void> getData() async {
+    print('arguments: ${arguments.countryId} ${arguments.areaId}');
+    final result = await getCountries();
+    print(result.map((e) => e.id));
+    final selectedId =
+        result.singleWhere((element) => element.id == arguments.countryId);
+    print('selectedId $selectedId');
+    emit(state.copyWith(selectedCountry: some(selectedId)));
+    if (result.isEmpty) {
+      return;
+    }
+    final areas = await getAreasFromCountry(result.first);
+    emit(state.copyWith(
+        selectedArea: some(
+            areas.singleWhere((element) => element.id == arguments!.areaId))));
+  }
+
+  @override
+  Future<void> init() {
+    return getData();
+  }
+}
+
+@Injectable()
+class NotInitiallySelectAreaCubit extends SelectAreaCubit {
+  NotInitiallySelectAreaCubit(super.repo);
+
+  @override
+  Future<void> init() {
+    return getCountries();
   }
 }

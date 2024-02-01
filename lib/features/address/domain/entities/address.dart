@@ -6,16 +6,18 @@ enum AddressType { home, work, other }
 
 class Address with EquatableMixin {
   final LatLng? latlng;
-  final String? nickName, additionalDetails;
-  final int id, areaId;
+  final String? nickName, additionalDetails, googleMapAddress;
+  final int id, areaId, countryId;
   final String block, street, avenue, building, floor, apartment;
-  final String googleMapAddress;
   final bool isPrimary;
+
+  String get addressTitle => nickName ?? googleMapAddress ?? street;
 
   Address(
       {required this.nickName,
       required this.additionalDetails,
       required this.areaId,
+      required this.countryId,
       required this.id,
       this.isPrimary = false,
       this.latlng,
@@ -26,10 +28,11 @@ class Address with EquatableMixin {
       required this.building,
       required this.floor,
       required this.apartment});
+
   static const nickNameKey = 'nickName';
   static const idKey = 'id';
   static const additionalDetailsKey = 'additionalDetails';
-  static const countryKey = 'country';
+  static const countryKey = 'countryId';
   static const regionKey = 'region';
   static const blockKey = 'block';
   static const streetKey = 'street';
@@ -40,7 +43,7 @@ class Address with EquatableMixin {
   static const isPrimaryKey = 'isPrimary';
   static const latKey = 'lat';
   static const longKey = 'lng';
-  static const typeKey = 'addressLineOne';
+  static const googleMapAddressKey = 'addressLineOne';
   static const areaIdKey = 'areaId';
 
   String get formattedAddress => [
@@ -51,10 +54,12 @@ class Address with EquatableMixin {
         floor,
         apartment
       ].where((element) => element.isNotEmpty).join(', ');
+
   factory Address.fromMap(Map<String, dynamic> map) {
     return Address(
-      id: map[idKey]??0,
-      googleMapAddress: map[typeKey],
+      countryId: map[countryKey],
+      id: map[idKey] ?? 0,
+      googleMapAddress: map[googleMapAddressKey],
       nickName: map[nickNameKey],
       additionalDetails: map[additionalDetailsKey],
       block: map[blockKey],
@@ -64,7 +69,7 @@ class Address with EquatableMixin {
       floor: map[floorKey],
       apartment: map[apartmentKey],
       isPrimary: map[isPrimaryKey],
-      areaId: 0,
+      areaId: map[areaIdKey],
     );
   }
 
@@ -81,9 +86,10 @@ class Address with EquatableMixin {
       apartmentKey: apartment,
       latKey: latlng?.latitude,
       longKey: latlng?.longitude,
-      typeKey: googleMapAddress,
       isPrimaryKey: isPrimary,
       areaIdKey: areaId,
+      countryKey: countryId,
+      googleMapAddressKey: googleMapAddress,
     }..removeWhere((key, value) => value == null);
   }
 
@@ -99,8 +105,10 @@ class Address with EquatableMixin {
       String? type,
       bool? isPrimary,
       int? areaId,
+      int? countryId,
       LatLng? latLng}) {
     return Address(
+      countryId: countryId ?? this.countryId,
       areaId: areaId ?? this.areaId,
       id: id,
       latlng: latLng ?? this.latlng,
@@ -118,6 +126,20 @@ class Address with EquatableMixin {
   }
 
   @override
-  // TODO: implement props
-  List<Object?> get props => [id];
+  List<Object?> get props => [
+        latlng,
+        nickName,
+        id,
+        block,
+        areaId,
+        countryId,
+        googleMapAddress,
+        street,
+        avenue,
+        building,
+        floor,
+        apartment,
+        additionalDetails,
+        isPrimary,
+      ];
 }

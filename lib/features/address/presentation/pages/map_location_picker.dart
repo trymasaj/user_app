@@ -17,6 +17,13 @@ class MapLocationPickerArguments {
   MapLocationPickerArguments({required this.initialLatlng});
 }
 
+class MapLocationPickerResult {
+  final LatLng latLng;
+  final String address;
+
+  MapLocationPickerResult({required this.latLng, required this.address});
+}
+
 class MapLocationPicker extends StatefulWidget {
   final MapLocationPickerArguments arguments;
   const MapLocationPicker({super.key, required this.arguments});
@@ -129,13 +136,8 @@ class _MapLocationPickerState extends State<MapLocationPicker> {
                                 await this.googleMapController.future;
                             final latLng = await googleMapController
                                 .getLatLng(context.getScreenCoordinate());
-                            print(
-                                'latlng ${context.read<MapLocationPickerCubit>().state.latLng}');
-                            Navigator.of(context).pop(context
-                                .read<MapLocationPickerCubit>()
-                                .state
-                                .latLng
-                                .toNullable());
+                            Navigator.of(context).pop(MapLocationPickerResult(
+                                address: address, latLng: latLng));
                           },
                         );
                       },

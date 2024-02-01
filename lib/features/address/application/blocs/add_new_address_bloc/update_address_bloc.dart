@@ -13,21 +13,12 @@ import 'package:masaj/features/address/infrastructure/repos/address_repo.dart';
 
 part 'update_address_state.dart';
 
-@Injectable()
-class UpdateAddressCubit extends BaseCubit<UpdateAddressState> {
-  final UpdateAddressArguments arguments;
+abstract class UpdateAddressCubit extends BaseCubit<UpdateAddressState> {
+  final AddressRepo repo;
 
-  UpdateAddressCubit(@factoryParam this.arguments)
-      : super(UpdateAddressState.initial());
+  UpdateAddressCubit(this.repo) : super(UpdateAddressState.initial());
 
-  Future<void> save(Address address) async {
-    final result = address.copyWith(latLng: state.latLng.toNullable());
-    await arguments.updater.onSave(address);
-    emit(state.copyWith(
-
-      savedAddress: some(result),
-    ));
-  }
+  Future<void> save(Address address);
 
   void updateLatLng(LatLng latLng) {
     emit(state.copyWith(
@@ -36,70 +27,32 @@ class UpdateAddressCubit extends BaseCubit<UpdateAddressState> {
   }
 }
 
-abstract class AddressUpdater {
-  final AddressRepo repo;
-  bool get isPrimaryAddress;
-  String get addressPageTitle;
-  const AddressUpdater(this.repo);
-  Map<String, dynamic> get patchedFormValue;
-  Future<Address?> onSave(
-    Address address,
-  );
-}
-
 @Injectable()
-class CreateAddressUpdater extends AddressUpdater {
-  CreateAddressUpdater(super.repo);
-  String get addressPageTitle => 'lbl_add_new_address2';
-
-  @override
-  Future<Address?> onSave(
-    Address address,
-  ) async {
-    final result = await repo.addAddress(address);
-    return address;
-  }
-
-  @override
-  Map<String, dynamic> get patchedFormValue => kDebugMode
-      ? {
-          Address.buildingKey: 'test building',
-          Address.apartmentKey: 'test apartment',
-          Address.floorKey: 'test floor',
-          Address.avenueKey: 'test avenue',
-          Address.streetKey: 'test street',
-          Address.blockKey: 'test block',
-          Address.regionKey: 'test region',
-          Address.countryKey: 'test country',
-          Address.additionalDetailsKey: 'test additional direction',
-          Address.nickNameKey: 'test nick name',
-        }
-      : {};
-
-  @override
-  // TODO: implement isPrimaryAddress
-  bool get isPrimaryAddress => false;
-}
-
-@Injectable()
-class UpdateAddressUpdater extends AddressUpdater {
-  UpdateAddressUpdater(super.repo, @factoryParam this.oldAddress);
+class EditAddressCubit extends UpdateAddressCubit {
+  EditAddressCubit(super.repo,@factoryParam this.oldAddress);
   final Address oldAddress;
 
   @override
-  Future<Address?> onSave(Address address) async {
-    final result = await repo.updateAddress(oldAddress.id, address);
-    return address;
+  Future<void> save(Address address) async {
+    final result = await repo.updateAddress(
+        oldAddress.id, address.copyWith(latLng: state.latLng.toNullable()));
+    if (result == null) return;
+    emit(state.copyWith(
+      savedAddress: some(result),
+    ));
   }
+}
 
+@Injectable()
+class AddAddressCubit extends UpdateAddressCubit {
+  AddAddressCubit(super.repo);
   @override
-  Map<String, dynamic> get patchedFormValue => oldAddress.toMap();
-
-  @override
-  // TODO: implement isPrimaryAddress
-  bool get isPrimaryAddress => oldAddress.isPrimary;
-
-  @override
-  // TODO: implement addressPageTitle
-  String get addressPageTitle => 'lbl_update_address';
+  Future<void> save(Address address) async {
+    final result = await repo
+        .addAddress(address.copyWith(latLng: state.latLng.toNullable()));
+    if (result == null) return;
+    emit(state.copyWith(
+      savedAddress: some(result),
+    ));
+  }
 }

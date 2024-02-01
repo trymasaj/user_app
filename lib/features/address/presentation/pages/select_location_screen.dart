@@ -17,8 +17,8 @@ class SelectLocationScreen extends StatefulWidget {
   SelectLocationScreen({super.key});
 
   static Widget builder(BuildContext context) {
-    return BlocProvider<SelectLocationBloc>(
-        create: (context) => getIt<SelectLocationBloc>()..getCountries(),
+    return BlocProvider<SelectAreaCubit>(
+        create: (context) => getIt<SelectAreaCubit>()..getCountries(),
         child: SelectLocationScreen());
   }
 
@@ -52,6 +52,7 @@ class _SelectLocationScreenState extends State<SelectLocationScreen> {
                       style: CustomTextStyles.bodyMediumGray60002)),
               SizedBox(height: 19.h),
               CountryAndRegionSelector(
+                form: formKey,
                   decoration: InputDecoration(
                       contentPadding: EdgeInsets.symmetric(
                           horizontal: 18.w, vertical: 18.h),
@@ -79,7 +80,7 @@ class _SelectLocationScreenState extends State<SelectLocationScreen> {
   }
 
   onTapContinue(BuildContext context) async {
-    final cubit = context.read<SelectLocationBloc>();
+    final cubit = context.read<SelectAreaCubit>();
     final isCountrySet = await cubit.onContinuePressed();
     if (isCountrySet) {
       NavigatorHelper.of(context).pushReplacementNamed(LoginPage.routeName);

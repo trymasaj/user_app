@@ -20,11 +20,10 @@ class AddressPage extends StatelessWidget {
           actions: [
             TextButton(
                 onPressed: () async {
-                 final result =  await NavigatorHelper.of(context).pushNamed(
-                      UpdateAddressScreen.routeName,
-                      arguments: UpdateAddressArguments(
-                          updater: getIt<CreateAddressUpdater>()))as Address?;
-                  if(result != null){
+                  final result = await NavigatorHelper.of(context).pushNamed(
+                    AddAddressScreen.routeName,
+                  ) as Address?;
+                  if (result != null) {
                     controller.add(result);
                   }
                 },
@@ -54,12 +53,12 @@ class AddressPage extends StatelessWidget {
                     },
                     address: address,
                     onTap: () async {
-                     final result = await NavigatorHelper.of(context).pushNamed(
-                          UpdateAddressScreen.routeName,
-                          arguments: UpdateAddressArguments(
-                              updater: getIt<UpdateAddressUpdater>(
-                                  param1: address))) as Address?;
-                      if(result != null){
+                      final result = await NavigatorHelper.of(context)
+                              .pushNamed(EditAddressScreen.routeName,
+                                  arguments:
+                                      EditAddressArguments(oldAddress: address))
+                          as Address?;
+                      if (result != null) {
                         controller.update(index, result);
                       }
                     },

@@ -16,42 +16,127 @@ import 'package:form_builder_validators/form_builder_validators.dart';
 import 'package:masaj/features/address/presentation/widgets/country_and_region_selector.dart';
 import 'package:masaj/features/address/presentation/pages/map_location_picker.dart';
 
-class UpdateAddressArguments {
-  final AddressUpdater updater;
+class EditAddressArguments {
+  final Address oldAddress;
 
-  UpdateAddressArguments({required this.updater});
+  EditAddressArguments({required this.oldAddress});
 }
 
-class UpdateAddressScreen extends StatefulWidget {
-  final UpdateAddressArguments arguments;
-
-  static const routeName = '/add-new-address';
-
-  const UpdateAddressScreen({super.key, required this.arguments});
-  static Widget builder(UpdateAddressArguments arguments) => BlocProvider(
-        create: (context) => getIt<UpdateAddressCubit>(param1: arguments),
-        child: UpdateAddressScreen(arguments: arguments),
+class EditAddressScreen extends StatefulWidget {
+  final EditAddressArguments arguments;
+  static const routeName = '/edit-address';
+  const EditAddressScreen({super.key, required this.arguments});
+  static Widget builder(EditAddressArguments arguments) => MultiBlocProvider(
+        providers: [
+          BlocProvider(
+            create: (context) =>
+                getIt<EditAddressCubit>(param1: arguments.oldAddress),
+          ),
+          BlocProvider(
+            create: (context) => getIt<InitiallySelectAreaCubit>(
+                param1: SelectAreaArguments(
+                    countryId: arguments.oldAddress.countryId,
+                    areaId: arguments.oldAddress.areaId))
+              ..init(),
+          ),
+        ],
+        child: EditAddressScreen(arguments: arguments),
       );
+
   @override
-  State<UpdateAddressScreen> createState() => _UpdateAddressScreenState();
+  State<EditAddressScreen> createState() => _EditAddressScreenState();
 }
 
-class _UpdateAddressScreenState extends State<UpdateAddressScreen> {
-  UpdateAddressArguments get arguments => widget.arguments;
-  AddressUpdater get updater => arguments.updater;
+class _EditAddressScreenState extends State<EditAddressScreen> {
   final formKey = GlobalKey<FormBuilderState>();
 
   @override
   void initState() {
+    // TODO: implement initState
     super.initState();
-    WidgetsBinding.instance?.addPostFrameCallback((timeStamp) {
-      formKey.currentState!.patchValue(updater.patchedFormValue);
+    WidgetsBinding.instance!.addPostFrameCallback((timeStamp) {
+      formKey.currentState!.patchValue(widget.arguments.oldAddress.toMap());
     });
   }
 
   @override
   Widget build(BuildContext context) {
-    return BlocListener<UpdateAddressCubit, UpdateAddressState>(
+    return UpdateAddressScreen<EditAddressCubit, InitiallySelectAreaCubit>(
+      formKey: formKey,
+      title: 'lbl_edit_address'.tr(),
+    );
+  }
+}
+
+class AddAddressScreen extends StatefulWidget {
+  static const routeName = '/add-new-address';
+
+  const AddAddressScreen({
+    super.key,
+  });
+
+  static Widget builder() => MultiBlocProvider(
+        providers: [
+          BlocProvider(
+            create: (context) => getIt<AddAddressCubit>(),
+          ),
+          BlocProvider(
+            create: (context) => getIt<NotInitiallySelectAreaCubit>()..init(),
+          ),
+        ],
+        child: AddAddressScreen(),
+      );
+
+  @override
+  State<AddAddressScreen> createState() => _AddAddressScreenState();
+}
+
+class _AddAddressScreenState extends State<AddAddressScreen> {
+  final formKey = GlobalKey<FormBuilderState>();
+  @override
+  void initState() {
+    super.initState();
+    WidgetsBinding.instance!.addPostFrameCallback((timeStamp) {
+      formKey.currentState!.patchValue(kDebugMode
+          ? {
+              Address.buildingKey: 'test building',
+              Address.apartmentKey: 'test apartment',
+              Address.floorKey: 'test floor',
+              Address.avenueKey: 'test avenue',
+              Address.streetKey: 'test street',
+              Address.blockKey: 'test block',
+              Address.regionKey: 'test region',
+              Address.countryKey: 'test country',
+              Address.additionalDetailsKey: 'test additional direction',
+              Address.nickNameKey: 'test nick name',
+            }
+          : {});
+    });
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return UpdateAddressScreen<AddAddressCubit, NotInitiallySelectAreaCubit>(
+      formKey: formKey,
+      title: 'lbl_add_new_address'.tr(),
+    );
+  }
+}
+
+class UpdateAddressScreen<T extends UpdateAddressCubit,
+    A extends SelectAreaCubit> extends StatelessWidget {
+  final String title;
+  final GlobalKey<FormBuilderState> formKey;
+
+  const UpdateAddressScreen({
+    super.key,
+    required this.title,
+    required this.formKey,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    return BlocListener<T, UpdateAddressState>(
       listenWhen: (previous, current) {
         return previous.savedAddress != current.savedAddress;
       },
@@ -80,11 +165,15 @@ class _UpdateAddressScreenState extends State<UpdateAddressScreen> {
                 SizedBox(height: 16.h),
                 _buildNameEditText(context),
                 SizedBox(height: 16.h),
-                CountryAndRegionSelector(),
+                CountryAndRegionSelector<A>(
+                  form: formKey,
+                ),
                 SizedBox(height: 16.h),
                 _buildBlockEditText(context),
                 SizedBox(height: 16.h),
                 _buildStreetEditText(context),
+                SizedBox(height: 16.h),
+                _buildGoogleMapAddressEditText(context),
                 SizedBox(height: 16.h),
                 Row(
                   children: [
@@ -115,7 +204,7 @@ class _UpdateAddressScreenState extends State<UpdateAddressScreen> {
   /// Section Widget
   PreferredSizeWidget _buildAppBar(BuildContext context) {
     return AppBar(
-      title: Text(widget.arguments.updater.addressPageTitle.tr()),
+      title: Text(title),
     );
   }
 
@@ -128,17 +217,17 @@ class _UpdateAddressScreenState extends State<UpdateAddressScreen> {
       buttonStyle: CustomButtonStyles.outlineGray,
       alignment: Alignment.center,
       onPressed: () async {
-        print(
-            'in ${context.read<UpdateAddressCubit>().state.latLng.toNullable()}');
         final result = await Navigator.of(context).pushNamed(
           MapLocationPicker.routeName,
           arguments: MapLocationPickerArguments(
-            initialLatlng:
-                context.read<UpdateAddressCubit>().state.latLng.toNullable(),
+            initialLatlng: context.read<T>().state.latLng.toNullable(),
           ),
-        ) as LatLng?;
+        ) as MapLocationPickerResult?;
         if (result != null) {
-          context.read<UpdateAddressCubit>().updateLatLng(result);
+          context.read<T>().updateLatLng(result.latLng);
+          formKey.currentState!.patchValue({
+            Address.googleMapAddressKey: result.address,
+          });
         }
       },
     );
@@ -201,6 +290,18 @@ class _UpdateAddressScreenState extends State<UpdateAddressScreen> {
         hintStyle: CustomTextStyles.bodyMediumBluegray40001_1,
       ),
       name: Address.streetKey,
+    );
+  }
+
+  Widget _buildGoogleMapAddressEditText(BuildContext context) {
+    return FormBuilderTextField(
+      readOnly: true,
+      validator: FormBuilderValidators.compose([]),
+      decoration: InputDecoration(
+        hintText: 'lbl_address'.tr(),
+        hintStyle: CustomTextStyles.bodyMediumBluegray40001_1,
+      ),
+      name: Address.googleMapAddressKey,
     );
   }
 
@@ -303,17 +404,12 @@ class _UpdateAddressScreenState extends State<UpdateAddressScreen> {
         right: 24.w,
         bottom: 32.h,
       ),
-      onPressed: () {
+      onPressed: () async {
         final isValid = formKey.currentState!.saveAndValidate();
         if (!isValid) return Future.value();
-        return context.read<UpdateAddressCubit>().save(
-            Address.fromMap(formKey.currentState!.value).copyWith(
-                areaId: context
-                    .read<SelectLocationBloc>()
-                    .state
-                    .selectedArea
-                    .toNullable()!
-                    .id));
+        return context
+            .read<T>()
+            .save(Address.fromMap(formKey.currentState!.value));
       },
     );
   }
