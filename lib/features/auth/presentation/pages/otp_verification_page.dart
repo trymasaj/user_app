@@ -25,9 +25,9 @@ class OTPVerificationPage extends StatefulWidget {
   static const routeName = '/otp-verification';
 
   const OTPVerificationPage(
-      {super.key, this.fromForgetPassword = false, this.email});
+      {super.key, this.fromForgetPassword = false, this.emailOrPhoneNumber});
   final bool fromForgetPassword;
-  final String? email;
+  final String? emailOrPhoneNumber;
   @override
   State<OTPVerificationPage> createState() => _OTPVerificationPageState();
 }
@@ -165,7 +165,7 @@ class _OTPVerificationPageState extends State<OTPVerificationPage> {
         if (_isNotValid()) return;
         if (widget.fromForgetPassword) {
           context.read<AuthCubit>().verifyForgetPassword(
-                widget.email!,
+                widget.emailOrPhoneNumber!,
                 otpController.text,
               );
           return;
@@ -219,7 +219,7 @@ class _OTPVerificationPageState extends State<OTPVerificationPage> {
       onCompleted: (value) {
         if (widget.fromForgetPassword) {
           context.read<AuthCubit>().verifyForgetPassword(
-                widget.email!,
+                widget.emailOrPhoneNumber!,
                 otpController.text,
               );
           return;
