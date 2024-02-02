@@ -81,11 +81,11 @@ class AddressRepo {
     if (country.code == null) return;
 
     await cacheService.setCountryCode(country.code!);
-    await cacheService.setCountry(country);
+    await cacheService.setCurrentCountry(country);
   }
 
   Future<Country?> getSavedCountry() async {
-    return await cacheService.getCountry();
+    return await cacheService.getCurrentCountry();
   }
 
   Future<Address?> addAddress(Address address) async {

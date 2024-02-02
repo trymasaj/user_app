@@ -16,6 +16,7 @@ import 'package:masaj/features/address/domain/entities/address.dart';
 import 'package:form_builder_validators/form_builder_validators.dart';
 import 'package:masaj/features/address/presentation/widgets/country_and_region_selector.dart';
 import 'package:masaj/features/address/presentation/pages/map_location_picker.dart';
+import 'package:masaj/features/auth/application/country_cubit/country_cubit.dart';
 
 class EditAddressArguments {
   final Address oldAddress;
@@ -415,11 +416,19 @@ class UpdateAddressScreen<T extends UpdateAddressCubit,
         bottom: 32.h,
       ),
       onPressed: () async {
+        final countryCubit = context.read<CountryCubit>();
         final isValid = formKey.currentState!.saveAndValidate();
         if (!isValid) return Future.value();
-        return context
+        await context
             .read<T>()
             .save(Address.fromMap(formKey.currentState!.value));
+        final savedAddress = context.read<T>().state.savedAddress;
+        //if saved address is primary true then call set as current in country cubit this will help you when you add first address or update primary address
+        savedAddress.fold(() {}, (address) async {
+          if (address.isPrimary) {
+            await countryCubit.setCurrentAddress(address);
+          }
+        });
       },
     );
   }

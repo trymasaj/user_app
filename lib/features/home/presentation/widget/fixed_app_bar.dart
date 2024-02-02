@@ -10,7 +10,10 @@ import 'package:masaj/features/address/application/blocs/my_addresses_bloc/my_ad
 import 'package:masaj/features/address/domain/entities/country.dart';
 import 'package:masaj/features/address/presentation/overlay/select_location_bottom_sheet.dart';
 import 'package:masaj/features/address/presentation/pages/select_location_screen.dart';
+import 'package:masaj/features/address/presentation/pages/update_address_screen.dart';
 import 'package:masaj/features/auth/application/auth_cubit/auth_cubit.dart';
+import 'package:masaj/features/auth/application/country_cubit/country_cubit.dart';
+import 'package:masaj/features/auth/application/country_cubit/country_state.dart';
 import 'package:masaj/gen/assets.gen.dart';
 
 class FixedAppBar extends StatefulWidget {
@@ -25,9 +28,16 @@ class FixedAppBar extends StatefulWidget {
 class _FixedAppBarState extends State<FixedAppBar> {
   @override
   void initState() {
+    final isGuest = context.read<AuthCubit>().state.isGuest;
+    final countryCubit = context.read<CountryCubit>();
+    if (isGuest) {
+      countryCubit.getCurrentCountry();
+    } else {
+      countryCubit.getAllAddressesAndSaveCurrentAddressLocally();
+    }
+
     super.initState();
-    final authCubit = context.read<AuthCubit>();
-    authCubit.getCurrentCountry();
+    context.read<CountryCubit>().getCurrentCountry();
   }
 
   @override
@@ -138,15 +148,22 @@ class _FixedAppBarState extends State<FixedAppBar> {
   }
 
   Widget _buildLocationForGuest(BuildContext context) {
-    return BlocSelector<AuthCubit, AuthState, Country?>(
-      selector: (state) {
-        return state.currentCountry;
-      },
-      builder: (context, currentCountry) {
+    return BlocBuilder<CountryCubit, CountryState>(
+      builder: (context, state) {
+        if (!state.isLoaded) {
+          return Text(
+            'no_country_selected'.tr(),
+            style: const TextStyle(
+              fontSize: 14,
+              fontWeight: FontWeight.w400,
+              color: AppColors.FONT_COLOR,
+            ),
+          );
+        }
+
+        final currentCountry = state.currentCountry;
         return GestureDetector(
-          onTap: () {
-            _goToSelectLocationPage(context);
-          },
+          onTap: () => _goToSelectLocationPage(context),
           child: Row(
             children: [
               Text(
@@ -177,25 +194,60 @@ class _FixedAppBarState extends State<FixedAppBar> {
       NavigatorHelper.of(context).pushNamed(SelectLocationScreen.routeName);
 
   Widget _buildLocationForUser(BuildContext context) {
-    return GestureDetector(
-      onTap: () {
-        showModalBottomSheet(
-          context: context,
-          builder: (context) => SelectLocationBottomSheet(
-            onSave: () async {
-              await context.read<MyAddressesCubit>().saveAddress();
-              Navigator.pop(context);
-            },
+    return BlocConsumer<CountryCubit, CountryState>(
+      listener: (context, state) async {
+        final cubit = context.read<CountryCubit>();
+        if (state.isPrimaryAddressLoaded) {
+          final currentAddress = state.currentAddress;
+          if (currentAddress == null) {
+            await NavigatorHelper.of(context).pushNamed(
+              AddAddressScreen.routeName,
+            );
+            await cubit.getAllAddressesAndSaveCurrentAddressLocally();
+          }
+        }
+      },
+      builder: (context, state) {
+        final currentAddress = state.currentAddress;
+        if (state.currentAddress == null) {
+          return const Text(
+            'no_country_selected',
+            style: TextStyle(
+              fontSize: 14,
+              fontWeight: FontWeight.w400,
+              color: AppColors.FONT_COLOR,
+            ),
+          );
+        }
+
+        return GestureDetector(
+          onTap: () {
+            showModalBottomSheet(
+              context: context,
+              builder: (context) => SelectLocationBottomSheet(
+                onSave: () async {
+                  final myAddressCubit = context.read<MyAddressesCubit>();
+                  final countryCubit = context.read<CountryCubit>();
+                  await myAddressCubit.saveAddress();
+                  await countryCubit
+                      .getAllAddressesAndSaveCurrentAddressLocally();
+                },
+              ),
+            );
+          },
+          child: SizedBox(
+            width: 150,
+            child: Text(
+              currentAddress!.formattedAddress ?? 'no_country_selected'.tr(),
+              overflow: TextOverflow.ellipsis,
+              style: const TextStyle(
+                  fontSize: 14,
+                  fontWeight: FontWeight.w400,
+                  color: AppColors.FONT_COLOR),
+            ),
           ),
         );
       },
-      child: const Text(
-        '2131 Street, Kuwait',
-        style: TextStyle(
-            fontSize: 14,
-            fontWeight: FontWeight.w400,
-            color: AppColors.FONT_COLOR),
-      ),
     );
   }
 }

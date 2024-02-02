@@ -478,22 +478,6 @@ class AuthCubit extends BaseCubit<AuthState> {
       ));
     }
   }
-
-  Future<void> getCurrentCountry() async {
-    try {
-      final currrentCountry = await _authRepository.getCurrentCountry();
-      emit(
-        state.copyWith(
-          currentCountry: currrentCountry,
-        ),
-      );
-    } catch (e) {
-      emit(state.copyWith(
-        status: AuthStateStatus.error,
-        errorMessage: e.toString(),
-      ));
-    }
-  }
 }
 
 

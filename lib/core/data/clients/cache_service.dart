@@ -5,6 +5,7 @@ import 'package:collection/collection.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:injectable/injectable.dart';
 import 'package:masaj/core/domain/enums/show_case_displayed_page.dart';
+import 'package:masaj/features/address/domain/entities/address.dart';
 import 'package:masaj/features/address/domain/entities/country.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
@@ -24,11 +25,16 @@ abstract class CacheService {
   Future<void> setLanguageCode(String languageCode);
 
   Future<String?> getCountryCode();
-  Future<Country?> getCountry();
+
+  Future<Country?> getCurrentCountry();
+
+  Future<Address?> getCurrentAddress();
+
+  Future<void> setCurrentAddress(Address address);
 
   Future<void> setCountryCode(String countryCode);
 
-  Future<void> setCountry(Country country);
+  Future<void> setCurrentCountry(Country country);
 
   Future<bool> getIsFirstLaunch();
 
@@ -51,6 +57,7 @@ class CacheServiceImplV2 implements CacheService {
   static const _SHOW_CASE_DISPLAYED = 'SHOW_CASE_DISPLAYED';
   static const _COUNTRY_CODE = 'COUNTRY_CODE';
   static const _COUNTRY = 'COUNTRY';
+  static const _ADDRESS = 'ADDRESS';
 
   final _completer = Completer<FlutterSecureStorage>();
 
@@ -167,15 +174,28 @@ class CacheServiceImplV2 implements CacheService {
   }
 
   @override
-  Future<void> setCountry(Country country) async {
+  Future<void> setCurrentCountry(Country country) async {
     final prefs = await SharedPreferences.getInstance();
     await prefs.setString(_COUNTRY, jsonEncode(country.toMap()));
   }
 
   @override
-  Future<Country?> getCountry() async {
+  Future<Country?> getCurrentCountry() async {
     final prefs = await SharedPreferences.getInstance();
     final country = prefs.getString(_COUNTRY);
     return Country.fromMap(jsonDecode(country!));
+  }
+
+  @override
+  Future<Address?> getCurrentAddress() async {
+    final prefs = await SharedPreferences.getInstance();
+    final address = prefs.getString(_ADDRESS);
+    return Address.fromMap(jsonDecode(address!));
+  }
+
+  @override
+  Future<void> setCurrentAddress(Address address) async {
+    final prefs = await SharedPreferences.getInstance();
+    await prefs.setString(_ADDRESS, jsonEncode(address.toMap()));
   }
 }
