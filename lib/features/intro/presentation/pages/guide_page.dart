@@ -268,10 +268,9 @@ class _GuidePageState extends State<GuidePage> {
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
-              Text(
-                tab.title!.tr(),
-                style: CustomTextStyles.headlineSmallGray5001,
-              ),
+              Text(tab.title!.tr(),
+                  style: CustomTextStyles.headlineSmallGray5001
+                      .copyWith(color: Colors.white)),
               SizedBox(height: 5.0.h),
               Text(
                 tab.description!.tr(),
@@ -280,6 +279,7 @@ class _GuidePageState extends State<GuidePage> {
                 textAlign: TextAlign.center,
                 style: theme.textTheme.bodyLarge!.copyWith(
                   height: 1.50,
+                  color: const Color(0XFFF8F8F8),
                 ),
               ),
               SizedBox(height: 16.0.h),

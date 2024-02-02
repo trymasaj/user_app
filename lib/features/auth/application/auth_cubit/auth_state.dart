@@ -41,6 +41,7 @@ class AuthState {
   final Gender? selectedGender;
   final String? errorMessage;
   final DateTime? beginResendTimer;
+  final Country? currentCountry;
 
   const AuthState({
     this.status = AuthStateStatus.initial,
@@ -48,6 +49,7 @@ class AuthState {
     this.selectedGender,
     this.errorMessage,
     this.beginResendTimer,
+    this.currentCountry,
   });
 
   @override
@@ -59,7 +61,8 @@ class AuthState {
         other.user == user &&
         other.selectedGender == selectedGender &&
         other.beginResendTimer == beginResendTimer &&
-        other.errorMessage == errorMessage;
+        other.errorMessage == errorMessage &&
+        other.currentCountry == currentCountry;
   }
 
   @override
@@ -67,8 +70,9 @@ class AuthState {
       status.hashCode ^
       user.hashCode ^
       selectedGender.hashCode ^
-      errorMessage.hashCode;
-
+      errorMessage.hashCode ^
+      beginResendTimer.hashCode ^
+      currentCountry.hashCode;
   AuthState copyWith({
     AuthStateStatus? status,
     User? user,
@@ -77,6 +81,7 @@ class AuthState {
     List<int?>? selectedInterests,
     Gender? selectedGender,
     DateTime? beginResendTimer,
+    Country? currentCountry,
   }) {
     return AuthState(
       status: status ?? this.status,
@@ -84,6 +89,7 @@ class AuthState {
       errorMessage: errorMessage ?? this.errorMessage,
       selectedGender: selectedGender ?? this.selectedGender,
       beginResendTimer: beginResendTimer ?? this.beginResendTimer,
+      currentCountry: currentCountry ?? this.currentCountry,
     );
   }
 }

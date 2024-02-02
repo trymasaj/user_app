@@ -6,6 +6,7 @@ import 'package:masaj/core/data/datasources/device_type_data_source.dart';
 import 'package:masaj/core/data/datasources/external_login_data_source.dart';
 import 'package:masaj/core/data/models/interest_model.dart';
 import 'package:masaj/features/account/data/models/contact_us_message_model.dart';
+import 'package:masaj/features/address/domain/entities/country.dart';
 import 'package:masaj/features/auth/data/datasources/auth_local_datasource.dart';
 import 'package:masaj/features/auth/data/datasources/auth_remote_datasource.dart';
 import 'package:masaj/features/auth/domain/entities/user.dart';
@@ -59,6 +60,7 @@ abstract class AuthRepository {
   Future<User?> verifyOtp(User user, String otp, {bool afterLogin = false});
   Future<User?> updateUser(User user);
   Future<void> resendOtp(User user);
+  Future<Country?> getCurrentCountry();
 }
 
 class AuthRepositoryImpl implements AuthRepository {
@@ -308,5 +310,10 @@ class AuthRepositoryImpl implements AuthRepository {
   @override
   Future<User> updateProfileInformation(User user) {
     return _remoteDataSource.updateProfileInformation(user);
+  }
+
+  @override
+  Future<Country?> getCurrentCountry() {
+    return _localDataSource.getCountry();
   }
 }

@@ -9,6 +9,7 @@ import 'package:masaj/core/data/show_case_helper.dart';
 import 'package:masaj/core/domain/enums/gender.dart';
 import 'package:masaj/core/domain/exceptions/redundant_request_exception.dart';
 import 'package:masaj/core/domain/exceptions/social_media_login_canceled_exception.dart';
+import 'package:masaj/features/address/domain/entities/country.dart';
 import 'package:masaj/features/auth/data/repositories/auth_repository.dart';
 
 import 'package:masaj/core/data/models/interest_model.dart';
@@ -470,6 +471,22 @@ class AuthCubit extends BaseCubit<AuthState> {
         state.user!.copyWith(quizAnswered: true),
       );
       emit(state.copyWith(status: AuthStateStatus.loggedIn, user: user));
+    } catch (e) {
+      emit(state.copyWith(
+        status: AuthStateStatus.error,
+        errorMessage: e.toString(),
+      ));
+    }
+  }
+
+  Future<void> getCurrentCountry() async {
+    try {
+      final currrentCountry = await _authRepository.getCurrentCountry();
+      emit(
+        state.copyWith(
+          currentCountry: currrentCountry,
+        ),
+      );
     } catch (e) {
       emit(state.copyWith(
         status: AuthStateStatus.error,

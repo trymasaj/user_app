@@ -1,15 +1,10 @@
 import 'package:flutter_form_builder/flutter_form_builder.dart';
 import 'package:masaj/features/address/presentation/widgets/country_and_region_selector.dart';
-import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:masaj/core/app_export.dart';
-import 'package:masaj/core/application/states/app_state.dart';
 import 'package:masaj/core/data/di/injection_setup.dart';
 import 'package:masaj/core/presentation/navigation/navigator_helper.dart';
-import 'package:masaj/core/presentation/widgets/stateless/state_widgets.dart';
 import 'package:masaj/features/address/application/blocs/select_location_bloc/select_location_bloc.dart';
-import 'package:masaj/features/address/domain/entities/city.dart';
-import 'package:masaj/features/address/domain/entities/country.dart';
 import 'package:masaj/features/auth/presentation/pages/login_page.dart';
 
 class SelectLocationScreen extends StatefulWidget {

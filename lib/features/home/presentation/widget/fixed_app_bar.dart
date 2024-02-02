@@ -4,20 +4,36 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:masaj/core/app_export.dart';
 import 'package:masaj/core/presentation/colors/app_colors.dart';
+import 'package:masaj/core/presentation/navigation/navigator_helper.dart';
 import 'package:masaj/core/presentation/widgets/stateless/custom_text.dart';
 import 'package:masaj/features/address/application/blocs/my_addresses_bloc/my_addresses_cubit.dart';
+import 'package:masaj/features/address/domain/entities/country.dart';
 import 'package:masaj/features/address/presentation/overlay/select_location_bottom_sheet.dart';
+import 'package:masaj/features/address/presentation/pages/select_location_screen.dart';
+import 'package:masaj/features/auth/application/auth_cubit/auth_cubit.dart';
 import 'package:masaj/gen/assets.gen.dart';
 
-class FixedAppBar extends StatelessWidget {
+class FixedAppBar extends StatefulWidget {
   const FixedAppBar({
     super.key,
   });
 
   @override
-  Widget build(BuildContext context) {
-    final topPadding = MediaQuery.of(context).padding.top * 1.5;
+  State<FixedAppBar> createState() => _FixedAppBarState();
+}
 
+class _FixedAppBarState extends State<FixedAppBar> {
+  @override
+  void initState() {
+    super.initState();
+    final authCubit = context.read<AuthCubit>();
+    authCubit.getCurrentCountry();
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    final isGuest = context.read<AuthCubit>().state.isGuest;
+    final topPadding = MediaQuery.of(context).padding.top * 1.5;
     return SliverPersistentHeader(
       floating: true,
       pinned: true,
@@ -37,59 +53,40 @@ class FixedAppBar extends StatelessWidget {
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 crossAxisAlignment: CrossAxisAlignment.end,
                 children: [
-                  GestureDetector(
-                    onTap: () {
-                      showModalBottomSheet(
-                        context: context,
-                        builder: (context) => SelectLocationBottomSheet(
-                          onSave: () async {
-                            await context
-                                .read<MyAddressesCubit>()
-                                .saveAddress();
-                            Navigator.pop(context);
-                          },
-                        ),
-                      );
-                    },
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      mainAxisAlignment: MainAxisAlignment.end,
-                      children: [
-                        const CustomText(
-                          text: 'location',
-                          fontSize: 14,
-                          fontWeight: FontWeight.w400,
-                          color: Color.fromRGBO(24, 27, 40, .7),
-                        ),
-                        const SizedBox(
-                          height: 5,
-                        ),
-                        Row(
-                          crossAxisAlignment: CrossAxisAlignment.center,
-                          children: [
-                            SvgPicture.asset(
-                              Assets.images.imgFluentLocation48Filled,
-                            ),
-                            const SizedBox(
-                              width: 5,
-                            ),
-                            const Text(
-                              '2131 Street, Kuwait',
-                              style: TextStyle(
-                                  fontSize: 14,
-                                  fontWeight: FontWeight.w400,
-                                  color: AppColors.FONT_COLOR),
-                            ),
-                            const SizedBox(
-                              width: 5,
-                            ),
-                            SvgPicture.asset(
-                              Assets.images.imgArrowDown,
-                            ),
-                          ],
-                        ),
-                      ],
-                    ),
+                  Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    mainAxisAlignment: MainAxisAlignment.end,
+                    children: [
+                      const CustomText(
+                        text: 'location',
+                        fontSize: 14,
+                        fontWeight: FontWeight.w400,
+                        color: Color.fromRGBO(24, 27, 40, .7),
+                      ),
+                      const SizedBox(
+                        height: 5,
+                      ),
+                      Row(
+                        crossAxisAlignment: CrossAxisAlignment.center,
+                        children: [
+                          SvgPicture.asset(
+                            Assets.images.imgFluentLocation48Filled,
+                          ),
+                          const SizedBox(
+                            width: 5,
+                          ),
+                          isGuest
+                              ? _buildLocationForGuest(context)
+                              : _buildLocationForUser(context),
+                          const SizedBox(
+                            width: 5,
+                          ),
+                          SvgPicture.asset(
+                            Assets.images.imgArrowDown,
+                          ),
+                        ],
+                      ),
+                    ],
                   ),
                   Row(
                     crossAxisAlignment: CrossAxisAlignment.start,
@@ -136,6 +133,68 @@ class FixedAppBar extends StatelessWidget {
             ],
           ),
         ),
+      ),
+    );
+  }
+
+  Widget _buildLocationForGuest(BuildContext context) {
+    return BlocSelector<AuthCubit, AuthState, Country?>(
+      selector: (state) {
+        return state.currentCountry;
+      },
+      builder: (context, currentCountry) {
+        return GestureDetector(
+          onTap: () {
+            _goToSelectLocationPage(context);
+          },
+          child: Row(
+            children: [
+              Text(
+                currentCountry?.nameEn ?? 'no_country_selected',
+                style: const TextStyle(
+                  fontSize: 14,
+                  fontWeight: FontWeight.w400,
+                  color: AppColors.FONT_COLOR,
+                ),
+              ),
+              const SizedBox(
+                width: 5,
+              ),
+              if (currentCountry?.flagIcon != null)
+                Image.network(
+                  currentCountry!.flagIcon!,
+                  width: 12,
+                  height: 12,
+                ),
+            ],
+          ),
+        );
+      },
+    );
+  }
+
+  void _goToSelectLocationPage(BuildContext context) =>
+      NavigatorHelper.of(context).pushNamed(SelectLocationScreen.routeName);
+
+  Widget _buildLocationForUser(BuildContext context) {
+    return GestureDetector(
+      onTap: () {
+        showModalBottomSheet(
+          context: context,
+          builder: (context) => SelectLocationBottomSheet(
+            onSave: () async {
+              await context.read<MyAddressesCubit>().saveAddress();
+              Navigator.pop(context);
+            },
+          ),
+        );
+      },
+      child: const Text(
+        '2131 Street, Kuwait',
+        style: TextStyle(
+            fontSize: 14,
+            fontWeight: FontWeight.w400,
+            color: AppColors.FONT_COLOR),
       ),
     );
   }

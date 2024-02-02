@@ -300,6 +300,7 @@ class UpdateAddressScreen<T extends UpdateAddressCubit,
   Widget _buildGoogleMapAddressEditText(BuildContext context) {
     return FormBuilderTextField(
       readOnly: true,
+      style: CustomTextStyles.bodyMediumGray90003,
       validator: FormBuilderValidators.compose([]),
       decoration: InputDecoration(
         hintText: 'lbl_address'.tr(),
