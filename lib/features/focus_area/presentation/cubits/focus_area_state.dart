@@ -23,11 +23,13 @@ class FocusAreaState {
   final FocusAreaStateStatus status;
   final String? errorMessage;
   final FocusAreaStateType? type;
+  final Map<FocusAreas, bool> positions;
 
   const FocusAreaState({
     this.status = FocusAreaStateStatus.initial,
     this.errorMessage,
     this.type = FocusAreaStateType.Front,
+    this.positions = const {},
     th,
   });
 
@@ -38,20 +40,27 @@ class FocusAreaState {
     return other.runtimeType == runtimeType &&
         (other as FocusAreaState).status == status &&
         other.type == type &&
+        other.positions == positions &&
         other.errorMessage == errorMessage;
   }
 
   @override
-  int get hashCode => status.hashCode ^ errorMessage.hashCode ^ type.hashCode;
+  int get hashCode =>
+      status.hashCode ^
+      errorMessage.hashCode ^
+      type.hashCode ^
+      positions.hashCode;
 
   FocusAreaState copyWith({
     FocusAreaStateStatus? status,
     String? errorMessage,
     FocusAreaStateType? type,
+    Map<FocusAreas, bool>? positions,
   }) {
     return FocusAreaState(
         status: status ?? this.status,
         errorMessage: errorMessage ?? this.errorMessage,
+        positions: positions ?? this.positions,
         type: type);
   }
 }

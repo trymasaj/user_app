@@ -54,7 +54,8 @@ void main() async {
               BlocProvider(create: (context) => Injector().splashCubit..init()),
               BlocProvider(create: (context) => Injector().authCubit..init()),
               BlocProvider(create: (context) => Injector().favoritesCubit),
-              BlocProvider(create: (context) => Injector().focusAreaCubit),
+              BlocProvider(
+                  create: (context) => Injector().focusAreaCubit..init()),
               BlocProvider(
                 create: (context) => Injector().countryCubit,
               ),

@@ -1,9 +1,9 @@
 import 'dart:developer';
 
 import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:gradient_borders/box_borders/gradient_box_border.dart';
+import 'package:masaj/core/app_export.dart' hide TextDirection;
+import 'package:masaj/core/domain/enums/focus_area.dart';
 import 'package:masaj/core/presentation/colors/app_colors.dart';
 import 'package:masaj/core/presentation/widgets/stateless/custom_app_bar.dart';
 import 'package:masaj/core/presentation/widgets/stateless/custom_app_page.dart';
@@ -30,7 +30,9 @@ class _FocusAreaState extends State<FocusArea> with TickerProviderStateMixin {
           CustomAppBar(
             title: 'Focus Area',
             centerTitle: true,
-            actions: [IconButton(onPressed: () {}, icon: Icon(Icons.replay))],
+            actions: [
+              IconButton(onPressed: () {}, icon: const Icon(Icons.replay))
+            ],
           ),
           _buildTabBar(context),
           _buildBody(),
@@ -59,11 +61,136 @@ class _FocusAreaState extends State<FocusArea> with TickerProviderStateMixin {
                     ? Image.asset('assets/images/Back.png')
                     : Image.asset('assets/images/Front.png'),
                 SelectableText(state.name)
-              ]))
+              ])),
+              ..._buildBodyPostions(context)
             ],
           ),
         );
       },
+    );
+  }
+
+  List<Widget> _buildBodyPostions(BuildContext context) {
+    final cubit = context.read<FocusAreaCubit>();
+    return cubit.state.type == FocusAreaStateType.Front
+        ? _buildFrontBodyPostions(context)
+        : _buildBackBodyPostions(context);
+  }
+
+  List<Widget> _buildFrontBodyPostions(BuildContext context) {
+    final cubit = context.read<FocusAreaCubit>();
+    return [
+      _buildBodyCheckBox(
+          top: 15.h,
+          start: 0,
+          end: 5.w,
+          value: cubit.state.positions[FocusAreas.Head] ?? false,
+          onChanged: (value) {
+            cubit.state.positions[FocusAreas.Head] = value ?? false;
+          }),
+      _buildBodyCheckBox(
+        top: 60.h,
+        start: 0,
+        end: 5.w,
+        value: cubit.state.positions[FocusAreas.Neck] ?? false,
+        onChanged: (value) {
+          cubit.setPosition(value ?? false, FocusAreas.Neck);
+        },
+      ),
+      _buildBodyCheckBox(
+        top: 75.h,
+        start: 0,
+        end: 90.w,
+        value: cubit.state.positions[FocusAreas.Shoulders] ?? false,
+        onChanged: (value) {
+          cubit.state.positions[FocusAreas.Shoulders] = value ?? false;
+        },
+      ),
+      _buildBodyCheckBox(
+        top: 100.h,
+        start: 0,
+        end: 5.w,
+        value: cubit.state.positions[FocusAreas.Chest] ?? false,
+        onChanged: (value) {
+          cubit.state.positions[FocusAreas.Chest] = value ?? false;
+        },
+      ),
+      _buildBodyCheckBox(
+        top: 150.h,
+        start: 0,
+        end: 5.w,
+        value: cubit.state.positions[FocusAreas.Abdomen] ?? false,
+        onChanged: (value) {
+          cubit.state.positions[FocusAreas.Abdomen] = value ?? false;
+        },
+      ),
+      _buildBodyCheckBox(
+        top: 160.h,
+        start: 0,
+        end: 100.w,
+        value: cubit.state.positions[FocusAreas.Arms] ?? false,
+        onChanged: (value) {
+          cubit.state.positions[FocusAreas.Arms] = value ?? false;
+        },
+      ),
+      _buildBodyCheckBox(
+        top: 280.h,
+        start: 0,
+        end: 5.w,
+        value: cubit.state.positions[FocusAreas.Legs] ?? false,
+        onChanged: (value) {
+          cubit.state.positions[FocusAreas.Legs] = value ?? false;
+        },
+      ),
+      _buildBodyCheckBox(
+        top: 400.h,
+        start: 0,
+        end: 5.w,
+        value: cubit.state.positions[FocusAreas.Feet] ?? false,
+        onChanged: (value) {
+          cubit.state.positions[FocusAreas.Feet] = value ?? false;
+        },
+      ),
+    ];
+  }
+
+  List<Widget> _buildBackBodyPostions(BuildContext context) {
+    return [
+      _buildBodyCheckBox(
+        top: 20.h,
+        start: 0,
+        end: 5.w,
+        value: false,
+        onChanged: (value) {},
+      )
+    ];
+  }
+
+  Widget _buildBodyCheckBox({
+    required bool value,
+    required ValueChanged<bool?> onChanged,
+    double? top,
+    double? bottom,
+    double? start,
+    double? end,
+  }) {
+    return Positioned.directional(
+      textDirection: context.locale.countryCode == 'ar'
+          ? TextDirection.rtl
+          : TextDirection.ltr,
+      top: top,
+      bottom: bottom,
+      start: start,
+      end: end,
+      child: Checkbox(
+        checkColor: Colors.white,
+        side: const BorderSide(color: AppColors.PRIMARY_COLOR),
+        fillColor: MaterialStatePropertyAll(
+            value ? AppColors.PRIMARY_COLOR : AppColors.BACKGROUND_COLOR),
+        value: value,
+        shape: const CircleBorder(),
+        onChanged: onChanged,
+      ),
     );
   }
 
