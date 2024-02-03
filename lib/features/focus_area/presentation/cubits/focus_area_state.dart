@@ -27,7 +27,7 @@ class FocusAreaState {
   const FocusAreaState({
     this.status = FocusAreaStateStatus.initial,
     this.errorMessage,
-    this.type,
+    this.type = FocusAreaStateType.Front,
     th,
   });
 
@@ -42,8 +42,7 @@ class FocusAreaState {
   }
 
   @override
-  int get hashCode =>
-      status.hashCode ^ errorMessage.hashCode ^ type.hashCode;
+  int get hashCode => status.hashCode ^ errorMessage.hashCode ^ type.hashCode;
 
   FocusAreaState copyWith({
     FocusAreaStateStatus? status,
