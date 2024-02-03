@@ -167,7 +167,7 @@ class _FixedAppBarState extends State<FixedAppBar> {
           child: Row(
             children: [
               Text(
-                currentCountry?.nameEn ?? 'no_country_selected',
+                currentCountry?.nameEn ?? 'no_country_selected'.tr(),
                 style: const TextStyle(
                   fontSize: 14,
                   fontWeight: FontWeight.w400,
@@ -210,9 +210,9 @@ class _FixedAppBarState extends State<FixedAppBar> {
       builder: (context, state) {
         final currentAddress = state.currentAddress;
         if (state.currentAddress == null) {
-          return const Text(
-            'no_country_selected',
-            style: TextStyle(
+          return Text(
+            'no_country_selected'.tr(),
+            style: const TextStyle(
               fontSize: 14,
               fontWeight: FontWeight.w400,
               color: AppColors.FONT_COLOR,
