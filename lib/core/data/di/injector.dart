@@ -30,6 +30,7 @@ import 'package:masaj/features/auth/data/datasources/auth_local_datasource.dart'
 import 'package:masaj/features/auth/data/datasources/auth_remote_datasource.dart';
 import 'package:masaj/features/auth/data/repositories/auth_repository.dart';
 import 'package:masaj/features/auth/application/auth_cubit/auth_cubit.dart';
+import 'package:masaj/features/focus_area/presentation/cubits/focus_area_cubit.dart';
 import 'package:masaj/features/home/data/datasources/home_remote_data_source.dart';
 import 'package:masaj/features/home/data/repositories/home_repository.dart';
 import 'package:masaj/features/home/presentation/bloc/home_cubit/home_cubit.dart';
@@ -107,6 +108,8 @@ class Injector {
         authRepository,
         addressRepo,
       );
+//===================[FOCUS_AREA_CUBIT]===================
+  FocusAreaCubit get focusAreaCubit => FocusAreaCubit();
 
   //===================[ADDRESS]===================
   AddressRepo get addressRepo => AddressRepo(
