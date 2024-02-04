@@ -8,6 +8,8 @@ class FocusAreaCubit extends BaseCubit<FocusAreaState> {
   Map<FocusAreas, bool> focusPositions = {};
 
   void init() {
+    emit(state.copyWith(status: FocusAreaStateStatus.initial));
+
     focusPositions.addAll({
       FocusAreas.Head: false,
       FocusAreas.Neck: false,
@@ -25,10 +27,14 @@ class FocusAreaCubit extends BaseCubit<FocusAreaState> {
       FocusAreas.Thighs: false,
       FocusAreas.Calves: false,
     });
-    emit(state.copyWith(type: FocusAreaStateType.Front));
+    emit(state.copyWith(
+      status: FocusAreaStateStatus.loaded,
+      type: FocusAreaStateType.Front,
+    ));
   }
 
   void setPosition(bool value, FocusAreas position) {
+    emit(state.copyWith(status: FocusAreaStateStatus.loading));
     focusPositions[position] = value;
 
     emit(state.copyWith(
@@ -36,13 +42,21 @@ class FocusAreaCubit extends BaseCubit<FocusAreaState> {
   }
 
   void resetPositions() {
+    emit(state.copyWith(status: FocusAreaStateStatus.loading));
+
     focusPositions.forEach((key, value) {
       focusPositions[key] = false;
     });
-    emit(state.copyWith(positions: focusPositions));
+    emit(state.copyWith(
+        positions: focusPositions, status: FocusAreaStateStatus.updated));
   }
 
   void changeBody(FocusAreaStateType type) {
-    emit(state.copyWith(type: type));
+    emit(state.copyWith(status: FocusAreaStateStatus.loading));
+
+    emit(state.copyWith(
+      status: FocusAreaStateStatus.updated,
+      type: type,
+    ));
   }
 }

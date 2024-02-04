@@ -289,15 +289,16 @@ List<Widget> _buildBackBodyPostions(BuildContext context) {
   ];
 }
 
-Widget _buildBodyCheckBox(
-    {required bool value,
-    required ValueChanged<bool?> onChanged,
-    required BuildContext context,
-    double? top,
-    double? bottom,
-    double? start,
-    double? end,
-    FocusAreas? focusArea}) {
+Widget _buildBodyCheckBox({
+  required bool value,
+  required ValueChanged<bool?> onChanged,
+  required BuildContext context,
+  double? top,
+  double? bottom,
+  double? start,
+  double? end,
+  FocusAreas? focusArea,
+}) {
   return Positioned.directional(
     key: focusArea != null ? Key(focusArea.name) : null,
     textDirection: context.locale.countryCode == 'ar'

@@ -3,7 +3,7 @@ import 'dart:developer';
 import 'package:flutter/material.dart';
 import 'package:masaj/core/presentation/colors/app_colors.dart';
 import 'package:masaj/core/presentation/navigation/navigator_helper.dart';
-import 'package:masaj/features/focus_area/presentation/pages/focus_area.dart';
+import 'package:masaj/features/focus_area/presentation/pages/focus_area_page.dart';
 import 'package:masaj/gen/assets.gen.dart';
 
 class CategoriesList extends StatelessWidget {
