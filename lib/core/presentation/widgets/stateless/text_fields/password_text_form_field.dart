@@ -1,5 +1,6 @@
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:masaj/core/app_export.dart';
 import 'package:masaj/core/data/validator/validator.dart';
@@ -46,6 +47,7 @@ class _PasswordTextFormFieldState extends State<PasswordTextFormField> {
         currentFocusNode: widget.currentFocusNode,
         nextFocusNode: widget.nextFocusNode,
         margin: widget.margin,
+        inputFormatters: [LengthLimitingTextInputFormatter(20)],
         prefixIcon: widget.prefixIcon ?? buildImage(ImageConstant.imgLocation),
         hint: widget.hint ?? 'enter_your_password'.tr(),
         obscureText: _obscureTextLogin,

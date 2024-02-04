@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:intl_phone_field/phone_number.dart';
 import 'package:masaj/core/app_export.dart';
 import 'package:masaj/core/data/extensions/extensions.dart';
@@ -190,6 +191,7 @@ class _SignUpPageState extends State<SignUpPage> {
               currentFocusNode: _fullNameFocusNode,
               currentController: _fullNameTextController,
               nextFocusNode: _emailFocusNode,
+              inputFormatters: [LengthLimitingTextInputFormatter(40)],
               hint: 'lbl_name',
               prefixIcon: buildImage(ImageConstant.imgLock),
             ),
@@ -251,6 +253,7 @@ class _SignUpPageState extends State<SignUpPage> {
                 currentFocusNode: _passwordFocusNode,
                 nextFocusNode: _passwordConfirmFocusNode,
                 hint: 'password'.tr(),
+                
                 validator: widget.isFromSocial
                     ? (value) {
                         return null;
