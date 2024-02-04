@@ -329,7 +329,7 @@ class _LoginPageState extends State<LoginPage> {
       alignment: AlignmentDirectional.centerEnd,
       child: TextButton(
           child: const CustomText(
-            text: 'forget_password',
+            text: 'msg_forgot_password',
             fontSize: 14,
             fontWeight: FontWeight.w500,
           ),
