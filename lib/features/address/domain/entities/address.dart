@@ -1,13 +1,17 @@
 import 'package:equatable/equatable.dart';
 import 'package:flutter/material.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
+import 'package:masaj/features/address/domain/entities/city.dart';
+import 'package:masaj/features/address/domain/entities/country.dart';
 
 enum AddressType { home, work, other }
 
 class Address with EquatableMixin {
   final LatLng? latlng;
   final String? nickName, additionalDetails, googleMapAddress;
-  final int id, areaId, countryId;
+  final Country? country;
+  final int id;
+  final Area area;
   final String block, street, avenue, building, floor, apartment;
   final bool isPrimary;
 
@@ -16,8 +20,8 @@ class Address with EquatableMixin {
   Address(
       {required this.nickName,
       required this.additionalDetails,
-      required this.areaId,
-      required this.countryId,
+      required this.area,
+      required this.country,
       required this.id,
       this.isPrimary = false,
       this.latlng,
@@ -32,7 +36,7 @@ class Address with EquatableMixin {
   static const nickNameKey = 'nickName';
   static const idKey = 'id';
   static const additionalDetailsKey = 'additionalDetails';
-  static const countryKey = 'countryId';
+  static const countryKey = 'country';
   static const regionKey = 'region';
   static const blockKey = 'block';
   static const streetKey = 'street';
@@ -44,7 +48,7 @@ class Address with EquatableMixin {
   static const latKey = 'lat';
   static const longKey = 'lng';
   static const googleMapAddressKey = 'addressLineOne';
-  static const areaIdKey = 'areaId';
+  static const areaKey = 'area';
 
   String get formattedAddress => [
         street,
@@ -57,7 +61,7 @@ class Address with EquatableMixin {
 
   factory Address.fromMap(Map<String, dynamic> map) {
     return Address(
-      countryId: map[countryKey],
+      country: Country.fromMap(map[countryKey]),
       id: map[idKey] ?? 0,
       googleMapAddress: map[googleMapAddressKey],
       nickName: map[nickNameKey],
@@ -69,7 +73,7 @@ class Address with EquatableMixin {
       floor: map[floorKey],
       apartment: map[apartmentKey],
       isPrimary: map[isPrimaryKey],
-      areaId: map[areaIdKey],
+      area: Area.fromMap(map[areaKey]),
     );
   }
 
@@ -87,8 +91,8 @@ class Address with EquatableMixin {
       latKey: latlng?.latitude,
       longKey: latlng?.longitude,
       isPrimaryKey: isPrimary,
-      areaIdKey: areaId,
-      countryKey: countryId,
+      areaKey: area.toMap(),
+      countryKey: country?.toMap(),
       googleMapAddressKey: googleMapAddress,
     }..removeWhere((key, value) => value == null);
   }
@@ -108,8 +112,8 @@ class Address with EquatableMixin {
       int? countryId,
       LatLng? latLng}) {
     return Address(
-      countryId: countryId ?? this.countryId,
-      areaId: areaId ?? this.areaId,
+      country: country ?? this.country,
+      area: area ?? this.area,
       id: id,
       latlng: latLng ?? this.latlng,
       nickName: nickName ?? this.nickName,
@@ -131,8 +135,8 @@ class Address with EquatableMixin {
         nickName,
         id,
         block,
-        areaId,
-        countryId,
+        area,
+        country,
         googleMapAddress,
         street,
         avenue,

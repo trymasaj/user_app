@@ -33,7 +33,7 @@ class _FixedAppBarState extends State<FixedAppBar> {
     if (isGuest) {
       countryCubit.getCurrentCountry();
     } else {
-      countryCubit.getAllAddressesAndSaveCurrentAddressLocally();
+      countryCubit.getAllAddressesAndSavePrimaryAddressLocally();
     }
 
     super.initState();
@@ -167,7 +167,7 @@ class _FixedAppBarState extends State<FixedAppBar> {
           child: Row(
             children: [
               Text(
-                currentCountry?.nameEn ?? 'no_country_selected',
+                currentCountry?.nameEn ?? 'no_country_selected'.tr(),
                 style: const TextStyle(
                   fontSize: 14,
                   fontWeight: FontWeight.w400,
@@ -203,16 +203,16 @@ class _FixedAppBarState extends State<FixedAppBar> {
             await NavigatorHelper.of(context).pushNamed(
               AddAddressScreen.routeName,
             );
-            await cubit.getAllAddressesAndSaveCurrentAddressLocally();
+            await cubit.getAllAddressesAndSavePrimaryAddressLocally();
           }
         }
       },
       builder: (context, state) {
         final currentAddress = state.currentAddress;
         if (state.currentAddress == null) {
-          return const Text(
-            'no_country_selected',
-            style: TextStyle(
+          return Text(
+            'no_country_selected'.tr(),
+            style: const TextStyle(
               fontSize: 14,
               fontWeight: FontWeight.w400,
               color: AppColors.FONT_COLOR,
@@ -230,7 +230,7 @@ class _FixedAppBarState extends State<FixedAppBar> {
                   final countryCubit = context.read<CountryCubit>();
                   await myAddressCubit.saveAddress();
                   await countryCubit
-                      .getAllAddressesAndSaveCurrentAddressLocally();
+                      .getAllAddressesAndSavePrimaryAddressLocally();
                 },
               ),
             );

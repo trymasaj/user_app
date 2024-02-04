@@ -3,6 +3,7 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 
 import 'package:masaj/features/address/domain/entities/address.dart';
+import 'package:masaj/features/address/domain/entities/city.dart';
 import 'package:masaj/features/address/domain/entities/country.dart';
 
 enum CountryStateStatus {
@@ -34,6 +35,7 @@ class CountryState {
   final List<Address>? addresses;
   final Country? currentCountry;
   final Address? currentAddress;
+  final List<Area>? areas;
 
   const CountryState({
     this.status = CountryStateStatus.initial,
@@ -42,12 +44,14 @@ class CountryState {
     this.addresses,
     this.currentCountry,
     this.currentAddress,
+    this.areas,
   });
 
   CountryState copyWith({
     CountryStateStatus? status,
     String? message,
     List<Country>? countries,
+    List<Area>? areas,
     List<Address>? addresses,
     Country? currentCountry,
     Address? currentAddress,
@@ -57,6 +61,7 @@ class CountryState {
       message: message ?? this.message,
       countries: countries ?? this.countries,
       addresses: addresses ?? this.addresses,
+      areas: areas ?? this.areas,
       currentCountry: currentCountry ?? this.currentCountry,
       currentAddress: currentAddress ?? this.currentAddress,
     );
@@ -71,7 +76,8 @@ class CountryState {
         listEquals(other.countries, countries) &&
         listEquals(other.addresses, addresses) &&
         other.currentCountry == currentCountry &&
-        other.currentAddress == currentAddress;
+        other.currentAddress == currentAddress &&
+        listEquals(other.areas, areas);
   }
 
   @override
@@ -81,6 +87,7 @@ class CountryState {
         countries.hashCode ^
         addresses.hashCode ^
         currentCountry.hashCode ^
-        currentAddress.hashCode;
+        currentAddress.hashCode ^
+        areas.hashCode;
   }
 }

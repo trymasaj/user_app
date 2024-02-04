@@ -18,3 +18,5 @@ enum FocusAreas {
   Thighs,
   Calves,
 }
+
+enum BodySideEnum { Front, Back }
