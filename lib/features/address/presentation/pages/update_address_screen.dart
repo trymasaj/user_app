@@ -17,6 +17,7 @@ import 'package:form_builder_validators/form_builder_validators.dart';
 import 'package:masaj/features/address/presentation/widgets/country_and_region_selector.dart';
 import 'package:masaj/features/address/presentation/pages/map_location_picker.dart';
 import 'package:masaj/features/auth/application/country_cubit/country_cubit.dart';
+import 'package:collection/collection.dart';
 
 class EditAddressArguments {
   final Address oldAddress;
@@ -37,8 +38,9 @@ class EditAddressScreen extends StatefulWidget {
           BlocProvider(
             create: (context) => getIt<InitiallySelectAreaCubit>(
                 param1: SelectAreaArguments(
-                    countryId: arguments.oldAddress.countryId,
-                    areaId: arguments.oldAddress.areaId))
+              countryId: arguments.oldAddress.country!.id!,
+              areaId: arguments.oldAddress.area.id,
+            ))
               ..init(),
           ),
         ],
@@ -419,9 +421,8 @@ class UpdateAddressScreen<T extends UpdateAddressCubit,
         final countryCubit = context.read<CountryCubit>();
         final isValid = formKey.currentState!.saveAndValidate();
         if (!isValid) return Future.value();
-        await context
-            .read<T>()
-            .save(Address.fromMap(formKey.currentState!.value));
+        final addressMap = formKey.currentState!.value;
+        await context.read<T>().save(Address.fromMap(addressMap));
         final savedAddress = context.read<T>().state.savedAddress;
         //if saved address is primary true then call set as current in country cubit this will help you when you add first address or update primary address
         savedAddress.fold(() {}, (address) async {

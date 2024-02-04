@@ -91,19 +91,56 @@ class CountryCubit extends BaseCubit<CountryState> {
     }
   }
 
-  Future<void> getAllAddressesAndSaveCurrentAddressLocally() async {
+  Future<void> getAllAddressesAndSavePrimaryAddressLocally() async {
     try {
       emit(state.copyWith(status: CountryStateStatus.loading));
       final addresses = await _addressRepo.getAddresses();
       //after getting all addresses, set the primary address as the current address
       final primaryAddress =
           addresses.firstWhereOrNull((element) => element.isPrimary);
-      if (primaryAddress != null)
+      if (primaryAddress != null) {
         await _authRepository.setCurrentAddress(primaryAddress);
+      }
       emit(state.copyWith(
         status: CountryStateStatus.primaryAddressLoaded,
         addresses: addresses,
         currentAddress: primaryAddress,
+      ));
+    } catch (e) {
+      emit(
+        state.copyWith(
+          status: CountryStateStatus.error,
+          message: e.toString(),
+        ),
+      );
+    }
+  }
+
+  Future<void> getAllCountries() async {
+    try {
+      emit(state.copyWith(status: CountryStateStatus.loading));
+      final countries = await _addressRepo.getCountries();
+      emit(state.copyWith(
+        status: CountryStateStatus.loaded,
+        countries: countries,
+      ));
+    } catch (e) {
+      emit(
+        state.copyWith(
+          status: CountryStateStatus.error,
+          message: e.toString(),
+        ),
+      );
+    }
+  }
+
+  Future<void> getAllAreas(int countryId) async {
+    try {
+      emit(state.copyWith(status: CountryStateStatus.loading));
+      final areas = await _addressRepo.getAreas(countryId);
+      emit(state.copyWith(
+        status: CountryStateStatus.loaded,
+        areas: areas,
       ));
     } catch (e) {
       emit(

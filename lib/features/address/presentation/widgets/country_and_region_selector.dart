@@ -40,7 +40,7 @@ class CountryAndRegionSelector<T extends SelectAreaCubit>
                 onData: (data) {
                   return FormBuilderDropdown<Country>(
                     valueTransformer: (value) {
-                      return value?.id;
+                      return value?.toMap();
                     },
                     name: Address.countryKey,
                     isExpanded: true,
@@ -91,9 +91,9 @@ class CountryAndRegionSelector<T extends SelectAreaCubit>
                 onData: (data) {
                   return FormBuilderDropdown<Area>(
                     valueTransformer: (value) {
-                      return value?.id;
+                      return value?.toMap();
                     },
-                    name: Address.areaIdKey,
+                    name: Address.areaKey,
                     initialValue: controller.state.selectedArea.toNullable(),
                     isExpanded: true,
                     decoration: decoration.copyWith(
@@ -108,7 +108,7 @@ class CountryAndRegionSelector<T extends SelectAreaCubit>
                               children: [
                                 const SizedBox(width: 3),
                                 Text(
-                                  isArabic ? e.name.nameAr : e.name.nameEn,
+                                  e.name,
                                   style: CustomTextStyles
                                       .bodyMediumOnErrorContainer,
                                 ),

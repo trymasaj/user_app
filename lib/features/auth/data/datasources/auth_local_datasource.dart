@@ -126,5 +126,7 @@ class AuthLocalDataSourceImpl implements AuthLocalDataSource {
   @override
   Future<void> setCurrentAddress(Address address) async {
     await _cacheService.setCurrentAddress(address);
+    if (address.country != null)
+      await _cacheService.setCurrentCountry(address.country!);
   }
 }

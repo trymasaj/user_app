@@ -33,7 +33,7 @@ class _FixedAppBarState extends State<FixedAppBar> {
     if (isGuest) {
       countryCubit.getCurrentCountry();
     } else {
-      countryCubit.getAllAddressesAndSaveCurrentAddressLocally();
+      countryCubit.getAllAddressesAndSavePrimaryAddressLocally();
     }
 
     super.initState();
@@ -203,7 +203,7 @@ class _FixedAppBarState extends State<FixedAppBar> {
             await NavigatorHelper.of(context).pushNamed(
               AddAddressScreen.routeName,
             );
-            await cubit.getAllAddressesAndSaveCurrentAddressLocally();
+            await cubit.getAllAddressesAndSavePrimaryAddressLocally();
           }
         }
       },
@@ -230,7 +230,7 @@ class _FixedAppBarState extends State<FixedAppBar> {
                   final countryCubit = context.read<CountryCubit>();
                   await myAddressCubit.saveAddress();
                   await countryCubit
-                      .getAllAddressesAndSaveCurrentAddressLocally();
+                      .getAllAddressesAndSavePrimaryAddressLocally();
                 },
               ),
             );
