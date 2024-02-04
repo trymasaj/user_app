@@ -63,6 +63,7 @@ class CacheServiceImplV2 implements CacheService {
   static const _COUNTRY_CODE = 'COUNTRY_CODE';
   static const _COUNTRY = 'COUNTRY';
   static const _SERVICE_MODEL = 'SERVICE';
+  static const _ADDRESS = 'ADDRESS';
 
   final _completer = Completer<FlutterSecureStorage>();
 
@@ -226,5 +227,18 @@ class CacheServiceImplV2 implements CacheService {
         key: _SERVICE_MODEL,
         value: jsonEncode(serviceModels.map((e) => e.toMap()).toList()));
     return true;
+  }
+  
+  @override
+  Future<Address?> getCurrentAddress() async {
+    final prefs = await SharedPreferences.getInstance();
+    final address = prefs.getString(_ADDRESS);
+    return Address.fromMap(jsonDecode(address!));
+  }
+  
+ @override
+  Future<void> setCurrentAddress(Address address) async {
+    final prefs = await SharedPreferences.getInstance();
+    await prefs.setString(_ADDRESS, jsonEncode(address.toMap()));
   }
 }
