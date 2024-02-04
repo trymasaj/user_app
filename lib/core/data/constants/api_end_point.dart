@@ -54,6 +54,7 @@ abstract class ApiEndPoint {
   static const GET_HOME_NOTIFICATIONS = '$_REQUEST_URL/usernotification';
   static const GET_COUNTRIES = '$BASE_URL/Countries';
   static const GET_CITIES = '$BASE_URL/Countries/cities';
+  static const ADDRESS = '$BASE_URL/customer-address';
 
   //Zones
   static const GET_ZONES = '$_REQUEST_URL/getzones';

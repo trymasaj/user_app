@@ -4,7 +4,8 @@ import 'package:masaj/core/app_export.dart';
 import 'package:masaj/core/presentation/navigation/navigator_helper.dart';
 import 'package:masaj/features/account/pages/account_screen.dart';
 import 'package:masaj/features/account/pages/manage_members_screen.dart';
-import 'package:masaj/features/address/pages/map_location_picker.dart';
+import 'package:masaj/features/address/presentation/pages/address_page.dart';
+import 'package:masaj/features/address/presentation/pages/map_location_picker.dart';
 import 'package:masaj/features/auth/application/auth_cubit/auth_cubit.dart';
 import 'package:masaj/features/intro/presentation/pages/choose_language_page.dart';
 import 'package:masaj/features/legal/pages/legal_screen.dart';
@@ -104,12 +105,12 @@ class SettingsTabPage extends StatelessWidget {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   mainAxisSize: MainAxisSize.max,
                   children: [
-                    CustomImageView(
-                        imagePath: ImageConstant.imgRectangle4236,
-                        height: 60.adaptSize,
-                        width: 60.adaptSize,
-                        radius: BorderRadius.circular(8.w),
-                        margin: EdgeInsets.only(top: 4.h, bottom: 5.h)),
+                    // CustomImageView(
+                    //     imagePath: ImageConstant.imgRectangle4236,
+                    //     height: 60.adaptSize,
+                    //     width: 60.adaptSize,
+                    //     radius: BorderRadius.circular(8.w),
+                    //     margin: EdgeInsets.only(top: 4.h, bottom: 5.h)),
                     Padding(
                         padding: EdgeInsets.only(left: 16.w, bottom: 2.h),
                         child: Column(
@@ -164,9 +165,8 @@ class SettingsTabPage extends StatelessWidget {
                   imagePath: ImageConstant.imgLockGray90003),
               SettingTile(
                   onTap: () {
-                    print('helooo');
                     NavigatorHelper.of(context)
-                        .pushNamed(MapLocationPicker.routeName);
+                        .pushNamed(AddressPage.routeName);
                   },
                   text: 'lbl_addresses',
                   imagePath: ImageConstant.imgGroup1000003168),

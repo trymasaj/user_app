@@ -15,6 +15,8 @@ import 'package:masaj/core/data/di/injector.dart';
 import 'package:masaj/core/presentation/routes/routes.dart';
 import 'package:masaj/core/presentation/size/size_utils.dart';
 import 'package:masaj/core/presentation/theme/theme_helper.dart';
+import 'package:masaj/features/address/application/blocs/my_addresses_bloc/my_addresses_cubit.dart';
+import 'package:masaj/features/address/application/blocs/select_location_bloc/select_location_bloc.dart';
 import 'package:masaj/features/quiz/presentation/pages/quiz_start_page.dart';
 import 'package:masaj/features/splash/presentation/pages/splash_page.dart';
 import 'package:requests_inspector/requests_inspector.dart';
@@ -52,6 +54,9 @@ void main() async {
               BlocProvider(create: (context) => Injector().splashCubit..init()),
               BlocProvider(create: (context) => Injector().authCubit..init()),
               BlocProvider(create: (context) => Injector().favoritesCubit),
+              BlocProvider(
+                create: (context) => Injector().countryCubit,
+              ),
             ],
             child: const MyApp(),
           ),
@@ -117,7 +122,6 @@ class _MyAppState extends State<MyApp> with WidgetsBindingObserver {
       DeviceOrientation.portraitDown,
       DeviceOrientation.portraitUp,
     ]);
-
     final isArabic = context.locale == const Locale('ar');
     return GestureDetector(
       behavior: HitTestBehavior.opaque,
@@ -127,19 +131,27 @@ class _MyAppState extends State<MyApp> with WidgetsBindingObserver {
           designSize: const Size(375, 790),
           minTextAdapt: true,
           child: Builder(builder: (context) {
-            return MaterialApp(
-              routes: routes,
-              home: const SplashPage(),
-              localizationsDelegates: context.localizationDelegates,
-              supportedLocales: context.supportedLocales,
-              locale: context.locale,
-              debugShowCheckedModeBanner: false,
-              theme: theme,
-              scrollBehavior: const MaterialScrollBehavior().copyWith(
-                physics: const ClampingScrollPhysics(),
+            return MultiBlocProvider(
+              providers: [
+                BlocProvider(
+                    lazy: true,
+                    create: (context) =>
+                        getIt<MyAddressesCubit>()..getAddresses()),
+              ],
+              child: MaterialApp(
+                onGenerateRoute: onGenerateRoute,
+                home: const SplashPage(),
+                localizationsDelegates: context.localizationDelegates,
+                supportedLocales: context.supportedLocales,
+                locale: context.locale,
+                debugShowCheckedModeBanner: false,
+                theme: theme,
+                scrollBehavior: const MaterialScrollBehavior().copyWith(
+                  physics: const ClampingScrollPhysics(),
+                ),
+                title: 'Masaj',
+                navigatorKey: navigatorKey,
               ),
-              title: 'Masaj',
-              navigatorKey: navigatorKey,
             );
           }),
         ),

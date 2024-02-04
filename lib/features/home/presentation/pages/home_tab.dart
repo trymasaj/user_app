@@ -10,9 +10,14 @@ import 'package:masaj/features/home/presentation/bloc/home_cubit/home_cubit.dart
 import 'package:masaj/features/home/presentation/widget/index.dart';
 import 'package:masaj/features/services/application/service_catgory_cubit/service_category_cubit.dart';
 
-class HomeTab extends StatelessWidget {
+class HomeTab extends StatefulWidget {
   const HomeTab({super.key});
 
+  @override
+  State<HomeTab> createState() => _HomeTabState();
+}
+
+class _HomeTabState extends State<HomeTab> {
   @override
   Widget build(BuildContext context) {
     return CustomAppPage(

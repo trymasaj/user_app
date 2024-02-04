@@ -6,6 +6,8 @@ import 'package:masaj/core/data/datasources/device_type_data_source.dart';
 import 'package:masaj/core/data/datasources/external_login_data_source.dart';
 import 'package:masaj/core/data/models/interest_model.dart';
 import 'package:masaj/features/account/data/models/contact_us_message_model.dart';
+import 'package:masaj/features/address/domain/entities/address.dart';
+import 'package:masaj/features/address/domain/entities/country.dart';
 import 'package:masaj/features/auth/data/datasources/auth_local_datasource.dart';
 import 'package:masaj/features/auth/data/datasources/auth_remote_datasource.dart';
 import 'package:masaj/features/auth/domain/entities/user.dart';
@@ -59,6 +61,11 @@ abstract class AuthRepository {
   Future<User?> verifyOtp(User user, String otp, {bool afterLogin = false});
   Future<User?> updateUser(User user);
   Future<void> resendOtp(User user);
+  Future<Country?> getCurrentCountry();
+  Future<void> setCurrentCountry(Country country);
+
+  Future<Address?> getCurrentAddress();
+  Future<void> setCurrentAddress(Address address);
 }
 
 class AuthRepositoryImpl implements AuthRepository {
@@ -92,8 +99,7 @@ class AuthRepositoryImpl implements AuthRepository {
       mobileAppId: mobileAppId,
       deviceType: deviceType,
     ));
-    //Todo: delete this after testing
-    // await _localDataSource.saveUserData(resultUser);
+    await _localDataSource.saveUserData(resultUser);
     return resultUser;
   }
 
@@ -122,7 +128,7 @@ class AuthRepositoryImpl implements AuthRepository {
   ) async {
     late User newAppleUser;
     try {
-      final country = await _localDataSource.getCountry();
+      final country = await _localDataSource.getCurrentCountry();
       final countryId = country?.id;
       final appleUser = await _appleExternalDataSource.login();
       final savedAppleUserData = await _localDataSource.getAppleUserData();
@@ -154,7 +160,7 @@ class AuthRepositoryImpl implements AuthRepository {
       Future<String?> Function() onEmailRequiredError) async {
     late User externalUser;
     try {
-      final country = await _localDataSource.getCountry();
+      final country = await _localDataSource.getCurrentCountry();
       final countryID = country?.id;
       externalUser = await _googleExternalDataSource.login();
       final user = await _externalLogin(
@@ -309,5 +315,25 @@ class AuthRepositoryImpl implements AuthRepository {
   @override
   Future<User> updateProfileInformation(User user) {
     return _remoteDataSource.updateProfileInformation(user);
+  }
+
+  @override
+  Future<Country?> getCurrentCountry() {
+    return _localDataSource.getCurrentCountry();
+  }
+
+  @override
+  Future<void> setCurrentCountry(Country country) {
+    return _localDataSource.setCurrentCountry(country);
+  }
+
+  @override
+  Future<Address?> getCurrentAddress() {
+    return _localDataSource.getCurrentAddress();
+  }
+
+  @override
+  Future<void> setCurrentAddress(Address address) {
+    return _localDataSource.setCurrentAddress(address);
   }
 }

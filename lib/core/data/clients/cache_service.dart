@@ -5,8 +5,9 @@ import 'package:collection/collection.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:injectable/injectable.dart';
 import 'package:masaj/core/domain/enums/show_case_displayed_page.dart';
-import 'package:masaj/features/address/entities/country.dart';
 import 'package:masaj/features/services/data/models/service_model.dart';
+import 'package:masaj/features/address/domain/entities/address.dart';
+import 'package:masaj/features/address/domain/entities/country.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 abstract class CacheService {
@@ -25,19 +26,20 @@ abstract class CacheService {
   Future<void> setLanguageCode(String languageCode);
 
   Future<String?> getCountryCode();
-  Future<Country?> getCountry();
+
+  Future<Country?> getCurrentCountry();
+
+  Future<Address?> getCurrentAddress();
+
+  Future<void> setCurrentAddress(Address address);
 
   Future<void> setCountryCode(String countryCode);
 
-  Future<void> setCountry(Country country);
+  Future<void> setCurrentCountry(Country country);
 
   Future<bool> getIsFirstLaunch();
 
   Future<void> setIsFirstLaunch(bool isFirstLaunch);
-
-  Future<bool> getIsQuizCompleted();
-
-  Future<bool> setIsQuizCompleted(bool isQuizCompleted);
 
   Future<Set<ShowCaseDisplayedPage>> getShowCaseDisplayedPages();
 
@@ -56,7 +58,6 @@ class CacheServiceImplV2 implements CacheService {
   static const _APPLE_USER_DATA = 'APPLE_USER_DATA';
   static const _LOCALE = 'locale';
   static const _IS_FIRST_LAUNCH = 'IS_FIRST_LAUNCH';
-  static const _IS_QUIZ_COMPLETED = 'IS_QUIZ_COMPLETED';
   static const _HAS_RUN_BEFORE = 'HAS_RUN_BEFORE';
   static const _SHOW_CASE_DISPLAYED = 'SHOW_CASE_DISPLAYED';
   static const _COUNTRY_CODE = 'COUNTRY_CODE';
@@ -133,23 +134,6 @@ class CacheServiceImplV2 implements CacheService {
   }
 
   @override
-  Future<bool> getIsQuizCompleted() async {
-    final storage = await _completer.future;
-
-    final isQuizCompleted = await storage.read(key: _IS_QUIZ_COMPLETED);
-    return isQuizCompleted == null ? false : true;
-  }
-
-  @override
-  Future<bool> setIsQuizCompleted(bool isQuizCompleted) async {
-    final storage = await _completer.future;
-
-    await storage.write(
-        key: _IS_QUIZ_COMPLETED, value: isQuizCompleted.toString());
-    return true;
-  }
-
-  @override
   Future<void> addShowCaseDisplayedPages(ShowCaseDisplayedPage page) async {
     final prefs = await SharedPreferences.getInstance();
     final pagesSet = prefs.getStringList(_SHOW_CASE_DISPLAYED)?.toSet() ?? {};
@@ -195,13 +179,13 @@ class CacheServiceImplV2 implements CacheService {
   }
 
   @override
-  Future<void> setCountry(Country country) async {
+  Future<void> setCurrentCountry(Country country) async {
     final prefs = await SharedPreferences.getInstance();
     await prefs.setString(_COUNTRY, jsonEncode(country.toMap()));
   }
 
   @override
-  Future<Country?> getCountry() async {
+  Future<Country?> getCurrentCountry() async {
     final prefs = await SharedPreferences.getInstance();
     final country = prefs.getString(_COUNTRY);
     return Country.fromMap(jsonDecode(country!));
@@ -227,9 +211,11 @@ class CacheServiceImplV2 implements CacheService {
     final storage = await _completer.future;
     final serviceModels = await getAllServiceModels();
     // check if the service model is already saved
-    if (serviceModels.any((element) => element.serviceId == serviceModel.serviceId)) {
+    if (serviceModels
+        .any((element) => element.serviceId == serviceModel.serviceId)) {
       // remove the old service model and add the new one
-      serviceModels.removeWhere((element) => element.serviceId == serviceModel.serviceId);
+      serviceModels.removeWhere(
+          (element) => element.serviceId == serviceModel.serviceId);
     }
     // check if length is more than 10 then remove the last item
     if (serviceModels.length >= 10) {

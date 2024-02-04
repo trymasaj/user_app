@@ -1,4 +1,4 @@
-import 'package:masaj/features/address/entities/country.dart';
+import 'package:masaj/features/address/domain/entities/country.dart';
 
 abstract class CountriesRepo {
   Future<List<Country>> getAll();

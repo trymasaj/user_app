@@ -18,3 +18,4 @@ abstract class BaseCubit<T> extends Cubit<T> {
     return super.close();
   }
 }
+

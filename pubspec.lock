@@ -566,6 +566,14 @@ packages:
     description: flutter
     source: sdk
     version: "0.0.0"
+  flutter_animarker:
+    dependency: "direct main"
+    description:
+      name: flutter_animarker
+      sha256: d95448cc1776bc8e17aea3b24c01f3b7565c6eab394f708bc9fa9f7763e9dd77
+      url: "https://pub.dev"
+    source: hosted
+    version: "3.2.0"
   flutter_bloc:
     dependency: "direct main"
     description:
@@ -811,6 +819,14 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "3.0.0"
+  flutter_slidable:
+    dependency: "direct main"
+    description:
+      name: flutter_slidable
+      sha256: "19ed4813003a6ff4e9c6bcce37e792a2a358919d7603b2b31ff200229191e44c"
+      url: "https://pub.dev"
+    source: hosted
+    version: "3.0.1"
   flutter_svg:
     dependency: "direct main"
     description:
@@ -862,6 +878,14 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "10.6.0"
+  form_builder_validators:
+    dependency: "direct main"
+    description:
+      name: form_builder_validators
+      sha256: "19aa5282b7cede82d0025ab031a98d0554b84aa2ba40f12013471a3b3e22bf02"
+      url: "https://pub.dev"
+    source: hosted
+    version: "9.1.0"
   frontend_server_client:
     dependency: transitive
     description:

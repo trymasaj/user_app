@@ -30,11 +30,15 @@ environment:
 dependencies:
   bloc: ^8.1.0
   equatable: ^2.0.5
+  flutter_animarker: ^3.2.0
+  flutter_slidable: ^3.0.1
   uuid:
 
   cached_network_image: ^3.2.1
   cached_network_svg_image: ^0.0.4
   flutter_form_builder: ^9.1.1
+  form_builder_validators: ^9.1.0
+
   flutter_typeahead: ^5.0.1
 
   flutter_rating_bar: ^4.0.1
@@ -185,6 +189,3 @@ flutter_native_splash:
   ios_content_mode: scaleAspectFill
   image: assets/images/Bg.png
   background_image: assets/images/Bg.png
-  android_12:
-    background_image: assets/images/Bg.png
-    image: assets/images/Bg.png

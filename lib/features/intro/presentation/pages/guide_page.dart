@@ -11,7 +11,7 @@ import 'package:masaj/core/presentation/overlay/show_snack_bar.dart';
 import 'package:masaj/core/presentation/widgets/stateless/custom_loading.dart';
 import 'package:masaj/core/presentation/widgets/stateless/default_button.dart';
 import 'package:masaj/core/presentation/widgets/stateless/dots_indicator.dart';
-import 'package:masaj/features/address/pages/select_location_screen.dart';
+import 'package:masaj/features/address/presentation/pages/select_location_screen.dart';
 import 'package:masaj/features/auth/presentation/pages/login_page.dart';
 import 'package:masaj/features/intro/presentation/blocs/guide_page_cubit/guide_page_cubit.dart';
 
@@ -268,10 +268,9 @@ class _GuidePageState extends State<GuidePage> {
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
-              Text(
-                tab.title!.tr(),
-                style: CustomTextStyles.headlineSmallGray5001,
-              ),
+              Text(tab.title!.tr(),
+                  style: CustomTextStyles.headlineSmallGray5001
+                      .copyWith(color: Colors.white)),
               SizedBox(height: 5.0.h),
               Text(
                 tab.description!.tr(),
@@ -280,6 +279,7 @@ class _GuidePageState extends State<GuidePage> {
                 textAlign: TextAlign.center,
                 style: theme.textTheme.bodyLarge!.copyWith(
                   height: 1.50,
+                  color: const Color(0XFFF8F8F8),
                 ),
               ),
               SizedBox(height: 16.0.h),

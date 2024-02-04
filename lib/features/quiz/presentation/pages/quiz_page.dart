@@ -142,7 +142,9 @@ class _QuizPageState extends State<QuizPage> {
       backgroundColor: Colors.transparent,
       color: Colors.transparent,
       onPressed: () {
-        cubit.skipQuiz();
+        final authCubit = context.read<AuthCubit>();
+        final userId = authCubit.state.user?.id;
+        if (userId != null) cubit.skipQuiz(userId);
       },
     );
   }

@@ -74,9 +74,6 @@ class $AssetsImagesGen {
   /// File path: assets/images/Group 1800.svg
   String get group1800 => 'assets/images/Group 1800.svg';
 
-  /// File path: assets/images/IoFilterOutline.svg
-  String get ioFilterOutline => 'assets/images/IoFilterOutline.svg';
-
   /// File path: assets/images/Onboarding1.png
   AssetGenImage get onboarding1 =>
       const AssetGenImage('assets/images/Onboarding1.png');
@@ -867,7 +864,6 @@ class $AssetsImagesGen {
   List<dynamic> get values => [
         bg,
         group1800,
-        ioFilterOutline,
         onboarding1,
         onboarding2,
         onboarding3,

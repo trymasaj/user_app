@@ -67,8 +67,8 @@ class AuthState {
       status.hashCode ^
       user.hashCode ^
       selectedGender.hashCode ^
-      errorMessage.hashCode;
-
+      errorMessage.hashCode ^
+      beginResendTimer.hashCode;
   AuthState copyWith({
     AuthStateStatus? status,
     User? user,
