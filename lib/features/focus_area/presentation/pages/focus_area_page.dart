@@ -103,21 +103,23 @@ Widget _buildBody() {
     },
     builder: (context, state) {
       return Expanded(
-        child: Stack(
-          alignment: Alignment.center,
-          children: [
-            Positioned(
-              child: Column(
-                children: [
-                  state == FocusAreaStateType.Back
-                      ? Image.asset('assets/images/Back.png')
-                      : Image.asset('assets/images/Front.png'),
-                  SelectableText(state.name)
-                ],
+        child: SingleChildScrollView(
+          child: Stack(
+            alignment: Alignment.center,
+            children: [
+              Positioned(
+                child: Column(
+                  children: [
+                    state == FocusAreaStateType.Back
+                        ? Image.asset('assets/images/Back.png')
+                        : Image.asset('assets/images/Front.png'),
+                    SelectableText(state.name)
+                  ],
+                ),
               ),
-            ),
-            ..._buildBodyPostions(context)
-          ],
+              ..._buildBodyPostions(context)
+            ],
+          ),
         ),
       );
     },
