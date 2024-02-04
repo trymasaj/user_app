@@ -4,6 +4,7 @@ enum FocusAreaStateStatus {
   initial,
   loading,
   loaded,
+  updated,
   error,
 }
 
@@ -23,12 +24,12 @@ class FocusAreaState {
   final FocusAreaStateStatus status;
   final String? errorMessage;
   final FocusAreaStateType? type;
-  final Map<FocusAreas, bool> positions;
+  Map<FocusAreas, bool> positions;
 
-  const FocusAreaState({
+  FocusAreaState({
     this.status = FocusAreaStateStatus.initial,
     this.errorMessage,
-    this.type = FocusAreaStateType.Front,
+    this.type,
     this.positions = const {},
     th,
   });
@@ -61,6 +62,6 @@ class FocusAreaState {
         status: status ?? this.status,
         errorMessage: errorMessage ?? this.errorMessage,
         positions: positions ?? this.positions,
-        type: type);
+        type: type ?? this.type);
   }
 }

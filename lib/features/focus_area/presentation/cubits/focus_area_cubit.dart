@@ -4,7 +4,7 @@ import 'package:masaj/core/domain/enums/focus_area.dart';
 part 'focus_area_state.dart';
 
 class FocusAreaCubit extends BaseCubit<FocusAreaState> {
-  FocusAreaCubit() : super(const FocusAreaState());
+  FocusAreaCubit() : super(FocusAreaState());
   Map<FocusAreas, bool> focusPositions = {};
 
   void init() {
@@ -25,13 +25,21 @@ class FocusAreaCubit extends BaseCubit<FocusAreaState> {
       FocusAreas.Thighs: false,
       FocusAreas.Calves: false,
     });
+    emit(state.copyWith(type: FocusAreaStateType.Front));
   }
 
   void setPosition(bool value, FocusAreas position) {
     focusPositions[position] = value;
-    
-    emit(state.copyWith(positions: focusPositions));
 
+    emit(state.copyWith(
+        positions: focusPositions, status: FocusAreaStateStatus.updated));
+  }
+
+  void resetPositions() {
+    focusPositions.forEach((key, value) {
+      focusPositions[key] = false;
+    });
+    emit(state.copyWith(positions: focusPositions));
   }
 
   void changeBody(FocusAreaStateType type) {

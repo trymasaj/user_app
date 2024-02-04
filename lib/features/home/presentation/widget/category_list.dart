@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:flutter/material.dart';
 import 'package:masaj/core/presentation/colors/app_colors.dart';
 import 'package:masaj/core/presentation/navigation/navigator_helper.dart';
@@ -22,11 +24,13 @@ class CategoriesList extends StatelessWidget {
             //todo : remove after finish testing.....
             return GestureDetector(
               onTap: () {
-                NavigatorHelper.of(context).push(
-                  MaterialPageRoute(
-                    builder: (_) => const FocusArea(),
-                  ),
-                );
+                NavigatorHelper.of(context)
+                    .push(
+                      MaterialPageRoute(
+                        builder: (_) => const FocusArea(),
+                      ),
+                    )
+                    .then((value) => log(value.toString()));
               },
               child: Container(
                 margin: const EdgeInsets.only(right: 10),
