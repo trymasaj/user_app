@@ -27,7 +27,7 @@ class CategoriesList extends StatelessWidget {
                 NavigatorHelper.of(context)
                     .push(
                       MaterialPageRoute(
-                        builder: (_) => const FocusArea(),
+                        builder: (_) => const FocusAreaPage(),
                       ),
                     )
                     .then((value) => log(value.toString()));

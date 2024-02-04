@@ -15,16 +15,17 @@ import 'package:masaj/core/presentation/widgets/stateless/default_button.dart';
 
 import 'package:masaj/features/focus_area/presentation/cubits/focus_area_cubit.dart';
 
-class FocusArea extends StatefulWidget {
+class FocusAreaPage extends StatefulWidget {
   static const routeName = '/FocusArea';
 
-  const FocusArea({super.key});
+  const FocusAreaPage({super.key});
 
   @override
-  State<FocusArea> createState() => _FocusAreaState();
+  State<FocusAreaPage> createState() => _FocusAreaPageState();
 }
 
-class _FocusAreaState extends State<FocusArea> with TickerProviderStateMixin {
+class _FocusAreaPageState extends State<FocusAreaPage>
+    with TickerProviderStateMixin {
   @override
   void initState() {
     super.initState();
