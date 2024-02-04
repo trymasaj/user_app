@@ -11,7 +11,7 @@ import 'package:masaj/core/presentation/widgets/stateless/custom_app_page.dart';
 import 'package:masaj/core/presentation/widgets/stateless/custom_text.dart';
 import 'package:masaj/core/presentation/widgets/stateless/default_button.dart';
 import 'package:masaj/core/presentation/widgets/stateless/text_fields/default_text_form_field.dart';
-import 'package:masaj/core/presentation/widgets/stateless/text_fields/email_text_form_field.dart';
+
 import 'package:masaj/core/presentation/widgets/stateless/text_fields/phone_number_text_field.dart';
 import 'package:masaj/features/auth/application/auth_cubit/auth_cubit.dart';
 import 'package:masaj/features/auth/presentation/pages/otp_verification_page.dart';
@@ -102,7 +102,7 @@ class _ForgetPasswordPageState extends State<ForgetPasswordPage> {
 
   Widget _buildForgetPasswordMainText(BuildContext context) {
     return const CustomText(
-      text: 'forget_password',
+      text: 'msg_forgot_password',
       fontSize: 20,
       fontWeight: FontWeight.w600,
     );

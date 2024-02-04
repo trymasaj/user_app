@@ -304,11 +304,6 @@ class _LoginPageState extends State<LoginPage> {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.stretch,
         children: [
-          // EmailTextFormField(
-          //   currentFocusNode: _emailFocusNode,
-          //   nextFocusNode: _passwordFocusNode,
-          //   currentController: _emailTextController,
-          // ),
           PhoneTextFormField(
             currentController: _phoneNumberConttroleer,
             currentFocusNode: _phoneFocusNode,
@@ -334,7 +329,7 @@ class _LoginPageState extends State<LoginPage> {
       alignment: AlignmentDirectional.centerEnd,
       child: TextButton(
           child: const CustomText(
-            text: 'forget_password',
+            text: 'msg_forgot_password',
             fontSize: 14,
             fontWeight: FontWeight.w500,
           ),
@@ -353,16 +348,14 @@ class _LoginPageState extends State<LoginPage> {
       onPressed: () async {
         if (_isNotValid()) return;
         await authCubit.login(_phoneNumberConttroleer.text.trim(),
-            _passwordTextController.text, _phoneNumber?.countryCode ?? ''
-
-            //TODO remove this
-            );
+            _passwordTextController.text, _phoneNumber?.countryCode ?? '');
       },
     );
   }
 
   bool _isNotValid() {
     _emailTextController.text = _emailTextController.text.trim();
+
     if (!_formKey.currentState!.validate()) {
       setState(() => _isAutoValidating = true);
       return true;
