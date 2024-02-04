@@ -10,6 +10,7 @@ import 'package:masaj/core/presentation/navigation/navigator_helper.dart';
 import 'package:masaj/core/presentation/widgets/stateful/default_tab.dart';
 import 'package:masaj/core/presentation/widgets/stateless/custom_app_bar.dart';
 import 'package:masaj/core/presentation/widgets/stateless/custom_app_page.dart';
+import 'package:masaj/core/presentation/widgets/stateless/custom_text.dart';
 
 import 'package:masaj/core/presentation/widgets/stateless/default_button.dart';
 
@@ -103,14 +104,18 @@ Widget _buildBody() {
     builder: (context, state) {
       return Expanded(
         child: Stack(
+          alignment: Alignment.center,
           children: [
-            Positioned.fill(
-                child: Column(children: [
-              state == FocusAreaStateType.Back
-                  ? Image.asset('assets/images/Back.png')
-                  : Image.asset('assets/images/Front.png'),
-              SelectableText(state.name)
-            ])),
+            Positioned(
+              child: Column(
+                children: [
+                  state == FocusAreaStateType.Back
+                      ? Image.asset('assets/images/Back.png')
+                      : Image.asset('assets/images/Front.png'),
+                  SelectableText(state.name)
+                ],
+              ),
+            ),
             ..._buildBodyPostions(context)
           ],
         ),
@@ -130,9 +135,9 @@ List<Widget> _buildFrontBodyPostions(BuildContext context) {
   final cubit = context.read<FocusAreaCubit>();
   return [
     _buildBodyCheckBox(
-        top: 15.h,
+        top: 25,
         start: 0,
-        end: 5.w,
+        end: 5,
         focusArea: FocusAreas.Head,
         context: context,
         value: cubit.focusPositions[FocusAreas.Head] ?? false,
@@ -140,9 +145,9 @@ List<Widget> _buildFrontBodyPostions(BuildContext context) {
           cubit.setPosition(value ?? false, FocusAreas.Head);
         }),
     _buildBodyCheckBox(
-      top: 60.h,
+      top: 60,
       start: 0,
-      end: 5.w,
+      end: 5,
       focusArea: FocusAreas.Neck,
       context: context,
       value: cubit.state.positions[FocusAreas.Neck] ?? false,
@@ -151,8 +156,9 @@ List<Widget> _buildFrontBodyPostions(BuildContext context) {
       },
     ),
     _buildBodyCheckBox(
-      top: 75.h,
-      start: 130.w,
+      top: 103,
+      start: -90,
+      end: 5,
       focusArea: FocusAreas.Shoulders,
       context: context,
       value: cubit.state.positions[FocusAreas.Shoulders] ?? false,
@@ -161,9 +167,9 @@ List<Widget> _buildFrontBodyPostions(BuildContext context) {
       },
     ),
     _buildBodyCheckBox(
-      top: 100.h,
+      top: 100,
       start: 0,
-      end: 5.w,
+      end: 5,
       focusArea: FocusAreas.Chest,
       context: context,
       value: cubit.state.positions[FocusAreas.Chest] ?? false,
@@ -172,9 +178,9 @@ List<Widget> _buildFrontBodyPostions(BuildContext context) {
       },
     ),
     _buildBodyCheckBox(
-      top: 150.h,
+      top: 170,
       start: 0,
-      end: 5.w,
+      end: 5,
       focusArea: FocusAreas.Abdomen,
       context: context,
       value: cubit.state.positions[FocusAreas.Abdomen] ?? false,
@@ -183,8 +189,8 @@ List<Widget> _buildFrontBodyPostions(BuildContext context) {
       },
     ),
     _buildBodyCheckBox(
-      top: 160.h,
-      start: 125.w,
+      top: 160,
+      start: 110,
       focusArea: FocusAreas.Arms,
       context: context,
       value: cubit.state.positions[FocusAreas.Arms] ?? false,
@@ -193,9 +199,9 @@ List<Widget> _buildFrontBodyPostions(BuildContext context) {
       },
     ),
     _buildBodyCheckBox(
-      top: 280.h,
+      top: 280,
       start: 0,
-      end: 5.w,
+      end: 5,
       context: context,
       focusArea: FocusAreas.Legs,
       value: cubit.state.positions[FocusAreas.Legs] ?? false,
@@ -204,9 +210,9 @@ List<Widget> _buildFrontBodyPostions(BuildContext context) {
       },
     ),
     _buildBodyCheckBox(
-      top: 380.h,
+      top: 460,
       start: 0,
-      end: 5.w,
+      end: 5,
       context: context,
       focusArea: FocusAreas.Feet,
       value: cubit.state.positions[FocusAreas.Feet] ?? false,
@@ -221,9 +227,9 @@ List<Widget> _buildBackBodyPostions(BuildContext context) {
   final cubit = context.read<FocusAreaCubit>();
   return [
     _buildBodyCheckBox(
-        top: 60.h,
+        top: 90,
         start: 0,
-        end: 5.w,
+        end: 6,
         focusArea: FocusAreas.UpperBack,
         context: context,
         value: cubit.state.positions[FocusAreas.UpperBack] ?? false,
@@ -231,9 +237,9 @@ List<Widget> _buildBackBodyPostions(BuildContext context) {
           cubit.setPosition(value ?? false, FocusAreas.UpperBack);
         }),
     _buildBodyCheckBox(
-        top: 110.h,
+        top: 175,
         start: 0,
-        end: 5.w,
+        end: 6,
         focusArea: FocusAreas.LowerBack,
         context: context,
         value: cubit.state.positions[FocusAreas.LowerBack] ?? false,
@@ -241,8 +247,9 @@ List<Widget> _buildBackBodyPostions(BuildContext context) {
           cubit.setPosition(value ?? false, FocusAreas.LowerBack);
         }),
     _buildBodyCheckBox(
-        top: 150.h,
-        start: 170.w,
+        top: 130,
+        start: 0,
+        end: 6,
         focusArea: FocusAreas.Spine,
         context: context,
         value: cubit.state.positions[FocusAreas.Spine] ?? false,
@@ -250,8 +257,9 @@ List<Widget> _buildBackBodyPostions(BuildContext context) {
           cubit.setPosition(value ?? false, FocusAreas.Spine);
         }),
     _buildBodyCheckBox(
-        top: 190.h,
-        start: 170.w,
+        top: 220,
+        start: 0,
+        end: 6,
         focusArea: FocusAreas.Hips,
         context: context,
         value: cubit.state.positions[FocusAreas.Hips] ?? false,
@@ -259,8 +267,9 @@ List<Widget> _buildBackBodyPostions(BuildContext context) {
           cubit.setPosition(value ?? false, FocusAreas.Hips);
         }),
     _buildBodyCheckBox(
-        top: 220.h,
-        start: 150.w,
+        top: 250,
+        start: 0,
+        end: 6,
         focusArea: FocusAreas.Buttocks,
         context: context,
         value: cubit.state.positions[FocusAreas.Buttocks] ?? false,
@@ -268,8 +277,9 @@ List<Widget> _buildBackBodyPostions(BuildContext context) {
           cubit.setPosition(value ?? false, FocusAreas.Buttocks);
         }),
     _buildBodyCheckBox(
-        top: 260.h,
-        start: 152.w,
+        top: 290,
+        start: 0,
+        end: 5,
         focusArea: FocusAreas.Thighs,
         context: context,
         value: cubit.state.positions[FocusAreas.Thighs] ?? false,
@@ -277,9 +287,9 @@ List<Widget> _buildBackBodyPostions(BuildContext context) {
           cubit.setPosition(value ?? false, FocusAreas.Thighs);
         }),
     _buildBodyCheckBox(
-        top: 340.h,
+        top: 340,
         start: 0,
-        end: 5.w,
+        end: 5,
         focusArea: FocusAreas.Calves,
         context: context,
         value: cubit.state.positions[FocusAreas.Calves] ?? false,
@@ -313,18 +323,24 @@ Widget _buildBodyCheckBox({
       builder: (context, state) {
         return Column(
           children: [
-            Checkbox(
-              checkColor: Colors.white,
-              side: const BorderSide(color: AppColors.PRIMARY_COLOR),
-              fillColor: MaterialStatePropertyAll(
-                  state ? AppColors.PRIMARY_COLOR : AppColors.BACKGROUND_COLOR),
-              value: state,
-              shape: const CircleBorder(),
-              onChanged: onChanged,
+            SizedBox(
+              width: 16,
+              height: 16,
+              child: Checkbox(
+                checkColor: Colors.white,
+                side: const BorderSide(color: AppColors.PRIMARY_COLOR),
+                fillColor: MaterialStatePropertyAll(state
+                    ? AppColors.PRIMARY_COLOR
+                    : AppColors.BACKGROUND_COLOR),
+                value: state,
+                shape: const CircleBorder(),
+                onChanged: onChanged,
+              ),
             ),
-            SelectableText(
-              focusArea?.name ?? '',
-              style: TextStyle(fontSize: 11.sp),
+            CustomText(
+              text: focusArea?.name ?? '',
+              fontSize: 12,
+              fontWeight: FontWeight.w400,
             )
           ],
         );
