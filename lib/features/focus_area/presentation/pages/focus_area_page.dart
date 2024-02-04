@@ -42,12 +42,18 @@ class _FocusAreaPageState extends State<FocusAreaPage>
   }
 
   @override
+  void dispose() {
+    _tabController.dispose();
+    super.dispose();
+  }
+
+  @override
   Widget build(BuildContext context) {
     return CustomAppPage(
       child: Scaffold(
         body: Column(children: [
           CustomAppBar(
-            title: 'Focus Area',
+            title: 'focus_area'.tr(),
             centerTitle: true,
             actions: [
               IconButton(
@@ -96,11 +102,11 @@ class _FocusAreaPageState extends State<FocusAreaPage>
         tabs: [
           DefaultTab(
             isSelected: selectedBodySide == BodySideEnum.Front,
-            title: BodySideEnum.values[0].name,
+            title: 'front'.tr(),
           ),
           DefaultTab(
             isSelected: selectedBodySide == BodySideEnum.Back,
-            title: BodySideEnum.values[1].name,
+            title: 'back'.tr(),
           ),
         ]);
   }
