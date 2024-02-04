@@ -42,20 +42,19 @@ class ServiceRemoteDataSourceImpl implements ServiceRemoteDataSource {
   Future<List<ServiceModel>> getServices(
       ServiceQueryModel serviceQueryModel) async {
     const url = ApiEndPoint.SERVICES;
-
-    final response = await _networkService.get(url,
-        queryParameters: serviceQueryModel.toMap());
+    print(serviceQueryModel.toMap());
+    final response = await _networkService.get(
+      url,
+      queryParameters: serviceQueryModel.toMap(),
+      // 'https://stagingapi.trymasaj.com/masaj/services?Page=1&PageSize=10',
+    );
+    print(response.data);
     if (![201, 200].contains(response.statusCode)) {
       throw RequestException.fromStatusCode(
           statusCode: response.statusCode!, response: response.data);
     }
 
-    final List<ServiceModel> services = [];
-    for (var item in response.data) {
-      services.add(ServiceModel.fromMap(item));
-    }
-
-    return services;
+    return ServicesResponse.fromMap(response.data).data;
   }
 
   @override

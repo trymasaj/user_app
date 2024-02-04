@@ -37,7 +37,10 @@ import 'package:masaj/features/intro/data/datasources/intro_local_data_source.da
 import 'package:masaj/features/intro/data/repositories/intro_repository.dart';
 import 'package:masaj/features/intro/presentation/blocs/choose_language_cubit/choose_language_cubit.dart';
 import 'package:masaj/features/intro/presentation/blocs/guide_page_cubit/guide_page_cubit.dart';
+import 'package:masaj/features/services/application/search_service_cubit.dart/service_cubit.dart';
 import 'package:masaj/features/services/application/service_catgory_cubit/service_category_cubit.dart';
+import 'package:masaj/features/services/application/service_cubit/service_cubit.dart';
+import 'package:masaj/features/services/application/service_details_cubit/service_details_cubit.dart';
 import 'package:masaj/features/services/data/datasource/service_datasource.dart';
 import 'package:masaj/features/services/data/models/service_category_model.dart';
 import 'package:masaj/features/services/data/repository/service_repository.dart';
@@ -118,6 +121,11 @@ class Injector {
 
   ServiceCategoryCubit get serviceCategoryCubit =>
       ServiceCategoryCubit(serviceRepository);
+  ServiceCubit get serviceCubit => ServiceCubit(serviceRepository);
+  SearchServiceCubit get searchServicesCubit =>
+      SearchServiceCubit(serviceRepository);
+  ServiceDetailsCubit get serviceDetailsCubit =>
+      ServiceDetailsCubit(serviceRepository);
 
   AuthLocalDataSource get authLocalDataSource =>
       _flyweightMap['authLocalDataSource'] ??=

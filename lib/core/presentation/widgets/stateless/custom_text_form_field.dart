@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:masaj/core/presentation/size/size_utils.dart';
 import 'package:masaj/core/presentation/styles/custom_text_style.dart';
 import 'package:masaj/core/presentation/theme/theme_helper.dart';
@@ -6,8 +7,8 @@ import 'package:masaj/core/presentation/theme/theme_helper.dart';
 class CustomTextFormField extends StatelessWidget {
   const CustomTextFormField({
     super.key,
-    this.readOnly =false,
-     this.onTap,
+    this.readOnly = false,
+    this.onTap,
     this.alignment,
     this.width,
     this.controller,
@@ -22,6 +23,7 @@ class CustomTextFormField extends StatelessWidget {
     this.hintStyle,
     this.prefix,
     this.prefixConstraints,
+    this.inputFormatters,
     this.suffix,
     this.suffixConstraints,
     this.contentPadding,
@@ -70,7 +72,7 @@ class CustomTextFormField extends StatelessWidget {
   final Color? fillColor;
 
   final bool? filled;
-
+  final List<TextInputFormatter>? inputFormatters;
   final FormFieldValidator<String>? validator;
   final bool readOnly;
   final Function()? onTap;
@@ -87,6 +89,7 @@ class CustomTextFormField extends StatelessWidget {
   Widget get textFormFieldWidget => SizedBox(
         width: width ?? double.maxFinite,
         child: TextFormField(
+          inputFormatters: inputFormatters,
           readOnly: readOnly,
           onTap: onTap,
           controller: controller,

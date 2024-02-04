@@ -116,8 +116,8 @@ class _MainTextFormFieldState extends State<MainTextFormField> {
               : const Color(0x44000000),
           filled: true,
           isDense: true,
-          contentPadding: widget.contentPadding ??
-              const EdgeInsets.fromLTRB(20, 20, 20, 20),
+          // contentPadding: widget.contentPadding ??
+          //     const EdgeInsets.fromLTRB(20, 20, 20, 20),
           hintText: widget.hintText.tr(),
           hintStyle: TextStyle(
               fontFamily: 'Poppins',
@@ -127,14 +127,14 @@ class _MainTextFormFieldState extends State<MainTextFormField> {
           suffixIcon: widget.suffixIcon,
           prefixIcon: widget.prefixIcon,
           enabledBorder: OutlineInputBorder(
-            borderRadius: const BorderRadius.all(Radius.circular(12.0)),
+            borderRadius: const BorderRadius.all(Radius.circular(10)),
             borderSide: BorderSide(
               color: widget.borderColor ?? Colors.transparent,
               width: 1,
             ),
           ),
           focusedBorder: OutlineInputBorder(
-            borderRadius: const BorderRadius.all(Radius.circular(12.0)),
+            borderRadius: const BorderRadius.all(Radius.circular(10)),
             borderSide: BorderSide(
               color: widget.borderColor ?? Colors.transparent,
               width: 1,
@@ -145,20 +145,20 @@ class _MainTextFormFieldState extends State<MainTextFormField> {
               color: AppColors.ERROR_COLOR,
               width: 1,
             ),
-            borderRadius: BorderRadius.all(Radius.circular(12.0)),
+            borderRadius: BorderRadius.all(Radius.circular(10)),
           ),
           focusedErrorBorder: const OutlineInputBorder(
             borderSide: BorderSide(
               color: AppColors.ERROR_COLOR,
               width: 1,
             ),
-            borderRadius: BorderRadius.all(Radius.circular(12.0)),
+            borderRadius: BorderRadius.all(Radius.circular(10)),
           ),
           counterText: '',
           border: InputBorder.none,
           disabledBorder: const OutlineInputBorder(
             borderSide: BorderSide.none,
-            borderRadius: BorderRadius.all(Radius.circular(12.0)),
+            borderRadius: BorderRadius.all(Radius.circular(10)),
           ),
         ),
         validator: widget.validator,

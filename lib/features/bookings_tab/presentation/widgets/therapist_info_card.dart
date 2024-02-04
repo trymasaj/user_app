@@ -47,8 +47,7 @@ class TherapistInfoCard extends StatelessWidget {
                 decoration: BoxDecoration(
                     borderRadius: BorderRadius.circular(10),
                     image: DecorationImage(
-                        image: AssetImage(
-                            Assets.images.imgRectangle2850x50.path),
+                        image: AssetImage(Assets.images.imgRectangle39428.path),
                         fit: BoxFit.cover)),
               ),
               SizedBox(width: 10.w),

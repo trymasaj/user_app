@@ -16,7 +16,22 @@ class ServiceModel extends Equatable {
   final List<ServiceDurationModel>? serviceDurations;
   final List<ServiceMediaModel>? serviceMedia;
   final List<ServiceAddonModel>? serviceAddons;
-
+  final String? mainImage;
+  List<String> get images => [
+        if (mainImage != null) mainImage!,
+        if (serviceMedia != null)
+          ...serviceMedia!
+              .where((element) => element.isImage)
+              .map((e) => e.mediaUrl)
+      ];
+  // videos
+  List<String> get videos => [
+        'https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/BigBuckBunny.mp4',
+        if (serviceMedia != null)
+          ...serviceMedia!
+              .where((element) => !element.isVideo)
+              .map((e) => e.mediaUrl)
+      ];
   const ServiceModel({
     required this.serviceId,
     required this.serviceCategoryId,
@@ -31,6 +46,7 @@ class ServiceModel extends Equatable {
     this.serviceDurations,
     this.serviceMedia,
     this.serviceAddons,
+    this.mainImage,
   });
 
   @override
@@ -42,6 +58,7 @@ class ServiceModel extends Equatable {
         description,
         isActive,
         allowFocusAreas,
+        mainImage,
         sortKey,
         startingPrice,
         serviceBenefits,
@@ -51,16 +68,50 @@ class ServiceModel extends Equatable {
       ];
 
   factory ServiceModel.fromMap(Map<String, dynamic> json) {
+    try {
+      ServiceModel(
+        mainImage: json['mainImage'],
+        serviceId: json['serviceId'],
+        serviceCategoryId: json['serviceCategoryId'],
+        countryId: json['countryId'],
+        title: json['title'],
+        description: json['description'],
+        isActive: json['isActive'],
+        allowFocusAreas: json['allowFocusAreas'] ?? false,
+        sortKey: json['sortKey'],
+        startingPrice: (json['startingPrice'] as num).toDouble(),
+        serviceBenefits: json['serviceBenefits'] == null
+            ? null
+            : List<ServiceBenefitModel>.from(json['serviceBenefits']
+                .map((x) => ServiceBenefitModel.fromMap(x))),
+        serviceDurations: json['serviceDurations'] == null
+            ? null
+            : List<ServiceDurationModel>.from(json['serviceDurations']
+                .map((x) => ServiceDurationModel.fromMap(x))),
+        serviceMedia: json['serviceMedia'] == null
+            ? null
+            : List<ServiceMediaModel>.from(
+                json['serviceMedia'].map((x) => ServiceMediaModel.fromMap(x))),
+        serviceAddons: json['serviceAddons'] == null
+            ? null
+            : List<ServiceAddonModel>.from(
+                json['serviceAddons'].map((x) => ServiceAddonModel.fromMap(x))),
+      );
+    } catch (e, s) {
+      print(e);
+      print(s);
+    }
     return ServiceModel(
+      mainImage: json['mainImage'],
       serviceId: json['serviceId'],
       serviceCategoryId: json['serviceCategoryId'],
       countryId: json['countryId'],
       title: json['title'],
       description: json['description'],
       isActive: json['isActive'],
-      allowFocusAreas: json['allowFocusAreas'],
+      allowFocusAreas: json['allowFocusAreas'] ?? false,
       sortKey: json['sortKey'],
-      startingPrice: json['startingPrice'],
+      startingPrice: (json['startingPrice'] as num).toDouble(),
       serviceBenefits: json['serviceBenefits'] == null
           ? null
           : List<ServiceBenefitModel>.from(json['serviceBenefits']
@@ -87,6 +138,7 @@ class ServiceModel extends Equatable {
       'countryId': countryId,
       'title': title,
       'description': description,
+      'mainImage': mainImage,
       'isActive': isActive,
       'allowFocusAreas': allowFocusAreas,
       'sortKey': sortKey,
@@ -125,6 +177,7 @@ class ServiceModel extends Equatable {
     List<ServiceDurationModel>? serviceDurations,
     List<ServiceMediaModel>? serviceMedia,
     List<ServiceAddonModel>? serviceAddons,
+    String? mainImage,
   }) {
     return ServiceModel(
       serviceId: serviceId ?? this.serviceId,
@@ -135,6 +188,7 @@ class ServiceModel extends Equatable {
       isActive: isActive ?? this.isActive,
       allowFocusAreas: allowFocusAreas ?? this.allowFocusAreas,
       sortKey: sortKey ?? this.sortKey,
+      mainImage: mainImage ?? this.mainImage,
       startingPrice: startingPrice ?? this.startingPrice,
       serviceBenefits: serviceBenefits ?? this.serviceBenefits,
       serviceDurations: serviceDurations ?? this.serviceDurations,
@@ -174,6 +228,43 @@ class ServiceDurationModel {
   final bool isPromoted;
   final double price;
 
+  //  duration like 00:30:00
+  String get durationInMinutes => duration.split(':').length > 2
+      ? (int.parse(duration.split(':')[0]) * 60 +
+              int.parse(duration.split(':')[1]))
+          .toString()
+      : duration.split(':')[1];
+  String get durationInHours => duration.split(':').length > 2
+      ? (int.parse(duration.split(':')[0]) * 60 +
+              int.parse(duration.split(':')[1]))
+          .toString()
+      : duration.split(':')[0];
+
+  String get formattedString {
+    // if duration hourse is 0 return minutes if not return hours and minutes if minutes is not 0 if not return hours
+    final hourse = int.parse(duration.split(':')[0]);
+    final minutes = int.parse(duration.split(':')[1]);
+    if (hourse == 0) {
+      return '$minutes';
+    }
+    if (minutes == 0) {
+      return '$hourse';
+    }
+    return '$hourse:$minutes';
+  }
+
+  String get unit {
+    final hourse = int.parse(duration.split(':')[0]);
+    final minutes = int.parse(duration.split(':')[1]);
+    if (hourse == 0) {
+      return 'Minutes';
+    }
+    if (minutes == 0) {
+      return 'Hours';
+    }
+    return 'Hours';
+  }
+
   const ServiceDurationModel({
     required this.serviceDurationId,
     required this.duration,
@@ -195,7 +286,7 @@ class ServiceDurationModel {
       serviceDurationId: json['serviceDurationId'],
       duration: json['duration'],
       isPromoted: json['isPromoted'],
-      price: json['price'],
+      price: (json['price'] as num).toDouble(),
     );
   }
 }
@@ -206,6 +297,10 @@ class ServiceMediaModel {
   final String mediaUrl;
   final int mediaType;
   final int mediaPosition;
+  bool get isImage => ['jpg', 'jpeg', 'png', 'gif']
+      .contains(mediaUrl.split('.').last.toLowerCase());
+  bool get isVideo => ['mp4', 'mov', 'avi', 'flv', 'wmv']
+      .contains(mediaUrl.split('.').last.toLowerCase());
 
   const ServiceMediaModel({
     required this.mediaId,
@@ -266,8 +361,52 @@ class ServiceAddonModel {
       addonId: json['addonId'],
       title: json['title'],
       description: json['description'],
-      price: json['price'],
+      price: (json['price'] as num).toDouble(),
       duration: json['duration'],
     );
   }
+}
+
+class ServicesResponse extends Equatable {
+  final List<ServiceModel> data;
+  final int page;
+  final int pageSize;
+  final int totalCount;
+  final int totalPages;
+  const ServicesResponse({
+    required this.data,
+    required this.page,
+    required this.pageSize,
+    required this.totalCount,
+    required this.totalPages,
+  });
+
+// from map
+  factory ServicesResponse.fromMap(Map<String, dynamic> json) {
+    return ServicesResponse(
+      data: List<ServiceModel>.from(
+          json['data'].map((x) => ServiceModel.fromMap(x))),
+      page: json['page'],
+      pageSize: json['pageSize'],
+      totalCount: json['totalCount'],
+      totalPages: json['totalPages'],
+    );
+  }
+  // to map
+  Map<String, dynamic> toMap() {
+    return {
+      'data': List<dynamic>.from(data.map((x) => x.toMap())),
+      'page': page,
+      'pageSize': pageSize,
+      'totalCount': totalCount,
+      'totalPages': totalPages,
+    };
+  }
+
+  factory ServicesResponse.fromJson(String source) =>
+      ServicesResponse.fromMap(json.decode(source));
+
+  String toJson() => json.encode(toMap());
+  @override
+  List<Object?> get props => [data, page, pageSize, totalCount, totalPages];
 }

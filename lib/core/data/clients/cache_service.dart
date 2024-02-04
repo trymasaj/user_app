@@ -6,6 +6,7 @@ import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:injectable/injectable.dart';
 import 'package:masaj/core/domain/enums/show_case_displayed_page.dart';
 import 'package:masaj/features/address/entities/country.dart';
+import 'package:masaj/features/services/data/models/service_model.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 abstract class CacheService {
@@ -43,6 +44,10 @@ abstract class CacheService {
   Future<void> addShowCaseDisplayedPages(ShowCaseDisplayedPage page);
 
   Future<void> resetShowCaseDisplayedPages();
+  // save service model
+  Future<bool> saveServiceModel(ServiceModel serviceModel);
+  // get all service models
+  Future<List<ServiceModel>> getAllServiceModels();
 }
 
 @LazySingleton(as: CacheService)
@@ -56,6 +61,7 @@ class CacheServiceImplV2 implements CacheService {
   static const _SHOW_CASE_DISPLAYED = 'SHOW_CASE_DISPLAYED';
   static const _COUNTRY_CODE = 'COUNTRY_CODE';
   static const _COUNTRY = 'COUNTRY';
+  static const _SERVICE_MODEL = 'SERVICE';
 
   final _completer = Completer<FlutterSecureStorage>();
 
@@ -199,5 +205,40 @@ class CacheServiceImplV2 implements CacheService {
     final prefs = await SharedPreferences.getInstance();
     final country = prefs.getString(_COUNTRY);
     return Country.fromMap(jsonDecode(country!));
+  }
+
+  @override
+  Future<List<ServiceModel>> getAllServiceModels() async {
+    final storage = await _completer.future;
+    final serviceModels = await storage.read(key: _SERVICE_MODEL);
+    if (serviceModels == null) {
+      return [];
+    }
+    final List<ServiceModel> serviceModelList = [];
+    final List<dynamic> serviceModelMap = jsonDecode(serviceModels);
+    for (var item in serviceModelMap) {
+      serviceModelList.add(ServiceModel.fromMap(item));
+    }
+    return serviceModelList;
+  }
+
+  @override
+  Future<bool> saveServiceModel(ServiceModel serviceModel) async {
+    final storage = await _completer.future;
+    final serviceModels = await getAllServiceModels();
+    // check if the service model is already saved
+    if (serviceModels.any((element) => element.serviceId == serviceModel.serviceId)) {
+      // remove the old service model and add the new one
+      serviceModels.removeWhere((element) => element.serviceId == serviceModel.serviceId);
+    }
+    // check if length is more than 10 then remove the last item
+    if (serviceModels.length >= 10) {
+      serviceModels.removeLast();
+    }
+    serviceModels.add(serviceModel);
+    await storage.write(
+        key: _SERVICE_MODEL,
+        value: jsonEncode(serviceModels.map((e) => e.toMap()).toList()));
+    return true;
   }
 }

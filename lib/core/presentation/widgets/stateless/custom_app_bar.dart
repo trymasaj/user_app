@@ -42,8 +42,11 @@ class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
       onTap: NavigatorHelper.of(context).pop,
       child: Padding(
         padding: const EdgeInsets.symmetric(horizontal: 16),
-        child: SvgPicture.asset(
-          'assets/images/back_icon.svg',
+        child: Transform.flip(
+          flipX: Directionality.of(context) == TextDirection.rtl,
+          child: SvgPicture.asset(
+            'assets/images/back_icon.svg',
+          ),
         ),
       ),
     );

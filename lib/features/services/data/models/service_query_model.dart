@@ -5,12 +5,16 @@ class ServiceQueryModel extends Equatable {
   String? searchKeyword;
   double? priceFrom;
   double? priceTo;
+  int? page;
+  int? pageSize;
 
   ServiceQueryModel({
     this.categoryId,
     this.searchKeyword,
     this.priceFrom,
     this.priceTo,
+    this.page,
+    this.pageSize,
   });
 
   Map<String, dynamic> toMap() {
@@ -19,6 +23,8 @@ class ServiceQueryModel extends Equatable {
       'SearchKeyword': searchKeyword,
       'PriceFrom': priceFrom,
       'PriceTo': priceTo,
+      'Page': page,
+      'PageSize': pageSize,
     }..removeWhere((key, value) => value == null);
   }
 
@@ -29,6 +35,8 @@ class ServiceQueryModel extends Equatable {
       searchKeyword: json['SearchKeyword'],
       priceFrom: json['PriceFrom'],
       priceTo: json['PriceTo'],
+      page: json['Page'],
+      pageSize: json['PageSize'],
     );
   }
   // copy with
@@ -37,20 +45,26 @@ class ServiceQueryModel extends Equatable {
     String? searchKeyword,
     double? priceFrom,
     double? priceTo,
+    int? page,
+    int? pageSize,
   }) {
     return ServiceQueryModel(
       categoryId: categoryId ?? this.categoryId,
       searchKeyword: searchKeyword ?? this.searchKeyword,
       priceFrom: priceFrom ?? this.priceFrom,
       priceTo: priceTo ?? this.priceTo,
+      page: page ?? this.page,
+      pageSize: pageSize ?? this.pageSize,
     );
   }
-  
+
   @override
   List<Object?> get props => [
         categoryId,
         searchKeyword,
         priceFrom,
         priceTo,
+        page,
+        pageSize,
       ];
 }

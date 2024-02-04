@@ -1,4 +1,3 @@
-
 part of 'service_details_cubit.dart';
 
 // state
@@ -19,10 +18,11 @@ class ServiceDetailsState extends Equatable {
   final ServiceDetailsStateStatus status;
   final ServiceModel? service;
   final String? errorMessage;
+ 
 
   const ServiceDetailsState(
       {this.status = ServiceDetailsStateStatus.initial,
-       this.service,
+      this.service,
       this.errorMessage});
 
   // copy with
@@ -41,4 +41,3 @@ class ServiceDetailsState extends Equatable {
   @override
   List<Object?> get props => [status, service, errorMessage];
 }
-

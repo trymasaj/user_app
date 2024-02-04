@@ -1,19 +1,19 @@
 part of 'service_cubit.dart';
 
-enum ServcieStateStatus { initial, loading, loaded, error }
+enum SearchServcieStateStatus { initial, loading, loaded, error }
 
-extension AuthStateX on ServcieState {
-  bool get isInitial => status == ServcieStateStatus.initial;
+extension AuthStateX on SearchServcieState {
+  bool get isInitial => status == SearchServcieStateStatus.initial;
 
-  bool get isLoading => status == ServcieStateStatus.loading;
+  bool get isLoading => status == SearchServcieStateStatus.loading;
 
-  bool get isLoaded => status == ServcieStateStatus.loaded;
+  bool get isLoaded => status == SearchServcieStateStatus.loaded;
 
-  bool get isError => status == ServcieStateStatus.error;
+  bool get isError => status == SearchServcieStateStatus.error;
 }
 
-class ServcieState extends Equatable {
-  final ServcieStateStatus status;
+class SearchServcieState extends Equatable {
+  final SearchServcieStateStatus status;
   final List<ServiceModel> services;
   final String? errorMessage;
   final int? page;
@@ -21,8 +21,8 @@ class ServcieState extends Equatable {
   final bool? hasReachedMax;
   final ServiceCategory? slectedServiceCategory;
   final List<ServiceCategory>? allServiceCategories;
-  const ServcieState(
-      {this.status = ServcieStateStatus.initial,
+  const SearchServcieState(
+      {this.status = SearchServcieStateStatus.initial,
       this.page = 1,
       this.pageSize = 10,
       this.slectedServiceCategory,
@@ -32,8 +32,8 @@ class ServcieState extends Equatable {
       this.errorMessage});
 
   // copy with
-  ServcieState copyWith({
-    ServcieStateStatus? status,
+  SearchServcieState copyWith({
+    SearchServcieStateStatus? status,
     List<ServiceModel>? services,
     ServiceCategory? slectedServiceCategory,
     List<ServiceCategory>? allServiceCategories,
@@ -42,7 +42,7 @@ class ServcieState extends Equatable {
     String? errorMessage,
     bool? hasReachedMax,
   }) {
-    return ServcieState(
+    return SearchServcieState(
         status: status ?? this.status,
         services: services ?? this.services,
         errorMessage: errorMessage ?? this.errorMessage,
