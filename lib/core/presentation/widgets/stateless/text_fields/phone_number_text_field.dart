@@ -1,23 +1,26 @@
+import 'dart:developer';
+
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:intl_phone_field/country_picker_dialog.dart';
 import 'package:intl_phone_field/intl_phone_field.dart';
 import 'package:intl_phone_field/phone_number.dart';
+import 'package:masaj/core/data/validator/validator.dart';
 import 'package:masaj/core/presentation/colors/app_colors.dart';
 
 class PhoneTextFormField extends StatelessWidget {
-  const PhoneTextFormField({
-    super.key,
-    required this.currentFocusNode,
-    required this.nextFocusNode,
-    required this.currentController,
-    this.margin,
-    this.initialValue,
-    required this.onInputChanged,
-    this.isEnabled = true,
-    this.hint,
-  });
+  const PhoneTextFormField(
+      {super.key,
+      required this.currentFocusNode,
+      required this.nextFocusNode,
+      required this.currentController,
+      this.margin,
+      this.initialValue,
+      required this.onInputChanged,
+      this.isEnabled = true,
+      this.hint,
+      this.autovalidateMode = AutovalidateMode.always});
 
   final FocusNode currentFocusNode;
   final FocusNode? nextFocusNode;
@@ -27,6 +30,7 @@ class PhoneTextFormField extends StatelessWidget {
   final ValueChanged<PhoneNumber> onInputChanged;
   final bool isEnabled;
   final String? hint;
+  final AutovalidateMode? autovalidateMode;
 
   @override
   Widget build(BuildContext context) {
@@ -63,6 +67,9 @@ class PhoneTextFormField extends StatelessWidget {
           inputFormatters: [
             FilteringTextInputFormatter.digitsOnly,
           ],
+          validator: (phoneNumber) {
+            return Validator().validatePhoneNumber(phoneNumber?.number ?? '');
+          },
           cursorColor: Colors.black,
           pickerDialogStyle: PickerDialogStyle(
             backgroundColor: Colors.white,
@@ -147,7 +154,7 @@ class PhoneTextFormField extends StatelessWidget {
               borderRadius: BorderRadius.all(Radius.circular(12.0)),
             ),
           ),
-          autovalidateMode: AutovalidateMode.onUserInteraction,
+          autovalidateMode: autovalidateMode,
           initialCountryCode: 'KW',
           flagsButtonMargin: EdgeInsets.only(
             left: currentLocal.languageCode == 'ar' ? 0 : 12,

@@ -1,3 +1,5 @@
+// ignore_for_file: curly_braces_in_flow_control_structures
+
 import 'package:easy_localization/easy_localization.dart';
 
 class Validator {
@@ -34,9 +36,14 @@ class Validator {
       return tr('empty_field_not_valid');
     } else if (password.length < 6)
       return tr('invalid_password_less_than_characters');
+    //should has 1 Number,
+    else if (!RegExp(r'^(?=.*?[0-9]).{6,}$').hasMatch(password))
+      return tr('invalid_password_should_has_1_number');
+    //should has 1 small letter,
+    else if (!RegExp(r'^(?=.*?[a-z])').hasMatch(password))
+      return tr('invalid_password_should_has_1_small_letter');
     //should has 1 capital letter,
-    else if (!RegExp(r'^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9]).{6,}$')
-        .hasMatch(password))
+    else if (!RegExp(r'^(?=.*?[A-Z])(?=.*?[a-z])').hasMatch(password))
       return tr('invalid_password_should_has_1_capital_letter');
     else
       return null;
