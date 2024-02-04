@@ -1,6 +1,7 @@
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:masaj/core/data/validator/validator.dart';
 import 'package:masaj/core/presentation/colors/app_colors.dart';
 import 'package:masaj/core/presentation/navigation/navigator_helper.dart';
 import 'package:masaj/core/presentation/overlay/show_snack_bar.dart';
@@ -142,17 +143,8 @@ class _ResetPasswordPageState extends State<ResetPasswordPage> {
             nextFocusNode: _confirmPasswordFocusNode,
             hint: 'confirm_new_password'.tr(),
             validator: (value) {
-              if (value != _confirmPasswordTextController.text) {
-                return 'passwords_not_match'.tr();
-              }
-              if (value!.isEmpty) {
-                return 'password_required'.tr();
-              }
-              if (_confirmPasswordTextController.text !=
-                  _passwordTextController.text) {
-                return 'passwords_not_match'.tr();
-              }
-              return null;
+              return Validator()
+                  .validateConfPassword(_passwordTextController.text, value);
             },
           ),
         ],

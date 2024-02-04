@@ -50,11 +50,12 @@ class Validator {
   }
 
   String? validateConfPassword(String? password, String? confPassword) {
-    if (password == null || password.isEmpty || password != confPassword) {
+    if (password == null || password.isEmpty)
+      return tr('password_required');
+    else if (password != confPassword)
       return tr('does_not_match_with_password');
-    } else {
+    else
       return null;
-    }
   }
 
   String? validatePhoneNumber(String? phoneNumber) {
