@@ -1,4 +1,5 @@
 import 'dart:async';
+import 'dart:developer';
 
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/gestures.dart';
@@ -103,7 +104,8 @@ class _OTPVerificationPageState extends State<OTPVerificationPage> {
         },
         child: BlocListener<ResendCubit, ResendState>(
           listener: (context, state) {
-            if (state.errorMessage != null) {
+            if (state.errorMessage != null &&
+                state.status == TimerStateStatus.error) {
               showSnackBar(context, message: state.errorMessage);
             }
           },

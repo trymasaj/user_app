@@ -65,4 +65,11 @@ class ResendCubit extends Cubit<ResendState> {
       ));
     }
   }
+
+  void clearErrorMsg() {
+    emit(state.copyWith(
+      status: TimerStateStatus.initial,
+      errorMessage: null,
+    ));
+  }
 }
