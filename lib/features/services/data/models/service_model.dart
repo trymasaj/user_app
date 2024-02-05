@@ -26,10 +26,9 @@ class ServiceModel extends Equatable {
       ];
   // videos
   List<String> get videos => [
-        'https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/BigBuckBunny.mp4',
         if (serviceMedia != null)
           ...serviceMedia!
-              .where((element) => !element.isVideo)
+              .where((element) => element.isVideo)
               .map((e) => e.mediaUrl)
       ];
   const ServiceModel({

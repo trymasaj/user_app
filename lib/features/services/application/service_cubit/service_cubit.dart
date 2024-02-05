@@ -21,10 +21,15 @@ class ServiceCubit extends BaseCubit<ServcieState> {
 
   ServiceCubit(this._serviceRepository) : super(const ServcieState()) {
     _searchSubject.stream
-        .debounceTime(const Duration(milliseconds: 300))
+        .debounceTime(const Duration(milliseconds: 500))
         .distinct()
         .listen((query) {
-      getServices(searchKeyword: query);
+          
+      getServices(
+          searchKeyword: query,
+          refresh: true,
+          priceFrom: state.priceFrom,
+          priceTo: state.priceTo);
     });
   }
   void setServiceCategory(
@@ -65,6 +70,8 @@ class ServiceCubit extends BaseCubit<ServcieState> {
       {double? priceFrom,
       double? priceTo,
       String? searchKeyword,
+      double? maxPrice,
+      double? minPrice,
       bool refresh = false,
       bool loadMore = false,
       bool? clearPrice}) async {
@@ -90,8 +97,10 @@ class ServiceCubit extends BaseCubit<ServcieState> {
       emit(state.copyWith(
           status: ServcieStateStatus.loaded,
           services: services,
+          maxPrice: maxPrice ?? state.maxPrice,
           page: page,
           priceFrom: priceFrom,
+          minPrice: minPrice ?? state.minPrice,
           clearPrice: clearPrice ?? false,
           priceTo: priceTo,
           hasReachedMax: hasReachedMax));

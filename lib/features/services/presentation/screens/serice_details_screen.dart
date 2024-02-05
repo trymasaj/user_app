@@ -3,8 +3,10 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:masaj/core/app_export.dart';
 import 'package:masaj/core/data/di/injector.dart';
+import 'package:masaj/core/domain/enums/focus_area_enum.dart';
 import 'package:masaj/core/presentation/colors/app_colors.dart';
 import 'package:masaj/core/presentation/navigation/navigator_helper.dart';
+import 'package:masaj/core/presentation/widgets/stateful/full_screen_video.dart';
 import 'package:masaj/core/presentation/widgets/stateless/custom_cached_network_image.dart';
 import 'package:masaj/core/presentation/widgets/stateless/custom_chip.dart';
 import 'package:masaj/core/presentation/widgets/stateless/custom_loading.dart';
@@ -12,6 +14,7 @@ import 'package:masaj/core/presentation/widgets/stateless/custom_text.dart';
 import 'package:masaj/core/presentation/widgets/stateless/custom_text_form_field.dart';
 import 'package:masaj/core/presentation/widgets/stateless/default_button.dart';
 import 'package:masaj/core/presentation/widgets/stateless/text_with_gradiant.dart';
+import 'package:masaj/features/focus_area/presentation/pages/focus_area_page.dart';
 import 'package:masaj/features/services/application/service_details_cubit/service_details_cubit.dart';
 import 'package:masaj/features/services/data/models/service_model.dart';
 import 'package:masaj/gen/assets.gen.dart';
@@ -27,11 +30,13 @@ class ServiceDetailsScreen extends StatefulWidget {
 
 class _ServiceDetailsScreenState extends State<ServiceDetailsScreen> {
   late final ServiceDetailsCubit _serviceDetailsCubit;
+  late TextEditingController focusAreaTextField;
 
   @override
   void initState() {
     _serviceDetailsCubit = Injector().serviceDetailsCubit;
     _serviceDetailsCubit.getServiceDetails(widget.id);
+    focusAreaTextField = TextEditingController();
 
     super.initState();
   }
@@ -199,11 +204,66 @@ class _ServiceDetailsScreenState extends State<ServiceDetailsScreen> {
                                         height: 8.h,
                                       ),
                                       // lst of videos
-                                      for (String video
-                                          in state.service?.videos ?? [])
-                                        VideoPlayerWidget(
-                                          url: video,
-                                        ),
+                                      // for (String video
+                                      //     in state.service?.videos ?? [])
+                                      SizedBox(
+                                          height: 140.h,
+                                          child: ListView.builder(
+                                              scrollDirection: Axis.horizontal,
+                                              itemCount: 2,
+                                              itemBuilder: (context, index) =>
+                                                  GestureDetector(
+                                                    onTap: () {
+                                                      NavigatorHelper.of(
+                                                              context)
+                                                          .push(
+                                                        MaterialPageRoute(
+                                                          builder: (_) =>
+                                                              FullScreenVideoPlayer(
+                                                            url: state.service
+                                                                        ?.videos[
+                                                                    index] ??
+                                                                '',
+                                                          ),
+                                                        ),
+                                                      );
+                                                    },
+                                                    child: Stack(
+                                                      children: [
+                                                        Container(
+                                                          height: 160.h,
+                                                          width: MediaQuery.of(
+                                                                      context)
+                                                                  .size
+                                                                  .width *
+                                                              .8,
+                                                          margin:
+                                                              EdgeInsets.only(
+                                                                  right: 8.w),
+                                                          decoration:
+                                                              BoxDecoration(
+                                                            color: Colors.black,
+                                                            borderRadius:
+                                                                BorderRadius
+                                                                    .circular(
+                                                                        12),
+                                                          ),
+                                                        ),
+                                                        const Positioned(
+                                                          top: 0,
+                                                          left: 0,
+                                                          right: 0,
+                                                          bottom: 0,
+                                                          child: Center(
+                                                              child: Icon(
+                                                            Icons.play_arrow,
+                                                            color: Colors.white,
+                                                            size: 40,
+                                                          )),
+                                                        )
+                                                      ],
+                                                    ),
+                                                  ))),
                                       SizedBox(
                                         height: 18.h,
                                       )
@@ -222,7 +282,8 @@ class _ServiceDetailsScreenState extends State<ServiceDetailsScreen> {
                           if (state.service!.allowFocusAreas == true)
                             Column(
                               children: [
-                                const FocusAreaSection(),
+                                FocusAreaSection(
+                                    controller: focusAreaTextField),
                                 Container(
                                   width: double.infinity,
                                   height: 5.h,
@@ -360,7 +421,8 @@ class TotalSetion extends StatelessWidget {
   }
 }
 
-// AddonsSecion
+// full screen video player
+
 class AddonsSecion extends StatelessWidget {
   const AddonsSecion({
     super.key,
@@ -580,7 +642,9 @@ class DurationContainer extends StatelessWidget {
 class FocusAreaSection extends StatelessWidget {
   const FocusAreaSection({
     super.key,
+    required this.controller,
   });
+  final TextEditingController controller;
 
   @override
   Widget build(BuildContext context) {
@@ -632,11 +696,18 @@ class FocusAreaSection extends StatelessWidget {
                     fontWeight: FontWeight.w500,
                   ),
                   GestureDetector(
-                    onTap: () {
-                      NavigatorHelper.of(context).push(
-                        const SelectFocusAsreaScreen(),
-                      
+                    onTap: () async {
+                      final Map<FocusAreas, bool>? selectedFocusPoints =
+                          await NavigatorHelper.of(context).push(
+                        MaterialPageRoute(
+                            builder: (_) => const FocusAreaPage()),
                       );
+                      if (selectedFocusPoints != null) {
+                        controller.text = selectedFocusPoints.keys
+                            .where((element) => selectedFocusPoints[element]!)
+                            .map((e) => e.name)
+                            .join(', ');
+                      }
                     },
                     child: const TextWithGradiant(
                         fontWeight: FontWeight.w500,
@@ -650,9 +721,10 @@ class FocusAreaSection extends StatelessWidget {
                 height: 8.h,
               ),
               // text field
-              const CustomTextFormField(
+              CustomTextFormField(
+                controller: controller,
                 readOnly: true,
-                borderDecoration: OutlineInputBorder(
+                borderDecoration: const OutlineInputBorder(
                   borderRadius: BorderRadius.all(Radius.circular(12)),
                   borderSide: BorderSide(
                     color: Color(0xffD9D9D9),
@@ -671,71 +743,6 @@ class FocusAreaSection extends StatelessWidget {
 }
 
 // vido player widget
-class VideoPlayerWidget extends StatefulWidget {
-  const VideoPlayerWidget({super.key, required this.url});
-  final String url;
-
-  @override
-  State<VideoPlayerWidget> createState() => _VideoPlayerWidgetState();
-}
-
-class _VideoPlayerWidgetState extends State<VideoPlayerWidget> {
-  late VideoPlayerController _controller;
-  @override
-  void initState() {
-    _controller = VideoPlayerController.network(widget.url)
-      ..initialize().then((_) {
-        // Ensure the first frame is shown after the video is initialized, even before the play button has been pressed.
-        setState(() {});
-      });
-    super.initState();
-  }
-
-  @override
-  void dispose() {
-    _controller.dispose();
-    super.dispose();
-  }
-  //
-
-  Widget buildPlayer() {
-    return _controller.value.isInitialized
-        ? AspectRatio(
-            aspectRatio: _controller.value.aspectRatio,
-            child: ClipRRect(
-                borderRadius: BorderRadius.circular(11),
-                child: Stack(
-                  children: [
-                    VideoPlayer(_controller),
-                    Center(
-                      child: IconButton(
-                        icon: Icon(
-                          _controller.value.isPlaying
-                              ? Icons.pause
-                              : Icons.play_arrow,
-                          color: Colors.white,
-                        ),
-                        onPressed: () {
-                          if (_controller.value.isPlaying) {
-                            _controller.pause();
-                          } else {
-                            _controller.play();
-                          }
-                          setState(() {});
-                        },
-                      ),
-                    ),
-                  ],
-                )),
-          )
-        : const SizedBox();
-  }
-
-  @override
-  Widget build(BuildContext context) {
-    return buildPlayer();
-  }
-}
 
 class ServiceImagesViewWidget extends StatefulWidget {
   const ServiceImagesViewWidget({
@@ -763,7 +770,7 @@ class _ServiceImagesViewWidgetState extends State<ServiceImagesViewWidget> {
 
   int currentIndex = 0;
   bool isPreviousArrowActive = false;
-  bool isNextArrowActive = true;
+  bool isNextArrowActive = false;
   void toggleArrows(int index) {
     isNextArrowActive = index < widget.images.length - 1;
     isPreviousArrowActive = index > 0;
@@ -847,27 +854,11 @@ class _ServiceImagesViewWidgetState extends State<ServiceImagesViewWidget> {
             ),
           ),
         ),
-        // Positioned(
-        //   left: 0,
-        //   bottom: (262.h / 4),
-        //   child: IconButton(
-        //     icon: const Icon(Icons.arrow_back_ios),
-        //     color: isPreviousArrowActive
-        //         ? AppColors.PlaceholderColor
-        //         : AppColors.FONT_LIGHT,
-        //     onPressed: () {
-        //       _carouselController.previousPage();
 
-        //       toggleArrows(
-        //         currentIndex - 1,
-        //       );
-        //     },
-        //   ),
-        // ),
         Positioned(
           width: MediaQuery.of(context).size.width,
           right: 0,
-          bottom: (262.h / 4) - 20.h,
+          bottom: (262.h / 3) - 20.h,
           child: Container(
             padding: EdgeInsets.symmetric(horizontal: 14.w),
             child: Row(
@@ -913,7 +904,7 @@ class _ServiceImagesViewWidgetState extends State<ServiceImagesViewWidget> {
         ),
         // back button
         Positioned(
-          bottom: ((262.h / 4) * 2) + 30,
+          bottom: ((262.h / 3) * 2),
           left: context.locale.countryCode != 'ar' ? 0 : null,
           right: context.locale.countryCode != 'ar' ? null : 0,
           child: InkWell(

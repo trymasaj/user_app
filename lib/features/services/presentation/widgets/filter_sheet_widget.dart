@@ -32,7 +32,7 @@ class FilterWidgetSheet extends StatefulWidget {
 }
 
 class _FilterWidgetSheetState extends State<FilterWidgetSheet> {
-  final double _starterValue = 0;
+  double _starterValue = 0;
   double _endValue = 1000;
   late RangeValues values;
   late TextEditingController _fromController;
@@ -49,6 +49,11 @@ class _FilterWidgetSheetState extends State<FilterWidgetSheet> {
     _toFocusNode = FocusNode();
     double? priceFrom = widget.serviceCubit.state.priceFrom;
     double? priceTo = widget.serviceCubit.state.priceTo;
+    setState(() {
+      _endValue = widget.serviceCubit.state.maxPrice;
+      _starterValue = widget.serviceCubit.state.minPrice;
+    });
+
     values = RangeValues(
       priceFrom ?? _starterValue,
       priceTo ?? _endValue,
@@ -257,9 +262,12 @@ class _FilterWidgetSheetState extends State<FilterWidgetSheet> {
                   child: DefaultButton(
                       onPressed: () {
                         Navigator.pop(context, values);
+
                         widget.serviceCubit.getServices(
                             refresh: true,
                             priceFrom: values.start,
+                            maxPrice: _endValue,
+                            minPrice: _starterValue,
                             priceTo: values.end);
                       },
                       label: 'apply'.tr()),

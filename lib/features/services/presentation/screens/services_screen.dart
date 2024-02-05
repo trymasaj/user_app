@@ -45,20 +45,31 @@ class _ServicesScreenState extends State<ServicesScreen> {
   late ScrollController _scrollController;
   late ServiceCubit serviceCubit;
   late final TextEditingController _searchController;
+  late final FocusNode _searchFocusNode;
+  bool searchIsFocused = false;
 
   @override
   void initState() {
     _searchController = TextEditingController();
+    _searchFocusNode = FocusNode();
+    _searchFocusNode.addListener(() {
+      if (!_searchFocusNode.hasFocus) {
+        searchIsFocused = false;
+      }
+    });
     _searchController.addListener(() {
-      if (_searchController.text.length > 2) {
-        serviceCubit.getServices(
-          searchKeyword: _searchController.text,
-          refresh: true,
+      if (_searchController.text.length > 2 && searchIsFocused) {
+        serviceCubit.setSearchValue(
+          _searchController.text,
         );
+        if (!searchIsFocused) {
+          searchIsFocused = true;
+        }
       } else if (_searchController.text.isEmpty) {
         serviceCubit.getServices(
-          refresh: true,
-        );
+            refresh: true,
+            priceFrom: serviceCubit.state.priceFrom,
+            priceTo: serviceCubit.state.priceTo);
       }
     });
 
@@ -96,7 +107,7 @@ class _ServicesScreenState extends State<ServicesScreen> {
                 children: [
                   Expanded(
                     child: SearchTextFormField.servicesSearchField(
-                      currentFocusNode: FocusNode(),
+                      currentFocusNode: _searchFocusNode,
                       currentController: _searchController,
                     ),
                   ),
