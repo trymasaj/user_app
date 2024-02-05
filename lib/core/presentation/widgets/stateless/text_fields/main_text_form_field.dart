@@ -116,8 +116,8 @@ class _MainTextFormFieldState extends State<MainTextFormField> {
               : const Color(0x44000000),
           filled: true,
           isDense: true,
-          // contentPadding: widget.contentPadding ??
-          //     const EdgeInsets.fromLTRB(20, 20, 20, 20),
+          contentPadding: widget.contentPadding ??
+              const EdgeInsets.fromLTRB(20, 20, 20, 20),
           hintText: widget.hintText.tr(),
           hintStyle: TextStyle(
               fontFamily: 'Poppins',

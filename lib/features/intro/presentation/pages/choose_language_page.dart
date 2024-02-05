@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:country_flags/country_flags.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
@@ -26,6 +28,20 @@ class ChooseLanguagePage extends StatefulWidget {
 
 class _ChooseLanguagePageState extends State<ChooseLanguagePage> {
   Locale _selectedLocal = const Locale('en');
+  String getTheDveiceLocal() {
+    final localName = Platform.localeName;
+    // return the first two characters of the local name
+    return localName.substring(0, 2);
+  }
+
+  @override
+  void initState() {
+    setState(() {
+      _selectedLocal =
+          getTheDveiceLocal() == 'ar' ? const Locale('ar') : const Locale('en');
+    });
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -80,10 +96,10 @@ class _ChooseLanguagePageState extends State<ChooseLanguagePage> {
               height: 19.h,
               width: 121.w),
           SizedBox(height: 18.h),
-          Text("msg_choose_app_language".tr(),
+          Text('msg_choose_app_language'.tr(),
               style: CustomTextStyles.titleMediumGray90002),
           SizedBox(height: 4.h),
-          Text("msg_please_select_your".tr(),
+          Text('msg_please_select_your'.tr(),
               style: CustomTextStyles.bodyMediumGray60002),
           SizedBox(height: 19.h),
           CustomRadioListTile(

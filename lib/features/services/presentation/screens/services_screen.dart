@@ -8,6 +8,7 @@ import 'package:masaj/core/presentation/colors/app_colors.dart';
 import 'package:masaj/core/presentation/dialogs/image_picker_bottom_sheet.dart';
 import 'package:masaj/core/presentation/widgets/stateless/custom_app_bar.dart';
 import 'package:masaj/core/presentation/widgets/stateless/custom_cached_network_image.dart';
+import 'package:masaj/core/presentation/widgets/stateless/custom_loading.dart';
 import 'package:masaj/core/presentation/widgets/stateless/custom_text.dart';
 import 'package:masaj/core/presentation/widgets/stateless/custom_text_form_field.dart';
 import 'package:masaj/core/presentation/widgets/stateless/default_button.dart';
@@ -58,7 +59,7 @@ class _ServicesScreenState extends State<ServicesScreen> {
       }
     });
     _searchController.addListener(() {
-      if (_searchController.text.length > 2 && searchIsFocused) {
+      if (_searchController.text.length > 2) {
         serviceCubit.setSearchValue(
           _searchController.text,
         );
@@ -107,6 +108,7 @@ class _ServicesScreenState extends State<ServicesScreen> {
                 children: [
                   Expanded(
                     child: SearchTextFormField.servicesSearchField(
+                      contentPadding: EdgeInsets.symmetric(horizontal: 16.w),
                       currentFocusNode: _searchFocusNode,
                       currentController: _searchController,
                     ),
@@ -237,104 +239,113 @@ class _ServicesScreenState extends State<ServicesScreen> {
                   }
                 },
                 builder: (context, state) {
-                  return GridView.builder(
-                    padding: EdgeInsets.symmetric(horizontal: 24.w),
-                    gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-                      crossAxisCount: 2,
-                      crossAxisSpacing: 9.w,
-                      mainAxisSpacing: 12.h,
-                      childAspectRatio: 158 / 188,
-                    ),
-                    itemCount: state.services.length,
-                    itemBuilder: (context, index) {
-                      final service = state.services[index];
-                      return InkWell(
-                        onTap: () {
-                          // Navigator.pushNamed(context, '/service_details',
-                          //     arguments: service);
-                          Navigator.push(
-                              context,
-                              MaterialPageRoute(
-                                  builder: (context) => ServiceDetailsScreen(
-                                        id: service.serviceId,
-                                      )));
-                        },
-                        child: Container(
-                          decoration: BoxDecoration(
-                              color: Colors.white,
-                              borderRadius: BorderRadius.circular(12),
-                              // border with #D9D9D9
-                              border:
-                                  Border.all(color: const Color(0xffD9D9D9))),
-                          child: Stack(
-                            children: [
-                              // image
-                              ClipRRect(
-                                borderRadius: BorderRadius.circular(12),
-                                child: Container(
-                                  height: 160.h,
-                                  decoration: BoxDecoration(
-                                      image: DecorationImage(
-                                          image:
-                                              CustomCachedNetworkImageProvider(
-                                            service.mainImage ?? '',
-                                          ),
-                                          fit: BoxFit.cover)),
-                                ),
-                              ),
-                              // white container  at the bottom and floating
-                              Positioned(
-                                bottom: 0,
-                                left: 0,
-                                right: 0,
-                                child: ClipRRect(
-                                  borderRadius: const BorderRadius.only(
-                                    bottomLeft: Radius.circular(12),
-                                    bottomRight: Radius.circular(12),
-                                    topLeft: Radius.circular(12),
-                                  ),
-                                  child: Container(
-                                    padding: EdgeInsets.symmetric(
-                                        horizontal: 14.w, vertical: 12.h),
-                                    decoration: const BoxDecoration(
-                                      color: Colors.white,
-                                    ),
-                                    child: Column(
-                                      crossAxisAlignment:
-                                          CrossAxisAlignment.start,
-                                      children: [
-                                        CustomText(
-                                          text: service.title ?? '',
-                                          fontSize: 12,
-                                          color: const Color(0xff1D212C),
-                                          fontWeight: FontWeight.w400,
-                                        ),
-
-                                        //Start from
-                                        CustomText(
-                                          text: 'start_from'.tr(),
-                                          fontSize: 9,
-                                          color: AppColors.PlaceholderColor,
-                                          fontWeight: FontWeight.w400,
-                                        ),
-                                        CustomText(
-                                          text:
-                                              '${service.startingPrice} ${'KWD'.tr()}',
-                                          fontSize: 12,
-                                          color: const Color(0xff1D212C),
-                                          fontWeight: FontWeight.w500,
-                                        ),
-                                      ],
-                                    ),
-                                  ),
-                                ),
-                              ),
-                            ],
+                  return state.isLoading
+                      ? const Center(
+                          child: CustomLoading(
+                            loadingStyle: LoadingStyle.ShimmerGrid,
                           ),
-                        ),
-                      );
-                    },
-                  );
+                        )
+                      : GridView.builder(
+                          padding: EdgeInsets.symmetric(horizontal: 24.w),
+                          gridDelegate:
+                              SliverGridDelegateWithFixedCrossAxisCount(
+                            crossAxisCount: 2,
+                            crossAxisSpacing: 9.w,
+                            mainAxisSpacing: 12.h,
+                            childAspectRatio: 158 / 188,
+                          ),
+                          itemCount: state.services.length,
+                          itemBuilder: (context, index) {
+                            final service = state.services[index];
+                            return InkWell(
+                              onTap: () {
+                                // Navigator.pushNamed(context, '/service_details',
+                                //     arguments: service);
+                                Navigator.push(
+                                    context,
+                                    MaterialPageRoute(
+                                        builder: (context) =>
+                                            ServiceDetailsScreen(
+                                              id: service.serviceId,
+                                            )));
+                              },
+                              child: Container(
+                                decoration: BoxDecoration(
+                                    color: Colors.white,
+                                    borderRadius: BorderRadius.circular(12),
+                                    // border with #D9D9D9
+                                    border: Border.all(
+                                        color: const Color(0xffD9D9D9))),
+                                child: Stack(
+                                  children: [
+                                    // image
+                                    ClipRRect(
+                                      borderRadius: BorderRadius.circular(12),
+                                      child: Container(
+                                        height: 160.h,
+                                        decoration: BoxDecoration(
+                                            image: DecorationImage(
+                                                image:
+                                                    CustomCachedNetworkImageProvider(
+                                                  service.mainImage ?? '',
+                                                ),
+                                                fit: BoxFit.cover)),
+                                      ),
+                                    ),
+                                    // white container  at the bottom and floating
+                                    Positioned(
+                                      bottom: 0,
+                                      left: 0,
+                                      right: 0,
+                                      child: ClipRRect(
+                                        borderRadius: const BorderRadius.only(
+                                          bottomLeft: Radius.circular(12),
+                                          bottomRight: Radius.circular(12),
+                                          topLeft: Radius.circular(12),
+                                        ),
+                                        child: Container(
+                                          padding: EdgeInsets.symmetric(
+                                              horizontal: 14.w, vertical: 12.h),
+                                          decoration: const BoxDecoration(
+                                            color: Colors.white,
+                                          ),
+                                          child: Column(
+                                            crossAxisAlignment:
+                                                CrossAxisAlignment.start,
+                                            children: [
+                                              CustomText(
+                                                text: service.title ?? '',
+                                                fontSize: 12,
+                                                color: const Color(0xff1D212C),
+                                                fontWeight: FontWeight.w400,
+                                              ),
+
+                                              //Start from
+                                              CustomText(
+                                                text: 'start_from'.tr(),
+                                                fontSize: 9,
+                                                color:
+                                                    AppColors.PlaceholderColor,
+                                                fontWeight: FontWeight.w400,
+                                              ),
+                                              CustomText(
+                                                text:
+                                                    '${service.startingPrice} ${'KWD'.tr()}',
+                                                fontSize: 12,
+                                                color: const Color(0xff1D212C),
+                                                fontWeight: FontWeight.w500,
+                                              ),
+                                            ],
+                                          ),
+                                        ),
+                                      ),
+                                    ),
+                                  ],
+                                ),
+                              ),
+                            );
+                          },
+                        );
                 },
               ),
             ),

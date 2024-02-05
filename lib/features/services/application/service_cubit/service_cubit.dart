@@ -24,7 +24,6 @@ class ServiceCubit extends BaseCubit<ServcieState> {
         .debounceTime(const Duration(milliseconds: 500))
         .distinct()
         .listen((query) {
-          
       getServices(
           searchKeyword: query,
           refresh: true,

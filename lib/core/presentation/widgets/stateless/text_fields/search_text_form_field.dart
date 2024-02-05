@@ -45,6 +45,7 @@ class SearchTextFormField extends MainTextFormField {
       super.margin = null,
       super.enabled,
       super.style,
+    super.contentPadding,
       super.readOnly,
       super.onTap,
       super.onChanged})
