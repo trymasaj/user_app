@@ -623,18 +623,26 @@ class FocusAreaSection extends StatelessWidget {
                 height: 16.h,
               ),
               // Any focus area today?
-              const Row(
+              Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
-                  CustomText(
+                  const CustomText(
                     text: 'Any focus area today?',
                     fontSize: 14,
                     fontWeight: FontWeight.w500,
                   ),
-                  TextWithGradiant(
-                      fontWeight: FontWeight.w500,
-                      text: 'Select area',
-                      fontSize: 14)
+                  GestureDetector(
+                    onTap: () {
+                      NavigatorHelper.of(context).push(
+                        const SelectFocusAsreaScreen(),
+                      
+                      );
+                    },
+                    child: const TextWithGradiant(
+                        fontWeight: FontWeight.w500,
+                        text: 'Select area',
+                        fontSize: 14),
+                  )
                 ],
               ),
 

@@ -228,15 +228,15 @@ class CacheServiceImplV2 implements CacheService {
         value: jsonEncode(serviceModels.map((e) => e.toMap()).toList()));
     return true;
   }
-  
+
   @override
   Future<Address?> getCurrentAddress() async {
     final prefs = await SharedPreferences.getInstance();
     final address = prefs.getString(_ADDRESS);
     return Address.fromMap(jsonDecode(address!));
   }
-  
- @override
+
+  @override
   Future<void> setCurrentAddress(Address address) async {
     final prefs = await SharedPreferences.getInstance();
     await prefs.setString(_ADDRESS, jsonEncode(address.toMap()));

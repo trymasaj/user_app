@@ -26,37 +26,6 @@ class SearchServiceCubit extends BaseCubit<SearchServcieState> {
         state.copyWith(status: SearchServcieStateStatus.initial, services: []));
   }
 
-  // void setServiceCategory(
-  //     {required ServiceCategory selectedServiceCategory,
-  //     required List<ServiceCategory> allServicesCategories}) {
-  //   // sort allServicesCategories to make sure that the selectedServiceCategory is the first item
-  //   allServicesCategories.sort((a, b) {
-  //     if (a.id == selectedServiceCategory.id) {
-  //       return -1;
-  //     } else if (b.id == selectedServiceCategory.id) {
-  //       return 1;
-  //     } else {
-  //       return 0;
-  //     }
-  //   });
-  //   emit(state.copyWith(
-  //       slectedServiceCategory: selectedServiceCategory,
-  //       allServiceCategories: allServicesCategories));
-  // }
-
-  // void setSelectedServiceCategory(ServiceCategory selectedServiceCategory) {
-  //   refresh();
-  //   emit(state.copyWith(slectedServiceCategory: selectedServiceCategory));
-  //   getServices();
-  // }
-
-  // void refresh() {
-  //   emit(state.copyWith(
-  //       status: SearchServcieStateStatus.initial,
-  //       services: [],
-  //       page: 1,
-  //       pageSize: 10));
-  // }
   final BehaviorSubject<String> _searchSubject = BehaviorSubject<String>();
   String get searchValue => _searchSubject.value;
   Stream<String> get searchStream => _searchSubject.stream;

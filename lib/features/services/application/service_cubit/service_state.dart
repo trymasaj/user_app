@@ -18,6 +18,8 @@ class ServcieState extends Equatable {
   final String? errorMessage;
   final int? page;
   final int? pageSize;
+  final double? priceFrom;
+  final double? priceTo;
   final bool? hasReachedMax;
   final ServiceCategory? slectedServiceCategory;
   final List<ServiceCategory>? allServiceCategories;
@@ -28,6 +30,8 @@ class ServcieState extends Equatable {
       this.slectedServiceCategory,
       this.allServiceCategories,
       this.hasReachedMax = false,
+      this.priceFrom,
+      this.priceTo,
       this.services = const [],
       this.errorMessage});
 
@@ -40,7 +44,10 @@ class ServcieState extends Equatable {
     int? page,
     int? pageSize,
     String? errorMessage,
+    double? priceFrom,
+    double? priceTo,
     bool? hasReachedMax,
+    bool? clearPrice,
   }) {
     return ServcieState(
         status: status ?? this.status,
@@ -51,6 +58,8 @@ class ServcieState extends Equatable {
         hasReachedMax: hasReachedMax ?? this.hasReachedMax,
         slectedServiceCategory:
             slectedServiceCategory ?? this.slectedServiceCategory,
+        priceFrom: clearPrice == true ? null : priceFrom ?? this.priceFrom,
+        priceTo: clearPrice == true ? null : priceTo ?? this.priceTo,
         allServiceCategories:
             allServiceCategories ?? this.allServiceCategories);
   }
@@ -63,6 +72,8 @@ class ServcieState extends Equatable {
         page,
         pageSize,
         hasReachedMax,
+        priceFrom,
+        priceTo,
         slectedServiceCategory,
         allServiceCategories
       ];

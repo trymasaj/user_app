@@ -34,7 +34,7 @@ class FilterWidgetSheet extends StatefulWidget {
 class _FilterWidgetSheetState extends State<FilterWidgetSheet> {
   final double _starterValue = 0;
   double _endValue = 1000;
-  var values = const RangeValues(0, 1000);
+  late RangeValues values;
   late TextEditingController _fromController;
   late TextEditingController _toController;
   late FocusNode _fromFocusNode;
@@ -47,9 +47,15 @@ class _FilterWidgetSheetState extends State<FilterWidgetSheet> {
     _toController = TextEditingController();
     _fromFocusNode = FocusNode();
     _toFocusNode = FocusNode();
+    double? priceFrom = widget.serviceCubit.state.priceFrom;
+    double? priceTo = widget.serviceCubit.state.priceTo;
+    values = RangeValues(
+      priceFrom ?? _starterValue,
+      priceTo ?? _endValue,
+    );
 
-    _fromController.text = _starterValue.toString();
-    _toController.text = _endValue.toString();
+    _fromController.text = values.start.toString();
+    _toController.text = values.end.toString();
 
     _fromController.addListener(_starterListener);
     _toController.addListener(_endListener);
@@ -141,6 +147,11 @@ class _FilterWidgetSheetState extends State<FilterWidgetSheet> {
                           const Spacer(),
                           InkWell(
                             onTap: () {
+                              widget.serviceCubit.getServices(
+                                clearPrice: true,
+                                refresh: true,
+                              );
+
                               Navigator.pop(context);
                             },
                             child: Text(
@@ -247,7 +258,9 @@ class _FilterWidgetSheetState extends State<FilterWidgetSheet> {
                       onPressed: () {
                         Navigator.pop(context, values);
                         widget.serviceCubit.getServices(
-                            priceFrom: values.start, priceTo: values.end);
+                            refresh: true,
+                            priceFrom: values.start,
+                            priceTo: values.end);
                       },
                       label: 'apply'.tr()),
                 ),

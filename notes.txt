@@ -1,1 +1,8 @@
-delete tab view effect scrll in providers tab
+1-translation
+2-countery coede in header
+3- curve in service widget
+4- pagination
+5- send category id
+6- video in all screen
+7- don't search when be >2 letters
+clear

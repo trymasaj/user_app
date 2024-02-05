@@ -26,12 +26,11 @@ import 'package:masaj/features/services/presentation/widgets/gradiant_slider.dar
 import 'package:masaj/gen/assets.gen.dart';
 
 class ServicesScreenArguments {
-  final ServiceCategory selectedServiceCategory;
+  final ServiceCategory? selectedServiceCategory;
   final List<ServiceCategory> allServiceCategories;
 
   ServicesScreenArguments(
-      {required this.selectedServiceCategory,
-      required this.allServiceCategories});
+      {this.selectedServiceCategory, required this.allServiceCategories});
 }
 
 class ServicesScreen extends StatefulWidget {
@@ -45,9 +44,24 @@ class ServicesScreen extends StatefulWidget {
 class _ServicesScreenState extends State<ServicesScreen> {
   late ScrollController _scrollController;
   late ServiceCubit serviceCubit;
+  late final TextEditingController _searchController;
 
   @override
   void initState() {
+    _searchController = TextEditingController();
+    _searchController.addListener(() {
+      if (_searchController.text.length > 2) {
+        serviceCubit.getServices(
+          searchKeyword: _searchController.text,
+          refresh: true,
+        );
+      } else if (_searchController.text.isEmpty) {
+        serviceCubit.getServices(
+          refresh: true,
+        );
+      }
+    });
+
     _scrollController = ScrollController();
     serviceCubit = Injector().serviceCubit
       ..setServiceCategory(
@@ -55,6 +69,13 @@ class _ServicesScreenState extends State<ServicesScreen> {
               widget.screenArguments.selectedServiceCategory,
           allServicesCategories: widget.screenArguments.allServiceCategories)
       ..getServices();
+    // pagination
+    _scrollController.addListener(() {
+      if (_scrollController.position.pixels ==
+          _scrollController.position.maxScrollExtent) {
+        serviceCubit.getServices();
+      }
+    });
 
     super.initState();
   }
@@ -75,24 +96,15 @@ class _ServicesScreenState extends State<ServicesScreen> {
                 children: [
                   Expanded(
                     child: SearchTextFormField.servicesSearchField(
-                      readOnly: true,
-                      onTap: () {
-                        // Navigator.pushNamed(context, '/search');
-                        Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                                builder: (context) =>
-                                    const SearchServicesScreen()));
-                      },
                       currentFocusNode: FocusNode(),
-                      currentController: TextEditingController(),
+                      currentController: _searchController,
                     ),
                   ),
                   SizedBox(width: 8.w),
                   Builder(builder: (context) {
                     return InkWell(
                       onTap: () async {
-                        final value = await showModalBottomSheet<RangeValues?>(
+                        await showModalBottomSheet<RangeValues?>(
                             isScrollControlled: true,
                             constraints: BoxConstraints(
                               minHeight: 680.h,
