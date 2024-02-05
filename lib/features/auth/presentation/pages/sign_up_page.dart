@@ -1,14 +1,13 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:intl_phone_field/phone_number.dart';
 import 'package:masaj/core/app_export.dart';
 import 'package:masaj/core/data/extensions/extensions.dart';
-import 'package:masaj/core/data/validator/validation_functions.dart';
 import 'package:masaj/core/data/validator/validator.dart';
 import 'package:masaj/core/domain/enums/gender.dart';
 import 'package:masaj/core/presentation/colors/app_colors.dart';
 import 'package:masaj/core/presentation/navigation/navigator_helper.dart';
 import 'package:masaj/core/presentation/overlay/show_snack_bar.dart';
-import 'package:masaj/core/presentation/widgets/stateful/password_text_field.dart';
 import 'package:masaj/core/presentation/widgets/stateless/custom_chip.dart';
 import 'package:masaj/core/presentation/widgets/stateless/custom_text.dart';
 import 'package:masaj/core/presentation/widgets/stateless/default_button.dart';
@@ -192,6 +191,7 @@ class _SignUpPageState extends State<SignUpPage> {
               currentFocusNode: _fullNameFocusNode,
               currentController: _fullNameTextController,
               nextFocusNode: _emailFocusNode,
+              inputFormatters: [LengthLimitingTextInputFormatter(40)],
               hint: 'lbl_name',
               prefixIcon: buildImage(ImageConstant.imgLock),
             ),
@@ -253,6 +253,7 @@ class _SignUpPageState extends State<SignUpPage> {
                 currentFocusNode: _passwordFocusNode,
                 nextFocusNode: _passwordConfirmFocusNode,
                 hint: 'password'.tr(),
+                
                 validator: widget.isFromSocial
                     ? (value) {
                         return null;
@@ -268,13 +269,8 @@ class _SignUpPageState extends State<SignUpPage> {
                       return null;
                     }
                   : (value) {
-                      if (value == null || value.isEmpty) {
-                        return 'empty_field_not_valid'.tr();
-                      }
-                      if (value != _passwordTextController.text) {
-                        return 'passwords_not_match'.tr();
-                      }
-                      return null;
+                      return Validator().validateConfPassword(
+                          _passwordTextController.text, value);
                     },
             ),
           ],

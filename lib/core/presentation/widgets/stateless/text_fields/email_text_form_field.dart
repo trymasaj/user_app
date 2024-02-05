@@ -17,5 +17,8 @@ class EmailTextFormField extends MainTextFormField {
             validator: Validator().validateEmail,
             hintText: 'email_address'.tr(),
             keyboardType: TextInputType.emailAddress,
-            inputFormatters: [FilteringTextInputFormatter.deny(RegExp(r' '))]);
+            inputFormatters: [
+              FilteringTextInputFormatter.deny(RegExp(r' ')),
+              LengthLimitingTextInputFormatter(50),
+            ]);
 }

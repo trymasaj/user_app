@@ -12,6 +12,7 @@ import 'package:masaj/features/address/presentation/pages/address_page.dart';
 import 'package:masaj/features/address/presentation/pages/select_location_screen.dart';
 import 'package:masaj/features/auth/presentation/pages/login_page.dart';
 import 'package:masaj/features/auth/presentation/pages/otp_verification_page.dart';
+import 'package:masaj/features/focus_area/presentation/pages/focus_area_page.dart';
 import 'package:masaj/features/home/presentation/pages/home_page.dart';
 
 import 'package:masaj/features/auth/application/auth_cubit/auth_cubit.dart';

@@ -8,6 +8,7 @@ class DefaultTextFormField extends MainTextFormField {
     required super.currentFocusNode,
     super.nextFocusNode,
     required super.currentController,
+    super.inputFormatters,
     required final String hint,
     TextInputType super.keyboardType = TextInputType.text,
     super.margin = null,
