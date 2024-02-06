@@ -221,20 +221,24 @@ class UpdateAddressScreen<T extends UpdateAddressCubit,
       buttonStyle: CustomButtonStyles.outlineGray,
       alignment: Alignment.center,
       onPressed: () async {
-        final result = await Navigator.of(context).pushNamed(
-          MapLocationPicker.routeName,
-          arguments: MapLocationPickerArguments(
-            initialLatlng: context.read<T>().state.latLng.toNullable(),
-          ),
-        ) as MapLocationPickerResult?;
-        if (result != null) {
-          context.read<T>().updateLatLng(result.latLng);
-          formKey.currentState!.patchValue({
-            Address.googleMapAddressKey: result.address,
-          });
-        }
+        await _goToMap(context);
       },
     );
+  }
+
+  Future<void> _goToMap(BuildContext context) async {
+    final result = await Navigator.of(context).pushNamed(
+      MapLocationPicker.routeName,
+      arguments: MapLocationPickerArguments(
+        initialLatlng: context.read<T>().state.latLng.toNullable(),
+      ),
+    ) as MapLocationPickerResult?;
+    if (result != null) {
+      context.read<T>().updateLatLng(result.latLng);
+      formKey.currentState!.patchValue({
+        Address.googleMapAddressKey: result.address,
+      });
+    }
   }
 
   /// Section Widget
@@ -303,6 +307,7 @@ class UpdateAddressScreen<T extends UpdateAddressCubit,
   Widget _buildGoogleMapAddressEditText(BuildContext context) {
     return FormBuilderTextField(
       readOnly: true,
+      onTap: () async => _goToMap(context),
       style: CustomTextStyles.bodyMediumGray90003,
       validator: FormBuilderValidators.compose([]),
       decoration: InputDecoration(
