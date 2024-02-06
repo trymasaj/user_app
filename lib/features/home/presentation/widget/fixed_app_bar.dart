@@ -202,7 +202,7 @@ class FixedAppBar extends StatelessWidget {
 
         return GestureDetector(
           onTap: () {
-            showModalBottomSheet(
+            showBottomSheet(
               context: context,
               builder: (context) => SelectLocationBottomSheet(
                 onSave: () async {
