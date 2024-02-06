@@ -742,5 +742,6 @@
   "reschedule": "إعادة الجدولة",
   "allow_up_to_1_hour": "السماح حتى ساعة واحدة للعلاج للوصول",
   "therapist_info": "معلومات المعالج",
-  "email_or_phone_number_required": "البريد الإلكتروني أو رقم الهاتف مطلوب"
+  "email_or_phone_number_required": "البريد الإلكتروني أو رقم الهاتف مطلوب",
+  "country_validation": "ادخل دولة"
 }

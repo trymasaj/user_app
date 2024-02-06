@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_form_builder/flutter_form_builder.dart';
@@ -7,6 +9,7 @@ import 'package:masaj/core/data/di/injection_setup.dart';
 import 'package:masaj/core/data/validator/validation_functions.dart';
 import 'package:masaj/core/presentation/widgets/stateless/custom_app_bar.dart';
 import 'package:masaj/core/presentation/widgets/stateless/custom_outlined_button.dart';
+import 'package:masaj/core/presentation/widgets/stateless/custom_text.dart';
 import 'package:masaj/core/presentation/widgets/stateless/custom_text_form_field.dart';
 import 'package:masaj/core/presentation/widgets/stateless/default_button.dart';
 import 'package:masaj/features/address/application/blocs/add_new_address_bloc/update_address_bloc.dart';
@@ -427,6 +430,9 @@ class UpdateAddressScreen<T extends UpdateAddressCubit,
         final isValid = formKey.currentState!.saveAndValidate();
         if (!isValid) return Future.value();
         final addressMap = formKey.currentState!.value;
+        if (addressMap['country'] == null)
+          return ScaffoldMessenger.of(context)
+              .showSnackBar(SnackBar(content: Text('country_validation'.tr())));
         await context.read<T>().save(Address.fromMap(addressMap));
         final savedAddress = context.read<T>().state.savedAddress;
         //if saved address is primary true then call set as current in country cubit this will help you when you add first address or update primary address
