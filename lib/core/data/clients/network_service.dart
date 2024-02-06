@@ -524,15 +524,12 @@ class NetworkServiceImpl implements NetworkService {
     final languageCode =
         await _networkServiceUtil.getLanguageCode() ?? language ?? 'en';
     final deviceType = _deviceTypeDataSource.getDeviceType();
+    final currentCountryId = await _networkServiceUtil.getCurrentCountryId();
 
-    const clientId = '5c2dffb0fbe44abe8ce0b34ac73761c6';
-    const clientToken =
-        'fa4ee78d-2150-4c41-b0e9-d9532f977592298ee79a-8151-46b3-9ddc-1575903c2726';
     final headers = <String, dynamic>{
       if (accessToken != null) 'Authorization': 'Bearer $accessToken',
+      if (currentCountryId != null) 'x-country-id': currentCountryId,
       'language': languageCode,
-      'clientId': clientId,
-      'clientToken': clientToken,
       'Accept': '*/*',
       'deviceType': deviceType,
     };
@@ -703,6 +700,8 @@ class NetworkServiceImpl implements NetworkService {
 abstract class NetworkServiceUtil {
   Future<String?> getCurrentAccessToken();
 
+  Future<int?> getCurrentCountryId();
+
   Future<String?> getCurrentRefreshToken();
 
   Future<String?> getLanguageCode();
@@ -765,4 +764,10 @@ class NetworkServiceUtilImpl implements NetworkServiceUtil {
 
   @override
   Future<void> clearCurrentUserData() => _cacheService.clearUserData();
+
+  @override
+  Future<int?> getCurrentCountryId() async {
+    final country = await _cacheService.getCurrentCountry();
+    return country?.id;
+  }
 }
