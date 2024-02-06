@@ -48,8 +48,12 @@ class _HomePageState extends State<HomePage> {
 
   @override
   Widget build(BuildContext context) {
+    final isGuest = context.read<AuthCubit>().state.isGuest;
     return MultiBlocProvider(
       providers: [
+        BlocProvider(
+          create: (context) => Injector().countryCubit..init(isGuest),
+        ),
         // BlocProvider(create: (context) => Injector().homeCubit..loadHome()),
         BlocProvider(create: (context) => Injector().homeCubit),
 

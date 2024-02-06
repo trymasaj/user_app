@@ -15,6 +15,14 @@ class CountryCubit extends BaseCubit<CountryState> {
   final AuthRepository _authRepository;
   final AddressRepo _addressRepo;
 
+  Future<void> init(bool isGuest) async {
+    if (isGuest) {
+      await getCurrentCountry();
+      return;
+    }
+    await getAllAddressesAndSavePrimaryAddressLocally();
+  }
+
   Future<void> getCurrentCountry() async {
     try {
       emit(state.copyWith(status: CountryStateStatus.loading));
