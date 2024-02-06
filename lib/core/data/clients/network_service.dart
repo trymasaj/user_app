@@ -529,7 +529,7 @@ class NetworkServiceImpl implements NetworkService {
     final headers = <String, dynamic>{
       if (accessToken != null) 'Authorization': 'Bearer $accessToken',
       if (currentCountryId != null) 'x-country-id': currentCountryId,
-      'language': languageCode,
+      'x-lang': languageCode,
       'Accept': '*/*',
       'deviceType': deviceType,
     };
