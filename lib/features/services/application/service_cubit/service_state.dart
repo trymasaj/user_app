@@ -68,10 +68,11 @@ class ServcieState extends Equatable {
     bool? isRefreshing,
     bool? isLoadingMore,
     String? searchKeyword,
+    bool clearSearch = false,
   }) {
     return ServcieState(
         status: status ?? this.status,
-        searchKeyword: searchKeyword ?? this.searchKeyword,
+        searchKeyword: clearSearch ? null : searchKeyword ?? this.searchKeyword,
         services: services ?? this.services,
         errorMessage: errorMessage ?? this.errorMessage,
         page: page ?? this.page,

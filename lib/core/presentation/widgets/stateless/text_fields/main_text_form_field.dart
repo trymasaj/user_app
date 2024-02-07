@@ -202,7 +202,7 @@ class _MainTextFormFieldState extends State<MainTextFormField> {
           if (widget.isSearch &&
               _searchSubject != null &&
               !_searchSubject!.isClosed) {
-            if (text.length > 2) _searchSubject?.add(text);
+            if (text.length > 2 || text.isEmpty) _searchSubject?.add(text);
           } else {
             (widget.onChanged ?? (_) {})(text);
           }

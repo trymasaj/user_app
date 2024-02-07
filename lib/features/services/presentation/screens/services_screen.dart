@@ -65,8 +65,8 @@ class _ServicesScreenState extends State<ServicesScreen> {
 
   @override
   Widget build(BuildContext context) {
-    return BlocProvider<ServiceCubit>.value(
-      value: serviceCubit,
+    return BlocProvider<ServiceCubit>(
+      create: (context) => serviceCubit,
       child: Scaffold(
         appBar: CustomAppBar(title: 'services'.tr()),
         body: Column(
@@ -80,7 +80,7 @@ class _ServicesScreenState extends State<ServicesScreen> {
             SizedBox(
               height: 24.h,
             ),
-            // grid view
+
             Expanded(
               child: BlocConsumer<ServiceCubit, ServcieState>(
                 listener: (context, state) {
@@ -321,9 +321,7 @@ class _ServicesScreenState extends State<ServicesScreen> {
               currentFocusNode: _searchFocusNode,
               currentController: _searchController,
               onChanged: (value) {
-                serviceCubit.loadServices(
-                  searchKeyword: value,
-                );
+                serviceCubit.setSearchKeyword(value);
               },
             ),
           ),

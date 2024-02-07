@@ -32,12 +32,13 @@ class ServiceDetailsScreen extends StatefulWidget {
 class _ServiceDetailsScreenState extends State<ServiceDetailsScreen> {
   late final ServiceDetailsCubit _serviceDetailsCubit;
   late TextEditingController focusAreaTextField;
-
+  late ValueNotifier<Map<FocusAreas, bool>?> selectedFocusPoints;
   @override
   void initState() {
     _serviceDetailsCubit = Injector().serviceDetailsCubit;
     _serviceDetailsCubit.getServiceDetails(widget.id);
     focusAreaTextField = TextEditingController();
+    selectedFocusPoints = ValueNotifier(null);
 
     super.initState();
   }
@@ -281,6 +282,7 @@ class _ServiceDetailsScreenState extends State<ServiceDetailsScreen> {
                             Column(
                               children: [
                                 FocusAreaSection(
+                                    selectedFocusPoints: selectedFocusPoints,
                                     controller: focusAreaTextField),
                                 Container(
                                   width: double.infinity,
@@ -500,13 +502,20 @@ class AddonsSecion extends StatelessWidget {
 
 //DurationsSection
 
-class FocusAreaSection extends StatelessWidget {
+class FocusAreaSection extends StatefulWidget {
   const FocusAreaSection({
     super.key,
     required this.controller,
+    required this.selectedFocusPoints,
   });
   final TextEditingController controller;
+  final ValueNotifier<Map<FocusAreas, bool>?> selectedFocusPoints;
 
+  @override
+  State<FocusAreaSection> createState() => _FocusAreaSectionState();
+}
+
+class _FocusAreaSectionState extends State<FocusAreaSection> {
   @override
   Widget build(BuildContext context) {
     return BlocBuilder<ServiceDetailsCubit, ServiceDetailsState>(
@@ -561,10 +570,14 @@ class FocusAreaSection extends StatelessWidget {
                       final Map<FocusAreas, bool>? selectedFocusPoints =
                           await NavigatorHelper.of(context).push(
                         MaterialPageRoute(
-                            builder: (_) => const FocusAreaPage()),
+                            builder: (_) => FocusAreaPage(
+                                  selectedFocusPoints:
+                                      widget.selectedFocusPoints.value,
+                                )),
                       );
                       if (selectedFocusPoints != null) {
-                        controller.text = selectedFocusPoints.keys
+                        widget.selectedFocusPoints.value = selectedFocusPoints;
+                        widget.controller.text = selectedFocusPoints.keys
                             .where((element) => selectedFocusPoints[element]!)
                             .map((e) => e.name)
                             .join(', ');
@@ -583,7 +596,7 @@ class FocusAreaSection extends StatelessWidget {
               ),
               // text field
               CustomTextFormField(
-                controller: controller,
+                controller: widget.controller,
                 readOnly: true,
                 borderDecoration: const OutlineInputBorder(
                   borderRadius: BorderRadius.all(Radius.circular(12)),

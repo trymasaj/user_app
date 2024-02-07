@@ -37,9 +37,15 @@ class ServiceCubit extends BaseCubit<ServcieState> {
     loadServices();
   }
 
+// setsearch keyword
+  void setSearchKeyword(String searchKeyword) {
+    emit(state.copyWith(
+        searchKeyword: searchKeyword, clearSearch: searchKeyword.isEmpty));
+    loadServices();
+  }
+
   Future<void> loadServices({
     bool refresh = false,
-    String? searchKeyword,
   }) async {
     if (refresh) {
       emit(state.copyWith(status: ServcieStateStatus.isRefreshing));
@@ -51,14 +57,14 @@ class ServiceCubit extends BaseCubit<ServcieState> {
           categoryId: state.slectedServiceCategory!.id,
           priceFrom: state.priceFrom,
           priceTo: state.priceTo,
-          searchKeyword: searchKeyword,
+          searchKeyword: state.searchKeyword,
           page: 1,
           pageSize: state.pageSize));
       emit(state.copyWith(
         status: ServcieStateStatus.loaded,
         services: services,
         page: 1,
-        searchKeyword: (searchKeyword?.isEmpty ?? true) ? null : searchKeyword,
+        searchKeyword: state.searchKeyword,
       ));
     } catch (e) {
       emit(state.copyWith(
