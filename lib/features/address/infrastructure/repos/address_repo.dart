@@ -52,8 +52,12 @@ class AddressRepo {
   }
 
   Future<GeoCodedAddress> getAddressFromLatLng(LatLng latLng) async {
-    final placeMarks =
-        await placemarkFromCoordinates(latLng.latitude, latLng.longitude);
+    final currentLang = await cacheService.getLanguageCode();
+    final isArabic = currentLang == 'ar';
+    final formattedLang = isArabic ? 'ar_SA' : 'en_US';
+    final placeMarks = await placemarkFromCoordinates(
+        latLng.latitude, latLng.longitude,
+        localeIdentifier: formattedLang);
     final address = placeMarks.first;
     return GeoCodedAddress.fromPlacemark(placeMarks.first);
   }
