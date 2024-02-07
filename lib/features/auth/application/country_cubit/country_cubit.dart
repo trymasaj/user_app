@@ -41,6 +41,13 @@ class CountryCubit extends BaseCubit<CountryState> {
     }
   }
 
+  void showCountryError(bool showCountryError) {
+    emit(state.copyWith(status: CountryStateStatus.loading));
+
+    emit(state.copyWith(
+        showCountryError: showCountryError, status: CountryStateStatus.loaded));
+  }
+
   Future<void> setCurrentCountry(Country country) async {
     try {
       emit(state.copyWith(status: CountryStateStatus.loading));

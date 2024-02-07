@@ -36,35 +36,36 @@ class CountryState {
   final Country? currentCountry;
   final Address? currentAddress;
   final List<Area>? areas;
+  final bool showCountryError;
 
-  const CountryState({
-    this.status = CountryStateStatus.initial,
-    this.message,
-    this.countries,
-    this.addresses,
-    this.currentCountry,
-    this.currentAddress,
-    this.areas,
-  });
+  const CountryState(
+      {this.status = CountryStateStatus.initial,
+      this.message,
+      this.countries,
+      this.addresses,
+      this.currentCountry,
+      this.currentAddress,
+      this.areas,
+      this.showCountryError = false});
 
-  CountryState copyWith({
-    CountryStateStatus? status,
-    String? message,
-    List<Country>? countries,
-    List<Area>? areas,
-    List<Address>? addresses,
-    Country? currentCountry,
-    Address? currentAddress,
-  }) {
+  CountryState copyWith(
+      {CountryStateStatus? status,
+      String? message,
+      List<Country>? countries,
+      List<Area>? areas,
+      List<Address>? addresses,
+      Country? currentCountry,
+      Address? currentAddress,
+      bool? showCountryError}) {
     return CountryState(
-      status: status ?? this.status,
-      message: message ?? this.message,
-      countries: countries ?? this.countries,
-      addresses: addresses ?? this.addresses,
-      areas: areas ?? this.areas,
-      currentCountry: currentCountry ?? this.currentCountry,
-      currentAddress: currentAddress ?? this.currentAddress,
-    );
+        status: status ?? this.status,
+        message: message ?? this.message,
+        countries: countries ?? this.countries,
+        addresses: addresses ?? this.addresses,
+        areas: areas ?? this.areas,
+        currentCountry: currentCountry ?? this.currentCountry,
+        currentAddress: currentAddress ?? this.currentAddress,
+        showCountryError: showCountryError ?? this.showCountryError);
   }
 
   @override
@@ -77,6 +78,7 @@ class CountryState {
         listEquals(other.addresses, addresses) &&
         other.currentCountry == currentCountry &&
         other.currentAddress == currentAddress &&
+        other.showCountryError == showCountryError &&
         listEquals(other.areas, areas);
   }
 
@@ -88,6 +90,7 @@ class CountryState {
         addresses.hashCode ^
         currentCountry.hashCode ^
         currentAddress.hashCode ^
+        showCountryError.hashCode ^
         areas.hashCode;
   }
 }

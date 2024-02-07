@@ -7,11 +7,14 @@ import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:masaj/core/app_export.dart';
 import 'package:masaj/core/data/di/injection_setup.dart';
 import 'package:masaj/core/data/validator/validation_functions.dart';
+import 'package:masaj/core/presentation/colors/app_colors.dart';
 import 'package:masaj/core/presentation/widgets/stateless/custom_app_bar.dart';
 import 'package:masaj/core/presentation/widgets/stateless/custom_outlined_button.dart';
 import 'package:masaj/core/presentation/widgets/stateless/custom_text.dart';
 import 'package:masaj/core/presentation/widgets/stateless/custom_text_form_field.dart';
 import 'package:masaj/core/presentation/widgets/stateless/default_button.dart';
+import 'package:masaj/core/presentation/widgets/stateless/subtitle_text.dart';
+import 'package:masaj/core/presentation/widgets/stateless/title_text.dart';
 import 'package:masaj/features/address/application/blocs/add_new_address_bloc/update_address_bloc.dart';
 import 'package:masaj/features/address/application/blocs/my_addresses_bloc/my_addresses_cubit.dart';
 import 'package:masaj/features/address/application/blocs/select_location_bloc/select_location_bloc.dart';
@@ -21,6 +24,7 @@ import 'package:masaj/features/address/presentation/widgets/country_and_region_s
 import 'package:masaj/features/address/presentation/pages/map_location_picker.dart';
 import 'package:masaj/features/auth/application/country_cubit/country_cubit.dart';
 import 'package:collection/collection.dart';
+import 'package:masaj/features/auth/application/country_cubit/country_state.dart';
 
 class EditAddressArguments {
   final Address oldAddress;
@@ -135,7 +139,7 @@ class UpdateAddressScreen<T extends UpdateAddressCubit,
   final String title;
   final GlobalKey<FormBuilderState> formKey;
 
-  const UpdateAddressScreen({
+  UpdateAddressScreen({
     super.key,
     required this.title,
     required this.formKey,
@@ -166,6 +170,7 @@ class UpdateAddressScreen<T extends UpdateAddressCubit,
               bottom: 5.h,
             ),
             child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 SizedBox(height: 23.h),
                 _buildMaskStack(context),
@@ -175,6 +180,7 @@ class UpdateAddressScreen<T extends UpdateAddressCubit,
                 CountryAndRegionSelector<A>(
                   form: formKey,
                 ),
+                _buildCountryError(),
                 SizedBox(height: 16.h),
                 _buildBlockEditText(context),
                 SizedBox(height: 16.h),
@@ -205,6 +211,23 @@ class UpdateAddressScreen<T extends UpdateAddressCubit,
         ),
         bottomNavigationBar: _buildSaveButton(context),
       ),
+    );
+  }
+
+  Widget _buildCountryError() {
+    return BlocSelector<CountryCubit, CountryState, bool>(
+      selector: (state) {
+        return state.showCountryError;
+      },
+      builder: (context, state) {
+        log(state.toString());
+        return state
+            ? SubtitleText(
+                text: 'country_validation'.tr(),
+                color: AppColors.ERROR_COLOR,
+              )
+            : SizedBox();
+      },
     );
   }
 
@@ -430,9 +453,8 @@ class UpdateAddressScreen<T extends UpdateAddressCubit,
         final isValid = formKey.currentState!.saveAndValidate();
         if (!isValid) return Future.value();
         final addressMap = formKey.currentState!.value;
-        if (addressMap['country'] == null)
-          return ScaffoldMessenger.of(context)
-              .showSnackBar(SnackBar(content: Text('country_validation'.tr())));
+        if (addressMap['country'] == null || addressMap['area'] == null)
+          return countryCubit.showCountryError(true);
         await context.read<T>().save(Address.fromMap(addressMap));
         final savedAddress = context.read<T>().state.savedAddress;
         //if saved address is primary true then call set as current in country cubit this will help you when you add first address or update primary address
@@ -441,7 +463,6 @@ class UpdateAddressScreen<T extends UpdateAddressCubit,
             await countryCubit.setCurrentAddress(address);
           }
         });
-     
       },
     );
   }
