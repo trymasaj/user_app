@@ -453,8 +453,11 @@ class UpdateAddressScreen<T extends UpdateAddressCubit,
         final isValid = formKey.currentState!.saveAndValidate();
         if (!isValid) return Future.value();
         final addressMap = formKey.currentState!.value;
-        if (addressMap['country'] == null || addressMap['area'] == null)
+        if (addressMap['country'] == null || addressMap['area'] == null) {
           return countryCubit.showCountryError(true);
+        } else {
+          countryCubit.showCountryError(false);
+        }
         await context.read<T>().save(Address.fromMap(addressMap));
         final savedAddress = context.read<T>().state.savedAddress;
         //if saved address is primary true then call set as current in country cubit this will help you when you add first address or update primary address
