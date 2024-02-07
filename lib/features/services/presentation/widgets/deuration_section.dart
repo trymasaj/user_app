@@ -1,4 +1,3 @@
-
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
@@ -20,6 +19,7 @@ import 'package:masaj/features/services/application/service_details_cubit/servic
 import 'package:masaj/features/services/data/models/service_model.dart';
 import 'package:masaj/gen/assets.gen.dart';
 import 'package:video_player/video_player.dart';
+
 class DurationsSection extends StatelessWidget {
   const DurationsSection({
     super.key,
@@ -40,7 +40,7 @@ class DurationsSection extends StatelessWidget {
               const Row(
                 children: [
                   CustomText(
-                    text: 'Durations',
+                    text: 'durations',
                     fontSize: 14,
                     fontWeight: FontWeight.w500,
                   ),
@@ -145,7 +145,7 @@ class DurationContainer extends StatelessWidget {
                 ),
                 alignment: Alignment.center,
                 child: const CustomText(
-                  text: 'Popular',
+                  text: 'popular',
                   fontSize: 9,
                   fontWeight: FontWeight.w500,
                   color: Colors.white,

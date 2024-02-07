@@ -744,5 +744,18 @@
   "reschedule": "إعادة الجدولة",
   "allow_up_to_1_hour": "السماح حتى ساعة واحدة للعلاج للوصول",
   "therapist_info": "معلومات المعالج",
-  "email_or_phone_number_required": "البريد الإلكتروني أو رقم الهاتف مطلوب"
+  "email_or_phone_number_required": "البريد الإلكتروني أو رقم الهاتف مطلوب",
+  "benefits": "الفوائد",
+  "select_area": "اختر المنطقة",
+  "any_focus_area_today": "أي منطقة تركيز اليوم؟",
+  "focus_area_msg": "لتحديد منطقة تركيز معينة، يمكنك كتابة اسم منطقة التركيز وتحديدها بصريًا",
+  "duration": "المدة",
+  "total_duration_service": "المدة الإجمالية للخدمة",
+  "total_duration": "المدة الإجمالية",
+  "total": "المجموع",
+  "durations": "المدة",
+  "Minutes": "دقائق",
+  "Hours": "ساعات",
+  "add_on_s": "إضافات",
+  "popular": "الأكثر شعبية"
 }

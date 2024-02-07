@@ -88,7 +88,7 @@ class _ServiceDetailsScreenState extends State<ServiceDetailsScreen> {
                 ],
               ),
               DefaultButton(
-                label: 'Continue',
+                label: 'continue',
                 onPressed: () {},
               ),
             ],
@@ -148,7 +148,7 @@ class _ServiceDetailsScreenState extends State<ServiceDetailsScreen> {
                                 const Row(
                                   children: [
                                     CustomText(
-                                      text: 'Benefits',
+                                      text: 'benefits',
                                       fontSize: 14,
                                       fontWeight: FontWeight.w500,
                                     ),
@@ -356,7 +356,7 @@ class TotalSetion extends StatelessWidget {
               const Row(
                 children: [
                   CustomText(
-                    text: 'Total service duration',
+                    text: 'total_duration_service',
                     fontSize: 14,
                     fontWeight: FontWeight.w500,
                   ),
@@ -371,7 +371,7 @@ class TotalSetion extends StatelessWidget {
                 return Row(
                   children: [
                     CustomText(
-                      text: 'Deep tissue massage',
+                      text: state.service!.title,
                       fontSize: 14,
                       fontWeight: FontWeight.w400,
                       color: AppColors.FONT_LIGHT.withOpacity(.7),
@@ -400,7 +400,7 @@ class TotalSetion extends StatelessWidget {
               Row(
                 children: [
                   const CustomText(
-                    text: 'Total',
+                    text: 'total',
                     fontSize: 14,
                     fontWeight: FontWeight.w500,
                   ),
@@ -444,7 +444,7 @@ class AddonsSecion extends StatelessWidget {
               const Row(
                 children: [
                   CustomText(
-                    text: 'Addons',
+                    text: 'add_on_s',
                     fontSize: 14,
                     fontWeight: FontWeight.w500,
                   ),
@@ -531,7 +531,7 @@ class _FocusAreaSectionState extends State<FocusAreaSection> {
               const Row(
                 children: [
                   CustomText(
-                    text: 'Focus Area',
+                    text: 'focus_area',
                     fontSize: 14,
                     fontWeight: FontWeight.w500,
                   ),
@@ -544,8 +544,7 @@ class _FocusAreaSectionState extends State<FocusAreaSection> {
                 children: [
                   Expanded(
                     child: CustomText(
-                      text:
-                          'To define a specific area of focus, you can write the name of the focus area and visually select it',
+                      text: 'focus_area_msg',
                       fontSize: 12,
                       fontWeight: FontWeight.w400,
                       color: AppColors.FONT_LIGHT,
@@ -561,7 +560,7 @@ class _FocusAreaSectionState extends State<FocusAreaSection> {
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
                   const CustomText(
-                    text: 'Any focus area today?',
+                    text: 'any_focus_area_today',
                     fontSize: 14,
                     fontWeight: FontWeight.w500,
                   ),
@@ -585,7 +584,7 @@ class _FocusAreaSectionState extends State<FocusAreaSection> {
                     },
                     child: const TextWithGradiant(
                         fontWeight: FontWeight.w500,
-                        text: 'Select area',
+                        text: 'select_area',
                         fontSize: 14),
                   )
                 ],
