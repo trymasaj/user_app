@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:masaj/core/app_export.dart';
 
 class CustomBottomSheet extends StatelessWidget {
-  const CustomBottomSheet({Key? key, required this.child,  this.height}) : super(key: key);
+  const CustomBottomSheet({super.key, required this.child,  this.height});
   final Widget child;
   final double? height;
   @override

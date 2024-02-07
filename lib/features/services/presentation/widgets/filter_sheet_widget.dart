@@ -1,28 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:flutter_svg/flutter_svg.dart';
-import 'package:gradient_borders/box_borders/gradient_box_border.dart';
 import 'package:masaj/core/app_export.dart';
-import 'package:masaj/core/data/di/injector.dart';
 import 'package:masaj/core/presentation/colors/app_colors.dart';
-import 'package:masaj/core/presentation/dialogs/image_picker_bottom_sheet.dart';
-import 'package:masaj/core/presentation/widgets/stateless/custom_app_bar.dart';
-import 'package:masaj/core/presentation/widgets/stateless/custom_cached_network_image.dart';
-import 'package:masaj/core/presentation/widgets/stateless/custom_text.dart';
 import 'package:masaj/core/presentation/widgets/stateless/custom_text_form_field.dart';
 import 'package:masaj/core/presentation/widgets/stateless/default_button.dart';
-import 'package:masaj/core/presentation/widgets/stateless/text_fields/search_text_form_field.dart';
-import 'package:masaj/core/presentation/widgets/stateless/text_with_gradiant.dart';
-import 'package:masaj/features/home/presentation/pages/search_screen.dart';
-import 'package:masaj/features/home/presentation/widget/search_field.dart';
 import 'package:masaj/features/services/application/service_cubit/service_cubit.dart';
-import 'package:masaj/features/services/data/models/service_category_model.dart';
-import 'package:masaj/features/services/data/models/service_model.dart';
-import 'package:masaj/features/services/data/models/service_query_model.dart';
-import 'package:masaj/features/services/presentation/screens/search_services.dart';
-import 'package:masaj/features/services/presentation/screens/serice_details_screen.dart';
-import 'package:masaj/features/services/presentation/widgets/gradiant_slider.dart';
-import 'package:masaj/gen/assets.gen.dart';
 
 class FilterWidgetSheet extends StatefulWidget {
   const FilterWidgetSheet({super.key, required this.serviceCubit});
@@ -152,10 +134,8 @@ class _FilterWidgetSheetState extends State<FilterWidgetSheet> {
                           const Spacer(),
                           InkWell(
                             onTap: () {
-                              widget.serviceCubit.getServices(
-                                clearPrice: true,
-                                refresh: true,
-                              );
+                              widget.serviceCubit.clearFilter();
+                              widget.serviceCubit.loadServices();
 
                               Navigator.pop(context);
                             },
@@ -225,25 +205,10 @@ class _FilterWidgetSheetState extends State<FilterWidgetSheet> {
                       SizedBox(height: 20.h),
                       // slider range
                       SliderTheme(
-                        data: SliderTheme.of(context).copyWith(
-                          trackHeight: 5.0,
-                          overlayShape:
-                              const RoundSliderOverlayShape(overlayRadius: 0.0),
-                          // Define the gradient for the track
-                          trackShape: const GradientRectSliderTrackShape(
-                              gradient: LinearGradient(
-                            colors: [Colors.blue, Colors.green],
-                          )),
-                          // Define the gradient for the thumb
-                          thumbShape: GradientRoundSliderThumbShape(
-                            gradient: const LinearGradient(
-                              colors: [
-                                Colors.blue,
-                                Color.fromARGB(255, 10, 51, 12)
-                              ],
-                            ),
-                            enabledThumbRadius: 12.0,
-                          ),
+                        data: const SliderThemeData(
+                          thumbColor: Colors.white,
+                          activeTrackColor: AppColors.PRIMARY_COLOR,
+                          inactiveTrackColor: AppColors.PRIMARY_COLOR,
                         ),
                         child: RangeSlider(
                           divisions: divisions,
@@ -252,7 +217,7 @@ class _FilterWidgetSheetState extends State<FilterWidgetSheet> {
                           max: _endValue,
                           onChanged: onChangeSlider,
                         ),
-                      ),
+                      )
                     ],
                   ),
                 ),
@@ -262,13 +227,9 @@ class _FilterWidgetSheetState extends State<FilterWidgetSheet> {
                   child: DefaultButton(
                       onPressed: () {
                         Navigator.pop(context, values);
-
-                        widget.serviceCubit.getServices(
-                            refresh: true,
-                            priceFrom: values.start,
-                            maxPrice: _endValue,
-                            minPrice: _starterValue,
-                            priceTo: values.end);
+                        widget.serviceCubit.setPriceRange(
+                            values.start, values.end, _starterValue, _endValue);
+                        widget.serviceCubit.loadServices();
                       },
                       label: 'apply'.tr()),
                 ),

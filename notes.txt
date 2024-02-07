@@ -6,3 +6,6 @@
 6- video in all screen
 7- don't search when be >2 letters
 clear
+8- padding on taps
+9-empty page
+10-null checks

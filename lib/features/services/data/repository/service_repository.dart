@@ -7,7 +7,7 @@ abstract class ServiceRepository {
   Future<List<ServiceCategory>> getServiceCategories();
   Future<ServiceCategory> getSingleServiceCategory(int id);
   // service
-  Future<List<ServiceModel>> getServices(ServiceQueryModel serviceQueryModel);
+  Future<ServicesResponse> getServices(ServiceQueryModel serviceQueryModel);
   Future<ServiceModel> getSingleService(int id);
 }
 
@@ -28,7 +28,7 @@ class ServiceRepositoryImpl implements ServiceRepository {
   }
 
   @override
-  Future<List<ServiceModel>> getServices(
+  Future<ServicesResponse> getServices(
       ServiceQueryModel serviceQueryModel) async {
     return await _serviceRemoteDataSource.getServices(serviceQueryModel);
   }

@@ -367,11 +367,18 @@ class ServiceAddonModel {
 }
 
 class ServicesResponse extends Equatable {
-  final List<ServiceModel> data;
-  final int page;
-  final int pageSize;
-  final int totalCount;
-  final int totalPages;
+  static const empty = ServicesResponse(
+    data: [],
+    page: 0,
+    pageSize: 0,
+    totalCount: 0,
+    totalPages: 0,
+  );
+  final List<ServiceModel>? data;
+  final int? page;
+  final int? pageSize;
+  final int? totalCount;
+  final int? totalPages;
   const ServicesResponse({
     required this.data,
     required this.page,
@@ -379,6 +386,23 @@ class ServicesResponse extends Equatable {
     required this.totalCount,
     required this.totalPages,
   });
+
+  // copy with
+  ServicesResponse copyWith({
+    List<ServiceModel>? data,
+    int? page,
+    int? pageSize,
+    int? totalCount,
+    int? totalPages,
+  }) {
+    return ServicesResponse(
+      data: data ?? this.data,
+      page: page ?? this.page,
+      pageSize: pageSize ?? this.pageSize,
+      totalCount: totalCount ?? this.totalCount,
+      totalPages: totalPages ?? this.totalPages,
+    );
+  }
 
 // from map
   factory ServicesResponse.fromMap(Map<String, dynamic> json) {
@@ -394,7 +418,8 @@ class ServicesResponse extends Equatable {
   // to map
   Map<String, dynamic> toMap() {
     return {
-      'data': List<dynamic>.from(data.map((x) => x.toMap())),
+      'data':
+          data == null ? null : List<dynamic>.from(data!.map((x) => x.toMap())),
       'page': page,
       'pageSize': pageSize,
       'totalCount': totalCount,

@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:flutter_typeahead/flutter_typeahead.dart';
 import 'package:masaj/core/app_export.dart';
-import 'package:masaj/core/presentation/colors/app_colors.dart';
 import 'package:masaj/features/address/domain/entities/suggestion_address.dart';
 
 class LocationPickTextField extends StatelessWidget {
@@ -44,7 +43,7 @@ class LocationPickTextField extends StatelessWidget {
                   EdgeInsets.symmetric(horizontal: 18.w, vertical: 12.h),
               hintStyle: CustomTextStyles.bodyMediumBluegray40001_1,
               filled: true,
-              fillColor: Color(0xffF6F6F6),
+              fillColor: const Color(0xffF6F6F6),
               enabledBorder: border,
               focusedBorder: border,
               border: border,
@@ -61,7 +60,7 @@ class LocationPickTextField extends StatelessWidget {
             ListTile(
               title: Text(city.address),
             ),
-            Divider()
+            const Divider()
           ],
         );
       },

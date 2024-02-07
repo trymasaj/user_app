@@ -16,8 +16,6 @@ import 'package:masaj/core/presentation/routes/routes.dart';
 import 'package:masaj/core/presentation/size/size_utils.dart';
 import 'package:masaj/core/presentation/theme/theme_helper.dart';
 import 'package:masaj/features/address/application/blocs/my_addresses_bloc/my_addresses_cubit.dart';
-import 'package:masaj/features/address/application/blocs/select_location_bloc/select_location_bloc.dart';
-import 'package:masaj/features/quiz/presentation/pages/quiz_start_page.dart';
 import 'package:masaj/features/splash/presentation/pages/splash_page.dart';
 import 'package:requests_inspector/requests_inspector.dart';
 

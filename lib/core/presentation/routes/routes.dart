@@ -5,7 +5,6 @@ import 'package:masaj/features/account/pages/create_new_password_screen.dart';
 import 'package:masaj/features/account/pages/manage_members_screen.dart';
 import 'package:masaj/features/account/pages/my_profile_screen.dart';
 import 'package:masaj/features/account/pages/phone_screen.dart';
-import 'package:masaj/features/address/application/blocs/add_new_address_bloc/update_address_bloc.dart';
 import 'package:masaj/features/address/presentation/pages/address_page.dart';
 import 'package:masaj/features/address/presentation/pages/update_address_screen.dart';
 import 'package:masaj/features/address/presentation/pages/map_location_picker.dart';
@@ -48,7 +47,7 @@ Route<dynamic>? onGenerateRoute(RouteSettings settings) {
                 arguments as MapLocationPickerArguments,
               ));
     case AddressPage.routeName:
-      return MaterialPageRoute(builder: (context) => AddressPage());
+      return MaterialPageRoute(builder: (context) => const AddressPage());
 
     case QuizStartPage.routeName:
       return MaterialPageRoute(builder: (context) => const QuizStartPage());
@@ -138,4 +137,5 @@ Route<dynamic>? onGenerateRoute(RouteSettings settings) {
 
     default:
   }
+  return null;
 }

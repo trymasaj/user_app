@@ -1,14 +1,14 @@
 part of 'my_addresses_cubit.dart';
 
 @immutable
-class MyAddressesState  {
+class MyAddressesState {
   final DataLoadState<List<Address>> addresses;
   final int selectedAddressIndex;
 
-  MyAddressesState(
+  const MyAddressesState(
       {required this.addresses, required this.selectedAddressIndex});
 
-  factory MyAddressesState.initial() => MyAddressesState(
+  factory MyAddressesState.initial() => const MyAddressesState(
       selectedAddressIndex: 0, addresses: DataLoadState.initial());
   List<Address> get addressesData =>
       (addresses as DataLoadLoadedState<List<Address>>).data;

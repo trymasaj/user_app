@@ -83,7 +83,7 @@ class InitiallySelectAreaCubit extends SelectAreaCubit {
     final areas = await getAreasFromCountry(result.first);
     emit(state.copyWith(
         selectedArea: some(
-            areas.singleWhere((element) => element.id == arguments!.areaId))));
+            areas.singleWhere((element) => element.id == arguments.areaId))));
   }
 
   @override

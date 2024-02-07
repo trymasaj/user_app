@@ -1,4 +1,3 @@
-import 'package:masaj/core/domain/value_objects/localized_name.dart';
 
 class Area {
   final String name;

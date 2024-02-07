@@ -1,7 +1,10 @@
+import 'dart:async';
+
 import 'package:easy_localization/easy_localization.dart' hide TextDirection;
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:masaj/core/presentation/colors/app_colors.dart';
+import 'package:rxdart/rxdart.dart';
 
 abstract class MainTextFormField extends StatefulWidget {
   final FocusNode currentFocusNode;
@@ -17,6 +20,7 @@ abstract class MainTextFormField extends StatefulWidget {
   final List<TextInputFormatter>? inputFormatters;
   final bool expanded;
   final int? maxLines;
+  final bool isSearch;
   final EdgeInsetsGeometry? contentPadding;
   final Color? borderColor;
   final Color? hintColor;
@@ -35,6 +39,7 @@ abstract class MainTextFormField extends StatefulWidget {
   const MainTextFormField({
     super.key,
     required this.currentFocusNode,
+    this.isSearch = false,
     this.nextFocusNode,
     required this.currentController,
     required this.hintText,
@@ -69,6 +74,31 @@ abstract class MainTextFormField extends StatefulWidget {
 
 class _MainTextFormFieldState extends State<MainTextFormField> {
   TextDirection? _currentDir;
+  BehaviorSubject<String>? _searchSubject;
+  StreamSubscription<String>? _searchSubscription;
+  @override
+  void initState() {
+    if (widget.isSearch) {
+      _searchSubject = BehaviorSubject<String>();
+      _searchSubjectListener();
+    }
+    super.initState();
+  }
+
+  void _searchSubjectListener() {
+    _searchSubscription = _searchSubject?.stream
+        .debounceTime(const Duration(milliseconds: 500))
+        .distinct()
+        .distinct((p, n) => p == n)
+        .listen(widget.onChanged);
+  }
+
+  @override
+  void dispose() {
+    _searchSubject?.close();
+    _searchSubscription?.cancel();
+    super.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -169,7 +199,13 @@ class _MainTextFormFieldState extends State<MainTextFormField> {
             final dir = _getDirection(text);
             if (dir != _currentDir) setState(() => _currentDir = dir);
           }
-          (widget.onChanged ?? (_) {})(text);
+          if (widget.isSearch &&
+              _searchSubject != null &&
+              !_searchSubject!.isClosed) {
+            if (text.length > 2) _searchSubject?.add(text);
+          } else {
+            (widget.onChanged ?? (_) {})(text);
+          }
         },
         onFieldSubmitted: (String value) {
           FocusScope.of(context).requestFocus(widget.nextFocusNode);

@@ -4,7 +4,6 @@ import 'package:masaj/core/presentation/colors/app_colors.dart';
 import 'package:masaj/core/presentation/widgets/stateless/custom_loading.dart';
 import 'package:masaj/features/services/application/service_catgory_cubit/service_category_cubit.dart';
 import 'package:masaj/features/services/presentation/screens/services_screen.dart';
-import 'package:masaj/gen/assets.gen.dart';
 
 class CategoriesList extends StatelessWidget {
   const CategoriesList({
@@ -63,7 +62,7 @@ class CategoriesList extends StatelessWidget {
                             borderRadius: BorderRadius.circular(6),
                             image: DecorationImage(
                               image: NetworkImage(
-                                category.image,
+                                category.image ?? '',
                               ),
                               fit: BoxFit.cover,
                             ),
@@ -73,7 +72,7 @@ class CategoriesList extends StatelessWidget {
                           height: 5,
                         ),
                         Text(
-                          category.getName(context),
+                          category.name ?? '',
                           style: const TextStyle(
                               fontSize: 12,
                               fontWeight: FontWeight.w400,

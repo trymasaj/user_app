@@ -6,35 +6,16 @@ import 'package:masaj/features/services/data/models/service_category_model.dart'
 import 'package:masaj/features/services/data/models/service_model.dart';
 import 'package:masaj/features/services/data/models/service_query_model.dart';
 import 'package:masaj/features/services/data/repository/service_repository.dart';
-import 'package:rxdart/rxdart.dart';
 
 part 'service_state.dart';
 
 class ServiceCubit extends BaseCubit<ServcieState> {
   final ServiceRepository _serviceRepository;
-  final BehaviorSubject<String> _searchSubject = BehaviorSubject<String>();
-  String get searchValue => _searchSubject.value;
-  Stream<String> get searchStream => _searchSubject.stream;
-  void setSearchValue(String value) {
-    _searchSubject.add(value);
-  }
 
-  ServiceCubit(this._serviceRepository) : super(const ServcieState()) {
-    _searchSubject.stream
-        .debounceTime(const Duration(milliseconds: 500))
-        .distinct()
-        .listen((query) {
-      getServices(
-          searchKeyword: query,
-          refresh: true,
-          priceFrom: state.priceFrom,
-          priceTo: state.priceTo);
-    });
-  }
+  ServiceCubit(this._serviceRepository) : super(const ServcieState());
   void setServiceCategory(
       {ServiceCategory? selectedServiceCategory,
       required List<ServiceCategory> allServicesCategories}) {
-    // sort allServicesCategories to make sure that the selectedServiceCategory is the first item
     if (selectedServiceCategory != null) {
       allServicesCategories.sort((a, b) {
         if (a.id == selectedServiceCategory.id) {
@@ -52,66 +33,132 @@ class ServiceCubit extends BaseCubit<ServcieState> {
   }
 
   void setSelectedServiceCategory(ServiceCategory selectedServiceCategory) {
-    refresh();
     emit(state.copyWith(slectedServiceCategory: selectedServiceCategory));
-    getServices(refresh: true);
+    loadServices();
   }
 
-  void refresh() {
-    emit(state.copyWith(
-        status: ServcieStateStatus.initial,
-        services: [],
-        page: 1,
-        pageSize: 10));
-  }
-
-  Future<void> getServices(
-      {double? priceFrom,
-      double? priceTo,
-      String? searchKeyword,
-      double? maxPrice,
-      double? minPrice,
-      bool refresh = false,
-      bool loadMore = false,
-      bool? clearPrice}) async {
+  Future<void> loadServices({
+    bool refresh = false,
+    String? searchKeyword,
+  }) async {
     if (refresh) {
-      emit(state.copyWith(page: 1, services: [], hasReachedMax: false));
+      emit(state.copyWith(status: ServcieStateStatus.isRefreshing));
+    } else {
+      emit(state.copyWith(status: ServcieStateStatus.loading));
     }
-
-    if ((state.hasReachedMax ?? false)) return;
-    final page = loadMore ? (state.page ?? 1) + 1 : 1;
-
-    emit(state.copyWith(status: ServcieStateStatus.loading));
     try {
       final services = await _serviceRepository.getServices(ServiceQueryModel(
           categoryId: state.slectedServiceCategory!.id,
-          priceFrom: priceFrom,
-          priceTo: priceTo,
-          page: page,
+          priceFrom: state.priceFrom,
+          priceTo: state.priceTo,
           searchKeyword: searchKeyword,
+          page: 1,
           pageSize: state.pageSize));
-
-      final hasReachedMax = services.length < (state.pageSize ?? 10);
-
       emit(state.copyWith(
-          status: ServcieStateStatus.loaded,
-          services: services,
-          maxPrice: maxPrice ?? state.maxPrice,
-          page: page,
-          priceFrom: priceFrom,
-          minPrice: minPrice ?? state.minPrice,
-          clearPrice: clearPrice ?? false,
-          priceTo: priceTo,
-          hasReachedMax: hasReachedMax));
+        status: ServcieStateStatus.loaded,
+        services: services,
+        page: 1,
+        searchKeyword: (searchKeyword?.isEmpty ?? true) ? null : searchKeyword,
+      ));
     } catch (e) {
       emit(state.copyWith(
           status: ServcieStateStatus.error, errorMessage: e.toString()));
     }
   }
 
-  @override
-  Future<void> close() {
-    _searchSubject.close();
-    return super.close();
+  Future<void> loadMoreServices() async {
+    if (state.isLoadingMore) return;
+    if (state.services?.data?.isEmpty ?? true) return;
+    emit(state.copyWith(status: ServcieStateStatus.loadingMore));
+    try {
+      final oldServices = state.services;
+      final services = await _serviceRepository.getServices(ServiceQueryModel(
+          categoryId: state.slectedServiceCategory!.id,
+          priceFrom: state.priceFrom,
+          priceTo: state.priceTo,
+          // searchKeyword: state.searchKeyword,
+          page: state.page! + 1,
+          pageSize: state.pageSize));
+      emit(state.copyWith(
+          status: ServcieStateStatus.loaded,
+          services: services.copyWith(data: [
+            ...oldServices!.data ?? [],
+            ...services.data ?? [],
+          ]),
+          page: state.page! + 1));
+    } catch (e) {
+      emit(state.copyWith(
+          status: ServcieStateStatus.error, errorMessage: e.toString()));
+    }
   }
+
+  // set price range
+  void setPriceRange(
+      double? priceFrom, double? priceTo, double? maxPrice, double? minPrice) {
+    emit(state.copyWith(priceFrom: priceFrom, priceTo: priceTo));
+    loadServices();
+  }
+
+  // clear filter
+  void clearFilter() {
+    emit(state.copyWith(priceFrom: null, priceTo: null, clearPrice: true));
+    loadServices();
+  }
+
+  // Future<void> getServices(
+  //     {double? priceFrom,
+  //     double? priceTo,
+  //     String? searchKeyword,
+  //     double? maxPrice,
+  //     double? minPrice,
+  //     bool loadMore = false,
+  //     bool? clearPrice}) async {
+  //   if (state.isLoadingMore) return;
+  //   final oldServices = state.services;
+
+  //   if ((state.hasReachedMax ?? false)) return;
+  //   final page = loadMore ? (state.page ?? 1) + 1 : 1;
+
+  //   emit(state.copyWith(
+  //       status: loadMore
+  //           ? ServcieStateStatus.loadingMore
+  //           : ServcieStateStatus.loading));
+  //   try {
+  //     final services = await _serviceRepository.getServices(ServiceQueryModel(
+  //         categoryId: state.slectedServiceCategory!.id,
+  //         priceFrom: priceFrom,
+  //         priceTo: priceTo,
+  //         page: page,
+  //         searchKeyword: searchKeyword,
+  //         pageSize: state.pageSize));
+
+  //     // iterate it to be than 10
+  //     await Future.delayed(const Duration(seconds: 2), () {
+  //       if ((oldServices ?? []).isNotEmpty) {
+  //         services.addAll(List.generate(
+  //             10 - services.length, (index) => (oldServices ?? []).first));
+  //       } else {
+  //         services.addAll(
+  //             List.generate(10 - services.length, (index) => services.first));
+  //       }
+  //     });
+
+  //     final hasReachedMax = services.length < (state.pageSize ?? 10);
+
+  //     emit(state.copyWith(
+  //         status: ServcieStateStatus.loaded,
+  //         services:
+  //             loadMore ? [...(state.services ?? []), ...services] : services,
+  //         maxPrice: maxPrice ?? state.maxPrice,
+  //         page: page,
+  //         priceFrom: priceFrom,
+  //         minPrice: minPrice ?? state.minPrice,
+  //         clearPrice: clearPrice ?? false,
+  //         priceTo: priceTo,
+  //         hasReachedMax: hasReachedMax));
+  //   } catch (e) {
+  //     emit(state.copyWith(
+  //         status: ServcieStateStatus.error, errorMessage: e.toString()));
+  //   }
+  // }
 }

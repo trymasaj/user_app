@@ -1,4 +1,3 @@
-import 'dart:io';
 import 'dart:ui';
 
 import 'package:collection/collection.dart';
@@ -157,7 +156,7 @@ class _GuidePageState extends State<GuidePage> {
         crossAxisAlignment: CrossAxisAlignment.center,
         children: [
           Text(
-            (isLastTab ? 'get_started' : "lbl_next").tr(),
+            (isLastTab ? 'get_started' : 'lbl_next').tr(),
             style: theme.textTheme.titleMedium,
           ),
           SizedBox(width: 7.0.w),

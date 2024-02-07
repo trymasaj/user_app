@@ -1,5 +1,3 @@
-import 'dart:developer';
-
 import 'package:masaj/core/data/clients/network_service.dart';
 import 'package:masaj/core/data/constants/api_end_point.dart';
 import 'package:masaj/core/domain/exceptions/request_exception.dart';
@@ -11,7 +9,7 @@ abstract class ServiceRemoteDataSource {
   Future<List<ServiceCategory>> getServiceCategories();
   Future<ServiceCategory> getSingleServiceCategory(int id);
   // service
-  Future<List<ServiceModel>> getServices(ServiceQueryModel serviceQueryModel);
+  Future<ServicesResponse> getServices(ServiceQueryModel serviceQueryModel);
   Future<ServiceModel> getSingleService(int id);
 }
 
@@ -39,7 +37,7 @@ class ServiceRemoteDataSourceImpl implements ServiceRemoteDataSource {
   }
 
   @override
-  Future<List<ServiceModel>> getServices(
+  Future<ServicesResponse> getServices(
       ServiceQueryModel serviceQueryModel) async {
     const url = ApiEndPoint.SERVICES;
     print(serviceQueryModel.toMap());
@@ -48,13 +46,12 @@ class ServiceRemoteDataSourceImpl implements ServiceRemoteDataSource {
       queryParameters: serviceQueryModel.toMap(),
       // 'https://stagingapi.trymasaj.com/masaj/services?Page=1&PageSize=10',
     );
-    print(response.data);
     if (![201, 200].contains(response.statusCode)) {
       throw RequestException.fromStatusCode(
           statusCode: response.statusCode!, response: response.data);
     }
 
-    return ServicesResponse.fromMap(response.data).data;
+    return ServicesResponse.fromMap(response.data);
   }
 
   @override

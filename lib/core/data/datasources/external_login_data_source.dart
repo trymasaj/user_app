@@ -1,6 +1,5 @@
 import 'package:google_sign_in/google_sign_in.dart';
 import 'package:masaj/core/data/adapters/user_adapter.dart';
-import 'package:masaj/core/data/constants/api_end_point.dart';
 import 'package:masaj/core/domain/exceptions/social_media_login_canceled_exception.dart';
 import 'package:masaj/features/auth/domain/entities/user.dart';
 import 'package:sign_in_with_apple/sign_in_with_apple.dart';

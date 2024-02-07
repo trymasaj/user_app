@@ -3,16 +3,13 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_native_splash/flutter_native_splash.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/flutter_svg.dart';
-import 'package:masaj/core/data/di/injector.dart';
 import 'package:masaj/core/presentation/navigation/navigator_helper.dart';
 import 'package:masaj/core/presentation/overlay/show_snack_bar.dart';
 import 'package:masaj/core/presentation/widgets/stateless/app_logo.dart';
 import 'package:masaj/core/presentation/widgets/stateless/custom_app_page.dart';
-import 'package:masaj/features/address/presentation/pages/address_page.dart';
 import 'package:masaj/features/address/presentation/pages/select_location_screen.dart';
 import 'package:masaj/features/auth/presentation/pages/login_page.dart';
 import 'package:masaj/features/auth/presentation/pages/otp_verification_page.dart';
-import 'package:masaj/features/focus_area/presentation/pages/focus_area_page.dart';
 import 'package:masaj/features/home/presentation/pages/home_page.dart';
 
 import 'package:masaj/features/auth/application/auth_cubit/auth_cubit.dart';
@@ -20,7 +17,6 @@ import 'package:masaj/features/auth/presentation/pages/email_verification_page.d
 import 'package:masaj/features/auth/presentation/pages/sign_up_page.dart';
 import 'package:masaj/features/intro/presentation/pages/choose_language_page.dart';
 import 'package:masaj/features/intro/presentation/pages/guide_page.dart';
-import 'package:masaj/features/quiz/presentation/pages/quiz_page.dart';
 import 'package:masaj/features/quiz/presentation/pages/quiz_start_page.dart';
 import 'package:masaj/features/splash/presentation/splash_cubit/splash_cubit.dart';
 

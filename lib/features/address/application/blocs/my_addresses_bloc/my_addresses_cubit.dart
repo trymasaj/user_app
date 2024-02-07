@@ -1,5 +1,3 @@
-import 'package:bloc/bloc.dart';
-import 'package:equatable/equatable.dart';
 import 'package:injectable/injectable.dart';
 import 'package:masaj/core/application/controllers/base_cubit.dart';
 import 'package:masaj/core/application/states/app_state.dart';
@@ -14,7 +12,7 @@ class MyAddressesCubit extends BaseCubit<MyAddressesState> {
   final AddressRepo _repo;
 
   Future<void> getAddresses() async {
-    emit(state.copyWith(addresses: DataLoadState.loading()));
+    emit(state.copyWith(addresses: const DataLoadState.loading()));
     final result = await _repo.getAddresses();
     emit(state.copyWith(
         selectedAddressIndex: result.indexWhere((element) => element.isPrimary),

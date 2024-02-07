@@ -1,3 +1,5 @@
+// ignore_for_file: deprecated_member_use
+
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
@@ -45,7 +47,8 @@ class SearchTextFormField extends MainTextFormField {
       super.margin = null,
       super.enabled,
       super.style,
-    super.contentPadding,
+      super.contentPadding,
+      super.isSearch = true,
       super.readOnly,
       super.onTap,
       super.onChanged})
@@ -56,13 +59,6 @@ class SearchTextFormField extends MainTextFormField {
           fillColor: Colors.white,
           hintColor: AppColors.PlaceholderColor,
           borderColor: const Color(0xffEEEEEE),
-
-          //    hintStyle: const TextStyle(
-          //   fontSize: 14,
-          //   fontWeight: FontWeight.w400,
-          //   color: AppColors.PlaceholderColor,
-          // ),
-
           suffixIcon: Padding(
             padding: const EdgeInsets.all(14),
             child: SvgPicture.asset(

@@ -37,12 +37,13 @@ class NotificationService {
       final notification = message.notification;
       final image = message.data['image'];
 
-      if (notification != null)
+      if (notification != null) {
         _FlutterLocalNotificationHelper.showFCMNotification(
           title: notification.title,
           body: notification.body,
           image: image,
         );
+      }
     });
 
     FirebaseMessaging.onMessageOpenedApp.listen((notification) {
@@ -75,7 +76,7 @@ class NotificationService {
       } else {
         throw Exception('Not supported platform');
       }
-    } on Exception catch (e) {
+    } on Exception {
       return '';
     }
   }
