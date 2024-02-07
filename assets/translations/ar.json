@@ -5,6 +5,7 @@
   "sign_in": "تسجيل الدخول",
   "or": "أو",
   "lbl_guest": "ضيف",
+  "error_occurred": "حدث خطأ، يرجى المحاولة مرة أخرى في وقت لاحق.",
   "no_address_selected": "لم يتم تحديد عنوان",
   "save_and_sign_up": "حفظ وإنشاء حساب",
   "first_name": "الاسم الكامل",

@@ -4,6 +4,7 @@
     "sign_up": "Sign Up",
     "sign_in": "Sign In",
     "or": "OR",
+    "error_occurred": "An error occurred, please try again later.",
     "save_and_sign_up": "Save and Sign Up",
     "first_name": "Full Name",
     "lbl_guest": "Guest",
