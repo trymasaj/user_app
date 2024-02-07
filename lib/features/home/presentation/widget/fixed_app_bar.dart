@@ -204,6 +204,8 @@ class FixedAppBar extends StatelessWidget {
           onTap: () {
             showBottomSheet(
               context: context,
+              elevation: 4,
+              
               builder: (context) => SelectLocationBottomSheet(
                 onSave: () async {
                   final myAddressCubit = context.read<MyAddressesCubit>();
@@ -211,6 +213,7 @@ class FixedAppBar extends StatelessWidget {
                   await myAddressCubit.saveAddress();
                   await countryCubit
                       .getAllAddressesAndSavePrimaryAddressLocally();
+                  Navigator.of(context).pop();
                 },
               ),
             );

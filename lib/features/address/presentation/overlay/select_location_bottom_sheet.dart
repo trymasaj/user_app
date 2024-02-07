@@ -57,8 +57,7 @@ class _SelectLocationBottomSheetState extends State<SelectLocationBottomSheet> {
                     onTapRetry: () {},
                     customState: state.addresses,
                     onData: (data) {
-                      return Expanded(
-                          child: ListView(
+                      return ListView(
                         children: [
                           ...state.addressesData
                               .mapIndexed((index, address) => Padding(
@@ -98,7 +97,7 @@ class _SelectLocationBottomSheetState extends State<SelectLocationBottomSheet> {
                             ),
                           ),
                         ],
-                      ));
+                      );
                     },
                   );
                 },
