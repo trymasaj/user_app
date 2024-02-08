@@ -1,10 +1,15 @@
+import 'dart:developer';
+
 import 'package:cached_network_image/cached_network_image.dart';
+import 'package:dartz/dartz.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_form_builder/flutter_form_builder.dart';
 import 'package:form_builder_validators/form_builder_validators.dart';
 import 'package:masaj/core/app_export.dart';
 import 'package:masaj/core/application/states/app_state.dart';
+import 'package:masaj/core/presentation/colors/app_colors.dart';
 import 'package:masaj/core/presentation/widgets/stateless/state_widgets.dart';
+import 'package:masaj/core/presentation/widgets/stateless/subtitle_text.dart';
 import 'package:masaj/features/address/application/blocs/select_location_bloc/select_location_bloc.dart';
 import 'package:masaj/features/address/domain/entities/address.dart';
 import 'package:masaj/features/address/domain/entities/city.dart';
@@ -83,50 +88,52 @@ class CountryAndRegionSelector<T extends SelectAreaCubit>
                 },
               );
             }),
-        SizedBox(height: 18.h),
         BlocSelector<T, SelectAreaState, DataLoadState<List<Area>>>(
             selector: (state) => state.cities,
             builder: (context, state) {
-              return LoadStateHandler(
-                customState: state,
-                onTapRetry: controller.getAreas,
-                onData: (data) {
-                  return FormBuilderDropdown<Area>(
-                    validator: (value) {
-                      
-                      if (value == null) {
-                        return 'error_required'.tr();
-                      }
-                      return 'null';
+              log(state.toString());
+              return Column(
+                children: [
+                  SizedBox(
+                      height: state == const DataLoadInitialState<List<Area>>()
+                          ? 0.0
+                          : 18.h),
+                  LoadStateHandler(
+                    customState: state,
+                    onTapRetry: controller.getAreas,
+                    onData: (data) {
+                      return FormBuilderDropdown<Area>(
+                        valueTransformer: (value) {
+                          return value?.toMap();
+                        },
+                        name: Address.areaKey,
+                        initialValue:
+                            controller.state.selectedArea.toNullable(),
+                        isExpanded: true,
+                        decoration: decoration.copyWith(
+                          hintText: "lbl_region_area".tr(),
+                        ),
+                        items: data
+                            .map((e) => DropdownMenuItem(
+                                value: e,
+                                child: Row(
+                                  crossAxisAlignment: CrossAxisAlignment.center,
+                                  mainAxisSize: MainAxisSize.max,
+                                  children: [
+                                    const SizedBox(width: 3),
+                                    Text(
+                                      e.name,
+                                      style: CustomTextStyles
+                                          .bodyMediumOnErrorContainer,
+                                    ),
+                                  ],
+                                )))
+                            .toList(),
+                        onChanged: (value) => controller.onCityChanged(value!),
+                      );
                     },
-                    valueTransformer: (value) {
-                      return value?.toMap();
-                    },
-                    name: Address.areaKey,
-                    initialValue: controller.state.selectedArea.toNullable(),
-                    isExpanded: true,
-                    decoration: decoration.copyWith(
-                      hintText: 'lbl_region_area'.tr(),
-                    ),
-                    items: data
-                        .map((e) => DropdownMenuItem(
-                            value: e,
-                            child: Row(
-                              crossAxisAlignment: CrossAxisAlignment.center,
-                              mainAxisSize: MainAxisSize.max,
-                              children: [
-                                const SizedBox(width: 3),
-                                Text(
-                                  e.name,
-                                  style: CustomTextStyles
-                                      .bodyMediumOnErrorContainer,
-                                ),
-                              ],
-                            )))
-                        .toList(),
-                    onChanged: (value) => controller.onCityChanged(value!),
-                  );
-                },
+                  ),
+                ],
               );
             }),
       ],

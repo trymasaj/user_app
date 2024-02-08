@@ -8,6 +8,7 @@ import 'package:masaj/core/presentation/overlay/show_snack_bar.dart';
 import 'package:masaj/core/presentation/theme/theme_helper.dart';
 import 'package:masaj/core/presentation/widgets/stateless/custom_app_page.dart';
 import 'package:masaj/features/auth/application/auth_cubit/auth_cubit.dart';
+import 'package:masaj/features/auth/application/country_cubit/country_cubit.dart';
 import 'package:masaj/features/home/presentation/bloc/home_cubit/home_cubit.dart';
 import 'package:masaj/features/providers_tab/presentation/pages/providers_tab.dart';
 import 'package:masaj/features/services/application/service_catgory_cubit/service_category_cubit.dart';
@@ -38,6 +39,9 @@ class _HomePageState extends State<HomePage> {
   @override
   void initState() {
     _pageController = PageController(initialPage: widget.initialPageIndex ?? 0);
+    final isGuest = context.read<AuthCubit>().state.isGuest;
+    final countryCubit = context.read<CountryCubit>();
+    countryCubit.init(isGuest);
 
     super.initState();
   }

@@ -6,6 +6,7 @@ import 'package:masaj/features/account/pages/account_screen.dart';
 import 'package:masaj/features/account/pages/manage_members_screen.dart';
 import 'package:masaj/features/address/presentation/pages/address_page.dart';
 import 'package:masaj/features/auth/application/auth_cubit/auth_cubit.dart';
+import 'package:masaj/features/auth/presentation/pages/login_page.dart';
 import 'package:masaj/features/intro/presentation/pages/choose_language_page.dart';
 import 'package:masaj/features/legal/pages/legal_screen.dart';
 import 'package:masaj/features/medical_form/pages/medical_form_screen.dart';
@@ -49,10 +50,16 @@ class SettingsTabPage extends StatelessWidget {
                       SizedBox(height: 10.h),
                       CustomElevatedButton(
                           onPressed: () {
+                            if (!context.read<AuthCubit>().state.isLoggedIn) {
+                              Navigator.pushNamedAndRemoveUntil(context,
+                                  LoginPage.routeName, (route) => false);
+                            }
                             context.read<AuthCubit>().logout();
                           },
                           height: 48.h,
-                          text: 'lbl_logout'.tr(context: context),
+                          text: context.read<AuthCubit>().state.isLoggedIn
+                              ? 'lbl_logout'
+                              : 'login'.tr(context: context),
                           buttonStyle: ElevatedButton.styleFrom(
                               backgroundColor: const Color(0xffF9ECEE)),
                           buttonTextStyle: CustomTextStyles.titleSmallPink700)
@@ -143,6 +150,7 @@ class SettingsTabPage extends StatelessWidget {
 
   /// Section Widget
   Widget _buildGeneralColumn(BuildContext context) {
+    final bool isLoggedIn = context.read<AuthCubit>().state.isLoggedIn;
     return Container(
         padding: EdgeInsets.symmetric(horizontal: 24.w, vertical: 19.h),
         decoration: AppDecoration.fillGray100
@@ -155,34 +163,40 @@ class SettingsTabPage extends StatelessWidget {
               Text('lbl_general'.tr(),
                   style: CustomTextStyles.titleSmallOnPrimary_3),
               SizedBox(height: 5.h),
-              SettingTile(
-                  onTap: () {
-                    NavigatorHelper.of(context)
-                        .pushNamed(AccountScreen.routeName);
-                  },
-                  text: 'lbl_account',
-                  imagePath: ImageConstant.imgLockGray90003),
-              SettingTile(
-                  onTap: () {
-                    NavigatorHelper.of(context)
-                        .pushNamed(AddressPage.routeName);
-                  },
-                  text: 'lbl_addresses',
-                  imagePath: ImageConstant.imgGroup1000003168),
-              SettingTile(
-                  onTap: () {
-                    NavigatorHelper.of(context)
-                        .pushNamed(MedicalFormScreen.routeName);
-                  },
-                  text: 'lbl_medical_form',
-                  imagePath: ImageConstant.imgGroup1000003169),
-              SettingTile(
-                  onTap: () {
-                    NavigatorHelper.of(context)
-                        .pushNamed(ManageMembersScreen.routeName);
-                  },
-                  text: 'lbl_manage_members',
-                  imagePath: ImageConstant.imgGroup1000003180),
+              isLoggedIn
+                  ? Column(
+                      children: [
+                        SettingTile(
+                            onTap: () {
+                              NavigatorHelper.of(context)
+                                  .pushNamed(AccountScreen.routeName);
+                            },
+                            text: 'lbl_account',
+                            imagePath: ImageConstant.imgLockGray90003),
+                        SettingTile(
+                            onTap: () {
+                              NavigatorHelper.of(context)
+                                  .pushNamed(AddressPage.routeName);
+                            },
+                            text: 'lbl_addresses',
+                            imagePath: ImageConstant.imgGroup1000003168),
+                        SettingTile(
+                            onTap: () {
+                              NavigatorHelper.of(context)
+                                  .pushNamed(MedicalFormScreen.routeName);
+                            },
+                            text: 'lbl_medical_form',
+                            imagePath: ImageConstant.imgGroup1000003169),
+                        SettingTile(
+                            onTap: () {
+                              NavigatorHelper.of(context)
+                                  .pushNamed(ManageMembersScreen.routeName);
+                            },
+                            text: 'lbl_manage_members',
+                            imagePath: ImageConstant.imgGroup1000003180),
+                      ],
+                    )
+                  : SizedBox(),
               SettingTile(
                   onTap: () {
 /*
@@ -197,43 +211,49 @@ class SettingsTabPage extends StatelessWidget {
 
   /// Section Widget
   Widget _buildReferCreditColumn(BuildContext context) {
-    return Container(
-        padding: EdgeInsets.symmetric(horizontal: 24.w, vertical: 20.h),
-        decoration: AppDecoration.fillGray100
-            .copyWith(borderRadius: BorderRadiusStyle.roundedBorder5),
-        child: Column(
-            mainAxisSize: MainAxisSize.min,
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Text('lbl_refer_credit'.tr(),
-                  style: CustomTextStyles.titleSmallOnPrimary_3),
-              SizedBox(height: 17.h),
-              SettingTile(
-                imagePath: ImageConstant.imgGroup1000003167,
-                text: 'lbl_my_wallet'.tr(),
-                trailing: Text('lbl_30_000_kwd'.tr(),
-                    style: theme.textTheme.bodyMedium!.copyWith(
-                        color: theme.colorScheme.onPrimary.withOpacity(0.7))),
-                onTap: () {
-                  NavigatorHelper.of(context).pushNamed(WalletScreen.routeName);
-                },
-              ),
-              SettingTile(
-                text: 'lbl_gift_voucher',
-                imagePath: ImageConstant.imgGroup1000003170,
-                onTap: () {},
-              ),
-              SettingTile(
-                text: 'lbl_refer_a_friend',
-                imagePath: ImageConstant.imgSvgexport65,
-                onTap: () {
+    final bool isLoggedIn = context.read<AuthCubit>().state.isLoggedIn;
+
+    return isLoggedIn
+        ? Container(
+            padding: EdgeInsets.symmetric(horizontal: 24.w, vertical: 20.h),
+            decoration: AppDecoration.fillGray100
+                .copyWith(borderRadius: BorderRadiusStyle.roundedBorder5),
+            child: Column(
+                mainAxisSize: MainAxisSize.min,
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text('lbl_refer_credit'.tr(),
+                      style: CustomTextStyles.titleSmallOnPrimary_3),
+                  SizedBox(height: 17.h),
+                  SettingTile(
+                    imagePath: ImageConstant.imgGroup1000003167,
+                    text: 'lbl_my_wallet'.tr(),
+                    trailing: Text('lbl_30_000_kwd'.tr(),
+                        style: theme.textTheme.bodyMedium!.copyWith(
+                            color:
+                                theme.colorScheme.onPrimary.withOpacity(0.7))),
+                    onTap: () {
+                      NavigatorHelper.of(context)
+                          .pushNamed(WalletScreen.routeName);
+                    },
+                  ),
+                  SettingTile(
+                    text: 'lbl_gift_voucher',
+                    imagePath: ImageConstant.imgGroup1000003170,
+                    onTap: () {},
+                  ),
+                  SettingTile(
+                    text: 'lbl_refer_a_friend',
+                    imagePath: ImageConstant.imgSvgexport65,
+                    onTap: () {
 /*
                   NavigatorHelper.of(context)
                       .pushNamed(WalletScreen.routeName);
 */
-                },
-              ),
-            ]));
+                    },
+                  ),
+                ]))
+        : SizedBox();
   }
 
   /// Section Widget
@@ -270,7 +290,7 @@ class SettingsTabPage extends StatelessWidget {
                 imagePath: ImageConstant.imgGroup1000003172,
                 onTap: () {
                   NavigatorHelper.of(context)
-                      .pushNamed(ChooseLanguagePage.routeName);
+                      .pushNamed(ChooseLanguagePage.routeName, arguments: true);
                 },
               ),
               SettingTile(

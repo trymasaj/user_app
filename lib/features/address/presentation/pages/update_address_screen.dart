@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_form_builder/flutter_form_builder.dart';
@@ -6,7 +8,15 @@ import 'package:masaj/core/app_export.dart';
 import 'package:masaj/core/data/di/injection_setup.dart';
 import 'package:masaj/core/presentation/widgets/stateless/custom_app_bar.dart';
 import 'package:masaj/core/presentation/widgets/stateless/custom_outlined_button.dart';
+import 'package:masaj/core/data/validator/validation_functions.dart';
+import 'package:masaj/core/presentation/colors/app_colors.dart';
+import 'package:masaj/core/presentation/widgets/stateless/custom_app_bar.dart';
+import 'package:masaj/core/presentation/widgets/stateless/custom_outlined_button.dart';
+import 'package:masaj/core/presentation/widgets/stateless/custom_text.dart';
+import 'package:masaj/core/presentation/widgets/stateless/custom_text_form_field.dart';
 import 'package:masaj/core/presentation/widgets/stateless/default_button.dart';
+import 'package:masaj/core/presentation/widgets/stateless/subtitle_text.dart';
+import 'package:masaj/core/presentation/widgets/stateless/title_text.dart';
 import 'package:masaj/features/address/application/blocs/add_new_address_bloc/update_address_bloc.dart';
 import 'package:masaj/features/address/application/blocs/select_location_bloc/select_location_bloc.dart';
 import 'package:masaj/features/address/domain/entities/address.dart';
@@ -14,6 +24,8 @@ import 'package:form_builder_validators/form_builder_validators.dart';
 import 'package:masaj/features/address/presentation/widgets/country_and_region_selector.dart';
 import 'package:masaj/features/address/presentation/pages/map_location_picker.dart';
 import 'package:masaj/features/auth/application/country_cubit/country_cubit.dart';
+import 'package:collection/collection.dart';
+import 'package:masaj/features/auth/application/country_cubit/country_state.dart';
 
 class EditAddressArguments {
   final Address oldAddress;
@@ -128,7 +140,7 @@ class UpdateAddressScreen<T extends UpdateAddressCubit,
   final String title;
   final GlobalKey<FormBuilderState> formKey;
 
-  const UpdateAddressScreen({
+  UpdateAddressScreen({
     super.key,
     required this.title,
     required this.formKey,
@@ -159,6 +171,7 @@ class UpdateAddressScreen<T extends UpdateAddressCubit,
               bottom: 5.h,
             ),
             child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 SizedBox(height: 23.h),
                 _buildMaskStack(context),
@@ -168,6 +181,7 @@ class UpdateAddressScreen<T extends UpdateAddressCubit,
                 CountryAndRegionSelector<A>(
                   form: formKey,
                 ),
+                _buildCountryError(),
                 SizedBox(height: 16.h),
                 _buildBlockEditText(context),
                 SizedBox(height: 16.h),
@@ -201,6 +215,23 @@ class UpdateAddressScreen<T extends UpdateAddressCubit,
     );
   }
 
+  Widget _buildCountryError() {
+    return BlocSelector<CountryCubit, CountryState, bool>(
+      selector: (state) {
+        return state.showCountryError;
+      },
+      builder: (context, state) {
+        log(state.toString());
+        return state
+            ? SubtitleText(
+                text: 'country_validation'.tr(),
+                color: AppColors.ERROR_COLOR,
+              )
+            : SizedBox();
+      },
+    );
+  }
+
   /// Section Widget
   PreferredSizeWidget _buildAppBar(BuildContext context) {
     return CustomAppBar(
@@ -217,20 +248,24 @@ class UpdateAddressScreen<T extends UpdateAddressCubit,
       buttonStyle: CustomButtonStyles.outlineGray,
       alignment: Alignment.center,
       onPressed: () async {
-        final result = await Navigator.of(context).pushNamed(
-          MapLocationPicker.routeName,
-          arguments: MapLocationPickerArguments(
-            initialLatlng: context.read<T>().state.latLng.toNullable(),
-          ),
-        ) as MapLocationPickerResult?;
-        if (result != null) {
-          context.read<T>().updateLatLng(result.latLng);
-          formKey.currentState!.patchValue({
-            Address.googleMapAddressKey: result.address,
-          });
-        }
+        await _goToMap(context);
       },
     );
+  }
+
+  Future<void> _goToMap(BuildContext context) async {
+    final result = await Navigator.of(context).pushNamed(
+      MapLocationPicker.routeName,
+      arguments: MapLocationPickerArguments(
+        initialLatlng: context.read<T>().state.latLng.toNullable(),
+      ),
+    ) as MapLocationPickerResult?;
+    if (result != null) {
+      context.read<T>().updateLatLng(result.latLng);
+      formKey.currentState!.patchValue({
+        Address.googleMapAddressKey: result.address,
+      });
+    }
   }
 
   /// Section Widget
@@ -299,6 +334,7 @@ class UpdateAddressScreen<T extends UpdateAddressCubit,
   Widget _buildGoogleMapAddressEditText(BuildContext context) {
     return FormBuilderTextField(
       readOnly: true,
+      onTap: () async => _goToMap(context),
       style: CustomTextStyles.bodyMediumGray90003,
       validator: FormBuilderValidators.compose([]),
       decoration: InputDecoration(
@@ -418,6 +454,11 @@ class UpdateAddressScreen<T extends UpdateAddressCubit,
         final isValid = formKey.currentState!.saveAndValidate();
         if (!isValid) return Future.value();
         final addressMap = formKey.currentState!.value;
+        if (addressMap['country'] == null || addressMap['area'] == null) {
+          return countryCubit.showCountryError(true);
+        } else {
+          countryCubit.showCountryError(false);
+        }
         await context.read<T>().save(Address.fromMap(addressMap));
         final savedAddress = context.read<T>().state.savedAddress;
         //if saved address is primary true then call set as current in country cubit this will help you when you add first address or update primary address

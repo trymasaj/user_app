@@ -43,6 +43,7 @@ class ThemeHelper {
     var colorScheme =
         _supportedColorScheme[_appTheme] ?? ColorSchemes.primaryColorScheme;
     return ThemeData(
+      useMaterial3: false,
       inputDecorationTheme: InputDecorationTheme(
           errorStyle: TextStyle(
             color: appTheme.redA700,

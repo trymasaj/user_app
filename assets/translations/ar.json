@@ -5,7 +5,8 @@
   "sign_in": "تسجيل الدخول",
   "or": "أو",
   "lbl_guest": "ضيف",
-  "no_country_selected": "لم يتم تحديد البلد",
+  "error_occurred": "حدث خطأ، يرجى المحاولة مرة أخرى في وقت لاحق.",
+  "no_address_selected": "لم يتم تحديد عنوان",
   "save_and_sign_up": "حفظ وإنشاء حساب",
   "first_name": "الاسم الكامل",
   "email_address": "البريد الإلكتروني",
@@ -60,7 +61,6 @@
   "invalid_password_less_than_characters": "كلمة المرور غير صالحة أقل من 6 أحرف",
   "invalid_password_should_has_1_capital_letter": "كلمة المرور يجب أن تحتوي على حرف كبير واحد على الأقل",
   "invalid_password_should_has_1_small_letter": "كلمة المرور يجب أن تحتوي على حرف صغير واحد على الأقل",
-
   "invalid_password_should_has_1_number": "كلمة المرور يجب أن تحتوي على حرف رقم واحد على الأقل",
   "password_must_contains_characters": "يجب أن تحتوي كلمة المرور على أحرف",
   "password_must_contains_numbers": "يجب أن تحتوي كلمة المرور على أرقام",
@@ -757,5 +757,6 @@
   "Minutes": "دقائق",
   "Hours": "ساعات",
   "add_on_s": "إضافات",
-  "popular": "الأكثر شعبية"
+  "popular": "الأكثر شعبية",
+  "country_validation": "ادخل دولة"
 }

@@ -1,18 +1,17 @@
+import 'package:masaj/core/app_export.dart';
 import 'package:masaj/core/domain/exceptions/app_exception.dart';
 
 class RequestException extends AppException {
   RequestException({super.message, super.stackTrace, super.exception});
 
-  factory RequestException.fromStatusCode(
-      {required int statusCode, dynamic response}) {
-    String? message;
-    if (response != null) {
-      if (response is Map<String, dynamic>) {
-        message = response['detail'];
-      } else if (response is String) {
-        message = response;
-      }
-    }
+  factory RequestException.fromStatusCode({
+    required int statusCode,
+    dynamic response,
+  }) {
+    // Construct a detailed error message
+    String message = _parseErrorMessage(response) ?? 'error_occurred'.tr();
+
+    // Map status codes to specific exceptions
     switch (statusCode) {
       case 400:
         return BadRequestException(message: message);
@@ -23,20 +22,45 @@ class RequestException extends AppException {
       case 404:
         return NotFoundException(message: message);
       case 500:
-        return InternalServerErrorException(
-          message: message,
-        );
+        return InternalServerErrorException(message: message);
       case 503:
-        return ServiceUnavailableException();
+        return ServiceUnavailableException(message: message);
       default:
-        return UnknownException(
-          message: message,
-        );
+        return UnknownException(message: message);
     }
   }
+
   @override
   String toString() {
     return message;
+  }
+
+  // Private method to parse error message from the response
+  static String? _parseErrorMessage(dynamic response) {
+    if (response is Map<String, dynamic>) {
+      String message =
+          response['title'] ?? 'An error occurred, please try again later.';
+      message += _parseFieldErrors(response['errors']);
+      return message;
+    } else if (response is String) {
+      return response;
+    }
+    return null;
+  }
+
+  // Private method to parse field-specific errors and format them
+  static String _parseFieldErrors(dynamic errors) {
+    if (errors is Map<String, dynamic> && errors.isNotEmpty) {
+      var fieldErrors = errors.entries.map((entry) {
+        var fieldName = entry.key;
+        var errorMessages = entry.value is List
+            ? entry.value.join(', ')
+            : entry.value.toString();
+        return '$errorMessages';
+      }).join(', ');
+      return fieldErrors.isNotEmpty ? fieldErrors : '';
+    }
+    return '';
   }
 }
 

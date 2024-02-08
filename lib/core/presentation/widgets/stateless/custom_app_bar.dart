@@ -9,12 +9,14 @@ class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
     required this.title,
     this.centerTitle,
     this.actions,
+    this.elevation,
   });
 
   final bool? centerTitle;
   final List<Widget>? actions;
 
   final String title;
+  final double? elevation;
 
   @override
   Widget build(BuildContext context) {
@@ -33,7 +35,7 @@ class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
       // the following line is to center the title when there is no back button
       centerTitle: centerTitle ?? !canPop,
       actions: actions,
-      elevation: 1,
+      elevation: elevation ?? 1,
     );
   }
 

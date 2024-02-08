@@ -15,29 +15,10 @@ import 'package:masaj/features/auth/application/country_cubit/country_cubit.dart
 import 'package:masaj/features/auth/application/country_cubit/country_state.dart';
 import 'package:masaj/gen/assets.gen.dart';
 
-class FixedAppBar extends StatefulWidget {
+class FixedAppBar extends StatelessWidget {
   const FixedAppBar({
     super.key,
   });
-
-  @override
-  State<FixedAppBar> createState() => _FixedAppBarState();
-}
-
-class _FixedAppBarState extends State<FixedAppBar> {
-  @override
-  void initState() {
-    final isGuest = context.read<AuthCubit>().state.isGuest;
-    final countryCubit = context.read<CountryCubit>();
-    if (isGuest) {
-      countryCubit.getCurrentCountry();
-    } else {
-      countryCubit.getAllAddressesAndSavePrimaryAddressLocally();
-    }
-
-    super.initState();
-    context.read<CountryCubit>().getCurrentCountry();
-  }
 
   @override
   Widget build(BuildContext context) {
@@ -151,7 +132,7 @@ class _FixedAppBarState extends State<FixedAppBar> {
       builder: (context, state) {
         if (!state.isLoaded) {
           return Text(
-            'no_country_selected'.tr(),
+            'no_address_selected'.tr(),
             style: const TextStyle(
               fontSize: 14,
               fontWeight: FontWeight.w400,
@@ -166,7 +147,7 @@ class _FixedAppBarState extends State<FixedAppBar> {
           child: Row(
             children: [
               Text(
-                currentCountry?.nameEn ?? 'no_country_selected'.tr(),
+                currentCountry?.nameEn ?? 'no_address_selected'.tr(),
                 style: const TextStyle(
                   fontSize: 14,
                   fontWeight: FontWeight.w400,
@@ -210,7 +191,7 @@ class _FixedAppBarState extends State<FixedAppBar> {
         final currentAddress = state.currentAddress;
         if (state.currentAddress == null) {
           return Text(
-            'no_country_selected'.tr(),
+            'no_address_selected'.tr(),
             style: const TextStyle(
               fontSize: 14,
               fontWeight: FontWeight.w400,
@@ -221,8 +202,10 @@ class _FixedAppBarState extends State<FixedAppBar> {
 
         return GestureDetector(
           onTap: () {
-            showModalBottomSheet(
+            showBottomSheet(
               context: context,
+              elevation: 4,
+              
               builder: (context) => SelectLocationBottomSheet(
                 onSave: () async {
                   final myAddressCubit = context.read<MyAddressesCubit>();
@@ -230,6 +213,7 @@ class _FixedAppBarState extends State<FixedAppBar> {
                   await myAddressCubit.saveAddress();
                   await countryCubit
                       .getAllAddressesAndSavePrimaryAddressLocally();
+                  Navigator.of(context).pop();
                 },
               ),
             );
@@ -237,7 +221,7 @@ class _FixedAppBarState extends State<FixedAppBar> {
           child: SizedBox(
             width: 150,
             child: Text(
-              currentAddress!.formattedAddress ?? 'no_country_selected'.tr(),
+              currentAddress!.formattedAddress ?? 'no_address_selected'.tr(),
               overflow: TextOverflow.ellipsis,
               style: const TextStyle(
                   fontSize: 14,

@@ -58,7 +58,10 @@ class LocationPickTextField extends StatelessWidget {
         return Column(
           children: [
             ListTile(
-              title: Text(city.address),
+              title: Text(
+                city.address,
+                style: TextStyle(color: AppColors.ACCENT_COLOR),
+              ),
             ),
             const Divider()
           ],

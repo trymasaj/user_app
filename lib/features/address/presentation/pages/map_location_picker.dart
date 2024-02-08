@@ -63,6 +63,7 @@ class _MapLocationPickerState extends State<MapLocationPicker> {
         color: Colors.white,
         child: SafeArea(
           child: Scaffold(
+            resizeToAvoidBottomInset: false,
             body: Stack(
               children: [
                 GoogleMap(

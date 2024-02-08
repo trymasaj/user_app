@@ -27,8 +27,10 @@ class _SelectLocationBottomSheetState extends State<SelectLocationBottomSheet> {
 
   @override
   Widget build(BuildContext context) {
+    final bottomPadding =
+        MediaQuery.of(context).padding.bottom + navbarHeight + 12;
     return CustomBottomSheet(
-      height: 400.h,
+      height: 450.h,
       child: Expanded(
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.stretch,
@@ -50,8 +52,7 @@ class _SelectLocationBottomSheetState extends State<SelectLocationBottomSheet> {
                     onTapRetry: () {},
                     customState: state.addresses,
                     onData: (data) {
-                      return Expanded(
-                          child: ListView(
+                      return ListView(
                         children: [
                           ...state.addressesData
                               .mapIndexed((index, address) => Padding(
@@ -91,7 +92,7 @@ class _SelectLocationBottomSheetState extends State<SelectLocationBottomSheet> {
                             ),
                           ),
                         ],
-                      ));
+                      );
                     },
                   );
                 },
@@ -102,7 +103,7 @@ class _SelectLocationBottomSheetState extends State<SelectLocationBottomSheet> {
               onPressed: widget.onSave,
               label: 'lbl_save'.tr(),
             ),
-            SizedBox(height: 22.h),
+            SizedBox(height: bottomPadding.h),
           ],
         ),
       ),
