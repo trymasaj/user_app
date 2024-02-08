@@ -1,14 +1,14 @@
 import 'package:equatable/equatable.dart';
 
 class ServiceQueryModel extends Equatable {
-  int? categoryId;
-  String? searchKeyword;
-  double? priceFrom;
-  double? priceTo;
-  int? page;
-  int? pageSize;
+  final int? categoryId;
+  final String? searchKeyword;
+  final double? priceFrom;
+  final double? priceTo;
+  final int? page;
+  final int? pageSize;
 
-  ServiceQueryModel({
+  const ServiceQueryModel({
     this.categoryId,
     this.searchKeyword,
     this.priceFrom,
