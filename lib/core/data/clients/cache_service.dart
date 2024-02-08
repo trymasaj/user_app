@@ -183,7 +183,8 @@ class CacheServiceImplV2 implements CacheService {
   Future<Country?> getCurrentCountry() async {
     final prefs = await SharedPreferences.getInstance();
     final country = prefs.getString(_COUNTRY);
-    return Country.fromMap(jsonDecode(country!));
+    if (country == null) return null;
+    return Country.fromMap(jsonDecode(country));
   }
 
   @override

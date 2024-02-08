@@ -1,4 +1,5 @@
 import 'package:flutter_form_builder/flutter_form_builder.dart';
+import 'package:masaj/core/presentation/widgets/stateless/custom_app_bar.dart';
 import 'package:masaj/features/address/presentation/widgets/country_and_region_selector.dart';
 import 'package:flutter/material.dart';
 import 'package:masaj/core/app_export.dart';
@@ -9,14 +10,11 @@ import 'package:masaj/features/auth/presentation/pages/login_page.dart';
 
 class SelectLocationScreen extends StatefulWidget {
   static const routeName = '/select-location';
-  SelectLocationScreen({super.key});
-
-  static Widget builder(BuildContext context) {
-    return BlocProvider<SelectAreaCubit>(
-        create: (context) =>
-            getIt<NotInitiallySelectAreaCubit>()..getCountries(),
-        child: SelectLocationScreen());
-  }
+  const SelectLocationScreen({
+    super.key,
+    this.isFromHomePage = false,
+  });
+  final bool isFromHomePage;
 
   @override
   State<SelectLocationScreen> createState() => _SelectLocationScreenState();
@@ -32,13 +30,28 @@ class _SelectLocationScreenState extends State<SelectLocationScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        body: Container(
+      appBar: _buildAppBar(),
+      body: _buildBody(context),
+    );
+  }
+
+  CustomAppBar? _buildAppBar() =>
+      widget.isFromHomePage ? CustomAppBar(title: 'location'.tr()) : null;
+
+  Widget _buildBody(BuildContext context) {
+    return BlocProvider<SelectAreaCubit>(
+      create: (context) => getIt<NotInitiallySelectAreaCubit>()..getCountries(),
+      child: Builder(builder: (context) {
+        return Container(
             width: double.maxFinite,
-            padding: EdgeInsets.only(left: 24.w, top: 62.h, right: 24.w),
+            padding: EdgeInsets.only(
+                left: 24.w,
+                top: widget.isFromHomePage ? 24.w : 62.h,
+                right: 24.w),
             child: Column(children: [
               Align(
                   alignment: Alignment.centerLeft,
-                  child: Text("msg_select_your_location".tr(),
+                  child: Text('msg_select_your_location'.tr(),
                       style: CustomTextStyles.titleMediumGray9000318)),
               SizedBox(height: 2.h),
               Align(
@@ -71,13 +84,19 @@ class _SelectLocationScreenState extends State<SelectLocationScreen> {
                     onTapContinue(context);
                   }),
               SizedBox(height: 5.h)
-            ])));
+            ]));
+      }),
+    );
   }
 
   onTapContinue(BuildContext context) async {
     final cubit = context.read<SelectAreaCubit>();
     final isCountrySet = await cubit.onContinuePressed();
     if (isCountrySet) {
+      if (widget.isFromHomePage) {
+        NavigatorHelper.of(context).pop();
+        return;
+      }
       NavigatorHelper.of(context).pushReplacementNamed(LoginPage.routeName);
     }
   }
