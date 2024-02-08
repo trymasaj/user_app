@@ -291,7 +291,7 @@ class SettingsTabPage extends StatelessWidget {
                 imagePath: ImageConstant.imgGroup1000003172,
                 onTap: () {
                   NavigatorHelper.of(context)
-                      .pushNamed(ChooseLanguagePage.routeName);
+                      .pushNamed(ChooseLanguagePage.routeName, arguments: true);
                 },
               ),
               SettingTile(

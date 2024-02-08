@@ -4,6 +4,7 @@ import 'package:flutter_svg/flutter_svg.dart';
 import 'package:masaj/core/app_export.dart';
 import 'package:masaj/core/data/di/injector.dart';
 import 'package:masaj/core/presentation/overlay/show_snack_bar.dart';
+import 'package:masaj/core/presentation/widgets/stateless/custom_app_bar.dart';
 import 'package:masaj/core/presentation/widgets/stateless/custom_app_page.dart';
 import 'package:masaj/core/presentation/widgets/stateless/custom_radio_list_tile.dart';
 import 'package:masaj/core/presentation/widgets/stateless/custom_text.dart';
@@ -18,7 +19,9 @@ import 'package:masaj/features/splash/presentation/splash_cubit/splash_cubit.dar
 class ChooseLanguagePage extends StatefulWidget {
   static const routeName = '/ChooseLanguagePage';
 
-  const ChooseLanguagePage({super.key});
+  final bool fromSetting;
+
+  const ChooseLanguagePage({super.key, this.fromSetting = false});
 
   @override
   State<ChooseLanguagePage> createState() => _ChooseLanguagePageState();
@@ -72,13 +75,17 @@ class _ChooseLanguagePageState extends State<ChooseLanguagePage> {
       padding: const EdgeInsets.symmetric(horizontal: 24.0),
       child: Column(
         mainAxisAlignment: MainAxisAlignment.start,
-        crossAxisAlignment: CrossAxisAlignment.center,
+        crossAxisAlignment: widget.fromSetting
+            ? CrossAxisAlignment.start
+            : CrossAxisAlignment.center,
         children: [
-          SizedBox(height: 62.h),
-          CustomImageView(
-              imagePath: ImageConstant.imgLayer2Gray90003,
-              height: 19.h,
-              width: 121.w),
+          _buildAppBar(),
+          widget.fromSetting
+              ? SizedBox.shrink()
+              : CustomImageView(
+                  imagePath: ImageConstant.imgLayer2Gray90003,
+                  height: 19.h,
+                  width: 121.w),
           SizedBox(height: 18.h),
           Text("msg_choose_app_language".tr(),
               style: CustomTextStyles.titleMediumGray90002),
@@ -128,14 +135,29 @@ class _ChooseLanguagePageState extends State<ChooseLanguagePage> {
     );
   }
 
+  Widget _buildAppBar() {
+    return widget.fromSetting
+        ? const CustomAppBar(
+            title: 'lbl_language',
+            elevation: 0.0,
+          )
+        : SizedBox(height: 62.h);
+  }
+
   Widget _buildNextButton(BuildContext context) {
     final cubit = context.read<ChooseLanguageCubit>();
 
     return DefaultButton(
       label: 'lbl_continue'.tr(),
       onPressed: () {
-        context.setLocale(_selectedLocal);
-        return cubit.saveLanguageCode(_selectedLocal.languageCode);
+        if (widget.fromSetting!) {
+          Navigator.pop(context);
+        } else {
+          setState(() {
+            context.setLocale(_selectedLocal);
+          });
+          return cubit.saveLanguageCode(_selectedLocal.languageCode);
+        }
       },
       isExpanded: true,
     );

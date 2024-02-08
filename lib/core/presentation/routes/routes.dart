@@ -73,8 +73,10 @@ Route<dynamic>? onGenerateRoute(RouteSettings settings) {
     case EditUserInfoPage.routeName:
       return MaterialPageRoute(builder: (context) => const EditUserInfoPage());
     case ChooseLanguagePage.routeName:
+      final bool? fromSetting = arguments as bool?;
       return MaterialPageRoute(
-          builder: (context) => const ChooseLanguagePage());
+          builder: (context) =>
+              ChooseLanguagePage(fromSetting: fromSetting ?? false));
     case EmailVerificationPage.routeName:
       return MaterialPageRoute(
           builder: (context) => const EmailVerificationPage());
