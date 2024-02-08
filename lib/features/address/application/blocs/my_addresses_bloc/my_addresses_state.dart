@@ -8,7 +8,7 @@ class MyAddressesState {
   const MyAddressesState(
       {required this.addresses, required this.selectedAddressIndex});
 
-  factory MyAddressesState.initial() => const MyAddressesState(
+  factory MyAddressesState.initial() => MyAddressesState(
       selectedAddressIndex: 0, addresses: DataLoadState.initial());
   List<Address> get addressesData =>
       (addresses as DataLoadLoadedState<List<Address>>).data;
