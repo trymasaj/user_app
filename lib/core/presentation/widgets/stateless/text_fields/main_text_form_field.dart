@@ -7,7 +7,7 @@ import 'package:masaj/core/presentation/colors/app_colors.dart';
 import 'package:rxdart/rxdart.dart';
 
 abstract class MainTextFormField extends StatefulWidget {
-  final FocusNode currentFocusNode;
+  final FocusNode? currentFocusNode;
   final FocusNode? nextFocusNode;
   final TextEditingController currentController;
   final String hintText;

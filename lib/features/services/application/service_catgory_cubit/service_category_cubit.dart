@@ -4,24 +4,22 @@ import 'package:masaj/features/services/data/models/service_category_model.dart'
 import 'package:masaj/features/services/data/repository/service_repository.dart';
 part 'service_category_state.dart';
 
-class ServiceCategoryCubit extends BaseCubit<ServcieCategoryState> {
+class ServiceCategoryCubit extends BaseCubit<ServiceCategoryState> {
   final ServiceRepository _serviceRepository;
 
   ServiceCategoryCubit(this._serviceRepository)
-      : super(const ServcieCategoryState());
+      : super(const ServiceCategoryState());
 
   Future<void> getServiceCategories() async {
-    print('________________');
-    emit(state.copyWith(status: ServcieCategoryStateStatus.loading));
+    emit(state.copyWith(status: ServiceCategoryStateStatus.loading));
     try {
       final serviceCategories = await _serviceRepository.getServiceCategories();
-      print(serviceCategories);
       emit(state.copyWith(
-          status: ServcieCategoryStateStatus.loaded,
+          status: ServiceCategoryStateStatus.loaded,
           serviceCategories: serviceCategories));
     } catch (e) {
       emit(state.copyWith(
-          status: ServcieCategoryStateStatus.error,
+          status: ServiceCategoryStateStatus.error,
           errorMessage: e.toString()));
     }
   }

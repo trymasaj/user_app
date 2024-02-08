@@ -1,8 +1,6 @@
 import 'dart:convert';
 
 import 'package:equatable/equatable.dart';
-import 'package:flutter/widgets.dart';
-import 'package:masaj/core/app_export.dart';
 
 class ServiceCategory extends Equatable {
   final int? id;

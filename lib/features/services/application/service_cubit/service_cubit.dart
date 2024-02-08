@@ -9,10 +9,10 @@ import 'package:masaj/features/services/data/repository/service_repository.dart'
 
 part 'service_state.dart';
 
-class ServiceCubit extends BaseCubit<ServcieState> {
+class ServiceCubit extends BaseCubit<ServiceState> {
   final ServiceRepository _serviceRepository;
 
-  ServiceCubit(this._serviceRepository) : super(const ServcieState());
+  ServiceCubit(this._serviceRepository) : super(const ServiceState());
   void setServiceCategory(
       {ServiceCategory? selectedServiceCategory,
       required List<ServiceCategory> allServicesCategories}) {
@@ -28,29 +28,30 @@ class ServiceCubit extends BaseCubit<ServcieState> {
       });
     }
     emit(state.copyWith(
-        slectedServiceCategory: selectedServiceCategory,
+        selectedServiceCategory: selectedServiceCategory,
         allServiceCategories: allServicesCategories));
   }
 
-  void setSelectedServiceCategory(ServiceCategory selectedServiceCategory) {
-    emit(state.copyWith(slectedServiceCategory: selectedServiceCategory));
-    loadServices();
+  Future<void> setSelectedServiceCategory(
+      ServiceCategory selectedServiceCategory) async {
+    emit(state.copyWith(selectedServiceCategory: selectedServiceCategory));
+    await loadServices();
   }
 
-// setsearch keyword
-  void setSearchKeyword(String searchKeyword) {
+// set search keyword
+  Future<void> setSearchKeyword(String searchKeyword) async {
     emit(state.copyWith(
         searchKeyword: searchKeyword, clearSearch: searchKeyword.isEmpty));
-    loadServices();
+    await loadServices();
   }
 
   Future<void> loadServices({
     bool refresh = false,
   }) async {
     if (refresh) {
-      emit(state.copyWith(status: ServcieStateStatus.isRefreshing));
+      emit(state.copyWith(status: ServiceStateStatus.isRefreshing));
     } else {
-      emit(state.copyWith(status: ServcieStateStatus.loading));
+      emit(state.copyWith(status: ServiceStateStatus.loading));
     }
     try {
       final services = await _serviceRepository.getServices(ServiceQueryModel(
@@ -61,21 +62,21 @@ class ServiceCubit extends BaseCubit<ServcieState> {
           page: 1,
           pageSize: state.pageSize));
       emit(state.copyWith(
-        status: ServcieStateStatus.loaded,
+        status: ServiceStateStatus.loaded,
         services: services,
         page: 1,
         searchKeyword: state.searchKeyword,
       ));
     } catch (e) {
       emit(state.copyWith(
-          status: ServcieStateStatus.error, errorMessage: e.toString()));
+          status: ServiceStateStatus.error, errorMessage: e.toString()));
     }
   }
 
   Future<void> loadMoreServices() async {
     if (state.isLoadingMore) return;
     if (state.services?.data?.isEmpty ?? true) return;
-    emit(state.copyWith(status: ServcieStateStatus.loadingMore));
+    emit(state.copyWith(status: ServiceStateStatus.loadingMore));
     try {
       final oldServices = state.services;
       final services = await _serviceRepository.getServices(ServiceQueryModel(
@@ -86,7 +87,7 @@ class ServiceCubit extends BaseCubit<ServcieState> {
           page: state.page! + 1,
           pageSize: state.pageSize));
       emit(state.copyWith(
-          status: ServcieStateStatus.loaded,
+          status: ServiceStateStatus.loaded,
           services: services.copyWith(data: [
             ...oldServices!.data ?? [],
             ...services.data ?? [],
@@ -94,21 +95,21 @@ class ServiceCubit extends BaseCubit<ServcieState> {
           page: state.page! + 1));
     } catch (e) {
       emit(state.copyWith(
-          status: ServcieStateStatus.error, errorMessage: e.toString()));
+          status: ServiceStateStatus.error, errorMessage: e.toString()));
     }
   }
 
   // set price range
-  void setPriceRange(
-      double? priceFrom, double? priceTo, double? maxPrice, double? minPrice) {
+  Future<void> setPriceRange(double? priceFrom, double? priceTo,
+      double? maxPrice, double? minPrice) async {
     emit(state.copyWith(priceFrom: priceFrom, priceTo: priceTo));
-    loadServices();
+    await loadServices();
   }
 
   // clear filter
-  void clearFilter() {
+  Future<void> clearFilter() async {
     emit(state.copyWith(priceFrom: null, priceTo: null, clearPrice: true));
-    loadServices();
+    await loadServices();
   }
 
   // Future<void> getServices(

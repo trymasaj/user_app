@@ -1,24 +1,10 @@
-import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_svg/svg.dart';
 import 'package:masaj/core/app_export.dart';
-import 'package:masaj/core/data/di/injector.dart';
-import 'package:masaj/core/domain/enums/focus_area_enum.dart';
-import 'package:masaj/core/presentation/colors/app_colors.dart';
-import 'package:masaj/core/presentation/navigation/navigator_helper.dart';
-import 'package:masaj/core/presentation/widgets/stateful/full_screen_video.dart';
-import 'package:masaj/core/presentation/widgets/stateless/custom_cached_network_image.dart';
 import 'package:masaj/core/presentation/widgets/stateless/custom_chip.dart';
-import 'package:masaj/core/presentation/widgets/stateless/custom_loading.dart';
 import 'package:masaj/core/presentation/widgets/stateless/custom_text.dart';
-import 'package:masaj/core/presentation/widgets/stateless/custom_text_form_field.dart';
-import 'package:masaj/core/presentation/widgets/stateless/default_button.dart';
 import 'package:masaj/core/presentation/widgets/stateless/text_with_gradiant.dart';
-import 'package:masaj/features/focus_area/presentation/pages/focus_area_page.dart';
 import 'package:masaj/features/services/application/service_details_cubit/service_details_cubit.dart';
 import 'package:masaj/features/services/data/models/service_model.dart';
-import 'package:masaj/gen/assets.gen.dart';
-import 'package:video_player/video_player.dart';
 
 class DurationsSection extends StatelessWidget {
   const DurationsSection({

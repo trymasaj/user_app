@@ -58,8 +58,8 @@ class SettingsTabPage extends StatelessWidget {
                           },
                           height: 48.h,
                           text: context.read<AuthCubit>().state.isLoggedIn
-                              ? 'lbl_logout'
-                              : 'login'.tr(context: context),
+                              ? 'lbl_logout'.tr()
+                              : 'login'.tr(),
                           buttonStyle: ElevatedButton.styleFrom(
                               backgroundColor: const Color(0xffF9ECEE)),
                           buttonTextStyle: CustomTextStyles.titleSmallPink700)

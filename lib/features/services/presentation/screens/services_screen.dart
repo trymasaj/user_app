@@ -82,7 +82,7 @@ class _ServicesScreenState extends State<ServicesScreen> {
             ),
 
             Expanded(
-              child: BlocConsumer<ServiceCubit, ServcieState>(
+              child: BlocConsumer<ServiceCubit, ServiceState>(
                 listener: (context, state) {
                   if (state.isError) {
                     ScaffoldMessenger.of(context).showSnackBar(
@@ -225,7 +225,7 @@ class _ServicesScreenState extends State<ServicesScreen> {
 
   // build loading more
   Widget _buildLoadingMore(BuildContext context) {
-    return BlocBuilder<ServiceCubit, ServcieState>(
+    return BlocBuilder<ServiceCubit, ServiceState>(
       builder: (context, state) {
         if (state.isLoadingMore) {
           return SizedBox(
@@ -244,7 +244,7 @@ class _ServicesScreenState extends State<ServicesScreen> {
   Widget _buildServiceCategoryTap(
     BuildContext context,
   ) {
-    return BlocBuilder<ServiceCubit, ServcieState>(
+    return BlocBuilder<ServiceCubit, ServiceState>(
       builder: (context, state) {
         return SizedBox(
           height: 50.h,

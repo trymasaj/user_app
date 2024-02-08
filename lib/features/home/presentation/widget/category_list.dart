@@ -15,9 +15,9 @@ class CategoriesList extends StatelessWidget {
     return SliverToBoxAdapter(
       child: SizedBox(
         height: 140.h,
-        child: BlocBuilder<ServiceCategoryCubit, ServcieCategoryState>(
+        child: BlocBuilder<ServiceCategoryCubit, ServiceCategoryState>(
           builder: (context, state) {
-            if (state.status == ServcieCategoryStateStatus.loading) {
+            if (state.status == ServiceCategoryStateStatus.loading) {
               return const CustomLoading(
                 loadingStyle: LoadingStyle.ShimmerList,
               );

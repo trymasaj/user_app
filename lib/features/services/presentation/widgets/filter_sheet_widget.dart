@@ -161,7 +161,7 @@ class _FilterWidgetSheetState extends State<FilterWidgetSheet> {
                       Row(
                         children: [
                           Text(
-                            'price'.tr(),
+                            'lbl_price'.tr(),
                             style: const TextStyle(
                               fontSize: 14,
                               fontWeight: FontWeight.w500,
@@ -177,6 +177,11 @@ class _FilterWidgetSheetState extends State<FilterWidgetSheet> {
                           Expanded(
                             child: CustomTextFormField(
                               autofocus: false,
+                              textStyle: const TextStyle(
+                                fontSize: 14,
+                                fontWeight: FontWeight.w500,
+                                color: Color(0xff1D212C),
+                              ),
                               inputFormatters: [
                                 // filtering the input to not allow inpuut more than the _endValue
                                 FilteringTextInputFormatter.allow(
@@ -193,6 +198,11 @@ class _FilterWidgetSheetState extends State<FilterWidgetSheet> {
                           Expanded(
                             child: CustomTextFormField(
                               autofocus: false,
+                              textStyle: const TextStyle(
+                                fontSize: 14,
+                                fontWeight: FontWeight.w500,
+                                color: Color(0xff1D212C),
+                              ),
                               focusNode: _toFocusNode,
                               controller: _toController,
                               textInputType: TextInputType.number,

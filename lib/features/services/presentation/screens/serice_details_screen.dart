@@ -8,18 +8,16 @@ import 'package:masaj/core/presentation/colors/app_colors.dart';
 import 'package:masaj/core/presentation/navigation/navigator_helper.dart';
 import 'package:masaj/core/presentation/widgets/stateful/full_screen_video.dart';
 import 'package:masaj/core/presentation/widgets/stateless/custom_cached_network_image.dart';
-import 'package:masaj/core/presentation/widgets/stateless/custom_chip.dart';
 import 'package:masaj/core/presentation/widgets/stateless/custom_loading.dart';
 import 'package:masaj/core/presentation/widgets/stateless/custom_text.dart';
 import 'package:masaj/core/presentation/widgets/stateless/custom_text_form_field.dart';
 import 'package:masaj/core/presentation/widgets/stateless/default_button.dart';
+import 'package:masaj/core/presentation/widgets/stateless/text_fields/default_text_form_field.dart';
 import 'package:masaj/core/presentation/widgets/stateless/text_with_gradiant.dart';
 import 'package:masaj/features/focus_area/presentation/pages/focus_area_page.dart';
 import 'package:masaj/features/services/application/service_details_cubit/service_details_cubit.dart';
 import 'package:masaj/features/services/data/models/service_model.dart';
 import 'package:masaj/features/services/presentation/widgets/deuration_section.dart';
-import 'package:masaj/gen/assets.gen.dart';
-import 'package:video_player/video_player.dart';
 
 class ServiceDetailsScreen extends StatefulWidget {
   const ServiceDetailsScreen({super.key, required this.id});
@@ -95,6 +93,7 @@ class _ServiceDetailsScreenState extends State<ServiceDetailsScreen> {
           ),
         ),
         body: SafeArea(
+          top: false,
           child: BlocBuilder<ServiceDetailsCubit, ServiceDetailsState>(
             builder: (context, state) {
               return SingleChildScrollView(
@@ -308,7 +307,7 @@ class _ServiceDetailsScreenState extends State<ServiceDetailsScreen> {
                           if (state.service!.serviceAddons!.isNotEmpty)
                             Column(
                               children: [
-                                AddonsSecion(
+                                AddonsSection(
                                   addons: state.service!.serviceAddons!,
                                 ),
                                 Container(
@@ -319,7 +318,7 @@ class _ServiceDetailsScreenState extends State<ServiceDetailsScreen> {
                               ],
                             ),
                           // total section
-                          const TotalSetion(),
+                          const TotalSection(),
 
                           const SizedBox(
                             height: 100,
@@ -335,10 +334,10 @@ class _ServiceDetailsScreenState extends State<ServiceDetailsScreen> {
   }
 }
 
-// TotalSetion
+// TotalSection
 
-class TotalSetion extends StatelessWidget {
-  const TotalSetion({
+class TotalSection extends StatelessWidget {
+  const TotalSection({
     super.key,
   });
   @override
@@ -423,8 +422,8 @@ class TotalSetion extends StatelessWidget {
 
 // full screen video player
 
-class AddonsSecion extends StatelessWidget {
-  const AddonsSecion({
+class AddonsSection extends StatelessWidget {
+  const AddonsSection({
     super.key,
     required this.addons,
   });
@@ -594,15 +593,11 @@ class _FocusAreaSectionState extends State<FocusAreaSection> {
                 height: 8.h,
               ),
               // text field
-              CustomTextFormField(
-                controller: widget.controller,
+              DefaultTextFormField(
+                currentController: widget.controller,
                 readOnly: true,
-                borderDecoration: const OutlineInputBorder(
-                  borderRadius: BorderRadius.all(Radius.circular(12)),
-                  borderSide: BorderSide(
-                    color: Color(0xffD9D9D9),
-                  ),
-                ),
+                currentFocusNode: null,
+                hint: 'select_focus_area',
               ),
               SizedBox(
                 height: 18.h,
@@ -615,7 +610,7 @@ class _FocusAreaSectionState extends State<FocusAreaSection> {
   }
 }
 
-// vido player widget
+// video player widget
 
 class ServiceImagesViewWidget extends StatefulWidget {
   const ServiceImagesViewWidget({

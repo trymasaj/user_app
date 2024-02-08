@@ -1,34 +1,34 @@
 part of 'service_category_cubit.dart';
 
-enum ServcieCategoryStateStatus { initial, loading, loaded, error }
+enum ServiceCategoryStateStatus { initial, loading, loaded, error }
 
-extension AuthStateX on ServcieCategoryState {
-  bool get isInitial => status == ServcieCategoryStateStatus.initial;
+extension AuthStateX on ServiceCategoryState {
+  bool get isInitial => status == ServiceCategoryStateStatus.initial;
 
-  bool get isLoading => status == ServcieCategoryStateStatus.loading;
+  bool get isLoading => status == ServiceCategoryStateStatus.loading;
 
-  bool get isLoaded => status == ServcieCategoryStateStatus.loaded;
+  bool get isLoaded => status == ServiceCategoryStateStatus.loaded;
 
-  bool get isError => status == ServcieCategoryStateStatus.error;
+  bool get isError => status == ServiceCategoryStateStatus.error;
 }
 
-class ServcieCategoryState extends Equatable {
-  final ServcieCategoryStateStatus status;
+class ServiceCategoryState extends Equatable {
+  final ServiceCategoryStateStatus status;
   final List<ServiceCategory> serviceCategories;
   final String? errorMessage;
 
-  const ServcieCategoryState(
-      {this.status = ServcieCategoryStateStatus.initial,
+  const ServiceCategoryState(
+      {this.status = ServiceCategoryStateStatus.initial,
       this.serviceCategories = const [],
       this.errorMessage});
 
   // copy with
-  ServcieCategoryState copyWith({
-    ServcieCategoryStateStatus? status,
+  ServiceCategoryState copyWith({
+    ServiceCategoryStateStatus? status,
     List<ServiceCategory>? serviceCategories,
     String? errorMessage,
   }) {
-    return ServcieCategoryState(
+    return ServiceCategoryState(
       status: status ?? this.status,
       serviceCategories: serviceCategories ?? this.serviceCategories,
       errorMessage: errorMessage ?? this.errorMessage,

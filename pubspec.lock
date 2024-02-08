@@ -117,10 +117,10 @@ packages:
     dependency: transitive
     description:
       name: build_runner_core
-      sha256: c9e32d21dd6626b5c163d48b037ce906bbe428bc23ab77bcd77bb21e593b6185
+      sha256: "4ae8ffe5ac758da294ecf1802f2aff01558d8b1b00616aa7538ea9a8a5d50799"
       url: "https://pub.dev"
     source: hosted
-    version: "7.2.11"
+    version: "7.3.0"
   built_collection:
     dependency: transitive
     description:
@@ -852,10 +852,10 @@ packages:
     dependency: "direct main"
     description:
       name: flutter_typeahead
-      sha256: ef2dd5a505d2d95a5b4c571c81ad2d6e7955f583dddec49064fec57acffd7a96
+      sha256: e2070dea278f09ae30885872138ccae75292b33b7af2c241fec5ceafd980c374
       url: "https://pub.dev"
     source: hosted
-    version: "5.0.2"
+    version: "5.1.0"
   flutter_wallet:
     dependency: "direct main"
     description:
@@ -874,10 +874,10 @@ packages:
     dependency: "direct main"
     description:
       name: font_awesome_flutter
-      sha256: "52671aea66da73b58d42ec6d0912b727a42248dd9a7c76d6c20f275783c48c08"
+      sha256: "275ff26905134bcb59417cf60ad979136f1f8257f2f449914b2c3e05bbb4cd6f"
       url: "https://pub.dev"
     source: hosted
-    version: "10.6.0"
+    version: "10.7.0"
   form_builder_validators:
     dependency: "direct main"
     description:
@@ -954,18 +954,18 @@ packages:
     dependency: transitive
     description:
       name: geolocator_platform_interface
-      sha256: "6c8d494d6948757c56720b778af742f6973f31fca1f702a7539b8917e4a2468a"
+      sha256: "3b95ecdc36462c47dbc535dcfedea774d03ccd1f3c9864e0a02ad088eeff4508"
       url: "https://pub.dev"
     source: hosted
-    version: "4.2.0"
+    version: "4.2.1"
   geolocator_web:
     dependency: transitive
     description:
       name: geolocator_web
-      sha256: "59083f7e0871b78299918d92bf930a14377f711d2d1156c558cd5ebae6c20d58"
+      sha256: "102e7da05b48ca6bf0a5bda0010f886b171d1a08059f01bfe02addd0175ebece"
       url: "https://pub.dev"
     source: hosted
-    version: "2.2.0"
+    version: "2.2.1"
   geolocator_windows:
     dependency: transitive
     description:
@@ -1234,10 +1234,10 @@ packages:
     dependency: transitive
     description:
       name: image
-      sha256: "004a2e90ce080f8627b5a04aecb4cdfac87d2c3f3b520aa291260be5a32c033d"
+      sha256: "49a0d4b0c12402853d3f227fe7c315601b238d126aa4caa5dbb2dcf99421aa4a"
       url: "https://pub.dev"
     source: hosted
-    version: "4.1.4"
+    version: "4.1.6"
   image_picker:
     dependency: "direct main"
     description:
@@ -1834,10 +1834,10 @@ packages:
     dependency: "direct main"
     description:
       name: share_plus
-      sha256: f74fc3f1cbd99f39760182e176802f693fa0ec9625c045561cfad54681ea93dd
+      sha256: "3ef39599b00059db0990ca2e30fca0a29d8b37aae924d60063f8e0184cf20900"
       url: "https://pub.dev"
     source: hosted
-    version: "7.2.1"
+    version: "7.2.2"
   share_plus_platform_interface:
     dependency: transitive
     description:
@@ -2175,26 +2175,26 @@ packages:
     dependency: transitive
     description:
       name: vector_graphics
-      sha256: "18f6690295af52d081f6808f2f7c69f0eed6d7e23a71539d75f4aeb8f0062172"
+      sha256: "4ac59808bbfca6da38c99f415ff2d3a5d7ca0a6b4809c71d9cf30fba5daf9752"
       url: "https://pub.dev"
     source: hosted
-    version: "1.1.9+2"
+    version: "1.1.10+1"
   vector_graphics_codec:
     dependency: transitive
     description:
       name: vector_graphics_codec
-      sha256: "531d20465c10dfac7f5cd90b60bbe4dd9921f1ec4ca54c83ebb176dbacb7bb2d"
+      sha256: f3247e7ab0ec77dc759263e68394990edc608fb2b480b80db8aa86ed09279e33
       url: "https://pub.dev"
     source: hosted
-    version: "1.1.9+2"
+    version: "1.1.10+1"
   vector_graphics_compiler:
     dependency: transitive
     description:
       name: vector_graphics_compiler
-      sha256: "03012b0a33775c5530576b70240308080e1d5050f0faf000118c20e6463bc0ad"
+      sha256: "18489bdd8850de3dd7ca8a34e0c446f719ec63e2bab2e7a8cc66a9028dd76c5a"
       url: "https://pub.dev"
     source: hosted
-    version: "1.1.9+2"
+    version: "1.1.10+1"
   vector_math:
     dependency: transitive
     description:

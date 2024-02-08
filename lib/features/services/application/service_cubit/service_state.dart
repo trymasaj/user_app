@@ -1,6 +1,6 @@
 part of 'service_cubit.dart';
 
-enum ServcieStateStatus {
+enum ServiceStateStatus {
   initial,
   loading,
   loaded,
@@ -9,20 +9,20 @@ enum ServcieStateStatus {
   isRefreshing
 }
 
-extension AuthStateX on ServcieState {
-  bool get isInitial => status == ServcieStateStatus.initial;
+extension AuthStateX on ServiceState {
+  bool get isInitial => status == ServiceStateStatus.initial;
 
-  bool get isLoading => status == ServcieStateStatus.loading;
+  bool get isLoading => status == ServiceStateStatus.loading;
 
-  bool get isLoaded => status == ServcieStateStatus.loaded;
+  bool get isLoaded => status == ServiceStateStatus.loaded;
 
-  bool get isError => status == ServcieStateStatus.error;
-  bool get isLoadingMore => status == ServcieStateStatus.loadingMore;
-  bool get isRefreshing => status == ServcieStateStatus.isRefreshing;
+  bool get isError => status == ServiceStateStatus.error;
+  bool get isLoadingMore => status == ServiceStateStatus.loadingMore;
+  bool get isRefreshing => status == ServiceStateStatus.isRefreshing;
 }
 
-class ServcieState extends Equatable {
-  final ServcieStateStatus status;
+class ServiceState extends Equatable {
+  final ServiceStateStatus status;
   final ServicesResponse? services;
   final String? errorMessage;
   final int? page;
@@ -35,8 +35,8 @@ class ServcieState extends Equatable {
   final bool? hasReachedMax;
   final ServiceCategory? slectedServiceCategory;
   final List<ServiceCategory>? allServiceCategories;
-  const ServcieState(
-      {this.status = ServcieStateStatus.initial,
+  const ServiceState(
+      {this.status = ServiceStateStatus.initial,
       this.page = 1,
       this.pageSize = 10,
       this.slectedServiceCategory,
@@ -51,10 +51,10 @@ class ServcieState extends Equatable {
       this.errorMessage});
 
   // copy with
-  ServcieState copyWith({
-    ServcieStateStatus? status,
+  ServiceState copyWith({
+    ServiceStateStatus? status,
     ServicesResponse? services,
-    ServiceCategory? slectedServiceCategory,
+    ServiceCategory? selectedServiceCategory,
     List<ServiceCategory>? allServiceCategories,
     int? page,
     int? pageSize,
@@ -70,7 +70,7 @@ class ServcieState extends Equatable {
     String? searchKeyword,
     bool clearSearch = false,
   }) {
-    return ServcieState(
+    return ServiceState(
         status: status ?? this.status,
         searchKeyword: clearSearch ? null : searchKeyword ?? this.searchKeyword,
         services: services ?? this.services,
@@ -81,7 +81,7 @@ class ServcieState extends Equatable {
         maxPrice: clearPrice == true ? 1000 : maxPrice ?? this.maxPrice,
         minPrice: clearPrice == true ? 0 : minPrice ?? this.minPrice,
         slectedServiceCategory:
-            slectedServiceCategory ?? this.slectedServiceCategory,
+            selectedServiceCategory ?? this.slectedServiceCategory,
         priceFrom: clearPrice == true ? null : priceFrom ?? this.priceFrom,
         priceTo: clearPrice == true ? null : priceTo ?? this.priceTo,
         allServiceCategories:

@@ -13,14 +13,20 @@ class ServiceDetailsCubit extends BaseCubit<ServiceDetailsState> {
   final ServiceRepository _serviceRepository;
 
   Future<void> getServiceDetails(int id) async {
-    emit(state.copyWith(status: ServiceDetailsStateStatus.loading));
+    emit(state.copyWith(
+      status: ServiceDetailsStateStatus.loading,
+    ));
     try {
       final service = await _serviceRepository.getSingleService(id);
       emit(state.copyWith(
-          status: ServiceDetailsStateStatus.loaded, service: service));
+        status: ServiceDetailsStateStatus.loaded,
+        service: service,
+      ));
     } catch (e) {
       emit(state.copyWith(
-          status: ServiceDetailsStateStatus.error, errorMessage: e.toString()));
+        status: ServiceDetailsStateStatus.error,
+        errorMessage: e.toString(),
+      ));
     }
   }
 }
