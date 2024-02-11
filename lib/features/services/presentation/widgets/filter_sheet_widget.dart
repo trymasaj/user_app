@@ -238,7 +238,6 @@ class _FilterWidgetSheetState extends State<FilterWidgetSheet> {
                         Navigator.pop(context, values);
                         widget.serviceCubit.setPriceRange(
                             values.start, values.end, _starterValue, _endValue);
-                        widget.serviceCubit.loadServices();
                       },
                       label: 'apply'.tr()),
                 ),
