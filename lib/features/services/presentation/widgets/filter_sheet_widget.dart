@@ -135,7 +135,6 @@ class _FilterWidgetSheetState extends State<FilterWidgetSheet> {
                           InkWell(
                             onTap: () {
                               widget.serviceCubit.clearFilter();
-                              widget.serviceCubit.loadServices();
 
                               Navigator.pop(context);
                             },
