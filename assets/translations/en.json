@@ -869,5 +869,7 @@
     "Hours": "Hours",
     "add_on_s": "Add On’s",
     "popular": "Popular",
-    "country_validation": "Please enter a valid country"
+    "country_validation": "Please enter a valid country",
+    "filter": "Filter",
+    "clear": "Clear"
 }

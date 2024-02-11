@@ -759,5 +759,7 @@
   "Hours": "ساعات",
   "add_on_s": "إضافات",
   "popular": "الأكثر شعبية",
-  "country_validation": "ادخل دولة"
+  "country_validation": "ادخل دولة",
+  "filter": "تصفية",
+  "clear": "مسح"
 }
