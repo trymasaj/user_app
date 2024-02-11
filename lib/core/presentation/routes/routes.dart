@@ -68,7 +68,7 @@ Route<dynamic>? onGenerateRoute(RouteSettings settings) {
           builder: (context) => const ChangePasswordPage());
     case SelectLocationScreen.routeName:
       return MaterialPageRoute(
-          builder: (context) => SelectLocationScreen.builder(context));
+          builder: (context) => const SelectLocationScreen());
     case EditUserInfoPage.routeName:
       return MaterialPageRoute(builder: (context) => const EditUserInfoPage());
     case ChooseLanguagePage.routeName:

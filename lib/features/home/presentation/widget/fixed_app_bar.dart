@@ -171,7 +171,12 @@ class FixedAppBar extends StatelessWidget {
   }
 
   void _goToSelectLocationPage(BuildContext context) =>
-      NavigatorHelper.of(context).pushNamed(SelectLocationScreen.routeName);
+      NavigatorHelper.of(context).push(
+        MaterialPageRoute(
+            builder: (context) => SelectLocationScreen(
+                  isFromHomePage: true,
+                )),
+      );
 
   Widget _buildLocationForUser(BuildContext context) {
     return BlocConsumer<CountryCubit, CountryState>(
@@ -205,7 +210,6 @@ class FixedAppBar extends StatelessWidget {
             showBottomSheet(
               context: context,
               elevation: 4,
-              
               builder: (context) => SelectLocationBottomSheet(
                 onSave: () async {
                   final myAddressCubit = context.read<MyAddressesCubit>();
