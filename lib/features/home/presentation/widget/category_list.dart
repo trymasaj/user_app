@@ -62,7 +62,7 @@ class CategoriesList extends StatelessWidget {
                             borderRadius: BorderRadius.circular(6),
                             image: DecorationImage(
                               image: NetworkImage(
-                                category.image ?? '',
+                                category.imageUrl ?? '',
                               ),
                               fit: BoxFit.cover,
                             ),

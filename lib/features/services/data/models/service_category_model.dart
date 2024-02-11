@@ -8,7 +8,7 @@ class ServiceCategory extends Equatable {
   final String? descriptionAr;
   final String? nameEn;
   final String? nameAr;
-  final String? image;
+  final String? imageUrl;
   final String? name;
 
   const ServiceCategory(
@@ -17,7 +17,7 @@ class ServiceCategory extends Equatable {
       this.descriptionAr,
       this.nameEn,
       this.nameAr,
-      this.image,
+      this.imageUrl,
       this.name});
 
   factory ServiceCategory.fromMap(Map<String, dynamic> json) {
@@ -27,7 +27,7 @@ class ServiceCategory extends Equatable {
         descriptionAr: json['descriptionAr'],
         nameEn: json['nameEn'],
         nameAr: json['nameAr'],
-        image: json['image'],
+        imageUrl: json['imageUrl'],
         name: json['name']);
   }
   // to map
@@ -38,7 +38,7 @@ class ServiceCategory extends Equatable {
       'descriptionAr': descriptionAr,
       'nameEn': nameEn,
       'nameAr': nameAr,
-      'image': image,
+      'imageUrl': imageUrl,
     }..removeWhere((key, value) => value == null);
   }
 
@@ -49,7 +49,7 @@ class ServiceCategory extends Equatable {
       String? descriptionAr,
       String? nameEn,
       String? nameAr,
-      String? image,
+      String? imageUrl,
       String? name}) {
     return ServiceCategory(
         id: id ?? this.id,
@@ -57,7 +57,7 @@ class ServiceCategory extends Equatable {
         descriptionAr: descriptionAr ?? this.descriptionAr,
         nameEn: nameEn ?? this.nameEn,
         nameAr: nameAr ?? this.nameAr,
-        image: image ?? this.image,
+        imageUrl: imageUrl ?? this.imageUrl,
         name: name ?? this.name);
   }
 
@@ -68,5 +68,5 @@ class ServiceCategory extends Equatable {
 
   @override
   List<Object?> get props =>
-      [id, descriptionEn, descriptionAr, nameEn, nameAr, image, name];
+      [id, descriptionEn, descriptionAr, nameEn, nameAr, imageUrl, name];
 }
