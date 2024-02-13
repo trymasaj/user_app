@@ -19,4 +19,16 @@ class ChooseLanguageCubit extends BaseCubit<ChooseLanguageState> {
           status: ChooseLanguageStateStatus.error, errorMessage: e.toString()));
     }
   }
+
+  Future<void> saveLanguageCodeFromSetting(String languageCode) async {
+    emit(state.copyWith(status: ChooseLanguageStateStatus.loading));
+    try {
+      await _introRepository.setLanguageCode(languageCode);
+      emit(state.copyWith(
+          status: ChooseLanguageStateStatus.languageSetFromSetting));
+    } catch (e) {
+      emit(state.copyWith(
+          status: ChooseLanguageStateStatus.error, errorMessage: e.toString()));
+    }
+  }
 }
