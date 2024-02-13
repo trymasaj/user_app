@@ -56,7 +56,7 @@ class _SelectLocationScreenState extends State<SelectLocationScreen> {
               SizedBox(height: 2.h),
               Align(
                   alignment: Alignment.centerLeft,
-                  child: Text('msg_please_select_your2'.tr(),
+                  child: Text("msg_please_select_your2".tr(),
                       style: CustomTextStyles.bodyMediumGray60002)),
               SizedBox(height: 19.h),
               CountryAndRegionSelector(
@@ -64,7 +64,7 @@ class _SelectLocationScreenState extends State<SelectLocationScreen> {
                   decoration: InputDecoration(
                       contentPadding: EdgeInsets.symmetric(
                           horizontal: 18.w, vertical: 18.h),
-                      hintText: 'lbl_country'.tr(),
+                      hintText: "lbl_country".tr(),
                       hintStyle: CustomTextStyles.bodyMediumBluegray40001_1,
                       filled: true,
                       fillColor: appTheme.gray5001,
@@ -76,7 +76,7 @@ class _SelectLocationScreenState extends State<SelectLocationScreen> {
                       focusedErrorBorder: border)),
               SizedBox(height: 24.h),
               CustomElevatedButton(
-                  text: 'lbl_continue'.tr(),
+                  text: "lbl_continue".tr(),
                   buttonStyle: CustomButtonStyles.none,
                   decoration: CustomButtonStyles
                       .gradientSecondaryContainerToPrimaryDecoration,
@@ -90,8 +90,6 @@ class _SelectLocationScreenState extends State<SelectLocationScreen> {
   }
 
   onTapContinue(BuildContext context) async {
-    print('object');
-    formKey.currentState?.validate();
     final cubit = context.read<SelectAreaCubit>();
     final isCountrySet = await cubit.onContinuePressed();
     if (isCountrySet) {

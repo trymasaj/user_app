@@ -1,3 +1,4 @@
+import 'package:bloc/bloc.dart';
 import 'package:dartz/dartz.dart';
 import 'package:equatable/equatable.dart';
 import 'package:google_maps_flutter_platform_interface/src/types/location.dart';

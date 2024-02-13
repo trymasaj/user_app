@@ -4,7 +4,6 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:dartz/dartz.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_form_builder/flutter_form_builder.dart';
-import 'package:form_builder_validators/form_builder_validators.dart';
 import 'package:masaj/core/app_export.dart';
 import 'package:masaj/core/application/states/app_state.dart';
 import 'package:masaj/core/presentation/colors/app_colors.dart';
@@ -39,20 +38,19 @@ class CountryAndRegionSelector<T extends SelectAreaCubit>
         BlocSelector<T, SelectAreaState, DataLoadState<List<Country>>>(
             selector: (state) => state.countries,
             builder: (context, state) {
+              print('heloo ${controller.state.selectedCountry.toNullable()}');
               return LoadStateHandler(
                 customState: state,
                 onTapRetry: controller.getCountries,
                 onData: (data) {
                   return FormBuilderDropdown<Country>(
-                    key: form,
-                    validator: FormBuilderValidators.required(),
                     valueTransformer: (value) {
                       return value?.toMap();
                     },
                     name: Address.countryKey,
                     isExpanded: true,
                     decoration: decoration.copyWith(
-                      hintText: 'lbl_country'.tr(),
+                      hintText: "lbl_country".tr(),
                     ),
                     initialValue: controller.state.selectedCountry.toNullable(),
                     // value: state.selectedCountry.toNullable()?.id,
@@ -74,7 +72,7 @@ class CountryAndRegionSelector<T extends SelectAreaCubit>
                                   style: CustomTextStyles
                                       .bodyMediumOnErrorContainer,
                                 ),
-                                const Spacer(),
+                                Spacer(),
                                 Text(
                                   e.code ?? '',
                                   style: CustomTextStyles

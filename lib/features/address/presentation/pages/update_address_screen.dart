@@ -6,8 +6,6 @@ import 'package:flutter_form_builder/flutter_form_builder.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:masaj/core/app_export.dart';
 import 'package:masaj/core/data/di/injection_setup.dart';
-import 'package:masaj/core/presentation/widgets/stateless/custom_app_bar.dart';
-import 'package:masaj/core/presentation/widgets/stateless/custom_outlined_button.dart';
 import 'package:masaj/core/data/validator/validation_functions.dart';
 import 'package:masaj/core/presentation/colors/app_colors.dart';
 import 'package:masaj/core/presentation/widgets/stateless/custom_app_bar.dart';
@@ -18,6 +16,7 @@ import 'package:masaj/core/presentation/widgets/stateless/default_button.dart';
 import 'package:masaj/core/presentation/widgets/stateless/subtitle_text.dart';
 import 'package:masaj/core/presentation/widgets/stateless/title_text.dart';
 import 'package:masaj/features/address/application/blocs/add_new_address_bloc/update_address_bloc.dart';
+import 'package:masaj/features/address/application/blocs/my_addresses_bloc/my_addresses_cubit.dart';
 import 'package:masaj/features/address/application/blocs/select_location_bloc/select_location_bloc.dart';
 import 'package:masaj/features/address/domain/entities/address.dart';
 import 'package:form_builder_validators/form_builder_validators.dart';
@@ -66,7 +65,7 @@ class _EditAddressScreenState extends State<EditAddressScreen> {
   void initState() {
     // TODO: implement initState
     super.initState();
-    WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
+    WidgetsBinding.instance!.addPostFrameCallback((timeStamp) {
       formKey.currentState!.patchValue(widget.arguments.oldAddress.toMap());
     });
   }
@@ -96,7 +95,7 @@ class AddAddressScreen extends StatefulWidget {
             create: (context) => getIt<NotInitiallySelectAreaCubit>()..init(),
           ),
         ],
-        child: const AddAddressScreen(),
+        child: AddAddressScreen(),
       );
 
   @override
@@ -108,7 +107,7 @@ class _AddAddressScreenState extends State<AddAddressScreen> {
   @override
   void initState() {
     super.initState();
-    WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
+    WidgetsBinding.instance!.addPostFrameCallback((timeStamp) {
       formKey.currentState!.patchValue(kDebugMode
           ? {
               Address.buildingKey: 'test building',

@@ -1,18 +1,23 @@
 import 'package:masaj/core/app_export.dart';
+import 'package:masaj/core/presentation/decoration/app_decoration.dart';
+import 'package:masaj/core/presentation/widgets/stateless/custom_radio_button.dart';
 
+import '../../domain/entities/my_address_model.dart';
 import 'package:flutter/material.dart';
 
 // ignore: must_be_immutable
 class MyAddressTile extends StatelessWidget {
-  const MyAddressTile({
-    super.key,
+  MyAddressTile({
+    Key? key,
     required this.imagePath,
     required this.title,
     required this.onTap,
     required this.subTitle,
     required this.isPrimary,
     this.isRadioButtonVisible = true,
-  });
+  }) : super(
+          key: key,
+        );
 
   final String imagePath, title, subTitle;
   final bool isPrimary;
@@ -61,7 +66,7 @@ class MyAddressTile extends StatelessWidget {
             ),
             if (isRadioButtonVisible)
               Radio(
-                value: isPrimary,
+                value: this.isPrimary,
                 groupValue: true,
                 onChanged: (value) {},
               ),

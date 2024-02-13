@@ -45,7 +45,7 @@ class AddressRepo {
 
   Future<List<Area>> getAreas(int countryId) async {
     final response = await networkService.get(
-        '${ApiEndPoint.BASE_URL}/Countries/$countryId/areas',
+        '${ApiEndPoint.BASE_URL}/Countries/${countryId}/areas',
         headers: {'x-country-id': countryId.toString()});
     final result = (response.data as List).map((e) => Area.fromMap(e)).toList();
     return result;
@@ -98,7 +98,7 @@ class AddressRepo {
     log(jsonEncode({...address.toMap(), 'customerId': user!.id}));
     print('address to map');
     final result = await networkService.post(ApiEndPoint.ADDRESS,
-        data: {...address.toMap(), 'customerId': user.id});
+        data: {...address.toMap(), 'customerId': user!.id});
     return Address.fromMap(result.data);
   }
 

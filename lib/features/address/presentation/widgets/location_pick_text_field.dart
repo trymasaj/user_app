@@ -44,7 +44,7 @@ class LocationPickTextField extends StatelessWidget {
                   EdgeInsets.symmetric(horizontal: 18.w, vertical: 12.h),
               hintStyle: CustomTextStyles.bodyMediumBluegray40001_1,
               filled: true,
-              fillColor: const Color(0xffF6F6F6),
+              fillColor: Color(0xffF6F6F6),
               enabledBorder: border,
               focusedBorder: border,
               border: border,
@@ -61,10 +61,10 @@ class LocationPickTextField extends StatelessWidget {
             ListTile(
               title: Text(
                 city.address,
-                style: const TextStyle(color: AppColors.ACCENT_COLOR),
+                style: TextStyle(color: AppColors.ACCENT_COLOR),
               ),
             ),
-            const Divider()
+            Divider()
           ],
         );
       },

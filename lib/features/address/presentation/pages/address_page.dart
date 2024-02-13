@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:masaj/core/app_export.dart';
+import 'package:masaj/core/data/di/injection_setup.dart';
 import 'package:masaj/core/presentation/navigation/navigator_helper.dart';
 import 'package:masaj/core/presentation/widgets/stateless/custom_app_bar.dart';
 import 'package:masaj/core/presentation/widgets/stateless/state_widgets.dart';
+import 'package:masaj/features/address/application/blocs/add_new_address_bloc/update_address_bloc.dart';
 import 'package:masaj/features/address/application/blocs/my_addresses_bloc/my_addresses_cubit.dart';
 import 'package:masaj/features/address/domain/entities/address.dart';
 import 'package:masaj/features/address/presentation/pages/update_address_screen.dart';
@@ -10,7 +12,7 @@ import 'package:masaj/features/address/presentation/widgets/address_tile.dart';
 
 class AddressPage extends StatelessWidget {
   static const routeName = '/address';
-  const AddressPage({super.key});
+  const AddressPage({Key? key}) : super(key: key);
   @override
   Widget build(BuildContext context) {
     final controller = context.read<MyAddressesCubit>();
@@ -39,7 +41,7 @@ class AddressPage extends StatelessWidget {
               customState: state.addresses,
               onTapRetry: controller.getAddresses,
               onData: (data) => ListView.separated(
-                separatorBuilder: (context, index) => const Divider(
+                separatorBuilder: (context, index) => Divider(
                   height: 1,
                   color: Color(0xffE7E7E7),
                 ),

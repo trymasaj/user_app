@@ -1,3 +1,4 @@
+import 'package:dartz/dartz.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_slidable/flutter_slidable.dart';
 import 'package:flutter_svg/flutter_svg.dart';
@@ -16,10 +17,11 @@ class Dismissible extends StatelessWidget {
 
 class AddressTile extends StatelessWidget {
   const AddressTile(
-      {super.key,
+      {Key? key,
       required this.address,
       required this.onTap,
-      required this.onDeleted});
+      required this.onDeleted})
+      : super(key: key);
   final Address address;
   final VoidCallback onTap;
   final VoidCallback onDeleted;
@@ -37,7 +39,7 @@ class AddressTile extends StatelessWidget {
               children: [
                 SlidableAction(
                   onPressed: (context) => onDeleted(),
-                  backgroundColor: const Color(0xFFFE4A49),
+                  backgroundColor: Color(0xFFFE4A49),
                   foregroundColor: Colors.white,
                   icon: Icons.delete,
                   label: 'Delete',
@@ -64,16 +66,16 @@ class AddressTile extends StatelessWidget {
                 children: [
                   SizedBox(width: 12.w),
                   Container(
-                    decoration: const BoxDecoration(
+                    decoration: BoxDecoration(
                         shape: BoxShape.circle, color: Color(0xffF9F8F6)),
                     child: Padding(
-                      padding: const EdgeInsets.all(10.0),
+                      padding: EdgeInsets.all(10.0),
                       child: SvgPicture.asset(
                         ImageConstant.imgFluentLocation20Regular,
                         width: 22.w,
                         height: 22.h,
                         colorFilter:
-                            const ColorFilter.mode(Colors.black, BlendMode.srcIn),
+                            ColorFilter.mode(Colors.black, BlendMode.srcIn),
                       ),
                     ),
                   ),
@@ -88,7 +90,7 @@ class AddressTile extends StatelessWidget {
                               text: address.addressTitle,
                               fontSize: 16.fSize,
                               fontWeight: FontWeight.w500,
-                              color: const Color(0xff181B28),
+                              color: Color(0xff181B28),
                             ),
                             SizedBox(width: 5.w),
                             if (address.isPrimary)
@@ -112,7 +114,7 @@ class AddressTile extends StatelessWidget {
                           child: CustomText(
                             text: address.formattedAddress,
                             fontSize: 14.fSize,
-                            color: const Color(0xff5D5F69),
+                            color: Color(0xff5D5F69),
                           ),
                         )
                       ],

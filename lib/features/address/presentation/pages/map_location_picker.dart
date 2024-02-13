@@ -5,6 +5,7 @@ import 'package:flutter_svg/flutter_svg.dart';
 import 'package:map_location_picker/map_location_picker.dart';
 import 'package:masaj/core/app_export.dart';
 import 'package:masaj/core/data/di/injection_setup.dart';
+import 'package:masaj/core/data/di/injector.dart';
 import 'package:masaj/core/extenstions/context_extensions.dart';
 import 'package:masaj/features/address/application/blocs/map_location_picker_cubit/map_location_picker_cubit.dart';
 import 'package:masaj/features/address/presentation/overlay/location_bottom_sheet.dart';
@@ -81,7 +82,7 @@ class _MapLocationPickerState extends State<MapLocationPicker> {
                     initialCameraPosition: CameraPosition(
                         zoom: 13,
                         target:
-                            widget.arguments.initialLatlng ?? const LatLng(0, 0))),
+                            widget.arguments.initialLatlng ?? LatLng(0, 0))),
                 Center(
                     child: SvgPicture.asset(
                   'assets/images/img_fluent_location_48_filled.svg',
@@ -101,7 +102,7 @@ class _MapLocationPickerState extends State<MapLocationPicker> {
                             SizedBox(
                               width: 10.w,
                             ),
-                            const BackButton(),
+                            BackButton(),
                             SizedBox(
                               width: 2.w,
                             ),

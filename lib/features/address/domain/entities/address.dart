@@ -1,4 +1,5 @@
 import 'package:equatable/equatable.dart';
+import 'package:flutter/material.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:masaj/features/address/domain/entities/city.dart';
 import 'package:masaj/features/address/domain/entities/country.dart';
@@ -111,19 +112,19 @@ class Address with EquatableMixin {
       int? countryId,
       LatLng? latLng}) {
     return Address(
-      country: country ?? country,
-      area: area ?? area,
+      country: country ?? this.country,
+      area: area ?? this.area,
       id: id,
-      latlng: latLng ?? latlng,
+      latlng: latLng ?? this.latlng,
       nickName: nickName ?? this.nickName,
-      additionalDetails: additionalDirection ?? additionalDetails,
+      additionalDetails: additionalDirection ?? this.additionalDetails,
       block: block ?? this.block,
       street: street ?? this.street,
       avenue: avenue ?? this.avenue,
       building: building ?? this.building,
       floor: floor ?? this.floor,
       apartment: apartment ?? this.apartment,
-      googleMapAddress: type ?? googleMapAddress,
+      googleMapAddress: type ?? this.googleMapAddress,
       isPrimary: isPrimary ?? this.isPrimary,
     );
   }
