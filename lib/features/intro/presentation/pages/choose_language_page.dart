@@ -31,6 +31,13 @@ class _ChooseLanguagePageState extends State<ChooseLanguagePage> {
   Locale _selectedLocal = Locale('en');
 
   @override
+  void didChangeDependencies() {
+    // TODO: implement didChangeDependencies
+    super.didChangeDependencies();
+    _selectedLocal = context.locale;
+  }
+
+  @override
   Widget build(BuildContext context) {
     return CustomAppPage(
       safeTop: true,
