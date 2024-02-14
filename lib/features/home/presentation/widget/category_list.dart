@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:masaj/core/presentation/colors/app_colors.dart';
+import 'package:masaj/features/members/presentaion/pages/add_member_screen.dart';
 import 'package:masaj/gen/assets.gen.dart';
 
 class CategoriesList extends StatelessWidget {
@@ -19,7 +20,10 @@ class CategoriesList extends StatelessWidget {
           itemBuilder: (context, index) {
             //todo : remove after finish testing.....
             return GestureDetector(
-              onTap: () {},
+              onTap: () {
+                Navigator.push(context,
+                    MaterialPageRoute(builder: (_) => AddMemberScreen()));
+              },
               child: Container(
                 margin: const EdgeInsets.only(right: 10),
                 width: 100,

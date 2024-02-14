@@ -4,7 +4,7 @@ import 'package:masaj/core/presentation/navigation/navigator_helper.dart';
 import 'package:masaj/features/account/bloc/manage_members_bloc/manage_members_bloc.dart';
 import 'package:masaj/features/account/models/manage_members_model.dart';
 import 'package:masaj/features/account/models/member.dart';
-import 'package:masaj/features/account/pages/add_member_screen.dart';
+import 'package:masaj/features/members/presentaion/pages/add_member_screen.dart';
 import 'package:masaj/features/account/widgets/member_tile.dart';
 
 class ManageMembersScreen extends StatelessWidget {

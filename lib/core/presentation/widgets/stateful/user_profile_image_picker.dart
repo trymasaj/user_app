@@ -114,7 +114,7 @@ class _UserProfileImagePickerState extends State<UserProfileImagePicker> {
     return Container(
       width: size,
       height: size,
-      padding: const EdgeInsets.all(24.0),
+      padding: const EdgeInsets.all(12.0),
       decoration: BoxDecoration(
         color: Colors.white,
         borderRadius: BorderRadius.circular(20.0),
@@ -134,15 +134,19 @@ class _UserProfileImagePickerState extends State<UserProfileImagePicker> {
       desktopSmall: 34.0,
     );
     return PositionedDirectional(
-      end: -10.0,
-      top: -10.0,
+      start: 0.0,
+      bottom: 5.0,
       child: InkWell(
         onTap: _pickImage,
         child: Container(
-          decoration: const BoxDecoration(
-            borderRadius: BorderRadius.all(Radius.circular(8.0)),
-            color: AppColors.ACCENT_COLOR,
-          ),
+          decoration: BoxDecoration(
+              shape: BoxShape.circle,
+              color: Colors.white,
+              boxShadow: [
+                BoxShadow(
+                    color: AppColors.ACCENT_COLOR.withOpacity(0.4),
+                    blurRadius: 2)
+              ]),
           padding: const EdgeInsets.all(4.0),
           child: SvgPicture.asset(
             'assets/images/camera_icon.svg',
