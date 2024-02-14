@@ -28,7 +28,14 @@ class ChooseLanguagePage extends StatefulWidget {
 }
 
 class _ChooseLanguagePageState extends State<ChooseLanguagePage> {
-  Locale _selectedLocal = const Locale('en');
+  Locale _selectedLocal = Locale('en');
+
+  @override
+  void didChangeDependencies() {
+    // TODO: implement didChangeDependencies
+    super.didChangeDependencies();
+    _selectedLocal = context.locale;
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -38,33 +45,34 @@ class _ChooseLanguagePageState extends State<ChooseLanguagePage> {
       child: BlocProvider(
         create: (context) => Injector().chooseLanguageCubit,
         child: Builder(
-          builder: (context) =>
-              BlocListener<ChooseLanguageCubit, ChooseLanguageState>(
-            listener: (context, state) {
-              final splashCubit = context.read<SplashCubit>();
-              final splashState = splashCubit.state;
-              if (state.isError) {
-                showSnackBar(context, message: state.errorMessage);
-                return;
-              }
-              final isFirstLaunch = splashState.isFirstLaunch ?? true;
-              final countryNotSet = splashState.isCountrySet != true;
-              if (state.isLanguageSet && isFirstLaunch) {
-                _goToGuidePage(context);
-                return;
-              }
-              if (state.isLanguageSet && countryNotSet) {
-                Navigator.of(context).pushReplacementNamed(
-                  SelectLocationScreen.routeName,
-                );
-                return;
-              }
-              Navigator.of(context).pushReplacementNamed(
-                LoginPage.routeName,
-              );
-            },
-            child: Scaffold(body: _buildBody(context)),
-          ),
+          builder: (context) {
+            return BlocListener<ChooseLanguageCubit, ChooseLanguageState>(
+              listener: (context, state) {
+                final splashCubit = context.read<SplashCubit>();
+                final splashState = splashCubit.state;
+                if (state.isError) {
+                  showSnackBar(context, message: state.errorMessage);
+                  return;
+                }
+                final isFirstLaunch = splashState.isFirstLaunch ?? true;
+                final countryNotSet = splashState.isCountrySet != true;
+                if (state.isLanguageSet && isFirstLaunch) {
+                  _goToGuidePage(context);
+                  return;
+                }
+                if (state.isLanguageSet && countryNotSet) {
+                  Navigator.of(context).pushReplacementNamed(
+                    SelectLocationScreen.routeName,
+                  );
+                  return;
+                }
+                if (state.isLanguageSetFromSetting) {
+                  return Navigator.of(context).pop();
+                }
+              },
+              child: Scaffold(body: _buildBody(context)),
+            );
+          },
         ),
       ),
     );
@@ -87,10 +95,10 @@ class _ChooseLanguagePageState extends State<ChooseLanguagePage> {
                   height: 19.h,
                   width: 121.w),
           SizedBox(height: 18.h),
-          Text("msg_choose_app_language".tr(),
+          Text('msg_choose_app_language'.tr(),
               style: CustomTextStyles.titleMediumGray90002),
           SizedBox(height: 4.h),
-          Text("msg_please_select_your".tr(),
+          Text('msg_please_select_your'.tr(),
               style: CustomTextStyles.bodyMediumGray60002),
           SizedBox(height: 19.h),
           CustomRadioListTile(
@@ -150,12 +158,12 @@ class _ChooseLanguagePageState extends State<ChooseLanguagePage> {
     return DefaultButton(
       label: 'lbl_continue'.tr(),
       onPressed: () {
-        if (widget.fromSetting!) {
-          Navigator.pop(context);
+        setState(() {
+          context.setLocale(_selectedLocal);
+        });
+        if (widget.fromSetting) {
+          cubit.saveLanguageCodeFromSetting(_selectedLocal.languageCode);
         } else {
-          setState(() {
-            context.setLocale(_selectedLocal);
-          });
           return cubit.saveLanguageCode(_selectedLocal.languageCode);
         }
       },
