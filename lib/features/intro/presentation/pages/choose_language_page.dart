@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:country_flags/country_flags.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
@@ -11,9 +13,14 @@ import 'package:masaj/core/presentation/widgets/stateless/custom_text.dart';
 import 'package:masaj/core/presentation/widgets/stateless/default_button.dart';
 import 'package:masaj/features/address/presentation/pages/select_location_screen.dart';
 import 'package:masaj/features/auth/presentation/pages/login_page.dart';
+import 'package:masaj/features/home/presentation/pages/home_page.dart';
 
 import 'package:masaj/features/intro/presentation/blocs/choose_language_cubit/choose_language_cubit.dart';
 import 'package:masaj/features/intro/presentation/pages/guide_page.dart';
+import 'package:masaj/features/settings_tab/bloc/settings_bloc/setting_bloc.dart';
+import 'package:masaj/features/settings_tab/bloc/settings_bloc/setting_state.dart';
+import 'package:masaj/features/settings_tab/pages/setting_tab_page.dart';
+import 'package:masaj/features/splash/presentation/pages/splash_page.dart';
 import 'package:masaj/features/splash/presentation/splash_cubit/splash_cubit.dart';
 
 class ChooseLanguagePage extends StatefulWidget {
@@ -47,7 +54,7 @@ class _ChooseLanguagePageState extends State<ChooseLanguagePage> {
         child: Builder(
           builder: (context) {
             return BlocListener<ChooseLanguageCubit, ChooseLanguageState>(
-              listener: (context, state) {
+              listener: (context, state) async {
                 final splashCubit = context.read<SplashCubit>();
                 final splashState = splashCubit.state;
                 if (state.isError) {
@@ -67,7 +74,8 @@ class _ChooseLanguagePageState extends State<ChooseLanguagePage> {
                   return;
                 }
                 if (state.isLanguageSetFromSetting) {
-                  return Navigator.of(context).pop();
+                  await Navigator.pushReplacement(
+                      context, MaterialPageRoute(builder: (_) => HomePage()));
                 }
               },
               child: Scaffold(body: _buildBody(context)),
@@ -157,14 +165,15 @@ class _ChooseLanguagePageState extends State<ChooseLanguagePage> {
 
     return DefaultButton(
       label: 'lbl_continue'.tr(),
-      onPressed: () {
+      onPressed: () async {
         setState(() {
           context.setLocale(_selectedLocal);
         });
+        log(_selectedLocal.languageCode);
         if (widget.fromSetting) {
           cubit.saveLanguageCodeFromSetting(_selectedLocal.languageCode);
         } else {
-          return cubit.saveLanguageCode(_selectedLocal.languageCode);
+          cubit.saveLanguageCode(_selectedLocal.languageCode);
         }
       },
       isExpanded: true,
