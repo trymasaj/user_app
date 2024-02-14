@@ -135,6 +135,12 @@ class CustomImageView extends StatelessWidget {
         default:
           return Image.asset(
             imagePath!,
+            errorBuilder: (context, url, error) => Image.asset(
+              placeHolder,
+              height: height,
+              width: width,
+              fit: fit ?? BoxFit.cover,
+            ),
             height: height,
             width: width,
             fit: fit ?? BoxFit.cover,

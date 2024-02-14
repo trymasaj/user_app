@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:masaj/core/app_export.dart';
 import 'package:masaj/core/presentation/navigation/navigator_helper.dart';
+import 'package:masaj/core/presentation/widgets/stateless/custom_app_bar.dart';
 import 'package:masaj/features/account/bloc/manage_members_bloc/manage_members_bloc.dart';
 import 'package:masaj/features/account/models/manage_members_model.dart';
 import 'package:masaj/features/account/models/member.dart';
@@ -24,7 +25,29 @@ class ManageMembersScreen extends StatelessWidget {
     return BlocBuilder<ManageMembersBloc, ManageMembersState>(
         builder: (context, state) {
       return Scaffold(
-          appBar: _buildAppBar(context),
+          appBar: CustomAppBar(
+            title: 'lbl_manage_members'.tr(),
+            centerTitle: true,
+            actions: [
+              GestureDetector(
+                onTap: () {
+                  NavigatorHelper.of(context)
+                      .pushNamed(AddMemberScreen.routeName);
+                },
+                child: Padding(
+                  padding: const EdgeInsets.symmetric(
+                      horizontal: 20, vertical: 14.0),
+                  child: Text(
+                    'lbl_add'.tr(),
+                    style:
+                        CustomTextStyles.titleMediumSecondaryContainer.copyWith(
+                      color: theme.colorScheme.secondaryContainer,
+                    ),
+                  ),
+                ),
+              )
+            ],
+          ),
           body: Container(
               width: double.maxFinite,
               padding: EdgeInsets.symmetric(horizontal: 24.w, vertical: 23.h),
@@ -40,29 +63,6 @@ class ManageMembersScreen extends StatelessWidget {
   }
 
   /// Section Widget
-  PreferredSizeWidget _buildAppBar(BuildContext context) {
-    return AppBar(
-      actions: [
-        GestureDetector(
-          onTap: () {
-            NavigatorHelper.of(context).pushNamed(AddMemberScreen.routeName);
-          },
-          child: Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 20),
-            child: Text(
-              'lbl_add'.tr(),
-              style: CustomTextStyles.titleMediumSecondaryContainer.copyWith(
-                color: theme.colorScheme.secondaryContainer,
-              ),
-            ),
-          ),
-        )
-      ],
-      title: Text('lbl_manage_members'.tr()),
-    );
-  }
-
-  /// Section Widget
   Widget _buildMemberTile(Member member) {
     return MemberTile(
       member: member,
@@ -71,10 +71,6 @@ class ManageMembersScreen extends StatelessWidget {
 
   /// Navigates to the addMember1Screen when the action is triggered.
   onTapAdd(BuildContext context) {
-/*
-    NavigatorService.pushNamed(
-      AppRoutes.addMember1Screen,
-    );
-*/
+    NavigatorHelper.of(context).pushNamed(AddMemberScreen.routeName);
   }
 }

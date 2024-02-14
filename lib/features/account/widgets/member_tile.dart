@@ -27,12 +27,7 @@ class MemberTile extends StatelessWidget {
             Text(member.phone, style: theme.textTheme.bodyMedium)
           ]),
           const Spacer(),
-          CustomImageView(
-              imagePath: ImageConstant.imgArrowRightOnprimary,
-              height: 18.adaptSize,
-              width: 18.adaptSize,
-              radius: BorderRadius.circular(9.w),
-              margin: EdgeInsets.symmetric(vertical: 16.h))
+          const Icon(Icons.arrow_forward_ios)
         ]),
         SizedBox(height: 16.h),
         Divider(color: appTheme.gray300),

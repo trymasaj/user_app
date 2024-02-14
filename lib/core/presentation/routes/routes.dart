@@ -28,6 +28,7 @@ import 'package:masaj/features/legal/pages/privacy_policy_screen.dart';
 import 'package:masaj/features/legal/pages/reschedule_policy_screen.dart';
 import 'package:masaj/features/legal/pages/terms_and_condititons_screen.dart';
 import 'package:masaj/features/medical_form/pages/medical_form_screen.dart';
+import 'package:masaj/features/members/presentaion/pages/add_member_screen.dart';
 import 'package:masaj/features/quiz/presentation/pages/quiz_start_page.dart';
 import 'package:masaj/features/splash/presentation/pages/splash_page.dart';
 import 'package:masaj/features/wallet/pages/top_up_wallet_screen.dart';
@@ -48,7 +49,7 @@ Route<dynamic>? onGenerateRoute(RouteSettings settings) {
                 arguments as MapLocationPickerArguments,
               ));
     case AddressPage.routeName:
-      return MaterialPageRoute(builder: (context) => AddressPage());
+      return MaterialPageRoute(builder: (context) => const AddressPage());
 
     case QuizStartPage.routeName:
       return MaterialPageRoute(builder: (context) => const QuizStartPage());
@@ -137,6 +138,8 @@ Route<dynamic>? onGenerateRoute(RouteSettings settings) {
     case MyProfileScreen.routeName:
       return MaterialPageRoute(
           builder: (context) => MyProfileScreen.builder(context));
+    case AddMemberScreen.routeName:
+      return MaterialPageRoute(builder: (context) => const AddMemberScreen());
 
     default:
   }
