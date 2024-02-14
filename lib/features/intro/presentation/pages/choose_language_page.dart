@@ -166,7 +166,11 @@ class _ChooseLanguagePageState extends State<ChooseLanguagePage> {
       label: 'lbl_continue'.tr(),
       onPressed: () {
         if (widget.fromSetting!) {
-          Navigator.pop(context);
+          setState(() {
+            context.setLocale(_selectedLocal);
+          });
+          cubit.saveLanguageCode(_selectedLocal.languageCode);
+          // Navigator.pop(context);
         } else {
           setState(() {
             context.setLocale(_selectedLocal);
