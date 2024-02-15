@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:masaj/core/app_export.dart';
+import 'package:masaj/core/domain/enums/gender.dart';
 import 'package:masaj/core/presentation/navigation/navigator_helper.dart';
 import 'package:masaj/core/presentation/widgets/stateless/custom_app_bar.dart';
 import 'package:masaj/features/account/bloc/manage_members_bloc/manage_members_bloc.dart';
@@ -27,26 +28,7 @@ class ManageMembersScreen extends StatelessWidget {
       return Scaffold(
           appBar: CustomAppBar(
             title: 'lbl_manage_members'.tr(),
-            centerTitle: true,
-            actions: [
-              GestureDetector(
-                onTap: () {
-                  NavigatorHelper.of(context)
-                      .pushNamed(AddMemberScreen.routeName);
-                },
-                child: Padding(
-                  padding: const EdgeInsets.symmetric(
-                      horizontal: 20, vertical: 14.0),
-                  child: Text(
-                    'lbl_add'.tr(),
-                    style:
-                        CustomTextStyles.titleMediumSecondaryContainer.copyWith(
-                      color: theme.colorScheme.secondaryContainer,
-                    ),
-                  ),
-                ),
-              )
-            ],
+            actions: [buildAddMemberButton(context)],
           ),
           body: Container(
               width: double.maxFinite,
@@ -54,6 +36,7 @@ class ManageMembersScreen extends StatelessWidget {
               child: Column(children: [
                 for (int i = 0; i < 5; i++)
                   _buildMemberTile(Member(
+                      gender: Gender.male.name,
                       name: 'Ahmed Mohamed'.tr(),
                       image: ImageConstant.imgRectangle3943650x50,
                       phone: '96528271116')),
@@ -73,4 +56,21 @@ class ManageMembersScreen extends StatelessWidget {
   onTapAdd(BuildContext context) {
     NavigatorHelper.of(context).pushNamed(AddMemberScreen.routeName);
   }
+}
+
+Widget buildAddMemberButton(BuildContext context) {
+  return GestureDetector(
+    onTap: () {
+      NavigatorHelper.of(context).pushNamed(AddMemberScreen.routeName);
+    },
+    child: Padding(
+      padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 14.0),
+      child: Text(
+        'lbl_add'.tr(),
+        style: CustomTextStyles.titleMediumSecondaryContainer.copyWith(
+          color: theme.colorScheme.secondaryContainer,
+        ),
+      ),
+    ),
+  );
 }
