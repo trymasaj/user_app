@@ -39,8 +39,8 @@ class RequestException extends AppException {
   static String? _parseErrorMessage(dynamic response) {
     if (response is Map<String, dynamic>) {
       String message =
-          response['title'] ?? 'An error occurred, please try again later.';
-      message += _parseFieldErrors(response['errors']);
+          response['detail'] ?? 'An error occurred, please try again later.';
+      //message += _parseFieldErrors(response['errors']);
       return message;
     } else if (response is String) {
       return response;
