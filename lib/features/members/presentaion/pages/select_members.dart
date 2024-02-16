@@ -1,12 +1,12 @@
+import 'dart:developer';
 import 'package:flutter/material.dart';
-
 import 'package:masaj/core/app_export.dart';
 import 'package:masaj/core/domain/enums/gender.dart';
 import 'package:masaj/core/presentation/colors/app_colors.dart';
+import 'package:masaj/core/presentation/overlay/show_snack_bar.dart';
 import 'package:masaj/core/presentation/widgets/stateless/default_button.dart';
 import 'package:masaj/core/presentation/widgets/stateless/subtitle_text.dart';
 import 'package:masaj/features/account/widgets/member_tile.dart';
-
 import 'package:masaj/core/presentation/widgets/stateless/custom_app_bar.dart';
 import 'package:masaj/features/account/models/member.dart';
 import 'package:masaj/features/account/pages/manage_members_screen.dart';
@@ -20,6 +20,7 @@ class SelectMembersScreen extends StatefulWidget {
 
 class _SelectMembersScreenState extends State<SelectMembersScreen> {
   late final List<Member> members;
+  final List<Member> selectedMembers = [];
 
   @override
   void initState() {
@@ -45,20 +46,7 @@ class _SelectMembersScreenState extends State<SelectMembersScreen> {
                 flex: 10,
                 child: ListView.builder(
                   itemCount: members.length,
-                  itemBuilder: (context, index) => MemberTile(
-                    member: members[index],
-                    action: Checkbox.adaptive(
-                      activeColor: AppColors.PRIMARY_COLOR,
-                      shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(4)),
-                      onChanged: (value) {
-                        setState(() {
-                          members[index].isSelected = value ?? false;
-                        });
-                      },
-                      value: members[index].isSelected,
-                    ),
-                  ),
+                  itemBuilder: (context, index) => _buildMemberItem(index),
                 ),
               ),
               const Spacer(flex: 3),
@@ -71,6 +59,46 @@ class _SelectMembersScreenState extends State<SelectMembersScreen> {
             ],
           ),
         ));
+  }
+
+  Widget _buildMemberItem(int index) {
+    return InkWell(
+      onTap: () {
+        _validateMembers(!members[index].isSelected, index);
+      },
+      child: MemberTile(
+        member: members[index],
+        action: Checkbox.adaptive(
+          activeColor: AppColors.PRIMARY_COLOR,
+          shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(4)),
+          onChanged: (value) {
+            _validateMembers(value, index);
+          },
+          value: members[index].isSelected,
+        ),
+      ),
+    );
+  }
+
+  void _validateMembers(bool? value, int index) {
+    if (selectedMembers.isNotEmpty && !members[index].isSelected) {
+      if (selectedMembers.length >= 2) {
+        return showSnackBar(context, message: 'members_number_limit');
+      }
+      if (selectedMembers[0].gender != members[index].gender) {
+        return showSnackBar(context, message: 'members_number_gender_limit');
+      }
+    }
+    setState(() {
+      if (value ?? false) {
+        members[index].isSelected = value ?? false;
+        selectedMembers.add(members[index]);
+      } else {
+        members[index].isSelected = value ?? false;
+
+        selectedMembers.remove(members[index]);
+      }
+    });
   }
 
   Widget _buildWaringMsg() {
