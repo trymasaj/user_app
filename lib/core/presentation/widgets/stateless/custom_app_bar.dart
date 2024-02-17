@@ -1,5 +1,8 @@
+import 'dart:developer';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
+import 'package:masaj/core/app_export.dart';
 import 'package:masaj/core/presentation/navigation/navigator_helper.dart';
 import 'package:masaj/core/presentation/widgets/stateless/custom_text.dart';
 
@@ -40,12 +43,15 @@ class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
   }
 
   Widget _buildBackButton(BuildContext context) {
-    return InkWell(
-      onTap: NavigatorHelper.of(context).pop,
-      child: Padding(
-        padding: const EdgeInsets.symmetric(horizontal: 16),
-        child: SvgPicture.asset(
-          'assets/images/back_icon.svg',
+    return RotatedBox(
+      quarterTurns: context.locale.languageCode == 'ar' ? 2 : 0,
+      child: InkWell(
+        onTap: NavigatorHelper.of(context).pop,
+        child: Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 16),
+          child: SvgPicture.asset(
+            'assets/images/back_icon.svg',
+          ),
         ),
       ),
     );
