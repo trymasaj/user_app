@@ -82,138 +82,9 @@ class _ServicesScreenState extends State<ServicesScreen> {
             ),
 
             Expanded(
-              child: BlocConsumer<ServiceCubit, ServiceState>(
-                listener: (context, state) {
-                  if (state.isError) {
-                    ScaffoldMessenger.of(context).showSnackBar(
-                      SnackBar(
-                        content: Text(state.errorMessage ?? 'Error'),
-                      ),
-                    );
-                  }
-                },
-                builder: (context, state) {
-                  if (state.services != null &&
-                      state.services!.data!.isEmpty &&
-                      state.isLoading) {
-                    return const Center(
-                      child: CustomLoading(
-                        loadingStyle: LoadingStyle.ShimmerGrid,
-                      ),
-                    );
-                  }
-                  if (state.services != null &&
-                      state.services!.data!.isEmpty &&
-                      !state.isLoading) {
-                    return EmptyPageMessage(
-                      heightRatio: 0.65,
-                      onRefresh: () async {
-                        serviceCubit.loadServices(
-                          refresh: true,
-                        );
-                      },
-                      svgImage: 'empty',
-                    );
-                  }
-                  return GridView.builder(
-                    controller: _scrollController,
-                    padding: EdgeInsets.symmetric(horizontal: 24.w),
-                    gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-                      crossAxisCount: 2,
-                      crossAxisSpacing: 9.w,
-                      mainAxisSpacing: 12.h,
-                      childAspectRatio: 158 / 188,
-                    ),
-                    itemCount: state.services?.data?.length ?? 0,
-                    itemBuilder: (context, index) {
-                      final service = state.services!.data![index];
-                      return InkWell(
-                        onTap: () {
-                          Navigator.push(
-                              context,
-                              MaterialPageRoute(
-                                  builder: (context) => ServiceDetailsScreen(
-                                        id: service.serviceId,
-                                      )));
-                        },
-                        child: Container(
-                          decoration: BoxDecoration(
-                              color: Colors.white,
-                              borderRadius: BorderRadius.circular(12),
-                              // border with #D9D9D9
-                              border:
-                                  Border.all(color: const Color(0xffD9D9D9))),
-                          child: Stack(
-                            children: [
-                              // image
-                              ClipRRect(
-                                borderRadius: BorderRadius.circular(12),
-                                child: Container(
-                                  height: 160.h,
-                                  decoration: BoxDecoration(
-                                      image: DecorationImage(
-                                          image:
-                                              CustomCachedNetworkImageProvider(
-                                            service.mainImage ?? '',
-                                          ),
-                                          fit: BoxFit.cover)),
-                                ),
-                              ),
-                              // white container  at the bottom and floating
-                              Positioned(
-                                bottom: 0,
-                                left: 0,
-                                right: 0,
-                                child: ClipRRect(
-                                  borderRadius: const BorderRadius.only(
-                                    bottomLeft: Radius.circular(12),
-                                    bottomRight: Radius.circular(12),
-                                    topLeft: Radius.circular(12),
-                                  ),
-                                  child: Container(
-                                    padding: EdgeInsets.symmetric(
-                                        horizontal: 14.w, vertical: 12.h),
-                                    decoration: const BoxDecoration(
-                                      color: Colors.white,
-                                    ),
-                                    child: Column(
-                                      crossAxisAlignment:
-                                          CrossAxisAlignment.start,
-                                      children: [
-                                        CustomText(
-                                          text: service.title ?? '',
-                                          fontSize: 12,
-                                          color: const Color(0xff1D212C),
-                                          fontWeight: FontWeight.w400,
-                                        ),
-
-                                        //Start from
-                                        CustomText(
-                                          text: 'start_from'.tr(),
-                                          fontSize: 9,
-                                          color: AppColors.PlaceholderColor,
-                                          fontWeight: FontWeight.w400,
-                                        ),
-                                        CustomText(
-                                          text:
-                                              '${service.startingPrice} ${'KWD'.tr()}',
-                                          fontSize: 12,
-                                          color: const Color(0xff1D212C),
-                                          fontWeight: FontWeight.w500,
-                                        ),
-                                      ],
-                                    ),
-                                  ),
-                                ),
-                              ),
-                            ],
-                          ),
-                        ),
-                      );
-                    },
-                  );
-                },
-              ),
+              child: SevicesGridView(
+                  serviceCubit: serviceCubit,
+                  scrollController: _scrollController),
             ),
 
             _buildLoadingMore(context)
@@ -244,6 +115,77 @@ class _ServicesScreenState extends State<ServicesScreen> {
   Widget _buildServiceCategoryTap(
     BuildContext context,
   ) {
+    return ServicesTabs();
+  }
+
+  // build search and filter widget
+  Widget _buildSearchAndFilterWidget(BuildContext context) {
+    return Container(
+      padding: EdgeInsets.symmetric(horizontal: 24.w),
+      height: 50.h,
+      child: Row(
+        children: [
+          Expanded(
+            child: SearchTextFormField.servicesSearchField(
+              contentPadding: EdgeInsets.symmetric(horizontal: 16.w),
+              currentFocusNode: _searchFocusNode,
+              currentController: _searchController,
+              onChanged: (value) {
+                serviceCubit.setSearchKeyword(value);
+              },
+            ),
+          ),
+          SizedBox(width: 8.w),
+          Builder(builder: (context) {
+            return InkWell(
+              onTap: () async {
+                await showModalBottomSheet<RangeValues?>(
+                    isScrollControlled: true,
+                    constraints: BoxConstraints(
+                      minHeight: 680.h,
+                      maxHeight: 680.h,
+                    ),
+                    enableDrag: true,
+                    context: context,
+                    shape: const RoundedRectangleBorder(
+                      borderRadius: BorderRadius.only(
+                        topLeft: Radius.circular(32),
+                        topRight: Radius.circular(32),
+                      ),
+                    ),
+                    builder: (context) {
+                      return FilterWidgetSheet(serviceCubit: serviceCubit);
+                    });
+              },
+              child: Container(
+                height: 50.h,
+                width: 50.h,
+                padding: const EdgeInsets.all(12),
+                decoration: BoxDecoration(
+                  // gradiant color
+                  gradient: AppColors.GRADIENT_COLOR,
+
+                  borderRadius: BorderRadius.circular(12),
+                ),
+                child: SvgPicture.asset(
+                  Assets.images.ioFilterOutline,
+                ),
+              ),
+            );
+          }),
+        ],
+      ),
+    );
+  }
+}
+
+class ServicesTabs extends StatelessWidget {
+  const ServicesTabs({
+    super.key,
+  });
+
+  @override
+  Widget build(BuildContext context) {
     return BlocBuilder<ServiceCubit, ServiceState>(
       builder: (context, state) {
         return SizedBox(
@@ -307,64 +249,147 @@ class _ServicesScreenState extends State<ServicesScreen> {
       },
     );
   }
+}
 
-  // build search and filter widget
-  Widget _buildSearchAndFilterWidget(BuildContext context) {
-    return Container(
-      padding: EdgeInsets.symmetric(horizontal: 24.w),
-      height: 50.h,
-      child: Row(
-        children: [
-          Expanded(
-            child: SearchTextFormField.servicesSearchField(
-              contentPadding: EdgeInsets.symmetric(horizontal: 16.w),
-              currentFocusNode: _searchFocusNode,
-              currentController: _searchController,
-              onChanged: (value) {
-                serviceCubit.setSearchKeyword(value);
-              },
+class SevicesGridView extends StatelessWidget {
+  const SevicesGridView({
+    super.key,
+    required this.serviceCubit,
+    required ScrollController scrollController,
+  }) : _scrollController = scrollController;
+
+  final ServiceCubit serviceCubit;
+  final ScrollController _scrollController;
+
+  @override
+  Widget build(BuildContext context) {
+    return BlocConsumer<ServiceCubit, ServiceState>(
+      listener: (context, state) {
+        if (state.isError) {
+          ScaffoldMessenger.of(context).showSnackBar(
+            SnackBar(
+              content: Text(state.errorMessage ?? 'Error'),
             ),
+          );
+        }
+      },
+      builder: (context, state) {
+        if (state.services != null &&
+            state.services!.data!.isEmpty &&
+            state.isLoading) {
+          return const Center(
+            child: CustomLoading(
+              loadingStyle: LoadingStyle.ShimmerGrid,
+            ),
+          );
+        }
+        if (state.services != null &&
+            state.services!.data!.isEmpty &&
+            !state.isLoading) {
+          return EmptyPageMessage(
+            heightRatio: 0.65,
+            onRefresh: () async {
+              serviceCubit.loadServices(
+                refresh: true,
+              );
+            },
+            svgImage: 'empty',
+          );
+        }
+        return GridView.builder(
+          controller: _scrollController,
+          padding: EdgeInsets.symmetric(horizontal: 24.w),
+          gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+            crossAxisCount: 2,
+            crossAxisSpacing: 9.w,
+            mainAxisSpacing: 12.h,
+            childAspectRatio: 158 / 188,
           ),
-          SizedBox(width: 8.w),
-          Builder(builder: (context) {
+          itemCount: state.services?.data?.length ?? 0,
+          itemBuilder: (context, index) {
+            final service = state.services!.data![index];
             return InkWell(
-              onTap: () async {
-                await showModalBottomSheet<RangeValues?>(
-                    isScrollControlled: true,
-                    constraints: BoxConstraints(
-                      minHeight: 680.h,
-                      maxHeight: 680.h,
-                    ),
-                    enableDrag: true,
-                    context: context,
-                    shape: const RoundedRectangleBorder(
-                      borderRadius: BorderRadius.only(
-                        topLeft: Radius.circular(32),
-                        topRight: Radius.circular(32),
-                      ),
-                    ),
-                    builder: (context) {
-                      return FilterWidgetSheet(serviceCubit: serviceCubit);
-                    });
+              onTap: () {
+                Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                        builder: (context) => ServiceDetailsScreen(
+                              id: service.serviceId,
+                            )));
               },
               child: Container(
-                height: 50.h,
-                width: 50.h,
-                padding: const EdgeInsets.all(12),
                 decoration: BoxDecoration(
-                  // gradiant color
-                  gradient: AppColors.GRADIENT_COLOR,
+                    color: Colors.white,
+                    borderRadius: BorderRadius.circular(12),
+                    // border with #D9D9D9
+                    border: Border.all(color: const Color(0xffD9D9D9))),
+                child: Stack(
+                  children: [
+                    // image
+                    ClipRRect(
+                      borderRadius: BorderRadius.circular(12),
+                      child: Container(
+                        height: 160.h,
+                        decoration: BoxDecoration(
+                            image: DecorationImage(
+                                image: CustomCachedNetworkImageProvider(
+                                  service.mainImage ?? '',
+                                ),
+                                fit: BoxFit.cover)),
+                      ),
+                    ),
+                    // white container  at the bottom and floating
+                    Positioned(
+                      bottom: 0,
+                      left: 0,
+                      right: 0,
+                      child: ClipRRect(
+                        borderRadius: const BorderRadius.only(
+                          bottomLeft: Radius.circular(12),
+                          bottomRight: Radius.circular(12),
+                          topLeft: Radius.circular(12),
+                        ),
+                        child: Container(
+                          padding: EdgeInsets.symmetric(
+                              horizontal: 14.w, vertical: 12.h),
+                          decoration: const BoxDecoration(
+                            color: Colors.white,
+                          ),
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              CustomText(
+                                text: service.title ?? '',
+                                fontSize: 12,
+                                color: const Color(0xff1D212C),
+                                fontWeight: FontWeight.w400,
+                              ),
 
-                  borderRadius: BorderRadius.circular(12),
-                ),
-                child: SvgPicture.asset(
-                  Assets.images.ioFilterOutline,
+                              //Start from
+                              CustomText(
+                                text: 'start_from'.tr(),
+                                fontSize: 9,
+                                color: AppColors.PlaceholderColor,
+                                fontWeight: FontWeight.w400,
+                              ),
+                              CustomText(
+                                text: '${service.startingPrice} ${'KWD'.tr()}',
+                                fontSize: 12,
+                                color: const Color(0xff1D212C),
+                                fontWeight: FontWeight.w500,
+                              ),
+                            ],
+                          ),
+                        ),
+                      ),
+                    ),
+                  ],
                 ),
               ),
             );
-          }),
-        ],
-      ),
+          },
+        );
+      },
     );
   }
 }

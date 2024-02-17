@@ -122,7 +122,6 @@ class _ProvidersTabState extends State<ProvidersTab>
               ),
             ),
 
-// space between tabs and search field
             const SliverToBoxAdapter(
               child: SizedBox(
                 height: 20,

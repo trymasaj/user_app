@@ -39,7 +39,9 @@ class _HomeTabState extends State<HomeTab> {
             ),
 
 // horizontal list view of categories
-            const CategoriesList(),
+            const CategoriesList(
+              isSliver: true,
+            ),
             SliverToBoxAdapter(
               child: SizedBox(
                 height: 20.h,
