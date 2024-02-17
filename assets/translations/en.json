@@ -855,5 +855,6 @@
     "allow_up_to_1_hour": "Allow up to 1 hour for the therapist to reach out",
     "therapist_info": "Therapist info",
     "email_or_phone_number_required": "Email or phone number is required",
-    "country_validation": "Please enter a valid country"
+    "country_validation": "Please enter a valid country",
+    "terms_validation": "Please check terms and conditions"
 }

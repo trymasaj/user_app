@@ -47,6 +47,8 @@ class _SignUpPageState extends State<SignUpPage> {
       _phoneTextController = TextEditingController(),
       _birthDateTextController = TextEditingController();
 
+  bool _acceptTerms = false;
+
   late final FocusNode _fullNameFocusNode = FocusNode(),
       _emailFocusNode = FocusNode(),
       _passwordFocusNode = FocusNode(),
@@ -253,7 +255,6 @@ class _SignUpPageState extends State<SignUpPage> {
                 currentFocusNode: _passwordFocusNode,
                 nextFocusNode: _passwordConfirmFocusNode,
                 hint: 'password'.tr(),
-                
                 validator: widget.isFromSocial
                     ? (value) {
                         return null;
@@ -330,6 +331,10 @@ class _SignUpPageState extends State<SignUpPage> {
   bool _isNotValid() {
     _fullNameTextController.text = _fullNameTextController.text.trim();
     _emailTextController.text = _emailTextController.text.trim();
+    if (!_acceptTerms) {
+      showSnackBar(context, message: 'terms_validation');
+      return true;
+    }
     if (!_formKey.currentState!.validate()) {
       setState(() => _isAutoValidating = true);
       return true;
@@ -340,11 +345,18 @@ class _SignUpPageState extends State<SignUpPage> {
   Widget _buildTermsAndConditions(BuildContext context) {
     return Row(
       children: [
-        Checkbox(
-          value: true,
-          onChanged: (value) {},
-          fillColor: MaterialStateProperty.all(AppColors.PRIMARY_COLOR),
-          checkColor: Colors.white,
+        Checkbox.adaptive(
+          value: _acceptTerms,
+          onChanged: (value) {
+            setState(() {
+              _acceptTerms = value ?? false;
+            });
+          },
+          activeColor: AppColors.PRIMARY_COLOR,
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(4),
+          ),
+          side: const BorderSide(color: AppColors.PRIMARY_DARK_COLOR),
         ),
         const CustomText(
           text: 'i_agree',

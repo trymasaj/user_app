@@ -745,4 +745,6 @@
   "therapist_info": "معلومات المعالج",
   "email_or_phone_number_required": "البريد الإلكتروني أو رقم الهاتف مطلوب",
   "country_validation": "ادخل دولة"
+,
+"terms_validation" : "يجب تآكيد الشروط و الاحكام"
 }
