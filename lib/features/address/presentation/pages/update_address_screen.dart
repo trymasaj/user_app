@@ -203,13 +203,15 @@ class UpdateAddressScreen<T extends UpdateAddressCubit,
                   ],
                 ),
                 _buildAdditionalDirectionEditText(context),
-                SizedBox(height: 16.h),
+                SizedBox(height: 8.h),
                 _buildFrameRow(context),
+                SizedBox(height: 90.h),
               ],
             ),
           ),
         ),
-        bottomNavigationBar: _buildSaveButton(context),
+        floatingActionButton: _buildSaveButton(context),
+        floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
       ),
     );
   }
@@ -443,11 +445,7 @@ class UpdateAddressScreen<T extends UpdateAddressCubit,
   Widget _buildSaveButton(BuildContext context) {
     return DefaultButton(
       label: 'lbl_save'.tr(),
-      margin: EdgeInsets.only(
-        left: 24.w,
-        right: 24.w,
-        bottom: 32.h,
-      ),
+      padding: EdgeInsets.symmetric(horizontal: 150.w),
       onPressed: () async {
         final countryCubit = context.read<CountryCubit>();
         final isValid = formKey.currentState!.saveAndValidate();
