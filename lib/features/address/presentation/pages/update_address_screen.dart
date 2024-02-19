@@ -95,7 +95,7 @@ class AddAddressScreen extends StatefulWidget {
             create: (context) => getIt<NotInitiallySelectAreaCubit>()..init(),
           ),
         ],
-        child: AddAddressScreen(),
+        child: const AddAddressScreen(),
       );
 
   @override
@@ -224,11 +224,11 @@ class UpdateAddressScreen<T extends UpdateAddressCubit,
       builder: (context, state) {
         log(state.toString());
         return state
-            ? SubtitleText(
-                text: 'country_validation'.tr(),
+            ? const SubtitleText(
+                text: 'country_validation',
                 color: AppColors.ERROR_COLOR,
               )
-            : SizedBox();
+            : const SizedBox();
       },
     );
   }
@@ -306,7 +306,7 @@ class UpdateAddressScreen<T extends UpdateAddressCubit,
   Widget _buildBlockEditText(BuildContext context) {
     return FormBuilderTextField(
       validator: FormBuilderValidators.compose([
-        FormBuilderValidators.required(),
+        FormBuilderValidators.required(errorText: 'empty_field_not_valid'.tr()),
       ]),
       style: CustomTextStyles.bodyMediumGray90003,
       decoration: InputDecoration(
@@ -321,7 +321,7 @@ class UpdateAddressScreen<T extends UpdateAddressCubit,
   Widget _buildStreetEditText(BuildContext context) {
     return FormBuilderTextField(
       validator: FormBuilderValidators.compose([
-        FormBuilderValidators.required(),
+        FormBuilderValidators.required(errorText: 'empty_field_not_valid'.tr()),
       ]),
       style: CustomTextStyles.bodyMediumGray90003,
       decoration: InputDecoration(
@@ -350,7 +350,7 @@ class UpdateAddressScreen<T extends UpdateAddressCubit,
   Widget _buildAvenueEditText(BuildContext context) {
     return FormBuilderTextField(
       validator: FormBuilderValidators.compose([
-        FormBuilderValidators.required(),
+        FormBuilderValidators.required(errorText: 'empty_field_not_valid'.tr()),
       ]),
       style: CustomTextStyles.bodyMediumGray90003,
       decoration: InputDecoration(
@@ -366,7 +366,7 @@ class UpdateAddressScreen<T extends UpdateAddressCubit,
   Widget _buildHouseBuildingNoEditText(BuildContext context) {
     return FormBuilderTextField(
       validator: FormBuilderValidators.compose([
-        FormBuilderValidators.required(),
+        FormBuilderValidators.required(errorText: 'empty_field_not_valid'.tr()),
       ]),
       name: Address.buildingKey,
       style: CustomTextStyles.bodyMediumGray90003,
@@ -382,7 +382,7 @@ class UpdateAddressScreen<T extends UpdateAddressCubit,
   Widget _buildFloorEditText(BuildContext context) {
     return FormBuilderTextField(
       validator: FormBuilderValidators.compose([
-        FormBuilderValidators.required(),
+        FormBuilderValidators.required(errorText: 'empty_field_not_valid'.tr()),
       ]),
       style: CustomTextStyles.bodyMediumGray90003,
       decoration: InputDecoration(
@@ -398,7 +398,7 @@ class UpdateAddressScreen<T extends UpdateAddressCubit,
   Widget _buildApartmentNoEditText(BuildContext context) {
     return FormBuilderTextField(
       validator: FormBuilderValidators.compose([
-        FormBuilderValidators.required(),
+        FormBuilderValidators.required(errorText: 'empty_field_not_valid'.tr()),
       ]),
       name: Address.apartmentKey,
       style: CustomTextStyles.bodyMediumGray90003,
