@@ -290,9 +290,8 @@ class SettingsTabPage extends StatelessWidget {
                 text: 'lbl_language',
                 imagePath: ImageConstant.imgGroup1000003172,
                 onTap: () {
-                  NavigatorHelper.of(context).pushReplacementNamed(
-                      ChooseLanguagePage.routeName,
-                      arguments: true);
+                  NavigatorHelper.of(context)
+                      .pushNamed(ChooseLanguagePage.routeName, arguments: true);
                 },
               ),
               SettingTile(

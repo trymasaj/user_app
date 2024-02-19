@@ -74,8 +74,10 @@ class _ChooseLanguagePageState extends State<ChooseLanguagePage> {
                   return;
                 }
                 if (state.isLanguageSetFromSetting) {
-                  await Navigator.pushReplacement(
-                      context, MaterialPageRoute(builder: (_) => HomePage()));
+                  await Navigator.pushAndRemoveUntil(
+                      context,
+                      MaterialPageRoute(builder: (_) => const HomePage()),
+                      (_) => false);
                 }
               },
               child: Scaffold(body: _buildBody(context)),
