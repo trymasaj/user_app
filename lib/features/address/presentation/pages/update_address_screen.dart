@@ -448,7 +448,7 @@ class UpdateAddressScreen<T extends UpdateAddressCubit,
         border: InputBorder.none,
         enabledBorder: InputBorder.none,
       ),
-      name: Address.isPrimaryKey,
+            name: Address.isPrimaryKey,
       activeColor: AppColors.PRIMARY_COLOR,
       title: Text(
         'msg_set_as_primary_address'.tr(),

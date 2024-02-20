@@ -25,7 +25,7 @@ class AddressPage extends StatelessWidget {
                     AddAddressScreen.routeName,
                   ) as Address?;
                   if (result != null) {
-                    controller.add(result);
+                    await controller.getAddresses();
                   }
                 },
                 child: const SubtitleText(
@@ -61,7 +61,7 @@ class AddressPage extends StatelessWidget {
                                 arguments: EditAddressArguments(
                                     oldAddress: address)) as Address?;
                         if (result != null) {
-                          controller.update(index, result);
+                          await controller.getAddresses();
                         }
                       },
                     );
