@@ -1,11 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:masaj/core/app_export.dart';
-import 'package:masaj/core/data/di/injection_setup.dart';
 import 'package:masaj/core/presentation/navigation/navigator_helper.dart';
 import 'package:masaj/core/presentation/overlay/custom_bottom_sheet.dart';
 import 'package:masaj/core/presentation/widgets/stateless/default_button.dart';
 import 'package:masaj/core/presentation/widgets/stateless/state_widgets.dart';
-import 'package:masaj/features/address/application/blocs/add_new_address_bloc/update_address_bloc.dart';
 import 'package:masaj/features/address/application/blocs/my_addresses_bloc/my_addresses_cubit.dart';
 import 'package:masaj/features/address/domain/entities/address.dart';
 import 'package:masaj/features/address/presentation/pages/update_address_screen.dart';
@@ -13,10 +11,7 @@ import 'package:masaj/features/address/presentation/widgets/my_address_tile.dart
 import 'package:collection/collection.dart';
 
 class SelectLocationBottomSheet extends StatefulWidget {
-  const SelectLocationBottomSheet({Key? key, required this.onSave})
-      : super(
-          key: key,
-        );
+  const SelectLocationBottomSheet({super.key, required this.onSave});
   final VoidCallback onSave;
 
   @override
@@ -32,8 +27,7 @@ class _SelectLocationBottomSheetState extends State<SelectLocationBottomSheet> {
 
   @override
   Widget build(BuildContext context) {
-    final bottomPadding =
-        MediaQuery.of(context).padding.bottom + navbarHeight + 12;
+    final bottomPadding = MediaQuery.of(context).padding.bottom + 12;
     return CustomBottomSheet(
       height: 450.h,
       child: Expanded(
@@ -105,6 +99,7 @@ class _SelectLocationBottomSheetState extends State<SelectLocationBottomSheet> {
             ),
             SizedBox(height: 15.h),
             DefaultButton(
+              padding: EdgeInsets.zero,
               onPressed: widget.onSave,
               label: "lbl_save".tr(),
             ),
