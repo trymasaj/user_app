@@ -59,7 +59,8 @@ class AddressPage extends StatelessWidget {
                         final result = await NavigatorHelper.of(context)
                             .pushNamed(EditAddressScreen.routeName,
                                 arguments: EditAddressArguments(
-                                    oldAddress: address)) as Address?;
+                                    oldAddress: address,
+                                    isPrimary: address.isPrimary)) as Address?;
                         if (result != null) {
                           await controller.getAddresses();
                         }

@@ -22,8 +22,12 @@ import 'package:masaj/features/auth/application/country_cubit/country_state.dart
 
 class EditAddressArguments {
   final Address oldAddress;
+  final bool isPrimary;
 
-  EditAddressArguments({required this.oldAddress});
+  EditAddressArguments({
+    required this.oldAddress,
+    required this.isPrimary,
+  });
 }
 
 class EditAddressScreen extends StatefulWidget {
@@ -70,6 +74,7 @@ class _EditAddressScreenState extends State<EditAddressScreen> {
   Widget build(BuildContext context) {
     return UpdateAddressScreen<EditAddressCubit, InitiallySelectAreaCubit>(
       formKey: formKey,
+      isPrimary: widget.arguments.isPrimary,
       title: 'lbl_edit_address'.tr(),
     );
   }
@@ -129,6 +134,7 @@ class _AddAddressScreenState extends State<AddAddressScreen> {
   Widget build(BuildContext context) {
     return UpdateAddressScreen<AddAddressCubit, NotInitiallySelectAreaCubit>(
       formKey: formKey,
+      isPrimary: false,
       title: 'lbl_add_new_address'.tr(),
     );
   }
@@ -138,11 +144,12 @@ class UpdateAddressScreen<T extends UpdateAddressCubit,
     A extends SelectAreaCubit> extends StatelessWidget {
   final String title;
   final GlobalKey<FormBuilderState> formKey;
-
+  final bool isPrimary;
   const UpdateAddressScreen({
     super.key,
     required this.title,
     required this.formKey,
+    required this.isPrimary,
   });
 
   @override
@@ -448,8 +455,9 @@ class UpdateAddressScreen<T extends UpdateAddressCubit,
         border: InputBorder.none,
         enabledBorder: InputBorder.none,
       ),
-            name: Address.isPrimaryKey,
+      name: Address.isPrimaryKey,
       activeColor: AppColors.PRIMARY_COLOR,
+      enabled: !isPrimary,
       title: Text(
         'msg_set_as_primary_address'.tr(),
         style: CustomTextStyles.bodyMediumGray90003,

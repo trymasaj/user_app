@@ -99,7 +99,6 @@ class _SelectLocationBottomSheetState extends State<SelectLocationBottomSheet> {
             ),
             SizedBox(height: 15.h),
             DefaultButton(
-              padding: EdgeInsets.zero,
               onPressed: widget.onSave,
               label: "lbl_save".tr(),
             ),
