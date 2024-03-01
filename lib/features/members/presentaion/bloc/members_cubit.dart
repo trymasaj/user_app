@@ -15,8 +15,8 @@ class MembersCubit extends BaseCubit<MembersState> {
 
   final MembersRepository _membersRepository;
 
-  void init(int? id) async {
-    if (id == null) return getMembers();
+  void initEditMember(int? id) async {
+    if (id == null) return;
     return getMember(id);
   }
 

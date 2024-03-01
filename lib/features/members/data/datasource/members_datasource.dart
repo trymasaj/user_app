@@ -64,7 +64,7 @@ class MembersDataSourceImpl extends MembersDataSource {
   @override
   Future<MemberModel> getMember(int id) {
     const url = ApiEndPoint.GET_MEMBER;
-    return _networkService.delete(url + id.toString()).then((response) {
+    return _networkService.get(url + id.toString()).then((response) {
       if (response.statusCode != 200) {
         throw RequestException(message: response.data);
       }
@@ -80,7 +80,7 @@ class MembersDataSourceImpl extends MembersDataSource {
   @override
   Future<List<MemberModel>> getMembers() {
     const url = ApiEndPoint.GET_MEMBERS;
-    return _networkService.delete(url).then((response) {
+    return _networkService.get(url).then((response) {
       if (response.statusCode != 200) {
         throw RequestException(message: response.data);
       }
