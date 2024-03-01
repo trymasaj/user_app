@@ -702,6 +702,7 @@
   "msg_select_available": "اختر المتاح \n المعالج",
   "msg_select_your_location": "اختر موقعك",
   "msg_set_as_primary_address": "تعيين كعنوان أساسي",
+  "lbl_primary_address": "عنوان أساسي",
   "msg_shipping_address": "عنوان الشحن",
   "msg_shop_masaj_gift": "تسوق بطاقات هدايا مساج",
   "msg_sign_with_google": "تسجيل الدخول باستخدام جوجل",
@@ -744,5 +745,6 @@
   "allow_up_to_1_hour": "السماح حتى ساعة واحدة للعلاج للوصول",
   "therapist_info": "معلومات المعالج",
   "email_or_phone_number_required": "البريد الإلكتروني أو رقم الهاتف مطلوب",
-  "country_validation": "ادخل دولة"
+  "country_validation": "ادخل دولة",
+  "terms_validation": "يجب تآكيد الشروط و الاحكام"
 }

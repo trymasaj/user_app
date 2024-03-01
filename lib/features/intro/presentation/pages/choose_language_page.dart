@@ -12,15 +12,9 @@ import 'package:masaj/core/presentation/widgets/stateless/custom_radio_list_tile
 import 'package:masaj/core/presentation/widgets/stateless/custom_text.dart';
 import 'package:masaj/core/presentation/widgets/stateless/default_button.dart';
 import 'package:masaj/features/address/presentation/pages/select_location_screen.dart';
-import 'package:masaj/features/auth/presentation/pages/login_page.dart';
 import 'package:masaj/features/home/presentation/pages/home_page.dart';
-
 import 'package:masaj/features/intro/presentation/blocs/choose_language_cubit/choose_language_cubit.dart';
 import 'package:masaj/features/intro/presentation/pages/guide_page.dart';
-import 'package:masaj/features/settings_tab/bloc/settings_bloc/setting_bloc.dart';
-import 'package:masaj/features/settings_tab/bloc/settings_bloc/setting_state.dart';
-import 'package:masaj/features/settings_tab/pages/setting_tab_page.dart';
-import 'package:masaj/features/splash/presentation/pages/splash_page.dart';
 import 'package:masaj/features/splash/presentation/splash_cubit/splash_cubit.dart';
 
 class ChooseLanguagePage extends StatefulWidget {
@@ -39,7 +33,6 @@ class _ChooseLanguagePageState extends State<ChooseLanguagePage> {
 
   @override
   void didChangeDependencies() {
-    // TODO: implement didChangeDependencies
     super.didChangeDependencies();
     _selectedLocal = context.locale;
   }
@@ -74,8 +67,10 @@ class _ChooseLanguagePageState extends State<ChooseLanguagePage> {
                   return;
                 }
                 if (state.isLanguageSetFromSetting) {
-                  await Navigator.pushReplacement(
-                      context, MaterialPageRoute(builder: (_) => HomePage()));
+                  await Navigator.pushAndRemoveUntil(
+                      context,
+                      MaterialPageRoute(builder: (_) => const HomePage()),
+                      (_) => false);
                 }
               },
               child: Scaffold(body: _buildBody(context)),

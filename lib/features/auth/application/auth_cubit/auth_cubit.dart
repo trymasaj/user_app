@@ -65,7 +65,7 @@ class AuthCubit extends BaseCubit<AuthState> {
     } on RedundantRequestException catch (e) {
       log(e.toString());
     } catch (e) {
-      emit(state.copyWith(
+            emit(state.copyWith(
           status: AuthStateStatus.error, errorMessage: e.toString()));
     }
   }

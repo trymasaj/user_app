@@ -39,7 +39,7 @@ class AddressTile extends StatelessWidget {
               children: [
                 SlidableAction(
                   onPressed: (context) => onDeleted(),
-                  backgroundColor: Color(0xFFFE4A49),
+                  backgroundColor: const Color(0xFFFE4A49),
                   foregroundColor: Colors.white,
                   icon: Icons.delete,
                   label: 'Delete',
@@ -66,16 +66,16 @@ class AddressTile extends StatelessWidget {
                 children: [
                   SizedBox(width: 12.w),
                   Container(
-                    decoration: BoxDecoration(
+                    decoration: const BoxDecoration(
                         shape: BoxShape.circle, color: Color(0xffF9F8F6)),
                     child: Padding(
-                      padding: EdgeInsets.all(10.0),
+                      padding: const EdgeInsets.all(10.0),
                       child: SvgPicture.asset(
                         ImageConstant.imgFluentLocation20Regular,
                         width: 22.w,
                         height: 22.h,
-                        colorFilter:
-                            ColorFilter.mode(Colors.black, BlendMode.srcIn),
+                        colorFilter: const ColorFilter.mode(
+                            Colors.black, BlendMode.srcIn),
                       ),
                     ),
                   ),
@@ -86,11 +86,14 @@ class AddressTile extends StatelessWidget {
                       children: [
                         Row(
                           children: [
-                            CustomText(
-                              text: address.addressTitle,
-                              fontSize: 16.fSize,
-                              fontWeight: FontWeight.w500,
-                              color: Color(0xff181B28),
+                            Expanded(
+                              child: CustomText(
+                                text: address.addressTitle,
+                                fontSize: 15.fSize,
+                                maxLines: 2,
+                                fontWeight: FontWeight.w500,
+                                color: const Color(0xff181B28),
+                              ),
                             ),
                             SizedBox(width: 5.w),
                             if (address.isPrimary)
@@ -102,7 +105,7 @@ class AddressTile extends StatelessWidget {
                                     padding: EdgeInsets.symmetric(
                                         horizontal: 8.0.w, vertical: 2.h),
                                     child: CustomText(
-                                      text: 'Primary',
+                                      text: 'lbl_primary_address',
                                       color: const Color(0xffEDA674),
                                       fontSize: 12.fSize,
                                     ),
@@ -114,7 +117,7 @@ class AddressTile extends StatelessWidget {
                           child: CustomText(
                             text: address.formattedAddress,
                             fontSize: 14.fSize,
-                            color: Color(0xff5D5F69),
+                            color: const Color(0xff5D5F69),
                           ),
                         )
                       ],

@@ -17,10 +17,15 @@ class CountryCubit extends BaseCubit<CountryState> {
 
   Future<void> init(bool isGuest) async {
     if (isGuest) {
+      setCountryError(false);
       await getCurrentCountry();
       return;
     }
     await getAllAddressesAndSavePrimaryAddressLocally();
+  }
+
+  void reset() {
+    emit(state.copyWith(showCountryError: false));
   }
 
   Future<void> getCurrentCountry() async {
@@ -41,7 +46,7 @@ class CountryCubit extends BaseCubit<CountryState> {
     }
   }
 
-  void showCountryError(bool showCountryError) {
+  void setCountryError(bool showCountryError) {
     emit(state.copyWith(status: CountryStateStatus.loading));
 
     emit(state.copyWith(
