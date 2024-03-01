@@ -28,7 +28,7 @@ abstract class ApiEndPoint {
   // VERIFY_FORGET_PASSWORD
   static const VERIFY_FORGET_PASSWORD =
       '$BASE_URL/Identity/verify-forget-password';
-      //RESET_PASSWORD
+  //RESET_PASSWORD
   static const RESET_PASSWORD = '$BASE_URL/Identity/reset-password';
   static const REFRESH_TOKEN = '$_REQUEST_URL/refresh';
   static const LOGOUT = '$_REQUEST_URL/revoke';
@@ -87,9 +87,10 @@ abstract class ApiEndPoint {
   static const GET_USER_POINTS = '$_REQUEST_URL/getuserpointhistory';
   static const GET_MORE_USER_POINTS = '$_REQUEST_URL/userpointhistory';
 
-  //TicketMX
-  static const CHECK_TICKETMX_TOKEN = '$_TICKETMX_API_URL/checktoken';
-  static const ORDERS = '$_TICKETMX_API_URL/orders';
-  static const TICKETS = '$_TICKETMX_API_URL/tickets';
-  static const TICKET_PASSBOOK = '$TICKETMX_WEB_URL/api/v1/ticketpassbook';
+  //Member
+  static const ADD_MEMBER = '$BASE_URL/member';
+  static const GET_MEMBERS = '$BASE_URL/member';
+  static const GET_MEMBER = '$BASE_URL/member';
+  static const UPDATE_MEMBER = '$BASE_URL/member';
+  static const DELETE_MEMBER = '$BASE_URL/member';
 }
