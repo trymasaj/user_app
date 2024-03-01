@@ -45,6 +45,10 @@ class ServiceCubit extends BaseCubit<ServiceState> {
     await loadServices();
   }
 
+  void setTherapistId(int id) {
+    emit(state.copyWith(therapistId: id));
+  }
+
   Future<void> loadServices({
     bool refresh = false,
   }) async {
@@ -60,12 +64,14 @@ class ServiceCubit extends BaseCubit<ServiceState> {
           priceTo: state.priceTo,
           searchKeyword: state.searchKeyword,
           page: 1,
+          therapistId: state.therapistId,
           pageSize: state.pageSize));
       emit(state.copyWith(
         status: ServiceStateStatus.loaded,
         services: services,
         page: 1,
         searchKeyword: state.searchKeyword,
+        therapistId: state.therapistId,
       ));
     } catch (e) {
       emit(state.copyWith(
@@ -85,6 +91,7 @@ class ServiceCubit extends BaseCubit<ServiceState> {
           priceTo: state.priceTo,
           // searchKeyword: state.searchKeyword,
           page: state.page! + 1,
+          therapistId: state.therapistId,
           pageSize: state.pageSize));
       emit(state.copyWith(
           status: ServiceStateStatus.loaded,
@@ -111,61 +118,4 @@ class ServiceCubit extends BaseCubit<ServiceState> {
     emit(state.copyWith(priceFrom: null, priceTo: null, clearPrice: true));
     await loadServices();
   }
-
-  // Future<void> getServices(
-  //     {double? priceFrom,
-  //     double? priceTo,
-  //     String? searchKeyword,
-  //     double? maxPrice,
-  //     double? minPrice,
-  //     bool loadMore = false,
-  //     bool? clearPrice}) async {
-  //   if (state.isLoadingMore) return;
-  //   final oldServices = state.services;
-
-  //   if ((state.hasReachedMax ?? false)) return;
-  //   final page = loadMore ? (state.page ?? 1) + 1 : 1;
-
-  //   emit(state.copyWith(
-  //       status: loadMore
-  //           ? ServcieStateStatus.loadingMore
-  //           : ServcieStateStatus.loading));
-  //   try {
-  //     final services = await _serviceRepository.getServices(ServiceQueryModel(
-  //         categoryId: state.slectedServiceCategory!.id,
-  //         priceFrom: priceFrom,
-  //         priceTo: priceTo,
-  //         page: page,
-  //         searchKeyword: searchKeyword,
-  //         pageSize: state.pageSize));
-
-  //     // iterate it to be than 10
-  //     await Future.delayed(const Duration(seconds: 2), () {
-  //       if ((oldServices ?? []).isNotEmpty) {
-  //         services.addAll(List.generate(
-  //             10 - services.length, (index) => (oldServices ?? []).first));
-  //       } else {
-  //         services.addAll(
-  //             List.generate(10 - services.length, (index) => services.first));
-  //       }
-  //     });
-
-  //     final hasReachedMax = services.length < (state.pageSize ?? 10);
-
-  //     emit(state.copyWith(
-  //         status: ServcieStateStatus.loaded,
-  //         services:
-  //             loadMore ? [...(state.services ?? []), ...services] : services,
-  //         maxPrice: maxPrice ?? state.maxPrice,
-  //         page: page,
-  //         priceFrom: priceFrom,
-  //         minPrice: minPrice ?? state.minPrice,
-  //         clearPrice: clearPrice ?? false,
-  //         priceTo: priceTo,
-  //         hasReachedMax: hasReachedMax));
-  //   } catch (e) {
-  //     emit(state.copyWith(
-  //         status: ServcieStateStatus.error, errorMessage: e.toString()));
-  //   }
-  // }
 }

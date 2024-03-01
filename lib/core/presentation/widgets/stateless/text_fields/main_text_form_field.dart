@@ -35,6 +35,8 @@ abstract class MainTextFormField extends StatefulWidget {
   final TextStyle? style;
   final bool? readOnly;
   final void Function()? onTap;
+  final TextStyle? hintStyle;
+  final InputDecoration? decoration;
 
   const MainTextFormField({
     super.key,
@@ -44,6 +46,7 @@ abstract class MainTextFormField extends StatefulWidget {
     required this.currentController,
     required this.hintText,
     this.keyboardType,
+    this.hintStyle,
     required this.validator,
     this.textCapitalization = TextCapitalization.none,
     this.margin = const EdgeInsets.symmetric(horizontal: 16.0, vertical: 8.0),
@@ -66,6 +69,7 @@ abstract class MainTextFormField extends StatefulWidget {
     this.prefixIcon,
     this.readOnly,
     this.onTap,
+    this.decoration
   });
 
   @override
@@ -140,7 +144,8 @@ class _MainTextFormFieldState extends State<MainTextFormField> {
         textAlignVertical:
             widget.expanded ? const TextAlignVertical(y: -0.8) : null,
         obscureText: widget.obscureText ?? false,
-        decoration: InputDecoration(
+        decoration:widget.decoration ??
+         InputDecoration(
           fillColor: widget.enabled
               ? widget.fillColor ?? const Color(0xFFF6F6F6)
               : const Color(0x44000000),
@@ -149,11 +154,12 @@ class _MainTextFormFieldState extends State<MainTextFormField> {
           contentPadding: widget.contentPadding ??
               const EdgeInsets.fromLTRB(20, 20, 20, 20),
           hintText: widget.hintText.tr(),
-          hintStyle: TextStyle(
-              fontFamily: 'Poppins',
-              fontSize: 14.0,
-              fontWeight: FontWeight.w400,
-              color: widget.hintColor ?? const Color(0xFF8C8C8C)),
+          hintStyle: widget.hintStyle ??
+              TextStyle(
+                  fontFamily: 'Poppins',
+                  fontSize: 14.0,
+                  fontWeight: FontWeight.w400,
+                  color: widget.hintColor ?? const Color(0xFF8C8C8C)),
           suffixIcon: widget.suffixIcon,
           prefixIcon: widget.prefixIcon,
           enabledBorder: OutlineInputBorder(

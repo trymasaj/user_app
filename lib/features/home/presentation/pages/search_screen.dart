@@ -1,13 +1,40 @@
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:masaj/core/app_export.dart';
+import 'package:masaj/core/data/di/injector.dart';
 import 'package:masaj/core/data/extensions/extensions.dart';
 import 'package:masaj/core/presentation/colors/app_colors.dart';
+import 'package:masaj/core/presentation/widgets/stateless/custom_cached_network_image.dart';
+import 'package:masaj/core/presentation/widgets/stateless/custom_loading.dart';
 import 'package:masaj/core/presentation/widgets/stateless/custom_text.dart';
+import 'package:masaj/core/presentation/widgets/stateless/empty_page_message.dart';
+import 'package:masaj/core/presentation/widgets/stateless/text_fields/search_text_form_field.dart';
+import 'package:masaj/features/home/presentation/bloc/home_search_cubit/home_search_cubit.dart';
+import 'package:masaj/features/providers_tab/data/models/therapist.dart';
+import 'package:masaj/features/services/data/models/service_model.dart';
+import 'package:masaj/features/services/presentation/screens/serice_details_screen.dart';
 import 'package:masaj/gen/assets.gen.dart';
 
 class SearchScreen extends StatefulWidget {
   const SearchScreen({super.key});
+  // builder
+  static Widget builder() {
+    return BlocProvider<HomeSearchCubit>(
+      create: (context) => Injector().homeSearchCubit,
+      child: const SearchScreen(),
+    );
+  }
+
+  static Route router() {
+    return MaterialPageRoute<void>(
+      builder: (_) => builder(),
+    );
+  }
+
+  // route name
+  static const routeName = '/search-screen';
 
   @override
   State<SearchScreen> createState() => _SearchScreenState();
@@ -15,113 +42,175 @@ class SearchScreen extends StatefulWidget {
 
 class _SearchScreenState extends State<SearchScreen> {
   late TextEditingController _searchController;
+  late FocusNode _searchFocusNode;
 
   @override
   void initState() {
     _searchController = TextEditingController();
+    _searchFocusNode = FocusNode();
     _searchController.addListener(() {
       setState(() {});
     });
     super.initState();
   }
 
+  List<Widget> buildServices(
+    List<ServiceModel> services,
+  ) {
+    return [
+      SliverToBoxAdapter(
+        child: Container(
+          margin: const EdgeInsets.symmetric(horizontal: 20),
+          child: const Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              Text(
+                'Services',
+                style: TextStyle(
+                  fontSize: 14,
+                  fontWeight: FontWeight.w400,
+                  color: AppColors.FONT_COLOR,
+                ),
+              ),
+            ],
+          ),
+        ),
+      ),
+      const SliverToBoxAdapter(
+        child: SizedBox(
+          height: 10,
+        ),
+      ),
+      // if ((state.result?.services ?? []).isNotEmpty)
+      ServicesResults(services: services)
+    ];
+  }
+
+  List<Widget> buildProviders(
+    List<Therapist> therapists,
+  ) {
+    return [
+      SliverToBoxAdapter(
+        child: Container(
+          margin: const EdgeInsets.symmetric(horizontal: 20),
+          child: const Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              CustomText(
+                text: 'Providers',
+                fontSize: 14,
+                fontWeight: FontWeight.w400,
+                color: AppColors.FONT_COLOR,
+              ),
+            ],
+          ),
+        ),
+      ),
+      const SliverToBoxAdapter(
+        child: SizedBox(
+          height: 10,
+        ),
+      ),
+      // if ((state.result?.therapists ?? []).isNotEmpty)
+      ProvidersResults(therapists: therapists)
+    ];
+  }
+
+  Widget buildLoading() {
+    return const SliverToBoxAdapter(
+      child: CustomLoading(
+        loadingStyle: LoadingStyle.ShimmerList,
+      ),
+    );
+  }
+
+  List<Widget> buildRecentlyViews(
+    List<ServiceModel> services,
+  ) {
+    if (services.isEmpty) {
+      return [
+        SliverToBoxAdapter(
+          child: Container(
+            padding: const EdgeInsets.all(60),
+            child: EmptyPageMessage(
+              svgImage: 'empty',
+            ),
+          ),
+        )
+      ];
+    }
+    return [
+      SliverToBoxAdapter(
+        child: Container(
+          margin: const EdgeInsets.symmetric(horizontal: 20),
+          child: const Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              CustomText(
+                text: 'recent_searches',
+                fontSize: 14,
+                fontWeight: FontWeight.w400,
+                color: AppColors.FONT_COLOR,
+              ),
+            ],
+          ),
+        ),
+      ),
+      const SliverToBoxAdapter(
+        child: SizedBox(
+          height: 10,
+        ),
+      ),
+      // list of recent searches
+      RecenetHostory(
+        services: services,
+      ),
+    ];
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: SafeArea(
-        child: CustomScrollView(
-          slivers: [
-            // search app bar
-            SearchBarWidget(searchController: _searchController),
-            // space
-            const SliverToBoxAdapter(
-              child: SizedBox(
-                height: 20,
-              ),
-            ),
+      body: BlocBuilder<HomeSearchCubit, HomeSearchCubitState>(
+        builder: (context, state) {
+          return SafeArea(
+            child: CustomScrollView(
+              slivers: [
+                SliverToBoxAdapter(
+                    child: SizedBox(
+                  height: 6.h,
+                )),
+                // search app bar
+                SearchBarWidget(
+                    searchFocusNode: _searchFocusNode,
+                    searchController: _searchController),
+                // space
+                const SliverToBoxAdapter(
+                  child: SizedBox(
+                    height: 20,
+                  ),
+                ),
+                if ((state.result?.services ?? []).isNotEmpty)
+                  ...buildServices(
+                    state.result?.services ?? [],
+                  ),
+                if ((state.result?.therapists ?? []).isNotEmpty)
+                  ...buildProviders(
+                    state.result?.therapists ?? [],
+                  ),
+                if ((state.result?.services ?? []).isEmpty &&
+                    (state.result?.therapists ?? []).isEmpty &&
+                    state.isLoading)
+                  buildLoading(),
 
-            // search results of services
-            if (_searchController.text.isNotEmpty) ...[
-              SliverToBoxAdapter(
-                child: Container(
-                  margin: const EdgeInsets.symmetric(horizontal: 20),
-                  child: const Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      Text(
-                        'Services',
-                        style: TextStyle(
-                          fontSize: 14,
-                          fontWeight: FontWeight.w400,
-                          color: AppColors.FONT_COLOR,
-                        ),
-                      ),
-                    ],
+                if (state.isEmptyResult && _searchController.text.isEmpty)
+                  ...buildRecentlyViews(
+                    state.recentServices,
                   ),
-                ),
-              ),
-              const SliverToBoxAdapter(
-                child: SizedBox(
-                  height: 10,
-                ),
-              ),
-              const ServicesResults()
-            ],
-            if (_searchController.text.isNotEmpty) ...[
-              SliverToBoxAdapter(
-                child: Container(
-                  margin: const EdgeInsets.symmetric(horizontal: 20),
-                  child: const Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      Text(
-                        'Providers',
-                        style: TextStyle(
-                          fontSize: 14,
-                          fontWeight: FontWeight.w400,
-                          color: AppColors.FONT_COLOR,
-                        ),
-                      ),
-                    ],
-                  ),
-                ),
-              ),
-              const SliverToBoxAdapter(
-                child: SizedBox(
-                  height: 10,
-                ),
-              ),
-              const ProvidersResults()
-            ],
-            // search results
-            // recent searches
-            if (_searchController.text.isEmpty) ...[
-              SliverToBoxAdapter(
-                child: Container(
-                  margin: const EdgeInsets.symmetric(horizontal: 20),
-                  child: const Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      CustomText(
-                        text: 'recent_searches',
-                        fontSize: 14,
-                        fontWeight: FontWeight.w400,
-                        color: AppColors.FONT_COLOR,
-                      ),
-                    ],
-                  ),
-                ),
-              ),
-              const SliverToBoxAdapter(
-                child: SizedBox(
-                  height: 10,
-                ),
-              ),
-              // list of recent searches
-              const RecenetHostory(),
-            ]
-          ],
-        ),
+              ],
+            ),
+          );
+        },
       ),
     );
   }
@@ -130,46 +219,54 @@ class _SearchScreenState extends State<SearchScreen> {
 class ServicesResults extends StatelessWidget {
   const ServicesResults({
     super.key,
+    required this.services,
   });
+  final List<ServiceModel> services;
 
   @override
   Widget build(BuildContext context) {
     return SliverList.builder(
-      itemCount: 2,
+      itemCount: services.length,
       itemBuilder: (context, index) {
-        return Container(
-          margin: const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
-          child: Row(
-            mainAxisAlignment: MainAxisAlignment.start,
-            children: [
-              // image container
-              Container(
-                height: 50,
-                width: 50,
-                decoration: BoxDecoration(
-                  color: AppColors.GREY_LIGHT_COLOR_2,
-                  borderRadius: BorderRadius.circular(12),
-                  image: DecorationImage(
-                    image: AssetImage(
-                      Assets.images.imgGroup8.path,
+        final service = services[index];
+        return GestureDetector(
+          onTap: () async {
+            await context.read<HomeSearchCubit>().saveRecentService(service);
+          },
+          child: Container(
+            margin: const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.start,
+              children: [
+                // image container
+                Container(
+                  height: 50,
+                  width: 50,
+                  decoration: BoxDecoration(
+                    color: AppColors.GREY_LIGHT_COLOR_2,
+                    borderRadius: BorderRadius.circular(12),
+                    image: DecorationImage(
+                      image: CustomCachedNetworkImageProvider(
+                        service.mainImage ?? '',
+                      ),
+                      fit: BoxFit.cover,
                     ),
-                    fit: BoxFit.cover,
                   ),
                 ),
-              ),
-              const SizedBox(
-                width: 10,
-              ),
-              // text
-              const Text(
-                'Massage',
-                style: TextStyle(
-                  fontSize: 14,
-                  fontWeight: FontWeight.w500,
-                  color: AppColors.FONT_COLOR,
+                const SizedBox(
+                  width: 10,
                 ),
-              ),
-            ],
+                // text
+                Text(
+                  service.title ?? '',
+                  style: TextStyle(
+                    fontSize: 14,
+                    fontWeight: FontWeight.w500,
+                    color: AppColors.FONT_COLOR,
+                  ),
+                ),
+              ],
+            ),
           ),
         );
       },
@@ -180,13 +277,16 @@ class ServicesResults extends StatelessWidget {
 class ProvidersResults extends StatelessWidget {
   const ProvidersResults({
     super.key,
+    required this.therapists,
   });
+  final List<Therapist> therapists;
 
   @override
   Widget build(BuildContext context) {
     return SliverList.builder(
-      itemCount: 2,
+      itemCount: therapists.length,
       itemBuilder: (context, index) {
+        final therapist = therapists[index];
         return Container(
           margin: const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
           child: Row(
@@ -200,8 +300,8 @@ class ProvidersResults extends StatelessWidget {
                   color: AppColors.GREY_LIGHT_COLOR_2,
                   borderRadius: BorderRadius.circular(12),
                   image: DecorationImage(
-                    image: AssetImage(
-                      Assets.images.imgGroup8.path,
+                    image: CustomCachedNetworkImageProvider(
+                      therapist.profileImage ?? '',
                     ),
                     fit: BoxFit.cover,
                   ),
@@ -211,8 +311,8 @@ class ProvidersResults extends StatelessWidget {
                 width: 10,
               ),
               // text
-              const Text(
-                'Fahd',
+              Text(
+                therapist.fullName ?? '',
                 style: TextStyle(
                   fontSize: 14,
                   fontWeight: FontWeight.w500,
@@ -230,59 +330,76 @@ class ProvidersResults extends StatelessWidget {
 class RecenetHostory extends StatelessWidget {
   const RecenetHostory({
     super.key,
+    required this.services,
   });
+  final List<ServiceModel> services;
 
   @override
   Widget build(BuildContext context) {
     return SliverList.builder(
-      itemCount: 10,
+      itemCount: services.length,
       itemBuilder: (context, index) {
-        return Container(
-          margin: const EdgeInsets.symmetric(horizontal: 20),
-          child: Column(
-            children: [
-              // search item
-              Container(
-                margin: const EdgeInsets.symmetric(vertical: 10),
-                child: Row(
-                  children: [
-                    // icon
-                    Container(
-                      margin: EdgeInsets.only(
-                          right: context.isAr ? 0 : 10,
-                          left: context.isAr ? 10 : 0),
-                      child: SvgPicture.asset(
-                        Assets.images.imgSolarHistoryOutline,
-                        color: AppColors.ACCENT_COLOR,
-                      ),
-                    ),
-                    // text
-                    const Expanded(
-                      child: Text(
-                        'Massage',
-                        style: TextStyle(
-                          fontSize: 14,
-                          fontWeight: FontWeight.w400,
-                          color: AppColors.FONT_COLOR,
-                        ),
-                      ),
-                    ),
-                    // close icon
-                    GestureDetector(
-                      onTap: () {},
-                      child: Container(
-                        margin: const EdgeInsets.only(left: 10),
+        final service = services[index];
+        return GestureDetector(
+          onTap: () async {
+            Navigator.push(
+                context,
+                MaterialPageRoute(
+                    builder: (context) => ServiceDetailsScreen(
+                          id: service.serviceId,
+                        )));
+          },
+          child: Container(
+            margin: const EdgeInsets.symmetric(horizontal: 20),
+            child: Column(
+              children: [
+                // search item
+                Container(
+                  margin: const EdgeInsets.symmetric(vertical: 10),
+                  child: Row(
+                    children: [
+                      // icon
+                      Container(
+                        margin: EdgeInsets.only(
+                            right: context.isAr ? 0 : 10,
+                            left: context.isAr ? 10 : 0),
                         child: SvgPicture.asset(
-                          Assets.images.imgCloseOnprimary,
-                          color: AppColors.PlaceholderColor,
+                          Assets.images.imgSolarHistoryOutline,
+                          color: AppColors.ACCENT_COLOR,
                         ),
                       ),
-                    ),
-                  ],
+                      // text
+                      Expanded(
+                        child: Text(
+                          service.title ?? '',
+                          style: TextStyle(
+                            fontSize: 14,
+                            fontWeight: FontWeight.w400,
+                            color: AppColors.FONT_COLOR,
+                          ),
+                        ),
+                      ),
+                      // close icon
+                      GestureDetector(
+                        onTap: () {
+                          context
+                              .read<HomeSearchCubit>()
+                              .removeRecentService(service);
+                        },
+                        child: Container(
+                          margin: const EdgeInsets.only(left: 10),
+                          child: SvgPicture.asset(
+                            Assets.images.imgCloseOnprimary,
+                            color: AppColors.PlaceholderColor,
+                          ),
+                        ),
+                      ),
+                    ],
+                  ),
                 ),
-              ),
-              // divider
-            ],
+                // divider
+              ],
+            ),
           ),
         );
       },
@@ -294,9 +411,12 @@ class SearchBarWidget extends StatelessWidget {
   const SearchBarWidget({
     super.key,
     required TextEditingController searchController,
-  }) : _searchController = searchController;
+    required FocusNode searchFocusNode,
+  })  : _searchController = searchController,
+        _searchFocusNode = searchFocusNode;
 
   final TextEditingController _searchController;
+  final FocusNode _searchFocusNode;
 
   @override
   Widget build(BuildContext context) {
@@ -348,13 +468,22 @@ class SearchBarWidget extends StatelessWidget {
             left: context.isAr ? 24 : 0, right: context.isAr ? 0 : 24),
         // width: MediaQuery.of(context).size.width,
         // alignment: Alignment.center,
-        child: TextField(
-          controller: _searchController,
+        child: BasicTextFiled(
+          isSearch: true,
+          hintText: 'search'.tr(),
+          currentFocusNode: _searchFocusNode,
+          currentController: _searchController,
+          onChanged: (value) {
+            context.read<HomeSearchCubit>().search(value);
+          },
           style: const TextStyle(
             fontSize: 14,
             fontWeight: FontWeight.w400,
             color: AppColors.FONT_COLOR,
           ),
+          hintColor: AppColors.PlaceholderColor,
+          fillColor: AppColors.ExtraLight,
+          borderColor: Colors.transparent,
           decoration: InputDecoration(
             hintText: 'search'.tr(),
             hintStyle: const TextStyle(
@@ -385,6 +514,7 @@ class SearchBarWidget extends StatelessWidget {
                   ? GestureDetector(
                       onTap: () {
                         _searchController.clear();
+                        context.read<HomeSearchCubit>().search('');
                       },
                       child: SvgPicture.asset(
                         Assets.images.imgCloseOnprimary,

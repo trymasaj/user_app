@@ -7,6 +7,7 @@ import 'package:masaj/core/presentation/widgets/stateless/custom_rating_bar.dart
 import 'package:masaj/features/bookings_tab/presentation/widgets/therapist_info_card.dart';
 import 'package:masaj/features/home/presentation/pages/home_tab.dart';
 import 'package:masaj/features/home/presentation/widget/tehrapists_widget.dart';
+import 'package:masaj/features/providers_tab/data/models/therapist.dart';
 import 'package:masaj/features/services/application/service_cubit/service_cubit.dart';
 import 'package:masaj/features/services/data/models/service_category_model.dart';
 import 'package:masaj/features/services/presentation/screens/services_screen.dart';
@@ -14,9 +15,11 @@ import 'package:masaj/features/services/presentation/screens/services_screen.dar
 class BookWithTherapistScreenArguments {
   final ServiceCategory? selectedServiceCategory;
   final List<ServiceCategory> allServiceCategories;
+  final Therapist therapist;
   BookWithTherapistScreenArguments({
     this.selectedServiceCategory,
     required this.allServiceCategories,
+    required this.therapist,
   });
 }
 
@@ -34,14 +37,21 @@ class BookWithTherapistScreen extends StatefulWidget {
 class _BookWithTherapistScreenState extends State<BookWithTherapistScreen> {
   late ScrollController _scrollController;
   late ServiceCubit serviceCubit;
+  late Therapist therapist;
   @override
   void initState() {
     _scrollController = ScrollController();
+    therapist = widget.arguments!.therapist;
     serviceCubit = context.read<ServiceCubit>();
     if (widget.arguments != null)
       serviceCubit.setServiceCategory(
           selectedServiceCategory: widget.arguments!.selectedServiceCategory,
           allServicesCategories: widget.arguments!.allServiceCategories);
+
+    serviceCubit.setTherapistId(
+      widget.arguments!.therapist.therapistId ?? 0,
+    );
+
     serviceCubit.loadServices();
     _scrollController.addListener(() {
       if (_scrollController.position.pixels ==
@@ -65,7 +75,8 @@ class _BookWithTherapistScreenState extends State<BookWithTherapistScreen> {
               borderRadius: BorderRadius.circular(12),
               image: DecorationImage(
                 image: CustomCachedNetworkImageProvider(
-                    'https://t3.ftcdn.net/jpg/02/95/51/80/240_F_295518052_aO5d9CqRhPnjlNDTRDjKLZHNftqfsxzI.jpg'),
+                  therapist.profileImage ?? '',
+                ),
                 fit: BoxFit.cover,
               ),
             ),
@@ -78,7 +89,7 @@ class _BookWithTherapistScreenState extends State<BookWithTherapistScreen> {
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
               Text(
-                'Dr. Mahmoud Mohamed',
+                therapist.fullName ?? '',
                 style: TextStyle(
                   fontSize: 16,
                   fontWeight: FontWeight.w500,
@@ -87,7 +98,7 @@ class _BookWithTherapistScreenState extends State<BookWithTherapistScreen> {
               ),
               // Sports massage specialist
               Text(
-                'Sports massage specialist',
+                therapist.title ?? '',
                 style: TextStyle(
                   fontSize: 10,
                   fontWeight: FontWeight.w400,
@@ -98,7 +109,7 @@ class _BookWithTherapistScreenState extends State<BookWithTherapistScreen> {
                 height: 5.h,
               ),
               CustomRatingBar(
-                itemCount: 5,
+                itemCount: therapist.rank ?? 5,
                 itemSize: 10.5,
               )
             ],
@@ -125,7 +136,7 @@ class _BookWithTherapistScreenState extends State<BookWithTherapistScreen> {
             SizedBox(
               height: 20.h,
             ),
-            ServicesTabs(),
+            const ServicesTabs(),
             SizedBox(
               height: 24.h,
             ),

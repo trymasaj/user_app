@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:masaj/core/app_export.dart';
+import 'package:masaj/core/data/di/injector.dart';
 import 'package:masaj/features/account/models/verification_code_screen.dart';
 import 'package:masaj/features/account/pages/account_screen.dart';
 import 'package:masaj/features/account/pages/create_new_password_screen.dart';
@@ -27,6 +29,7 @@ import 'package:masaj/features/legal/pages/privacy_policy_screen.dart';
 import 'package:masaj/features/legal/pages/reschedule_policy_screen.dart';
 import 'package:masaj/features/legal/pages/terms_and_condititons_screen.dart';
 import 'package:masaj/features/medical_form/pages/medical_form_screen.dart';
+import 'package:masaj/features/providers_tab/data/models/therapist.dart';
 import 'package:masaj/features/providers_tab/presentation/pages/provider_details_screen.dart';
 import 'package:masaj/features/quiz/presentation/pages/quiz_start_page.dart';
 import 'package:masaj/features/splash/presentation/pages/splash_page.dart';
@@ -138,8 +141,14 @@ Route<dynamic>? onGenerateRoute(RouteSettings settings) {
       return MaterialPageRoute(
           builder: (context) => MyProfileScreen.builder(context));
     case ProviderDetailsScreen.routeName:
-      return MaterialPageRoute(
-          builder: (context) => const ProviderDetailsScreen());
+      // there is no arguments for this route
+      final arguments =
+          settings.arguments as ProviderDetailsScreenNavArguements;
+
+      return ProviderDetailsScreen.router(
+        therapist: arguments.therapist,
+        providersTabCubit: arguments.providersTabCubit,
+      );
 
     default:
   }

@@ -159,8 +159,7 @@ class AuthRemoteDataSourceImpl implements AuthRemoteDataSource {
             statusCode: response.statusCode!, response: response.data);
       }
       final result = response.data;
-      print('*' * 100);
-      print(result);
+    
       final resultStatus = result['result'];
       if (resultStatus == RequestResult.Failed.name) {
         throw RequestException(message: result['msg']);

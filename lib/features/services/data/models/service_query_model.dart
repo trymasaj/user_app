@@ -7,6 +7,7 @@ class ServiceQueryModel extends Equatable {
   final double? priceTo;
   final int? page;
   final int? pageSize;
+  final int? therapistId;
 
   const ServiceQueryModel({
     this.categoryId,
@@ -15,6 +16,7 @@ class ServiceQueryModel extends Equatable {
     this.priceTo,
     this.page,
     this.pageSize,
+    this.therapistId,
   });
 
   Map<String, dynamic> toMap() {
@@ -25,6 +27,7 @@ class ServiceQueryModel extends Equatable {
       'PriceTo': priceTo,
       'Page': page,
       'PageSize': pageSize,
+      'TherapistId': therapistId,
     }..removeWhere((key, value) => value == null);
   }
 
@@ -37,6 +40,7 @@ class ServiceQueryModel extends Equatable {
       priceTo: json['PriceTo'],
       page: json['Page'],
       pageSize: json['PageSize'],
+      therapistId: json['TherapistId'],
     );
   }
   // copy with
@@ -47,6 +51,7 @@ class ServiceQueryModel extends Equatable {
     double? priceTo,
     int? page,
     int? pageSize,
+    int? therapistId,
   }) {
     return ServiceQueryModel(
       categoryId: categoryId ?? this.categoryId,
@@ -55,6 +60,7 @@ class ServiceQueryModel extends Equatable {
       priceTo: priceTo ?? this.priceTo,
       page: page ?? this.page,
       pageSize: pageSize ?? this.pageSize,
+      therapistId: therapistId ?? this.therapistId,
     );
   }
 
@@ -66,5 +72,6 @@ class ServiceQueryModel extends Equatable {
         priceTo,
         page,
         pageSize,
+        therapistId
       ];
 }

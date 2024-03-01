@@ -25,6 +25,7 @@ class ServiceState extends Equatable {
   final ServiceStateStatus status;
   final ServicesResponse? services;
   final String? errorMessage;
+  final int? therapistId;
   final int? page;
   final int? pageSize;
   final double maxPrice;
@@ -48,6 +49,7 @@ class ServiceState extends Equatable {
       this.priceTo,
       this.searchKeyword,
       this.services = ServicesResponse.empty,
+      this.therapistId,
       this.errorMessage});
 
   // copy with
@@ -69,6 +71,7 @@ class ServiceState extends Equatable {
     bool? isLoadingMore,
     String? searchKeyword,
     bool clearSearch = false,
+    int? therapistId,
   }) {
     return ServiceState(
         status: status ?? this.status,
@@ -84,6 +87,7 @@ class ServiceState extends Equatable {
             selectedServiceCategory ?? this.slectedServiceCategory,
         priceFrom: clearPrice == true ? null : priceFrom ?? this.priceFrom,
         priceTo: clearPrice == true ? null : priceTo ?? this.priceTo,
+        therapistId: therapistId ?? this.therapistId,
         allServiceCategories:
             allServiceCategories ?? this.allServiceCategories);
   }
@@ -102,6 +106,7 @@ class ServiceState extends Equatable {
         allServiceCategories,
         maxPrice,
         minPrice,
-        searchKeyword
+        searchKeyword,
+        therapistId
       ];
 }

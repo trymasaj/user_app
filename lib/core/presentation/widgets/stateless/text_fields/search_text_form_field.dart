@@ -10,6 +10,7 @@ import 'package:masaj/gen/assets.gen.dart';
 class SearchTextFormField extends MainTextFormField {
   SearchTextFormField(
       {super.key,
+      required EdgeInsetsGeometry contentPaddig,
       required super.currentFocusNode,
       required super.currentController,
       super.margin = null,
@@ -24,6 +25,7 @@ class SearchTextFormField extends MainTextFormField {
           validator: null,
           fillColor: AppColors.ExtraLight,
           hintColor: AppColors.PlaceholderColor,
+          contentPadding: contentPaddig,
 
           //    hintStyle: const TextStyle(
           //   fontSize: 14,
@@ -68,4 +70,39 @@ class SearchTextFormField extends MainTextFormField {
           ),
           cursorColor: AppColors.ACCENT_COLOR,
         );
+}
+
+class BasicTextFiled extends MainTextFormField {
+  BasicTextFiled(
+      {required super.currentFocusNode,
+      super.onChanged,
+      super.style,
+      super.readOnly,
+      super.onTap,
+      super.margin,
+      super.enabled,
+      super.contentPadding,
+      super.isSearch,
+      super.nextFocusNode,
+      super.keyboardType,
+      super.maxLength,
+      super.inputFormatters,
+      super.expanded,
+      super.maxLines,
+      super.borderColor,
+      super.hintColor,
+      super.enableSuggestions,
+      super.showScrollbar,
+      super.obscureText,
+      super.suffixIcon,
+      super.fillColor,
+      super.cursorColor,
+      super.hintStyle,
+      super.decoration,
+      super.prefixIcon,
+      super.textCapitalization,
+      super.key,
+      required super.currentController,
+      required super.hintText,
+      super.validator});
 }

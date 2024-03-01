@@ -28,7 +28,7 @@ abstract class ApiEndPoint {
   // VERIFY_FORGET_PASSWORD
   static const VERIFY_FORGET_PASSWORD =
       '$BASE_URL/Identity/verify-forget-password';
-      //RESET_PASSWORD
+  //RESET_PASSWORD
   static const RESET_PASSWORD = '$BASE_URL/Identity/reset-password';
   static const REFRESH_TOKEN = '$_REQUEST_URL/refresh';
   static const LOGOUT = '$_REQUEST_URL/revoke';
@@ -96,4 +96,11 @@ abstract class ApiEndPoint {
   static const SERVICE_CATEGORIES = '$BASE_URL/service-category';
   // services
   static const SERVICES = '$BASE_URL/services';
+  // therapists
+  static const Therapists = '$BASE_URL/therapists';
+  static const RECOMMENDED_THERAPISTS = '$Therapists/recommended';
+  // add or remove favorite therapists
+  static const FAV_THERAPISTS = '$Therapists/favourite';
+  // home
+  static const HOME_SEARCH = '$BASE_URL/home/search';
 }

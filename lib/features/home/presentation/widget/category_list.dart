@@ -64,8 +64,8 @@ class CategoriesList extends StatelessWidget {
                     children: [
                       // image
                       Container(
-                        height: 80.h,
-                        width: 80.w,
+                        height: 82.h,
+                        width: 83.w,
                         decoration: BoxDecoration(
                           color: AppColors.GREY_LIGHT_COLOR_2,
                           borderRadius: BorderRadius.circular(6),
@@ -77,13 +77,15 @@ class CategoriesList extends StatelessWidget {
                           ),
                         ),
                       ),
-                      const SizedBox(
-                        height: 5,
+                      SizedBox(
+                        height: 6.h,
                       ),
                       Text(
                         category.name ?? '',
-                        style: const TextStyle(
-                            fontSize: 12,
+                        textAlign: TextAlign.center,
+                        overflow: TextOverflow.ellipsis,
+                        style: TextStyle(
+                            fontSize: 12.fSize,
                             fontWeight: FontWeight.w400,
                             color: AppColors.FONT_COLOR),
                       ),

@@ -50,6 +50,7 @@ abstract class CacheService {
   Future<bool> saveServiceModel(ServiceModel serviceModel);
   // get all service models
   Future<List<ServiceModel>> getAllServiceModels();
+  Future<bool> removeServiceModel(ServiceModel serviceModel);
 }
 
 @LazySingleton(as: CacheService)
@@ -224,6 +225,29 @@ class CacheServiceImplV2 implements CacheService {
       serviceModels.removeLast();
     }
     serviceModels.add(serviceModel);
+
+    await storage.write(
+        key: _SERVICE_MODEL,
+        value: jsonEncode(serviceModels.map((e) => e.toMap()).toList()));
+    return true;
+  }
+
+// remove    service model
+  Future<bool> removeServiceModel(ServiceModel serviceModel) async {
+    final storage = await _completer.future;
+    final serviceModels = await getAllServiceModels();
+    // check if the service model is already saved
+    if (serviceModels
+        .any((element) => element.serviceId == serviceModel.serviceId)) {
+      // remove the old service model and add the new one
+      serviceModels.removeWhere(
+          (element) => element.serviceId == serviceModel.serviceId);
+    }
+    // // check if length is more than 10 then remove the last item
+    // if (serviceModels.length >= 10) {
+    //   serviceModels.removeLast();
+    // }
+    // serviceModels.add(serviceModel);
     await storage.write(
         key: _SERVICE_MODEL,
         value: jsonEncode(serviceModels.map((e) => e.toMap()).toList()));

@@ -370,7 +370,7 @@ class TotalSection extends StatelessWidget {
                 return Row(
                   children: [
                     CustomText(
-                      text: state.service!.title,
+                      text: state.service!.title ?? '',
                       fontSize: 14,
                       fontWeight: FontWeight.w400,
                       color: AppColors.FONT_LIGHT.withOpacity(.7),

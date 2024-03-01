@@ -6,9 +6,9 @@ class ServiceModel extends Equatable {
   final int serviceId;
   final int serviceCategoryId;
   final int countryId;
-  final String title;
-  final String description;
-  final bool isActive;
+  final String? title;
+  final String? description;
+  final bool? isActive;
   final bool allowFocusAreas;
   final int sortKey;
   final double startingPrice;
