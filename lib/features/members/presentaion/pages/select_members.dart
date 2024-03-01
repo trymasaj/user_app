@@ -1,6 +1,8 @@
 import 'dart:developer';
 import 'package:flutter/material.dart';
 import 'package:masaj/core/app_export.dart';
+import 'package:masaj/core/data/di/injection_setup.config.dart';
+import 'package:masaj/core/data/di/injector.dart';
 import 'package:masaj/core/domain/enums/gender.dart';
 import 'package:masaj/core/presentation/colors/app_colors.dart';
 import 'package:masaj/core/presentation/overlay/show_snack_bar.dart';
@@ -10,6 +12,7 @@ import 'package:masaj/features/account/widgets/member_tile.dart';
 import 'package:masaj/core/presentation/widgets/stateless/custom_app_bar.dart';
 import 'package:masaj/features/account/models/member.dart';
 import 'package:masaj/features/account/pages/manage_members_screen.dart';
+import 'package:masaj/features/members/presentaion/bloc/members_cubit.dart';
 
 class SelectMembersScreen extends StatefulWidget {
   const SelectMembersScreen({super.key});
@@ -30,35 +33,43 @@ class _SelectMembersScreenState extends State<SelectMembersScreen> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-        appBar: CustomAppBar(
-          title: 'lbl_select_member'.tr(),
-          actions: [buildAddMemberButton(context)],
-        ),
-        body: Padding(
-          padding: EdgeInsets.symmetric(horizontal: 24.w),
-          child: Column(
-            children: [
-              SizedBox(height: 25.h),
-              _buildWaringMsg(),
-              SizedBox(height: 25.h),
-              Expanded(
-                flex: 10,
-                child: ListView.builder(
-                  itemCount: members.length,
-                  itemBuilder: (context, index) => _buildMemberItem(index),
-                ),
-              ),
-              const Spacer(flex: 3),
-              DefaultButton(
-                padding: EdgeInsets.symmetric(horizontal: 130.w),
-                onPressed: () {},
-                label: 'continue',
-              ),
-              const Spacer(),
-            ],
+    return BlocProvider(
+      create: (context) => Injector().membersCubit..getMembers(),
+      child: Scaffold(
+          appBar: CustomAppBar(
+            title: 'lbl_select_member'.tr(),
+            actions: [buildAddMemberButton(context)],
           ),
-        ));
+          body: BlocBuilder<MembersCubit, MembersState>(
+            builder: (context, state) {
+              return Padding(
+                padding: EdgeInsets.symmetric(horizontal: 24.w),
+                child: Column(
+                  children: [
+                    SizedBox(height: 25.h),
+                    _buildWaringMsg(),
+                    SizedBox(height: 25.h),
+                    Expanded(
+                      flex: 10,
+                      child: ListView.builder(
+                        itemCount: members.length,
+                        itemBuilder: (context, index) =>
+                            _buildMemberItem(index),
+                      ),
+                    ),
+                    const Spacer(flex: 3),
+                    DefaultButton(
+                      padding: EdgeInsets.symmetric(horizontal: 130.w),
+                      onPressed: () {},
+                      label: 'continue',
+                    ),
+                    const Spacer(),
+                  ],
+                ),
+              );
+            },
+          )),
+    );
   }
 
   Widget _buildMemberItem(int index) {

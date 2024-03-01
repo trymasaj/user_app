@@ -7,21 +7,17 @@ import 'package:masaj/features/members/data/repo/members_repo.dart';
 
 part 'members_state.dart';
 
-class AuthCubit extends BaseCubit<MembersState> {
-  AuthCubit({
+class MembersCubit extends BaseCubit<MembersState> {
+  MembersCubit({
     required MembersRepository membersRepository,
   })  : _membersRepository = membersRepository,
         super(const MembersState());
 
   final MembersRepository _membersRepository;
 
-  Future<void> init() async {
-    try {} on RedundantRequestException catch (e) {
-      log(e.toString());
-    } catch (e) {
-      emit(state.copyWith(
-          status: MembersStateStatus.error, errorMessage: e.toString()));
-    }
+  void init(int? id) async {
+    if (id == null) return getMembers();
+    return getMember(id);
   }
 
   Future<void> getMembers() async {
