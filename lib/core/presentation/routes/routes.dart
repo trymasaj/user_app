@@ -32,6 +32,7 @@ import 'package:masaj/features/medical_form/pages/medical_form_screen.dart';
 import 'package:masaj/features/providers_tab/data/models/therapist.dart';
 import 'package:masaj/features/providers_tab/presentation/pages/provider_details_screen.dart';
 import 'package:masaj/features/quiz/presentation/pages/quiz_start_page.dart';
+import 'package:masaj/features/services/presentation/screens/serice_details_screen.dart';
 import 'package:masaj/features/splash/presentation/pages/splash_page.dart';
 import 'package:masaj/features/wallet/pages/top_up_wallet_screen.dart';
 import 'package:masaj/features/wallet/pages/wallet_screen.dart';
@@ -140,6 +141,10 @@ Route<dynamic>? onGenerateRoute(RouteSettings settings) {
     case MyProfileScreen.routeName:
       return MaterialPageRoute(
           builder: (context) => MyProfileScreen.builder(context));
+    case ServiceDetailsScreen.routeName:
+      final id = arguments as int;
+      return ServiceDetailsScreen.router(id);
+
     case ProviderDetailsScreen.routeName:
       // there is no arguments for this route
       final arguments =

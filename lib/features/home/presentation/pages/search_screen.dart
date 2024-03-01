@@ -6,6 +6,7 @@ import 'package:masaj/core/app_export.dart';
 import 'package:masaj/core/data/di/injector.dart';
 import 'package:masaj/core/data/extensions/extensions.dart';
 import 'package:masaj/core/presentation/colors/app_colors.dart';
+import 'package:masaj/core/presentation/navigation/navigator_helper.dart';
 import 'package:masaj/core/presentation/widgets/stateless/custom_cached_network_image.dart';
 import 'package:masaj/core/presentation/widgets/stateless/custom_loading.dart';
 import 'package:masaj/core/presentation/widgets/stateless/custom_text.dart';
@@ -232,6 +233,11 @@ class ServicesResults extends StatelessWidget {
         return GestureDetector(
           onTap: () async {
             await context.read<HomeSearchCubit>().saveRecentService(service);
+            Future.delayed(
+                const Duration(milliseconds: 0),
+                () => NavigatorHelper.of(context).pushNamed(
+                    ServiceDetailsScreen.routeName,
+                    arguments: service.serviceId));
           },
           child: Container(
             margin: const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
@@ -342,12 +348,9 @@ class RecenetHostory extends StatelessWidget {
         final service = services[index];
         return GestureDetector(
           onTap: () async {
-            Navigator.push(
-                context,
-                MaterialPageRoute(
-                    builder: (context) => ServiceDetailsScreen(
-                          id: service.serviceId,
-                        )));
+            NavigatorHelper.of(context).pushNamed(
+                ServiceDetailsScreen.routeName,
+                arguments: service.serviceId);
           },
           child: Container(
             margin: const EdgeInsets.symmetric(horizontal: 20),

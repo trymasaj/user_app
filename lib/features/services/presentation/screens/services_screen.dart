@@ -4,6 +4,7 @@ import 'package:gradient_borders/box_borders/gradient_box_border.dart';
 import 'package:masaj/core/app_export.dart';
 import 'package:masaj/core/data/di/injector.dart';
 import 'package:masaj/core/presentation/colors/app_colors.dart';
+import 'package:masaj/core/presentation/navigation/navigator_helper.dart';
 import 'package:masaj/core/presentation/widgets/stateless/custom_app_bar.dart';
 import 'package:masaj/core/presentation/widgets/stateless/custom_cached_network_image.dart';
 import 'package:masaj/core/presentation/widgets/stateless/custom_loading.dart';
@@ -310,12 +311,9 @@ class SevicesGridView extends StatelessWidget {
             final service = state.services!.data![index];
             return InkWell(
               onTap: () {
-                Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                        builder: (context) => ServiceDetailsScreen(
-                              id: service.serviceId,
-                            )));
+                NavigatorHelper.of(context).pushNamed(
+                    ServiceDetailsScreen.routeName,
+                    arguments: service.serviceId);
               },
               child: Container(
                 decoration: BoxDecoration(
