@@ -173,7 +173,7 @@ class FixedAppBar extends StatelessWidget {
   void _goToSelectLocationPage(BuildContext context) =>
       NavigatorHelper.of(context).push(
         MaterialPageRoute(
-            builder: (context) => SelectLocationScreen(
+            builder: (context) => const SelectLocationScreen(
                   isFromHomePage: true,
                 )),
       );
@@ -207,10 +207,14 @@ class FixedAppBar extends StatelessWidget {
 
         return GestureDetector(
           onTap: () {
-            showBottomSheet(
+            showModalBottomSheet(
               context: context,
               elevation: 4,
-              builder: (context) => SelectLocationBottomSheet(
+              shape: const RoundedRectangleBorder(
+                  borderRadius: BorderRadius.only(
+                      topLeft: Radius.circular(20),
+                      topRight: Radius.circular(20))),
+              builder: (subContext) => SelectLocationBottomSheet(
                 onSave: () async {
                   final myAddressCubit = context.read<MyAddressesCubit>();
                   final countryCubit = context.read<CountryCubit>();

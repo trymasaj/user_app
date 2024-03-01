@@ -51,7 +51,7 @@ class Validator {
 
   String? validateConfPassword(String? password, String? confPassword) {
     if (password == null || password.isEmpty)
-      return tr('password_required');
+      return tr('empty_field_not_valid');
     else if (password != confPassword)
       return tr('does_not_match_with_password');
     else

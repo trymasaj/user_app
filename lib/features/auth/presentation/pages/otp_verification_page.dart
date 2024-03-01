@@ -111,24 +111,27 @@ class _OTPVerificationPageState extends State<OTPVerificationPage> {
             safeTop: true,
             safeBottom: true,
             child: Scaffold(
-              body: ListView(
-                padding: const EdgeInsets.all(16.0),
-                children: [
-                  const CustomBackButton(
-                    color: Colors.black,
-                  ),
-                  const SizedBox(height: 16.0),
-                  _buildMainText(context),
-                  const SizedBox(height: 8.0),
-                  _buildSubText(context),
-                  const SizedBox(height: 16.0),
-                  _buildForm(),
-                  const SizedBox(height: 16.0),
-                  _buildSendButton(context),
-                  const SizedBox(height: 16.0),
-                  // if (_isTimerRunning)
-                  _buildTimer(),
-                ],
+              body: Form(
+                key: _formKey,
+                child: ListView(
+                  padding: const EdgeInsets.all(16.0),
+                  children: [
+                    const CustomBackButton(
+                      color: Colors.black,
+                    ),
+                    const SizedBox(height: 16.0),
+                    _buildMainText(context),
+                    const SizedBox(height: 8.0),
+                    _buildSubText(context),
+                    const SizedBox(height: 16.0),
+                    _buildForm(),
+                    const SizedBox(height: 16.0),
+                    _buildSendButton(context),
+                    const SizedBox(height: 16.0),
+                    // if (_isTimerRunning)
+                    _buildTimer(),
+                  ],
+                ),
               ),
             ),
           ),

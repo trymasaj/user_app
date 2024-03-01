@@ -704,6 +704,7 @@
   "msg_select_available": "اختر المتاح \n المعالج",
   "msg_select_your_location": "اختر موقعك",
   "msg_set_as_primary_address": "تعيين كعنوان أساسي",
+  "lbl_primary_address": "عنوان أساسي",
   "msg_shipping_address": "عنوان الشحن",
   "msg_shop_masaj_gift": "تسوق بطاقات هدايا مساج",
   "msg_sign_with_google": "تسجيل الدخول باستخدام جوجل",
@@ -759,7 +760,10 @@
   "Hours": "ساعات",
   "add_on_s": "إضافات",
   "popular": "الأكثر شعبية",
-  "country_validation": "ادخل دولة",
   "filter": "تصفية",
-  "clear": "مسح"
+  "clear": "مسح", 
+  "country_validation": "ادخل دولة",
+  "terms_validation": "يجب تآكيد الشروط و الاحكام"
 }
+ 
+

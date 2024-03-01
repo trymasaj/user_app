@@ -11,8 +11,7 @@ import 'package:masaj/core/presentation/widgets/stateless/custom_radio_list_tile
 import 'package:masaj/core/presentation/widgets/stateless/custom_text.dart';
 import 'package:masaj/core/presentation/widgets/stateless/default_button.dart';
 import 'package:masaj/features/address/presentation/pages/select_location_screen.dart';
-import 'package:masaj/features/auth/presentation/pages/login_page.dart';
-
+import 'package:masaj/features/home/presentation/pages/home_page.dart';
 import 'package:masaj/features/intro/presentation/blocs/choose_language_cubit/choose_language_cubit.dart';
 import 'package:masaj/features/intro/presentation/pages/guide_page.dart';
 import 'package:masaj/features/splash/presentation/splash_cubit/splash_cubit.dart';
@@ -53,33 +52,37 @@ class _ChooseLanguagePageState extends State<ChooseLanguagePage> {
       child: BlocProvider(
         create: (context) => Injector().chooseLanguageCubit,
         child: Builder(
-          builder: (context) =>
-              BlocListener<ChooseLanguageCubit, ChooseLanguageState>(
-            listener: (context, state) {
-              final splashCubit = context.read<SplashCubit>();
-              final splashState = splashCubit.state;
-              if (state.isError) {
-                showSnackBar(context, message: state.errorMessage);
-                return;
-              }
-              final isFirstLaunch = splashState.isFirstLaunch ?? true;
-              final countryNotSet = splashState.isCountrySet != true;
-              if (state.isLanguageSet && isFirstLaunch) {
-                _goToGuidePage(context);
-                return;
-              }
-              if (state.isLanguageSet && countryNotSet) {
-                Navigator.of(context).pushReplacementNamed(
-                  SelectLocationScreen.routeName,
-                );
-                return;
-              }
-              Navigator.of(context).pushReplacementNamed(
-                LoginPage.routeName,
-              );
-            },
-            child: Scaffold(body: _buildBody(context)),
-          ),
+          builder: (context) {
+            return BlocListener<ChooseLanguageCubit, ChooseLanguageState>(
+              listener: (context, state) async {
+                final splashCubit = context.read<SplashCubit>();
+                final splashState = splashCubit.state;
+                if (state.isError) {
+                  showSnackBar(context, message: state.errorMessage);
+                  return;
+                }
+                final isFirstLaunch = splashState.isFirstLaunch ?? true;
+                final countryNotSet = splashState.isCountrySet != true;
+                if (state.isLanguageSet && isFirstLaunch) {
+                  _goToGuidePage(context);
+                  return;
+                }
+                if (state.isLanguageSet && countryNotSet) {
+                  Navigator.of(context).pushReplacementNamed(
+                    SelectLocationScreen.routeName,
+                  );
+                  return;
+                }
+                if (state.isLanguageSetFromSetting) {
+                  await Navigator.pushAndRemoveUntil(
+                      context,
+                      MaterialPageRoute(builder: (_) => const HomePage()),
+                      (_) => false);
+                }
+              },
+              child: Scaffold(body: _buildBody(context)),
+            );
+          },
         ),
       ),
     );
@@ -172,10 +175,7 @@ class _ChooseLanguagePageState extends State<ChooseLanguagePage> {
           cubit.saveLanguageCode(_selectedLocal.languageCode);
           // Navigator.pop(context);
         } else {
-          setState(() {
-            context.setLocale(_selectedLocal);
-          });
-          return cubit.saveLanguageCode(_selectedLocal.languageCode);
+          cubit.saveLanguageCode(_selectedLocal.languageCode);
         }
       },
       isExpanded: true,

@@ -8,7 +8,7 @@ class CustomBottomSheet extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      height: height,
+        height: height,
         padding: EdgeInsets.symmetric(
           horizontal: 20.w,
         ),

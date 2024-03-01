@@ -833,6 +833,8 @@
     "all": "All",
     "past": "Past",
     "favorites": "Favorites",
+    "lbl_primary_address": "Primary",
+
     "location": "Location",
     "repeat_a_session": "Repeat a session",
     "repeated_sessions": "Repeated sessions",

@@ -4,6 +4,7 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:dartz/dartz.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_form_builder/flutter_form_builder.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 import 'package:masaj/core/app_export.dart';
 import 'package:masaj/core/application/states/app_state.dart';
 import 'package:masaj/core/presentation/colors/app_colors.dart';
@@ -50,6 +51,12 @@ class CountryAndRegionSelector<T extends SelectAreaCubit>
                     name: Address.countryKey,
                     isExpanded: true,
                     decoration: decoration.copyWith(
+                      prefixIcon: Padding(
+                        padding: const EdgeInsets.all(10.0),
+                        child: SvgPicture.asset(
+                          'assets/images/globe.svg',
+                        ),
+                      ),
                       hintText: "lbl_country".tr(),
                     ),
                     initialValue: controller.state.selectedCountry.toNullable(),
@@ -110,6 +117,10 @@ class CountryAndRegionSelector<T extends SelectAreaCubit>
                         isExpanded: true,
                         decoration: decoration.copyWith(
                           hintText: "lbl_region_area".tr(),
+                          prefixIcon: Padding(
+                            padding: const EdgeInsets.all(10.0),
+                            child: SvgPicture.asset('assets/images/area.svg'),
+                          ),
                         ),
                         items: data
                             .map((e) => DropdownMenuItem(
