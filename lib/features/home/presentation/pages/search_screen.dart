@@ -133,7 +133,7 @@ class _SearchScreenState extends State<SearchScreen> {
         SliverToBoxAdapter(
           child: Container(
             padding: const EdgeInsets.all(60),
-            child: EmptyPageMessage(
+            child: const EmptyPageMessage(
               svgImage: 'empty',
             ),
           ),
@@ -182,9 +182,11 @@ class _SearchScreenState extends State<SearchScreen> {
                   height: 6.h,
                 )),
                 // search app bar
-                SearchBarWidget(
-                    searchFocusNode: _searchFocusNode,
-                    searchController: _searchController),
+                SliverToBoxAdapter(
+                  child: SearchBarWidget(
+                      searchFocusNode: _searchFocusNode,
+                      searchController: _searchController),
+                ),
                 // space
                 const SliverToBoxAdapter(
                   child: SizedBox(
@@ -423,7 +425,102 @@ class SearchBarWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return SliverAppBar(
+    return Row(
+      children: [
+        GestureDetector(
+          onTap: () {
+            Navigator.pop(context);
+          },
+          child: Container(
+            margin: EdgeInsets.only(
+                left: context.isAr ? 0 : 20, right: context.isAr ? 20 : 0),
+            child: context.isAr
+                ? SvgPicture.asset(
+                    Assets.images.imgArrowRight,
+                    color: AppColors.ACCENT_COLOR,
+                    height: 30,
+                    width: 30,
+                  )
+                : SvgPicture.asset(
+                    Assets.images.imgArrowLeft,
+                    color: AppColors.ACCENT_COLOR,
+                    // height: 20,
+                    // width: 20,
+                  ),
+          ),
+        ),
+        Expanded(
+          child: BasicTextFiled(
+            margin: EdgeInsets.only(
+                left: context.isAr ? 24.w : 5.w,
+                right: context.isAr ? 5.w : 24.w),
+            isSearch: true,
+            hintText: 'search'.tr(),
+            currentFocusNode: _searchFocusNode,
+            currentController: _searchController,
+            onChanged: (value) {
+              context.read<HomeSearchCubit>().search(value);
+            },
+            style: const TextStyle(
+              fontSize: 14,
+              fontWeight: FontWeight.w400,
+              color: AppColors.FONT_COLOR,
+            ),
+            hintColor: AppColors.PlaceholderColor,
+            fillColor: AppColors.ExtraLight,
+            borderColor: Colors.transparent,
+            decoration: InputDecoration(
+              hintText: 'search'.tr(),
+              hintStyle: const TextStyle(
+                fontSize: 14,
+                fontWeight: FontWeight.w400,
+                color: AppColors.PlaceholderColor,
+              ),
+
+              // border radius is 8
+              // border: InputBorder.none,
+              border: OutlineInputBorder(
+                borderRadius: BorderRadius.circular(8),
+                borderSide: BorderSide.none,
+              ),
+              focusedBorder: OutlineInputBorder(
+                borderRadius: BorderRadius.circular(8),
+                borderSide: BorderSide.none,
+              ),
+              contentPadding:
+                  const EdgeInsets.symmetric(vertical: 10, horizontal: 10),
+              fillColor: AppColors.ExtraLight,
+              filled: true,
+
+              suffixIconConstraints: const BoxConstraints(
+                maxHeight: 30,
+                maxWidth: 30,
+              ),
+              suffixIcon: Container(
+                margin: EdgeInsets.only(
+                    left: context.isAr ? 10 : 0, right: context.isAr ? 0 : 10),
+                child: _searchController.text.isNotEmpty
+                    ? GestureDetector(
+                        onTap: () {
+                          _searchController.clear();
+                          context.read<HomeSearchCubit>().search('');
+                        },
+                        child: SvgPicture.asset(
+                          Assets.images.imgCloseOnprimary,
+                          color: AppColors.PlaceholderColor,
+                        ),
+                      )
+                    : SvgPicture.asset(
+                        Assets.images.imgSearch,
+                        color: AppColors.ACCENT_COLOR,
+                      ),
+              ),
+            ),
+          ),
+        )
+      ],
+    );
+    SliverAppBar(
       automaticallyImplyLeading: false,
       titleSpacing: 0,
       backgroundColor: Colors.white,
@@ -456,8 +553,6 @@ class SearchBarWidget extends StatelessWidget {
                   width: 30,
                 )
               : SvgPicture.asset(
-                  height: 30,
-                  width: 30,
                   Assets.images.imgArrowLeft,
                   color: AppColors.ACCENT_COLOR,
                   // height: 20,
