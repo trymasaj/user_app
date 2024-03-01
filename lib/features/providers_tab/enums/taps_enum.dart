@@ -1,1 +1,1 @@
-enum TherapistTabsEnum { all, favourite, past }
+enum TherapistTabsEnum { all, favorites, past }

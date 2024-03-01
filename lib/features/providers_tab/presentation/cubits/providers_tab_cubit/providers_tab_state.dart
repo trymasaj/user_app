@@ -31,7 +31,7 @@ class ProvidersTabState {
   final int? pageSize;
   final String? searchKeyword;
   List<Therapist> get therapistsList => therapists
-      .where((element) => selectedTab == TherapistTabsEnum.favourite
+      .where((element) => selectedTab == TherapistTabsEnum.favorites
           ? element.isFavourite ?? false
           : true)
       .toList();
