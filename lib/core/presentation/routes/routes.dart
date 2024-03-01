@@ -31,6 +31,7 @@ import 'package:masaj/features/legal/pages/terms_and_condititons_screen.dart';
 import 'package:masaj/features/medical_form/pages/medical_form_screen.dart';
 import 'package:masaj/features/providers_tab/data/models/therapist.dart';
 import 'package:masaj/features/providers_tab/presentation/pages/provider_details_screen.dart';
+import 'package:masaj/features/members/presentaion/pages/add_member_screen.dart';
 import 'package:masaj/features/quiz/presentation/pages/quiz_start_page.dart';
 import 'package:masaj/features/services/presentation/screens/serice_details_screen.dart';
 import 'package:masaj/features/splash/presentation/pages/splash_page.dart';
@@ -154,6 +155,8 @@ Route<dynamic>? onGenerateRoute(RouteSettings settings) {
         therapist: arguments.therapist,
         providersTabCubit: arguments.providersTabCubit,
       );
+    case AddMemberScreen.routeName:
+      return MaterialPageRoute(builder: (context) => const AddMemberScreen());
 
     default:
   }

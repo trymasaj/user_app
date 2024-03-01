@@ -10,10 +10,11 @@ class DefaultTab extends StatelessWidget {
     super.key,
     required this.isSelected,
     required this.title,
+    this.borderRadius,
   });
   final bool isSelected;
   final String title;
-
+  final BorderRadius? borderRadius;
   @override
   Widget build(BuildContext context) {
     return Tab(
@@ -31,7 +32,7 @@ class DefaultTab extends StatelessWidget {
                     width: 1,
                   )
                 : Border.all(color: const Color(0xffD9D9D9), width: 1),
-            borderRadius: BorderRadius.circular(30),
+            borderRadius: borderRadius ?? BorderRadius.circular(30),
           ),
           alignment: Alignment.center,
           child: isSelected

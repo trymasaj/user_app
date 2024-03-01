@@ -49,6 +49,9 @@ import 'package:masaj/features/services/application/service_cubit/service_cubit.
 import 'package:masaj/features/services/application/service_details_cubit/service_details_cubit.dart';
 import 'package:masaj/features/services/data/datasource/service_datasource.dart';
 import 'package:masaj/features/services/data/repository/service_repository.dart';
+import 'package:masaj/features/members/data/datasource/members_datasource.dart';
+import 'package:masaj/features/members/data/repo/members_repo.dart';
+import 'package:masaj/features/members/presentaion/bloc/members_cubit.dart';
 import 'package:masaj/features/splash/data/datasources/splash_local_data_source.dart';
 import 'package:masaj/features/splash/data/repositories/splash_repository_impl.dart';
 import 'package:masaj/features/splash/presentation/splash_cubit/splash_cubit.dart';
@@ -231,6 +234,17 @@ class Injector {
   //===================[POINTS_CUBIT]===================
 
   PointsCubit get pointsCubit => PointsCubit(accountRepository);
+
+  //===================[MEMBERS_CUBIT]===================
+
+  MembersCubit get membersCubit =>
+      MembersCubit(membersRepository: membersRepository);
+  MembersRepository get membersRepository =>
+      _flyweightMap['membersRepository'] ??=
+          MembersRepositoryImp(membersDataSource: membersRemoteDataSource);
+  MembersDataSource get membersRemoteDataSource =>
+      _flyweightMap['membersRemoteDataSource'] ??=
+          MembersDataSourceImpl(networkService: networkService);
 
   //===================[NOTIFICATIONS_CUBIT]===================
   NotificationsCubit get notificationsCubit =>

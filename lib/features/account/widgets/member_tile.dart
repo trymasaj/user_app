@@ -3,12 +3,10 @@ import 'package:masaj/core/app_export.dart';
 import 'package:masaj/features/account/models/member.dart';
 
 class MemberTile extends StatelessWidget {
-  const MemberTile({
-    super.key,
-    required this.member,
-  });
+  const MemberTile({super.key, required this.member, this.action});
 
   final Member member;
+  final Widget? action;
 
   @override
   Widget build(BuildContext context) {
@@ -27,12 +25,7 @@ class MemberTile extends StatelessWidget {
             Text(member.phone, style: theme.textTheme.bodyMedium)
           ]),
           const Spacer(),
-          CustomImageView(
-              imagePath: ImageConstant.imgArrowRightOnprimary,
-              height: 18.adaptSize,
-              width: 18.adaptSize,
-              radius: BorderRadius.circular(9.w),
-              margin: EdgeInsets.symmetric(vertical: 16.h))
+          action ?? const Icon(Icons.arrow_forward_ios)
         ]),
         SizedBox(height: 16.h),
         Divider(color: appTheme.gray300),

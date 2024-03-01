@@ -103,4 +103,10 @@ abstract class ApiEndPoint {
   static const FAV_THERAPISTS = '$Therapists/favourite';
   // home
   static const HOME_SEARCH = '$BASE_URL/home/search';
+  //Member
+  static const ADD_MEMBER = '$BASE_URL/member';
+  static const GET_MEMBERS = '$BASE_URL/member';
+  static const GET_MEMBER = '$BASE_URL/member';
+  static const UPDATE_MEMBER = '$BASE_URL/member';
+  static const DELETE_MEMBER = '$BASE_URL/member';
 }
