@@ -3,7 +3,7 @@ import 'package:masaj/features/members/data/model/member_model.dart';
 
 abstract class MembersRepository {
   Future<void> addMember(MemberModel member);
-  Future<List<MemberModel>> getMembers(MemberModel member);
+  Future<List<MemberModel>> getMembers();
   Future<MemberModel> getMember(int id);
   Future<void> updateMember(int id);
   Future<void> deleteMember(int id);
@@ -25,8 +25,8 @@ class MembersRepositoryImp extends MembersRepository {
   Future<MemberModel> getMember(int id) => _membersDataSource.getMember(id);
 
   @override
-  Future<List<MemberModel>> getMembers(MemberModel member) =>
-      _membersDataSource.getMembers(member);
+  Future<List<MemberModel>> getMembers() =>
+      _membersDataSource.getMembers();
 
   @override
   Future<void> updateMember(int id) => _membersDataSource.updateMember(id);

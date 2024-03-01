@@ -8,7 +8,7 @@ import 'package:masaj/features/members/data/model/member_model.dart';
 
 abstract class MembersDataSource {
   Future<void> addMember(MemberModel member);
-  Future<List<MemberModel>> getMembers(MemberModel member);
+  Future<List<MemberModel>> getMembers();
   Future<MemberModel> getMember(int id);
   Future<void> updateMember(int id);
   Future<void> deleteMember(int id);
@@ -78,7 +78,7 @@ class MembersDataSourceImpl extends MembersDataSource {
   }
 
   @override
-  Future<List<MemberModel>> getMembers(MemberModel member) {
+  Future<List<MemberModel>> getMembers() {
     const url = ApiEndPoint.GET_MEMBERS;
     return _networkService.delete(url).then((response) {
       if (response.statusCode != 200) {
