@@ -106,7 +106,7 @@ Route<dynamic>? onGenerateRoute(RouteSettings settings) {
           builder: (context) => MedicalFormScreen.builder(context));
     case ManageMembersScreen.routeName:
       return MaterialPageRoute(
-          builder: (context) => ManageMembersScreen.builder(context));
+          builder: (context) => const ManageMembersScreen());
     // case AddMemberScreen.routeName:
     //   return MaterialPageRoute(builder: (context) => AddMemberScreen.builder(context));
     case AddAddressScreen.routeName:

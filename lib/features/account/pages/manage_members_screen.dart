@@ -1,11 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:masaj/core/app_export.dart';
+import 'package:masaj/core/data/di/injector.dart';
 import 'package:masaj/core/domain/enums/gender.dart';
 import 'package:masaj/core/presentation/navigation/navigator_helper.dart';
 import 'package:masaj/core/presentation/widgets/stateless/custom_app_bar.dart';
-import 'package:masaj/features/account/bloc/manage_members_bloc/manage_members_bloc.dart';
-import 'package:masaj/features/account/models/manage_members_model.dart';
+import 'package:masaj/core/presentation/widgets/stateless/custom_loading.dart';
 import 'package:masaj/features/account/models/member.dart';
+import 'package:masaj/features/members/presentaion/bloc/members_cubit.dart';
 import 'package:masaj/features/members/presentaion/pages/add_member_screen.dart';
 import 'package:masaj/features/account/widgets/member_tile.dart';
 
@@ -14,35 +15,36 @@ class ManageMembersScreen extends StatelessWidget {
 
   const ManageMembersScreen({super.key});
 
-  static Widget builder(BuildContext context) {
-    return BlocProvider<ManageMembersBloc>(
-        create: (context) => ManageMembersBloc(ManageMembersState(
-            manageMembersModelObj: const ManageMembersModel())),
-        child: const ManageMembersScreen());
-  }
-
   @override
   Widget build(BuildContext context) {
-    return BlocBuilder<ManageMembersBloc, ManageMembersState>(
-        builder: (context, state) {
-      return Scaffold(
+    return BlocProvider(
+      create: (context) => Injector().membersCubit..getMembers(),
+      child: Scaffold(
           appBar: CustomAppBar(
             title: 'lbl_manage_members'.tr(),
             actions: [buildAddMemberButton(context)],
           ),
-          body: Container(
-              width: double.maxFinite,
-              padding: EdgeInsets.symmetric(horizontal: 24.w, vertical: 23.h),
-              child: Column(children: [
-                for (int i = 0; i < 5; i++)
-                  _buildMemberTile(Member(
-                      gender: Gender.male.name,
-                      name: 'Ahmed Mohamed'.tr(),
-                      image: ImageConstant.imgRectangle3943650x50,
-                      phone: '96528271116')),
-                SizedBox(height: 5.h)
-              ])));
-    });
+          body: BlocBuilder<MembersCubit, MembersState>(
+            builder: (context, state) {
+              if (state.isLoading) {
+                return CustomLoading();
+              }
+              return Container(
+                  width: double.maxFinite,
+                  padding:
+                      EdgeInsets.symmetric(horizontal: 24.w, vertical: 23.h),
+                  child: Column(children: [
+                    for (int i = 0; i < 5; i++)
+                      _buildMemberTile(Member(
+                          gender: Gender.male.name,
+                          name: 'Ahmed Mohamed'.tr(),
+                          image: ImageConstant.imgRectangle3943650x50,
+                          phone: '96528271116')),
+                    SizedBox(height: 5.h)
+                  ]));
+            },
+          )),
+    );
   }
 
   /// Section Widget

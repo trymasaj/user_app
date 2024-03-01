@@ -1,12 +1,14 @@
 import 'dart:convert';
 
+import 'package:masaj/core/domain/enums/gender.dart';
+
 class MemberModel {
   int? id;
   int? customerId;
   String? name;
   String? countryCode;
   String? phone;
-  int? gender;
+  Gender? gender;
   String? image;
 
   MemberModel(
@@ -29,7 +31,7 @@ class MemberModel {
     name = json['name'];
     countryCode = json['countryCode'];
     phone = json['phone'];
-    gender = json['gender'];
+    gender = Gender.values[json['gender']];
     image = json['image'];
   }
 
@@ -40,7 +42,7 @@ class MemberModel {
     data['name'] = name;
     data['countryCode'] = countryCode;
     data['phone'] = phone;
-    data['gender'] = gender;
+    data['gender'] = gender?.index;
     data['image'] = image;
     return data;
   }
