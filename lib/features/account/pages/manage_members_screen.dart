@@ -51,9 +51,12 @@ class ManageMembersScreen extends StatelessWidget {
               return const CustomLoading();
             }
             final members = state.members;
-            if ((state.isLoaded && members == [])) {
+            if ((members == null || members.isEmpty)) {
               return RefreshIndicator(
-                  onRefresh: cubit.getMembers, child: const EmptyPageMessage());
+                  onRefresh: cubit.getMembers,
+                  child: const EmptyPageMessage(
+                    heightRatio: 0.6,
+                  ));
             }
             return _buildMembersList(members, context);
           },
