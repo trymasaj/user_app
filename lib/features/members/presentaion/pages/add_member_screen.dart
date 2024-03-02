@@ -102,7 +102,7 @@ class _AddMemberScreenState extends State<AddMemberScreen> {
                     _buildGenderRow(),
                     SizedBox(height: 32.h),
                     DefaultButton(
-                      onPressed: () {
+                      onPressed: () async {
                         final String customerId =
                             context.read<AuthCubit>().state.user?.id ?? '';
 
@@ -115,7 +115,7 @@ class _AddMemberScreenState extends State<AddMemberScreen> {
                               name: memberNameController.text,
                               phone: phoneNumberController.text,
                               gender: _selectedGender);
-                          context.read<MembersCubit>().addMember(member);
+                          await context.read<MembersCubit>().addMember(member);
                         }
                       },
                       label: 'save'.tr(),
@@ -197,4 +197,3 @@ class _AddMemberScreenState extends State<AddMemberScreen> {
     return false;
   }
 }
-

@@ -5,6 +5,7 @@ import 'package:masaj/core/presentation/colors/app_colors.dart';
 import 'package:masaj/core/presentation/overlay/show_snack_bar.dart';
 import 'package:masaj/core/presentation/widgets/stateless/custom_loading.dart';
 import 'package:masaj/core/presentation/widgets/stateless/default_button.dart';
+import 'package:masaj/core/presentation/widgets/stateless/empty_page_message.dart';
 import 'package:masaj/core/presentation/widgets/stateless/subtitle_text.dart';
 import 'package:masaj/features/account/widgets/member_tile.dart';
 import 'package:masaj/core/presentation/widgets/stateless/custom_app_bar.dart';
@@ -31,44 +32,69 @@ class _SelectMembersScreenState extends State<SelectMembersScreen> {
   @override
   Widget build(BuildContext context) {
     return BlocProvider(
-      create: (context) => Injector().membersCubit..getMembers(),
-      child: Scaffold(
-          appBar: CustomAppBar(
-            title: 'lbl_select_member'.tr(),
-            actions: [buildAddMemberButton(context)],
+        create: (context) => Injector().membersCubit..getMembers(),
+        child: Scaffold(
+            appBar: CustomAppBar(
+              title: 'lbl_select_member'.tr(),
+              actions: [buildAddMemberButton(context)],
+            ),
+            body: _buildBody()));
+  }
+
+  Padding _buildBody() {
+    return Padding(
+      padding: EdgeInsets.symmetric(horizontal: 24.w),
+      child: Column(
+        children: [
+          SizedBox(height: 25.h),
+          _buildWaringMsg(),
+          SizedBox(height: 25.h),
+          _buildMemberList(),
+          const Spacer(flex: 3),
+          DefaultButton(
+            padding: EdgeInsets.symmetric(horizontal: 130.w),
+            onPressed: () {},
+            label: 'continue',
           ),
-          body: BlocBuilder<MembersCubit, MembersState>(
-            builder: (context, state) {
-              if (state.isLoading) {
-                return CustomLoading();
-              }
-              return Padding(
-                padding: EdgeInsets.symmetric(horizontal: 24.w),
-                child: Column(
-                  children: [
-                    SizedBox(height: 25.h),
-                    _buildWaringMsg(),
-                    SizedBox(height: 25.h),
-                    Expanded(
-                      flex: 10,
-                      child: ListView.builder(
-                        itemCount: members.length,
-                        itemBuilder: (context, index) =>
-                            _buildMemberItem(index),
-                      ),
-                    ),
-                    const Spacer(flex: 3),
-                    DefaultButton(
-                      padding: EdgeInsets.symmetric(horizontal: 130.w),
-                      onPressed: () {},
-                      label: 'continue',
-                    ),
-                    const Spacer(),
-                  ],
-                ),
-              );
-            },
-          )),
+          const Spacer(),
+        ],
+      ),
+    );
+  }
+
+  Widget _buildMemberList() {
+    return Builder(builder: (context) {
+      final cubit = context.read<MembersCubit>();
+
+      return BlocBuilder<MembersCubit, MembersState>(
+        builder: (context, state) {
+          if (state.isLoading) {
+            return const CustomLoading();
+          }
+          members = state.members ?? [];
+          if ((members == [] || members.isEmpty)) {
+            return RefreshIndicator(
+                onRefresh: cubit.getMembers,
+                child: const EmptyPageMessage(
+                  heightRatio: 0.6,
+                ));
+          }
+          return _buildMembersList(cubit);
+        },
+      );
+    });
+  }
+
+  Widget _buildMembersList(MembersCubit cubit) {
+    return RefreshIndicator(
+      onRefresh: cubit.getMembers,
+      child: Expanded(
+        flex: 10,
+        child: ListView.builder(
+          itemCount: cubit.state.members?.length,
+          itemBuilder: (context, index) => _buildMemberItem(index),
+        ),
+      ),
     );
   }
 

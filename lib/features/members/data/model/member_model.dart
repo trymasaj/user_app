@@ -1,4 +1,5 @@
 import 'dart:convert';
+import 'package:collection/collection.dart';
 
 import 'package:masaj/core/domain/enums/gender.dart';
 
@@ -33,7 +34,7 @@ class MemberModel {
     name = json['name'];
     countryCode = json['countryCode'];
     phone = json['phone'];
-    gender = Gender.values[json['gender'] == 2 ? 1 : json['gender']];
+    gender = Gender.values.firstWhereOrNull((e) => e.id == json['gender']);
     image = json['image'];
   }
 
@@ -44,7 +45,7 @@ class MemberModel {
     data['name'] = name;
     data['countryCode'] = countryCode;
     data['phone'] = phone;
-    data['gender'] = gender?.index;
+    data['gender'] = gender?.id;
     data['image'] = image;
     return data;
   }

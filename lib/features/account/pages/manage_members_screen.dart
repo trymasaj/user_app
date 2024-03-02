@@ -1,5 +1,4 @@
 import 'dart:developer';
-
 import 'package:flutter/material.dart';
 import 'package:flutter_slidable/flutter_slidable.dart';
 import 'package:masaj/core/app_export.dart';
@@ -118,9 +117,8 @@ Widget buildAddMemberButton(BuildContext context) {
   return Builder(builder: (context) {
     return GestureDetector(
       onTap: () {
-        NavigatorHelper.of(context)
-            .pushNamed(AddMemberScreen.routeName)
-            .then((value) => context.read<MembersCubit>().getMembers());
+        NavigatorHelper.of(context).pushNamed(AddMemberScreen.routeName).then(
+            (value) async => await context.read<MembersCubit>().getMembers());
       },
       child: Padding(
         padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 14.0),
