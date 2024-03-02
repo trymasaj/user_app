@@ -21,7 +21,6 @@ class SelectMembersScreen extends StatefulWidget {
 }
 
 class _SelectMembersScreenState extends State<SelectMembersScreen> {
-  late final List<MemberModel> members;
   final List<MemberModel> selectedMembers = [];
 
   @override
@@ -66,21 +65,25 @@ class _SelectMembersScreenState extends State<SelectMembersScreen> {
     return Builder(builder: (context) {
       final cubit = context.read<MembersCubit>();
 
-      return BlocBuilder<MembersCubit, MembersState>(
-        builder: (context, state) {
-          if (state.isLoading) {
-            return const CustomLoading();
-          }
-          members = state.members ?? [];
-          if ((members == [] || members.isEmpty)) {
-            return RefreshIndicator(
-                onRefresh: cubit.getMembers,
-                child: const EmptyPageMessage(
-                  heightRatio: 0.6,
-                ));
-          }
-          return _buildMembersList(cubit);
-        },
+      return Expanded(
+        flex: 10,
+        child: BlocBuilder<MembersCubit, MembersState>(
+          builder: (context, state) {
+            if (state.isLoading) {
+              return const CustomLoading();
+            }
+            final members = state.members ?? [];
+
+            if ((members == [] || members.isEmpty)) {
+              return RefreshIndicator(
+                  onRefresh: cubit.getMembers,
+                  child: const EmptyPageMessage(
+                    heightRatio: 0.6,
+                  ));
+            }
+            return _buildMembersList(cubit);
+          },
+        ),
       );
     });
   }
@@ -88,28 +91,26 @@ class _SelectMembersScreenState extends State<SelectMembersScreen> {
   Widget _buildMembersList(MembersCubit cubit) {
     return RefreshIndicator(
       onRefresh: cubit.getMembers,
-      child: Expanded(
-        flex: 10,
-        child: ListView.builder(
-          itemCount: cubit.state.members?.length,
-          itemBuilder: (context, index) => _buildMemberItem(index),
-        ),
+      child: ListView.builder(
+        itemCount: cubit.state.members?.length,
+        itemBuilder: (context, index) => _buildMemberItem(cubit, index),
       ),
     );
   }
 
-  Widget _buildMemberItem(int index) {
+  Widget _buildMemberItem(MembersCubit cubit, int index) {
+    final members = cubit.state.members;
     return InkWell(
       onTap: () {
-        _validateMembers(!(members[index].isSelected ?? false), index);
+        _validateMembers(!(members[index].isSelected ?? false), members[index]);
       },
       child: MemberTile(
-        member: members[index],
+        member: members![index],
         action: Checkbox.adaptive(
           activeColor: AppColors.PRIMARY_COLOR,
           shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(4)),
           onChanged: (value) {
-            _validateMembers(value, index);
+            _validateMembers(value, members[index]);
           },
           value: members[index].isSelected,
         ),
@@ -117,23 +118,23 @@ class _SelectMembersScreenState extends State<SelectMembersScreen> {
     );
   }
 
-  void _validateMembers(bool? value, int index) {
-    if (selectedMembers.isNotEmpty && !(members[index].isSelected ?? false)) {
+  void _validateMembers(bool? value, MemberModel member) {
+    if (selectedMembers.isNotEmpty && !(member.isSelected ?? false)) {
       if (selectedMembers.length >= 2) {
         return showSnackBar(context, message: 'members_number_limit');
       }
-      if (selectedMembers[0].gender != members[index].gender) {
+      if (selectedMembers[0].gender != member.gender) {
         return showSnackBar(context, message: 'members_number_gender_limit');
       }
     }
     setState(() {
       if (value ?? false) {
-        members[index].isSelected = value ?? false;
-        selectedMembers.add(members[index]);
+        member.isSelected = value ?? false;
+        selectedMembers.add(member);
       } else {
-        members[index].isSelected = value ?? false;
+        member.isSelected = value ?? false;
 
-        selectedMembers.remove(members[index]);
+        selectedMembers.remove(member);
       }
     });
   }

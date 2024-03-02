@@ -11,7 +11,7 @@ class MemberModel {
   String? phone;
   Gender? gender;
   String? image;
-  bool? isSelected;
+  bool? isSelected = false;
 
   MemberModel(
       {this.id,

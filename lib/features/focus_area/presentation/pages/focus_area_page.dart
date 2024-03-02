@@ -10,6 +10,7 @@ import 'package:masaj/core/presentation/widgets/stateless/custom_app_page.dart';
 import 'package:masaj/core/presentation/widgets/stateless/custom_text.dart';
 
 import 'package:masaj/core/presentation/widgets/stateless/default_button.dart';
+import 'package:masaj/features/members/presentaion/pages/select_members.dart';
 
 class FocusAreaPage extends StatefulWidget {
   static const routeName = '/FocusArea';
@@ -59,10 +60,11 @@ class _FocusAreaPageState extends State<FocusAreaPage>
             actions: [
               IconButton(
                   onPressed: () {
-                    selectedFocusPoints.forEach((key, value) {
-                      selectedFocusPoints[key] = false;
+                    setState(() {
+                      selectedFocusPoints.forEach((key, value) {
+                        selectedFocusPoints[key] = false;
+                      });
                     });
-                    setState(() {});
                   },
                   icon: const Icon(
                     Icons.replay,
@@ -77,7 +79,8 @@ class _FocusAreaPageState extends State<FocusAreaPage>
             onPressed: () {
               final selectedFocusPoints = this.selectedFocusPoints;
               selectedFocusPoints.length;
-              NavigatorHelper.of(context).pop(selectedFocusPoints);
+              NavigatorHelper.of(context).push(
+                  MaterialPageRoute(builder: (_) => SelectMembersScreen()));
             },
             label: 'Save',
           )
