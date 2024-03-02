@@ -11,6 +11,8 @@ import 'package:masaj/features/auth/application/auth_cubit/auth_cubit.dart';
 import 'package:masaj/features/auth/application/country_cubit/country_cubit.dart';
 import 'package:masaj/features/home/presentation/bloc/home_cubit/home_cubit.dart';
 import 'package:masaj/features/providers_tab/presentation/pages/providers_tab.dart';
+import 'package:masaj/features/services/application/service_catgory_cubit/service_category_cubit.dart';
+import 'package:masaj/features/services/presentation/screens/services_screen.dart';
 import 'package:masaj/features/settings_tab/pages/setting_tab_page.dart';
 import 'package:masaj/gen/assets.gen.dart';
 
@@ -56,6 +58,9 @@ class _HomePageState extends State<HomePage> {
       providers: [
         // BlocProvider(create: (context) => Injector().homeCubit..loadHome()),
         BlocProvider(create: (context) => Injector().homeCubit),
+        BlocProvider<ServiceCategoryCubit>(
+            create: (context) =>
+                Injector().serviceCategoryCubit..getServiceCategories()),
 
         // BlocProvider(create: (context) => Injector().zonesCubit..init()),
         // BlocProvider(create: (context) => Injector().eventsCubit..init()),
@@ -214,7 +219,21 @@ class __CustomNavBarState extends State<_CustomNavBar> {
             elevation: 0,
             onTap: (index) {
               if (index == 2) {
-                //TODO: Add GO TO NEW BOOKING PAGE
+                final allServiceCategories = context
+                    .read<ServiceCategoryCubit>()
+                    .state
+                    .serviceCategories;
+                final selectedServiceCategory = allServiceCategories.isNotEmpty
+                    ? allServiceCategories.first
+                    : null;
+                Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                        builder: (_) => ServicesScreen(
+                            screenArguments: ServicesScreenArguments(
+                                selectedServiceCategory:
+                                    selectedServiceCategory,
+                                allServiceCategories: allServiceCategories))));
                 return;
               }
               widget._pageController.jumpToPage(index < 2 ? index : index - 1);

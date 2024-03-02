@@ -1,5 +1,6 @@
 import 'package:flutter_form_builder/flutter_form_builder.dart';
 import 'package:masaj/core/presentation/widgets/stateless/custom_app_bar.dart';
+import 'package:masaj/core/presentation/widgets/stateless/default_button.dart';
 import 'package:masaj/features/address/presentation/widgets/country_and_region_selector.dart';
 import 'package:flutter/material.dart';
 import 'package:masaj/core/app_export.dart';
@@ -75,21 +76,26 @@ class _SelectLocationScreenState extends State<SelectLocationScreen> {
                       errorBorder: border,
                       focusedErrorBorder: border)),
               SizedBox(height: 24.h),
-              CustomElevatedButton(
-                  text: "lbl_continue".tr(),
-                  buttonStyle: CustomButtonStyles.none,
-                  decoration: CustomButtonStyles
-                      .gradientSecondaryContainerToPrimaryDecoration,
-                  onPressed: () {
-                    onTapContinue(context);
-                  }),
+              Container(
+                width: double.maxFinite,
+                //TODO review this
+                child: DefaultButton(
+                    label: 'lbl_continue',
+                    // text: "lbl_continue".tr(),
+                    // buttonStyle: CustomButtonStyles.none,
+                    // decoration: CustomButtonStyles
+                    //     .gradientSecondaryContainerToPrimaryDecoration,
+                    onPressed: () async {
+                      await onTapContinue(context);
+                    }),
+              ),
               SizedBox(height: 5.h)
             ]));
       }),
     );
   }
 
-  onTapContinue(BuildContext context) async {
+  Future onTapContinue(BuildContext context) async {
     final cubit = context.read<SelectAreaCubit>();
     final isCountrySet = await cubit.onContinuePressed();
     if (isCountrySet) {

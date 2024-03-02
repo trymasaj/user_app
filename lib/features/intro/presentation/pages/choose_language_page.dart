@@ -1,8 +1,7 @@
-import 'dart:developer';
+import 'dart:io';
 
 import 'package:country_flags/country_flags.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_svg/flutter_svg.dart';
 import 'package:masaj/core/app_export.dart';
 import 'package:masaj/core/data/di/injector.dart';
 import 'package:masaj/core/presentation/overlay/show_snack_bar.dart';
@@ -29,12 +28,20 @@ class ChooseLanguagePage extends StatefulWidget {
 }
 
 class _ChooseLanguagePageState extends State<ChooseLanguagePage> {
-  Locale _selectedLocal = Locale('en');
+  Locale _selectedLocal = const Locale('en');
+  String getTheDveiceLocal() {
+    final localName = Platform.localeName;
+    // return the first two characters of the local name
+    return localName.substring(0, 2);
+  }
 
   @override
-  void didChangeDependencies() {
-    super.didChangeDependencies();
-    _selectedLocal = context.locale;
+  void initState() {
+    setState(() {
+      _selectedLocal =
+          getTheDveiceLocal() == 'ar' ? const Locale('ar') : const Locale('en');
+    });
+    super.initState();
   }
 
   @override
@@ -160,13 +167,13 @@ class _ChooseLanguagePageState extends State<ChooseLanguagePage> {
 
     return DefaultButton(
       label: 'lbl_continue'.tr(),
-      onPressed: () async {
-        setState(() {
-          context.setLocale(_selectedLocal);
-        });
-        log(_selectedLocal.languageCode);
-        if (widget.fromSetting) {
-          cubit.saveLanguageCodeFromSetting(_selectedLocal.languageCode);
+      onPressed: () {
+        if (widget.fromSetting!) {
+          setState(() {
+            context.setLocale(_selectedLocal);
+          });
+          cubit.saveLanguageCode(_selectedLocal.languageCode);
+          // Navigator.pop(context);
         } else {
           cubit.saveLanguageCode(_selectedLocal.languageCode);
         }

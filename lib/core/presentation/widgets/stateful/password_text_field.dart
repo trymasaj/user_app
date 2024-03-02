@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:masaj/core/app_export.dart';
-import 'package:masaj/core/data/validator/validation_functions.dart';
 import 'package:masaj/core/presentation/colors/app_colors.dart';
 
 class PasswordTextField extends StatefulWidget {

@@ -3,7 +3,6 @@ import 'dart:developer';
 import 'package:flutter/foundation.dart';
 import 'package:masaj/core/application/controllers/base_cubit.dart';
 import 'package:masaj/core/domain/exceptions/redundant_request_exception.dart';
-import 'package:masaj/core/presentation/constants/image_constant.dart';
 import 'package:masaj/features/intro/data/models/guide_page_tab_model.dart';
 import 'package:masaj/features/intro/data/repositories/intro_repository.dart';
 

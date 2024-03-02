@@ -87,6 +87,22 @@ abstract class ApiEndPoint {
   static const GET_USER_POINTS = '$_REQUEST_URL/getuserpointhistory';
   static const GET_MORE_USER_POINTS = '$_REQUEST_URL/userpointhistory';
 
+  //TicketMX
+  static const CHECK_TICKETMX_TOKEN = '$_TICKETMX_API_URL/checktoken';
+  static const ORDERS = '$_TICKETMX_API_URL/orders';
+  static const TICKETS = '$_TICKETMX_API_URL/tickets';
+  static const TICKET_PASSBOOK = '$TICKETMX_WEB_URL/api/v1/ticketpassbook';
+  // service categories
+  static const SERVICE_CATEGORIES = '$BASE_URL/service-category';
+  // services
+  static const SERVICES = '$BASE_URL/services';
+  // therapists
+  static const Therapists = '$BASE_URL/therapists';
+  static const RECOMMENDED_THERAPISTS = '$Therapists/recommended';
+  // add or remove favorite therapists
+  static const FAV_THERAPISTS = '$Therapists/favourite';
+  // home
+  static const HOME_SEARCH = '$BASE_URL/home/search';
   //Member
   static const ADD_MEMBER = '$BASE_URL/member';
   static const GET_MEMBERS = '$BASE_URL/member';

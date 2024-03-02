@@ -23,21 +23,32 @@ import 'package:masaj/features/account/presentation/blocs/favorites_cubit/favori
 import 'package:masaj/features/account/presentation/blocs/more_tab_cubit/more_tab_cubit.dart';
 import 'package:masaj/features/account/presentation/blocs/points_cubit/points_cubit.dart';
 import 'package:masaj/features/account/presentation/blocs/topics_cubit/topics_cubit.dart';
-import 'package:masaj/features/address/application/blocs/map_location_picker_cubit/map_location_picker_cubit.dart';
 import 'package:masaj/features/address/infrastructure/repos/address_repo.dart';
 import 'package:masaj/features/auth/application/country_cubit/country_cubit.dart';
 import 'package:masaj/features/auth/data/datasources/auth_local_datasource.dart';
 import 'package:masaj/features/auth/data/datasources/auth_remote_datasource.dart';
 import 'package:masaj/features/auth/data/repositories/auth_repository.dart';
 import 'package:masaj/features/auth/application/auth_cubit/auth_cubit.dart';
+import 'package:masaj/features/home/data/datasources/home_local_data_source.dart';
 import 'package:masaj/features/home/data/datasources/home_remote_data_source.dart';
 import 'package:masaj/features/home/data/repositories/home_repository.dart';
 import 'package:masaj/features/home/presentation/bloc/home_cubit/home_cubit.dart';
+import 'package:masaj/features/home/presentation/bloc/home_search_cubit/home_search_cubit.dart';
 import 'package:masaj/features/home/presentation/bloc/notificaions_cubit/notifications_cubit.dart';
 import 'package:masaj/features/intro/data/datasources/intro_local_data_source.dart';
 import 'package:masaj/features/intro/data/repositories/intro_repository.dart';
 import 'package:masaj/features/intro/presentation/blocs/choose_language_cubit/choose_language_cubit.dart';
 import 'package:masaj/features/intro/presentation/blocs/guide_page_cubit/guide_page_cubit.dart';
+import 'package:masaj/features/providers_tab/data/datasources/providers_tab_remote_data_source.dart';
+import 'package:masaj/features/providers_tab/data/repositories/providers_tab_repository.dart';
+import 'package:masaj/features/providers_tab/presentation/cubits/home_therapists_cubit/home_therapists_cubit.dart';
+import 'package:masaj/features/providers_tab/presentation/cubits/providers_tab_cubit/providers_tab_cubit.dart';
+import 'package:masaj/features/providers_tab/presentation/cubits/therapist_details_cubit/therapist_details_cubit.dart';
+import 'package:masaj/features/services/application/service_catgory_cubit/service_category_cubit.dart';
+import 'package:masaj/features/services/application/service_cubit/service_cubit.dart';
+import 'package:masaj/features/services/application/service_details_cubit/service_details_cubit.dart';
+import 'package:masaj/features/services/data/datasource/service_datasource.dart';
+import 'package:masaj/features/services/data/repository/service_repository.dart';
 import 'package:masaj/features/members/data/datasource/members_datasource.dart';
 import 'package:masaj/features/members/data/repo/members_repo.dart';
 import 'package:masaj/features/members/presentaion/bloc/members_cubit.dart';
@@ -101,10 +112,31 @@ class Injector {
   AuthRemoteDataSource get authRemoteDataSource =>
       _flyweightMap['authRemoteDataSource'] ??=
           AuthRemoteDataSourceImpl(networkService);
+  ServiceRemoteDataSource get serviceRemoteDataSource =>
+      _flyweightMap['serviceRemoteDataSource'] ??=
+          ServiceRemoteDataSourceImpl(networkService);
+
+  ServiceRepository get serviceRepository =>
+      _flyweightMap['serviceRepository'] ??=
+          ServiceRepositoryImpl(serviceRemoteDataSource);
+
+  ServiceCategoryCubit get serviceCategoryCubit =>
+      ServiceCategoryCubit(serviceRepository);
+  ServiceCubit get serviceCubit => ServiceCubit(serviceRepository);
+
+  ServiceDetailsCubit get serviceDetailsCubit =>
+      ServiceDetailsCubit(serviceRepository);
 
   AuthLocalDataSource get authLocalDataSource =>
       _flyweightMap['authLocalDataSource'] ??=
           AuthLocalDataSourceImpl(cacheService);
+  TherapistsDataSource get therapistsDataSource =>
+      _flyweightMap['therapistsDataSource'] ??=
+          TherapistsDataSourceImpl(networkService);
+  TherapistsRepository get providersTabRepository =>
+      _flyweightMap['providersTabRepository'] ??= TherapistsRepositoryImpl(
+          providers_tabRemoteDataSource: therapistsDataSource);
+
   //===================[COUNTRY_CUBIT]===================
   CountryCubit get countryCubit => CountryCubit(
         authRepository,
@@ -141,12 +173,17 @@ class Injector {
 
   HomeRepository get homeRepository =>
       _flyweightMap['homeRepository'] ??= HomeRepositoryImpl(
+        homeLocalDatasource: homeLocalDatasource,
         homeRemoteDataSource: homeRemoteDataSource,
       );
 
   HomeRemoteDataSource get homeRemoteDataSource =>
       _flyweightMap['homeRemoteDataSource'] ??=
           HomeRemoteDataSourceImpl(networkService);
+
+  HomeLocalDatasource get homeLocalDatasource =>
+      _flyweightMap['homeLocalDatasource'] ??=
+          HomeLocalDatasourceImpl(cacheService);
 
   //===================[ABOUT_US_CUBIT]===================
   AboutUsCubit get aboutUsCubit => AboutUsCubit(accountRepository);
@@ -262,4 +299,16 @@ class Injector {
   AddToAppleWalletService get addToAppleWalletService =>
       _flyweightMap['addToAppleWalletService'] ??=
           AddToAppleWalletServiceImpl();
+  ProvidersTabCubit get providersTabCubit => ProvidersTabCubit(
+        providersTabRepository: providersTabRepository,
+      );
+  HomeTherapistsCubit get homeTherapistsCubit => HomeTherapistsCubit(
+        providersTabRepository,
+      );
+  TherapistDetailsCubit get therapistDetailsCubit => TherapistDetailsCubit(
+        providersTabRepository,
+      );
+  HomeSearchCubit get homeSearchCubit => HomeSearchCubit(
+        homeRepository: homeRepository,
+      );
 }

@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:masaj/core/domain/enums/focus_area_enum.dart';
 import 'package:masaj/core/presentation/colors/app_colors.dart';
+import 'package:masaj/core/presentation/navigation/navigator_helper.dart';
 import 'package:masaj/core/presentation/widgets/stateful/default_tab.dart';
 import 'package:masaj/core/presentation/widgets/stateless/custom_app_bar.dart';
 import 'package:masaj/core/presentation/widgets/stateless/custom_app_page.dart';
@@ -76,7 +77,7 @@ class _FocusAreaPageState extends State<FocusAreaPage>
             onPressed: () {
               final selectedFocusPoints = this.selectedFocusPoints;
               selectedFocusPoints.length;
-              // NavigatorHelper.of(context).pop(selectedFocusPoints);
+              NavigatorHelper.of(context).pop(selectedFocusPoints);
             },
             label: 'Save',
           )

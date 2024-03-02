@@ -9,7 +9,6 @@ import 'package:masaj/core/data/show_case_helper.dart';
 import 'package:masaj/core/domain/enums/gender.dart';
 import 'package:masaj/core/domain/exceptions/redundant_request_exception.dart';
 import 'package:masaj/core/domain/exceptions/social_media_login_canceled_exception.dart';
-import 'package:masaj/features/address/domain/entities/country.dart';
 import 'package:masaj/features/auth/data/repositories/auth_repository.dart';
 
 import 'package:masaj/core/data/models/interest_model.dart';

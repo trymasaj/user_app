@@ -1,12 +1,20 @@
 import 'package:flutter/material.dart';
 import 'package:gradient_borders/box_borders/gradient_box_border.dart';
+import 'package:masaj/core/app_export.dart';
+import 'package:masaj/core/data/di/injector.dart';
 import 'package:masaj/core/presentation/colors/app_colors.dart';
+import 'package:masaj/core/presentation/widgets/stateless/custom_app_bar.dart';
 import 'package:masaj/core/presentation/widgets/stateless/custom_app_page.dart';
+import 'package:masaj/core/presentation/widgets/stateless/custom_loading.dart';
 import 'package:masaj/core/presentation/widgets/stateless/custom_sliver_app_bar.dart';
 import 'package:masaj/core/presentation/widgets/stateless/custom_text.dart';
+import 'package:masaj/core/presentation/widgets/stateless/empty_page_message.dart';
+import 'package:masaj/core/presentation/widgets/stateless/text_fields/search_text_form_field.dart';
 import 'package:masaj/core/presentation/widgets/stateless/text_with_gradiant.dart';
 import 'package:masaj/features/home/presentation/widget/search_field.dart';
 import 'package:masaj/features/home/presentation/widget/tehrapists_widget.dart';
+import 'package:masaj/features/providers_tab/enums/taps_enum.dart';
+import 'package:masaj/features/providers_tab/presentation/cubits/providers_tab_cubit/providers_tab_cubit.dart';
 
 class ProvidersTab extends StatefulWidget {
   const ProvidersTab({super.key});
@@ -20,80 +28,54 @@ class ProvidersTab extends StatefulWidget {
 class _ProvidersTabState extends State<ProvidersTab>
     with SingleTickerProviderStateMixin {
   late ScrollController _scrollController;
+  late ProvidersTabCubit _cubit;
+  late TextEditingController _searchController;
 
   @override
   void initState() {
     _scrollController = ScrollController();
+    _cubit = Injector().providersTabCubit;
+    _cubit.getTherapists();
+    _searchController = TextEditingController();
     super.initState();
   }
 
-  final tabs = ['all', 'past', 'favorites'];
-
-  int current = 0;
-
-  bool isSelected(int index) => current == index;
-
-  Widget buildBorderWidget(int index, Widget child) => Container(
-        padding: const EdgeInsets.all(1),
-        decoration: BoxDecoration(
-            gradient: isSelected(index) ? null : AppColors.GRADIENT_COLOR,
-            borderRadius: BorderRadius.circular(30),
-            color: isSelected(index)
-                ? const Color(0xffD9D9D9)
-                : Colors.transparent),
-        alignment: Alignment.center,
-        child: child,
-      );
-
   @override
   Widget build(BuildContext context) {
-    return DefaultTabController(
-      initialIndex: current,
-      length: tabs.length,
-      child: CustomAppPage(
-        child: Scaffold(
-          body: CustomScrollView(controller: _scrollController, slivers: [
-            const CustomSliverAppBar(
-              title: 'providers',
-            ),
-            const SliverToBoxAdapter(
-              child: SizedBox(
-                height: 20,
+    return BlocProvider(
+      create: (context) => _cubit,
+      child: BlocBuilder<ProvidersTabCubit, ProvidersTabState>(
+        builder: (context, state) {
+          return DefaultTabController(
+            initialIndex: state.selectedTab.index,
+            length: TherapistTabsEnum.values.length,
+            child: Scaffold(
+              appBar: const CustomAppBar(
+                title: 'providers',
               ),
-            ),
-            // tabs every tab is 30 border radius
-            // create a list of tabs
-            SliverPersistentHeader(
-              pinned: true,
-              delegate: TabBarDelegate(
-                // bgColor: MyColors.scaffoldBackgroundColorMain,
-                borderRadius: 15,
-                tabBar: TabBar(
-                    labelPadding: const EdgeInsets.all(5),
-                    isScrollable: false,
-                    onTap: (value) {
-                      setState(() {
-                        current = value;
-                      });
-                    },
-                    indicatorColor: Colors.transparent,
-                    // labelColor: Colors.black,
-                    // unselectedLabelColor: Colors.grey,
-                    tabs: [
-                      ...List.generate(
-                          tabs.length,
-                          (index) => Tab(
-
-                                  // height: 40,
-                                  child: Container(
-                                height: 40,
-                                padding: const EdgeInsets.symmetric(
-                                    horizontal: 10, vertical: 5),
+              body: SafeArea(
+                child: Padding(
+                  padding:
+                      EdgeInsets.symmetric(horizontal: 24.w, vertical: 24.h),
+                  child: Column(children: [
+                    TabBar(
+                        labelPadding: const EdgeInsets.all(5),
+                        isScrollable: false,
+                        onTap: (value) {
+                          if (state.selectedTab.index != value)
+                            _cubit.selectTab(TherapistTabsEnum.values[value]);
+                        },
+                        indicatorColor: Colors.transparent,
+                        tabs: List.generate(TherapistTabsEnum.values.length,
+                            (index) {
+                          return Tab(
+                              height: 36.h,
+                              child: Container(
                                 decoration: BoxDecoration(
-                                    gradient: AppColors.GRADIENT_Fill_COLOR,
-                                    // gradiant border
-
-                                    border: isSelected(index)
+                                    gradient: state.selectedTab.index == index
+                                        ? AppColors.GRADIENT_Fill_COLOR
+                                        : null,
+                                    border: state.selectedTab.index == index
                                         ? GradientBoxBorder(
                                             gradient: AppColors.GRADIENT_COLOR,
                                             width: 1,
@@ -104,66 +86,90 @@ class _ProvidersTabState extends State<ProvidersTab>
                                     borderRadius: BorderRadius.circular(30),
                                     color: Colors.white),
                                 alignment: Alignment.center,
-                                child: isSelected(index)
+                                child: state.selectedTab.index == index
                                     ? TextWithGradiant(
-                                        text: tabs[index],
+                                        text: TherapistTabsEnum
+                                            .values[index].name,
                                         fontSize: 12,
                                         color: Colors.black,
                                         fontWeight: FontWeight.w600,
                                       )
                                     : CustomText(
-                                        text: tabs[index],
+                                        text: TherapistTabsEnum
+                                            .values[index].name,
                                         fontSize: 12,
                                         color: const Color(0xff181B28),
                                         fontWeight: FontWeight.w600,
                                       ),
-                              ))),
-                    ]),
+                              ));
+                        })),
+
+                    SizedBox(
+                      height: 20.h,
+                    ),
+
+                    // const SearchField(),
+                    SizedBox(
+                      height: 50.h,
+                      child: SearchTextFormField(
+                        contentPaddig: const EdgeInsets.symmetric(
+                            horizontal: 10, vertical: 10),
+                        onChanged: (value) {
+                          _cubit.search(value);
+                        },
+                        currentController: _searchController,
+                        currentFocusNode: FocusNode(),
+                      ),
+                    ),
+                    SizedBox(
+                      height: 14.h,
+                    ), // Tab Bar View
+                    if (
+                        // TODO disabled for now
+                        // state.therapistsList.isEmpty &&
+                        state.isLoading)
+                      const Expanded(
+                        child: CustomLoading(
+                          loadingStyle: LoadingStyle.ShimmerList,
+                        ),
+                      )
+                    else if (state.therapistsList.isEmpty)
+                      Expanded(
+                        child: EmptyPageMessage(
+                          heightRatio: 0.65,
+                          onRefresh: () async {
+                            _cubit.getTherapists(
+                              refresh: true,
+                            );
+                          },
+                          svgImage: 'empty',
+                        ),
+                      )
+                    else
+                      Expanded(
+                        child: ListView.builder(
+                            controller: _scrollController,
+                            itemCount: state.isLoadingMore
+                                ? state.therapistsList.length + 1
+                                : state.therapistsList.length,
+                            itemBuilder: (context, index) {
+                              if (index == state.therapistsList.length) {
+                                return const CustomLoading();
+                              }
+                              return Container(
+                                  margin: const EdgeInsets.only(top: 10),
+                                  child: TherapistWidget(
+                                    withFiv: true,
+                                    therapist: state.therapistsList[index],
+                                  ));
+                            }),
+                      )
+                  ]),
+                ),
               ),
             ),
-
-// space between tabs and search field
-            const SliverToBoxAdapter(
-              child: SizedBox(
-                height: 20,
-              ),
-            ),
-            const SearchField(),
-
-            // Tab Bar View
-            SliverFillRemaining(
-              child: TabBarView(
-                children: [
-                  ListView.builder(
-                      controller: _scrollController,
-                      itemBuilder: (context, index) {
-                        return Container(
-                            margin: const EdgeInsets.only(top: 10),
-                            child: const TherapistWidget(
-                              withFiv: true,
-                            ));
-                      }),
-                  ListView.builder(
-                      controller: _scrollController,
-                      itemBuilder: (context, index) {
-                        return Container(
-                            margin: const EdgeInsets.only(top: 10),
-                            child: const TherapistWidget(
-                              withFiv: true,
-                            ));
-                      }),
-                  ListView.builder(itemBuilder: (context, index) {
-                    return Container(
-                        margin: const EdgeInsets.only(top: 10),
-                        child: const TherapistWidget(
-                          withFiv: true,
-                        ));
-                  }),
-                ],
-              ),
-            )
-          ]),
-        ),
+          );
+        },
       ),
     );
   }

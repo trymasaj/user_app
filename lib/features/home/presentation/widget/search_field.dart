@@ -35,10 +35,7 @@ class SearchField extends StatelessWidget {
                 readOnly: true,
                 onTap: () {
                   // Navigator.pushNamed(context, '/search');
-                  Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                          builder: (context) => const SearchScreen()));
+                  Navigator.push(context, SearchScreen.router());
                 },
                 decoration: InputDecoration(
                   hintText: 'search'.tr(),

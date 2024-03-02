@@ -49,6 +49,7 @@ class _CustomAppBarState extends State<CustomAppBar> {
       ),
       leadingWidth: 75,
       titleSpacing: 0,
+      
       leading: canPop ? _buildBackButton(context) : null,
       // the following line is to center the title when there is no back button
       centerTitle: widget.centerTitle ?? !canPop,

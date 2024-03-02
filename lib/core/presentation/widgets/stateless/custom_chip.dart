@@ -86,3 +86,89 @@ class CustomChip<T> extends StatelessWidget {
     );
   }
 }
+
+GradientBoxBorder appGradinatBorder({
+  List<Color>? colors,
+  double? width,
+}) =>
+    GradientBoxBorder(
+      gradient: LinearGradient(
+        colors: colors ??
+            [
+              const Color(0xFFCCA3B7),
+              const Color(0xFFEDA674),
+            ],
+      ),
+      width: width ?? 1,
+    );
+
+class AppContainerWithGradinatBorder extends StatelessWidget {
+  const AppContainerWithGradinatBorder(
+      {super.key,
+      this.borderRadius,
+      this.width,
+      this.height,
+      this.child,
+      this.colors,
+      this.borderWidth,
+      this.constraints,
+      this.margin,
+      this.padding,
+      this.alignment,
+      this.image,
+      this.position,
+      this.gradient,
+      this.shape});
+
+  final BorderRadiusGeometry? borderRadius;
+  final double? width;
+  final double? height;
+  final Widget? child;
+  final List<Color>? colors;
+  final double? borderWidth;
+  final BoxConstraints? constraints;
+  final EdgeInsetsGeometry? margin;
+  final EdgeInsetsGeometry? padding;
+  final AlignmentGeometry? alignment;
+  final DecorationImage? image;
+  final DecorationPosition? position;
+  final BoxShape? shape;
+
+  final Gradient? gradient;
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      width: width,
+      height: height,
+      constraints: constraints,
+      margin: margin,
+      padding: padding,
+      alignment: alignment,
+      decoration: BoxDecoration(
+        gradient: gradient ??
+            LinearGradient(
+              colors: colors ??
+                  [
+//                 #CCA3B7
+// 9%
+// #EDA674
+// 9%
+// #EFB287
+// 9%
+                    const Color(0xFFCCA3B7).withOpacity(0.09),
+                    const Color(0xFFEDA674).withOpacity(0.09),
+                    const Color(0xFFEFB287).withOpacity(0.09),
+                  ],
+            ),
+        image: image,
+        shape: shape ?? BoxShape.rectangle,
+        borderRadius: borderRadius ?? BorderRadius.circular(10.0),
+        border: appGradinatBorder(
+          colors: colors,
+          width: borderWidth,
+        ),
+      ),
+      child: child,
+    );
+  }
+}

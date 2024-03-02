@@ -1,10 +1,13 @@
+import 'dart:async';
+
 import 'package:easy_localization/easy_localization.dart' hide TextDirection;
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:masaj/core/presentation/colors/app_colors.dart';
+import 'package:rxdart/rxdart.dart';
 
 abstract class MainTextFormField extends StatefulWidget {
-  final FocusNode currentFocusNode;
+  final FocusNode? currentFocusNode;
   final FocusNode? nextFocusNode;
   final TextEditingController currentController;
   final String hintText;
@@ -17,6 +20,7 @@ abstract class MainTextFormField extends StatefulWidget {
   final List<TextInputFormatter>? inputFormatters;
   final bool expanded;
   final int? maxLines;
+  final bool isSearch;
   final EdgeInsetsGeometry? contentPadding;
   final Color? borderColor;
   final Color? hintColor;
@@ -31,14 +35,18 @@ abstract class MainTextFormField extends StatefulWidget {
   final TextStyle? style;
   final bool? readOnly;
   final void Function()? onTap;
+  final TextStyle? hintStyle;
+  final InputDecoration? decoration;
 
   const MainTextFormField({
     super.key,
     required this.currentFocusNode,
+    this.isSearch = false,
     this.nextFocusNode,
     required this.currentController,
     required this.hintText,
     this.keyboardType,
+    this.hintStyle,
     required this.validator,
     this.textCapitalization = TextCapitalization.none,
     this.margin = const EdgeInsets.symmetric(horizontal: 16.0, vertical: 8.0),
@@ -61,6 +69,7 @@ abstract class MainTextFormField extends StatefulWidget {
     this.prefixIcon,
     this.readOnly,
     this.onTap,
+    this.decoration
   });
 
   @override
@@ -69,6 +78,31 @@ abstract class MainTextFormField extends StatefulWidget {
 
 class _MainTextFormFieldState extends State<MainTextFormField> {
   TextDirection? _currentDir;
+  BehaviorSubject<String>? _searchSubject;
+  StreamSubscription<String>? _searchSubscription;
+  @override
+  void initState() {
+    if (widget.isSearch) {
+      _searchSubject = BehaviorSubject<String>();
+      _searchSubjectListener();
+    }
+    super.initState();
+  }
+
+  void _searchSubjectListener() {
+    _searchSubscription = _searchSubject?.stream
+        .debounceTime(const Duration(milliseconds: 500))
+        .distinct()
+        .distinct((p, n) => p == n)
+        .listen(widget.onChanged);
+  }
+
+  @override
+  void dispose() {
+    _searchSubject?.close();
+    _searchSubscription?.cancel();
+    super.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -110,7 +144,8 @@ class _MainTextFormFieldState extends State<MainTextFormField> {
         textAlignVertical:
             widget.expanded ? const TextAlignVertical(y: -0.8) : null,
         obscureText: widget.obscureText ?? false,
-        decoration: InputDecoration(
+        decoration:widget.decoration ??
+         InputDecoration(
           fillColor: widget.enabled
               ? widget.fillColor ?? const Color(0xFFF6F6F6)
               : const Color(0x44000000),
@@ -119,22 +154,23 @@ class _MainTextFormFieldState extends State<MainTextFormField> {
           contentPadding: widget.contentPadding ??
               const EdgeInsets.fromLTRB(20, 20, 20, 20),
           hintText: widget.hintText.tr(),
-          hintStyle: TextStyle(
-              fontFamily: 'Poppins',
-              fontSize: 14.0,
-              fontWeight: FontWeight.w400,
-              color: widget.hintColor ?? const Color(0xFF8C8C8C)),
+          hintStyle: widget.hintStyle ??
+              TextStyle(
+                  fontFamily: 'Poppins',
+                  fontSize: 14.0,
+                  fontWeight: FontWeight.w400,
+                  color: widget.hintColor ?? const Color(0xFF8C8C8C)),
           suffixIcon: widget.suffixIcon,
           prefixIcon: widget.prefixIcon,
           enabledBorder: OutlineInputBorder(
-            borderRadius: const BorderRadius.all(Radius.circular(12.0)),
+            borderRadius: const BorderRadius.all(Radius.circular(10)),
             borderSide: BorderSide(
               color: widget.borderColor ?? Colors.transparent,
               width: 1,
             ),
           ),
           focusedBorder: OutlineInputBorder(
-            borderRadius: const BorderRadius.all(Radius.circular(12.0)),
+            borderRadius: const BorderRadius.all(Radius.circular(10)),
             borderSide: BorderSide(
               color: widget.borderColor ?? Colors.transparent,
               width: 1,
@@ -145,20 +181,20 @@ class _MainTextFormFieldState extends State<MainTextFormField> {
               color: AppColors.ERROR_COLOR,
               width: 1,
             ),
-            borderRadius: BorderRadius.all(Radius.circular(12.0)),
+            borderRadius: BorderRadius.all(Radius.circular(10)),
           ),
           focusedErrorBorder: const OutlineInputBorder(
             borderSide: BorderSide(
               color: AppColors.ERROR_COLOR,
               width: 1,
             ),
-            borderRadius: BorderRadius.all(Radius.circular(12.0)),
+            borderRadius: BorderRadius.all(Radius.circular(10)),
           ),
           counterText: '',
           border: InputBorder.none,
           disabledBorder: const OutlineInputBorder(
             borderSide: BorderSide.none,
-            borderRadius: BorderRadius.all(Radius.circular(12.0)),
+            borderRadius: BorderRadius.all(Radius.circular(10)),
           ),
         ),
         validator: widget.validator,
@@ -169,7 +205,13 @@ class _MainTextFormFieldState extends State<MainTextFormField> {
             final dir = _getDirection(text);
             if (dir != _currentDir) setState(() => _currentDir = dir);
           }
-          (widget.onChanged ?? (_) {})(text);
+          if (widget.isSearch &&
+              _searchSubject != null &&
+              !_searchSubject!.isClosed) {
+            _searchSubject?.add(text);
+          } else {
+            (widget.onChanged ?? (_) {})(text);
+          }
         },
         onFieldSubmitted: (String value) {
           FocusScope.of(context).requestFocus(widget.nextFocusNode);

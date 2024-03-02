@@ -1,11 +1,12 @@
 import 'package:flutter/material.dart';
+import 'package:masaj/core/app_export.dart';
+import 'package:masaj/core/data/di/injector.dart';
 import 'package:masaj/features/account/models/verification_code_screen.dart';
 import 'package:masaj/features/account/pages/account_screen.dart';
 import 'package:masaj/features/account/pages/create_new_password_screen.dart';
 import 'package:masaj/features/account/pages/manage_members_screen.dart';
 import 'package:masaj/features/account/pages/my_profile_screen.dart';
 import 'package:masaj/features/account/pages/phone_screen.dart';
-import 'package:masaj/features/address/application/blocs/add_new_address_bloc/update_address_bloc.dart';
 import 'package:masaj/features/address/presentation/pages/address_page.dart';
 import 'package:masaj/features/address/presentation/pages/update_address_screen.dart';
 import 'package:masaj/features/address/presentation/pages/map_location_picker.dart';
@@ -28,8 +29,11 @@ import 'package:masaj/features/legal/pages/privacy_policy_screen.dart';
 import 'package:masaj/features/legal/pages/reschedule_policy_screen.dart';
 import 'package:masaj/features/legal/pages/terms_and_condititons_screen.dart';
 import 'package:masaj/features/medical_form/pages/medical_form_screen.dart';
+import 'package:masaj/features/providers_tab/data/models/therapist.dart';
+import 'package:masaj/features/providers_tab/presentation/pages/provider_details_screen.dart';
 import 'package:masaj/features/members/presentaion/pages/add_member_screen.dart';
 import 'package:masaj/features/quiz/presentation/pages/quiz_start_page.dart';
+import 'package:masaj/features/services/presentation/screens/serice_details_screen.dart';
 import 'package:masaj/features/splash/presentation/pages/splash_page.dart';
 import 'package:masaj/features/wallet/pages/top_up_wallet_screen.dart';
 import 'package:masaj/features/wallet/pages/wallet_screen.dart';
@@ -138,9 +142,23 @@ Route<dynamic>? onGenerateRoute(RouteSettings settings) {
     case MyProfileScreen.routeName:
       return MaterialPageRoute(
           builder: (context) => MyProfileScreen.builder(context));
+    case ServiceDetailsScreen.routeName:
+      final id = arguments as int;
+      return ServiceDetailsScreen.router(id);
+
+    case ProviderDetailsScreen.routeName:
+      // there is no arguments for this route
+      final arguments =
+          settings.arguments as ProviderDetailsScreenNavArguements;
+
+      return ProviderDetailsScreen.router(
+        therapist: arguments.therapist,
+        providersTabCubit: arguments.providersTabCubit,
+      );
     case AddMemberScreen.routeName:
       return MaterialPageRoute(builder: (context) => const AddMemberScreen());
 
     default:
   }
+  return null;
 }

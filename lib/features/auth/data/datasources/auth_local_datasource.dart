@@ -3,7 +3,7 @@ import 'package:masaj/core/data/clients/cache_service.dart';
 import 'package:masaj/features/address/domain/entities/address.dart';
 import 'package:masaj/features/auth/domain/entities/user.dart';
 
-import '../../../address/domain/entities/country.dart';
+import 'package:masaj/features/address/domain/entities/country.dart';
 
 abstract class AuthLocalDataSource {
   Future<bool> checkUserDataExist();
@@ -126,7 +126,8 @@ class AuthLocalDataSourceImpl implements AuthLocalDataSource {
   @override
   Future<void> setCurrentAddress(Address address) async {
     await _cacheService.setCurrentAddress(address);
-    if (address.country != null)
+    if (address.country != null) {
       await _cacheService.setCurrentCountry(address.country!);
+    }
   }
 }
