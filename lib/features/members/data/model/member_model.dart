@@ -10,6 +10,7 @@ class MemberModel {
   String? phone;
   Gender? gender;
   String? image;
+  bool? isSelected;
 
   MemberModel(
       {this.id,
@@ -18,6 +19,7 @@ class MemberModel {
       this.countryCode,
       this.phone,
       this.gender,
+      this.isSelected,
       this.image});
 
   String toJson() => json.encode(toMap());
@@ -31,7 +33,7 @@ class MemberModel {
     name = json['name'];
     countryCode = json['countryCode'];
     phone = json['phone'];
-    gender = Gender.values[json['gender']];
+    gender = Gender.values[json['gender'] == 2 ? 1 : json['gender']];
     image = json['image'];
   }
 

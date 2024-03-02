@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:masaj/core/data/clients/network_service.dart';
 import 'package:masaj/core/data/constants/api_end_point.dart';
 import 'package:masaj/core/domain/enums/request_result_enum.dart';
@@ -32,6 +34,7 @@ class HomeRemoteDataSourceImpl implements HomeRemoteDataSource {
         throw RequestException(message: response.data);
       }
       final result = response.data;
+      log(result.toString());
       final resultStatus = result['result'];
       if (resultStatus == RequestResult.Failed.name) {
         throw RequestException(message: result['msg']);

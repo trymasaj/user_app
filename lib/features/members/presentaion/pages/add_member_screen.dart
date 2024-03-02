@@ -14,6 +14,7 @@ import 'package:masaj/core/presentation/widgets/stateless/custom_app_page.dart';
 import 'package:masaj/core/presentation/widgets/stateful/user_profile_image_picker.dart';
 import 'package:masaj/core/presentation/widgets/stateless/custom_loading.dart';
 import 'package:masaj/core/presentation/widgets/stateless/default_button.dart';
+import 'package:masaj/core/presentation/widgets/stateless/empty_page_message.dart';
 import 'package:masaj/core/presentation/widgets/stateless/subtitle_text.dart';
 import 'package:masaj/core/presentation/widgets/stateless/text_fields/default_text_form_field.dart';
 import 'package:masaj/core/presentation/widgets/stateless/text_fields/phone_number_text_field.dart';
@@ -43,12 +44,6 @@ class _AddMemberScreenState extends State<AddMemberScreen> {
   bool showGenderError = false;
   PhoneNumber? _selectedPhoneNumber;
   String? image;
-  @override
-  void initState() {
-    phoneNumberController.text = ' ';
-
-    super.initState();
-  }
 
   @override
   Widget build(BuildContext context) {
@@ -64,12 +59,17 @@ class _AddMemberScreenState extends State<AddMemberScreen> {
             if (state.isError) {
               showSnackBar(context, message: state.errorMessage);
             }
+            if (state.isAdded) {
+              context.read<MembersCubit>().getMembers();
+              Navigator.pop(context);
+            }
           },
           child: BlocBuilder<MembersCubit, MembersState>(
             builder: (context, state) {
               if (state.isLoading) {
                 return const CustomLoading();
               }
+
               return Padding(
                 padding: const EdgeInsets.symmetric(horizontal: 23),
                 child: Form(
@@ -108,7 +108,7 @@ class _AddMemberScreenState extends State<AddMemberScreen> {
 
                         if (!_notValid()) {
                           MemberModel member = MemberModel(
-                              id: int.parse(customerId),
+                              customerId: int.parse(customerId),
                               image: image,
                               countryCode:
                                   _selectedPhoneNumber?.countryCode ?? '',

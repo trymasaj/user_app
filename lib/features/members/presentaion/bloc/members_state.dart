@@ -1,12 +1,14 @@
 part of 'members_cubit.dart';
 
-enum MembersStateStatus { initial, loading, loaded, error }
+enum MembersStateStatus { initial, loading, loaded, error,deleted , added }
 
 extension MembersStateX on MembersState {
   bool get isInitial => status == MembersStateStatus.initial;
   bool get isLoading => status == MembersStateStatus.loading;
   bool get isLoaded => status == MembersStateStatus.loaded;
   bool get isError => status == MembersStateStatus.error;
+  bool get isDeleted => status == MembersStateStatus.deleted;
+  bool get isAdded => status == MembersStateStatus.added;
 }
 
 class MembersState {

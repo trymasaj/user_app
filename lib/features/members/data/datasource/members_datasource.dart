@@ -1,4 +1,6 @@
 // ignore_for_file: void_checks
+import 'dart:developer';
+
 import 'package:dio/dio.dart';
 import 'package:masaj/core/data/clients/network_service.dart';
 import 'package:masaj/core/data/constants/api_end_point.dart';
@@ -32,9 +34,15 @@ class MembersDataSourceImpl extends MembersDataSource {
   Future<void> addMember(MemberModel member) async {
     const url = ApiEndPoint.ADD_MEMBER;
     var formData = await _createFormData(member.toMap());
+    var header = await _networkService.getDefaultHeaders();
+
+    header.putIfAbsent(
+        'Content-Type',
+        () =>
+            'multipart/form-data; boundary=<calculated when request is sent>');
     return _networkService.post(url, data: formData).then((response) {
       if (response.statusCode != 200) {
-        throw RequestException(message: response.data);
+        throw RequestException(message: response.data['detail']);
       }
       final result = response.data;
       final resultStatus = result['result'];
@@ -48,7 +56,7 @@ class MembersDataSourceImpl extends MembersDataSource {
   @override
   Future<void> deleteMember(int id) {
     const url = ApiEndPoint.DELETE_MEMBER;
-    return _networkService.delete(url + id.toString()).then((response) {
+    return _networkService.delete('$url/$id').then((response) {
       if (response.statusCode != 200) {
         throw RequestException(message: response.data);
       }
@@ -57,7 +65,7 @@ class MembersDataSourceImpl extends MembersDataSource {
       if (resultStatus == RequestResult.Failed.name) {
         throw RequestException(message: result['msg']);
       }
-      return MemberModel.fromMap(result);
+      // return MemberModel.fromMap(result);
     });
   }
 
@@ -85,12 +93,13 @@ class MembersDataSourceImpl extends MembersDataSource {
         throw RequestException(message: response.data);
       }
       final result = response.data;
-      final resultStatus = result['status'];
-      if (resultStatus == RequestResult.Failed.name) {
-        throw RequestException(message: result['msg']);
-      }
-      return result['data'] != null
-          ? (result['data'] as List).map((e) => MemberModel.fromMap(e)).toList()
+      log(response.data.toString());
+      // final resultStatus = result['status'];
+      // if (resultStatus == RequestResult.Failed.name) {
+      //   throw RequestException(message: result['msg']);
+      // }
+      return result != null
+          ? (result as List).map((e) => MemberModel.fromMap(e)).toList()
           : [];
     });
   }

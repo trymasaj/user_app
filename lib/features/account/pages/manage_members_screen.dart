@@ -1,11 +1,15 @@
+import 'dart:developer';
+
 import 'package:flutter/material.dart';
+import 'package:flutter_slidable/flutter_slidable.dart';
 import 'package:masaj/core/app_export.dart';
 import 'package:masaj/core/data/di/injector.dart';
-import 'package:masaj/core/domain/enums/gender.dart';
 import 'package:masaj/core/presentation/navigation/navigator_helper.dart';
+import 'package:masaj/core/presentation/overlay/show_snack_bar.dart';
 import 'package:masaj/core/presentation/widgets/stateless/custom_app_bar.dart';
 import 'package:masaj/core/presentation/widgets/stateless/custom_loading.dart';
-import 'package:masaj/features/account/models/member.dart';
+import 'package:masaj/core/presentation/widgets/stateless/empty_page_message.dart';
+import 'package:masaj/features/members/data/model/member_model.dart';
 import 'package:masaj/features/members/presentaion/bloc/members_cubit.dart';
 import 'package:masaj/features/members/presentaion/pages/add_member_screen.dart';
 import 'package:masaj/features/account/widgets/member_tile.dart';
@@ -24,33 +28,80 @@ class ManageMembersScreen extends StatelessWidget {
             title: 'lbl_manage_members'.tr(),
             actions: [buildAddMemberButton(context)],
           ),
-          body: BlocBuilder<MembersCubit, MembersState>(
-            builder: (context, state) {
-              if (state.isLoading) {
-                return CustomLoading();
-              }
-              return Container(
-                  width: double.maxFinite,
-                  padding:
-                      EdgeInsets.symmetric(horizontal: 24.w, vertical: 23.h),
-                  child: Column(children: [
-                    for (int i = 0; i < 5; i++)
-                      _buildMemberTile(Member(
-                          gender: Gender.male.name,
-                          name: 'Ahmed Mohamed'.tr(),
-                          image: ImageConstant.imgRectangle3943650x50,
-                          phone: '96528271116')),
-                    SizedBox(height: 5.h)
-                  ]));
-            },
-          )),
+          body: _buildBody(context)),
+    );
+  }
+
+  Widget _buildBody(BuildContext context) {
+    return Builder(builder: (context) {
+      final cubit = context.read<MembersCubit>();
+
+      return BlocListener<MembersCubit, MembersState>(
+        listener: (context, state) {
+          if (state.isError) {
+            showSnackBar(context, message: state.errorMessage);
+          }
+          if (state.isDeleted) {
+            cubit.getMembers();
+          }
+        },
+        child: BlocBuilder<MembersCubit, MembersState>(
+          builder: (context, state) {
+            if (state.isLoading) {
+              return const CustomLoading();
+            }
+            final members = state.members;
+            if ((state.isLoaded && members == [])) {
+              return RefreshIndicator(
+                  onRefresh: cubit.getMembers, child: const EmptyPageMessage());
+            }
+            return _buildMembersList(members, context);
+          },
+        ),
+      );
+    });
+  }
+
+  Widget _buildMembersList(List<MemberModel>? members, BuildContext context) {
+    return RefreshIndicator(
+      onRefresh: context.read<MembersCubit>().getMembers,
+      child: Container(
+        width: double.maxFinite,
+        padding: EdgeInsets.symmetric(horizontal: 24.w, vertical: 23.h),
+        child: ListView.builder(
+          itemBuilder: (context, index) {
+            return _buildMemberTile(members[index], context);
+          },
+          itemCount: members!.length,
+        ),
+      ),
     );
   }
 
   /// Section Widget
-  Widget _buildMemberTile(Member member) {
-    return MemberTile(
-      member: member,
+  Widget _buildMemberTile(MemberModel member, BuildContext context) {
+    final cubit = context.read<MembersCubit>();
+    log(member.id.toString());
+    return Slidable(
+      key: ValueKey(member.id),
+      startActionPane: ActionPane(
+        motion: const ScrollMotion(),
+        dismissible: DismissiblePane(
+          onDismissed: () => cubit.deleteMember(member.id),
+        ),
+        children: [
+          SlidableAction(
+            onPressed: (context) => cubit.deleteMember(member.id),
+            backgroundColor: const Color(0xFFFE4A49),
+            foregroundColor: Colors.white,
+            icon: Icons.delete,
+            label: 'Delete',
+          ),
+        ],
+      ),
+      child: MemberTile(
+        member: member,
+      ),
     );
   }
 
@@ -61,18 +112,22 @@ class ManageMembersScreen extends StatelessWidget {
 }
 
 Widget buildAddMemberButton(BuildContext context) {
-  return GestureDetector(
-    onTap: () {
-      NavigatorHelper.of(context).pushNamed(AddMemberScreen.routeName);
-    },
-    child: Padding(
-      padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 14.0),
-      child: Text(
-        'lbl_add'.tr(),
-        style: CustomTextStyles.titleMediumSecondaryContainer.copyWith(
-          color: theme.colorScheme.secondaryContainer,
+  return Builder(builder: (context) {
+    return GestureDetector(
+      onTap: () {
+        NavigatorHelper.of(context)
+            .pushNamed(AddMemberScreen.routeName)
+            .then((value) => context.read<MembersCubit>().getMembers());
+      },
+      child: Padding(
+        padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 14.0),
+        child: Text(
+          'lbl_add'.tr(),
+          style: CustomTextStyles.titleMediumSecondaryContainer.copyWith(
+            color: theme.colorScheme.secondaryContainer,
+          ),
         ),
       ),
-    ),
-  );
+    );
+  });
 }
