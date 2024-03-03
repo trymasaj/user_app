@@ -28,8 +28,6 @@ void main() async {
     final widgetsBinding = WidgetsFlutterBinding.ensureInitialized();
     await EasyLocalization.ensureInitialized();
     configureDependencies();
-    await Injector().init();
-
     await Firebase.initializeApp(
       options: DefaultFirebaseOptions.currentPlatform,
     );

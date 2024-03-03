@@ -1,5 +1,4 @@
 import 'package:masaj/core/data/clients/cache_service.dart';
-import 'package:masaj/core/data/clients/local/shared_preference_local_client.dart';
 import 'package:masaj/core/data/clients/network_service.dart';
 import 'package:masaj/core/data/datasources/device_type_data_source.dart';
 import 'package:masaj/core/data/datasources/external_login_data_source.dart';
@@ -71,10 +70,6 @@ class Injector {
 
   factory Injector() => _singleton;
 
-  Future<void> init() {
-    return Future.wait([sharedPreferenceLocalClient.init()]);
-  }
-
   //===================[SPLASH_CUBIT]===================
   SplashCubit get splashCubit => SplashCubit(
       splashRepository: splashRepository,
@@ -84,10 +79,6 @@ class Injector {
   SplashRepository get splashRepository =>
       _flyweightMap['splashRepository'] ??
       SplashRepositoryImpl(splashLocalDataSource);
-
-  SharedPreferenceLocalClient get sharedPreferenceLocalClient =>
-      _flyweightMap['sharedPreferenceLocalClient'] ??
-      SharedPreferenceLocalClient();
 
   SplashLocalDataSource get splashLocalDataSource =>
       _flyweightMap['splashLocalDataSource'] ??

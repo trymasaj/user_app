@@ -123,9 +123,12 @@ class CacheServiceImplV2 implements CacheService {
   @override
   Future<bool> getIsFirstLaunch() async {
     final storage = await _completer.future;
-
-    final isFirstLaunch = await storage.read(key: _IS_FIRST_LAUNCH);
-    return isFirstLaunch == null ? true : false;
+    try {
+      final isFirstLaunch = await storage.read(key: _IS_FIRST_LAUNCH);
+      return isFirstLaunch == null ? true : false;
+    } catch (e) {
+      return true;
+    }
   }
 
   @override
