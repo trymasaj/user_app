@@ -1,5 +1,3 @@
-import 'dart:developer';
-
 import 'package:flutter/material.dart';
 import 'package:intl_phone_field/phone_number.dart';
 import 'package:masaj/core/app_export.dart';
@@ -9,12 +7,9 @@ import 'package:masaj/core/presentation/colors/app_colors.dart';
 import 'package:masaj/core/presentation/overlay/show_snack_bar.dart';
 import 'package:masaj/core/presentation/widgets/stateful/default_tab.dart';
 import 'package:masaj/core/presentation/widgets/stateless/custom_app_bar.dart';
-import 'package:masaj/core/presentation/widgets/stateless/custom_app_page.dart';
-
 import 'package:masaj/core/presentation/widgets/stateful/user_profile_image_picker.dart';
 import 'package:masaj/core/presentation/widgets/stateless/custom_loading.dart';
 import 'package:masaj/core/presentation/widgets/stateless/default_button.dart';
-import 'package:masaj/core/presentation/widgets/stateless/empty_page_message.dart';
 import 'package:masaj/core/presentation/widgets/stateless/subtitle_text.dart';
 import 'package:masaj/core/presentation/widgets/stateless/text_fields/default_text_form_field.dart';
 import 'package:masaj/core/presentation/widgets/stateless/text_fields/phone_number_text_field.dart';
@@ -55,12 +50,12 @@ class _AddMemberScreenState extends State<AddMemberScreen> {
           centerTitle: true,
         ),
         body: BlocListener<MembersCubit, MembersState>(
-          listener: (context, state) {
+          listener: (context, state) async {
             if (state.isError) {
               showSnackBar(context, message: state.errorMessage);
             }
             if (state.isAdded) {
-              context.read<MembersCubit>().getMembers();
+              await context.read<MembersCubit>().getMembers();
               Navigator.pop(context);
             }
           },
