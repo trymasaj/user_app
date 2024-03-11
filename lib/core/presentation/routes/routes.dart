@@ -154,6 +154,7 @@ Route<dynamic>? onGenerateRoute(RouteSettings settings) {
       return ProviderDetailsScreen.router(
         therapist: arguments.therapist,
         providersTabCubit: arguments.providersTabCubit,
+        homeTherapistsCubit: arguments.homeTherapistsCubit,
       );
     case AddMemberScreen.routeName:
       return MaterialPageRoute(builder: (context) => const AddMemberScreen());

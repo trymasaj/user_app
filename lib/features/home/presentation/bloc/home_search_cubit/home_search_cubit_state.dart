@@ -22,12 +22,15 @@ class HomeSearchCubitState {
   final String? errorMessage;
   final HomeSearchResponse? result;
   final List<ServiceModel> recentServices;
+  final List<SearchResultModel> recentSearchResults;
 
   const HomeSearchCubitState({
     this.status = HomeSearchStateStatus.initial,
     this.errorMessage,
+
     this.result,
     this.recentServices = const [],
+    this.recentSearchResults = const [],
   });
 
   bool get isEmptyResult {
@@ -42,12 +45,14 @@ class HomeSearchCubitState {
     return other is HomeSearchCubitState &&
         other.status == status &&
         other.errorMessage == errorMessage &&
+        other.recentSearchResults == recentSearchResults &&
         other.result == result
         && other.recentServices == recentServices;
   }
 
   @override
   int get hashCode => status.hashCode ^ errorMessage.hashCode ^ result.hashCode
+  ^ recentSearchResults.hashCode
   ^ recentServices.hashCode;
 
   HomeSearchCubitState copyWith({
@@ -55,12 +60,14 @@ class HomeSearchCubitState {
     String? errorMessage,
     HomeSearchResponse? result,
     List<ServiceModel>? recentServices,
+    List<SearchResultModel>? recentSearchResults,
   }) {
     return HomeSearchCubitState(
       status: status ?? this.status,
       errorMessage: errorMessage ?? this.errorMessage,
       result: result ?? this.result,
       recentServices: recentServices ?? this.recentServices,
+      recentSearchResults: recentSearchResults ?? this.recentSearchResults,
     );
   }
 }

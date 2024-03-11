@@ -1,6 +1,7 @@
 import 'dart:developer';
 
 import 'package:masaj/core/application/controllers/base_cubit.dart';
+import 'package:masaj/core/data/clients/cache_service.dart';
 import 'package:masaj/features/home/data/models/home_search_reponse.dart';
 import 'package:masaj/features/home/data/repositories/home_repository.dart';
 import 'package:masaj/features/services/data/models/service_model.dart';
@@ -13,6 +14,7 @@ class HomeSearchCubit extends BaseCubit<HomeSearchCubitState> {
   })  : _homeRepository = homeRepository,
         super(const HomeSearchCubitState()) {
     getRecentServices();
+    getRecentSearchResults();
   }
 
   final HomeRepository _homeRepository;
@@ -32,6 +34,74 @@ class HomeSearchCubit extends BaseCubit<HomeSearchCubitState> {
         emit(state.copyWith(
           status: HomeSearchStateStatus.error,
           errorMessage: 'Failed to save service',
+        ));
+      }
+    } catch (e) {
+      emit(state.copyWith(
+        status: HomeSearchStateStatus.error,
+        errorMessage: e.toString(),
+      ));
+    }
+  }
+
+  Future<void> saveRecentSearchResult(SearchResultModel service) async {
+    try {
+      final result = await _homeRepository.saveSearchResult(service);
+      if (result) {
+        emit(state.copyWith(
+          recentSearchResults: [
+            service,
+            ...state.recentSearchResults
+              ..removeWhere((element) =>
+                  element.id == service.id && element.type == service.type)
+          ],
+        ));
+      } else {
+        emit(state.copyWith(
+          status: HomeSearchStateStatus.error,
+          errorMessage: 'Failed to save service',
+        ));
+      }
+    } catch (e) {
+      emit(state.copyWith(
+        status: HomeSearchStateStatus.error,
+        errorMessage: e.toString(),
+      ));
+    }
+  }
+
+  Future<void> getRecentSearchResults() async {
+    emit(state.copyWith(status: HomeSearchStateStatus.loading));
+    try {
+      final recentSearchResults =
+          await _homeRepository.getRecentSearchResults();
+      emit(state.copyWith(
+        status: HomeSearchStateStatus.loaded,
+        recentSearchResults: recentSearchResults,
+      ));
+    } catch (e) {
+      emit(state.copyWith(
+        status: HomeSearchStateStatus.error,
+        errorMessage: e.toString(),
+      ));
+    }
+  }
+
+  Future<void> removeRecentSearchResult(SearchResultModel service) async {
+    emit(state.copyWith(status: HomeSearchStateStatus.loading));
+    try {
+      final result = await _homeRepository.removeRecentSearchResult(service);
+      if (result) {
+        final recentSearchResults =
+            await _homeRepository.getRecentSearchResults();
+        emit(state.copyWith(
+          status: HomeSearchStateStatus.loaded,
+          recentSearchResults: recentSearchResults,
+        ));
+      } else {
+        emit(state.copyWith(
+          status: HomeSearchStateStatus.error,
+          errorMessage: 'Failed to remove service',
         ));
       }
     } catch (e) {

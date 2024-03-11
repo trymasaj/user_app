@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:masaj/core/app_export.dart';
+import 'package:masaj/core/data/clients/cache_service.dart';
 import 'package:masaj/core/data/di/injector.dart';
 import 'package:masaj/core/data/extensions/extensions.dart';
 import 'package:masaj/core/presentation/colors/app_colors.dart';
@@ -14,6 +15,7 @@ import 'package:masaj/core/presentation/widgets/stateless/empty_page_message.dar
 import 'package:masaj/core/presentation/widgets/stateless/text_fields/search_text_form_field.dart';
 import 'package:masaj/features/home/presentation/bloc/home_search_cubit/home_search_cubit.dart';
 import 'package:masaj/features/providers_tab/data/models/therapist.dart';
+import 'package:masaj/features/providers_tab/presentation/pages/provider_details_screen.dart';
 import 'package:masaj/features/services/data/models/service_model.dart';
 import 'package:masaj/features/services/presentation/screens/serice_details_screen.dart';
 import 'package:masaj/gen/assets.gen.dart';
@@ -126,7 +128,7 @@ class _SearchScreenState extends State<SearchScreen> {
   }
 
   List<Widget> buildRecentlyViews(
-    List<ServiceModel> services,
+    List<SearchResultModel> services,
   ) {
     if (services.isEmpty) {
       return [
@@ -208,7 +210,7 @@ class _SearchScreenState extends State<SearchScreen> {
 
                 if (state.isEmptyResult && _searchController.text.isEmpty)
                   ...buildRecentlyViews(
-                    state.recentServices,
+                    state.recentSearchResults,
                   ),
               ],
             ),
@@ -234,7 +236,13 @@ class ServicesResults extends StatelessWidget {
         final service = services[index];
         return GestureDetector(
           onTap: () async {
-            await context.read<HomeSearchCubit>().saveRecentService(service);
+            await context
+                .read<HomeSearchCubit>()
+                .saveRecentSearchResult(SearchResultModel(
+                  id: service.serviceId,
+                  name: service.title,
+                  type: SearchResultModelEnum.Service,
+                ));
             Future.delayed(
                 const Duration(milliseconds: 0),
                 () => NavigatorHelper.of(context).pushNamed(
@@ -295,39 +303,57 @@ class ProvidersResults extends StatelessWidget {
       itemCount: therapists.length,
       itemBuilder: (context, index) {
         final therapist = therapists[index];
-        return Container(
-          margin: const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
-          child: Row(
-            mainAxisAlignment: MainAxisAlignment.start,
-            children: [
-              // image container
-              Container(
-                height: 50,
-                width: 50,
-                decoration: BoxDecoration(
-                  color: AppColors.GREY_LIGHT_COLOR_2,
-                  borderRadius: BorderRadius.circular(12),
-                  image: DecorationImage(
-                    image: CustomCachedNetworkImageProvider(
-                      therapist.profileImage ?? '',
+        return GestureDetector(
+          onTap: () async {
+            await context
+                .read<HomeSearchCubit>()
+                .saveRecentSearchResult(SearchResultModel(
+                  id: therapist.therapistId,
+                  name: therapist.fullName,
+                  type: SearchResultModelEnum.Therapist,
+                ));
+            Future.delayed(
+                const Duration(milliseconds: 0),
+                () => NavigatorHelper.of(context)
+                    .pushNamed(ProviderDetailsScreen.routeName,
+                        arguments: ProviderDetailsScreenNavArguements(
+                          therapist: therapist,
+                        )));
+          },
+          child: Container(
+            margin: const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.start,
+              children: [
+                // image container
+                Container(
+                  height: 50,
+                  width: 50,
+                  decoration: BoxDecoration(
+                    color: AppColors.GREY_LIGHT_COLOR_2,
+                    borderRadius: BorderRadius.circular(12),
+                    image: DecorationImage(
+                      image: CustomCachedNetworkImageProvider(
+                        therapist.profileImage ?? '',
+                      ),
+                      fit: BoxFit.cover,
                     ),
-                    fit: BoxFit.cover,
                   ),
                 ),
-              ),
-              const SizedBox(
-                width: 10,
-              ),
-              // text
-              Text(
-                therapist.fullName ?? '',
-                style: TextStyle(
-                  fontSize: 14,
-                  fontWeight: FontWeight.w500,
-                  color: AppColors.FONT_COLOR,
+                const SizedBox(
+                  width: 10,
                 ),
-              ),
-            ],
+                // text
+                Text(
+                  therapist.fullName ?? '',
+                  style: TextStyle(
+                    fontSize: 14,
+                    fontWeight: FontWeight.w500,
+                    color: AppColors.FONT_COLOR,
+                  ),
+                ),
+              ],
+            ),
           ),
         );
       },
@@ -340,7 +366,7 @@ class RecenetHostory extends StatelessWidget {
     super.key,
     required this.services,
   });
-  final List<ServiceModel> services;
+  final List<SearchResultModel> services;
 
   @override
   Widget build(BuildContext context) {
@@ -350,9 +376,16 @@ class RecenetHostory extends StatelessWidget {
         final service = services[index];
         return GestureDetector(
           onTap: () async {
-            NavigatorHelper.of(context).pushNamed(
-                ServiceDetailsScreen.routeName,
-                arguments: service.serviceId);
+            if (service.isService)
+              NavigatorHelper.of(context).pushNamed(
+                  ServiceDetailsScreen.routeName,
+                  arguments: service.id);
+            else if (service.isTherapist)
+              NavigatorHelper.of(context)
+                  .pushNamed(ProviderDetailsScreen.routeName,
+                      arguments: ProviderDetailsScreenNavArguements(
+                        therapist: Therapist(therapistId: service.id),
+                      ));
           },
           child: Container(
             margin: const EdgeInsets.symmetric(horizontal: 20),
@@ -376,7 +409,7 @@ class RecenetHostory extends StatelessWidget {
                       // text
                       Expanded(
                         child: Text(
-                          service.title ?? '',
+                          service.name ?? '',
                           style: TextStyle(
                             fontSize: 14,
                             fontWeight: FontWeight.w400,
@@ -389,7 +422,7 @@ class RecenetHostory extends StatelessWidget {
                         onTap: () {
                           context
                               .read<HomeSearchCubit>()
-                              .removeRecentService(service);
+                              .removeRecentSearchResult(service);
                         },
                         child: Container(
                           margin: const EdgeInsets.only(left: 10),

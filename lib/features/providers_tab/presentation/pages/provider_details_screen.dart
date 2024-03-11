@@ -12,6 +12,7 @@ import 'package:masaj/core/presentation/widgets/stateless/custom_text.dart';
 import 'package:masaj/core/presentation/widgets/stateless/default_button.dart';
 import 'package:masaj/features/home/presentation/widget/category_list.dart';
 import 'package:masaj/features/providers_tab/data/models/therapist.dart';
+import 'package:masaj/features/providers_tab/presentation/cubits/home_therapists_cubit/home_therapists_cubit.dart';
 import 'package:masaj/features/providers_tab/presentation/cubits/providers_tab_cubit/providers_tab_cubit.dart';
 import 'package:masaj/features/providers_tab/presentation/cubits/therapist_details_cubit/therapist_details_cubit.dart';
 import 'package:masaj/features/providers_tab/presentation/pages/book_with_provider_sreen.dart';
@@ -20,9 +21,12 @@ import 'package:masaj/features/services/application/service_catgory_cubit/servic
 
 class ProviderDetailsScreenNavArguements {
   final Therapist therapist;
-  final ProvidersTabCubit providersTabCubit;
+  ProvidersTabCubit? providersTabCubit;
+  HomeTherapistsCubit? homeTherapistsCubit;
   ProviderDetailsScreenNavArguements(
-      {required this.therapist, required this.providersTabCubit});
+      {required this.therapist,
+      this.providersTabCubit,
+      this.homeTherapistsCubit});
 }
 
 class ProviderDetailsScreen extends StatefulWidget {
@@ -37,19 +41,28 @@ class ProviderDetailsScreen extends StatefulWidget {
   // builder
   static MaterialPageRoute router(
       {required Therapist therapist,
-      required ProvidersTabCubit providersTabCubit}) {
+      ProvidersTabCubit? providersTabCubit,
+      HomeTherapistsCubit? homeTherapistsCubit}) {
     return MaterialPageRoute(
         builder: (context) => builder(
-            therapist: therapist, providersTabCubit: providersTabCubit));
+            therapist: therapist,
+            providersTabCubit: providersTabCubit,
+            homeTherapistsCubit: homeTherapistsCubit));
   }
 
   static Widget builder(
       {required Therapist therapist,
-      required ProvidersTabCubit providersTabCubit}) {
+      ProvidersTabCubit? providersTabCubit,
+      HomeTherapistsCubit? homeTherapistsCubit}) {
     return MultiBlocProvider(providers: [
-      BlocProvider.value(
-        value: providersTabCubit,
-      ),
+      if (providersTabCubit != null)
+        BlocProvider.value(
+          value: providersTabCubit,
+        ),
+      if (homeTherapistsCubit != null)
+        BlocProvider.value(
+          value: homeTherapistsCubit,
+        ),
       BlocProvider(
         create: (context) => Injector().therapistDetailsCubit
           ..setTherapist(therapist)
@@ -421,10 +434,16 @@ class _ProviderDetailsScreenState extends State<ProviderDetailsScreen> {
                   content: Text(state.errorMessage ?? ''),
                 ));
               }
-              if (state.isLoaded && state.therapist != null)
-                context.read<ProvidersTabCubit>().updateTherapist(
+              if (state.isLoaded && state.therapist != null) {
+                context.read<ProvidersTabCubit?>()?.updateTherapist(
                       state.therapist!,
                     );
+                print(
+                    'updateTherapist in ${context.read<HomeTherapistsCubit?>()}');
+                context.read<HomeTherapistsCubit?>()?.updateTherapist(
+                      state.therapist!,
+                    );
+              }
             },
             listenWhen: (previous, current) =>
                 previous.isError != current.isError
