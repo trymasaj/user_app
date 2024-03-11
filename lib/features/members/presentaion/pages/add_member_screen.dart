@@ -1,5 +1,3 @@
-import 'dart:developer';
-
 import 'package:flutter/material.dart';
 import 'package:intl_phone_field/phone_number.dart';
 import 'package:masaj/core/app_export.dart';
@@ -9,12 +7,9 @@ import 'package:masaj/core/presentation/colors/app_colors.dart';
 import 'package:masaj/core/presentation/overlay/show_snack_bar.dart';
 import 'package:masaj/core/presentation/widgets/stateful/default_tab.dart';
 import 'package:masaj/core/presentation/widgets/stateless/custom_app_bar.dart';
-import 'package:masaj/core/presentation/widgets/stateless/custom_app_page.dart';
-
 import 'package:masaj/core/presentation/widgets/stateful/user_profile_image_picker.dart';
 import 'package:masaj/core/presentation/widgets/stateless/custom_loading.dart';
 import 'package:masaj/core/presentation/widgets/stateless/default_button.dart';
-import 'package:masaj/core/presentation/widgets/stateless/empty_page_message.dart';
 import 'package:masaj/core/presentation/widgets/stateless/subtitle_text.dart';
 import 'package:masaj/core/presentation/widgets/stateless/text_fields/default_text_form_field.dart';
 import 'package:masaj/core/presentation/widgets/stateless/text_fields/phone_number_text_field.dart';
@@ -54,95 +49,112 @@ class _AddMemberScreenState extends State<AddMemberScreen> {
   Widget build(BuildContext context) {
     return BlocProvider(
       create: (context) => Injector().membersCubit..initEditMember(widget._id),
-      child: Scaffold(
-        appBar: CustomAppBar(
-          title: 'lbl_add_member'.tr(),
-          centerTitle: true,
-        ),
-        body: BlocListener<MembersCubit, MembersState>(
-          listener: (context, state) async {
-            if (state.isError) {
-              showSnackBar(context, message: state.errorMessage);
-            }
-            if (state.isAdded) {
-              await context.read<MembersCubit>().getMembers();
-              Navigator.pop(context);
-            }
-          },
-          child: BlocBuilder<MembersCubit, MembersState>(
-            builder: (context, state) {
-              if (state.isLoading) {
-                return const CustomLoading();
-              }
-              if (widget._id != null) {
-                memberNameController.text = state.selectedMember?.name ?? '';
-                phoneNumberController.text = state.selectedMember?.phone ?? '';
-                _selectedGender = state.selectedMember?.gender;
-                image = state.selectedMember?.image;
-              }
-              return SingleChildScrollView(
-                child: Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: 23),
-                  child: Form(
-                    key: formKey,
-                    child: Column(children: [
-                      SizedBox(height: 24.h),
-                      UserProfileImagePicker(
-                        currentImage: image,
-                        onImageSelected: (imagePath) {
-                          image = imagePath;
-                        },
-                      ),
-                      SizedBox(height: 24.h),
-                      DefaultTextFormField(
-                        currentFocusNode: memberNameFocusNode,
-                        currentController: memberNameController,
-                        isRequired: true,
-                        hint: 'first_name'.tr(),
-                      ),
-                      const SizedBox(height: 16),
-                      PhoneTextFormField(
-                        currentFocusNode: phoneNumberFocusNode,
-                        currentController: phoneNumberController,
-                        hint: 'phone_number'.tr(),
-                        nextFocusNode: memberNameFocusNode,
-                        onInputChanged: (PhoneNumber value) {
-                          _selectedPhoneNumber = value;
-                        },
-                      ),
-                      const SizedBox(height: 16),
-                      _buildGenderRow(),
-                      SizedBox(height: 32.h),
-                      DefaultButton(
-                        onPressed: () async {
-                          final String customerId =
-                              context.read<AuthCubit>().state.user?.id ?? '';
-
-                          if (!_notValid()) {
-                            MemberModel member = MemberModel(
-                                customerId: int.parse(customerId),
-                                image: image,
-                                countryCode:
-                                    _selectedPhoneNumber?.countryCode ?? '',
-                                name: memberNameController.text,
-                                phone: phoneNumberController.text,
-                                gender: _selectedGender);
-                            await context
-                                .read<MembersCubit>()
-                                .addMember(member);
-                          }
-                        },
-                        label: 'save'.tr(),
-                        isExpanded: true,
-                      )
-                    ]),
-                  ),
-                ),
-              );
-            },
+      child: Builder(builder: (context) {
+        return Scaffold(
+          appBar: CustomAppBar(
+            title: 'lbl_add_member'.tr(),
+            centerTitle: true,
           ),
-        ),
-      ),
+          body: BlocListener<MembersCubit, MembersState>(
+            listener: (context, state) async {
+              if (state.isError) {
+                showSnackBar(context, message: state.errorMessage);
+              }
+              if (state.isAdded) {
+                await context.read<MembersCubit>().getMembers();
+                Navigator.pop(context);
+              }
+              if (state.isLoaded) {
+                if (widget._id != null) {
+                  memberNameController.text = state.selectedMember?.name ?? '';
+                  phoneNumberController.text =
+                      state.selectedMember?.phone ?? '';
+                  _selectedGender = state.selectedMember?.gender;
+                  image = state.selectedMember?.image;
+                }
+              }
+            },
+            child: BlocListener<MembersCubit, MembersState>(
+              listener: (context, state) {},
+              child: BlocBuilder<MembersCubit, MembersState>(
+                builder: (context, state) {
+                  if (state.isLoading) {
+                    return const CustomLoading();
+                  }
+
+                  return SingleChildScrollView(
+                    child: Padding(
+                      padding: const EdgeInsets.symmetric(horizontal: 23),
+                      child: Form(
+                        key: formKey,
+                        child: Column(children: [
+                          SizedBox(height: 24.h),
+                          UserProfileImagePicker(
+                            currentImage: image,
+                            onImageSelected: (imagePath) {
+                              image = imagePath;
+                            },
+                          ),
+                          SizedBox(height: 24.h),
+                          DefaultTextFormField(
+                            currentFocusNode: memberNameFocusNode,
+                            currentController: memberNameController,
+                            isRequired: true,
+                            hint: 'first_name'.tr(),
+                          ),
+                          const SizedBox(height: 16),
+                          PhoneTextFormField(
+                            currentFocusNode: phoneNumberFocusNode,
+                            currentController: phoneNumberController,
+                            hint: 'phone_number'.tr(),
+                            nextFocusNode: memberNameFocusNode,
+                            onInputChanged: (PhoneNumber? value) {
+                              _selectedPhoneNumber = value;
+                            },
+                          ),
+                          const SizedBox(height: 16),
+                          _buildGenderRow(),
+                          SizedBox(height: 32.h),
+                          DefaultButton(
+                            onPressed: () async {
+                              final String customerId =
+                                  context.read<AuthCubit>().state.user?.id ??
+                                      '';
+
+                              if (!_notValid()) {
+                                MemberModel member = MemberModel(
+                                    customerId: int.parse(customerId),
+                                    image: image,
+                                    countryCode:
+                                        _selectedPhoneNumber?.countryCode ?? '',
+                                    name: memberNameController.text,
+                                    phone: phoneNumberController.text,
+                                    gender: _selectedGender);
+
+                                if (widget._id == null) {
+                                  await context
+                                      .read<MembersCubit>()
+                                      .addMember(member);
+                                } else {
+                                  await context
+                                      .read<MembersCubit>()
+                                      .updateMember(member);
+                                }
+                              }
+                            },
+                            label: 'save'.tr(),
+                            isExpanded: true,
+                          )
+                        ]),
+                      ),
+                    ),
+                  );
+                },
+              ),
+            ),
+          ),
+        );
+      }),
     );
   }
 
@@ -201,10 +213,10 @@ class _AddMemberScreenState extends State<AddMemberScreen> {
       });
       return true;
     }
-    if (_selectedPhoneNumber == null) {
-      showSnackBar(context, message: 'invalid_phone_number');
-      return true;
-    }
+    // if (_selectedPhoneNumber == null) {
+    //   showSnackBar(context, message: 'invalid_phone_number');
+    //   return true;
+    // }
     setState(() {
       showGenderError = false;
     });

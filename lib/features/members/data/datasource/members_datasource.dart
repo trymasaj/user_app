@@ -12,7 +12,7 @@ abstract class MembersDataSource {
   Future<void> addMember(MemberModel member);
   Future<List<MemberModel>> getMembers();
   Future<MemberModel> getMember(int id);
-  Future<void> updateMember(int id);
+  Future<void> updateMember(MemberModel member);
   Future<void> deleteMember(int id);
 }
 
@@ -105,9 +105,16 @@ class MembersDataSourceImpl extends MembersDataSource {
   }
 
   @override
-  Future<void> updateMember(int id) {
+  Future<void> updateMember(MemberModel member) async {
     const url = ApiEndPoint.UPDATE_MEMBER;
-    return _networkService.put(url + id.toString()).then((response) {
+
+    var header = await _networkService.getDefaultHeaders();
+
+    header.putIfAbsent(
+        'Content-Type',
+        () =>
+            'multipart/form-data; boundary=<calculated when request is sent>');
+    return _networkService.put(url, data: member.toMap()).then((response) {
       if (response.statusCode != 200) {
         throw RequestException(message: response.data);
       }
