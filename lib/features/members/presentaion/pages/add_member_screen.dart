@@ -133,7 +133,7 @@ class _AddMemberScreenState extends State<AddMemberScreen> {
                           }
                         },
                         label: 'save'.tr(),
-                        padding: EdgeInsets.symmetric(horizontal: 150.w),
+                        isExpanded: true,
                       )
                     ]),
                   ),
