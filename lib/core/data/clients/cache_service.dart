@@ -65,26 +65,8 @@ class CacheServiceImplV2 implements CacheService {
   static const _SERVICE_MODEL = 'SERVICE';
   static const _ADDRESS = 'ADDRESS';
 
-  // final _completer = Completer<FlutterSecureStorage>();
-
-  // CacheServiceImplV2() {
-  //   SharedPreferences.getInstance().then((prefs) async {
-  //     if (prefs.getBool(_HAS_RUN_BEFORE) != true) {
-  //       const storage = FlutterSecureStorage();
-  //       await storage.deleteAll();
-  //       await prefs.setBool(_HAS_RUN_BEFORE, true);
-  //       _completer.complete(storage);
-  //     } else {
-  //       _completer.complete(const FlutterSecureStorage());
-  //     }
-  //   });
-  // }
-
   @override
   Future<bool> saveUserData(String userData) async {
-    // final storage = await _completer.future;
-    // await storage.write(key: _USERDATA, value: userData);
-    // return true;
     final pref = await SharedPreferences.getInstance();
     await pref.setString(_USERDATA, userData);
     return true;
@@ -92,10 +74,6 @@ class CacheServiceImplV2 implements CacheService {
 
   @override
   Future<String?> getUserData() async {
-    // final storage = await _completer.future;
-
-    // return await storage.read(key: _USERDATA);
-
     final pref = await SharedPreferences.getInstance();
 
     return pref.getString(_USERDATA);
@@ -103,17 +81,12 @@ class CacheServiceImplV2 implements CacheService {
 
   @override
   Future<String?> getAppleUserData() async {
-    // final storage = await _completer.future;
-    // return await storage.read(key: _APPLE_USER_DATA);
     final pref = await SharedPreferences.getInstance();
     return pref.getString(_APPLE_USER_DATA);
   }
 
   @override
   Future<bool> saveAppleUserData(String userData) async {
-    // final storage = await _completer.future;
-    // // await storage.write(key: _APPLE_USER_DATA, value: userData);
-    // return true;
     final pref = await SharedPreferences.getInstance();
     return await pref.setString(_APPLE_USER_DATA, userData);
   }
@@ -132,14 +105,6 @@ class CacheServiceImplV2 implements CacheService {
 
   @override
   Future<bool> getIsFirstLaunch() async {
-    // final storage = await _completer.future;
-    // try {
-    //   final isFirstLaunch = await storage.read(key: _IS_FIRST_LAUNCH);
-    //   return isFirstLaunch == null ? true : false;
-    // } catch (e) {
-    //   return true;
-    // }
-
     final prefs = await SharedPreferences.getInstance();
     final isFirstLaunch = prefs.getString(_IS_FIRST_LAUNCH);
     return isFirstLaunch == null ? true : false;
@@ -147,10 +112,6 @@ class CacheServiceImplV2 implements CacheService {
 
   @override
   Future<void> setIsFirstLaunch(bool isFirstLaunch) async {
-    // final storage = await _completer.future;
-
-    // await storage.write(key: _IS_FIRST_LAUNCH, value: isFirstLaunch.toString());
-
     final prefs = await SharedPreferences.getInstance();
     await prefs.setString(_IS_FIRST_LAUNCH, isFirstLaunch.toString());
   }
@@ -182,10 +143,6 @@ class CacheServiceImplV2 implements CacheService {
 
   @override
   Future<bool?> clearUserData() async {
-    // final storage = await _completer.future;
-
-    // await storage.delete(key: _USERDATA);
-    // return true;
     final prefs = await SharedPreferences.getInstance();
     await prefs.remove(_USERDATA);
   }
@@ -218,8 +175,6 @@ class CacheServiceImplV2 implements CacheService {
 
   @override
   Future<List<ServiceModel>> getAllServiceModels() async {
-    // final storage = await _completer.future;
-    // final serviceModels = await storage.read(key: _SERVICE_MODEL);
     final prefs = await SharedPreferences.getInstance();
     final serviceModels = prefs.getString(_SERVICE_MODEL);
 
@@ -236,28 +191,17 @@ class CacheServiceImplV2 implements CacheService {
 
   @override
   Future<bool> saveServiceModel(ServiceModel serviceModel) async {
-    // final storage = await _completer.future;
-    // final serviceModels = await getAllServiceModels();
-
     final prefs = await SharedPreferences.getInstance();
     final serviceModels = await getAllServiceModels();
-    // check if the service model is already saved
     if (serviceModels
         .any((element) => element.serviceId == serviceModel.serviceId)) {
-      // remove the old service model and add the new one
       serviceModels.removeWhere(
           (element) => element.serviceId == serviceModel.serviceId);
     }
-    // check if length is more than 10 then remove the last item
     if (serviceModels.length >= 10) {
       serviceModels.removeLast();
     }
     serviceModels.add(serviceModel);
-
-    // await storage.write(
-    //     key: _SERVICE_MODEL,
-    //     value: jsonEncode(serviceModels.map((e) => e.toMap()).toList()));
-    // return true;
     await prefs.setString(_SERVICE_MODEL,
         jsonEncode(serviceModels.map((e) => e.toMap()).toList()));
     return true;
@@ -265,27 +209,13 @@ class CacheServiceImplV2 implements CacheService {
 
 // remove    service model
   Future<bool> removeServiceModel(ServiceModel serviceModel) async {
-    // final storage = await _completer.future;
-    // final serviceModels = await getAllServiceModels();
-
     final prefs = await SharedPreferences.getInstance();
     final serviceModels = await getAllServiceModels();
-    // check if the service model is already saved
     if (serviceModels
         .any((element) => element.serviceId == serviceModel.serviceId)) {
-      // remove the old service model and add the new one
       serviceModels.removeWhere(
           (element) => element.serviceId == serviceModel.serviceId);
     }
-    // // check if length is more than 10 then remove the last item
-    // if (serviceModels.length >= 10) {
-    //   serviceModels.removeLast();
-    // }
-    // serviceModels.add(serviceModel);
-    // await storage.write(
-    //     key: _SERVICE_MODEL,
-    //     value: jsonEncode(serviceModels.map((e) => e.toMap()).toList()));
-    // return true;
 
     await prefs.setString(_SERVICE_MODEL,
         jsonEncode(serviceModels.map((e) => e.toMap()).toList()));
