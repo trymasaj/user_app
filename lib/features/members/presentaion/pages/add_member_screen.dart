@@ -46,6 +46,11 @@ class _AddMemberScreenState extends State<AddMemberScreen> {
   String? image;
 
   @override
+  void initState() {
+    super.initState();
+  }
+
+  @override
   Widget build(BuildContext context) {
     return BlocProvider(
       create: (context) => Injector().membersCubit..initEditMember(widget._id),
@@ -55,12 +60,12 @@ class _AddMemberScreenState extends State<AddMemberScreen> {
           centerTitle: true,
         ),
         body: BlocListener<MembersCubit, MembersState>(
-          listener: (context, state) {
+          listener: (context, state) async {
             if (state.isError) {
               showSnackBar(context, message: state.errorMessage);
             }
             if (state.isAdded) {
-              context.read<MembersCubit>().getMembers();
+              await context.read<MembersCubit>().getMembers();
               Navigator.pop(context);
             }
           },
@@ -69,7 +74,12 @@ class _AddMemberScreenState extends State<AddMemberScreen> {
               if (state.isLoading) {
                 return const CustomLoading();
               }
-
+              if (widget._id != null) {
+                memberNameController.text = state.selectedMember?.name ?? '';
+                phoneNumberController.text = state.selectedMember?.phone ?? '';
+                _selectedGender = state.selectedMember?.gender;
+                image = state.selectedMember?.image;
+              }
               return SingleChildScrollView(
                 child: Padding(
                   padding: const EdgeInsets.symmetric(horizontal: 23),
@@ -78,6 +88,7 @@ class _AddMemberScreenState extends State<AddMemberScreen> {
                     child: Column(children: [
                       SizedBox(height: 24.h),
                       UserProfileImagePicker(
+                        currentImage: image,
                         onImageSelected: (imagePath) {
                           image = imagePath;
                         },

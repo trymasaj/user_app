@@ -834,7 +834,8 @@
     "past": "Past",
     "favorites": "Favorites",
     "lbl_primary_address": "Primary",
-
+    "members_number_limit": "Number of members has exceeded 2",
+    "members_number_gender_limit": "Gender must be same",
     "location": "Location",
     "repeat_a_session": "Repeat a session",
     "repeated_sessions": "Repeated sessions",
@@ -874,5 +875,4 @@
     "country_validation": "Please enter a valid country",
     "filter": "Filter",
     "clear": "Clear"
- 
 }
