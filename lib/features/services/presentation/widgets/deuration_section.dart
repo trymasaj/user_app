@@ -1,10 +1,14 @@
+import 'dart:developer';
+
 import 'package:flutter/material.dart';
 import 'package:masaj/core/app_export.dart';
+import 'package:masaj/core/presentation/colors/app_colors.dart';
 import 'package:masaj/core/presentation/widgets/stateless/custom_chip.dart';
 import 'package:masaj/core/presentation/widgets/stateless/custom_text.dart';
 import 'package:masaj/core/presentation/widgets/stateless/text_with_gradiant.dart';
 import 'package:masaj/features/services/application/service_details_cubit/service_details_cubit.dart';
 import 'package:masaj/features/services/data/models/service_model.dart';
+import 'package:masaj/features/services/presentation/screens/serice_details_screen.dart';
 
 class DurationsSection extends StatelessWidget {
   const DurationsSection({
@@ -44,12 +48,27 @@ class DurationsSection extends StatelessWidget {
                   itemCount: state.service?.serviceDurations!.length ?? 0,
                   itemBuilder: (context, index) {
                     final duration = state.service?.serviceDurations![index];
-                    return Container(
-                      margin: EdgeInsets.only(right: 8.w),
-                      child: DurationContainer(
-                        duration: duration!,
-                      ),
-                    );
+
+                    return ValueListenableBuilder<ServiceDurationModel?>(
+                        valueListenable: ServiceDetailsScreen.of(context)
+                            .selectedDurationNotifier,
+                        builder: (context, value, child) {
+                          return GestureDetector(
+                            onTap: () {
+                              ServiceDetailsScreen.of(context)
+                                  .toggleSelectDuration(duration);
+                            },
+                            child: Container(
+                              margin: EdgeInsets.only(right: 8.w),
+                              child: DurationContainer(
+                                isSelected: value?.serviceDurationId ==
+                                    state.service?.serviceDurations![index]
+                                        .serviceDurationId,
+                                duration: duration!,
+                              ),
+                            ),
+                          );
+                        });
                   },
                 ),
               ),
@@ -69,41 +88,96 @@ class DurationContainer extends StatelessWidget {
   const DurationContainer({
     super.key,
     required this.duration,
+    this.isSelected = false,
   });
   final ServiceDurationModel duration;
+  final bool isSelected;
+
+  Widget buildText(String text,
+      {bool isSelected = false,
+      double? fontSize,
+      FontWeight? fontWeight,
+      Color? color}) {
+    return !isSelected
+        ? CustomText(
+            text: text,
+            fontSize: fontSize ?? 12,
+            fontWeight: fontWeight ?? FontWeight.w500,
+            color: color ?? Color(0xff1D212C),
+          )
+        : TextWithGradiant(
+            text: text,
+            fontSize: fontSize ?? 12,
+            fontWeight: fontWeight ?? FontWeight.w500,
+            color: color ?? Colors.white,
+          );
+  }
+
   @override
   Widget build(BuildContext context) {
     return Stack(
       clipBehavior: Clip.none,
       children: [
-        AppContainerWithGradinatBorder(
-          width: 103.w,
-          height: 80.h,
-          borderRadius: const BorderRadius.all(Radius.circular(12)),
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              TextWithGradiant(
-                text: duration.formattedString,
-                fontSize: 12,
-                fontWeight: FontWeight.w500,
-                color: Colors.white,
+        if (isSelected)
+          AppContainerWithGradinatBorder(
+            width: 103.w,
+            height: 80.h,
+            borderRadius: const BorderRadius.all(Radius.circular(12)),
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                buildText(
+                  duration.formattedString,
+                  fontSize: 12,
+                  fontWeight: FontWeight.w500,
+                ),
+                buildText(
+                  duration.unit,
+                  fontSize: 10,
+                  fontWeight: FontWeight.w400,
+                ),
+                buildText(
+                  '(${duration.price} KWD)',
+                  fontSize: 10,
+                  fontWeight: FontWeight.w500,
+                )
+              ],
+            ),
+          )
+        else
+          Container(
+            width: 103.w,
+            height: 80.h,
+            decoration: BoxDecoration(
+              //border: 1px solid #BCA788
+              border: Border.all(
+                color: AppColors.ExtraLight,
+                width: 1,
               ),
-              TextWithGradiant(
-                text: duration.unit,
-                fontSize: 10,
-                fontWeight: FontWeight.w400,
-                color: Colors.white,
-              ),
-              TextWithGradiant(
-                text: '(${duration.price} KWD)',
-                fontSize: 10,
-                fontWeight: FontWeight.w500,
-                color: Colors.white,
-              )
-            ],
+              color: AppColors.ExtraLight,
+              borderRadius: const BorderRadius.all(Radius.circular(12)),
+            ),
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                buildText(
+                  duration.formattedString,
+                  fontSize: 12,
+                  fontWeight: FontWeight.w500,
+                ),
+                buildText(
+                  duration.unit,
+                  fontSize: 10,
+                  fontWeight: FontWeight.w400,
+                ),
+                buildText(
+                  '(${duration.price} KWD)',
+                  fontSize: 10,
+                  fontWeight: FontWeight.w500,
+                )
+              ],
+            ),
           ),
-        ),
         if (duration.isPromoted)
           Positioned(
             top: -16.h,
