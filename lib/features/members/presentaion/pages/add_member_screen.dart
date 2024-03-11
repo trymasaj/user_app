@@ -55,12 +55,12 @@ class _AddMemberScreenState extends State<AddMemberScreen> {
           centerTitle: true,
         ),
         body: BlocListener<MembersCubit, MembersState>(
-          listener: (context, state) {
+          listener: (context, state) async {
             if (state.isError) {
               showSnackBar(context, message: state.errorMessage);
             }
             if (state.isAdded) {
-              context.read<MembersCubit>().getMembers();
+              await context.read<MembersCubit>().getMembers();
               Navigator.pop(context);
             }
           },
