@@ -132,47 +132,52 @@ class _AddMemberScreenState extends State<AddMemberScreen> {
   }
 
   Widget _buildGenderRow() {
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        Row(
-          mainAxisAlignment: MainAxisAlignment.center,
+    return SingleChildScrollView(
+      child: SizedBox(
+        height: MediaQuery.of(context).size.height,
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            Expanded(
-                child: InkWell(
-              onTap: () {
-                setState(() {
-                  _selectedGender = Gender.male;
-                  showGenderError = false;
-                });
-              },
-              child: DefaultTab(
-                isSelected: _selectedGender == Gender.male,
-                title: 'Male'.tr(),
-              ),
-            )),
-            SizedBox(width: 10.w),
-            Expanded(
-                child: InkWell(
-              onTap: () {
-                setState(() {
-                  _selectedGender = Gender.female;
-                  showGenderError = false;
-                });
-              },
-              child: DefaultTab(
-                  isSelected: _selectedGender == Gender.female,
-                  title: 'Female'.tr()),
-            )),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                Expanded(
+                    child: InkWell(
+                  onTap: () {
+                    setState(() {
+                      _selectedGender = Gender.male;
+                      showGenderError = false;
+                    });
+                  },
+                  child: DefaultTab(
+                    isSelected: _selectedGender == Gender.male,
+                    title: 'Male'.tr(),
+                  ),
+                )),
+                SizedBox(width: 10.w),
+                Expanded(
+                    child: InkWell(
+                  onTap: () {
+                    setState(() {
+                      _selectedGender = Gender.female;
+                      showGenderError = false;
+                    });
+                  },
+                  child: DefaultTab(
+                      isSelected: _selectedGender == Gender.female,
+                      title: 'Female'.tr()),
+                )),
+              ],
+            ),
+            const SizedBox(height: 10),
+            if (showGenderError)
+              const SubtitleText.small(
+                text: 'empty_field_not_valid',
+                color: AppColors.ERROR_COLOR,
+              )
           ],
         ),
-        const SizedBox(height: 10),
-        if (showGenderError)
-          const SubtitleText.small(
-            text: 'empty_field_not_valid',
-            color: AppColors.ERROR_COLOR,
-          )
-      ],
+      ),
     );
   }
 
