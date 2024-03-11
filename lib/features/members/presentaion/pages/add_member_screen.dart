@@ -46,6 +46,11 @@ class _AddMemberScreenState extends State<AddMemberScreen> {
   String? image;
 
   @override
+  void initState() {
+    super.initState();
+  }
+
+  @override
   Widget build(BuildContext context) {
     return BlocProvider(
       create: (context) => Injector().membersCubit..initEditMember(widget._id),
@@ -55,12 +60,12 @@ class _AddMemberScreenState extends State<AddMemberScreen> {
           centerTitle: true,
         ),
         body: BlocListener<MembersCubit, MembersState>(
-          listener: (context, state) {
+          listener: (context, state) async {
             if (state.isError) {
               showSnackBar(context, message: state.errorMessage);
             }
             if (state.isAdded) {
-              context.read<MembersCubit>().getMembers();
+              await context.read<MembersCubit>().getMembers();
               Navigator.pop(context);
             }
           },
@@ -69,59 +74,69 @@ class _AddMemberScreenState extends State<AddMemberScreen> {
               if (state.isLoading) {
                 return const CustomLoading();
               }
+              if (widget._id != null) {
+                memberNameController.text = state.selectedMember?.name ?? '';
+                phoneNumberController.text = state.selectedMember?.phone ?? '';
+                _selectedGender = state.selectedMember?.gender;
+                image = state.selectedMember?.image;
+              }
+              return SingleChildScrollView(
+                child: Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: 23),
+                  child: Form(
+                    key: formKey,
+                    child: Column(children: [
+                      SizedBox(height: 24.h),
+                      UserProfileImagePicker(
+                        currentImage: image,
+                        onImageSelected: (imagePath) {
+                          image = imagePath;
+                        },
+                      ),
+                      SizedBox(height: 24.h),
+                      DefaultTextFormField(
+                        currentFocusNode: memberNameFocusNode,
+                        currentController: memberNameController,
+                        isRequired: true,
+                        hint: 'first_name'.tr(),
+                      ),
+                      const SizedBox(height: 16),
+                      PhoneTextFormField(
+                        currentFocusNode: phoneNumberFocusNode,
+                        currentController: phoneNumberController,
+                        hint: 'phone_number'.tr(),
+                        nextFocusNode: memberNameFocusNode,
+                        onInputChanged: (PhoneNumber value) {
+                          _selectedPhoneNumber = value;
+                        },
+                      ),
+                      const SizedBox(height: 16),
+                      _buildGenderRow(),
+                      SizedBox(height: 32.h),
+                      DefaultButton(
+                        onPressed: () async {
+                          final String customerId =
+                              context.read<AuthCubit>().state.user?.id ?? '';
 
-              return Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 23),
-                child: Form(
-                  key: formKey,
-                  child: Column(children: [
-                    SizedBox(height: 24.h),
-                    UserProfileImagePicker(
-                      onImageSelected: (imagePath) {
-                        image = imagePath;
-                      },
-                    ),
-                    SizedBox(height: 24.h),
-                    DefaultTextFormField(
-                      currentFocusNode: memberNameFocusNode,
-                      currentController: memberNameController,
-                      isRequired: true,
-                      hint: 'first_name'.tr(),
-                    ),
-                    const SizedBox(height: 16),
-                    PhoneTextFormField(
-                      currentFocusNode: phoneNumberFocusNode,
-                      currentController: phoneNumberController,
-                      hint: 'phone_number'.tr(),
-                      nextFocusNode: memberNameFocusNode,
-                      onInputChanged: (PhoneNumber value) {
-                        _selectedPhoneNumber = value;
-                      },
-                    ),
-                    const SizedBox(height: 16),
-                    _buildGenderRow(),
-                    SizedBox(height: 32.h),
-                    DefaultButton(
-                      onPressed: () async {
-                        final String customerId =
-                            context.read<AuthCubit>().state.user?.id ?? '';
-
-                        if (!_notValid()) {
-                          MemberModel member = MemberModel(
-                              customerId: int.parse(customerId),
-                              image: image,
-                              countryCode:
-                                  _selectedPhoneNumber?.countryCode ?? '',
-                              name: memberNameController.text,
-                              phone: phoneNumberController.text,
-                              gender: _selectedGender);
-                          await context.read<MembersCubit>().addMember(member);
-                        }
-                      },
-                      label: 'save'.tr(),
-                      padding: EdgeInsets.symmetric(horizontal: 150.w),
-                    )
-                  ]),
+                          if (!_notValid()) {
+                            MemberModel member = MemberModel(
+                                customerId: int.parse(customerId),
+                                image: image,
+                                countryCode:
+                                    _selectedPhoneNumber?.countryCode ?? '',
+                                name: memberNameController.text,
+                                phone: phoneNumberController.text,
+                                gender: _selectedGender);
+                            await context
+                                .read<MembersCubit>()
+                                .addMember(member);
+                          }
+                        },
+                        label: 'save'.tr(),
+                        isExpanded: true,
+                      )
+                    ]),
+                  ),
                 ),
               );
             },

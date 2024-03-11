@@ -475,6 +475,7 @@
   "from26to40": "من 26 إلى 40 سنة",
   "from41to55": "من 41 إلى 55 سنة",
   "above55": "فوق 55 سنة",
+  "members_number_limit": "لقد تخطيت العدد المتاح",
   "done": "تم",
   "select_all": "اختر الكل",
   "msg_please_share_your": "يرجى مشاركة رأيك حول المنتج\n(اختياري)",
@@ -761,9 +762,7 @@
   "add_on_s": "إضافات",
   "popular": "الأكثر شعبية",
   "filter": "تصفية",
-  "clear": "مسح", 
+  "clear": "مسح",
   "country_validation": "ادخل دولة",
   "terms_validation": "يجب تآكيد الشروط و الاحكام"
 }
- 
-
