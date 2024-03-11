@@ -5,7 +5,7 @@ abstract class MembersRepository {
   Future<void> addMember(MemberModel member);
   Future<List<MemberModel>> getMembers();
   Future<MemberModel> getMember(int id);
-  Future<void> updateMember(int id);
+  Future<void> updateMember(MemberModel member);
   Future<void> deleteMember(int id);
 }
 
@@ -25,9 +25,9 @@ class MembersRepositoryImp extends MembersRepository {
   Future<MemberModel> getMember(int id) => _membersDataSource.getMember(id);
 
   @override
-  Future<List<MemberModel>> getMembers() =>
-      _membersDataSource.getMembers();
+  Future<List<MemberModel>> getMembers() => _membersDataSource.getMembers();
 
   @override
-  Future<void> updateMember(int id) => _membersDataSource.updateMember(id);
+  Future<void> updateMember(MemberModel member) =>
+      _membersDataSource.updateMember(member);
 }
