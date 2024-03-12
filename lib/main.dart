@@ -49,6 +49,7 @@ void main() async {
               BlocProvider(create: (context) => Injector().authCubit..init()),
               BlocProvider(create: (context) => Injector().favoritesCubit),
               BlocProvider(create: (context) => Injector().countryCubit),
+              BlocProvider(create: (context) => Injector().membersCubit),
             ],
             child: const MyApp(),
           ),

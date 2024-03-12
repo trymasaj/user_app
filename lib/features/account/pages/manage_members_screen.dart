@@ -13,28 +13,37 @@ import 'package:masaj/features/members/presentaion/bloc/members_cubit.dart';
 import 'package:masaj/features/members/presentaion/pages/add_member_screen.dart';
 import 'package:masaj/features/account/widgets/member_tile.dart';
 
-class ManageMembersScreen extends StatelessWidget {
+class ManageMembersScreen extends StatefulWidget {
   static const routeName = '/manage-members';
 
   const ManageMembersScreen({super.key});
 
   @override
+  State<ManageMembersScreen> createState() => _ManageMembersScreenState();
+}
+
+class _ManageMembersScreenState extends State<ManageMembersScreen> {
+  @override
+  void initState() {
+    super.initState();
+    final cubit = context.read<MembersCubit>();
+    cubit.getMembers();
+  }
+
+  @override
   Widget build(BuildContext context) {
-    return BlocProvider(
-      create: (context) => Injector().membersCubit..getMembers(),
-      child: Scaffold(
-          appBar: CustomAppBar(
-            title: 'lbl_manage_members'.tr(),
-            actions: [buildAddMemberButton(context)],
-          ),
-          body: _buildBody(context)),
-    );
+    return Scaffold(
+        appBar: CustomAppBar(
+          title: 'lbl_manage_members'.tr(),
+          actions: [buildAddMemberButton(context)],
+        ),
+        body: _buildBody(context));
   }
 
   Widget _buildBody(BuildContext context) {
-    return Builder(builder: (context) {
-      final cubit = context.read<MembersCubit>();
+    final cubit = context.read<MembersCubit>();
 
+    return Builder(builder: (context) {
       return BlocListener<MembersCubit, MembersState>(
         listener: (context, state) {
           if (state.isError) {

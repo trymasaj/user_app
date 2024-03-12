@@ -1,4 +1,3 @@
-
 import 'package:easy_localization/easy_localization.dart' hide TextDirection;
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -56,6 +55,7 @@ class PhoneTextFormField extends StatelessWidget {
             enabled: isEnabled,
             style: textStyle,
             focusNode: currentFocusNode,
+            initialValue: initialValue?.completeNumber ?? '',
             controller: currentController,
             languageCode: currentLocal.languageCode,
             keyboardType: TextInputType.phone,
@@ -156,7 +156,7 @@ class PhoneTextFormField extends StatelessWidget {
               ),
             ),
             autovalidateMode: autovalidateMode,
-            initialCountryCode: 'KW',
+            initialCountryCode: initialValue == null ? 'KW' : null,
             flagsButtonMargin: const EdgeInsets.only(left: 12),
             onChanged: onInputChanged,
             onSubmitted: (_) =>

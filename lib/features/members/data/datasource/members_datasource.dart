@@ -23,7 +23,10 @@ class MembersDataSourceImpl extends MembersDataSource {
       : _networkService = networkService;
 
   Future<FormData> _createFormData(Map<String, dynamic> member) async {
-    if (member['image'] == null) return FormData.fromMap(member);
+    if (member['image'] == null ||
+        member['image'] == '' ||
+        member['image'].toString().startsWith('http'))
+      return FormData.fromMap(member);
 
     member['image'] = await MultipartFile.fromFile(member['image']);
 
@@ -109,12 +112,15 @@ class MembersDataSourceImpl extends MembersDataSource {
     const url = ApiEndPoint.UPDATE_MEMBER;
 
     var header = await _networkService.getDefaultHeaders();
+    var formData = await _createFormData(member.toMap());
 
     header.putIfAbsent(
         'Content-Type',
         () =>
             'multipart/form-data; boundary=<calculated when request is sent>');
-    return _networkService.put(url, data: member.toMap()).then((response) {
+    return _networkService
+        .put(url + '/' + member.id.toString(), data: formData)
+        .then((response) {
       if (response.statusCode != 200) {
         throw RequestException(message: response.data);
       }
