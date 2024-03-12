@@ -83,26 +83,34 @@ class ManageMembersScreen extends StatelessWidget {
   /// Section Widget
   Widget _buildMemberTile(MemberModel member, BuildContext context) {
     final cubit = context.read<MembersCubit>();
-    log(member.id.toString());
-    return Slidable(
-      key: ValueKey(member.id),
-      startActionPane: ActionPane(
-        motion: const ScrollMotion(),
-        dismissible: DismissiblePane(
-          onDismissed: () => cubit.deleteMember(member.id),
-        ),
-        children: [
-          SlidableAction(
-            onPressed: (context) => cubit.deleteMember(member.id),
-            backgroundColor: const Color(0xFFFE4A49),
-            foregroundColor: Colors.white,
-            icon: Icons.delete,
-            label: 'Delete',
+
+    return GestureDetector(
+      onTap: () {
+        Navigator.of(context).push(MaterialPageRoute(
+            builder: (_) => AddMemberScreen(
+                  id: member.id,
+                )));
+      },
+      child: Slidable(
+        key: ValueKey(member.id),
+        startActionPane: ActionPane(
+          motion: const ScrollMotion(),
+          dismissible: DismissiblePane(
+            onDismissed: () => cubit.deleteMember(member.id),
           ),
-        ],
-      ),
-      child: MemberTile(
-        member: member,
+          children: [
+            SlidableAction(
+              onPressed: (context) => cubit.deleteMember(member.id),
+              backgroundColor: const Color(0xFFFE4A49),
+              foregroundColor: Colors.white,
+              icon: Icons.delete,
+              label: 'Delete',
+            ),
+          ],
+        ),
+        child: MemberTile(
+          member: member,
+        ),
       ),
     );
   }

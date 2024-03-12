@@ -1,3 +1,4 @@
+import 'package:masaj/core/data/clients/cache_service.dart';
 import 'package:masaj/features/home/data/datasources/home_local_data_source.dart';
 import 'package:masaj/features/home/data/datasources/home_remote_data_source.dart';
 import 'package:masaj/features/home/data/models/event.dart';
@@ -23,6 +24,11 @@ abstract class HomeRepository {
   Future<NotificationsModel> getAllNotifications({
     int? cursor,
   });
+  Future<bool> saveSearchResult(SearchResultModel service);
+  Future<List<SearchResultModel>> getRecentSearchResults();
+  Future<bool> removeRecentSearchResult(
+    SearchResultModel service,
+  );
 }
 
 class HomeRepositoryImpl implements HomeRepository {
@@ -76,5 +82,20 @@ class HomeRepositoryImpl implements HomeRepository {
   @override
   Future<bool> removeRecentService(ServiceModel service) async {
     return await _homeLocalDatasource.removeRecentService(service);
+  }
+
+  @override
+  Future<List<SearchResultModel>> getRecentSearchResults() async {
+    return await _homeLocalDatasource.getRecentSearchResults();
+  }
+
+  @override
+  Future<bool> removeRecentSearchResult(SearchResultModel service) async {
+    return await _homeLocalDatasource.removeRecentSearchResult(service);
+  }
+
+  @override
+  Future<bool> saveSearchResult(SearchResultModel service) async {
+    return await _homeLocalDatasource.saveSearchResult(service);
   }
 }

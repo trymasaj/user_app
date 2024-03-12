@@ -9,6 +9,34 @@ import 'package:masaj/features/address/domain/entities/address.dart';
 import 'package:masaj/features/address/domain/entities/country.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
+enum SearchResultModelEnum { Service, Therapist }
+
+class SearchResultModel {
+  final int? id;
+  final String? name;
+  final SearchResultModelEnum? type;
+  bool get isService => type == SearchResultModelEnum.Service;
+  bool get isTherapist => type == SearchResultModelEnum.Therapist;
+
+  SearchResultModel({this.id, this.name, this.type});
+  Map<String, dynamic> toMap() {
+    return {
+      'id': id,
+      'name': name,
+      'type': type?.index,
+    };
+  }
+
+  // fromMap
+  factory SearchResultModel.fromMap(Map<String, dynamic> map) {
+    return SearchResultModel(
+      id: map['id'],
+      name: map['name'],
+      type: SearchResultModelEnum.values[map['type']],
+    );
+  }
+}
+
 abstract class CacheService {
   Future<bool> saveUserData(String userData);
 
@@ -47,6 +75,11 @@ abstract class CacheService {
   Future<void> resetShowCaseDisplayedPages();
   // save service model
   Future<bool> saveServiceModel(ServiceModel serviceModel);
+  Future<bool> saveSearchResultModel(SearchResultModel searchResultModel);
+  Future<SearchResultModel?> getSearchResultModel();
+  Future<bool> removeSearchResultModel(SearchResultModel searchResultModel);
+  Future<List<SearchResultModel>> getAllSearchResultModels();
+
   // get all service models
   Future<List<ServiceModel>> getAllServiceModels();
   Future<bool> removeServiceModel(ServiceModel serviceModel);
@@ -64,6 +97,7 @@ class CacheServiceImplV2 implements CacheService {
   static const _COUNTRY = 'COUNTRY';
   static const _SERVICE_MODEL = 'SERVICE';
   static const _ADDRESS = 'ADDRESS';
+  static const _SEARCH_RESULT_MODEL = 'SEARCH_RESULT_MODEL';
 
   @override
   Future<bool> saveUserData(String userData) async {
@@ -233,5 +267,69 @@ class CacheServiceImplV2 implements CacheService {
   Future<void> setCurrentAddress(Address address) async {
     final prefs = await SharedPreferences.getInstance();
     await prefs.setString(_ADDRESS, jsonEncode(address.toMap()));
+  }
+
+  @override
+  Future<List<SearchResultModel>> getAllSearchResultModels() async {
+    final storage = await SharedPreferences.getInstance();
+    final searchResultModels = storage.getString(_SEARCH_RESULT_MODEL);
+    if (searchResultModels == null) {
+      return [];
+    }
+    final List<SearchResultModel> searchResultModelList = [];
+    final List<dynamic> searchResultModelMap = jsonDecode(searchResultModels);
+    for (var item in searchResultModelMap) {
+      searchResultModelList.add(SearchResultModel.fromMap(item));
+    }
+    return searchResultModelList;
+  }
+
+  @override
+  Future<SearchResultModel?> getSearchResultModel() async {
+    throw UnimplementedError();
+  }
+
+  @override
+  Future<bool> saveSearchResultModel(
+      SearchResultModel searchResultModel) async {
+    final storage = await SharedPreferences.getInstance();
+    final searchResultModels = await getAllSearchResultModels();
+    // check if the service model is already saved
+    if (searchResultModels.any((element) =>
+        element.id == searchResultModel.id &&
+        element.type == searchResultModel.type)) {
+      // remove the old service model and add the new one
+      searchResultModels
+          .removeWhere((element) => element.id == searchResultModel.id);
+    }
+    // check if length is more than 10 then remove the last item
+    if (searchResultModels.length >= 10) {
+      searchResultModels.removeLast();
+    }
+    searchResultModels.add(searchResultModel);
+
+    await storage.setString(_SEARCH_RESULT_MODEL,
+        jsonEncode(searchResultModels.map((e) => e.toMap()).toList()));
+    return true;
+  }
+
+  @override
+  Future<bool> removeSearchResultModel(
+      SearchResultModel searchResultModel) async {
+    final storage = await SharedPreferences.getInstance();
+    final searchResultModels = await getAllSearchResultModels();
+    // check if the service model is already saved
+    if (searchResultModels.any((element) =>
+        element.id == searchResultModel.id &&
+        element.type == searchResultModel.type)) {
+      // remove the old service model and add the new one
+      searchResultModels.removeWhere((element) =>
+          element.id == searchResultModel.id &&
+          element.type == searchResultModel.type);
+    }
+
+    await storage.setString(_SEARCH_RESULT_MODEL,
+        jsonEncode(searchResultModels.map((e) => e.toMap()).toList()));
+    return true;
   }
 }

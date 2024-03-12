@@ -53,7 +53,10 @@ class _TherapistsState extends State<Therapists> {
               ),
               SizedBox(
                 height: 100,
-                child: BlocBuilder<HomeTherapistsCubit, HomeTherapistsState>(
+                child: BlocConsumer<HomeTherapistsCubit, HomeTherapistsState>(
+                  listener: (context, state) {
+                    // Fluttertoast.showToast(msg: 'No Update');
+                  },
                   builder: (context, state) {
                     if (state.isLoading) {
                       return const CustomLoading(
@@ -105,7 +108,9 @@ class TherapistWidget extends StatelessWidget {
           NavigatorHelper.of(context).pushNamed(ProviderDetailsScreen.routeName,
               arguments: ProviderDetailsScreenNavArguements(
                   therapist: therapist!,
-                  providersTabCubit: context.read<ProvidersTabCubit>()));
+                  homeTherapistsCubit: context.read<HomeTherapistsCubit?>(),
+                  // ProvidersTabCubit is nullable
+                  providersTabCubit: context.read<ProvidersTabCubit?>()));
       },
       child: Container(
         margin: margin ?? const EdgeInsets.only(right: 10),

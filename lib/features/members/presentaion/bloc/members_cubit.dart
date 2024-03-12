@@ -48,11 +48,11 @@ class MembersCubit extends BaseCubit<MembersState> {
     }
   }
 
-  Future<void> updateMember(int? id) async {
-    if (id == null) return;
+  Future<void> updateMember(MemberModel? member) async {
+    if (member == null) return;
     emit(state.copyWith(status: MembersStateStatus.loading));
     try {
-      await _membersRepository.updateMember(id);
+      await _membersRepository.updateMember(member);
       emit(state.copyWith(status: MembersStateStatus.loaded));
     } on RedundantRequestException catch (e) {
       log(e.toString());
@@ -83,7 +83,7 @@ class MembersCubit extends BaseCubit<MembersState> {
     emit(state.copyWith(status: MembersStateStatus.loading));
     try {
       await _membersRepository.addMember(member);
-      emit(state.copyWith(status: MembersStateStatus.added  ));
+      emit(state.copyWith(status: MembersStateStatus.added));
     } on RedundantRequestException catch (e) {
       log(e.toString());
     } catch (e) {

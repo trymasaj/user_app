@@ -78,9 +78,6 @@ class Therapist {
     );
   }
 
-
-
-
   Therapist({
     this.therapistId,
     this.countryId,

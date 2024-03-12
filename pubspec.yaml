@@ -107,6 +107,7 @@ dependencies:
   gradient_icon: ^2.0.8
   country_flags: ^2.2.0
   dotted_line: ^3.2.2
+  # fluttertoast: ^8.2.4
 
 dependency_overrides:
   http: ^1.1.0

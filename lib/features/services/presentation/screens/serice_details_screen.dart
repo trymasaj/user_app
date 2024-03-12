@@ -1,5 +1,6 @@
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/widgets.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:masaj/core/app_export.dart';
 import 'package:masaj/core/data/di/injector.dart';
@@ -15,12 +16,14 @@ import 'package:masaj/core/presentation/widgets/stateless/default_button.dart';
 import 'package:masaj/core/presentation/widgets/stateless/text_fields/default_text_form_field.dart';
 import 'package:masaj/core/presentation/widgets/stateless/text_with_gradiant.dart';
 import 'package:masaj/features/focus_area/presentation/pages/focus_area_page.dart';
+import 'package:masaj/features/members/presentaion/pages/select_members.dart';
 import 'package:masaj/features/services/application/service_details_cubit/service_details_cubit.dart';
 import 'package:masaj/features/services/data/models/service_model.dart';
 import 'package:masaj/features/services/presentation/widgets/deuration_section.dart';
 
 class ServiceDetailsScreen extends StatefulWidget {
   const ServiceDetailsScreen({super.key, required this.id});
+
   final int id;
   static const routeName = '/ServiceDetailsScreen';
   static MaterialPageRoute router(int id) {
@@ -40,14 +43,70 @@ class ServiceDetailsScreen extends StatefulWidget {
     );
   }
 
+  // get the state
+  static ServiceDetailsScreenState of(BuildContext context) {
+    return context.findAncestorStateOfType<ServiceDetailsScreenState>()!;
+  }
+
   @override
-  State<ServiceDetailsScreen> createState() => _ServiceDetailsScreenState();
+  State<ServiceDetailsScreen> createState() => ServiceDetailsScreenState();
 }
 
-class _ServiceDetailsScreenState extends State<ServiceDetailsScreen> {
+class ServiceDetailsScreenState extends State<ServiceDetailsScreen> {
   late final ServiceDetailsCubit _serviceDetailsCubit;
   late TextEditingController focusAreaTextField;
   late ValueNotifier<Map<FocusAreas, bool>?> selectedFocusPoints;
+  List<ServiceAddonModel> selectedAddons = [];
+
+  final selectedDurationNotifier = ValueNotifier<ServiceDurationModel?>(null);
+
+  void toggleSelectDuration(ServiceDurationModel duration) {
+    if (selectedDurationNotifier.value?.serviceDurationId ==
+        duration.serviceDurationId) {
+      selectedDurationNotifier.value = null;
+    } else {
+      selectedDurationNotifier.value = duration;
+    }
+  }
+
+  void addAddon(ServiceAddonModel addon) {
+    setState(() {
+      selectedAddons.add(addon);
+    });
+  }
+
+  void removeAddons(ServiceAddonModel addon) {
+    setState(() {
+      selectedAddons.remove(addon);
+    });
+  }
+
+  bool isAddonSelected(ServiceAddonModel addon) {
+    return selectedAddons.map((e) => e.addonId).contains(addon.addonId);
+  }
+
+  double get totalDuration {
+    double total = 0;
+    if (selectedDurationNotifier.value != null) {
+      total += selectedDurationNotifier.value!.durationInMinutesInt;
+    }
+    for (var addon in selectedAddons) {
+      total += addon.durationInMinutesInt;
+    }
+    return total;
+  }
+
+  double totalPrice() {
+    double total = 0;
+    if (selectedDurationNotifier.value != null) {
+      total += selectedDurationNotifier.value!.price;
+    }
+    for (var addon in selectedAddons) {
+      total += addon.price;
+    }
+    return total;
+  }
+
   @override
   void initState() {
     _serviceDetailsCubit = context.read<ServiceDetailsCubit>();
@@ -102,7 +161,12 @@ class _ServiceDetailsScreenState extends State<ServiceDetailsScreen> {
             ),
             DefaultButton(
               label: 'continue',
-              onPressed: () {},
+              onPressed: () {
+                Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                        builder: (context) => SelectMembersScreen()));
+              },
             ),
           ],
         ),
@@ -330,7 +394,13 @@ class _ServiceDetailsScreenState extends State<ServiceDetailsScreen> {
                             ],
                           ),
                         // total section
-                        const TotalSection(),
+                        ValueListenableBuilder(
+                            valueListenable: selectedDurationNotifier,
+                            builder: (context, value, child) {
+                              return TotalSection(
+                                totalPrice: totalPrice().toStringAsFixed(2),
+                              );
+                            }),
 
                         const SizedBox(
                           height: 100,
@@ -350,7 +420,9 @@ class _ServiceDetailsScreenState extends State<ServiceDetailsScreen> {
 class TotalSection extends StatelessWidget {
   const TotalSection({
     super.key,
+    required this.totalPrice,
   });
+  final String totalPrice;
   @override
   Widget build(BuildContext context) {
     return BlocBuilder<ServiceDetailsCubit, ServiceDetailsState>(
@@ -416,7 +488,7 @@ class TotalSection extends StatelessWidget {
                   ),
                   const Spacer(),
                   CustomText(
-                    text: '60 KWD',
+                    text: '${totalPrice} KWD',
                     fontSize: 14,
                     fontWeight: FontWeight.w500,
                     color: AppColors.FONT_LIGHT.withOpacity(.7),
@@ -478,7 +550,8 @@ class AddonsSection extends StatelessWidget {
                       Row(
                         children: [
                           CustomText(
-                            text: '(${addon.price} KWD)',
+                            text:
+                                '(${addon.price} KWD, ${addon.durationInMinutes} min)',
                             fontSize: 14,
                             fontWeight: FontWeight.w400,
                             color: AppColors.PlaceholderColor,
@@ -490,11 +563,23 @@ class AddonsSection extends StatelessWidget {
                           Checkbox(
                               // when the value is false the fill color is white
 
-                              fillColor: MaterialStateProperty.all(
-                                Colors.white,
-                              ),
-                              value: false,
-                              onChanged: (value) {}),
+                              fillColor: ServiceDetailsScreen.of(context)
+                                      .isAddonSelected(addon)
+                                  ? null
+                                  : MaterialStateProperty.all(
+                                      Colors.white,
+                                    ),
+                              value: ServiceDetailsScreen.of(context)
+                                  .isAddonSelected(addon),
+                              onChanged: (value) {
+                                if (value == true) {
+                                  ServiceDetailsScreen.of(context)
+                                      .addAddon(addon);
+                                } else {
+                                  ServiceDetailsScreen.of(context)
+                                      .removeAddons(addon);
+                                }
+                              }),
                         ],
                       ),
                     ],
