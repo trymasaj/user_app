@@ -37,10 +37,11 @@ class _SelectMembersScreenState extends State<SelectMembersScreen> {
               title: 'lbl_select_member'.tr(),
               actions: [buildAddMemberButton(context)],
             ),
-            body: _buildBody()));
+            body: _buildBody(context)));
   }
 
-  Padding _buildBody() {
+  Padding _buildBody(context) {
+    final bottomPadding = MediaQuery.of(context).padding.bottom;
     return Padding(
       padding: EdgeInsets.symmetric(horizontal: 24.w),
       child: Column(
@@ -49,13 +50,12 @@ class _SelectMembersScreenState extends State<SelectMembersScreen> {
           _buildWaringMsg(),
           SizedBox(height: 25.h),
           _buildMemberList(),
-          const Spacer(flex: 3),
           DefaultButton(
-            padding: EdgeInsets.symmetric(horizontal: 130.w),
+            isExpanded: true,
             onPressed: () {},
             label: 'continue',
           ),
-          const Spacer(),
+          SizedBox(height: bottomPadding)
         ],
       ),
     );
