@@ -45,7 +45,8 @@ class MembersDataSourceImpl extends MembersDataSource {
             'multipart/form-data; boundary=<calculated when request is sent>');
     return _networkService.post(url, data: formData).then((response) {
       if (response.statusCode != 200) {
-        throw RequestException(message: response.data['detail']);
+        throw RequestException(
+            message: (response.data['errors'][''] as List).first);
       }
       final result = response.data;
       final resultStatus = result['result'];
@@ -61,7 +62,8 @@ class MembersDataSourceImpl extends MembersDataSource {
     const url = ApiEndPoint.DELETE_MEMBER;
     return _networkService.delete('$url/$id').then((response) {
       if (response.statusCode != 200) {
-        throw RequestException(message: response.data);
+        throw RequestException(
+            message: (response.data['errors'][''] as List).first);
       }
       final result = response.data;
       final resultStatus = result['status'];
@@ -122,7 +124,8 @@ class MembersDataSourceImpl extends MembersDataSource {
         .put(url + '/' + member.id.toString(), data: formData)
         .then((response) {
       if (response.statusCode != 200) {
-        throw RequestException(message: response.data);
+        throw RequestException(
+            message: (response.data['errors'][''] as List).first);
       }
       final result = response.data;
       final resultStatus = result['status'];
