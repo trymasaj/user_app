@@ -79,8 +79,7 @@ class _FocusAreaPageState extends State<FocusAreaPage>
             onPressed: () {
               final selectedFocusPoints = this.selectedFocusPoints;
               selectedFocusPoints.length;
-              NavigatorHelper.of(context).push(
-                  MaterialPageRoute(builder: (_) => SelectMembersScreen()));
+              NavigatorHelper.of(context).pop();
             },
             label: 'Save',
           )

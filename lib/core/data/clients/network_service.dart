@@ -578,7 +578,7 @@ class NetworkServiceImpl implements NetworkService {
         .then((response) {
       _logResponse('REFRESHTOKEN', response);
 
-      if ([401, 403].contains(response.statusCode)) {
+      if (!([200, 201].contains(response.statusCode))) {
         return logout().then(
           (_) {
             _alreadyRequestedFuture = null;

@@ -43,6 +43,7 @@ class TherapistDetailsCubit extends BaseCubit<TherapistDetailsState> {
   }
 
   Future<void> getTherapistDetails(int id) async {
+    
     emit(state.copyWith(
       status: TherapistDetailsStateStatus.loading,
     ));

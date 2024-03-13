@@ -15,6 +15,8 @@ import 'package:masaj/core/presentation/widgets/stateless/custom_text_form_field
 import 'package:masaj/core/presentation/widgets/stateless/default_button.dart';
 import 'package:masaj/core/presentation/widgets/stateless/text_fields/default_text_form_field.dart';
 import 'package:masaj/core/presentation/widgets/stateless/text_with_gradiant.dart';
+import 'package:masaj/features/auth/application/auth_cubit/auth_cubit.dart';
+import 'package:masaj/features/auth/presentation/pages/login_page.dart';
 import 'package:masaj/features/focus_area/presentation/pages/focus_area_page.dart';
 import 'package:masaj/features/members/presentaion/pages/select_members.dart';
 import 'package:masaj/features/services/application/service_details_cubit/service_details_cubit.dart';
@@ -96,6 +98,14 @@ class ServiceDetailsScreenState extends State<ServiceDetailsScreen> {
     return total;
   }
 
+  double discountPercentage = .1;
+
+  double getPriceAfterDiscount() {
+    final discountValue = totalPrice() * discountPercentage;
+
+    return totalPrice() - discountValue;
+  }
+
   double totalPrice() {
     double total = 0;
     if (selectedDurationNotifier.value != null) {
@@ -119,298 +129,334 @@ class ServiceDetailsScreenState extends State<ServiceDetailsScreen> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      bottomSheet: Container(
-        padding: EdgeInsets.symmetric(horizontal: 24.w, vertical: 14.h),
-        width: double.infinity,
-        height: 92.h,
-        //box-shadow: 0px -3px 8px 0px #9DB2D621;
-        decoration: BoxDecoration(
-          color: Colors.white,
-          boxShadow: [
-            BoxShadow(
-              // rgba(157, 178, 214, 0.13)
-              color: const Color(0xff9DB2D6).withOpacity(.13),
-              offset: const Offset(0, -3),
-              blurRadius: 8,
-            )
-          ],
-        ),
-        child: Row(
-          crossAxisAlignment: CrossAxisAlignment.center,
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          children: [
-            Column(
-              children: [
-                const CustomText(
-                  text: '60 KWD Nonmember',
-                  fontSize: 14,
-                  color: Color(0xff1D212C),
-                ),
-                CustomText(
-                  text: '54 KWD member 10% off',
-                  fontSize: 12,
-                  color: AppColors.FONT_LIGHT.withOpacity(.7),
-                ),
-                const CustomText(
-                  text: 'How to become a member?',
-                  color: AppColors.PlaceholderColor,
-                  fontSize: 10,
+    return BlocBuilder<ServiceDetailsCubit, ServiceDetailsState>(
+      builder: (context, state) {
+        return Scaffold(
+          bottomSheet: Container(
+            padding: EdgeInsets.symmetric(horizontal: 24.w, vertical: 14.h),
+            width: double.infinity,
+            height: 100.h,
+            //box-shadow: 0px -3px 8px 0px #9DB2D621;
+            decoration: BoxDecoration(
+              color: Colors.white,
+              boxShadow: [
+                BoxShadow(
+                  // rgba(157, 178, 214, 0.13)
+                  color: const Color(0xff9DB2D6).withOpacity(.13),
+                  offset: const Offset(0, -3),
+                  blurRadius: 8,
                 )
               ],
             ),
-            DefaultButton(
-              label: 'continue',
-              onPressed: () {
-                Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                        builder: (context) => SelectMembersScreen()));
-              },
-            ),
-          ],
-        ),
-      ),
-      body: SafeArea(
-        top: false,
-        child: BlocBuilder<ServiceDetailsCubit, ServiceDetailsState>(
-          builder: (context, state) {
-            return SingleChildScrollView(
-              child: state.service == null
-                  ? const CustomLoading(
-                      loadingStyle: LoadingStyle.ShimmerGrid,
-                    )
-                  : Column(
-                      children: [
-                        BlocBuilder<ServiceDetailsCubit, ServiceDetailsState>(
-                          builder: (context, state) {
-                            return ServiceImagesViewWidget(
-                              images: state.service?.images ?? [],
-                            );
-                          },
-                        ),
-                        SizedBox(
-                          height: 14.h,
-                        ),
-                        Padding(
-                          padding: EdgeInsets.symmetric(horizontal: 24.w),
-                          child: Column(
-                            children: [
-                              // title then the description
-                              Row(
-                                children: [
-                                  CustomText(
-                                    text: state.service?.title ?? '',
-                                    fontSize: 18,
-                                    fontWeight: FontWeight.w500,
-                                  ),
-                                ],
-                              ),
-                              SizedBox(
-                                height: 4.h,
-                              ),
-                              Row(
-                                children: [
-                                  CustomText(
-                                    text: state.service?.description ?? '',
+            child: Row(
+              crossAxisAlignment: CrossAxisAlignment.center,
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                ValueListenableBuilder(
+                    valueListenable: selectedDurationNotifier,
+                    builder: (context, value, child) {
+                      return Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          CustomText(
+                            text: '${totalPrice()} KWD Nonmember',
+                            fontSize: 14,
+                            color: const Color(0xff1D212C),
+                          ),
+                          RichText(
+                            text: TextSpan(children: [
+                              TextSpan(
+                                  text:
+                                      '${getPriceAfterDiscount().toStringAsFixed(2)} KWD member ',
+                                  style: TextStyle(
                                     fontSize: 12,
-                                    fontWeight: FontWeight.w400,
-                                    color: AppColors.FONT_LIGHT,
-                                  ),
-                                ],
-                              ),
-                              SizedBox(
-                                height: 24.h,
-                              ),
-                              // Benefits
-                              const Row(
+                                    color: AppColors.FONT_LIGHT.withOpacity(.7),
+                                  )),
+                              TextSpan(
+                                  text: '${discountPercentage * 100}% off',
+                                  style: const TextStyle(
+                                    fontSize: 12,
+                                    fontWeight: FontWeight.w700,
+                                    color: AppColors.ERROR_COLOR,
+                                  )),
+                            ]),
+                          ),
+                          const CustomText(
+                            text: 'How to become a member?',
+                            color: AppColors.PlaceholderColor,
+                            fontSize: 11,
+                          )
+                        ],
+                      );
+                    }),
+                DefaultButton(
+                  label: 'continue',
+                  onPressed: () {
+                    final authCubit = context.read<AuthCubit>();
+                    if (authCubit.state.isGuest)
+                      return Navigator.pushAndRemoveUntil(
+                          context,
+                          MaterialPageRoute(
+                              builder: (context) => const LoginPage()),
+                          (_) => true);
+                    Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                            builder: (context) => const SelectMembersScreen()));
+                  },
+                ),
+              ],
+            ),
+          ),
+          body: SafeArea(
+            top: false,
+            child: BlocBuilder<ServiceDetailsCubit, ServiceDetailsState>(
+              builder: (context, state) {
+                return SingleChildScrollView(
+                  child: state.service == null
+                      ? const CustomLoading(
+                          loadingStyle: LoadingStyle.ShimmerGrid,
+                        )
+                      : Column(
+                          children: [
+                            BlocBuilder<ServiceDetailsCubit,
+                                ServiceDetailsState>(
+                              builder: (context, state) {
+                                return ServiceImagesViewWidget(
+                                  images: state.service?.images ?? [],
+                                );
+                              },
+                            ),
+                            SizedBox(
+                              height: 14.h,
+                            ),
+                            Padding(
+                              padding: EdgeInsets.symmetric(horizontal: 24.w),
+                              child: Column(
                                 children: [
-                                  CustomText(
-                                    text: 'benefits',
-                                    fontSize: 14,
-                                    fontWeight: FontWeight.w500,
-                                  ),
-                                ],
-                              ),
-                              SizedBox(
-                                height: 4.h,
-                              ),
-                              // lst of benefits
-                              for (ServiceBenefitModel benefit
-                                  in state.service?.serviceBenefits ?? [])
-                                Container(
-                                  margin: EdgeInsets.only(bottom: 8.h),
-                                  child: Row(
+                                  // title then the description
+                                  Row(
                                     children: [
-                                      // dot
-                                      Container(
-                                        width: 8.w,
-                                        height: 8.h,
-                                        margin: EdgeInsets.only(right: 8.w),
-                                        decoration: BoxDecoration(
-                                          shape: BoxShape.circle,
-                                          color: AppColors.FONT_LIGHT
-                                              .withOpacity(.7),
-                                        ),
-                                      ),
-                                      // benefit text
                                       CustomText(
-                                        text: benefit.benefit,
-                                        fontSize: 12,
-                                        fontWeight: FontWeight.w400,
-                                        color: AppColors.FONT_LIGHT
-                                            .withOpacity(.7),
+                                        text: state.service?.title ?? '',
+                                        fontSize: 18,
+                                        fontWeight: FontWeight.w500,
                                       ),
                                     ],
                                   ),
-                                ),
+                                  SizedBox(
+                                    height: 4.h,
+                                  ),
+                                  Row(
+                                    children: [
+                                      CustomText(
+                                        text: state.service?.description ?? '',
+                                        fontSize: 12,
+                                        fontWeight: FontWeight.w400,
+                                        color: AppColors.FONT_LIGHT,
+                                      ),
+                                    ],
+                                  ),
+                                  SizedBox(
+                                    height: 24.h,
+                                  ),
+                                  // Benefits
+                                  const Row(
+                                    children: [
+                                      CustomText(
+                                        text: 'benefits',
+                                        fontSize: 14,
+                                        fontWeight: FontWeight.w500,
+                                      ),
+                                    ],
+                                  ),
+                                  SizedBox(
+                                    height: 4.h,
+                                  ),
+                                  // lst of benefits
+                                  for (ServiceBenefitModel benefit
+                                      in state.service?.serviceBenefits ?? [])
+                                    Container(
+                                      margin: EdgeInsets.only(bottom: 8.h),
+                                      child: Row(
+                                        children: [
+                                          // dot
+                                          Container(
+                                            width: 8.w,
+                                            height: 8.h,
+                                            margin: EdgeInsets.only(right: 8.w),
+                                            decoration: BoxDecoration(
+                                              shape: BoxShape.circle,
+                                              color: AppColors.FONT_LIGHT
+                                                  .withOpacity(.7),
+                                            ),
+                                          ),
+                                          // benefit text
+                                          CustomText(
+                                            text: benefit.benefit,
+                                            fontSize: 12,
+                                            fontWeight: FontWeight.w400,
+                                            color: AppColors.FONT_LIGHT
+                                                .withOpacity(.7),
+                                          ),
+                                        ],
+                                      ),
+                                    ),
 
-                              SizedBox(
-                                height: 8.h,
-                              ),
-                              if (state.service?.videos.isNotEmpty ?? false)
-                                Column(
-                                  children: [
-                                    const Row(
+                                  SizedBox(
+                                    height: 8.h,
+                                  ),
+                                  if (state.service?.videos.isNotEmpty ?? false)
+                                    Column(
                                       children: [
-                                        CustomText(
-                                          text: 'Videos',
-                                          fontSize: 14,
-                                          fontWeight: FontWeight.w500,
+                                        const Row(
+                                          children: [
+                                            CustomText(
+                                              text: 'Videos',
+                                              fontSize: 14,
+                                              fontWeight: FontWeight.w500,
+                                            ),
+                                          ],
                                         ),
+                                        SizedBox(
+                                          height: 8.h,
+                                        ),
+                                        SizedBox(
+                                            height: 140.h,
+                                            child: ListView.builder(
+                                                scrollDirection:
+                                                    Axis.horizontal,
+                                                itemCount: 2,
+                                                itemBuilder: (context, index) =>
+                                                    GestureDetector(
+                                                      onTap: () {
+                                                        NavigatorHelper.of(
+                                                                context)
+                                                            .push(
+                                                          MaterialPageRoute(
+                                                            builder: (_) =>
+                                                                FullScreenVideoPlayer(
+                                                              url: state.service
+                                                                          ?.videos[
+                                                                      index] ??
+                                                                  '',
+                                                            ),
+                                                          ),
+                                                        );
+                                                      },
+                                                      child: Stack(
+                                                        children: [
+                                                          Container(
+                                                            height: 160.h,
+                                                            width: MediaQuery.of(
+                                                                        context)
+                                                                    .size
+                                                                    .width *
+                                                                .8,
+                                                            margin:
+                                                                EdgeInsets.only(
+                                                                    right: 8.w),
+                                                            decoration:
+                                                                BoxDecoration(
+                                                              color:
+                                                                  Colors.black,
+                                                              borderRadius:
+                                                                  BorderRadius
+                                                                      .circular(
+                                                                          12),
+                                                            ),
+                                                          ),
+                                                          const Positioned(
+                                                            top: 0,
+                                                            left: 0,
+                                                            right: 0,
+                                                            bottom: 0,
+                                                            child: Center(
+                                                                child: Icon(
+                                                              Icons.play_arrow,
+                                                              color:
+                                                                  Colors.white,
+                                                              size: 40,
+                                                            )),
+                                                          )
+                                                        ],
+                                                      ),
+                                                    ))),
+                                        SizedBox(
+                                          height: 18.h,
+                                        )
                                       ],
                                     ),
-                                    SizedBox(
-                                      height: 8.h,
-                                    ),
-                                    SizedBox(
-                                        height: 140.h,
-                                        child: ListView.builder(
-                                            scrollDirection: Axis.horizontal,
-                                            itemCount: 2,
-                                            itemBuilder: (context, index) =>
-                                                GestureDetector(
-                                                  onTap: () {
-                                                    NavigatorHelper.of(context)
-                                                        .push(
-                                                      MaterialPageRoute(
-                                                        builder: (_) =>
-                                                            FullScreenVideoPlayer(
-                                                          url: state.service
-                                                                      ?.videos[
-                                                                  index] ??
-                                                              '',
-                                                        ),
-                                                      ),
-                                                    );
-                                                  },
-                                                  child: Stack(
-                                                    children: [
-                                                      Container(
-                                                        height: 160.h,
-                                                        width: MediaQuery.of(
-                                                                    context)
-                                                                .size
-                                                                .width *
-                                                            .8,
-                                                        margin: EdgeInsets.only(
-                                                            right: 8.w),
-                                                        decoration:
-                                                            BoxDecoration(
-                                                          color: Colors.black,
-                                                          borderRadius:
-                                                              BorderRadius
-                                                                  .circular(12),
-                                                        ),
-                                                      ),
-                                                      const Positioned(
-                                                        top: 0,
-                                                        left: 0,
-                                                        right: 0,
-                                                        bottom: 0,
-                                                        child: Center(
-                                                            child: Icon(
-                                                          Icons.play_arrow,
-                                                          color: Colors.white,
-                                                          size: 40,
-                                                        )),
-                                                      )
-                                                    ],
-                                                  ),
-                                                ))),
-                                    SizedBox(
-                                      height: 18.h,
-                                    )
-                                  ],
-                                ),
-                              // divider
-                            ],
-                          ),
-                        ),
-                        Container(
-                          width: double.infinity,
-                          height: 5.h,
-                          color: const Color(0xffF6F6F6),
-                        ),
-                        // focus area section
-                        if (state.service!.allowFocusAreas == true)
-                          Column(
-                            children: [
-                              FocusAreaSection(
-                                  selectedFocusPoints: selectedFocusPoints,
-                                  controller: focusAreaTextField),
-                              Container(
-                                width: double.infinity,
-                                height: 5.h,
-                                color: const Color(0xffF6F6F6),
+                                  // divider
+                                ],
                               ),
-                            ],
-                          ),
-                        // durations section
-                        if (state.service!.serviceDurations!.isNotEmpty)
-                          Column(
-                            children: [
-                              const DurationsSection(),
-                              Container(
-                                width: double.infinity,
-                                height: 5.h,
-                                color: const Color(0xffF6F6F6),
+                            ),
+                            Container(
+                              width: double.infinity,
+                              height: 5.h,
+                              color: const Color(0xffF6F6F6),
+                            ),
+                            // focus area section
+                            if (state.service!.allowFocusAreas == true)
+                              Column(
+                                children: [
+                                  FocusAreaSection(
+                                      selectedFocusPoints: selectedFocusPoints,
+                                      controller: focusAreaTextField),
+                                  Container(
+                                    width: double.infinity,
+                                    height: 5.h,
+                                    color: const Color(0xffF6F6F6),
+                                  ),
+                                ],
                               ),
-                            ],
-                          ),
-                        // addons section
+                            // durations section
+                            if (state.service!.serviceDurations!.isNotEmpty)
+                              Column(
+                                children: [
+                                  const DurationsSection(),
+                                  Container(
+                                    width: double.infinity,
+                                    height: 5.h,
+                                    color: const Color(0xffF6F6F6),
+                                  ),
+                                ],
+                              ),
+                            // addons section
 
-                        if (state.service!.serviceAddons!.isNotEmpty)
-                          Column(
-                            children: [
-                              AddonsSection(
-                                addons: state.service!.serviceAddons!,
+                            if (state.service!.serviceAddons!.isNotEmpty)
+                              Column(
+                                children: [
+                                  AddonsSection(
+                                    addons: state.service!.serviceAddons!,
+                                  ),
+                                  Container(
+                                    width: double.infinity,
+                                    height: 5.h,
+                                    color: const Color(0xffF6F6F6),
+                                  )
+                                ],
                               ),
-                              Container(
-                                width: double.infinity,
-                                height: 5.h,
-                                color: const Color(0xffF6F6F6),
-                              )
-                            ],
-                          ),
-                        // total section
-                        ValueListenableBuilder(
-                            valueListenable: selectedDurationNotifier,
-                            builder: (context, value, child) {
-                              return TotalSection(
-                                totalPrice: totalPrice().toStringAsFixed(2),
-                              );
-                            }),
+                            // total section
+                            ValueListenableBuilder(
+                                valueListenable: selectedDurationNotifier,
+                                builder: (context, value, child) {
+                                  return TotalSection(
+                                    totalPrice: totalPrice().toStringAsFixed(2),
+                                  );
+                                }),
 
-                        const SizedBox(
-                          height: 100,
-                        )
-                      ],
-                    ),
-            );
-          },
-        ),
-      ),
+                            const SizedBox(
+                              height: 100,
+                            )
+                          ],
+                        ),
+                );
+              },
+            ),
+          ),
+        );
+      },
     );
   }
 }
