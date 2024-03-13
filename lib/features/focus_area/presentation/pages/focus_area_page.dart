@@ -79,10 +79,11 @@ class _FocusAreaPageState extends State<FocusAreaPage>
             onPressed: () {
               final selectedFocusPoints = this.selectedFocusPoints;
               selectedFocusPoints.length;
-              NavigatorHelper.of(context).pop();
+              NavigatorHelper.of(context).pop(selectedFocusPoints);
             },
             label: 'Save',
-          )
+          ),
+          SizedBox(height: MediaQuery.of(context).padding.bottom - 20)
         ]),
       ),
     );

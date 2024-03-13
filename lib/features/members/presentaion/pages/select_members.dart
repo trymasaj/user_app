@@ -108,6 +108,9 @@ class _SelectMembersScreenState extends State<SelectMembersScreen> {
         member: members![index],
         action: Checkbox.adaptive(
           activeColor: AppColors.PRIMARY_COLOR,
+          fillColor: MaterialStateProperty.all(
+            AppColors.BACKGROUND_COLOR,
+          ),
           shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(4)),
           onChanged: (value) {
             _validateMembers(value, members[index]);
