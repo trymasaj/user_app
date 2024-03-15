@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:masaj/core/presentation/colors/app_colors.dart';
 import 'package:masaj/core/presentation/size/size_utils.dart';
 
 const navbarHeight = 62.0;
@@ -44,6 +45,7 @@ class ThemeHelper {
         _supportedColorScheme[_appTheme] ?? ColorSchemes.primaryColorScheme;
     return ThemeData(
       useMaterial3: false,
+      unselectedWidgetColor: Colors.white,
       inputDecorationTheme: InputDecorationTheme(
           errorStyle: TextStyle(
             color: appTheme.redA700,
@@ -131,17 +133,9 @@ class ThemeHelper {
           horizontal: -4,
         ),
       ),
-      checkboxTheme: CheckboxThemeData(
-        fillColor: MaterialStateColor.resolveWith((states) {
-          if (states.contains(MaterialState.selected)) {
-            return colorScheme.primary;
-          }
-          return colorScheme.onSurface;
-        }),
-        side: const BorderSide(
-          width: 1,
-        ),
-        visualDensity: const VisualDensity(
+      checkboxTheme: const CheckboxThemeData(
+        side: BorderSide(width: 1, color: AppColors.PRIMARY_COLOR),
+        visualDensity: VisualDensity(
           vertical: -4,
           horizontal: -4,
         ),

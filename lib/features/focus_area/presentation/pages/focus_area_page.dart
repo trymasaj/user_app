@@ -53,38 +53,41 @@ class _FocusAreaPageState extends State<FocusAreaPage>
   Widget build(BuildContext context) {
     return CustomAppPage(
       child: Scaffold(
-        body: Column(children: [
-          CustomAppBar(
-            title: 'focus_area'.tr(),
-            centerTitle: true,
-            actions: [
-              IconButton(
-                  onPressed: () {
-                    setState(() {
-                      selectedFocusPoints.forEach((key, value) {
-                        selectedFocusPoints[key] = false;
-                      });
+        appBar: CustomAppBar(
+          title: 'focus_area'.tr(),
+          centerTitle: true,
+          actions: [
+            IconButton(
+                onPressed: () {
+                  setState(() {
+                    selectedFocusPoints.forEach((key, value) {
+                      selectedFocusPoints[key] = false;
                     });
-                  },
-                  icon: const Icon(
-                    Icons.replay,
-                    color: Colors.black,
-                  ))
-            ],
-          ),
-          _buildTabBar(context),
-          _buildBody(),
-          DefaultButton(
-            padding: EdgeInsets.symmetric(horizontal: 130.w),
-            onPressed: () {
-              final selectedFocusPoints = this.selectedFocusPoints;
-              selectedFocusPoints.length;
-              NavigatorHelper.of(context).pop(selectedFocusPoints);
-            },
-            label: 'Save',
-          ),
-          SizedBox(height: MediaQuery.of(context).padding.bottom - 20)
-        ]),
+                  });
+                },
+                icon: const Icon(
+                  Icons.replay,
+                  color: Colors.black,
+                ))
+          ],
+        ),
+        body: Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 12.0),
+          child: Column(children: [
+            _buildTabBar(context),
+            _buildBody(),
+            SizedBox(height: 36),
+            DefaultButton(
+              isExpanded: true,
+              onPressed: () {
+                final selectedFocusPoints = this.selectedFocusPoints;
+                selectedFocusPoints.length;
+                NavigatorHelper.of(context).pop(selectedFocusPoints);
+              },
+              label: 'Save',
+            ),
+          ]),
+        ),
       ),
     );
   }
@@ -116,24 +119,22 @@ class _FocusAreaPageState extends State<FocusAreaPage>
   }
 
   Widget _buildBody() {
-    return Expanded(
-      child: SingleChildScrollView(
-        child: Stack(
-          alignment: Alignment.center,
-          children: [
-            Positioned(
-              child: Column(
-                children: [
-                  selectedBodySide == BodySideEnum.Front
-                      ? Image.asset('assets/images/Front.png')
-                      : Image.asset('assets/images/Back.png'),
-                  SelectableText(selectedBodySide.name),
-                ],
-              ),
+    return SingleChildScrollView(
+      child: Stack(
+        alignment: Alignment.center,
+        children: [
+          Positioned(
+            child: Column(
+              children: [
+                selectedBodySide == BodySideEnum.Front
+                    ? Image.asset('assets/images/Front.png')
+                    : Image.asset('assets/images/Back.png'),
+                SelectableText(selectedBodySide.name),
+              ],
             ),
-            ..._buildBodyPostions(context)
-          ],
-        ),
+          ),
+          ..._buildBodyPostions(context)
+        ],
       ),
     );
   }

@@ -51,6 +51,7 @@ class _SelectMembersScreenState extends State<SelectMembersScreen> {
           SizedBox(height: 25.h),
           _buildMemberList(),
           DefaultButton(
+            margin: EdgeInsets.symmetric(vertical: 20),
             isExpanded: true,
             onPressed: () {},
             label: 'continue',
@@ -108,10 +109,9 @@ class _SelectMembersScreenState extends State<SelectMembersScreen> {
         member: members![index],
         action: Checkbox.adaptive(
           activeColor: AppColors.PRIMARY_COLOR,
-          fillColor: MaterialStateProperty.all(
-            AppColors.BACKGROUND_COLOR,
-          ),
-          shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(4)),
+          shape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.circular(4),
+              side: BorderSide(color: AppColors.PRIMARY_COLOR)),
           onChanged: (value) {
             _validateMembers(value, members[index]);
           },
