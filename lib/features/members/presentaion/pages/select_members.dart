@@ -7,6 +7,7 @@ import 'package:masaj/core/presentation/widgets/stateless/custom_loading.dart';
 import 'package:masaj/core/presentation/widgets/stateless/default_button.dart';
 import 'package:masaj/core/presentation/widgets/stateless/empty_page_message.dart';
 import 'package:masaj/core/presentation/widgets/stateless/subtitle_text.dart';
+import 'package:masaj/core/presentation/widgets/stateless/warning_container.dart';
 import 'package:masaj/features/account/widgets/member_tile.dart';
 import 'package:masaj/core/presentation/widgets/stateless/custom_app_bar.dart';
 import 'package:masaj/features/account/pages/manage_members_screen.dart';
@@ -47,11 +48,11 @@ class _SelectMembersScreenState extends State<SelectMembersScreen> {
       child: Column(
         children: [
           SizedBox(height: 25.h),
-          _buildWaringMsg(),
+          const WarningContainer(title: 'msg_you_undertake_to'),
           SizedBox(height: 25.h),
           _buildMemberList(),
           DefaultButton(
-            margin: EdgeInsets.symmetric(vertical: 20),
+            margin: const EdgeInsets.symmetric(vertical: 20),
             isExpanded: true,
             onPressed: () {},
             label: 'continue',
@@ -111,7 +112,7 @@ class _SelectMembersScreenState extends State<SelectMembersScreen> {
           activeColor: AppColors.PRIMARY_COLOR,
           shape: RoundedRectangleBorder(
               borderRadius: BorderRadius.circular(4),
-              side: BorderSide(color: AppColors.PRIMARY_COLOR)),
+              side: const BorderSide(color: AppColors.PRIMARY_COLOR)),
           onChanged: (value) {
             _validateMembers(value, members[index]);
           },
@@ -140,24 +141,5 @@ class _SelectMembersScreenState extends State<SelectMembersScreen> {
         selectedMembers.remove(member);
       }
     });
-  }
-
-  Widget _buildWaringMsg() {
-    return Container(
-      padding: const EdgeInsets.symmetric(horizontal: 11, vertical: 15),
-      decoration: BoxDecoration(
-          borderRadius: BorderRadius.circular(8),
-          color: AppColors.PRIMARY_DARK_COLOR.withOpacity(0.08)),
-      child: const Row(crossAxisAlignment: CrossAxisAlignment.start, children: [
-        Icon(Icons.info_outline_rounded,
-            size: 25, color: AppColors.PRIMARY_DARK_COLOR),
-        SizedBox(width: 6),
-        Expanded(
-            child: SubtitleText(
-          text: 'msg_you_undertake_to',
-          subtractedSize: 2.5,
-        ))
-      ]),
-    );
   }
 }
