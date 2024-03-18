@@ -153,6 +153,7 @@ class _ChooseLanguagePageState extends State<ChooseLanguagePage> {
   Widget _buildAppBar() {
     return widget.fromSetting
         ? const CustomAppBar(
+            leadingPadding: const EdgeInsets.only(right: 32),
             title: 'lbl_language',
             elevation: 0.0,
           )

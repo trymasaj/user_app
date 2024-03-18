@@ -13,6 +13,7 @@ class CustomAppBar extends StatefulWidget implements PreferredSizeWidget {
     this.centerTitle,
     this.actions,
     this.elevation,
+    this.leadingPadding,
   });
 
   final bool? centerTitle;
@@ -20,6 +21,7 @@ class CustomAppBar extends StatefulWidget implements PreferredSizeWidget {
 
   final String title;
   final double? elevation;
+  final EdgeInsets? leadingPadding;
 
   @override
   State<CustomAppBar> createState() => _CustomAppBarState();
@@ -64,7 +66,8 @@ class _CustomAppBarState extends State<CustomAppBar> {
       child: InkWell(
         onTap: NavigatorHelper.of(context).pop,
         child: Padding(
-          padding: const EdgeInsets.only(right: 32),
+          padding: widget.leadingPadding ??
+              const EdgeInsets.symmetric(horizontal: 16),
           child: SvgPicture.asset(
             'assets/images/back_icon.svg',
           ),
