@@ -57,7 +57,7 @@
     "already_have_account_message": "Already have an account? ",
     "empty_field_not_valid": "Empty field is not valid",
     "invalid_email_address": "Invalid email address",
-    "invalid_password_less_than_characters": "Invalid password less than 6 characters",
+    "invalid_password_less_than_characters": "Invalid password can't be less than 6 characters",
     "invalid_password_should_has_1_capital_letter": "Invalid password should has 1 capital letter",
     "invalid_password_should_has_1_small_letter": "Invalid password should has 1 small letter",
     "invalid_password_should_has_1_number": "Invalid password should has 1 number",
