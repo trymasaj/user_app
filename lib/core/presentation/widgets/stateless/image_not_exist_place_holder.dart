@@ -16,7 +16,7 @@ class ImageNotExistPlaceHolder extends StatelessWidget {
       width: width,
       height: height,
       child: Image.asset(
-        'assets/images/saudi_place_holder.png',
+        'assets/images/img_textbox.png',
         width: width,
         height: height,
         fit: BoxFit.cover,
