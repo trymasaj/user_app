@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter_html/flutter_html.dart';
 import 'package:intl_phone_field/phone_number.dart';
 import 'package:masaj/core/app_export.dart';
 import 'package:masaj/core/data/extensions/extensions.dart';
@@ -21,6 +22,7 @@ import 'package:masaj/features/auth/presentation/pages/otp_verification_page.dar
 import 'package:masaj/features/home/presentation/pages/home_page.dart';
 import 'package:masaj/features/auth/domain/entities/user.dart';
 import 'package:masaj/features/auth/application/auth_cubit/auth_cubit.dart';
+import 'package:masaj/features/legal/pages/terms_and_condititons_screen.dart';
 
 class SignUpPage extends StatefulWidget {
   static const routeName = '/SignUp';
@@ -364,10 +366,17 @@ class _SignUpPageState extends State<SignUpPage> {
           fontWeight: FontWeight.w400,
         ),
         const SizedBox(width: 4.0),
-        const CustomText(
-          text: 'terms_and_conditions',
-          fontSize: 14,
-          fontWeight: FontWeight.w500,
+        GestureDetector(
+          onTap: () {
+            NavigatorHelper.of(context)
+                .pushNamed(TermsAndCondititonsScreen.routeName);
+          },
+          child: const CustomText(
+            text: 'terms_and_conditions',
+            decoration: TextDecoration.underline,
+            fontSize: 14,
+            fontWeight: FontWeight.w500,
+          ),
         ),
       ],
     );
