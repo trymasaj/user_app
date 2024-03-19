@@ -123,10 +123,17 @@ class SubtitleText extends StatelessWidget {
   Widget build(BuildContext context) {
     final textStyleBefore = context
         .sizeHelper(
-          mobileLarge:
-              Theme.of(context).textTheme.bodyLarge!.copyWith(fontSize: 12.0),
-          tabletSmall: Theme.of(context).textTheme.bodyLarge,
-          tabletLarge: Theme.of(context).textTheme.bodyMedium,
+          mobileLarge: Theme.of(context).textTheme.bodyLarge!.copyWith(
+              fontSize: 12.0,
+              fontWeight: isBold ? FontWeight.bold : FontWeight.w400),
+          tabletSmall: Theme.of(context)
+              .textTheme
+              .bodyLarge!
+              .copyWith(fontWeight: isBold ? FontWeight.bold : FontWeight.w400),
+          tabletLarge: Theme.of(context)
+              .textTheme
+              .bodyMedium!
+              .copyWith(fontWeight: isBold ? FontWeight.bold : FontWeight.w400),
           desktopSmall:
               Theme.of(context).textTheme.bodyMedium!.copyWith(fontSize: 18.0),
         )

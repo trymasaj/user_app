@@ -1,13 +1,16 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_svg/flutter_svg.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:masaj/core/app_export.dart';
 import 'package:masaj/core/presentation/colors/app_colors.dart';
 import 'package:masaj/core/presentation/widgets/stateless/custom_app_bar.dart';
 import 'package:masaj/core/presentation/widgets/stateless/custom_app_page.dart';
 import 'package:masaj/core/presentation/widgets/stateless/custom_cached_network_image.dart';
+import 'package:masaj/core/presentation/widgets/stateless/default_button.dart';
 import 'package:masaj/core/presentation/widgets/stateless/subtitle_text.dart';
+import 'package:masaj/core/presentation/widgets/stateless/text_fields/default_text_form_field.dart';
 import 'package:masaj/core/presentation/widgets/stateless/title_text.dart';
 import 'package:masaj/core/presentation/widgets/stateless/warning_container.dart';
-import 'package:size_helper/size_helper.dart';
 
 class CheckoutScreen extends StatefulWidget {
   const CheckoutScreen({super.key});
@@ -21,6 +24,24 @@ class _CheckoutScreenState extends State<CheckoutScreen> {
   static const double _kDividerThickness = 6;
   static const double _KSubVerticalSpace = 12;
   static const double _KSectionPadding = 24;
+  int? _selectedPayment;
+
+  late final TextEditingController _couponEditingController;
+  late final FocusNode _couponFocusNode;
+
+  @override
+  void initState() {
+    _couponEditingController = TextEditingController();
+    _couponFocusNode = FocusNode();
+    super.initState();
+  }
+
+  @override
+  void dispose() {
+    _couponEditingController.dispose();
+    _couponFocusNode.dispose();
+    super.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -37,64 +58,37 @@ class _CheckoutScreenState extends State<CheckoutScreen> {
   CustomAppPage _buildBody() {
     return CustomAppPage(
       child: SingleChildScrollView(
-        child: SizedBox(
-          height: MediaQuery.of(context).size.height,
-          child: Column(
-            children: [
-              _buildServiceSection(),
-              const Divider(
-                thickness: _kDividerThickness,
-                color: AppColors.ExtraLight,
-              ),
-              _buildDetailsSection(),
-              const Divider(
-                thickness: _kDividerThickness,
-                color: AppColors.ExtraLight,
-              ),
-              _buildTherapistSection(),
-              const Divider(
-                thickness: _kDividerThickness,
-                color: AppColors.ExtraLight,
-              ),
-              _buildLocationSection(),
-              const Divider(
-                thickness: _kDividerThickness,
-                color: AppColors.ExtraLight,
-              ),
-              const TitleText(text: 'payment_method'),
-              Row(
-                children: [
-                  const SubtitleText(text: 'use_wallet ${200} dummy'),
-                  const Spacer(),
-                  CustomSwitch(onChange: (value) {}),
-                ],
-              ),
-              ListView.builder(
-                  shrinkWrap: true,
-                  itemBuilder: (context, index) {
-                    return DecoratedBox(
-                      decoration: BoxDecoration(
-                        color: AppColors.PRIMARY_COLOR.withOpacity(0.4),
-                        borderRadius: BorderRadius.circular(20),
-                        border: Border.all(
-                          color: AppColors.PRIMARY_COLOR,
-                        ),
-                      ),
-                      child: Padding(
-                        padding: const EdgeInsets.all(24.0),
-                        child: Row(children: [
-                          const SubtitleText(text: 'payment'),
-                          const Spacer(),
-                          Radio.adaptive(
-                              value: (value) {},
-                              groupValue: false,
-                              onChanged: (value) {})
-                        ]),
-                      ),
-                    );
-                  })
-            ],
-          ),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            _buildServiceSection(),
+            const Divider(
+              thickness: _kDividerThickness,
+              color: AppColors.ExtraLight,
+            ),
+            _buildDetailsSection(),
+            const Divider(
+              thickness: _kDividerThickness,
+              color: AppColors.ExtraLight,
+            ),
+            _buildTherapistSection(),
+            const Divider(
+              thickness: _kDividerThickness,
+              color: AppColors.ExtraLight,
+            ),
+            _buildLocationSection(),
+            const Divider(
+              thickness: _kDividerThickness,
+              color: AppColors.ExtraLight,
+            ),
+            _buildPaymentSection(),
+            const Divider(
+              thickness: _kDividerThickness,
+              color: AppColors.ExtraLight,
+            ),
+            _buildSummarySection(),
+            _buildCheckoutButton()
+          ],
         ),
       ),
     );
@@ -126,9 +120,12 @@ class _CheckoutScreenState extends State<CheckoutScreen> {
         const SizedBox(width: _KSubVerticalSpace),
         const Column(
           children: [
-            SubtitleText(text: ''),
-            SizedBox(height: 20.0),
-            SubtitleText(text: ''),
+            SubtitleText(
+              text: 'dummy service',
+              isBold: true,
+            ),
+            SizedBox(height: 5.0),
+            SubtitleText(text: 'dummy service'),
           ],
         )
       ],
@@ -143,10 +140,10 @@ class _CheckoutScreenState extends State<CheckoutScreen> {
         children: [
           const TitleText(text: 'details'),
           const SizedBox(height: _KSubVerticalSpace),
-          _buildDetailsRow(title: 'date', content: 'date_dummy'),
-          _buildDetailsRow(title: 'date', content: 'date_dummy'),
-          _buildDetailsRow(title: 'date', content: 'date_dummy'),
-          _buildDetailsRow(title: 'date', content: 'date_dummy'),
+          _buildDetailsRow(title: 'date:', content: 'date_dummy'),
+          _buildDetailsRow(title: 'date:', content: 'date_dummy'),
+          _buildDetailsRow(title: 'date:', content: 'date_dummy'),
+          _buildDetailsRow(title: 'date:', content: 'date_dummy'),
         ],
       ),
     );
@@ -186,8 +183,10 @@ class _CheckoutScreenState extends State<CheckoutScreen> {
               const Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  SubtitleText(text: 'test dummy'),
-                  SizedBox(height: 20.0),
+                  SubtitleText(
+                    text: 'test dummy',
+                    isBold: true,
+                  ),
                   SubtitleText(text: 'dummy test dummy'),
                 ],
               )
@@ -213,6 +212,146 @@ class _CheckoutScreenState extends State<CheckoutScreen> {
           SizedBox(height: 4),
           SubtitleText(text: 'title'),
         ],
+      ),
+    );
+  }
+
+  Widget _buildPaymentSection() {
+    return Padding(
+      padding: const EdgeInsets.all(_KSectionPadding),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          const TitleText(
+            text: 'payment_method',
+          ),
+          _buildWalletApply(),
+          const SizedBox(height: _KSubVerticalSpace),
+          _buildPaymentMethods()
+        ],
+      ),
+    );
+  }
+
+  Widget _buildWalletApply() {
+    return Row(
+      children: [
+        SubtitleText(text: 'use_wallet_dummy'.tr(args: ['200'])),
+        const Spacer(),
+        CustomSwitch(onChange: (value) {}),
+      ],
+    );
+  }
+
+  Widget _buildPaymentMethods() {
+    return ListView.builder(
+        shrinkWrap: true,
+        itemCount: 3,
+        physics: const NeverScrollableScrollPhysics(),
+        itemBuilder: (context, index) {
+          return _buildPaymentMethodItem(index);
+        });
+  }
+
+  Widget _buildPaymentMethodItem(int index) {
+    return Padding(
+      padding: const EdgeInsets.symmetric(vertical: 6.0),
+      child: DecoratedBox(
+        decoration: BoxDecoration(
+          color: AppColors.PRIMARY_COLOR.withOpacity(0.09),
+          borderRadius: BorderRadius.circular(20),
+          border: Border.all(color: AppColors.PRIMARY_COLOR, width: 1.5),
+        ),
+        child: Padding(
+          padding: const EdgeInsets.all(24.0),
+          child: Row(children: [
+            const SubtitleText(
+              text: 'payment',
+              isBold: true,
+            ),
+            const Spacer(),
+            Radio.adaptive(
+                activeColor: AppColors.PRIMARY_COLOR,
+                value: index,
+                groupValue: _selectedPayment,
+                onChanged: (value) {
+                  _selectedPayment = value;
+                })
+          ]),
+        ),
+      ),
+    );
+  }
+
+  Padding _buildSummarySection() {
+    return Padding(
+      padding: const EdgeInsets.all(_KSectionPadding),
+      child: Column(
+        children: [
+          _buildCoupon(),
+          const SizedBox(height: 12.0),
+          _buildSummaryItem(),
+          _buildSummaryItem(),
+          _buildSummaryItem(isDiscount: true),
+          _buildSummaryItem(),
+          const SizedBox(height: 12.0),
+          const Divider(
+            thickness: 3,
+            color: AppColors.ExtraLight,
+          ),
+          const SizedBox(height: 12.0),
+          _buildSummaryItem(),
+        ],
+      ),
+    );
+  }
+
+  DefaultTextFormField _buildCoupon() {
+    return DefaultTextFormField(
+      currentFocusNode: _couponFocusNode,
+      currentController: _couponEditingController,
+      prefixIcon: Padding(
+        padding: const EdgeInsets.all(10.0),
+        child: SvgPicture.asset(
+          'assets/images/dicount_icon.svg',
+        ),
+      ),
+      hint: 'add_your_coupon',
+      suffixIcon: DefaultButton(
+        borderRadius: BorderRadius.circular(8),
+        onPressed: () {},
+        label: 'apply',
+      ),
+    );
+  }
+
+  Widget _buildSummaryItem({bool isDiscount = false}) {
+    return Padding(
+      padding: const EdgeInsets.symmetric(vertical: 4.0),
+      child: Row(
+        children: [
+          SubtitleText(
+            text: 'title',
+            color: isDiscount ? AppColors.SUCCESS_COLOR : null,
+            subtractedSize: -1,
+          ),
+          const Spacer(),
+          const SubtitleText(
+            text: '40 KWD',
+            isBold: true,
+          )
+        ],
+      ),
+    );
+  }
+
+  Widget _buildCheckoutButton() {
+    return Padding(
+      padding: const EdgeInsets.all(24.0).copyWith(top: 10),
+      child: DefaultButton(
+        isExpanded: true,
+        onPressed: () {},
+        label: 'book_now',
       ),
     );
   }
