@@ -41,7 +41,7 @@ class DefaultButton extends StatefulWidget {
   final TextStyle labelStyle;
   final Color? borderColor;
   final AlignmentGeometry alignment;
-  final BorderRadiusGeometry borderRadius;
+  final BorderRadius borderRadius;
   final bool isExpanded;
   final bool keepButtonSizeOnLoading;
   final Widget? icon;
@@ -99,20 +99,8 @@ class _DefaultButtonState extends State<DefaultButton>
         alignment: widget.alignment,
         child: _isBusy
             ? _buildLoading(widget.keepButtonSizeOnLoading)
-            : GestureDetector(
-                onTap: widget.enabled && widget.onPressed != null
-                    ? () {
-                        FocusScope.of(context).unfocus();
-                        final futureOr = widget.onPressed!();
-                        if (futureOr is Future) {
-                          _setButtonToBusy();
-                          futureOr.whenComplete(_setButtonToReady);
-                        }
-                      }
-                    : null,
-                child: Container(
-                  padding: widget.padding,
-                  alignment: widget.isExpanded ? Alignment.center : null,
+            : Material(
+                child: Ink(
                   decoration: BoxDecoration(
                     gradient:
                         widget.color == null ? AppColors.GRADIENT_COLOR : null,
@@ -126,12 +114,30 @@ class _DefaultButtonState extends State<DefaultButton>
                           )
                         : null,
                   ),
-                  child: Row(
-                    mainAxisSize: MainAxisSize.min,
-                    mainAxisAlignment: widget.contentAlignment,
-                    children: iconOnStart
-                        ? buttonContents
-                        : buttonContents.reversed.toList(),
+                  child: InkWell(
+                    onTap: widget.enabled && widget.onPressed != null
+                        ? () {
+                            FocusScope.of(context).unfocus();
+                            final futureOr = widget.onPressed!();
+                            if (futureOr is Future) {
+                              _setButtonToBusy();
+                              futureOr.whenComplete(_setButtonToReady);
+                            }
+                          }
+                        : null,
+                    highlightColor: AppColors.PRIMARY_COLOR,
+                    borderRadius: widget.borderRadius,
+                    child: Container(
+                      padding: widget.padding,
+                      alignment: widget.isExpanded ? Alignment.center : null,
+                      child: Row(
+                        mainAxisSize: MainAxisSize.min,
+                        mainAxisAlignment: widget.contentAlignment,
+                        children: iconOnStart
+                            ? buttonContents
+                            : buttonContents.reversed.toList(),
+                      ),
+                    ),
                   ),
                 ),
               ),

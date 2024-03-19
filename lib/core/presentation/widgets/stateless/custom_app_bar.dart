@@ -13,6 +13,7 @@ class CustomAppBar extends StatefulWidget implements PreferredSizeWidget {
     this.centerTitle,
     this.actions,
     this.elevation,
+    this.leadingPadding,
   });
 
   final bool? centerTitle;
@@ -20,6 +21,7 @@ class CustomAppBar extends StatefulWidget implements PreferredSizeWidget {
 
   final String title;
   final double? elevation;
+  final EdgeInsets? leadingPadding;
 
   @override
   State<CustomAppBar> createState() => _CustomAppBarState();
@@ -48,8 +50,8 @@ class _CustomAppBarState extends State<CustomAppBar> {
         fontWeight: FontWeight.w600,
       ),
       leadingWidth: 75,
-      titleSpacing: 0,
-      
+      titleSpacing: 20,
+
       leading: canPop ? _buildBackButton(context) : null,
       // the following line is to center the title when there is no back button
       centerTitle: widget.centerTitle ?? !canPop,
@@ -64,7 +66,8 @@ class _CustomAppBarState extends State<CustomAppBar> {
       child: InkWell(
         onTap: NavigatorHelper.of(context).pop,
         child: Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 16),
+          padding: widget.leadingPadding ??
+              const EdgeInsets.symmetric(horizontal: 16),
           child: SvgPicture.asset(
             'assets/images/back_icon.svg',
           ),

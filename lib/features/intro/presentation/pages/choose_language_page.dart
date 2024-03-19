@@ -36,12 +36,9 @@ class _ChooseLanguagePageState extends State<ChooseLanguagePage> {
   }
 
   @override
-  void initState() {
-    setState(() {
-      _selectedLocal =
-          getTheDveiceLocal() == 'ar' ? const Locale('ar') : const Locale('en');
-    });
-    super.initState();
+  void didChangeDependencies() {
+    super.didChangeDependencies();
+    _selectedLocal = context.locale;
   }
 
   @override
@@ -156,6 +153,7 @@ class _ChooseLanguagePageState extends State<ChooseLanguagePage> {
   Widget _buildAppBar() {
     return widget.fromSetting
         ? const CustomAppBar(
+            leadingPadding: const EdgeInsets.only(right: 32),
             title: 'lbl_language',
             elevation: 0.0,
           )
@@ -168,7 +166,7 @@ class _ChooseLanguagePageState extends State<ChooseLanguagePage> {
     return DefaultButton(
       label: 'lbl_continue'.tr(),
       onPressed: () {
-        if (widget.fromSetting!) {
+        if (widget.fromSetting) {
           setState(() {
             context.setLocale(_selectedLocal);
           });

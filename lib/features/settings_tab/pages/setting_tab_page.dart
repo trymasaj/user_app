@@ -17,7 +17,7 @@ import 'package:masaj/features/settings_tab/widgets/setting_tile.dart';
 import 'package:masaj/features/wallet/pages/wallet_screen.dart';
 
 // ignore_for_file: must_be_immutable
-class SettingsTabPage extends StatelessWidget {
+class SettingsTabPage extends StatefulWidget {
   const SettingsTabPage({super.key});
 
   static Widget builder(BuildContext context) {
@@ -28,6 +28,11 @@ class SettingsTabPage extends StatelessWidget {
         child: const SettingsTabPage());
   }
 
+  @override
+  State<SettingsTabPage> createState() => _SettingsTabPageState();
+}
+
+class _SettingsTabPageState extends State<SettingsTabPage> {
   @override
   Widget build(BuildContext context) {
     return SafeArea(
@@ -289,8 +294,10 @@ class SettingsTabPage extends StatelessWidget {
                 text: 'lbl_language',
                 imagePath: ImageConstant.imgGroup1000003172,
                 onTap: () {
+                  // we did the set state to update the ui after language change
                   NavigatorHelper.of(context)
-                      .pushNamed(ChooseLanguagePage.routeName, arguments: true);
+                      .pushNamed(ChooseLanguagePage.routeName, arguments: true)
+                      .then((value) => setState(() {}));
                 },
               ),
               SettingTile(

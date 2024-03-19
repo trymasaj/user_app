@@ -85,10 +85,13 @@ class AddressTile extends StatelessWidget {
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         Row(
+                          crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
                             Expanded(
                               child: CustomText(
-                                text: address.addressTitle,
+                                text: address.addressTitle.isEmpty
+                                    ? address.formattedAddress
+                                    : address.addressTitle,
                                 fontSize: 15.fSize,
                                 maxLines: 2,
                                 fontWeight: FontWeight.w500,

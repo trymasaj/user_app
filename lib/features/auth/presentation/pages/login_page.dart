@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:intl_phone_field/phone_number.dart';
 import 'package:masaj/core/app_export.dart';
+import 'package:masaj/core/data/validator/validator.dart';
 import 'package:masaj/core/presentation/colors/app_colors.dart';
 import 'package:masaj/core/presentation/navigation/navigator_helper.dart';
 import 'package:masaj/core/presentation/overlay/show_snack_bar.dart';
@@ -358,6 +359,13 @@ class _LoginPageState extends State<LoginPage> {
       setState(() => _isAutoValidating = true);
       return true;
     }
+    if (_phoneNumberConttroleer.text.isEmpty) {
+      showSnackBar(context,
+          message:
+              Validator().validatePhoneNumber(_phoneNumber?.completeNumber));
+      return true;
+    }
+
     return false;
   }
 

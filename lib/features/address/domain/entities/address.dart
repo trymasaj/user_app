@@ -15,7 +15,7 @@ class Address with EquatableMixin {
   final String block, street, avenue, building, floor, apartment;
   final bool isPrimary;
 
-  String get addressTitle => nickName ?? googleMapAddress ?? street;
+  String get addressTitle => nickName ?? formattedAddress;
 
   Address(
       {required this.nickName,
