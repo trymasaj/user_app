@@ -109,4 +109,8 @@ abstract class ApiEndPoint {
   static const GET_MEMBER = '$BASE_URL/member';
   static const UPDATE_MEMBER = '$BASE_URL/member';
   static const DELETE_MEMBER = '$BASE_URL/member';
+
+  //Payment
+  static const CHECKOUT = '$BASE_URL/member';
+  static const CONFIRM_ORDER = '$BASE_URL/member';
 }
