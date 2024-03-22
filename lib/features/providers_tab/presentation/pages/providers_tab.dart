@@ -34,6 +34,12 @@ class _ProvidersTabState extends State<ProvidersTab>
   @override
   void initState() {
     _scrollController = ScrollController();
+    _scrollController.addListener(() {
+      if (_scrollController.position.pixels ==
+          _scrollController.position.maxScrollExtent) {
+        _cubit.loadMoreTherapists();
+      }
+    });
     _cubit = Injector().providersTabCubit;
     _cubit.getTherapists();
     _searchController = TextEditingController();

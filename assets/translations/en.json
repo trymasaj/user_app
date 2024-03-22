@@ -8,9 +8,12 @@
     "save_and_sign_up": "Save and Sign Up",
     "first_name": "Full Name",
     "lbl_guest": "Guest",
+    "book_service": "Book a service",
     "no_address_selected": "No Address selected",
     "email_address": "Email Address",
     "i_agree": "I agree",
+    "select_member": "Select member",
+    "booking_details": "Booking Details",
     "lbl_edit_address": "Edit Address",
     "focus_area": "Focus Area",
     "front": "Front",
@@ -682,6 +685,7 @@
     "lbl_send": "Send",
     "lbl_services": "Services",
     "lbl_settings": "Settings",
+    
     "lbl_share": "Share",
     "lbl_sign_in": "Sign in",
     "lbl_sign_up": "Sign up",
@@ -875,5 +879,14 @@
     "country_validation": "Please enter a valid country",
     "filter": "Filter",
     "clear": "Clear",
-    "terms_validation": "You need to accept the terms and conditions"
+    "terms_validation": "You need to accept the terms and conditions",
+    "select_date_and_time":"Select date and time",
+    "date_and_time":"Date and time",
+    "therapist":"Therapist",
+    "select_available_therapist":"Select available therapist",
+    "try_new_therapist":"Try new therapist",
+    "piack_a_therapist":"Pick a therapist",
+    "change":"Change",
+    "view_profile":"View profile"
+    
 }

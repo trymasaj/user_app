@@ -18,6 +18,9 @@ import 'package:masaj/features/auth/presentation/pages/forget_password_page.dart
 import 'package:masaj/features/auth/presentation/pages/login_page.dart';
 import 'package:masaj/features/auth/presentation/pages/otp_verification_page.dart';
 import 'package:masaj/features/auth/presentation/pages/sign_up_page.dart';
+import 'package:masaj/features/book_service/presentation/blocs/available_therapist_cubit/available_therapist_cubit.dart';
+import 'package:masaj/features/book_service/presentation/screens/book_servcie_screen.dart';
+import 'package:masaj/features/book_service/presentation/screens/select_therapist_screen.dart';
 import 'package:masaj/features/bookings_tab/presentation/pages/booking_details.dart';
 import 'package:masaj/features/home/presentation/pages/home_page.dart';
 import 'package:masaj/features/intro/presentation/pages/choose_language_page.dart';
@@ -33,6 +36,7 @@ import 'package:masaj/features/providers_tab/data/models/therapist.dart';
 import 'package:masaj/features/providers_tab/presentation/pages/provider_details_screen.dart';
 import 'package:masaj/features/members/presentaion/pages/add_member_screen.dart';
 import 'package:masaj/features/quiz/presentation/pages/quiz_start_page.dart';
+import 'package:masaj/features/services/data/models/service_model.dart';
 import 'package:masaj/features/services/presentation/screens/serice_details_screen.dart';
 import 'package:masaj/features/splash/presentation/pages/splash_page.dart';
 import 'package:masaj/features/wallet/pages/top_up_wallet_screen.dart';
@@ -156,8 +160,15 @@ Route<dynamic>? onGenerateRoute(RouteSettings settings) {
         providersTabCubit: arguments.providersTabCubit,
         homeTherapistsCubit: arguments.homeTherapistsCubit,
       );
+    case BookServiceScreen.routeName:
+      final serviceModel = arguments as ServiceModel;
+      return BookServiceScreen.router(serviceModel: serviceModel);
     case AddMemberScreen.routeName:
       return MaterialPageRoute(builder: (context) => const AddMemberScreen());
+    case SelectTherapist.routeName:
+      final avialbleTherapistCubit = arguments as AvialbleTherapistCubit;
+      return SelectTherapist.route(
+          avialbleTherapistCubit: avialbleTherapistCubit);
 
     default:
   }

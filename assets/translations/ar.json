@@ -10,6 +10,9 @@
   "save_and_sign_up": "حفظ وإنشاء حساب",
   "first_name": "الاسم الكامل",
   "email_address": "البريد الإلكتروني",
+  "book_service": "حجز خدمة",
+  "select_member": "اختر عضو",
+  "booking_details": "تفاصيل الحجز",
   "i_agree": "أوافق",
   "services": "خِدمات",
   "lbl_update_address": "تحديث العنوان",
@@ -764,5 +767,13 @@
   "filter": "تصفية",
   "clear": "مسح",
   "country_validation": "ادخل دولة",
-  "terms_validation": "يجب تآكيد الشروط و الاحكام"
+  "terms_validation": "يجب تآكيد الشروط و الاحكام",
+  "select_date_and_time":"حدد التاريخ والوقت",
+  "date_and_time":"التاريخ والوقت",
+  "therapist": "المعالج",
+  "select_available_therapist": "اختر المعالج المتاح",
+  "try_new_therapist":"جرب معالج جديد",
+  "piack_a_therapist":"اختر معالج",
+  "change":"تغيير",
+  "view_profile":"عرض الملف الشخصي"
 }

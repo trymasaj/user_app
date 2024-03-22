@@ -28,6 +28,8 @@ import 'package:masaj/features/auth/data/datasources/auth_local_datasource.dart'
 import 'package:masaj/features/auth/data/datasources/auth_remote_datasource.dart';
 import 'package:masaj/features/auth/data/repositories/auth_repository.dart';
 import 'package:masaj/features/auth/application/auth_cubit/auth_cubit.dart';
+import 'package:masaj/features/book_service/enums/avalable_therapist_tab_enum.dart';
+import 'package:masaj/features/book_service/presentation/blocs/available_therapist_cubit/available_therapist_cubit.dart';
 import 'package:masaj/features/home/data/datasources/home_local_data_source.dart';
 import 'package:masaj/features/home/data/datasources/home_remote_data_source.dart';
 import 'package:masaj/features/home/data/repositories/home_repository.dart';
@@ -291,6 +293,10 @@ class Injector {
       _flyweightMap['addToAppleWalletService'] ??=
           AddToAppleWalletServiceImpl();
   ProvidersTabCubit get providersTabCubit => ProvidersTabCubit(
+        providersTabRepository: providersTabRepository,
+      );
+  AvialbleTherapistCubit get avialbleTherapistCubit =>
+      AvialbleTherapistCubit(
         providersTabRepository: providersTabRepository,
       );
   HomeTherapistsCubit get homeTherapistsCubit => HomeTherapistsCubit(
