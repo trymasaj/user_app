@@ -10,10 +10,13 @@ import 'package:masaj/core/presentation/widgets/stateless/subtitle_text.dart';
 import 'package:masaj/core/presentation/widgets/stateless/text_fields/default_text_form_field.dart';
 import 'package:masaj/core/presentation/widgets/stateless/title_text.dart';
 import 'package:masaj/core/presentation/widgets/stateless/warning_container.dart';
+import 'package:masaj/features/services/data/models/service_model.dart';
 
 class CheckoutScreen extends StatefulWidget {
-  const CheckoutScreen({super.key});
+  const CheckoutScreen({super.key, required ServiceModel serviceModel})
+      : _serviceModel = serviceModel;
   static const String routeName = '/checkoutScreen';
+  final ServiceModel _serviceModel;
 
   @override
   State<CheckoutScreen> createState() => _CheckoutScreenState();
@@ -110,21 +113,21 @@ class _CheckoutScreenState extends State<CheckoutScreen> {
     return Row(
       children: [
         CustomCachedNetworkImage(
-          imageUrl: '',
+          imageUrl: widget._serviceModel.images.first,
           height: 70.0,
           width: 70.0,
           fit: BoxFit.cover,
           borderRadius: BorderRadius.circular(12.0),
         ),
         const SizedBox(width: _KSubVerticalSpace),
-        const Column(
+        Column(
           children: [
             SubtitleText(
-              text: 'dummy service',
+              text: widget._serviceModel.title ?? '',
               isBold: true,
             ),
-            SizedBox(height: 5.0),
-            SubtitleText(text: 'dummy service'),
+            const SizedBox(height: 5.0),
+            SubtitleText(text: widget._serviceModel.description ?? ''),
           ],
         )
       ],
@@ -140,9 +143,9 @@ class _CheckoutScreenState extends State<CheckoutScreen> {
           const TitleText(text: 'details'),
           const SizedBox(height: _KSubVerticalSpace),
           _buildDetailsRow(title: 'date:', content: 'date_dummy'),
-          _buildDetailsRow(title: 'date:', content: 'date_dummy'),
-          _buildDetailsRow(title: 'date:', content: 'date_dummy'),
-          _buildDetailsRow(title: 'date:', content: 'date_dummy'),
+          _buildDetailsRow(title: 'time:', content: 'date_dummy'),
+          _buildDetailsRow(title: 'name:', content: 'date_dummy'),
+          _buildDetailsRow(title: 'phone:', content: 'date_dummy'),
         ],
       ),
     );

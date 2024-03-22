@@ -31,6 +31,7 @@ import 'package:masaj/features/payment/presentaion/pages/checkout_screen.dart';
 import 'package:masaj/features/providers_tab/presentation/pages/provider_details_screen.dart';
 import 'package:masaj/features/members/presentaion/pages/add_member_screen.dart';
 import 'package:masaj/features/quiz/presentation/pages/quiz_start_page.dart';
+import 'package:masaj/features/services/data/models/service_model.dart';
 import 'package:masaj/features/services/presentation/screens/serice_details_screen.dart';
 import 'package:masaj/features/splash/presentation/pages/splash_page.dart';
 import 'package:masaj/features/wallet/pages/top_up_wallet_screen.dart';
@@ -157,7 +158,19 @@ Route<dynamic>? onGenerateRoute(RouteSettings settings) {
     case AddMemberScreen.routeName:
       return MaterialPageRoute(builder: (context) => const AddMemberScreen());
     case CheckoutScreen.routeName:
-      return MaterialPageRoute(builder: (context) => const CheckoutScreen());
+      return MaterialPageRoute(
+          builder: (context) => const CheckoutScreen(
+                serviceModel: ServiceModel(
+                    serviceId: 1,
+                    serviceCategoryId: 1,
+                    countryId: 1,
+                    title: 'example title',
+                    description: 'example description',
+                    isActive: true,
+                    allowFocusAreas: true,
+                    sortKey: 3,
+                    startingPrice: 200.0),
+              ));
 
     default:
   }
