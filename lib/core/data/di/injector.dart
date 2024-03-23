@@ -38,6 +38,9 @@ import 'package:masaj/features/intro/data/datasources/intro_local_data_source.da
 import 'package:masaj/features/intro/data/repositories/intro_repository.dart';
 import 'package:masaj/features/intro/presentation/blocs/choose_language_cubit/choose_language_cubit.dart';
 import 'package:masaj/features/intro/presentation/blocs/guide_page_cubit/guide_page_cubit.dart';
+import 'package:masaj/features/payment/data/datasource/payment_datasource.dart';
+import 'package:masaj/features/payment/data/repo/payment_repo.dart';
+import 'package:masaj/features/payment/presentaion/bloc/payment_cubit.dart';
 import 'package:masaj/features/providers_tab/data/datasources/providers_tab_remote_data_source.dart';
 import 'package:masaj/features/providers_tab/data/repositories/providers_tab_repository.dart';
 import 'package:masaj/features/providers_tab/presentation/cubits/home_therapists_cubit/home_therapists_cubit.dart';
@@ -212,6 +215,18 @@ class Injector {
   FavoritesRemoteDataSource get favoritesRemoteDataSource =>
       _flyweightMap['favoritesRemoteDataSource'] ??=
           FavoritesRemoteDataSourceImpl(networkService);
+  //===================[Payment_CUBIT]===================
+
+  PaymentCubit get paymentCubit =>
+      PaymentCubit(paymentRepository: paymentRepository);
+
+  PaymentRepository get paymentRepository =>
+      _flyweightMap['PaymentRepository'] ??=
+          PaymentRepositoryImp(paymentDataSource: paymentDatasource);
+
+  PaymentDataSource get paymentDatasource =>
+      _flyweightMap['PaymentDataSource'] ??=
+          PaymentDataSourceImpl(networkService: networkService);
 
   //===================[COUPONS_CUBIT]===================
 

@@ -34,7 +34,7 @@ class PayMobPaymentService implements PaymentService {
 
   Future<String> getPaymentSessionUrl(PaymentMethodEnum paymentMethod, int id,
       {Map<String, dynamic>? params, String? urlPath}) {
-    final url = urlPath ?? ApiEndPoint.CONFIRM_ORDER;
+    final url = urlPath ?? ApiEndPoint.CHECKOUT;
 
     final param = params ??
         {

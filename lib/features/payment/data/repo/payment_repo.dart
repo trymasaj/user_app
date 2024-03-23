@@ -1,33 +1,17 @@
-import 'package:masaj/features/members/data/datasource/members_datasource.dart';
-import 'package:masaj/features/members/data/model/member_model.dart';
+import 'package:masaj/features/payment/data/datasource/payment_datasource.dart';
+import 'package:masaj/features/payment/data/model/payment_method_model.dart';
 
 abstract class PaymentRepository {
-  Future<void> addMember(MemberModel member);
-  Future<List<MemberModel>> getMembers();
-  Future<MemberModel> getMember(int id);
-  Future<void> updateMember(MemberModel member);
-  Future<void> deleteMember(int id);
+  Future<List<PaymentMethodModel>> getPaymentMethods();
 }
 
 class PaymentRepositoryImp extends PaymentRepository {
-  final MembersDataSource _membersDataSource;
+  final PaymentDataSource _paymentDataSource;
 
-  PaymentRepositoryImp({required MembersDataSource membersDataSource})
-      : _membersDataSource = membersDataSource;
-  @override
-  Future<void> addMember(MemberModel member) =>
-      _membersDataSource.addMember(member);
+  PaymentRepositoryImp({required PaymentDataSource paymentDataSource})
+      : _paymentDataSource = paymentDataSource;
 
   @override
-  Future<void> deleteMember(int id) => _membersDataSource.deleteMember(id);
-
-  @override
-  Future<MemberModel> getMember(int id) => _membersDataSource.getMember(id);
-
-  @override
-  Future<List<MemberModel>> getMembers() => _membersDataSource.getMembers();
-
-  @override
-  Future<void> updateMember(MemberModel member) =>
-      _membersDataSource.updateMember(member);
+  Future<List<PaymentMethodModel>> getPaymentMethods() =>
+      _paymentDataSource.getPaymentMethods();
 }

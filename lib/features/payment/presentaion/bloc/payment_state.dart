@@ -14,11 +14,14 @@ extension PaymentStateX on PaymentState {
 class PaymentState {
   final PaymentStateStatus status;
   final String? errorMessage;
+  final List<PaymentMethodModel>? methods;
+  final PaymentMethodModel? selectedMethod;
 
-  const PaymentState({
-    this.status = PaymentStateStatus.initial,
-    this.errorMessage,
-  });
+  const PaymentState(
+      {this.status = PaymentStateStatus.initial,
+      this.errorMessage,
+      this.methods,
+      this.selectedMethod});
 
   @override
   bool operator ==(Object other) {
@@ -26,20 +29,28 @@ class PaymentState {
 
     return other.runtimeType == runtimeType &&
         (other as PaymentState).status == status &&
-        other.errorMessage == errorMessage;
+        other.errorMessage == errorMessage &&
+        listEquals(other.methods, methods) &&
+        other.selectedMethod == selectedMethod;
   }
 
   @override
-  int get hashCode => status.hashCode ^ errorMessage.hashCode;
+  int get hashCode =>
+      status.hashCode ^
+      errorMessage.hashCode ^
+      Object.hashAll(methods ?? []) ^
+      selectedMethod.hashCode;
 
   PaymentState copyWith(
       {PaymentStateStatus? status,
       String? errorMessage,
-      MemberModel? selectedMember,
-      List<MemberModel>? members}) {
+      PaymentMethodModel? selectedMethod,
+      List<PaymentMethodModel>? methods}) {
     return PaymentState(
       status: status ?? this.status,
       errorMessage: errorMessage ?? this.errorMessage,
+      selectedMethod: selectedMethod ?? this.selectedMethod,
+      methods: methods ?? this.methods,
     );
   }
 }

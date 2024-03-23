@@ -3,7 +3,7 @@ import 'package:collection/collection.dart';
 
 import 'package:masaj/core/domain/enums/gender.dart';
 
-class PaymentModel {
+class CheckOutModel {
   int? id;
   int? customerId;
   String? name;
@@ -13,7 +13,7 @@ class PaymentModel {
   String? image;
   bool? isSelected = false;
 
-  PaymentModel(
+  CheckOutModel(
       {this.id,
       this.customerId,
       this.name,
@@ -25,10 +25,10 @@ class PaymentModel {
 
   String toJson() => json.encode(toMap());
 
-  factory PaymentModel.fromJson(String source) =>
-      PaymentModel.fromMap(json.decode(source) as Map<String, dynamic>);
+  factory CheckOutModel.fromJson(String source) =>
+      CheckOutModel.fromMap(json.decode(source) as Map<String, dynamic>);
 
-  PaymentModel.fromMap(Map<String, dynamic> json) {
+  CheckOutModel.fromMap(Map<String, dynamic> json) {
     id = json['id'];
     customerId = json['customerId'];
     name = json['name'];
@@ -55,7 +55,7 @@ class PaymentModel {
       'MemberModel(id: $id , name: $name , image: $image , phone: $phone , gender: $gender, countryCode: $countryCode , customerId: $customerId)';
 
   @override
-  bool operator ==(covariant PaymentModel other) {
+  bool operator ==(covariant CheckOutModel other) {
     if (identical(this, other)) return true;
 
     return other.id == id &&
