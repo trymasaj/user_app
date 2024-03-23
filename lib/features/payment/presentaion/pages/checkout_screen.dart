@@ -4,6 +4,7 @@ import 'package:flutter_svg/flutter_svg.dart';
 import 'package:masaj/core/app_export.dart';
 import 'package:masaj/core/data/di/injector.dart';
 import 'package:masaj/core/presentation/colors/app_colors.dart';
+import 'package:masaj/core/presentation/navigation/navigator_helper.dart';
 import 'package:masaj/core/presentation/widgets/stateless/custom_app_bar.dart';
 import 'package:masaj/core/presentation/widgets/stateless/custom_app_page.dart';
 import 'package:masaj/core/presentation/widgets/stateless/custom_cached_network_image.dart';
@@ -16,6 +17,7 @@ import 'package:masaj/core/presentation/widgets/stateless/title_text.dart';
 import 'package:masaj/core/presentation/widgets/stateless/warning_container.dart';
 import 'package:masaj/features/payment/data/model/payment_method_model.dart';
 import 'package:masaj/features/payment/presentaion/bloc/payment_cubit.dart';
+import 'package:masaj/features/payment/presentaion/pages/success_payment.dart';
 import 'package:masaj/features/services/data/models/service_model.dart';
 
 class CheckoutScreen extends StatefulWidget {
@@ -384,7 +386,10 @@ class _CheckoutScreenState extends State<CheckoutScreen> {
       padding: const EdgeInsets.all(24.0).copyWith(top: 10),
       child: DefaultButton(
         isExpanded: true,
-        onPressed: () {},
+        onPressed: () {
+          NavigatorHelper.of(context).pushReplacement(
+              MaterialPageRoute(builder: (_) => SuccessPaymentPage()));
+        },
         label: 'book_now',
       ),
     );

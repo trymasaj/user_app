@@ -14,11 +14,12 @@ class CustomAppBar extends StatefulWidget implements PreferredSizeWidget {
     this.actions,
     this.elevation,
     this.leadingPadding,
+    this.showBackButton = true,
   });
 
   final bool? centerTitle;
   final List<Widget>? actions;
-
+  final bool showBackButton;
   final String title;
   final double? elevation;
   final EdgeInsets? leadingPadding;
@@ -52,7 +53,13 @@ class _CustomAppBarState extends State<CustomAppBar> {
       leadingWidth: 75,
       titleSpacing: 20,
 
-      leading: canPop ? _buildBackButton(context) : null,
+      leading: widget.showBackButton
+          ? canPop
+              ? _buildBackButton(context)
+              : null
+          : null,
+      automaticallyImplyLeading: widget.showBackButton,
+
       // the following line is to center the title when there is no back button
       centerTitle: widget.centerTitle ?? !canPop,
       actions: widget.actions,
