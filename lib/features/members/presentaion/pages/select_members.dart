@@ -11,11 +11,14 @@ import 'package:masaj/core/presentation/widgets/stateless/warning_container.dart
 import 'package:masaj/features/account/widgets/member_tile.dart';
 import 'package:masaj/core/presentation/widgets/stateless/custom_app_bar.dart';
 import 'package:masaj/features/account/pages/manage_members_screen.dart';
+import 'package:masaj/features/book_service/presentation/screens/book_servcie_screen.dart';
 import 'package:masaj/features/members/data/model/member_model.dart';
 import 'package:masaj/features/members/presentaion/bloc/members_cubit.dart';
+import 'package:masaj/features/services/data/models/service_model.dart';
 
 class SelectMembersScreen extends StatefulWidget {
-  const SelectMembersScreen({super.key});
+  const SelectMembersScreen({super.key, required this.serviceModel});
+  final ServiceModel serviceModel;
 
   @override
   State<SelectMembersScreen> createState() => _SelectMembersScreenState();
@@ -54,7 +57,13 @@ class _SelectMembersScreenState extends State<SelectMembersScreen> {
           DefaultButton(
             margin: const EdgeInsets.symmetric(vertical: 20),
             isExpanded: true,
-            onPressed: () {},
+            onPressed: () {
+              if (selectedMembers.isEmpty) {
+                return showSnackBar(context, message: 'select_member');
+              }
+              Navigator.of(context).pushNamed(BookServiceScreen.routeName,
+                  arguments: widget.serviceModel);
+            },
             label: 'continue',
           ),
           SizedBox(height: bottomPadding)

@@ -2,14 +2,15 @@ import 'package:flutter/material.dart';
 import 'package:masaj/core/app_export.dart';
 
 class CustomBottomSheet extends StatelessWidget {
-  const CustomBottomSheet({super.key, required this.child,  this.height});
+  const CustomBottomSheet({super.key, required this.child,  this.height,this.padding});
   final Widget child;
   final double? height;
+  final EdgeInsetsGeometry? padding;
   @override
   Widget build(BuildContext context) {
     return Container(
         height: height,
-        padding: EdgeInsets.symmetric(
+        padding:padding?? EdgeInsets.symmetric(
           horizontal: 20.w,
         ),
         decoration: const BoxDecoration(

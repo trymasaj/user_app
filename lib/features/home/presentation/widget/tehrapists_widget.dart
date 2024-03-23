@@ -1,4 +1,5 @@
 import 'package:easy_localization/easy_localization.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:masaj/core/app_export.dart';
@@ -9,6 +10,7 @@ import 'package:masaj/core/presentation/overlay/show_snack_bar.dart';
 import 'package:masaj/core/presentation/widgets/stateless/custom_cached_network_image.dart';
 import 'package:masaj/core/presentation/widgets/stateless/custom_loading.dart';
 import 'package:masaj/core/presentation/widgets/stateless/custom_text.dart';
+import 'package:masaj/core/presentation/widgets/stateless/default_button.dart';
 import 'package:masaj/features/auth/application/auth_cubit/auth_cubit.dart';
 import 'package:masaj/features/home/presentation/pages/home_tab.dart';
 import 'package:masaj/features/providers_tab/data/models/therapist.dart';
@@ -106,7 +108,6 @@ class TherapistWidget extends StatelessWidget {
   Widget build(BuildContext context) {
     return GestureDetector(
       onTap: () {
-    
         if (therapist != null)
           NavigatorHelper.of(context).pushNamed(ProviderDetailsScreen.routeName,
               arguments: ProviderDetailsScreenNavArguements(
@@ -174,7 +175,9 @@ class TherapistWidget extends StatelessWidget {
                     Row(
                       children: [
                         // for loop
-                        for (var i = 0; i < (therapist?.rank ?? 5); i++)
+                        for (var i = 0;
+                            i < (therapist?.rank?.toInt() ?? 5);
+                            i++)
                           const Icon(Icons.star,
                               color: Color(0xffFFBA49), size: 15)
                       ],
@@ -194,6 +197,161 @@ class TherapistWidget extends StatelessWidget {
                 isFav:
                     therapist == null ? false : therapist!.isFavourite ?? false,
               ),
+          ],
+        ),
+      ),
+    );
+  }
+}
+
+class AvailableTherapistWidget extends StatelessWidget {
+  const AvailableTherapistWidget({
+    super.key,
+    this.width,
+    this.padding,
+    this.margin,
+    this.therapist,
+  });
+  final double? width;
+  final EdgeInsets? padding;
+  final EdgeInsets? margin;
+  final Therapist? therapist;
+
+  @override
+  Widget build(BuildContext context) {
+    return GestureDetector(
+      onTap: () {
+        if (therapist != null)
+          NavigatorHelper.of(context).pushNamed(ProviderDetailsScreen.routeName,
+              arguments: ProviderDetailsScreenNavArguements(
+                  therapist: therapist!,
+                  homeTherapistsCubit: context.read<HomeTherapistsCubit?>(),
+                  // ProvidersTabCubit is nullable
+                  providersTabCubit: context.read<ProvidersTabCubit?>()));
+      },
+      child: Container(
+        margin: margin ?? const EdgeInsets.only(),
+        width: width ?? 327.w,
+        padding: padding ?? const EdgeInsets.all(10),
+        decoration: BoxDecoration(
+          borderRadius: BorderRadius.circular(12),
+          border: Border.all(
+            color: Color(0xffD9D9D9),
+            width: 1,
+          ),
+        ),
+        child: Column(
+          children: [
+            Row(
+              crossAxisAlignment: CrossAxisAlignment.center,
+              children: [
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.start,
+                  children: [
+                    // image
+                    Container(
+                      height: 62.h,
+                      width: 62.w,
+                      decoration: BoxDecoration(
+                        color: AppColors.GREY_LIGHT_COLOR_2,
+                        borderRadius: BorderRadius.circular(12),
+                        image: DecorationImage(
+                          image: CustomCachedNetworkImageProvider(
+                            therapist?.profileImage ?? '',
+                          ),
+                          fit: BoxFit.cover,
+                        ),
+                      ),
+                    ),
+                    const SizedBox(
+                      width: 10,
+                    ),
+                    Column(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        CustomText(
+                          text: therapist?.fullName ?? 'Therapist Name',
+                          fontSize: 12,
+                          fontWeight: FontWeight.w500,
+                          color: AppColors.FONT_COLOR,
+                        ),
+                        const SizedBox(
+                          height: 3,
+                        ),
+                        // start from
+                        CustomText(
+                            text: therapist?.title ?? 'Therapist Title',
+                            fontSize: 10,
+                            fontWeight: FontWeight.w400,
+                            color: AppColors.PlaceholderColor),
+
+                        // rating
+                        Row(
+                          children: [
+                            // for loop
+                            const Icon(Icons.star,
+                                color: Color(0xffFFBA49), size: 15),
+                            Text(
+                              therapist?.rank?.toDouble().toString() ?? '0',
+                            ),
+                            SizedBox(
+                              width: 5.w,
+                            ),
+                            Text('Available',
+                                style: TextStyle(
+                                  color: AppColors.SUCCESS_COLOR,
+                                  fontSize: 10,
+                                ))
+                          ],
+                        ),
+                      ],
+                    ),
+                  ],
+                ),
+              ],
+            ),
+            SizedBox(
+              height: 10.h,
+            ),
+            Row(
+              children: [
+                Flexible(
+                    fit: FlexFit.tight,
+                    flex: 1,
+                    child: DefaultButton(
+                        height: 40.h,
+                        padding: const EdgeInsets.all(0),
+                        color: Colors.white,
+                        borderColor: AppColors.PRIMARY_COLOR,
+                        borderWidth: 2,
+                        textColor: AppColors.PRIMARY_COLOR,
+                        labelStyle: TextStyle(
+                          fontFamily: 'Poppins',
+                          fontSize: 10,
+                          fontWeight: FontWeight.w500,
+                        ),
+                        label: 'view_profile',
+                        onPressed: () {})),
+                SizedBox(
+                  width: 5.w,
+                ),
+                Flexible(
+                    fit: FlexFit.tight,
+                    flex: 1,
+                    child: DefaultButton(
+                        height: 40.h,
+                        padding: const EdgeInsets.all(0),
+                        labelStyle: TextStyle(
+                          fontFamily: 'Poppins',
+                          fontSize: 10,
+                          color: Colors.white,
+                          fontWeight: FontWeight.w500,
+                        ),
+                        label: 'lbl_select',
+                        onPressed: () {}))
+              ],
+            )
           ],
         ),
       ),

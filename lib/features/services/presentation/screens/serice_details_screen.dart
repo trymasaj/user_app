@@ -202,7 +202,9 @@ class ServiceDetailsScreenState extends State<ServiceDetailsScreen> {
                     Navigator.push(
                         context,
                         MaterialPageRoute(
-                            builder: (context) => const SelectMembersScreen()));
+                            builder: (context) => SelectMembersScreen(
+                                  serviceModel: state.service!,
+                                )));
                   },
                 ),
               ],

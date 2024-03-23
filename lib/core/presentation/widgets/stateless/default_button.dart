@@ -32,8 +32,9 @@ class DefaultButton extends StatefulWidget {
       this.initLoadingState = false,
       this.color,
       this.loadingSize,
-      this.textColor,
-      this.height});
+      this.height,
+      this.width,
+      this.textColor});
 
   final FutureCallback? onPressed;
   final String? label;
@@ -44,6 +45,8 @@ class DefaultButton extends StatefulWidget {
   final AlignmentGeometry alignment;
   final BorderRadius borderRadius;
   final bool isExpanded;
+  final double? height;
+  final double? width;
   final bool keepButtonSizeOnLoading;
   final Widget? icon;
   final DefaultButtonIconLocation iconLocation;
@@ -56,7 +59,6 @@ class DefaultButton extends StatefulWidget {
   final double? loadingSize;
   final Color? color;
   final Color? textColor;
-  final double? height;
 
   @override
   _DefaultButtonState createState() => _DefaultButtonState();
@@ -93,7 +95,7 @@ class _DefaultButtonState extends State<DefaultButton>
         ),
     ];
     return Container(
-      height: widget.height ?? 56,
+      height: 56,
       margin: widget.margin,
       child: AnimatedSize(
         duration: const Duration(milliseconds: 300),

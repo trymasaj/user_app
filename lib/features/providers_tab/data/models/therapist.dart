@@ -19,7 +19,7 @@ class Therapist {
   final double? commission;
   final bool? homePageFeatured;
   final int? homePageSortKey;
-  final int? rank;
+  final double? rank;
   final bool? isActive;
   final bool? isFavourite;
   final List<TherapistService>? services;
@@ -44,7 +44,7 @@ class Therapist {
     double? commission,
     bool? homePageFeatured,
     int? homePageSortKey,
-    int? rank,
+    double? rank,
     bool? isActive,
     bool? isFavourite,
     List<TherapistService>? services,
@@ -124,7 +124,7 @@ class Therapist {
       commission: json['commission'],
       homePageFeatured: json['homePageFeatured'],
       homePageSortKey: json['homePageSortKey'],
-      rank: json['rank'],
+      rank: (json['rank'] as num).toDouble(),
       isActive: json['isActive'],
       isFavourite: json['isFavourite'],
       services: json['services'] == null
