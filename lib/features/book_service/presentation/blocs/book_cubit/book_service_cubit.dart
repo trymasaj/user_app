@@ -1,103 +1,144 @@
+import 'dart:developer';
+
 import 'package:flutter/foundation.dart';
 import 'package:masaj/core/application/controllers/base_cubit.dart';
-
-import 'package:masaj/features/providers_tab/data/models/provider_query_model.dart';
+import 'package:masaj/core/domain/exceptions/redundant_request_exception.dart';
+import 'package:masaj/features/book_service/data/repositories/booking_repository.dart';
 import 'package:masaj/features/providers_tab/data/models/therapist.dart';
-import 'package:masaj/features/providers_tab/data/repositories/providers_tab_repository.dart';
 import 'package:masaj/features/providers_tab/enums/taps_enum.dart';
+import 'package:masaj/features/services/data/models/service_model.dart';
+
+import '../../../data/models/booking_model/booking_model.dart';
 
 part 'book_service_state.dart';
 
 class BookServiceCubit extends BaseCubit<BookServiceState> {
   BookServiceCubit({
-    required TherapistsRepository providersTabRepository,
-  })  : _providersTabRepository = providersTabRepository,
+    required BookingRepository bookingRepository,
+  })  : _bookingRepository = bookingRepository,
         super(const BookServiceState(status: BookServiceStatus.initial));
 
-  final TherapistsRepository _providersTabRepository;
+  final BookingRepository _bookingRepository;
 
-  // select tab
-  Future<void> selectTab(TherapistTabsEnum tab) async {
-    emit(state.copyWith(selectedTab: tab));
-    await getTherapists();
+  Future<void> getLatestBookingId() async {
+    emit(state.copyWith(status: BookServiceStatus.loading));
+    try {
+      await _bookingRepository.getBookingLatestId();
+      emit(state.copyWith(status: BookServiceStatus.loaded));
+    } on RedundantRequestException catch (e) {
+      log(e.toString());
+    } catch (e) {
+      emit(state.copyWith(
+          status: BookServiceStatus.error, errorMessage: e.toString()));
+    }
   }
 
-  void setSelectedTherapist(Therapist therapist) {
-    emit(state.copyWith(selectedTherapist: therapist));
-  }
-
-  Therapist? get firstTherapist {
-    return state.therapists.firstOrNull;
-  }
-
-  // get therapists
-  Future<void> getTherapists({
-    bool refresh = false,
-  }) async {
-    if (state.isLoading) return;
-    if (refresh) {
-      emit(state.copyWith(status: BookServiceStatus.refreshing));
-    } else {
+  Future<void> addBookingService(ServiceBookModel? serviceBookModel) async {
+    if (serviceBookModel == null) return;
+    try {
       emit(state.copyWith(status: BookServiceStatus.loading));
-    }
 
-    try {
-      final therapists = await _providersTabRepository.getTherapistsByTabs(
-        ProvideQueryModel(
-          tabFilter: state.selectedTab,
-          page: 1,
-          pageSize: state.pageSize,
-          searchKeyword: state.searchKeyword,
-        ),
-      );
-      emit(state.copyWith(
-        status: BookServiceStatus.loaded,
-        therapists: therapists.data,
-        page: 1,
-        searchKeyword: state.searchKeyword,
-      ));
+      await _bookingRepository.addBookingService(serviceBookModel);
+      emit(state.copyWith(status: BookServiceStatus.loaded));
+    } on RedundantRequestException catch (e) {
+      log(e.toString());
     } catch (e) {
       emit(state.copyWith(
-        status: BookServiceStatus.error,
-        errorMessage: e.toString(),
-      ));
-    }
-    if (firstTherapist != null) setSelectedTherapist(firstTherapist!);
-  }
-
-  // load more therapists
-  Future<void> loadMoreTherapists() async {
-    if (state.isLoading) return;
-    if (state.therapists.length < (state.pageSize ?? 10)) return;
-    emit(state.copyWith(status: BookServiceStatus.isLoadingMore));
-    try {
-      final therapists = await _providersTabRepository.getTherapistsByTabs(
-        ProvideQueryModel(
-          tabFilter: state.selectedTab,
-          page: state.page! + 1,
-          pageSize: state.pageSize,
-        ),
-      );
-      emit(state.copyWith(
-        status: BookServiceStatus.loaded,
-        therapists: [...state.therapists, ...(therapists.data ?? [])],
-        page: state.page! + 1,
-      ));
-    } catch (e) {
-      emit(state.copyWith(
-        status: BookServiceStatus.error,
-        errorMessage: e.toString(),
-      ));
+          status: BookServiceStatus.error, errorMessage: e.toString()));
     }
   }
 
-  Future<void> updateTherapist(Therapist therapist) async {
-    final index = state.therapists
-        .indexWhere((element) => element.therapistId == therapist.therapistId);
-    if (index != -1) {
-      final therapists = state.therapists;
-      therapists[index] = therapist;
-      emit(state.copyWith(therapists: [...therapists]));
+  Future<void> addBookingMembers(List<int>? members) async {
+    if (members == null) return;
+
+    try {
+      emit(state.copyWith(status: BookServiceStatus.loading));
+      await _bookingRepository.addBookingMembers(members);
+      emit(state.copyWith(status: BookServiceStatus.loaded));
+    } on RedundantRequestException catch (e) {
+      log(e.toString());
+    } catch (e) {
+      emit(state.copyWith(
+          status: BookServiceStatus.error, errorMessage: e.toString()));
+    }
+  }
+
+  Future<void> addBookingAddress(int? addressId) async {
+    if (addressId == null) return;
+
+    emit(state.copyWith(status: BookServiceStatus.loading));
+    try {
+      await _bookingRepository.addBookingAddress(addressId);
+      emit(state.copyWith(status: BookServiceStatus.loaded));
+    } on RedundantRequestException catch (e) {
+      log(e.toString());
+    } catch (e) {
+      emit(state.copyWith(
+          status: BookServiceStatus.error, errorMessage: e.toString()));
+    }
+  }
+
+  Future<void> addBookingTherapist(
+      {int? therapistId, DateTime? availableTime}) async {
+    if (therapistId == null || availableTime == null) return;
+
+    emit(state.copyWith(status: BookServiceStatus.loading));
+    try {
+      await _bookingRepository.addBookingTherapist(
+        therapistId: therapistId,
+        availableTime: availableTime,
+      );
+      emit(state.copyWith(status: BookServiceStatus.loaded));
+    } on RedundantRequestException catch (e) {
+      log(e.toString());
+    } catch (e) {
+      emit(state.copyWith(
+          status: BookServiceStatus.error, errorMessage: e.toString()));
+    }
+  }
+
+  Future<void> addBookingVoucher(int? voucherId) async {
+    if (voucherId == null) return;
+
+    emit(state.copyWith(status: BookServiceStatus.loading));
+    try {
+      await _bookingRepository.addBookingVoucher(voucherId);
+      emit(state.copyWith(status: BookServiceStatus.loaded));
+    } on RedundantRequestException catch (e) {
+      log(e.toString());
+    } catch (e) {
+      emit(state.copyWith(
+          status: BookServiceStatus.error, errorMessage: e.toString()));
+    }
+  }
+
+  Future<void> deleteBookingVoucher(int? voucherId) async {
+    if (voucherId == null) return;
+
+    emit(state.copyWith(status: BookServiceStatus.loading));
+    try {
+      await _bookingRepository.deleteBookingVoucher(voucherId);
+      emit(state.copyWith(status: BookServiceStatus.loaded));
+    } on RedundantRequestException catch (e) {
+      log(e.toString());
+    } catch (e) {
+      emit(state.copyWith(
+          status: BookServiceStatus.error, errorMessage: e.toString()));
+    }
+  }
+
+  Future<void> getBookingDetails(int? bookingId) async {
+    if (bookingId == null) return;
+    emit(state.copyWith(status: BookServiceStatus.loading));
+    try {
+      final booking = await _bookingRepository.getBookingDetails(bookingId);
+      emit(state.copyWith(
+          status: BookServiceStatus.loaded, bookingModel: booking));
+    } on RedundantRequestException catch (e) {
+      log(e.toString());
+    } catch (e) {
+      emit(state.copyWith(
+          status: BookServiceStatus.error, errorMessage: e.toString()));
     }
   }
 }

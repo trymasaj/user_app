@@ -30,7 +30,7 @@ class BookServiceState {
   final TherapistTabsEnum selectedTab;
   final int? page;
   final int? pageSize;
-  final String? searchKeyword;
+  final BookingModel? bookingModel;
   List<Therapist> get therapistsList => therapists
       .where((element) => selectedTab == TherapistTabsEnum.favorites
           ? element.isFavourite ?? false
@@ -45,7 +45,7 @@ class BookServiceState {
     this.page,
     this.selectedTherapist,
     this.pageSize = 10,
-    this.searchKeyword,
+    this.bookingModel,
   });
 
   @override
@@ -58,9 +58,9 @@ class BookServiceState {
         other.therapists == therapists &&
         other.selectedTherapist == selectedTherapist &&
         other.selectedTab == selectedTab &&
-        other.searchKeyword == searchKeyword &&
         other.page == page &&
-        other.pageSize == pageSize;
+        other.pageSize == pageSize &&
+        other.bookingModel == bookingModel;
   }
 
   @override
@@ -72,7 +72,7 @@ class BookServiceState {
       page.hashCode ^
       selectedTherapist.hashCode ^
       pageSize.hashCode ^
-      searchKeyword.hashCode;
+      bookingModel.hashCode;
 
   BookServiceState copyWith({
     BookServiceStatus? status,
@@ -81,18 +81,18 @@ class BookServiceState {
     TherapistTabsEnum? selectedTab,
     int? page,
     int? pageSize,
-    String? searchKeyword,
     bool clearSeach = false,
     Therapist? selectedTherapist,
+    BookingModel? bookingModel,
   }) {
     return BookServiceState(
         status: status ?? this.status,
-        searchKeyword: clearSeach ? null : searchKeyword ?? this.searchKeyword,
         errorMessage: errorMessage ?? this.errorMessage,
         therapists: therapists ?? this.therapists,
         selectedTab: selectedTab ?? this.selectedTab,
         page: page ?? this.page,
         selectedTherapist: selectedTherapist ?? this.selectedTherapist,
-        pageSize: pageSize ?? this.pageSize);
+        pageSize: pageSize ?? this.pageSize,
+        bookingModel: bookingModel ?? this.bookingModel);
   }
 }
