@@ -30,6 +30,7 @@ import 'package:masaj/features/legal/pages/privacy_policy_screen.dart';
 import 'package:masaj/features/legal/pages/reschedule_policy_screen.dart';
 import 'package:masaj/features/legal/pages/terms_and_condititons_screen.dart';
 import 'package:masaj/features/medical_form/pages/medical_form_screen.dart';
+import 'package:masaj/features/payment/data/model/payment_model.dart';
 import 'package:masaj/features/payment/presentaion/pages/checkout_screen.dart';
 import 'package:masaj/features/providers_tab/presentation/pages/provider_details_screen.dart';
 import 'package:masaj/features/members/presentaion/pages/add_member_screen.dart';
@@ -168,19 +169,10 @@ Route<dynamic>? onGenerateRoute(RouteSettings settings) {
       return SelectTherapist.route(
           avialbleTherapistCubit: avialbleTherapistCubit);
     case CheckoutScreen.routeName:
-      return MaterialPageRoute(
-          builder: (context) => const CheckoutScreen(
-                serviceModel: ServiceModel(
-                    serviceId: 1,
-                    serviceCategoryId: 1,
-                    countryId: 1,
-                    title: 'example title',
-                    description: 'example description',
-                    isActive: true,
-                    allowFocusAreas: true,
-                    sortKey: 3,
-                    startingPrice: 200.0),
-              ));
+      return MaterialPageRoute(builder: (context) {
+        final CheckOutModel checkoutModel = arguments as CheckOutModel;
+        return CheckoutScreen(checkOutModel: checkoutModel);
+      });
 
     default:
   }

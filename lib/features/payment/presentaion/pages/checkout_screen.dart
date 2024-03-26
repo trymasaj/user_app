@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_svg/flutter_svg.dart';
@@ -16,15 +18,16 @@ import 'package:masaj/core/presentation/widgets/stateless/text_fields/default_te
 import 'package:masaj/core/presentation/widgets/stateless/title_text.dart';
 import 'package:masaj/core/presentation/widgets/stateless/warning_container.dart';
 import 'package:masaj/features/payment/data/model/payment_method_model.dart';
+import 'package:masaj/features/payment/data/model/payment_model.dart';
 import 'package:masaj/features/payment/presentaion/bloc/payment_cubit.dart';
 import 'package:masaj/features/payment/presentaion/pages/success_payment.dart';
 import 'package:masaj/features/services/data/models/service_model.dart';
 
 class CheckoutScreen extends StatefulWidget {
-  const CheckoutScreen({super.key, required ServiceModel serviceModel})
-      : _serviceModel = serviceModel;
+  const CheckoutScreen({super.key, required CheckOutModel checkOutModel})
+      : _checkOutModel = checkOutModel;
   static const String routeName = '/checkoutScreen';
-  final ServiceModel _serviceModel;
+  final CheckOutModel _checkOutModel;
 
   @override
   State<CheckoutScreen> createState() => _CheckoutScreenState();
@@ -37,11 +40,13 @@ class _CheckoutScreenState extends State<CheckoutScreen> {
   PaymentMethodModel? _selectedPayment;
 
   late final TextEditingController _couponEditingController;
+  late final TextEditingController _walletController;
   late final FocusNode _couponFocusNode;
 
   @override
   void initState() {
     _couponEditingController = TextEditingController();
+    _walletController = TextEditingController();
     _couponFocusNode = FocusNode();
     super.initState();
   }
@@ -49,6 +54,7 @@ class _CheckoutScreenState extends State<CheckoutScreen> {
   @override
   void dispose() {
     _couponEditingController.dispose();
+    _walletController.dispose();
     _couponFocusNode.dispose();
     super.dispose();
   }
@@ -124,7 +130,7 @@ class _CheckoutScreenState extends State<CheckoutScreen> {
     return Row(
       children: [
         CustomCachedNetworkImage(
-          imageUrl: widget._serviceModel.mainImage,
+          imageUrl: widget._checkOutModel.service?.images.first,
           height: 70.0,
           width: 70.0,
           fit: BoxFit.cover,
@@ -135,11 +141,12 @@ class _CheckoutScreenState extends State<CheckoutScreen> {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             SubtitleText(
-              text: widget._serviceModel.title ?? '',
+              text: widget._checkOutModel.service?.title ?? '',
               isBold: true,
             ),
             const SizedBox(height: 5.0),
-            SubtitleText(text: widget._serviceModel.description ?? ''),
+            SubtitleText(
+                text: widget._checkOutModel.service?.description ?? ''),
           ],
         )
       ],
@@ -187,21 +194,22 @@ class _CheckoutScreenState extends State<CheckoutScreen> {
           Row(
             children: [
               CustomCachedNetworkImage(
-                imageUrl: '',
+                imageUrl: widget._checkOutModel.therapist?.profileImage,
                 height: 50.0,
                 width: 50.0,
                 fit: BoxFit.cover,
                 borderRadius: BorderRadius.circular(8.0),
               ),
               const SizedBox(width: 12.0),
-              const Column(
+              Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   SubtitleText(
-                    text: 'test dummy',
+                    text: widget._checkOutModel.therapist?.fullName ?? '',
                     isBold: true,
                   ),
-                  SubtitleText(text: 'dummy test dummy'),
+                  SubtitleText(
+                      text: widget._checkOutModel.therapist?.title ?? ''),
                 ],
               )
             ],
@@ -212,19 +220,23 @@ class _CheckoutScreenState extends State<CheckoutScreen> {
   }
 
   Widget _buildLocationSection() {
-    return const Padding(
-      padding: EdgeInsets.all(_KSectionPadding),
+    log(widget._checkOutModel.address?.googleMapAddress ?? '');
+    return Padding(
+      padding: const EdgeInsets.all(_KSectionPadding),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          TitleText(text: 'location'),
-          SizedBox(height: _KSubVerticalSpace),
+          const TitleText(text: 'location'),
+          const SizedBox(height: _KSubVerticalSpace),
           TitleText(
-            text: 'home_dummy',
+            text: widget._checkOutModel.address!.nickName!.isEmpty
+                ? widget._checkOutModel.address?.formattedAddress ?? ''
+                : '',
             subtractedSize: 2,
           ),
-          SizedBox(height: 4),
-          SubtitleText(text: 'title'),
+          const SizedBox(height: 4),
+          SubtitleText(
+              text: widget._checkOutModel.address?.formattedAddress ?? ''),
         ],
       ),
     );
@@ -239,7 +251,7 @@ class _CheckoutScreenState extends State<CheckoutScreen> {
           const TitleText(
             text: 'payment_method',
           ),
-          const _WalletSection(),
+          _WalletSection(controller: _walletController),
           _buildPaymentMethods()
         ],
       ),
@@ -313,20 +325,23 @@ class _CheckoutScreenState extends State<CheckoutScreen> {
     final double subTotal = 90.0;
     final double tax = 12.0;
     final double discount = 2.0;
-    final double wallet = 2.0;
+    final double wallet = double.tryParse(_walletController.text) ?? 0.0;
     final double total = subTotal + tax - discount - wallet;
 
     return Padding(
       padding: const EdgeInsets.all(_KSectionPadding),
       child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
         children: [
+          TitleText(text: 'booking_summary'),
+          const SizedBox(height: 12.0),
           _buildCoupon(),
           const SizedBox(height: 12.0),
-          _buildSummaryItem(title: 'subtotal', amount: subTotal),
-          _buildSummaryItem(title: 'tax', amount: tax),
+          _buildSummaryItem(title: 'lbl_sub_total2', amount: subTotal),
+          _buildSummaryItem(title: 'lbl_tax', amount: tax),
           _buildSummaryItem(
-              isDiscount: true, title: 'discount', amount: discount),
-          _buildSummaryItem(title: 'wallet', amount: wallet),
+              isDiscount: true, title: 'lbl_discount', amount: discount),
+          _buildSummaryItem(title: 'lbl_wallet', amount: wallet),
           const SizedBox(height: 12.0),
           const Divider(
             thickness: 3,
@@ -349,11 +364,11 @@ class _CheckoutScreenState extends State<CheckoutScreen> {
           'assets/images/dicount_icon.svg',
         ),
       ),
-      hint: 'add_your_coupon',
+      hint: 'lbl_coupon_code',
       suffixIcon: DefaultButton(
         borderRadius: BorderRadius.circular(8),
         onPressed: () {},
-        label: 'apply',
+        label: 'lbl_apply',
       ),
     );
   }
@@ -387,10 +402,11 @@ class _CheckoutScreenState extends State<CheckoutScreen> {
       child: DefaultButton(
         isExpanded: true,
         onPressed: () {
-          NavigatorHelper.of(context).pushReplacement(
-              MaterialPageRoute(builder: (_) => SuccessPaymentPage()));
+          NavigatorHelper.of(context).pushAndRemoveUntil(
+              MaterialPageRoute(builder: (_) => const SuccessPaymentPage()),
+              (_) => false);
         },
-        label: 'book_now',
+        label: 'lbl_book_now',
       ),
     );
   }
@@ -399,21 +415,20 @@ class _CheckoutScreenState extends State<CheckoutScreen> {
 class _WalletSection extends StatefulWidget {
   const _WalletSection({
     super.key,
+    required this.controller,
   });
-
+  final TextEditingController controller;
   @override
   State<_WalletSection> createState() => _WalletSectionState();
 }
 
 class _WalletSectionState extends State<_WalletSection> {
-  late final TextEditingController _controller;
   late final FocusNode _focusNode;
   bool _useWallet = false;
 
   @override
   void initState() {
     super.initState();
-    _controller = TextEditingController();
     _focusNode = FocusNode();
   }
 
@@ -423,7 +438,7 @@ class _WalletSectionState extends State<_WalletSection> {
       children: [
         Row(
           children: [
-            SubtitleText(text: 'use_wallet_dummy'.tr(args: ['200'])),
+            SubtitleText(text: 'use_wallet'.tr(args: ['200'])),
             const Spacer(),
             CustomSwitch(
               onChange: (value) {
@@ -439,8 +454,9 @@ class _WalletSectionState extends State<_WalletSection> {
         if (_useWallet)
           DefaultTextFormField(
             currentFocusNode: _focusNode,
-            currentController: _controller,
+            currentController: widget.controller,
             hint: 'apply_wallet_amount',
+            keyboardType: TextInputType.number,
             inputFormatters: [FilteringTextInputFormatter.digitsOnly],
           ),
         if (_useWallet) const SizedBox(height: 8),

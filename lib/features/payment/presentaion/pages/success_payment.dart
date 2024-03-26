@@ -2,11 +2,12 @@ import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:masaj/core/presentation/colors/app_colors.dart';
-import 'package:masaj/core/presentation/widgets/stateful/share_button.dart';
+import 'package:masaj/core/presentation/navigation/navigator_helper.dart';
 import 'package:masaj/core/presentation/widgets/stateless/custom_app_bar.dart';
 import 'package:masaj/core/presentation/widgets/stateless/custom_app_page.dart';
 import 'package:masaj/core/presentation/widgets/stateless/default_button.dart';
 import 'package:masaj/core/presentation/widgets/stateless/subtitle_text.dart';
+import 'package:masaj/features/home/presentation/pages/home_page.dart';
 
 class SuccessPaymentPage extends StatefulWidget {
   const SuccessPaymentPage({super.key});
@@ -21,7 +22,7 @@ class _SuccessPaymentPageState extends State<SuccessPaymentPage> {
     return CustomAppPage(
       child: Scaffold(
         appBar: CustomAppBar(
-          title: 'payment_details',
+          title: 'lbl_payment_details',
           centerTitle: true,
           showBackButton: false,
           actions: [
@@ -41,14 +42,19 @@ class _SuccessPaymentPageState extends State<SuccessPaymentPage> {
             const SizedBox(height: 20),
             SvgPicture.asset('assets/images/success_payment.svg'),
             const SubtitleText(
-                text: 'payment_successful', subtractedSize: -1, isBold: true),
-            const SubtitleText(text: 'wallet_amount'),
+                text: 'msg_payment_successful',
+                subtractedSize: -1,
+                isBold: true),
+            const SubtitleText(text: 'lbl_wallet_balance'),
             const SizedBox(height: 20),
             _buildSummary(),
             Spacer(),
             DefaultButton(
-              onPressed: () {},
-              label: 'back_to_home',
+              onPressed: () {
+                NavigatorHelper.of(context).pushNamedAndRemoveUntil(
+                    HomePage.routeName, (route) => false);
+              },
+              label: 'lbl_back_to_home',
               isExpanded: true,
             ),
             const SizedBox(height: 20),
@@ -71,9 +77,9 @@ class _SuccessPaymentPageState extends State<SuccessPaymentPage> {
         child: Padding(
           padding: const EdgeInsets.all(16.0),
           child: Column(mainAxisSize: MainAxisSize.min, children: [
-            _buildSummaryItem(amount: 50, title: 'sub_total'),
-            _buildSummaryItem(amount: 50, title: 'coupoun_discount'),
-            _buildSummaryItem(amount: 50, title: 'total_amount'),
+            _buildSummaryItem(amount: 50, title: 'lbl_sub_total2'),
+            _buildSummaryItem(amount: 50, title: 'lbl_coupon_discount'),
+            _buildSummaryItem(amount: 50, title: 'lbl_total_amount2'),
             _buildSummaryItem(amount: 50, title: 'payment_method'),
             _buildSummaryItem(amount: 50, title: 'payment_id'),
             _buildSummaryItem(amount: 50, title: 'reference_id'),

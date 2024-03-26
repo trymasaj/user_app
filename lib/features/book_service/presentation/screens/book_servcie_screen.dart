@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:bottom_picker/bottom_picker.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -7,6 +9,7 @@ import 'package:flutter_svg/flutter_svg.dart';
 import 'package:masaj/core/app_export.dart';
 import 'package:masaj/core/data/di/injector.dart';
 import 'package:masaj/core/presentation/colors/app_colors.dart';
+import 'package:masaj/core/presentation/navigation/navigator_helper.dart';
 import 'package:masaj/core/presentation/overlay/custom_bottom_sheet.dart';
 import 'package:masaj/core/presentation/widgets/stateless/custom_app_bar.dart';
 import 'package:masaj/core/presentation/widgets/stateless/custom_cached_network_image.dart';
@@ -14,11 +17,16 @@ import 'package:masaj/core/presentation/widgets/stateless/custom_text.dart';
 import 'package:masaj/core/presentation/widgets/stateless/default_button.dart';
 import 'package:masaj/core/presentation/widgets/stateless/text_fields/default_text_form_field.dart';
 import 'package:masaj/core/presentation/widgets/stateless/text_with_gradiant.dart';
+import 'package:masaj/features/address/application/blocs/add_new_address_bloc/update_address_bloc.dart';
+import 'package:masaj/features/address/application/blocs/my_addresses_bloc/my_addresses_cubit.dart';
+import 'package:masaj/features/auth/application/auth_cubit/auth_cubit.dart';
 import 'package:masaj/features/book_service/data/models/time_slot.dart';
 import 'package:masaj/features/book_service/enums/avalable_therapist_tab_enum.dart';
 import 'package:masaj/features/book_service/presentation/blocs/available_therapist_cubit/available_therapist_cubit.dart';
 import 'package:masaj/features/book_service/presentation/screens/select_therapist_screen.dart';
 import 'package:masaj/features/home/presentation/widget/tehrapists_widget.dart';
+import 'package:masaj/features/payment/data/model/payment_model.dart';
+import 'package:masaj/features/payment/presentaion/pages/checkout_screen.dart';
 import 'package:masaj/features/services/data/models/service_model.dart';
 
 class BookServiceScreen extends StatefulWidget {
@@ -82,7 +90,10 @@ class _BookServiceScreenState extends State<BookServiceScreen> {
         children: [
           _buildServiceCard(),
           _buildDivider(),
-          _buildBookingDetails(context)
+          _buildBookingDetails(context),
+          const Spacer(),
+          _buldContinueButton(context),
+          const SizedBox(height: 40),
         ],
       ),
     );
@@ -407,6 +418,32 @@ class _BookServiceScreenState extends State<BookServiceScreen> {
             ],
           )
         ],
+      ),
+    );
+  }
+
+  Widget _buldContinueButton(BuildContext context) {
+    return Padding(
+      padding: const EdgeInsets.symmetric(horizontal: 24.0),
+      child: DefaultButton(
+        onPressed: () async {
+          final addressCubit = context.read<MyAddressesCubit>();
+          await addressCubit.getAddresses();
+          final address = addressCubit.state.addressesData.first;
+          log(address.formattedAddress ?? '');
+
+          final therapist =
+              context.read<AvialbleTherapistCubit>().state.selectedTherapist;
+          final CheckOutModel checkOutModel = CheckOutModel(
+              address: address,
+              therapist: therapist,
+              service: widget.serviceModel,
+              paymentSummary: PaymentSummary(subTotal: 30, discount: 0));
+          NavigatorHelper.of(context)
+              .pushNamed(CheckoutScreen.routeName, arguments: checkOutModel);
+        },
+        label: 'continue',
+        isExpanded: true,
       ),
     );
   }

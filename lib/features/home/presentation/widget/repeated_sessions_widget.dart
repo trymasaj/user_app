@@ -2,9 +2,7 @@ import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:masaj/core/presentation/colors/app_colors.dart';
 import 'package:masaj/features/home/presentation/pages/home_tab.dart';
-import 'package:masaj/features/payment/presentaion/pages/checkout_screen.dart';
 import 'package:masaj/gen/assets.gen.dart';
-import 'package:masaj/main.dart';
 
 class RepeatedSessions extends StatelessWidget {
   const RepeatedSessions({
@@ -35,8 +33,6 @@ class RepeatedSessions extends StatelessWidget {
                 itemCount: 10,
                 itemBuilder: (context, index) {
                   return GestureDetector(
-                    onTap: () => navigatorKey.currentState!
-                        .pushNamed(CheckoutScreen.routeName),
                     child: Container(
                       margin: const EdgeInsets.only(right: 10),
                       width: 280,

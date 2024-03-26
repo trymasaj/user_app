@@ -5,12 +5,14 @@ import 'package:flutter_svg/flutter_svg.dart';
 import 'package:masaj/core/app_export.dart';
 import 'package:masaj/core/data/di/injector.dart';
 import 'package:masaj/core/presentation/colors/app_colors.dart';
+import 'package:masaj/core/presentation/navigation/navigator_helper.dart';
 import 'package:masaj/core/presentation/widgets/stateless/custom_app_bar.dart';
 import 'package:masaj/core/presentation/widgets/stateless/custom_cached_network_image.dart';
 import 'package:masaj/core/presentation/widgets/stateless/custom_rating_bar.dart';
 import 'package:masaj/core/presentation/widgets/stateless/custom_text.dart';
 import 'package:masaj/core/presentation/widgets/stateless/default_button.dart';
 import 'package:masaj/features/home/presentation/widget/category_list.dart';
+import 'package:masaj/features/payment/presentaion/pages/checkout_screen.dart';
 import 'package:masaj/features/providers_tab/data/models/therapist.dart';
 import 'package:masaj/features/providers_tab/presentation/cubits/home_therapists_cubit/home_therapists_cubit.dart';
 import 'package:masaj/features/providers_tab/presentation/cubits/providers_tab_cubit/providers_tab_cubit.dart';
@@ -418,7 +420,10 @@ class _ProviderDetailsScreenState extends State<ProviderDetailsScreen> {
               color: Colors.white,
               child: DefaultButton(
                 label: 'Book with ${state.therapist?.fullName ?? ''}',
-                onPressed: () {},
+                onPressed: () {
+                  NavigatorHelper.of(context)
+                      .pushNamed(CheckoutScreen.routeName);
+                },
               ));
         },
       ),

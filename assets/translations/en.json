@@ -685,7 +685,6 @@
     "lbl_send": "Send",
     "lbl_services": "Services",
     "lbl_settings": "Settings",
-    
     "lbl_share": "Share",
     "lbl_sign_in": "Sign in",
     "lbl_sign_up": "Sign up",
@@ -880,13 +879,17 @@
     "filter": "Filter",
     "clear": "Clear",
     "terms_validation": "You need to accept the terms and conditions",
-    "select_date_and_time":"Select date and time",
-    "date_and_time":"Date and time",
-    "therapist":"Therapist",
-    "select_available_therapist":"Select available therapist",
-    "try_new_therapist":"Try new therapist",
-    "piack_a_therapist":"Pick a therapist",
-    "change":"Change",
-    "view_profile":"View profile"
-    
+    "select_date_and_time": "Select date and time",
+    "date_and_time": "Date and time",
+    "therapist": "Therapist",
+    "select_available_therapist": "Select available therapist",
+    "try_new_therapist": "Try new therapist",
+    "piack_a_therapist": "Pick a therapist",
+    "change": "Change",
+    "view_profile": "View profile",
+    "checkout_title": "Review & Book",
+    "checkout_warning": "Late arrivals my result in lost treatment time\nunless our schedule allows us to offer full service",
+    "use_wallet": "Use wallet payment",
+    "apply_wallet_amount": "Amount",
+    "booking_summary": "Booking Summary"
 }

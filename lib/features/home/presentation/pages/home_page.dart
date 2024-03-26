@@ -15,7 +15,6 @@ import 'package:masaj/features/services/application/service_catgory_cubit/servic
 import 'package:masaj/features/services/presentation/screens/services_screen.dart';
 import 'package:masaj/features/settings_tab/pages/setting_tab_page.dart';
 import 'package:masaj/gen/assets.gen.dart';
-
 import 'package:masaj/features/bookings_tab/presentation/pages/bookings_tab.dart';
 import 'package:masaj/features/home/presentation/pages/home_tab.dart';
 
