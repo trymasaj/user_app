@@ -12,7 +12,7 @@ class UpdateAddressState extends Equatable {
   final Option<Address> savedAddress;
 
   @override
-  List<Object?> get props => [savedAddress,latLng];
+  List<Object?> get props => [savedAddress, latLng];
   factory UpdateAddressState.initial() =>
       UpdateAddressState(savedAddress: none(), latLng: none());
 

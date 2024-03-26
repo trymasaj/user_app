@@ -1,6 +1,8 @@
 import 'dart:convert';
 
 import 'package:equatable/equatable.dart';
+import 'package:flutter/foundation.dart';
+import 'package:flutter/widgets.dart';
 
 class ServiceModel extends Equatable {
   final int serviceId;
@@ -472,4 +474,78 @@ class ServicesResponse extends Equatable {
   String toJson() => json.encode(toMap());
   @override
   List<Object?> get props => [data, page, pageSize, totalCount, totalPages];
+}
+
+class ServiceBookModel {
+  final int serviceId;
+  final int durationId;
+  final List<int> addonIds;
+  final List<int> focusAreas;
+  ServiceBookModel({
+    required this.serviceId,
+    required this.durationId,
+    required this.addonIds,
+    required this.focusAreas,
+  });
+
+
+  ServiceBookModel copyWith({
+    int? serviceId,
+    int? durationId,
+    List<int>? addonIds,
+    List<int>? focusAreas,
+  }) {
+    return ServiceBookModel(
+      serviceId: serviceId ?? this.serviceId,
+      durationId: durationId ?? this.durationId,
+      addonIds: addonIds ?? this.addonIds,
+      focusAreas: focusAreas ?? this.focusAreas,
+    );
+  }
+
+  Map<String, dynamic> toMap() {
+    return {
+      'serviceId': serviceId,
+      'durationId': durationId,
+      'addonIds': addonIds,
+      'focusAreas': focusAreas,
+    };
+  }
+
+  factory ServiceBookModel.fromMap(Map<String, dynamic> map) {
+    return ServiceBookModel(
+      serviceId: map['serviceId']?.toInt() ?? 0,
+      durationId: map['durationId']?.toInt() ?? 0,
+      addonIds: List<int>.from(map['addonIds']),
+      focusAreas: List<int>.from(map['focusAreas']),
+    );
+  }
+
+  String toJson() => json.encode(toMap());
+
+  factory ServiceBookModel.fromJson(String source) => ServiceBookModel.fromMap(json.decode(source));
+
+  @override
+  String toString() {
+    return 'ServiceBookModel(serviceId: $serviceId, durationId: $durationId, addonIds: $addonIds, focusAreas: $focusAreas)';
+  }
+
+  @override
+  bool operator ==(Object other) {
+    if (identical(this, other)) return true;
+  
+    return other is ServiceBookModel &&
+      other.serviceId == serviceId &&
+      other.durationId == durationId &&
+      listEquals(other.addonIds, addonIds) &&
+      listEquals(other.focusAreas, focusAreas);
+  }
+
+  @override
+  int get hashCode {
+    return serviceId.hashCode ^
+      durationId.hashCode ^
+      addonIds.hashCode ^
+      focusAreas.hashCode;
+  }
 }

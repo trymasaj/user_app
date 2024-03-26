@@ -55,9 +55,7 @@ class _ConfirmPasswordTextFormFieldState
             size: 18.0,
             color: appTheme.blueGray40001,
           ),
-
         ),
-
         validator: (confPassword) => Validator()
             .validateConfPassword(widget.passwordController.text, confPassword),
       ),

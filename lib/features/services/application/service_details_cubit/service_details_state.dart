@@ -18,7 +18,6 @@ class ServiceDetailsState extends Equatable {
   final ServiceDetailsStateStatus status;
   final ServiceModel? service;
   final String? errorMessage;
- 
 
   const ServiceDetailsState(
       {this.status = ServiceDetailsStateStatus.initial,

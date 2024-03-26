@@ -38,39 +38,38 @@ abstract class MainTextFormField extends StatefulWidget {
   final TextStyle? hintStyle;
   final InputDecoration? decoration;
 
-  const MainTextFormField({
-    super.key,
-    required this.currentFocusNode,
-    this.isSearch = false,
-    this.nextFocusNode,
-    required this.currentController,
-    required this.hintText,
-    this.keyboardType,
-    this.hintStyle,
-    required this.validator,
-    this.textCapitalization = TextCapitalization.none,
-    this.margin = const EdgeInsets.symmetric(horizontal: 16.0, vertical: 8.0),
-    this.enabled = true,
-    this.maxLength,
-    this.inputFormatters,
-    this.expanded = false,
-    this.maxLines,
-    this.contentPadding,
-    this.borderColor,
-    this.hintColor,
-    this.enableSuggestions = false,
-    this.showScrollbar = false,
-    this.obscureText,
-    this.suffixIcon,
-    this.onChanged,
-    this.fillColor,
-    this.cursorColor,
-    this.style,
-    this.prefixIcon,
-    this.readOnly,
-    this.onTap,
-    this.decoration
-  });
+  const MainTextFormField(
+      {super.key,
+      required this.currentFocusNode,
+      this.isSearch = false,
+      this.nextFocusNode,
+      required this.currentController,
+      required this.hintText,
+      this.keyboardType,
+      this.hintStyle,
+      required this.validator,
+      this.textCapitalization = TextCapitalization.none,
+      this.margin = const EdgeInsets.symmetric(horizontal: 16.0, vertical: 8.0),
+      this.enabled = true,
+      this.maxLength,
+      this.inputFormatters,
+      this.expanded = false,
+      this.maxLines,
+      this.contentPadding,
+      this.borderColor,
+      this.hintColor,
+      this.enableSuggestions = false,
+      this.showScrollbar = false,
+      this.obscureText,
+      this.suffixIcon,
+      this.onChanged,
+      this.fillColor,
+      this.cursorColor,
+      this.style,
+      this.prefixIcon,
+      this.readOnly,
+      this.onTap,
+      this.decoration});
 
   @override
   _MainTextFormFieldState createState() => _MainTextFormFieldState();
@@ -144,59 +143,59 @@ class _MainTextFormFieldState extends State<MainTextFormField> {
         textAlignVertical:
             widget.expanded ? const TextAlignVertical(y: -0.8) : null,
         obscureText: widget.obscureText ?? false,
-        decoration:widget.decoration ??
-         InputDecoration(
-          fillColor: widget.enabled
-              ? widget.fillColor ?? const Color(0xFFF6F6F6)
-              : const Color(0x44000000),
-          filled: true,
-          isDense: true,
-          contentPadding: widget.contentPadding ??
-              const EdgeInsets.fromLTRB(20, 20, 20, 20),
-          hintText: widget.hintText.tr(),
-          hintStyle: widget.hintStyle ??
-              TextStyle(
-                  fontFamily: 'Poppins',
-                  fontSize: 14.0,
-                  fontWeight: FontWeight.w400,
-                  color: widget.hintColor ?? const Color(0xFF8C8C8C)),
-          suffixIcon: widget.suffixIcon,
-          prefixIcon: widget.prefixIcon,
-          enabledBorder: OutlineInputBorder(
-            borderRadius: const BorderRadius.all(Radius.circular(10)),
-            borderSide: BorderSide(
-              color: widget.borderColor ?? Colors.transparent,
-              width: 1,
+        decoration: widget.decoration ??
+            InputDecoration(
+              fillColor: widget.enabled
+                  ? widget.fillColor ?? const Color(0xFFF6F6F6)
+                  : const Color(0x44000000),
+              filled: true,
+              isDense: true,
+              contentPadding: widget.contentPadding ??
+                  const EdgeInsets.fromLTRB(20, 20, 20, 20),
+              hintText: widget.hintText.tr(),
+              hintStyle: widget.hintStyle ??
+                  TextStyle(
+                      fontFamily: 'Poppins',
+                      fontSize: 14.0,
+                      fontWeight: FontWeight.w400,
+                      color: widget.hintColor ?? const Color(0xFF8C8C8C)),
+              suffixIcon: widget.suffixIcon,
+              prefixIcon: widget.prefixIcon,
+              enabledBorder: OutlineInputBorder(
+                borderRadius: const BorderRadius.all(Radius.circular(10)),
+                borderSide: BorderSide(
+                  color: widget.borderColor ?? Colors.transparent,
+                  width: 1,
+                ),
+              ),
+              focusedBorder: OutlineInputBorder(
+                borderRadius: const BorderRadius.all(Radius.circular(10)),
+                borderSide: BorderSide(
+                  color: widget.borderColor ?? Colors.transparent,
+                  width: 1,
+                ),
+              ),
+              errorBorder: const OutlineInputBorder(
+                borderSide: BorderSide(
+                  color: AppColors.ERROR_COLOR,
+                  width: 1,
+                ),
+                borderRadius: BorderRadius.all(Radius.circular(10)),
+              ),
+              focusedErrorBorder: const OutlineInputBorder(
+                borderSide: BorderSide(
+                  color: AppColors.ERROR_COLOR,
+                  width: 1,
+                ),
+                borderRadius: BorderRadius.all(Radius.circular(10)),
+              ),
+              counterText: '',
+              border: InputBorder.none,
+              disabledBorder: const OutlineInputBorder(
+                borderSide: BorderSide.none,
+                borderRadius: BorderRadius.all(Radius.circular(10)),
+              ),
             ),
-          ),
-          focusedBorder: OutlineInputBorder(
-            borderRadius: const BorderRadius.all(Radius.circular(10)),
-            borderSide: BorderSide(
-              color: widget.borderColor ?? Colors.transparent,
-              width: 1,
-            ),
-          ),
-          errorBorder: const OutlineInputBorder(
-            borderSide: BorderSide(
-              color: AppColors.ERROR_COLOR,
-              width: 1,
-            ),
-            borderRadius: BorderRadius.all(Radius.circular(10)),
-          ),
-          focusedErrorBorder: const OutlineInputBorder(
-            borderSide: BorderSide(
-              color: AppColors.ERROR_COLOR,
-              width: 1,
-            ),
-            borderRadius: BorderRadius.all(Radius.circular(10)),
-          ),
-          counterText: '',
-          border: InputBorder.none,
-          disabledBorder: const OutlineInputBorder(
-            borderSide: BorderSide.none,
-            borderRadius: BorderRadius.all(Radius.circular(10)),
-          ),
-        ),
         validator: widget.validator,
         onChanged: (text) {
           if (text.isEmpty) {

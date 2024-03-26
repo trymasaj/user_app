@@ -16,7 +16,6 @@ class TherapistDetailsCubit extends BaseCubit<TherapistDetailsState> {
         therapist: therapist, isFav: therapist.isFavourite ?? false));
   }
 
-
   Future<void> toggleFav() async {
     final oldTherapist = state.therapist;
     final newTherapist = oldTherapist?.copyWith(
@@ -43,7 +42,6 @@ class TherapistDetailsCubit extends BaseCubit<TherapistDetailsState> {
   }
 
   Future<void> getTherapistDetails(int id) async {
-    
     emit(state.copyWith(
       status: TherapistDetailsStateStatus.loading,
     ));

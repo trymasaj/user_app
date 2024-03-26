@@ -46,21 +46,21 @@ class Country {
       flagIcon: map['flagIcon'],
     );
   }
-  Map<String,dynamic> toMap(){
+  Map<String, dynamic> toMap() {
     return {
-      'id':id,
-      'nameEn':nameEn,
-      'nameAr':nameAr,
-      'code':code,
-      'currencyEn':currencyEn,
-      'currencyAr':currencyAr,
-      'decimalNumber':decimalNumber,
-      'currencyIso':currencyIso,
-      'isoCode':isoCode,
-      'capital':capital,
-      'usdExchangeRate':usdExchangeRate,
-      'isActive':isActive,
-      'flagIcon':flagIcon,
+      'id': id,
+      'nameEn': nameEn,
+      'nameAr': nameAr,
+      'code': code,
+      'currencyEn': currencyEn,
+      'currencyAr': currencyAr,
+      'decimalNumber': decimalNumber,
+      'currencyIso': currencyIso,
+      'isoCode': isoCode,
+      'capital': capital,
+      'usdExchangeRate': usdExchangeRate,
+      'isActive': isActive,
+      'flagIcon': flagIcon,
     };
   }
 }

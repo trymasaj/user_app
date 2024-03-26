@@ -43,7 +43,6 @@ class _VideoPlayerWidgetState extends State<VideoPlayerWidget> {
   late VideoPlayerController _controller;
   @override
   void initState() {
-    
     _controller = VideoPlayerController.network(widget.url)
       ..initialize().then((_) {
         // Ensure the first frame is shown after the video is initialized, even before the play button has been pressed.

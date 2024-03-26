@@ -11,7 +11,6 @@ abstract class ServiceRepository {
   Future<ServiceModel> getSingleService(int id);
 }
 
-
 class ServiceRepositoryImpl implements ServiceRepository {
   final ServiceRemoteDataSource _serviceRemoteDataSource;
 

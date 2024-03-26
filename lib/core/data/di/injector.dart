@@ -310,8 +310,7 @@ class Injector {
   ProvidersTabCubit get providersTabCubit => ProvidersTabCubit(
         providersTabRepository: providersTabRepository,
       );
-  AvialbleTherapistCubit get avialbleTherapistCubit =>
-      AvialbleTherapistCubit(
+  AvialbleTherapistCubit get avialbleTherapistCubit => AvialbleTherapistCubit(
         providersTabRepository: providersTabRepository,
       );
   HomeTherapistsCubit get homeTherapistsCubit => HomeTherapistsCubit(

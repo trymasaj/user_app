@@ -26,7 +26,7 @@ class AvialbleTherapistState {
   final AvialbleTherapistStatus status;
   final String? errorMessage;
   final List<Therapist> therapists;
-  final Therapist? selectedTherapist; 
+  final Therapist? selectedTherapist;
   final TherapistTabsEnum selectedTab;
   final int? page;
   final int? pageSize;

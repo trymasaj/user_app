@@ -8,7 +8,7 @@ abstract class TherapistsRepository {
   Future<PaginationResponse<Therapist>> getTherapistsByTabs(
       ProvideQueryModel provideQueryModel);
   Future<Therapist> getSingleTherapist(int id);
-  Future<bool> favTherapist(int id,bool isFav);
+  Future<bool> favTherapist(int id, bool isFav);
 }
 
 class TherapistsRepositoryImpl implements TherapistsRepository {

@@ -29,7 +29,7 @@ abstract class UpdateAddressCubit extends BaseCubit<UpdateAddressState> {
 
 @Injectable()
 class EditAddressCubit extends UpdateAddressCubit {
-  EditAddressCubit(super.repo,@factoryParam this.oldAddress);
+  EditAddressCubit(super.repo, @factoryParam this.oldAddress);
   final Address oldAddress;
 
   @override

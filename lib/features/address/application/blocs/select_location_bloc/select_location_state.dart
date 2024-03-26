@@ -4,7 +4,6 @@ part of 'select_location_bloc.dart';
 
 /// Represents the state of SelectLocation in the application.
 class SelectAreaState extends Equatable {
-
   const SelectAreaState({
     required this.selectedCountry,
     required this.selectedArea,

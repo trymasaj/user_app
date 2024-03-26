@@ -34,12 +34,11 @@ class PayMobPaymentService implements PaymentService {
 
   Future<String> getPaymentSessionUrl(PaymentMethodEnum paymentMethod, int id,
       {Map<String, dynamic>? params, String? urlPath}) {
-    final url = urlPath ?? ApiEndPoint.CHECKOUT;
+    final url = urlPath ?? ApiEndPoint.BOOKING_CONFIRM;
 
     final param = params ??
         {
           'id': id,
-          'paymentId': paymentMethod.index,
         };
 
     return _networkService.post(url, queryParameters: param).then(

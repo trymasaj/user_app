@@ -4,7 +4,8 @@ import 'package:masaj/features/services/data/models/service_model.dart';
 class HomeSearchResponse {
   final List<Therapist>? therapists;
   final List<ServiceModel>? services;
-static HomeSearchResponse empty = HomeSearchResponse(therapists: [], services: []);
+  static HomeSearchResponse empty =
+      HomeSearchResponse(therapists: [], services: []);
   HomeSearchResponse({
     required this.therapists,
     required this.services,

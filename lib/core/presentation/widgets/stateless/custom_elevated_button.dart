@@ -44,7 +44,6 @@ class CustomElevatedButton extends BaseButton {
         decoration: decoration ??
             CustomButtonStyles.gradientSecondaryContainerToPrimaryDecoration,
         child: ElevatedButton(
-          
           style: buttonStyle,
           onPressed: isDisabled ?? false ? null : onPressed ?? () {},
           child: Row(

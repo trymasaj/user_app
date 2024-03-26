@@ -1,7 +1,7 @@
 part of 'my_addresses_cubit.dart';
 
 @immutable
-class MyAddressesState  {
+class MyAddressesState {
   final DataLoadState<List<Address>> addresses;
   final int selectedAddressIndex;
 

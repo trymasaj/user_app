@@ -64,10 +64,12 @@ abstract class MainFormBuilderTextFormField extends StatefulWidget {
   });
 
   @override
-  _MainFormBuilderTextFormFieldState createState() => _MainFormBuilderTextFormFieldState();
+  _MainFormBuilderTextFormFieldState createState() =>
+      _MainFormBuilderTextFormFieldState();
 }
 
-class _MainFormBuilderTextFormFieldState extends State<MainFormBuilderTextFormField> {
+class _MainFormBuilderTextFormFieldState
+    extends State<MainFormBuilderTextFormField> {
   TextDirection? _currentDir;
 
   @override

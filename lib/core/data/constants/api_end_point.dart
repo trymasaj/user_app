@@ -110,7 +110,17 @@ abstract class ApiEndPoint {
   static const UPDATE_MEMBER = '$BASE_URL/member';
   static const DELETE_MEMBER = '$BASE_URL/member';
 
+  //Booking
+  static const BOOKING_LATEST = '$BASE_URL/checkout';
+  static const BOOKING_ADDRESS = '$BASE_URL/checkout';
+  static const BOOKING_SERVICE = '$BASE_URL/checkout';
+  static const BOOKING_MEMBERS = '$BASE_URL/checkout';
+  static const BOOKING_THERAPIST = '$BASE_URL/checkout';
+  static const BOOKING_DETAILS = '$BASE_URL/checkout';
+
+  static const BOOKING_ADD_VOUCHER = '$BASE_URL/checkout';
+  static const BOOKING_REMOVE_VOUCHER = '$BASE_URL/payments/methods';
   //Payment
-  static const CHECKOUT = '$BASE_URL/checkout';
-  static const GET_PAYMENT_METHODS = '$BASE_URL/getpaymentmethods';
+  static const BOOKING_CONFIRM = '$BASE_URL/checkout';
+  static const GET_PAYMENT_METHODS = '$BASE_URL/payments/methods';
 }

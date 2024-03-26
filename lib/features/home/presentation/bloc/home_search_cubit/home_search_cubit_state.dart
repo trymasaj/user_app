@@ -27,7 +27,6 @@ class HomeSearchCubitState {
   const HomeSearchCubitState({
     this.status = HomeSearchStateStatus.initial,
     this.errorMessage,
-
     this.result,
     this.recentServices = const [],
     this.recentSearchResults = const [],
@@ -46,14 +45,17 @@ class HomeSearchCubitState {
         other.status == status &&
         other.errorMessage == errorMessage &&
         other.recentSearchResults == recentSearchResults &&
-        other.result == result
-        && other.recentServices == recentServices;
+        other.result == result &&
+        other.recentServices == recentServices;
   }
 
   @override
-  int get hashCode => status.hashCode ^ errorMessage.hashCode ^ result.hashCode
-  ^ recentSearchResults.hashCode
-  ^ recentServices.hashCode;
+  int get hashCode =>
+      status.hashCode ^
+      errorMessage.hashCode ^
+      result.hashCode ^
+      recentSearchResults.hashCode ^
+      recentServices.hashCode;
 
   HomeSearchCubitState copyWith({
     HomeSearchStateStatus? status,

@@ -1,6 +1,12 @@
 part of 'choose_language_cubit.dart';
 
-enum ChooseLanguageStateStatus { initial, loading, languageSet ,languageSetFromSetting , error }
+enum ChooseLanguageStateStatus {
+  initial,
+  loading,
+  languageSet,
+  languageSetFromSetting,
+  error
+}
 
 class ChooseLanguageState {
   final ChooseLanguageStateStatus status;
@@ -41,7 +47,8 @@ class ChooseLanguageState {
 
   bool get isLanguageSet => status == ChooseLanguageStateStatus.languageSet;
 
-  bool get isLanguageSetFromSetting => status == ChooseLanguageStateStatus.languageSetFromSetting;
+  bool get isLanguageSetFromSetting =>
+      status == ChooseLanguageStateStatus.languageSetFromSetting;
 
   bool get isError => status == ChooseLanguageStateStatus.error;
 }
