@@ -1,8 +1,8 @@
-import 'package:masaj/features/bookings_tab/data/datasources/bookings_tab_remote_data_source.dart';
+import 'package:masaj/features/book_service/data/datasources/booking_remote_data_source.dart';
 import 'package:masaj/features/book_service/data/models/booking_model/booking_model.dart';
 import 'package:masaj/features/services/data/models/service_model.dart';
 
-abstract class BookingsTabRepository {
+abstract class BookingRepository {
   Future<void> getBookingLatestId();
   Future<void> addBookingService(ServiceBookModel serviceBookModel);
   Future<void> addBookingMembers(List<int> members);
@@ -15,11 +15,11 @@ abstract class BookingsTabRepository {
   Future<BookingModel> getBookingDetails(int bookingId);
 }
 
-class BookingsTabRepositoryImpl implements BookingsTabRepository {
-  final BookingsTabRemoteDataSource _remoteDataSource;
+class BookingRepositoryImpl implements BookingRepository {
+  final BookingRemoteDataSource _remoteDataSource;
 
-  BookingsTabRepositoryImpl({
-    required BookingsTabRemoteDataSource bookings_tabRemoteDataSource,
+  BookingRepositoryImpl({
+    required BookingRemoteDataSource bookings_tabRemoteDataSource,
   }) : _remoteDataSource = bookings_tabRemoteDataSource;
 
   @override

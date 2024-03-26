@@ -3,9 +3,9 @@ import 'package:masaj/features/bookings_tab/data/datasources/bookings_tab_remote
 abstract class BookingsTabRepository {}
 
 class BookingsTabRepositoryImpl implements BookingsTabRepository {
-  final BookingsTabRemoteDataSource _remoteDataSource;
+  final BookingRemoteDataSource _remoteDataSource;
 
   BookingsTabRepositoryImpl({
-    required BookingsTabRemoteDataSource bookings_tabRemoteDataSource,
+    required BookingRemoteDataSource bookings_tabRemoteDataSource,
   }) : _remoteDataSource = bookings_tabRemoteDataSource;
 }

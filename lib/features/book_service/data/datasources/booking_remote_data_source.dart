@@ -5,7 +5,7 @@ import 'package:masaj/features/services/data/models/service_model.dart';
 
 import '../../../book_service/data/models/booking_model/booking_model.dart';
 
-abstract class BookingsTabRemoteDataSource {
+abstract class BookingRemoteDataSource {
   Future<void> getBookingLatestId();
   Future<void> addBookingService(ServiceBookModel serviceBookModel);
   Future<void> addBookingMembers(List<int> members);
@@ -18,10 +18,10 @@ abstract class BookingsTabRemoteDataSource {
   Future<BookingModel> getBookingDetails(int bookingId);
 }
 
-class BookingsTabRemoteDataSourceImpl implements BookingsTabRemoteDataSource {
+class BookingRemoteDataSourceImpl implements BookingRemoteDataSource {
   final NetworkService _networkService;
 
-  BookingsTabRemoteDataSourceImpl(this._networkService);
+  BookingRemoteDataSourceImpl(this._networkService);
 
   @override
   Future<void> addBookingAddress(int addressId) {
