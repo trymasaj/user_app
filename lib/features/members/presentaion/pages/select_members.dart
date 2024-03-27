@@ -17,8 +17,9 @@ import 'package:masaj/features/members/presentaion/bloc/members_cubit.dart';
 import 'package:masaj/features/services/data/models/service_model.dart';
 
 class SelectMembersScreen extends StatefulWidget {
-  const SelectMembersScreen({super.key, required this.serviceModel});
-  final ServiceModel serviceModel;
+  const SelectMembersScreen({
+    super.key,
+  });
 
   @override
   State<SelectMembersScreen> createState() => _SelectMembersScreenState();
@@ -65,8 +66,7 @@ class _SelectMembersScreenState extends State<SelectMembersScreen> {
               final selectedMembersIds =
                   selectedMembers.map((e) => e.id ?? 0).toList();
               await bookingCubit.addBookingMembers(selectedMembersIds);
-              Navigator.of(context).pushNamed(BookServiceScreen.routeName,
-                  arguments: widget.serviceModel);
+              Navigator.of(context).pushNamed(BookServiceScreen.routeName);
             },
             label: 'continue',
           ),

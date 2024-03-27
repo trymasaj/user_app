@@ -192,33 +192,7 @@ class ServiceDetailsScreenState extends State<ServiceDetailsScreen> {
                     }),
                 DefaultButton(
                   label: 'continue',
-                  onPressed: () async {
-                    final authCubit = context.read<AuthCubit>();
-                    if (authCubit.state.isGuest)
-                      return Navigator.pushAndRemoveUntil(
-                          context,
-                          MaterialPageRoute(
-                              builder: (context) => const LoginPage()),
-                          (_) => true);
-                    await context.read<BookingCubit>().addBookingService(
-                        ServiceBookModel(
-                            serviceId: state.service!.serviceId,
-                            durationId: selectedDurationNotifier
-                                    .value?.serviceDurationId ??
-                                0,
-                            addonIds:
-                                selectedAddons.map((e) => e.addonId).toList(),
-                            focusAreas: selectedFocusPoints.value?.keys
-                                    .map((e) => e.index)
-                                    .toList() ??
-                                []));
-                    Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                            builder: (context) => SelectMembersScreen(
-                                  serviceModel: state.service!,
-                                )));
-                  },
+                  onPressed: () => onContinuePressed(context),
                 ),
               ],
             ),
@@ -474,9 +448,36 @@ class ServiceDetailsScreenState extends State<ServiceDetailsScreen> {
       },
     );
   }
-}
 
-// TotalSection
+  Future<void> onContinuePressed(BuildContext context) async {
+    checkIfGuest(context);
+    var bookingCubit = context.read<BookingCubit>();
+    final serviceBookModel = createServiceBookingModel();
+    await bookingCubit.addBookingService(serviceBookModel);
+    Navigator.push(context,
+        MaterialPageRoute(builder: (context) => SelectMembersScreen()));
+  }
+
+  ServiceBookModel createServiceBookingModel() {
+    var serviceDetailsCubit = context.read<ServiceDetailsCubit>();
+
+    return ServiceBookModel(
+        serviceId: serviceDetailsCubit.state.service!.serviceId,
+        durationId: selectedDurationNotifier.value?.serviceDurationId ?? 0,
+        addonIds: selectedAddons.map((e) => e.addonId).toList(),
+        focusAreas:
+            selectedFocusPoints.value?.keys.map((e) => e.index).toList() ?? []);
+  }
+
+  Future<void> checkIfGuest(BuildContext context) async {
+    final authCubit = context.read<AuthCubit>();
+    if (authCubit.state.isGuest)
+      Navigator.pushAndRemoveUntil<void>(
+          context,
+          MaterialPageRoute(builder: (context) => const LoginPage()),
+          (_) => true);
+  }
+}
 
 class TotalSection extends StatelessWidget {
   const TotalSection({

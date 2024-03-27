@@ -17,9 +17,9 @@ import 'package:masaj/core/presentation/widgets/stateless/custom_text.dart';
 import 'package:masaj/core/presentation/widgets/stateless/default_button.dart';
 import 'package:masaj/core/presentation/widgets/stateless/text_fields/default_text_form_field.dart';
 import 'package:masaj/core/presentation/widgets/stateless/text_with_gradiant.dart';
-import 'package:masaj/features/address/application/blocs/add_new_address_bloc/update_address_bloc.dart';
+
 import 'package:masaj/features/address/application/blocs/my_addresses_bloc/my_addresses_cubit.dart';
-import 'package:masaj/features/auth/application/auth_cubit/auth_cubit.dart';
+
 import 'package:masaj/features/book_service/data/models/time_slot.dart';
 import 'package:masaj/features/book_service/enums/avalable_therapist_tab_enum.dart';
 import 'package:masaj/features/book_service/presentation/blocs/available_therapist_cubit/available_therapist_cubit.dart';
@@ -30,27 +30,16 @@ import 'package:masaj/features/payment/presentaion/pages/checkout_screen.dart';
 import 'package:masaj/features/services/data/models/service_model.dart';
 
 class BookServiceScreen extends StatefulWidget {
-  const BookServiceScreen({super.key, required this.serviceModel});
-  final ServiceModel serviceModel;
+  const BookServiceScreen({super.key});
 
   static const String routeName = '/bookServiceScreen';
-  static Widget builder({
-    required ServiceModel serviceModel,
-  }) =>
-      MultiBlocProvider(
-          providers: [
-            BlocProvider<AvialbleTherapistCubit>(
-              create: (context) => Injector().avialbleTherapistCubit,
-            ),
-          ],
-          child: BookServiceScreen(
-            serviceModel: serviceModel,
-          ));
+  static Widget builder() => MultiBlocProvider(providers: [
+        BlocProvider<AvialbleTherapistCubit>(
+          create: (context) => Injector().avialbleTherapistCubit,
+        ),
+      ], child: BookServiceScreen());
   static MaterialPageRoute router({required ServiceModel serviceModel}) {
-    return MaterialPageRoute(
-        builder: (context) => builder(
-              serviceModel: serviceModel,
-            ));
+    return MaterialPageRoute(builder: (context) => builder());
   }
 
   @override
@@ -88,7 +77,7 @@ class _BookServiceScreenState extends State<BookServiceScreen> {
       appBar: CustomAppBar(title: 'book_service'),
       body: Column(
         children: [
-          _buildServiceCard(),
+          // _buildServiceCard(),
           _buildDivider(),
           _buildBookingDetails(context),
           const Spacer(),
@@ -367,60 +356,56 @@ class _BookServiceScreenState extends State<BookServiceScreen> {
     );
   }
 
-  Container _buildServiceCard() {
-    final image = (widget.serviceModel.mainImage == null ||
-            widget.serviceModel.mainImage!.isEmpty)
-        ? (widget.serviceModel.images.firstOrNull ?? '')
-        : widget.serviceModel.mainImage;
-    return Container(
-      padding: EdgeInsets.symmetric(horizontal: 24.w, vertical: 24.h),
-      child: Row(
-        children: [
-          Container(
-            width: 70.w,
-            height: 70.h,
-            decoration: BoxDecoration(
-              color: AppColors.GREY_LIGHT_COLOR_2,
-              borderRadius: BorderRadius.only(
-                topLeft: Radius.circular(12),
-              ),
-              image: DecorationImage(
-                image: CustomCachedNetworkImageProvider(
-                  image ?? '',
-                ),
-                fit: BoxFit.cover,
-              ),
-            ),
-          ),
-          SizedBox(width: 16.w),
-          Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              CustomText(
-                text: widget.serviceModel.title ?? '',
-                fontSize: 14,
-                fontWeight: FontWeight.w500,
-                color: AppColors.FONT_COLOR,
-              ),
-              CustomText(
-                text: widget.serviceModel.description ?? '',
-                fontSize: 12,
-                fontWeight: FontWeight.w400,
-                color: AppColors.PlaceholderColor,
-              ),
-              CustomText(
-                text: 'Add on’s: Hot stone, Herbal Compresses',
-                fontSize: 12,
-                fontWeight: FontWeight.w400,
-                color: AppColors.PlaceholderColor,
-              ),
-            ],
-          )
-        ],
-      ),
-    );
-  }
+  // Container _buildServiceCard() {
+  //   return Container(
+  //     padding: EdgeInsets.symmetric(horizontal: 24.w, vertical: 24.h),
+  //     child: Row(
+  //       children: [
+  //         Container(
+  //           width: 70.w,
+  //           height: 70.h,
+  //           decoration: BoxDecoration(
+  //             color: AppColors.GREY_LIGHT_COLOR_2,
+  //             borderRadius: BorderRadius.only(
+  //               topLeft: Radius.circular(12),
+  //             ),
+  //             image: DecorationImage(
+  //               image: CustomCachedNetworkImageProvider(
+  //                 image ?? '',
+  //               ),
+  //               fit: BoxFit.cover,
+  //             ),
+  //           ),
+  //         ),
+  //         SizedBox(width: 16.w),
+  //         Column(
+  //           mainAxisAlignment: MainAxisAlignment.center,
+  //           crossAxisAlignment: CrossAxisAlignment.start,
+  //           children: [
+  //             CustomText(
+  //               text: widget.serviceModel.title ?? '',
+  //               fontSize: 14,
+  //               fontWeight: FontWeight.w500,
+  //               color: AppColors.FONT_COLOR,
+  //             ),
+  //             CustomText(
+  //               text: widget.serviceModel.description ?? '',
+  //               fontSize: 12,
+  //               fontWeight: FontWeight.w400,
+  //               color: AppColors.PlaceholderColor,
+  //             ),
+  //             CustomText(
+  //               text: 'Add on’s: Hot stone, Herbal Compresses',
+  //               fontSize: 12,
+  //               fontWeight: FontWeight.w400,
+  //               color: AppColors.PlaceholderColor,
+  //             ),
+  //           ],
+  //         )
+  //       ],
+  //     ),
+  //   );
+  // }
 
   Widget _buldContinueButton(BuildContext context) {
     return Padding(
@@ -434,13 +419,8 @@ class _BookServiceScreenState extends State<BookServiceScreen> {
 
           final therapist =
               context.read<AvialbleTherapistCubit>().state.selectedTherapist;
-          final CheckOutModel checkOutModel = CheckOutModel(
-              address: address,
-              therapist: therapist,
-              service: widget.serviceModel,
-              paymentSummary: PaymentSummary(subTotal: 30, discount: 0));
-          NavigatorHelper.of(context)
-              .pushNamed(CheckoutScreen.routeName, arguments: checkOutModel);
+
+          NavigatorHelper.of(context).pushNamed(CheckoutScreen.routeName);
         },
         label: 'continue',
         isExpanded: true,
