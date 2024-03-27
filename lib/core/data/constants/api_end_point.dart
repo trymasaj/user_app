@@ -111,16 +111,16 @@ abstract class ApiEndPoint {
   static const DELETE_MEMBER = '$BASE_URL/member';
 
   //Booking
-  static const BOOKING_LATEST = '$BASE_URL/checkout';
-  static const BOOKING_ADDRESS = '$BASE_URL/checkout';
-  static const BOOKING_SERVICE = '$BASE_URL/checkout';
-  static const BOOKING_MEMBERS = '$BASE_URL/checkout';
-  static const BOOKING_THERAPIST = '$BASE_URL/checkout';
-  static const BOOKING_DETAILS = '$BASE_URL/checkout';
+  static const BOOKING_LATEST = '$BASE_URL/bookings/latest';
+  static const BOOKING_ADDRESS = '$BASE_URL/bookings/address';
+  static const BOOKING_SERVICE = '$BASE_URL/bookings/service';
+  static const BOOKING_MEMBERS = '$BASE_URL/bookings/members';
+  static const BOOKING_THERAPIST = '$BASE_URL/bookings/therapist';
+  static const BOOKING_DETAILS = '$BASE_URL/bookings/';
 
-  static const BOOKING_ADD_VOUCHER = '$BASE_URL/checkout';
-  static const BOOKING_REMOVE_VOUCHER = '$BASE_URL/payments/methods';
+  static const BOOKING_ADD_VOUCHER = '$BASE_URL/bookings/voucher';
+  static const BOOKING_REMOVE_VOUCHER = '$BASE_URL/bookings/remove-voucher';
   //Payment
-  static const BOOKING_CONFIRM = '$BASE_URL/checkout';
+  static const BOOKING_CONFIRM = '$BASE_URL/bookings/confirm';
   static const GET_PAYMENT_METHODS = '$BASE_URL/payments/methods';
 }
