@@ -6,11 +6,11 @@ import 'package:masaj/core/presentation/overlay/show_snack_bar.dart';
 import 'package:masaj/core/presentation/widgets/stateless/custom_loading.dart';
 import 'package:masaj/core/presentation/widgets/stateless/default_button.dart';
 import 'package:masaj/core/presentation/widgets/stateless/empty_page_message.dart';
-import 'package:masaj/core/presentation/widgets/stateless/subtitle_text.dart';
 import 'package:masaj/core/presentation/widgets/stateless/warning_container.dart';
 import 'package:masaj/features/account/widgets/member_tile.dart';
 import 'package:masaj/core/presentation/widgets/stateless/custom_app_bar.dart';
 import 'package:masaj/features/account/pages/manage_members_screen.dart';
+import 'package:masaj/features/book_service/presentation/blocs/book_cubit/book_service_cubit.dart';
 import 'package:masaj/features/book_service/presentation/screens/book_servcie_screen.dart';
 import 'package:masaj/features/members/data/model/member_model.dart';
 import 'package:masaj/features/members/presentaion/bloc/members_cubit.dart';
@@ -44,7 +44,7 @@ class _SelectMembersScreenState extends State<SelectMembersScreen> {
             body: _buildBody(context)));
   }
 
-  Padding _buildBody(context) {
+  Padding _buildBody(BuildContext context) {
     final bottomPadding = MediaQuery.of(context).padding.bottom;
     return Padding(
       padding: EdgeInsets.symmetric(horizontal: 24.w),
@@ -57,10 +57,14 @@ class _SelectMembersScreenState extends State<SelectMembersScreen> {
           DefaultButton(
             margin: const EdgeInsets.symmetric(vertical: 20),
             isExpanded: true,
-            onPressed: () {
+            onPressed: () async {
               if (selectedMembers.isEmpty) {
                 return showSnackBar(context, message: 'select_member');
               }
+              final bookingCubit = context.read<BookingCubit>();
+              final selectedMembersIds =
+                  selectedMembers.map((e) => e.id ?? 0).toList();
+              await bookingCubit.addBookingMembers(selectedMembersIds);
               Navigator.of(context).pushNamed(BookServiceScreen.routeName,
                   arguments: widget.serviceModel);
             },
