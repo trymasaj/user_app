@@ -25,7 +25,7 @@ class BookingRemoteDataSourceImpl implements BookingRemoteDataSource {
 
   @override
   Future<void> addBookingAddress(int addressId) {
-    const url = ApiEndPoint.BOOKING_LATEST;
+    const url = ApiEndPoint.BOOKING_ADDRESS;
     final data = {'customerAddressId': addressId};
 
     return _networkService.post(url, data: data).then((response) {
@@ -37,7 +37,7 @@ class BookingRemoteDataSourceImpl implements BookingRemoteDataSource {
 
   @override
   Future<void> addBookingMembers(List<int> members) {
-    const url = ApiEndPoint.GET_HOME_PAGE_DATA;
+    const url = ApiEndPoint.BOOKING_MEMBERS;
     final data = {'memberIds': members};
 
     return _networkService.post(url, data: data).then((response) {
@@ -49,7 +49,7 @@ class BookingRemoteDataSourceImpl implements BookingRemoteDataSource {
 
   @override
   Future<void> addBookingService(ServiceBookModel serviceBookModel) {
-    const url = ApiEndPoint.BOOKING_LATEST;
+    const url = ApiEndPoint.BOOKING_SERVICE;
     final data = serviceBookModel.toMap();
 
     return _networkService.post(url, data: data).then((response) {
@@ -62,7 +62,7 @@ class BookingRemoteDataSourceImpl implements BookingRemoteDataSource {
   @override
   Future<void> addBookingTherapist(
       {required int therapistId, required DateTime availableTime}) {
-    const url = ApiEndPoint.BOOKING_LATEST;
+    const url = ApiEndPoint.BOOKING_THERAPIST;
     final data = {
       'therapistId': therapistId,
       'bookingDate': availableTime,

@@ -130,6 +130,7 @@ class _MyAppState extends State<MyApp> with WidgetsBindingObserver {
                     create: (context) =>
                         getIt<MyAddressesCubit>()..getAddresses()),
                 BlocProvider(
+                    lazy: false,
                     create: (context) =>
                         Injector().bookingCubit..getLatestBookingId()),
               ],

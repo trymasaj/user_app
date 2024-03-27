@@ -17,6 +17,7 @@ import 'package:masaj/core/presentation/widgets/stateless/text_fields/default_te
 import 'package:masaj/core/presentation/widgets/stateless/text_with_gradiant.dart';
 import 'package:masaj/features/auth/application/auth_cubit/auth_cubit.dart';
 import 'package:masaj/features/auth/presentation/pages/login_page.dart';
+import 'package:masaj/features/book_service/presentation/blocs/book_cubit/book_service_cubit.dart';
 import 'package:masaj/features/focus_area/presentation/pages/focus_area_page.dart';
 import 'package:masaj/features/members/presentaion/pages/select_members.dart';
 import 'package:masaj/features/services/application/service_details_cubit/service_details_cubit.dart';
@@ -191,7 +192,7 @@ class ServiceDetailsScreenState extends State<ServiceDetailsScreen> {
                     }),
                 DefaultButton(
                   label: 'continue',
-                  onPressed: () {
+                  onPressed: () async {
                     final authCubit = context.read<AuthCubit>();
                     if (authCubit.state.isGuest)
                       return Navigator.pushAndRemoveUntil(
@@ -199,6 +200,18 @@ class ServiceDetailsScreenState extends State<ServiceDetailsScreen> {
                           MaterialPageRoute(
                               builder: (context) => const LoginPage()),
                           (_) => true);
+                    await context.read<BookingCubit>().addBookingService(
+                        ServiceBookModel(
+                            serviceId: state.service!.serviceId,
+                            durationId: selectedDurationNotifier
+                                    .value?.serviceDurationId ??
+                                0,
+                            addonIds:
+                                selectedAddons.map((e) => e.addonId).toList(),
+                            focusAreas: selectedFocusPoints.value?.keys
+                                    .map((e) => e.index)
+                                    .toList() ??
+                                []));
                     Navigator.push(
                         context,
                         MaterialPageRoute(
