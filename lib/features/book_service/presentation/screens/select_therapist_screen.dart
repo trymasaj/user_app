@@ -45,7 +45,7 @@ class _SelectTherapistState extends State<SelectTherapist> {
     _scrollController.addListener(() {
       if (_scrollController.position.pixels ==
           _scrollController.position.maxScrollExtent) {
-        widget.avialbleTherapistCubit.loadMoreTherapists();
+        // widget.avialbleTherapistCubit.loadMoreTherapists();
       }
     });
     super.initState();
@@ -81,14 +81,14 @@ class _SelectTherapistState extends State<SelectTherapist> {
                         loadingStyle: LoadingStyle.ShimmerList,
                       ),
                     )
-                  else if (state.therapistsList.isEmpty)
+                  else if (state.availableTherapists.isEmpty)
                     Expanded(
                       child: EmptyPageMessage(
                         heightRatio: 0.65,
                         onRefresh: () async {
-                          await widget.avialbleTherapistCubit.getTherapists(
-                            refresh: true,
-                          );
+                          // await widget.avialbleTherapistCubit.getTherapists(
+                          //   refresh: true,
+                          // );
                         },
                         svgImage: 'empty',
                       ),
@@ -97,17 +97,13 @@ class _SelectTherapistState extends State<SelectTherapist> {
                     Expanded(
                       child: ListView.builder(
                           controller: _scrollController,
-                          itemCount: state.isLoadingMore
-                              ? state.therapistsList.length + 1
-                              : state.therapistsList.length,
+                          itemCount: state.availableTherapists.length,
                           itemBuilder: (context, index) {
-                            if (index == state.therapistsList.length) {
-                              return const CustomLoading();
-                            }
                             return Container(
                                 margin: const EdgeInsets.only(top: 10),
                                 child: AvailableTherapistWidget(
-                                  therapist: state.therapistsList[index],
+                                  therapist: state
+                                      .availableTherapists[index].therapist,
                                 ));
                           }),
                     )

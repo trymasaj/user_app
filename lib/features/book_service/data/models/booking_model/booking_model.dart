@@ -1,6 +1,7 @@
 import 'dart:convert';
 
 import 'package:collection/collection.dart';
+import 'package:masaj/features/providers_tab/data/models/therapist.dart';
 
 import 'address.dart';
 import 'member.dart';

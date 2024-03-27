@@ -13,6 +13,7 @@ import 'package:masaj/core/presentation/navigation/navigator_helper.dart';
 import 'package:masaj/core/presentation/overlay/custom_bottom_sheet.dart';
 import 'package:masaj/core/presentation/widgets/stateless/custom_app_bar.dart';
 import 'package:masaj/core/presentation/widgets/stateless/custom_cached_network_image.dart';
+import 'package:masaj/core/presentation/widgets/stateless/custom_loading.dart';
 import 'package:masaj/core/presentation/widgets/stateless/custom_text.dart';
 import 'package:masaj/core/presentation/widgets/stateless/default_button.dart';
 import 'package:masaj/core/presentation/widgets/stateless/text_fields/default_text_form_field.dart';
@@ -38,7 +39,7 @@ class BookServiceScreen extends StatefulWidget {
           create: (context) => Injector().avialbleTherapistCubit,
         ),
       ], child: BookServiceScreen());
-  static MaterialPageRoute router({required ServiceModel serviceModel}) {
+  static MaterialPageRoute router() {
     return MaterialPageRoute(builder: (context) => builder());
   }
 
@@ -50,6 +51,7 @@ class _BookServiceScreenState extends State<BookServiceScreen> {
   AvailableTherapistTabEnum? selectedTab;
   TimeSlotModel? selectedTimeSlot;
   final TextEditingController _dateController = TextEditingController();
+  DateTime? selectedDate;
 
   void setSelectedTimeSlot(TimeSlotModel timeSlot) {
     setState(() {
@@ -59,15 +61,28 @@ class _BookServiceScreenState extends State<BookServiceScreen> {
     });
   }
 
-  void setSelectedTab(AvailableTherapistTabEnum tab) {
+  void setSelectedTab(AvailableTherapistTabEnum tab, BuildContext context) {
+    if (selectedDate == null) {
+      ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+        content: Text('Please select date and time'),
+      ));
+    }
     setState(() {
       selectedTab = tab;
     });
+    getAvailable();
+  }
+
+  Future<void> getAvailable() async {
+    if (selectedTab == null || selectedDate == null) {
+      return;
+    }
+    await context.read<AvialbleTherapistCubit>().getAvailableTherapists(
+        bookingDate: selectedDate!, pickTherapistType: selectedTab!);
   }
 
   @override
   void initState() {
-    context.read<AvialbleTherapistCubit>().getTherapists();
     super.initState();
   }
 
@@ -75,15 +90,24 @@ class _BookServiceScreenState extends State<BookServiceScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: CustomAppBar(title: 'book_service'),
-      body: Column(
-        children: [
-          // _buildServiceCard(),
-          _buildDivider(),
-          _buildBookingDetails(context),
-          const Spacer(),
-          _buldContinueButton(context),
-          const SizedBox(height: 40),
-        ],
+      body: BlocListener<AvialbleTherapistCubit, AvialbleTherapistState>(
+        listener: (context, state) {
+          if (state.isError) {
+            ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+              content: Text(state.errorMessage ?? ''),
+            ));
+          }
+        },
+        child: Column(
+          children: [
+            // _buildServiceCard(),
+            _buildDivider(),
+            _buildBookingDetails(context),
+            const Spacer(),
+            _buldContinueButton(context),
+            const SizedBox(height: 40),
+          ],
+        ),
       ),
     );
   }
@@ -124,45 +148,62 @@ class _BookServiceScreenState extends State<BookServiceScreen> {
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
                   for (var tab in AvailableTherapistTabEnum.values)
-                    _buildFilterTap(tab, selectedTab == tab)
+                    _buildFilterTap(tab, selectedTab == tab, context)
                 ],
               ),
               SizedBox(height: 20.h),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  CustomText(
-                    text: 'msg_selected_therapist',
-                    fontFamily: 'Poppins',
-                    fontSize: 14,
-                    fontWeight: FontWeight.w400,
-                    color: AppColors.FONT_LIGHT_COLOR,
-                  ),
-                  GestureDetector(
-                    onTap: () {
-                      Navigator.of(context).pushNamed(SelectTherapist.routeName,
-                          arguments: context.read<AvialbleTherapistCubit>());
-                    },
-                    child: TextWithGradiant(
-                      text: 'change',
-                      fontSize: 14,
-                      fontWeight: FontWeight.w500,
+              if (context.watch<AvialbleTherapistCubit>().state.isLoading)
+                CustomLoading(),
+              if (context.watch<AvialbleTherapistCubit>().state.isLoaded &&
+                  context
+                      .watch<AvialbleTherapistCubit>()
+                      .state
+                      .availableTherapists
+                      .isNotEmpty &&
+                  context
+                          .watch<AvialbleTherapistCubit>()
+                          .state
+                          .availableTherapists
+                          .firstOrNull !=
+                      null)
+                Column(
+                  children: [
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        CustomText(
+                          text: 'msg_selected_therapist',
+                          fontFamily: 'Poppins',
+                          fontSize: 14,
+                          fontWeight: FontWeight.w400,
+                          color: AppColors.FONT_LIGHT_COLOR,
+                        ),
+                        GestureDetector(
+                          onTap: () {
+                            Navigator.of(context).pushNamed(
+                                SelectTherapist.routeName,
+                                arguments:
+                                    context.read<AvialbleTherapistCubit>());
+                          },
+                          child: TextWithGradiant(
+                            text: 'change',
+                            fontSize: 14,
+                            fontWeight: FontWeight.w500,
+                          ),
+                        )
+                      ],
                     ),
-                  )
-                ],
-              ),
-              SizedBox(height: 8.h),
-              if (context
-                      .watch<AvialbleTherapistCubit>()
-                      .state
-                      .selectedTherapist !=
-                  null)
-                TherapistWidget(
-                  width: double.infinity,
-                  therapist: context
-                      .watch<AvialbleTherapistCubit>()
-                      .state
-                      .selectedTherapist!,
+                    SizedBox(height: 8.h),
+                    TherapistWidget(
+                      width: double.infinity,
+                      therapist: context
+                          .watch<AvialbleTherapistCubit>()
+                          .state
+                          .availableTherapists
+                          .firstOrNull
+                          ?.therapist!,
+                    ),
+                  ],
                 )
             ],
           ),
@@ -171,10 +212,11 @@ class _BookServiceScreenState extends State<BookServiceScreen> {
     );
   }
 
-  Widget _buildFilterTap(AvailableTherapistTabEnum tab, bool isSelected) {
+  Widget _buildFilterTap(
+      AvailableTherapistTabEnum tab, bool isSelected, BuildContext context) {
     return GestureDetector(
       onTap: () {
-        setSelectedTab(tab);
+        setSelectedTab(tab, context);
       },
       child: Container(
         height: 80.h,
@@ -266,62 +308,74 @@ class _BookServiceScreenState extends State<BookServiceScreen> {
                             ],
                           ),
                           SizedBox(height: 20.h),
-                          Container(
-                              height: 160.h,
-                              padding: EdgeInsets.symmetric(horizontal: 12.w),
-                              child: CupertinoPicker(
-                                scrollController: FixedExtentScrollController(
-                                    initialItem: selectedIndex),
-                                diameterRatio: 10,
-                                selectionOverlay: Container(),
-                                itemExtent: 40,
-                                onSelectedItemChanged: (int index) {
-                                  selectedIndex = index;
-                                },
-                                children:
-                                    List.generate(timeSlots.length, (index) {
-                                  final timeSlot = timeSlots[index];
-                                  return Center(
-                                    child: Row(
-                                      mainAxisAlignment:
-                                          MainAxisAlignment.spaceBetween,
-                                      children: [
-                                        Container(
-                                          width: 120,
-                                          child: CustomText(
-                                            fontFamily: 'Poppins',
-                                            text: timeSlot.monthAndDay,
-                                            fontSize: 16,
-                                            fontWeight: FontWeight.w500,
-                                            color: Color(0xff343C44),
-                                          ),
-                                        ),
-                                        CustomText(
-                                          fontFamily: 'Poppins',
-                                          text: timeSlot.hour,
-                                          fontSize: 16,
-                                          fontWeight: FontWeight.w400,
-                                          color: Color(0xff343C44),
-                                        ),
-                                        CustomText(
-                                          fontFamily: 'Poppins',
-                                          text: timeSlot.minute,
-                                          fontSize: 16,
-                                          fontWeight: FontWeight.w400,
-                                          color: Color(0xff343C44),
-                                        ),
-                                        CustomText(
-                                          fontFamily: 'Poppins',
-                                          text: timeSlot.amPm,
-                                          fontSize: 16,
-                                          fontWeight: FontWeight.w400,
-                                          color: Color(0xff343C44),
-                                        ),
-                                      ],
-                                    ),
-                                  );
-                                }),
-                              )),
+                          SizedBox(
+                            height: 160.h,
+                            child: CupertinoDatePicker(
+                              mode: CupertinoDatePickerMode.dateAndTime,
+                              initialDateTime: selectedDate ?? DateTime.now(),
+                              onDateTimeChanged: (DateTime dateTime) {
+                                selectedDate = dateTime;
+                                getAvailable();
+                              },
+                            ),
+                          ),
+
+                          // Container(
+                          //     height: 160.h,
+                          //     padding: EdgeInsets.symmetric(horizontal: 12.w),
+                          //     child: CupertinoPicker(
+                          //       scrollController: FixedExtentScrollController(
+                          //           initialItem: selectedIndex),
+                          //       diameterRatio: 10,
+                          //       selectionOverlay: Container(),
+                          //       itemExtent: 40,
+                          //       onSelectedItemChanged: (int index) {
+                          //         selectedIndex = index;
+                          //       },
+                          //       children:
+                          //           List.generate(timeSlots.length, (index) {
+                          //         final timeSlot = timeSlots[index];
+                          //         return Center(
+                          //           child: Row(
+                          //             mainAxisAlignment:
+                          //                 MainAxisAlignment.spaceBetween,
+                          //             children: [
+                          //               Container(
+                          //                 width: 120,
+                          //                 child: CustomText(
+                          //                   fontFamily: 'Poppins',
+                          //                   text: timeSlot.monthAndDay,
+                          //                   fontSize: 16,
+                          //                   fontWeight: FontWeight.w500,
+                          //                   color: Color(0xff343C44),
+                          //                 ),
+                          //               ),
+                          //               CustomText(
+                          //                 fontFamily: 'Poppins',
+                          //                 text: timeSlot.hour,
+                          //                 fontSize: 16,
+                          //                 fontWeight: FontWeight.w400,
+                          //                 color: Color(0xff343C44),
+                          //               ),
+                          //               CustomText(
+                          //                 fontFamily: 'Poppins',
+                          //                 text: timeSlot.minute,
+                          //                 fontSize: 16,
+                          //                 fontWeight: FontWeight.w400,
+                          //                 color: Color(0xff343C44),
+                          //               ),
+                          //               CustomText(
+                          //                 fontFamily: 'Poppins',
+                          //                 text: timeSlot.amPm,
+                          //                 fontSize: 16,
+                          //                 fontWeight: FontWeight.w400,
+                          //                 color: Color(0xff343C44),
+                          //               ),
+                          //             ],
+                          //           ),
+                          //         );
+                          //       }),
+                          //     )),
                           DefaultButton(
                             margin: EdgeInsets.symmetric(vertical: 20),
                             isExpanded: true,
@@ -417,8 +471,8 @@ class _BookServiceScreenState extends State<BookServiceScreen> {
           final address = addressCubit.state.addressesData.first;
           log(address.formattedAddress ?? '');
 
-          final therapist =
-              context.read<AvialbleTherapistCubit>().state.selectedTherapist;
+          // final therapist =
+          //     context.read<AvialbleTherapistCubit>().state.selectedTherapist;
 
           NavigatorHelper.of(context).pushNamed(CheckoutScreen.routeName);
         },

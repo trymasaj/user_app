@@ -451,8 +451,14 @@ class ServiceDetailsScreenState extends State<ServiceDetailsScreen> {
 
   Future<void> onContinuePressed(BuildContext context) async {
     checkIfGuest(context);
+    if (selectedDurationNotifier.value == null) {
+      ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+        content: Text('Please select a duration'),
+      ));
+    }
     var bookingCubit = context.read<BookingCubit>();
     final serviceBookModel = createServiceBookingModel();
+
     await bookingCubit.addBookingService(serviceBookModel);
     Navigator.push(context,
         MaterialPageRoute(builder: (context) => SelectMembersScreen()));
