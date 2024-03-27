@@ -18,9 +18,8 @@ abstract class BookingRepository {
 class BookingRepositoryImpl implements BookingRepository {
   final BookingRemoteDataSource _remoteDataSource;
 
-  BookingRepositoryImpl({
-    required BookingRemoteDataSource bookingRemoteDataSource,
-  }) : _remoteDataSource = bookingRemoteDataSource;
+  BookingRepositoryImpl(BookingRemoteDataSource bookingRemoteDataSource)
+      : _remoteDataSource = bookingRemoteDataSource;
 
   @override
   Future<void> addBookingAddress(int addressId) =>

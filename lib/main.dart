@@ -127,9 +127,11 @@ class _MyAppState extends State<MyApp> with WidgetsBindingObserver {
             return MultiBlocProvider(
               providers: [
                 BlocProvider(
-                    lazy: true,
                     create: (context) =>
                         getIt<MyAddressesCubit>()..getAddresses()),
+                BlocProvider(
+                    create: (context) =>
+                        Injector().bookingCubit..getLatestBookingId()),
               ],
               child: MaterialApp(
                 onGenerateRoute: onGenerateRoute,

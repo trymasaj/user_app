@@ -28,8 +28,11 @@ import 'package:masaj/features/auth/data/datasources/auth_local_datasource.dart'
 import 'package:masaj/features/auth/data/datasources/auth_remote_datasource.dart';
 import 'package:masaj/features/auth/data/repositories/auth_repository.dart';
 import 'package:masaj/features/auth/application/auth_cubit/auth_cubit.dart';
+import 'package:masaj/features/book_service/data/datasources/booking_remote_data_source.dart';
+import 'package:masaj/features/book_service/data/repositories/booking_repository.dart';
 import 'package:masaj/features/book_service/enums/avalable_therapist_tab_enum.dart';
 import 'package:masaj/features/book_service/presentation/blocs/available_therapist_cubit/available_therapist_cubit.dart';
+import 'package:masaj/features/book_service/presentation/blocs/book_cubit/book_service_cubit.dart';
 import 'package:masaj/features/home/data/datasources/home_local_data_source.dart';
 import 'package:masaj/features/home/data/datasources/home_remote_data_source.dart';
 import 'package:masaj/features/home/data/repositories/home_repository.dart';
@@ -253,6 +256,16 @@ class Injector {
   MembersDataSource get membersRemoteDataSource =>
       _flyweightMap['membersRemoteDataSource'] ??=
           MembersDataSourceImpl(networkService: networkService);
+
+  //===================[BOOKING_CUBIT]===================
+
+  BookingCubit get bookingCubit => BookingCubit(bookingRepository);
+  BookingRepository get bookingRepository =>
+      _flyweightMap['bookingRepository'] ??=
+          BookingRepositoryImpl(bookingRemoteDataSource);
+  BookingRemoteDataSource get bookingRemoteDataSource =>
+      _flyweightMap['bookingRemoteDataSource'] ??=
+          BookingRemoteDataSourceImpl(networkService);
 
   //===================[NOTIFICATIONS_CUBIT]===================
   NotificationsCubit get notificationsCubit =>

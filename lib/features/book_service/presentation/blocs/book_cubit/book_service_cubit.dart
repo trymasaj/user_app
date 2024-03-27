@@ -12,10 +12,9 @@ import '../../../data/models/booking_model/booking_model.dart';
 
 part 'book_service_state.dart';
 
-class BookServiceCubit extends BaseCubit<BookServiceState> {
-  BookServiceCubit({
-    required BookingRepository bookingRepository,
-  })  : _bookingRepository = bookingRepository,
+class BookingCubit extends BaseCubit<BookServiceState> {
+  BookingCubit(BookingRepository bookingRepository)
+      : _bookingRepository = bookingRepository,
         super(const BookServiceState(status: BookServiceStatus.initial));
 
   final BookingRepository _bookingRepository;
