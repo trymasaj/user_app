@@ -160,8 +160,7 @@ Route<dynamic>? onGenerateRoute(RouteSettings settings) {
         homeTherapistsCubit: arguments.homeTherapistsCubit,
       );
     case BookServiceScreen.routeName:
-      final serviceModel = arguments as ServiceModel;
-      return BookServiceScreen.router(serviceModel: serviceModel);
+      return BookServiceScreen.router();
     case AddMemberScreen.routeName:
       return MaterialPageRoute(builder: (context) => const AddMemberScreen());
     case SelectTherapist.routeName:

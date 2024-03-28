@@ -2,6 +2,7 @@ import 'package:masaj/core/data/clients/network_service.dart';
 import 'package:masaj/core/data/constants/api_end_point.dart';
 import 'package:masaj/core/data/models/pagination_response.dart';
 import 'package:masaj/core/domain/exceptions/request_exception.dart';
+import 'package:masaj/features/providers_tab/data/models/avilable_therapist_model.dart';
 import 'package:masaj/features/providers_tab/data/models/provider_query_model.dart';
 import 'package:masaj/features/providers_tab/data/models/therapist.dart';
 
@@ -13,6 +14,8 @@ abstract class TherapistsDataSource {
   // therapist details
   Future<Therapist> getSingleTherapist(int id);
   Future<bool> favTherapist(int id, bool isFav);
+  Future<List<AvailableTherapistModel>> getAvailableTherapists(
+      {required DateTime bookingDate, required int pickTherapistType});
 }
 
 class TherapistsDataSourceImpl implements TherapistsDataSource {
@@ -74,5 +77,24 @@ class TherapistsDataSourceImpl implements TherapistsDataSource {
           statusCode: response.statusCode!, response: response.data);
     }
     return isFav;
+  }
+
+  @override
+  Future<List<AvailableTherapistModel>> getAvailableTherapists(
+      {required DateTime bookingDate, required int pickTherapistType}) async {
+    const url = ApiEndPoint.AVAILABLE_THERAPISTS;
+    final response = await _networkService.get(url, queryParameters: {
+      'bookingDate': bookingDate.toIso8601String(),
+      'pickTherapistType': pickTherapistType,
+    });
+    if (![201, 200].contains(response.statusCode)) {
+      throw RequestException.fromStatusCode(
+          statusCode: response.statusCode!, response: response.data);
+    }
+    final List<AvailableTherapistModel> therapists = [];
+    for (var item in response.data) {
+      therapists.add(AvailableTherapistModel.fromMap(item));
+    }
+    return therapists;
   }
 }
