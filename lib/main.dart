@@ -132,7 +132,7 @@ class _MyAppState extends State<MyApp> with WidgetsBindingObserver {
                 BlocProvider(
                     lazy: false,
                     create: (context) =>
-                        Injector().bookingCubit..getLatestBookingId()),
+                        Injector().bookingCubit),
               ],
               child: MaterialApp(
                 onGenerateRoute: onGenerateRoute,
