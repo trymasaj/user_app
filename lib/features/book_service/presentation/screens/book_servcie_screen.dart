@@ -24,10 +24,14 @@ import 'package:masaj/features/address/application/blocs/my_addresses_bloc/my_ad
 import 'package:masaj/features/book_service/data/models/time_slot.dart';
 import 'package:masaj/features/book_service/enums/avalable_therapist_tab_enum.dart';
 import 'package:masaj/features/book_service/presentation/blocs/available_therapist_cubit/available_therapist_cubit.dart';
+import 'package:masaj/features/book_service/presentation/blocs/book_cubit/book_service_cubit.dart';
 import 'package:masaj/features/book_service/presentation/screens/select_therapist_screen.dart';
+import 'package:masaj/features/home/presentation/widget/index.dart';
 import 'package:masaj/features/home/presentation/widget/tehrapists_widget.dart';
 import 'package:masaj/features/payment/data/model/payment_model.dart';
 import 'package:masaj/features/payment/presentaion/pages/checkout_screen.dart';
+import 'package:masaj/features/providers_tab/data/models/avilable_therapist_model.dart';
+import 'package:masaj/features/providers_tab/data/models/therapist.dart';
 import 'package:masaj/features/services/data/models/service_model.dart';
 
 class BookServiceScreen extends StatefulWidget {
@@ -52,14 +56,6 @@ class _BookServiceScreenState extends State<BookServiceScreen> {
   TimeSlotModel? selectedTimeSlot;
   final TextEditingController _dateController = TextEditingController();
   DateTime? selectedDate;
-
-  void setSelectedTimeSlot(TimeSlotModel timeSlot) {
-    setState(() {
-      selectedTimeSlot = timeSlot;
-      _dateController.text =
-          '${timeSlot.monthAndDay} ${timeSlot.hour}:${timeSlot.minute} ${timeSlot.amPm}';
-    });
-  }
 
   void setSelectedTab(AvailableTherapistTabEnum tab, BuildContext context) {
     if (selectedDate == null) {
@@ -203,6 +199,8 @@ class _BookServiceScreenState extends State<BookServiceScreen> {
                           .firstOrNull
                           ?.therapist!,
                     ),
+                    SizedBox(height: 20.h),
+                    _buildTimeSlotPicker(context),
                   ],
                 )
             ],
@@ -253,6 +251,156 @@ class _BookServiceScreenState extends State<BookServiceScreen> {
           ],
         ),
       ),
+    );
+  }
+
+  Widget _buildTimeSlotPicker(BuildContext context) {
+    return Column(
+      children: [
+        Row(
+          children: [
+            CustomText(
+              text: '_time'.tr(),
+              fontSize: 14,
+              fontWeight: FontWeight.w500,
+              color: AppColors.FONT_COLOR,
+            ),
+          ],
+        ),
+        SizedBox(height: 8.h),
+        DefaultTextFormField(
+          borderColor: Color(0xffD9D9D9),
+          fillColor: Colors.transparent,
+          currentFocusNode: FocusNode(),
+          currentController: _dateController,
+          isRequired: true,
+          readOnly: true,
+          hint: 'lbl_select_date'.tr(),
+          onTap: () {
+            final cubit = context.read<AvialbleTherapistCubit>();
+            showModalBottomSheet(
+                context: context,
+                shape: const RoundedRectangleBorder(
+                  borderRadius: BorderRadius.only(
+                    topLeft: Radius.circular(32),
+                    topRight: Radius.circular(32),
+                  ),
+                ),
+                builder: (context) {
+                  return BlocProvider.value(
+                    value: cubit,
+                    child: CustomBottomSheet(
+                      padding: EdgeInsets.symmetric(horizontal: 24.w),
+                      child: SizedBox(
+                        child: Column(
+                          children: [
+                            SizedBox(height: 20.h),
+                            Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                              children: [
+                                CustomText(
+                                  text: 'select_date_and_time',
+                                  fontSize: 16,
+                                  fontWeight: FontWeight.w500,
+                                  color: AppColors.FONT_COLOR,
+                                ),
+                              ],
+                            ),
+                            SizedBox(height: 20.h),
+                            Container(
+                                height: 160.h,
+                                padding: EdgeInsets.symmetric(horizontal: 12.w),
+                                child: BlocBuilder<AvialbleTherapistCubit,
+                                    AvialbleTherapistState>(
+                                  builder: (context, state) {
+                                    return CupertinoPicker(
+                                        scrollController:
+                                            FixedExtentScrollController(),
+                                        diameterRatio: 10,
+                                        selectionOverlay: Container(),
+                                        itemExtent: 40,
+                                        onSelectedItemChanged: (int index) {},
+                                        children: [
+                                          ...(state.selectedTherapist
+                                                      ?.availableTimeSlots ??
+                                                  [])
+                                              .map((e) => Center(
+                                                    child: Row(
+                                                      mainAxisAlignment:
+                                                          MainAxisAlignment
+                                                              .spaceBetween,
+                                                      children: [
+                                                        Container(
+                                                          width: 120,
+                                                          child: CustomText(
+                                                            fontFamily:
+                                                                'Poppins',
+                                                            text: e.hour
+                                                                .toString(),
+                                                            fontSize: 16,
+                                                            fontWeight:
+                                                                FontWeight.w500,
+                                                            color: Color(
+                                                                0xff343C44),
+                                                          ),
+                                                        ),
+                                                        CustomText(
+                                                          fontFamily: 'Poppins',
+                                                          text: e.minute
+                                                              .toString(),
+                                                          fontSize: 16,
+                                                          fontWeight:
+                                                              FontWeight.w400,
+                                                          color:
+                                                              Color(0xff343C44),
+                                                        ),
+                                                        CustomText(
+                                                          fontFamily: 'Poppins',
+                                                          text: e.second
+                                                              .toString(),
+                                                          fontSize: 16,
+                                                          fontWeight:
+                                                              FontWeight.w400,
+                                                          color:
+                                                              Color(0xff343C44),
+                                                        ),
+                                                        // CustomText(
+                                                        //   fontFamily: 'Poppins',
+                                                        //   text: timeSlot.amPm,
+                                                        //   fontSize: 16,
+                                                        //   fontWeight:
+                                                        //       FontWeight.w400,
+                                                        //   color:
+                                                        //       Color(0xff343C44),
+                                                        // ),
+                                                      ],
+                                                    ),
+                                                  ))
+                                              .toList(),
+                                        ]);
+                                  },
+                                )),
+                            DefaultButton(
+                              margin: EdgeInsets.symmetric(vertical: 20),
+                              isExpanded: true,
+                              onPressed: () {
+                                Navigator.of(context).pop();
+                              },
+                              label: 'save',
+                            )
+                          ],
+                        ),
+                      ),
+                    ),
+                  );
+                });
+          },
+          suffixIcon: const Icon(
+            Icons.calendar_today,
+            color: AppColors.FONT_LIGHT,
+          ),
+        ),
+      ],
     );
   }
 
@@ -380,8 +528,6 @@ class _BookServiceScreenState extends State<BookServiceScreen> {
                             margin: EdgeInsets.symmetric(vertical: 20),
                             isExpanded: true,
                             onPressed: () {
-                              setSelectedTimeSlot(timeSlots[selectedIndex]);
-
                               Navigator.of(context).pop();
                             },
                             label: 'save',
@@ -470,6 +616,11 @@ class _BookServiceScreenState extends State<BookServiceScreen> {
           await addressCubit.getAddresses();
           final address = addressCubit.state.addressesData.first;
           log(address.formattedAddress ?? '');
+
+          await context.read<BookingCubit>().addBookingTherapist(
+                therapistId: 1,
+                availableTime: selectedDate!,
+              );
 
           // final therapist =
           //     context.read<AvialbleTherapistCubit>().state.selectedTherapist;

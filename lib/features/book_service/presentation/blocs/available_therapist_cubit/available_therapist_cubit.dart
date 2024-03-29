@@ -18,6 +18,14 @@ class AvialbleTherapistCubit extends BaseCubit<AvialbleTherapistState> {
 
   final TherapistsRepository _providersTabRepository;
 
+  void selectTherapist(AvailableTherapistModel? therapist) {
+    emit(state.copyWith(selectedTherapist: therapist));
+  }
+
+  void selectTimeSlot(AvailableTherapistModel? timeSlot) {
+    emit(state.copyWith(selectedAvailableTimeSlot: timeSlot));
+  }
+
   Future<void> getAvailableTherapists(
       {required DateTime bookingDate,
       required AvailableTherapistTabEnum pickTherapistType}) async {
@@ -25,9 +33,12 @@ class AvialbleTherapistCubit extends BaseCubit<AvialbleTherapistState> {
     try {
       final therapists = await _providersTabRepository.getAvailableTherapists(
           bookingDate: bookingDate, pickTherapistType: pickTherapistType.index);
+
       emit(state.copyWith(
           status: AvialbleTherapistStatus.loaded,
-          availableTherapists: therapists));
+          availableTherapists: therapists,
+          selectedTherapist: therapists.firstOrNull,
+          clearTimeSlot: true));
     } catch (e, s) {
       emit(state.copyWith(
           status: AvialbleTherapistStatus.error,

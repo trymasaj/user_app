@@ -26,11 +26,15 @@ class AvialbleTherapistState {
   final AvialbleTherapistStatus status;
   final String? errorMessage;
   final List<AvailableTherapistModel> availableTherapists;
+  final AvailableTherapistModel? selectedTherapist;
+  final AvailableTherapistModel? selectedAvailableTimeSlot;
 
   const AvialbleTherapistState({
     this.status = AvialbleTherapistStatus.initial,
     this.errorMessage,
     this.availableTherapists = const [],
+    this.selectedTherapist,
+    this.selectedAvailableTimeSlot,
   });
 
   @override
@@ -40,21 +44,35 @@ class AvialbleTherapistState {
     return other.runtimeType == runtimeType &&
         (other as AvialbleTherapistState).status == status &&
         other.errorMessage == errorMessage &&
-        other.availableTherapists == availableTherapists;
+        other.availableTherapists == availableTherapists
+        && other.selectedTherapist == selectedTherapist
+        && other.selectedAvailableTimeSlot == selectedAvailableTimeSlot
+        ;
   }
 
   @override
   int get hashCode =>
-      status.hashCode ^ errorMessage.hashCode ^ availableTherapists.hashCode;
+      status.hashCode ^ errorMessage.hashCode ^ availableTherapists.hashCode
+      ^ selectedTherapist.hashCode ^ selectedAvailableTimeSlot.hashCode
+
+      ;
 
   AvialbleTherapistState copyWith({
     AvialbleTherapistStatus? status,
     String? errorMessage,
     List<AvailableTherapistModel>? availableTherapists,
+    AvailableTherapistModel? selectedTherapist,
+    AvailableTherapistModel? selectedAvailableTimeSlot,
+    bool clearTimeSlot = false,
   }) {
     return AvialbleTherapistState(
         status: status ?? this.status,
         errorMessage: errorMessage ?? this.errorMessage,
-        availableTherapists: availableTherapists ?? this.availableTherapists);
+        availableTherapists: availableTherapists ?? this.availableTherapists,
+        selectedTherapist: selectedTherapist ?? this.selectedTherapist,
+        selectedAvailableTimeSlot: 
+        clearTimeSlot ? null :
+        selectedAvailableTimeSlot ?? this.selectedAvailableTimeSlot,
+        );
   }
 }
