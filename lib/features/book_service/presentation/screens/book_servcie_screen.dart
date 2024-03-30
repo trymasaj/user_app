@@ -95,7 +95,7 @@ class _BookServiceScreenState extends State<BookServiceScreen> {
     final therapist = await Navigator.of(context).pushNamed<dynamic>(
         SelectTherapist.routeName,
         arguments: context.read<AvialbleTherapistCubit>());
-    if (therapist != null && therapist is AvailableTherapistModel) {
+    if (therapist != null) {
       context.read<AvialbleTherapistCubit>().selectTherapist(therapist);
     }
   }
@@ -107,7 +107,7 @@ class _BookServiceScreenState extends State<BookServiceScreen> {
         height: 100.h,
         child: Column(
           children: [
-            _buldContinueButton(context),
+            _buildContinueButton(context),
             SizedBox(height: 40.h),
           ],
         ),
@@ -501,7 +501,7 @@ class _BookServiceScreenState extends State<BookServiceScreen> {
     );
   }
 
-  Widget _buldContinueButton(BuildContext context) {
+  Widget _buildContinueButton(BuildContext context) {
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 24.0),
       child: DefaultButton(
@@ -527,7 +527,7 @@ class _BookServiceScreenState extends State<BookServiceScreen> {
                 availableTime: selectedTimeSlot!.convertToDate(selectedDate!),
               );
 
-          NavigatorHelper.of(context).pushNamed(CheckoutScreen.routeName);
+          // NavigatorHelper.of(context).pushNamed(CheckoutScreen.routeName);
         },
         label: 'continue',
         isExpanded: true,

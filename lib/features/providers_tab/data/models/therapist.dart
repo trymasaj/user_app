@@ -107,9 +107,10 @@ class Therapist {
     final String? fullNameEn = json['fullNameEn'] ?? json['therapistNameEn'];
     final String? fullNameAr = json['fullNameAr'] ?? json['therapistNameAr'];
     final String? fullName = json['fullName'] ?? json['therapistName'];
+    final therapistId = json['therapistId'] ?? json['id'];
 
     return Therapist(
-      therapistId: json['therapistId'],
+      therapistId: therapistId,
       countryId: json['countryId'],
       fullNameEn: fullNameEn,
       fullNameAr: fullNameAr,
