@@ -9,6 +9,15 @@ enum AvialbleTherapistStatus {
   isLoadingMore
 }
 
+enum TimeSlotsStatus { initial, loading, loaded, error }
+
+extension TimeSlotsX on TimeSlotsStatus {
+  bool get isInitial => this == TimeSlotsStatus.initial;
+  bool get isLoading => this == TimeSlotsStatus.loading;
+  bool get isLoaded => this == TimeSlotsStatus.loaded;
+  bool get isError => this == TimeSlotsStatus.error;
+}
+
 extension AvialbleTherapistStateX on AvialbleTherapistState {
   bool get isInitial => status == AvialbleTherapistStatus.initial;
 
@@ -24,10 +33,12 @@ extension AvialbleTherapistStateX on AvialbleTherapistState {
 @immutable
 class AvialbleTherapistState {
   final AvialbleTherapistStatus status;
+  final TimeSlotsStatus timeSlotsStatus;
   final String? errorMessage;
   final List<AvailableTherapistModel> availableTherapists;
   final AvailableTherapistModel? selectedTherapist;
   final AvailableTherapistModel? selectedAvailableTimeSlot;
+  final List<AvailableTimeSlot> availableTimeSlots;
 
   const AvialbleTherapistState({
     this.status = AvialbleTherapistStatus.initial,
@@ -35,6 +46,8 @@ class AvialbleTherapistState {
     this.availableTherapists = const [],
     this.selectedTherapist,
     this.selectedAvailableTimeSlot,
+    this.timeSlotsStatus = TimeSlotsStatus.initial,
+    this.availableTimeSlots = const [],
   });
 
   @override
@@ -44,18 +57,22 @@ class AvialbleTherapistState {
     return other.runtimeType == runtimeType &&
         (other as AvialbleTherapistState).status == status &&
         other.errorMessage == errorMessage &&
-        other.availableTherapists == availableTherapists
-        && other.selectedTherapist == selectedTherapist
-        && other.selectedAvailableTimeSlot == selectedAvailableTimeSlot
-        ;
+        other.availableTherapists == availableTherapists &&
+        other.selectedTherapist == selectedTherapist &&
+        other.selectedAvailableTimeSlot == selectedAvailableTimeSlot &&
+        other.timeSlotsStatus == timeSlotsStatus &&
+        other.availableTimeSlots == availableTimeSlots;
   }
 
   @override
   int get hashCode =>
-      status.hashCode ^ errorMessage.hashCode ^ availableTherapists.hashCode
-      ^ selectedTherapist.hashCode ^ selectedAvailableTimeSlot.hashCode
-
-      ;
+      status.hashCode ^
+      errorMessage.hashCode ^
+      availableTherapists.hashCode ^
+      selectedTherapist.hashCode ^
+      selectedAvailableTimeSlot.hashCode ^
+      timeSlotsStatus.hashCode ^
+      availableTimeSlots.hashCode;
 
   AvialbleTherapistState copyWith({
     AvialbleTherapistStatus? status,
@@ -64,15 +81,18 @@ class AvialbleTherapistState {
     AvailableTherapistModel? selectedTherapist,
     AvailableTherapistModel? selectedAvailableTimeSlot,
     bool clearTimeSlot = false,
+    TimeSlotsStatus? timeSlotsStatus,
+    List<AvailableTimeSlot>? availableTimeSlots,
   }) {
     return AvialbleTherapistState(
         status: status ?? this.status,
         errorMessage: errorMessage ?? this.errorMessage,
         availableTherapists: availableTherapists ?? this.availableTherapists,
         selectedTherapist: selectedTherapist ?? this.selectedTherapist,
-        selectedAvailableTimeSlot: 
-        clearTimeSlot ? null :
-        selectedAvailableTimeSlot ?? this.selectedAvailableTimeSlot,
-        );
+        selectedAvailableTimeSlot: clearTimeSlot
+            ? null
+            : selectedAvailableTimeSlot ?? this.selectedAvailableTimeSlot,
+        timeSlotsStatus: timeSlotsStatus ?? this.timeSlotsStatus,
+        availableTimeSlots: availableTimeSlots ?? this.availableTimeSlots);
   }
 }

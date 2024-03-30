@@ -102,6 +102,7 @@ abstract class ApiEndPoint {
   // add or remove favorite therapists
   static const FAV_THERAPISTS = '$Therapists/favourite';
   static const AVAILABLE_THERAPISTS = '$Therapists/available-therapists';
+
   // home
   static const HOME_SEARCH = '$BASE_URL/home/search';
   //Member

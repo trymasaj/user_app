@@ -2,6 +2,7 @@ import 'package:masaj/core/data/clients/network_service.dart';
 import 'package:masaj/core/data/constants/api_end_point.dart';
 import 'package:masaj/core/data/models/pagination_response.dart';
 import 'package:masaj/core/domain/exceptions/request_exception.dart';
+import 'package:masaj/features/book_service/data/models/booking_model/timeslot.dart';
 import 'package:masaj/features/providers_tab/data/models/avilable_therapist_model.dart';
 import 'package:masaj/features/providers_tab/data/models/provider_query_model.dart';
 import 'package:masaj/features/providers_tab/data/models/therapist.dart';
@@ -16,6 +17,8 @@ abstract class TherapistsDataSource {
   Future<bool> favTherapist(int id, bool isFav);
   Future<List<AvailableTherapistModel>> getAvailableTherapists(
       {required DateTime bookingDate, required int pickTherapistType});
+  Future<List<AvailableTimeSlot>> getAvailableTimeSlots(
+      int therapistId, DateTime bookingDate);
 }
 
 class TherapistsDataSourceImpl implements TherapistsDataSource {
@@ -96,5 +99,24 @@ class TherapistsDataSourceImpl implements TherapistsDataSource {
       therapists.add(AvailableTherapistModel.fromMap(item));
     }
     return therapists;
+  }
+
+  @override
+  Future<List<AvailableTimeSlot>> getAvailableTimeSlots(
+      int therapistId, DateTime bookingDate) async {
+    final url = '${ApiEndPoint.Therapists}/$therapistId/availability';
+    final response = await _networkService.get(url, queryParameters: {
+      'therapistId': therapistId,
+      'bookingDate': bookingDate.toIso8601String(),
+    });
+    if (![201, 200].contains(response.statusCode)) {
+      throw RequestException.fromStatusCode(
+          statusCode: response.statusCode!, response: response.data);
+    }
+    final List<AvailableTimeSlot> timeSlots = [];
+    for (var item in (response.data as List<dynamic>)) {
+      timeSlots.add(AvailableTimeSlot(timeString: item as String));
+    }
+    return timeSlots;
   }
 }

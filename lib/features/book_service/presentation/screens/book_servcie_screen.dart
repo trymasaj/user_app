@@ -16,10 +16,12 @@ import 'package:masaj/core/presentation/widgets/stateless/custom_cached_network_
 import 'package:masaj/core/presentation/widgets/stateless/custom_loading.dart';
 import 'package:masaj/core/presentation/widgets/stateless/custom_text.dart';
 import 'package:masaj/core/presentation/widgets/stateless/default_button.dart';
+import 'package:masaj/core/presentation/widgets/stateless/empty_page_message.dart';
 import 'package:masaj/core/presentation/widgets/stateless/text_fields/default_text_form_field.dart';
 import 'package:masaj/core/presentation/widgets/stateless/text_with_gradiant.dart';
 
 import 'package:masaj/features/address/application/blocs/my_addresses_bloc/my_addresses_cubit.dart';
+import 'package:masaj/features/book_service/data/models/booking_model/timeslot.dart';
 
 import 'package:masaj/features/book_service/data/models/time_slot.dart';
 import 'package:masaj/features/book_service/enums/avalable_therapist_tab_enum.dart';
@@ -53,13 +55,20 @@ class BookServiceScreen extends StatefulWidget {
 
 class _BookServiceScreenState extends State<BookServiceScreen> {
   AvailableTherapistTabEnum? selectedTab;
-  TimeSlotModel? selectedTimeSlot;
+  AvailableTimeSlot? selectedTimeSlot;
   final TextEditingController _dateController = TextEditingController();
+  final TextEditingController _timeController = TextEditingController();
   DateTime? selectedDate;
+  void setSelectedTimeSlot(AvailableTimeSlot timeSlot) {
+    setState(() {
+      selectedTimeSlot = timeSlot;
+      _timeController.text = timeSlot.timeString12HourFormat;
+    });
+  }
 
   void setSelectedTab(AvailableTherapistTabEnum tab, BuildContext context) {
     if (selectedDate == null) {
-      ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+      ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
         content: Text('Please select date and time'),
       ));
     }
@@ -85,7 +94,16 @@ class _BookServiceScreenState extends State<BookServiceScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: CustomAppBar(title: 'book_service'),
+      bottomSheet: SizedBox(
+        height: 100.h,
+        child: Column(
+          children: [
+            _buldContinueButton(context),
+            SizedBox(height: 40.h),
+          ],
+        ),
+      ),
+      appBar: const CustomAppBar(title: 'book_service'),
       body: BlocListener<AvialbleTherapistCubit, AvialbleTherapistState>(
         listener: (context, state) {
           if (state.isError) {
@@ -94,21 +112,25 @@ class _BookServiceScreenState extends State<BookServiceScreen> {
             ));
           }
         },
-        child: Column(
-          children: [
-            // _buildServiceCard(),
-            _buildDivider(),
-            _buildBookingDetails(context),
-            const Spacer(),
-            _buldContinueButton(context),
-            const SizedBox(height: 40),
-          ],
+        child: BlocBuilder<AvialbleTherapistCubit, AvialbleTherapistState>(
+          builder: (context, state) {
+            return SingleChildScrollView(
+              child: Column(
+                children: [
+                  // _buildServiceCard(),
+                  _buildDivider(),
+                  _buildBookingDetails(context, state),
+                ],
+              ),
+            );
+          },
         ),
       ),
     );
   }
 
-  Padding _buildBookingDetails(BuildContext context) {
+  Padding _buildBookingDetails(
+      BuildContext context, AvialbleTherapistState state) {
     return Padding(
       padding: EdgeInsets.symmetric(horizontal: 24.w),
       child: Column(
@@ -148,20 +170,18 @@ class _BookServiceScreenState extends State<BookServiceScreen> {
                 ],
               ),
               SizedBox(height: 20.h),
-              if (context.watch<AvialbleTherapistCubit>().state.isLoading)
-                CustomLoading(),
-              if (context.watch<AvialbleTherapistCubit>().state.isLoaded &&
-                  context
-                      .watch<AvialbleTherapistCubit>()
-                      .state
-                      .availableTherapists
-                      .isNotEmpty &&
-                  context
-                          .watch<AvialbleTherapistCubit>()
-                          .state
-                          .availableTherapists
-                          .firstOrNull !=
-                      null)
+              if (state.isLoading) CustomLoading(),
+              if (state.isLoaded && state.availableTherapists.isEmpty)
+                SizedBox(
+                  child: EmptyPageMessage(
+                    message: 'No therapist available',
+                    heightRatio: .4,
+                    svgImage: 'empty',
+                  ),
+                ),
+              if (state.isLoaded &&
+                  state.availableTherapists.isNotEmpty &&
+                  state.availableTherapists.firstOrNull != null)
                 Column(
                   children: [
                     Row(
@@ -192,12 +212,8 @@ class _BookServiceScreenState extends State<BookServiceScreen> {
                     SizedBox(height: 8.h),
                     TherapistWidget(
                       width: double.infinity,
-                      therapist: context
-                          .watch<AvialbleTherapistCubit>()
-                          .state
-                          .availableTherapists
-                          .firstOrNull
-                          ?.therapist!,
+                      therapist:
+                          state.availableTherapists.firstOrNull?.therapist!,
                     ),
                     SizedBox(height: 20.h),
                     _buildTimeSlotPicker(context),
@@ -260,7 +276,7 @@ class _BookServiceScreenState extends State<BookServiceScreen> {
         Row(
           children: [
             CustomText(
-              text: '_time'.tr(),
+              text: 'time'.tr(),
               fontSize: 14,
               fontWeight: FontWeight.w500,
               color: AppColors.FONT_COLOR,
@@ -272,12 +288,13 @@ class _BookServiceScreenState extends State<BookServiceScreen> {
           borderColor: Color(0xffD9D9D9),
           fillColor: Colors.transparent,
           currentFocusNode: FocusNode(),
-          currentController: _dateController,
+          currentController: _timeController,
           isRequired: true,
           readOnly: true,
           hint: 'lbl_select_date'.tr(),
           onTap: () {
             final cubit = context.read<AvialbleTherapistCubit>();
+            cubit.getAvailableTimeSlots(selectedDate!);
             showModalBottomSheet(
                 context: context,
                 shape: const RoundedRectangleBorder(
@@ -315,64 +332,42 @@ class _BookServiceScreenState extends State<BookServiceScreen> {
                                   builder: (context, state) {
                                     return CupertinoPicker(
                                         scrollController:
-                                            FixedExtentScrollController(),
+                                            FixedExtentScrollController(
+                                          initialItem: selectedTimeSlot == null
+                                              ? 0
+                                              : state.availableTimeSlots
+                                                  .indexOf(selectedTimeSlot!),
+                                        ),
                                         diameterRatio: 10,
                                         selectionOverlay: Container(),
                                         itemExtent: 40,
-                                        onSelectedItemChanged: (int index) {},
+                                        onSelectedItemChanged: (int index) {
+                                          setSelectedTimeSlot(
+                                              state.availableTimeSlots![index]);
+                                        },
                                         children: [
-                                          ...(state.selectedTherapist
-                                                      ?.availableTimeSlots ??
-                                                  [])
+                                          ...(state.availableTimeSlots ??
+                                                  <AvailableTimeSlot>[])
                                               .map((e) => Center(
                                                     child: Row(
                                                       mainAxisAlignment:
                                                           MainAxisAlignment
-                                                              .spaceBetween,
+                                                              .center,
                                                       children: [
                                                         Container(
                                                           width: 120,
                                                           child: CustomText(
                                                             fontFamily:
                                                                 'Poppins',
-                                                            text: e.hour
-                                                                .toString(),
-                                                            fontSize: 16,
+                                                            text: e
+                                                                .timeString12HourFormat,
+                                                            fontSize: 18,
                                                             fontWeight:
                                                                 FontWeight.w500,
                                                             color: Color(
                                                                 0xff343C44),
                                                           ),
                                                         ),
-                                                        CustomText(
-                                                          fontFamily: 'Poppins',
-                                                          text: e.minute
-                                                              .toString(),
-                                                          fontSize: 16,
-                                                          fontWeight:
-                                                              FontWeight.w400,
-                                                          color:
-                                                              Color(0xff343C44),
-                                                        ),
-                                                        CustomText(
-                                                          fontFamily: 'Poppins',
-                                                          text: e.second
-                                                              .toString(),
-                                                          fontSize: 16,
-                                                          fontWeight:
-                                                              FontWeight.w400,
-                                                          color:
-                                                              Color(0xff343C44),
-                                                        ),
-                                                        // CustomText(
-                                                        //   fontFamily: 'Poppins',
-                                                        //   text: timeSlot.amPm,
-                                                        //   fontSize: 16,
-                                                        //   fontWeight:
-                                                        //       FontWeight.w400,
-                                                        //   color:
-                                                        //       Color(0xff343C44),
-                                                        // ),
                                                       ],
                                                     ),
                                                   ))
@@ -436,8 +431,6 @@ class _BookServiceScreenState extends State<BookServiceScreen> {
                   ),
                 ),
                 builder: (context) {
-                  final timeSlots = TimeSlotModel.generateTimeSlots();
-                  int selectedIndex = 2;
                   return CustomBottomSheet(
                     padding: EdgeInsets.symmetric(horizontal: 24.w),
                     child: SizedBox(
@@ -459,71 +452,18 @@ class _BookServiceScreenState extends State<BookServiceScreen> {
                           SizedBox(
                             height: 160.h,
                             child: CupertinoDatePicker(
-                              mode: CupertinoDatePickerMode.dateAndTime,
+                              // mode: CupertinoDatePickerMode.dateAndTime,
+                              mode: CupertinoDatePickerMode.date,
                               initialDateTime: selectedDate ?? DateTime.now(),
                               onDateTimeChanged: (DateTime dateTime) {
                                 selectedDate = dateTime;
+                                _dateController.text =
+                                    DateFormat('E, MMM d, yyyy')
+                                        .format(dateTime);
                                 getAvailable();
                               },
                             ),
                           ),
-
-                          // Container(
-                          //     height: 160.h,
-                          //     padding: EdgeInsets.symmetric(horizontal: 12.w),
-                          //     child: CupertinoPicker(
-                          //       scrollController: FixedExtentScrollController(
-                          //           initialItem: selectedIndex),
-                          //       diameterRatio: 10,
-                          //       selectionOverlay: Container(),
-                          //       itemExtent: 40,
-                          //       onSelectedItemChanged: (int index) {
-                          //         selectedIndex = index;
-                          //       },
-                          //       children:
-                          //           List.generate(timeSlots.length, (index) {
-                          //         final timeSlot = timeSlots[index];
-                          //         return Center(
-                          //           child: Row(
-                          //             mainAxisAlignment:
-                          //                 MainAxisAlignment.spaceBetween,
-                          //             children: [
-                          //               Container(
-                          //                 width: 120,
-                          //                 child: CustomText(
-                          //                   fontFamily: 'Poppins',
-                          //                   text: timeSlot.monthAndDay,
-                          //                   fontSize: 16,
-                          //                   fontWeight: FontWeight.w500,
-                          //                   color: Color(0xff343C44),
-                          //                 ),
-                          //               ),
-                          //               CustomText(
-                          //                 fontFamily: 'Poppins',
-                          //                 text: timeSlot.hour,
-                          //                 fontSize: 16,
-                          //                 fontWeight: FontWeight.w400,
-                          //                 color: Color(0xff343C44),
-                          //               ),
-                          //               CustomText(
-                          //                 fontFamily: 'Poppins',
-                          //                 text: timeSlot.minute,
-                          //                 fontSize: 16,
-                          //                 fontWeight: FontWeight.w400,
-                          //                 color: Color(0xff343C44),
-                          //               ),
-                          //               CustomText(
-                          //                 fontFamily: 'Poppins',
-                          //                 text: timeSlot.amPm,
-                          //                 fontSize: 16,
-                          //                 fontWeight: FontWeight.w400,
-                          //                 color: Color(0xff343C44),
-                          //               ),
-                          //             ],
-                          //           ),
-                          //         );
-                          //       }),
-                          //     )),
                           DefaultButton(
                             margin: EdgeInsets.symmetric(vertical: 20),
                             isExpanded: true,
@@ -556,57 +496,6 @@ class _BookServiceScreenState extends State<BookServiceScreen> {
     );
   }
 
-  // Container _buildServiceCard() {
-  //   return Container(
-  //     padding: EdgeInsets.symmetric(horizontal: 24.w, vertical: 24.h),
-  //     child: Row(
-  //       children: [
-  //         Container(
-  //           width: 70.w,
-  //           height: 70.h,
-  //           decoration: BoxDecoration(
-  //             color: AppColors.GREY_LIGHT_COLOR_2,
-  //             borderRadius: BorderRadius.only(
-  //               topLeft: Radius.circular(12),
-  //             ),
-  //             image: DecorationImage(
-  //               image: CustomCachedNetworkImageProvider(
-  //                 image ?? '',
-  //               ),
-  //               fit: BoxFit.cover,
-  //             ),
-  //           ),
-  //         ),
-  //         SizedBox(width: 16.w),
-  //         Column(
-  //           mainAxisAlignment: MainAxisAlignment.center,
-  //           crossAxisAlignment: CrossAxisAlignment.start,
-  //           children: [
-  //             CustomText(
-  //               text: widget.serviceModel.title ?? '',
-  //               fontSize: 14,
-  //               fontWeight: FontWeight.w500,
-  //               color: AppColors.FONT_COLOR,
-  //             ),
-  //             CustomText(
-  //               text: widget.serviceModel.description ?? '',
-  //               fontSize: 12,
-  //               fontWeight: FontWeight.w400,
-  //               color: AppColors.PlaceholderColor,
-  //             ),
-  //             CustomText(
-  //               text: 'Add on’s: Hot stone, Herbal Compresses',
-  //               fontSize: 12,
-  //               fontWeight: FontWeight.w400,
-  //               color: AppColors.PlaceholderColor,
-  //             ),
-  //           ],
-  //         )
-  //       ],
-  //     ),
-  //   );
-  // }
-
   Widget _buldContinueButton(BuildContext context) {
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 24.0),
@@ -616,10 +505,21 @@ class _BookServiceScreenState extends State<BookServiceScreen> {
           await addressCubit.getAddresses();
           final address = addressCubit.state.addressesData.first;
           log(address.formattedAddress ?? '');
+          if (selectedTimeSlot == null || selectedDate == null) {
+            ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
+              content: Text('Please select date and time'),
+            ));
+            return;
+          }
 
           await context.read<BookingCubit>().addBookingTherapist(
-                therapistId: 1,
-                availableTime: selectedDate!,
+                therapistId: context
+                    .read<AvialbleTherapistCubit>()
+                    .state
+                    .selectedTherapist!
+                    .therapist!
+                    .therapistId,
+                availableTime: selectedTimeSlot!.convertToDate(selectedDate!),
               );
 
           // final therapist =
