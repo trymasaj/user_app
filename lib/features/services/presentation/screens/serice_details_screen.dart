@@ -29,8 +29,8 @@ class ServiceDetailsScreen extends StatefulWidget {
 
   final int id;
   static const routeName = '/ServiceDetailsScreen';
-  static MaterialPageRoute router(int id) {
-    return MaterialPageRoute(
+  static MaterialPageRoute router<T>(int id) {
+    return MaterialPageRoute<T>(
       builder: (_) => builder(
         id,
       ),

@@ -92,10 +92,10 @@ class _BookServiceScreenState extends State<BookServiceScreen> {
   }
 
   Future _onChangeTherapist() async {
-    final therapist = await Navigator.of(context)
-        .pushNamed<AvailableTherapistModel?>(SelectTherapist.routeName,
-            arguments: context.read<AvialbleTherapistCubit>());
-    if (therapist != null) {
+    final therapist = await Navigator.of(context).pushNamed<dynamic>(
+        SelectTherapist.routeName,
+        arguments: context.read<AvialbleTherapistCubit>());
+    if (therapist != null && therapist is AvailableTherapistModel) {
       context.read<AvialbleTherapistCubit>().selectTherapist(therapist);
     }
   }
@@ -526,8 +526,6 @@ class _BookServiceScreenState extends State<BookServiceScreen> {
                     .therapistId,
                 availableTime: selectedTimeSlot!.convertToDate(selectedDate!),
               );
-
-        
 
           NavigatorHelper.of(context).pushNamed(CheckoutScreen.routeName);
         },

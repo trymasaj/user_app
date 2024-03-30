@@ -15,8 +15,9 @@ class SelectTherapist extends StatefulWidget {
 
   static const String routeName = '/select-therapist';
 
-  static Route route({required AvialbleTherapistCubit avialbleTherapistCubit}) {
-    return MaterialPageRoute(
+  static MaterialPageRoute<T> route<T>(
+      {required AvialbleTherapistCubit avialbleTherapistCubit}) {
+    return MaterialPageRoute<T>(
       settings: const RouteSettings(name: routeName),
       builder: (context) => builder(
           avialbleTherapistCubit: avialbleTherapistCubit, context: context),
