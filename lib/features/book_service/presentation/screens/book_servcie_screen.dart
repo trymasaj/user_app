@@ -457,15 +457,14 @@ class _BookServiceScreenState extends State<BookServiceScreen> {
                           SizedBox(
                             height: 160.h,
                             child: CupertinoDatePicker(
-                              // mode: CupertinoDatePickerMode.dateAndTime,
-                              mode: CupertinoDatePickerMode.date,
+                              mode: CupertinoDatePickerMode.dateAndTime,
+                              // mode: CupertinoDatePickerMode.date,
                               initialDateTime: selectedDate ?? DateTime.now(),
                               onDateTimeChanged: (DateTime dateTime) {
                                 selectedDate = dateTime;
                                 _dateController.text =
                                     DateFormat('E, MMM d, yyyy')
                                         .format(dateTime);
-                                getAvailable();
                               },
                             ),
                           ),
@@ -474,6 +473,7 @@ class _BookServiceScreenState extends State<BookServiceScreen> {
                             isExpanded: true,
                             onPressed: () {
                               Navigator.of(context).pop();
+                              getAvailable();
                             },
                             label: 'save',
                           )
@@ -527,8 +527,7 @@ class _BookServiceScreenState extends State<BookServiceScreen> {
                 availableTime: selectedTimeSlot!.convertToDate(selectedDate!),
               );
 
-          // final therapist =
-          //     context.read<AvialbleTherapistCubit>().state.selectedTherapist;
+        
 
           NavigatorHelper.of(context).pushNamed(CheckoutScreen.routeName);
         },
