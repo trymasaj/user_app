@@ -891,5 +891,6 @@
     "checkout_warning": "Late arrivals my result in lost treatment time\nunless our schedule allows us to offer full service",
     "use_wallet": "Use wallet payment",
     "apply_wallet_amount": "Amount",
-    "booking_summary": "Booking Summary"
+    "booking_summary": "Booking Summary",
+    "time": "Time"
 }

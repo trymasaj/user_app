@@ -102,8 +102,8 @@ class _SelectTherapistState extends State<SelectTherapist> {
                             return Container(
                                 margin: const EdgeInsets.only(top: 10),
                                 child: AvailableTherapistWidget(
-                                  therapist: state
-                                      .availableTherapists[index].therapist,
+                                  availableTherapistModel:
+                                      state.availableTherapists[index],
                                 ));
                           }),
                     )

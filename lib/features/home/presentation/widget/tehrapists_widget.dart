@@ -13,6 +13,7 @@ import 'package:masaj/core/presentation/widgets/stateless/custom_text.dart';
 import 'package:masaj/core/presentation/widgets/stateless/default_button.dart';
 import 'package:masaj/features/auth/application/auth_cubit/auth_cubit.dart';
 import 'package:masaj/features/home/presentation/pages/home_tab.dart';
+import 'package:masaj/features/providers_tab/data/models/avilable_therapist_model.dart';
 import 'package:masaj/features/providers_tab/data/models/therapist.dart';
 import 'package:masaj/features/providers_tab/presentation/cubits/home_therapists_cubit/home_therapists_cubit.dart';
 import 'package:masaj/features/providers_tab/presentation/cubits/providers_tab_cubit/providers_tab_cubit.dart';
@@ -210,15 +211,17 @@ class AvailableTherapistWidget extends StatelessWidget {
     this.width,
     this.padding,
     this.margin,
-    this.therapist,
+    this.availableTherapistModel,
   });
   final double? width;
   final EdgeInsets? padding;
   final EdgeInsets? margin;
-  final Therapist? therapist;
+  final AvailableTherapistModel? availableTherapistModel;
 
   @override
   Widget build(BuildContext context) {
+    final therapist = availableTherapistModel?.therapist;
+
     return GestureDetector(
       onTap: () {
         if (therapist != null)
@@ -332,7 +335,18 @@ class AvailableTherapistWidget extends StatelessWidget {
                           fontWeight: FontWeight.w500,
                         ),
                         label: 'view_profile',
-                        onPressed: () {})),
+                        onPressed: () {
+                          if (therapist != null)
+                            NavigatorHelper.of(context).pushNamed(
+                                ProviderDetailsScreen.routeName,
+                                arguments: ProviderDetailsScreenNavArguements(
+                                    therapist: therapist,
+                                    homeTherapistsCubit:
+                                        context.read<HomeTherapistsCubit?>(),
+                                    // ProvidersTabCubit is nullable
+                                    providersTabCubit:
+                                        context.read<ProvidersTabCubit?>()));
+                        })),
                 SizedBox(
                   width: 5.w,
                 ),
@@ -349,7 +363,9 @@ class AvailableTherapistWidget extends StatelessWidget {
                           fontWeight: FontWeight.w500,
                         ),
                         label: 'lbl_select',
-                        onPressed: () {}))
+                        onPressed: () {
+                          Navigator.pop(context, availableTherapistModel);
+                        }))
               ],
             )
           ],

@@ -91,6 +91,15 @@ class _BookServiceScreenState extends State<BookServiceScreen> {
     super.initState();
   }
 
+  Future _onChangeTherapist() async {
+    final therapist = await Navigator.of(context)
+        .pushNamed<AvailableTherapistModel?>(SelectTherapist.routeName,
+            arguments: context.read<AvialbleTherapistCubit>());
+    if (therapist != null) {
+      context.read<AvialbleTherapistCubit>().selectTherapist(therapist);
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -184,31 +193,27 @@ class _BookServiceScreenState extends State<BookServiceScreen> {
                   state.availableTherapists.firstOrNull != null)
                 Column(
                   children: [
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: [
-                        CustomText(
-                          text: 'msg_selected_therapist',
-                          fontFamily: 'Poppins',
-                          fontSize: 14,
-                          fontWeight: FontWeight.w400,
-                          color: AppColors.FONT_LIGHT_COLOR,
-                        ),
-                        GestureDetector(
-                          onTap: () {
-                            Navigator.of(context).pushNamed(
-                                SelectTherapist.routeName,
-                                arguments:
-                                    context.read<AvialbleTherapistCubit>());
-                          },
-                          child: TextWithGradiant(
-                            text: 'change',
+                    if (selectedTab?.index == 2)
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          CustomText(
+                            text: 'msg_selected_therapist',
+                            fontFamily: 'Poppins',
                             fontSize: 14,
-                            fontWeight: FontWeight.w500,
+                            fontWeight: FontWeight.w400,
+                            color: AppColors.FONT_LIGHT_COLOR,
                           ),
-                        )
-                      ],
-                    ),
+                          GestureDetector(
+                            onTap: _onChangeTherapist,
+                            child: TextWithGradiant(
+                              text: 'change',
+                              fontSize: 14,
+                              fontWeight: FontWeight.w500,
+                            ),
+                          )
+                        ],
+                      ),
                     SizedBox(height: 8.h),
                     TherapistWidget(
                       width: double.infinity,
