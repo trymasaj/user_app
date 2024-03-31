@@ -140,4 +140,7 @@ class BookingCubit extends BaseCubit<BookServiceState> {
           status: BookServiceStatus.error, errorMessage: e.toString()));
     }
   }
+  void setSelectedTherapist (Therapist? therapist){
+    emit(state.copyWith(selectedTherapist: therapist));
+  }
 }

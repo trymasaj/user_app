@@ -65,7 +65,7 @@ class BookingRemoteDataSourceImpl implements BookingRemoteDataSource {
     const url = ApiEndPoint.BOOKING_THERAPIST;
     final data = {
       'therapistId': therapistId,
-      'bookingDate': availableTime,
+      'bookingDate': availableTime.toIso8601String(),
     };
 
     return _networkService.post(url, data: data).then((response) {

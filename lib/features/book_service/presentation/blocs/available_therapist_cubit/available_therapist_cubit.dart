@@ -20,12 +20,26 @@ class AvialbleTherapistCubit extends BaseCubit<AvialbleTherapistState> {
 
   final TherapistsRepository _providersTabRepository;
 
-  Future<void> selectTherapist(AvailableTherapistModel? therapist) async {
-    emit(state.copyWith(selectedTherapist: therapist));
+  // get thrapis by id
+  Future<void> getTherapistById(int id) async {
+    emit(state.copyWith(status: AvialbleTherapistStatus.loading));
+    try {
+      final therapist = await _providersTabRepository.getSingleTherapist(id);
+      final availableTherapist = AvailableTherapistModel(
+          therapist: therapist,
+          userTriedBefore: false,
+          availableTimeSlots: null);
+      emit(state.copyWith(
+          status: AvialbleTherapistStatus.loaded,
+          availableTherapists: [availableTherapist],
+          selectedTherapist: availableTherapist));
+    } catch (e) {
+      emit(state.copyWith(status: AvialbleTherapistStatus.error));
+    }
   }
 
-  void selectTimeSlot(AvailableTherapistModel? timeSlot) {
-    emit(state.copyWith(selectedAvailableTimeSlot: timeSlot));
+  Future<void> selectTherapist(AvailableTherapistModel? therapist) async {
+    emit(state.copyWith(selectedTherapist: therapist));
   }
 
   Future<void> getAvailableTherapists(

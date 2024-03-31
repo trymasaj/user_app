@@ -4,6 +4,7 @@ import 'package:masaj/core/presentation/colors/app_colors.dart';
 import 'package:masaj/core/presentation/widgets/stateless/custom_app_bar.dart';
 import 'package:masaj/core/presentation/widgets/stateless/custom_cached_network_image.dart';
 import 'package:masaj/core/presentation/widgets/stateless/custom_rating_bar.dart';
+import 'package:masaj/features/book_service/presentation/blocs/book_cubit/book_service_cubit.dart';
 import 'package:masaj/features/bookings_tab/presentation/widgets/therapist_info_card.dart';
 import 'package:masaj/features/home/presentation/pages/home_tab.dart';
 import 'package:masaj/features/home/presentation/widget/tehrapists_widget.dart';
@@ -40,6 +41,9 @@ class _BookWithTherapistScreenState extends State<BookWithTherapistScreen> {
   late Therapist therapist;
   @override
   void initState() {
+    context
+        .read<BookingCubit>()
+        .setSelectedTherapist(widget.arguments!.therapist);
     _scrollController = ScrollController();
     therapist = widget.arguments!.therapist;
     serviceCubit = context.read<ServiceCubit>();

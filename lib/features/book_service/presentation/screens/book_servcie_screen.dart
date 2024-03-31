@@ -1,3 +1,4 @@
+import 'dart:async';
 import 'dart:developer';
 
 import 'package:bottom_picker/bottom_picker.dart';
@@ -88,7 +89,18 @@ class _BookServiceScreenState extends State<BookServiceScreen> {
 
   @override
   void initState() {
+    checkTherapistInBooking();
     super.initState();
+  }
+
+  Future<void> checkTherapistInBooking() async {
+    final therapist =
+        await context.read<BookingCubit>().state.selectedTherapist;
+    if (therapist != null) {
+      context
+          .read<AvialbleTherapistCubit>()
+          .getTherapistById(therapist.therapistId!);
+    }
   }
 
   Future _onChangeTherapist() async {
