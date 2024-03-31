@@ -4,40 +4,40 @@ import 'package:flutter/widgets.dart';
 
 class PaymentMethodModel {
   final int? id;
-  final String? url;
-  final String? logo;
-  final String? name;
+  final String? titleAr;
+  final String? titleEn;
+  final String? title;
   bool isSelected;
   PaymentMethodModel({
     this.id,
-    this.url,
-    this.logo,
-    this.name,
-    this.isSelected = false,
+    this.titleAr,
+    this.titleEn,
+    this.title,
+    required this.isSelected,
   });
 
   PaymentMethodModel copyWith({
     ValueGetter<int?>? id,
-    ValueGetter<String?>? url,
-    ValueGetter<String?>? logo,
-    ValueGetter<String?>? name,
-    ValueGetter<bool>? isSelected,
+    ValueGetter<String?>? titleAr,
+    ValueGetter<String?>? titleEn,
+    ValueGetter<String?>? title,
+    bool? isSelected,
   }) {
     return PaymentMethodModel(
       id: id != null ? id() : this.id,
-      url: url != null ? url() : this.url,
-      logo: logo != null ? logo() : this.logo,
-      name: name != null ? name() : this.name,
-      isSelected: isSelected != null ? isSelected() : this.isSelected,
+      titleAr: titleAr != null ? titleAr() : this.titleAr,
+      titleEn: titleEn != null ? titleEn() : this.titleEn,
+      title: title != null ? title() : this.title,
+      isSelected: isSelected ?? this.isSelected,
     );
   }
 
   Map<String, dynamic> toMap() {
     return {
       'id': id,
-      'url': url,
-      'logo': logo,
-      'name': name,
+      'titleAr': titleAr,
+      'titleEn': titleEn,
+      'title': title,
       'isSelected': isSelected,
     };
   }
@@ -45,10 +45,10 @@ class PaymentMethodModel {
   factory PaymentMethodModel.fromMap(Map<String, dynamic> map) {
     return PaymentMethodModel(
       id: map['id']?.toInt(),
-      url: map['url'],
-      logo: map['logo'],
-      name: map['name'],
-      isSelected: map['isSelected'],
+      titleAr: map['titleAr'],
+      titleEn: map['titleEn'],
+      title: map['title'],
+      isSelected: map['isSelected'] ?? false,
     );
   }
 
@@ -59,7 +59,7 @@ class PaymentMethodModel {
 
   @override
   String toString() {
-    return 'PaymentMethodModel(id: $id, url: $url, logo: $logo, name: $name, isSelected: $isSelected)';
+    return 'PaymentMethodModel(id: $id, titleAr: $titleAr, titleEn: $titleEn, title: $title, isSelected: $isSelected)';
   }
 
   @override
@@ -68,18 +68,18 @@ class PaymentMethodModel {
 
     return other is PaymentMethodModel &&
         other.id == id &&
-        other.url == url &&
-        other.logo == logo &&
-        other.name == name &&
+        other.titleAr == titleAr &&
+        other.titleEn == titleEn &&
+        other.title == title &&
         other.isSelected == isSelected;
   }
 
   @override
   int get hashCode {
     return id.hashCode ^
-        url.hashCode ^
-        logo.hashCode ^
-        name.hashCode ^
+        titleAr.hashCode ^
+        titleEn.hashCode ^
+        title.hashCode ^
         isSelected.hashCode;
   }
 }

@@ -45,9 +45,11 @@ class BookServiceScreen extends StatefulWidget {
         BlocProvider<AvialbleTherapistCubit>(
           create: (context) => Injector().avialbleTherapistCubit,
         ),
-      ], child: BookServiceScreen());
+      ], child: const BookServiceScreen());
   static MaterialPageRoute router() {
-    return MaterialPageRoute(builder: (context) => builder());
+    return MaterialPageRoute(
+        builder: (context) => builder(),
+        settings: const RouteSettings(name: routeName));
   }
 
   @override
@@ -80,6 +82,9 @@ class _BookServiceScreenState extends State<BookServiceScreen> {
   }
 
   Future<void> getAvailable() async {
+    if (fromTherapistFow) {
+      return;
+    }
     if (selectedTab == null || selectedDate == null) {
       return;
     }
@@ -93,13 +98,13 @@ class _BookServiceScreenState extends State<BookServiceScreen> {
     super.initState();
   }
 
+  bool get fromTherapistFow =>
+      context.read<BookingCubit>().state.selectedTherapist != null;
+
   Future<void> checkTherapistInBooking() async {
-    final therapist =
-        await context.read<BookingCubit>().state.selectedTherapist;
-    if (therapist != null) {
-      context
-          .read<AvialbleTherapistCubit>()
-          .getTherapistById(therapist.therapistId!);
+    if (fromTherapistFow) {
+      context.read<AvialbleTherapistCubit>().getTherapistById(
+          context.read<BookingCubit>().state.selectedTherapist!.therapistId!);
     }
   }
 
@@ -168,7 +173,12 @@ class _BookServiceScreenState extends State<BookServiceScreen> {
             ],
           ),
           SizedBox(height: 20.h),
-          _buildDatePicker(context),
+          if (!fromTherapistFow)
+            Column(
+              children: [
+                _buildDatePicker(context),
+              ],
+            ),
           SizedBox(height: 16.h),
           Column(
             children: [
@@ -183,14 +193,19 @@ class _BookServiceScreenState extends State<BookServiceScreen> {
                 ],
               ),
               SizedBox(height: 8.h),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  for (var tab in AvailableTherapistTabEnum.values)
-                    _buildFilterTap(tab, selectedTab == tab, context)
-                ],
-              ),
-              SizedBox(height: 20.h),
+              if (!fromTherapistFow)
+                Column(
+                  children: [
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        for (var tab in AvailableTherapistTabEnum.values)
+                          _buildFilterTap(tab, selectedTab == tab, context)
+                      ],
+                    ),
+                    SizedBox(height: 20.h),
+                  ],
+                ),
               if (state.isLoading) CustomLoading(),
               if (state.isLoaded && state.availableTherapists.isEmpty)
                 SizedBox(
@@ -233,7 +248,14 @@ class _BookServiceScreenState extends State<BookServiceScreen> {
                           state.availableTherapists.firstOrNull?.therapist!,
                     ),
                     SizedBox(height: 20.h),
-                    _buildTimeSlotPicker(context),
+                    if (fromTherapistFow)
+                      Column(
+                        children: [
+                          _buildDatePicker(context),
+                          SizedBox(height: 16.h),
+                        ],
+                      ),
+                    if (fromTherapistFow) _buildTimeSlotPicker(context),
                   ],
                 )
             ],
@@ -422,7 +444,7 @@ class _BookServiceScreenState extends State<BookServiceScreen> {
         Row(
           children: [
             CustomText(
-              text: 'date_and_time'.tr(),
+              text: fromTherapistFow ? 'date'.tr() : 'date_and_time'.tr(),
               fontSize: 14,
               fontWeight: FontWeight.w500,
               color: AppColors.FONT_COLOR,
@@ -448,6 +470,7 @@ class _BookServiceScreenState extends State<BookServiceScreen> {
                   ),
                 ),
                 builder: (context) {
+                  DateTime updatedDate = selectedDate ?? DateTime.now();
                   return CustomBottomSheet(
                     padding: EdgeInsets.symmetric(horizontal: 24.w),
                     child: SizedBox(
@@ -469,14 +492,13 @@ class _BookServiceScreenState extends State<BookServiceScreen> {
                           SizedBox(
                             height: 160.h,
                             child: CupertinoDatePicker(
-                              mode: CupertinoDatePickerMode.dateAndTime,
+                              mode: fromTherapistFow
+                                  ? CupertinoDatePickerMode.date
+                                  : CupertinoDatePickerMode.dateAndTime,
                               // mode: CupertinoDatePickerMode.date,
                               initialDateTime: selectedDate ?? DateTime.now(),
                               onDateTimeChanged: (DateTime dateTime) {
-                                selectedDate = dateTime;
-                                _dateController.text =
-                                    DateFormat('E, MMM d, yyyy')
-                                        .format(dateTime);
+                                updatedDate = dateTime;
                               },
                             ),
                           ),
@@ -484,6 +506,14 @@ class _BookServiceScreenState extends State<BookServiceScreen> {
                             margin: EdgeInsets.symmetric(vertical: 20),
                             isExpanded: true,
                             onPressed: () {
+                              selectedDate = updatedDate;
+                              _dateController.text = fromTherapistFow == true
+                                  ? DateFormat('E, MMM d, yyyy')
+                                      .format(updatedDate)
+                                  : DateFormat('E, MMM d, yyyy, hh:mm a')
+                                      .format(updatedDate);
+                              _timeController.clear();
+                              selectedTimeSlot = null;
                               Navigator.of(context).pop();
                               getAvailable();
                             },
@@ -522,9 +552,9 @@ class _BookServiceScreenState extends State<BookServiceScreen> {
           await addressCubit.getAddresses();
           final address = addressCubit.state.addressesData.first;
           log(address.formattedAddress ?? '');
-          if (selectedTimeSlot == null || selectedDate == null) {
-            ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
-              content: Text('Please select date and time'),
+          if (selectedDate == null) {
+            ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+              content: Text('please_select_date'.tr()),
             ));
             return;
           }
@@ -536,14 +566,26 @@ class _BookServiceScreenState extends State<BookServiceScreen> {
                     .selectedTherapist!
                     .therapist!
                     .therapistId,
-                availableTime: selectedTimeSlot!.convertToDate(selectedDate!),
+                availableTime: getFinlaDate(),
               );
 
-          // NavigatorHelper.of(context).pushNamed(CheckoutScreen.routeName);
+          NavigatorHelper.of(context).pushNamed(CheckoutScreen.routeName);
         },
         label: 'continue',
         isExpanded: true,
       ),
     );
+  }
+
+  DateTime? getFinlaDate() {
+    if (selectedDate == null) {
+      return null;
+    }
+
+    if (fromTherapistFow) {
+      return selectedTimeSlot?.convertToDate(selectedDate!);
+    } else {
+      return selectedDate;
+    }
   }
 }

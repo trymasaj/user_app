@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:masaj/core/data/clients/network_service.dart';
 import 'package:masaj/core/data/constants/api_end_point.dart';
 import 'package:masaj/core/domain/exceptions/request_exception.dart';
@@ -6,14 +8,14 @@ import 'package:masaj/features/services/data/models/service_model.dart';
 import '../../../book_service/data/models/booking_model/booking_model.dart';
 
 abstract class BookingRemoteDataSource {
-  Future<void> getBookingLatestId();
+  Future<int> getBookingLatestId();
   Future<void> addBookingService(ServiceBookModel serviceBookModel);
   Future<void> addBookingMembers(List<int> members);
   Future<void> addBookingAddress(int addressId);
   Future<void> addBookingTherapist(
       {required int therapistId, required DateTime availableTime});
-  Future<void> addBookingVoucher(int voucherId);
-  Future<void> deleteBookingVoucher(int voucherId);
+  Future<BookingModel> addBookingVoucher(String voucherId);
+  Future<BookingModel> deleteBookingVoucher(String voucherId);
   Future<void> confirmBooking(int paymentId);
   Future<BookingModel> getBookingDetails(int bookingId);
 }
@@ -30,7 +32,7 @@ class BookingRemoteDataSourceImpl implements BookingRemoteDataSource {
 
     return _networkService.post(url, data: data).then((response) {
       if (response.statusCode != 200) {
-        throw RequestException(message: response.data);
+        throw RequestException(message: response.data['detail']);
       }
     });
   }
@@ -42,7 +44,7 @@ class BookingRemoteDataSourceImpl implements BookingRemoteDataSource {
 
     return _networkService.post(url, data: data).then((response) {
       if (response.statusCode != 200) {
-        throw RequestException(message: response.data);
+        throw RequestException(message: response.data['detail']);
       }
     });
   }
@@ -54,7 +56,7 @@ class BookingRemoteDataSourceImpl implements BookingRemoteDataSource {
 
     return _networkService.post(url, data: data).then((response) {
       if (response.statusCode != 200) {
-        throw RequestException(message: response.data);
+        throw RequestException(message: response.data['detail']);
       }
     });
   }
@@ -63,26 +65,30 @@ class BookingRemoteDataSourceImpl implements BookingRemoteDataSource {
   Future<void> addBookingTherapist(
       {required int therapistId, required DateTime availableTime}) {
     const url = ApiEndPoint.BOOKING_THERAPIST;
+    log(availableTime.toLocal().toIso8601String());
     final data = {
       'therapistId': therapistId,
-      'bookingDate': availableTime.toIso8601String(),
+      'bookingDate': availableTime.toLocal().toIso8601String(),
     };
 
     return _networkService.post(url, data: data).then((response) {
       if (response.statusCode != 200) {
-        throw RequestException(message: response.data);
+        throw RequestException(message: response.data['detail']);
       }
     });
   }
 
   @override
-  Future<void> addBookingVoucher(int voucherId) {
+  Future<BookingModel> addBookingVoucher(String voucherId) {
     const url = ApiEndPoint.BOOKING_ADD_VOUCHER;
     final data = {'redemptionCode': voucherId};
     return _networkService.post(url, data: data).then((response) {
       if (response.statusCode != 200) {
-        throw RequestException(message: response.data);
+        throw RequestException(message: response.data['detail']);
       }
+      final result = response.data;
+
+      return BookingModel.fromMap(result);
     });
   }
 
@@ -93,31 +99,35 @@ class BookingRemoteDataSourceImpl implements BookingRemoteDataSource {
 
     return _networkService.post(url, data: data).then((response) {
       if (response.statusCode != 200) {
-        throw RequestException(message: response.data);
+        throw RequestException(message: response.data['detail']);
       }
     });
   }
 
   @override
-  Future<void> deleteBookingVoucher(int voucherId) {
+  Future<BookingModel> deleteBookingVoucher(String voucherId) {
     const url = ApiEndPoint.BOOKING_REMOVE_VOUCHER;
     final data = {'redemptionCode': voucherId};
 
     return _networkService.post(url, data: data).then((response) {
       if (response.statusCode != 200) {
-        throw RequestException(message: response.data);
+        throw RequestException(message: response.data['detail']);
       }
+      final result = response.data;
+
+      return BookingModel.fromMap(result);
     });
   }
 
   @override
-  Future<void> getBookingLatestId() {
+  Future<int> getBookingLatestId() {
     const url = ApiEndPoint.BOOKING_LATEST;
 
     return _networkService.get(url).then((response) {
       if (response.statusCode != 200) {
-        throw RequestException(message: response.data);
+        throw RequestException(message: response.data['detail']);
       }
+      return response.data['bookingId'];
     });
   }
 
@@ -127,7 +137,7 @@ class BookingRemoteDataSourceImpl implements BookingRemoteDataSource {
 
     return _networkService.get(url + bookingId.toString()).then((response) {
       if (response.statusCode != 200) {
-        throw RequestException(message: response.data);
+        throw RequestException(message: response.data['detail']);
       }
       final result = response.data;
 

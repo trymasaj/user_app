@@ -17,16 +17,9 @@ class PaymentDataSourceImpl extends PaymentDataSource {
   Future<List<PaymentMethodModel>> getPaymentMethods() {
     const url = ApiEndPoint.GET_PAYMENT_METHODS;
 
-    return Future.delayed(Duration(seconds: 2)).then((value) => [
-          PaymentMethodModel(
-              id: 0, isSelected: false, name: 'Credit card', url: ''),
-          PaymentMethodModel(
-              id: 0, isSelected: false, name: 'Apple Pay', url: ''),
-          PaymentMethodModel(id: 0, isSelected: false, name: 'KNet', url: ''),
-        ]);
     return _networkService.get(url).then((response) {
       if (response.statusCode != 200) {
-        throw RequestException(message: response.data);
+        throw RequestException(message: response.data['detail']);
       }
       final result = response.data;
       return result != null

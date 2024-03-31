@@ -1,5 +1,6 @@
 import 'package:masaj/core/data/clients/cache_service.dart';
 import 'package:masaj/core/data/clients/network_service.dart';
+import 'package:masaj/core/data/clients/payment_service.dart';
 import 'package:masaj/core/data/datasources/device_type_data_source.dart';
 import 'package:masaj/core/data/datasources/external_login_data_source.dart';
 import 'package:masaj/core/data/datasources/favorites_remote_data_source.dart';
@@ -222,8 +223,10 @@ class Injector {
           FavoritesRemoteDataSourceImpl(networkService);
   //===================[Payment_CUBIT]===================
 
-  PaymentCubit get paymentCubit =>
-      PaymentCubit(paymentRepository: paymentRepository);
+  PaymentService get paymentService =>
+      _flyweightMap['PaymentService'] ??= PaymentServiceImpl(networkService);
+  PaymentCubit get paymentCubit => PaymentCubit(
+      paymentRepository: paymentRepository, paymentService: paymentService);
 
   PaymentRepository get paymentRepository =>
       _flyweightMap['PaymentRepository'] ??=

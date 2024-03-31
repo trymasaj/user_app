@@ -12,6 +12,7 @@ import 'package:masaj/core/presentation/widgets/stateless/custom_text.dart';
 import 'package:masaj/core/presentation/widgets/stateless/empty_page_message.dart';
 import 'package:masaj/core/presentation/widgets/stateless/text_fields/search_text_form_field.dart';
 import 'package:masaj/core/presentation/widgets/stateless/text_with_gradiant.dart';
+import 'package:masaj/features/providers_tab/data/models/therapist.dart';
 import 'package:masaj/features/services/application/service_cubit/service_cubit.dart';
 import 'package:masaj/features/services/data/models/service_category_model.dart';
 import 'package:masaj/features/services/presentation/screens/serice_details_screen.dart';
@@ -257,10 +258,12 @@ class SevicesGridView extends StatelessWidget {
     super.key,
     required this.serviceCubit,
     required ScrollController scrollController,
+    this.therapist,
   }) : _scrollController = scrollController;
 
   final ServiceCubit serviceCubit;
   final ScrollController _scrollController;
+  final Therapist? therapist;
 
   @override
   Widget build(BuildContext context) {
@@ -311,9 +314,12 @@ class SevicesGridView extends StatelessWidget {
             final service = state.services!.data![index];
             return InkWell(
               onTap: () {
-                NavigatorHelper.of(context).pushNamed(
-                    ServiceDetailsScreen.routeName,
-                    arguments: service.serviceId);
+                NavigatorHelper.of(context)
+                    .pushNamed(ServiceDetailsScreen.routeName,
+                        arguments: ServiceDetailsScreenArguments(
+                          id: service.serviceId,
+                          therapist: therapist,
+                        ));
               },
               child: Container(
                 decoration: BoxDecoration(

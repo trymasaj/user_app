@@ -247,7 +247,8 @@ class ServicesResults extends StatelessWidget {
                 const Duration(milliseconds: 0),
                 () => NavigatorHelper.of(context).pushNamed(
                     ServiceDetailsScreen.routeName,
-                    arguments: service.serviceId));
+                    arguments:
+                        ServiceDetailsScreenArguments(id: service.serviceId)));
           },
           child: Container(
             margin: const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
@@ -379,7 +380,7 @@ class RecenetHostory extends StatelessWidget {
             if (service.isService)
               NavigatorHelper.of(context).pushNamed(
                   ServiceDetailsScreen.routeName,
-                  arguments: service.id);
+                  arguments: ServiceDetailsScreenArguments(id: service.id!));
             else if (service.isTherapist)
               NavigatorHelper.of(context)
                   .pushNamed(ProviderDetailsScreen.routeName,

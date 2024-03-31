@@ -146,8 +146,9 @@ Route<dynamic>? onGenerateRoute(RouteSettings settings) {
       return MaterialPageRoute(
           builder: (context) => MyProfileScreen.builder(context));
     case ServiceDetailsScreen.routeName:
-      final id = arguments as int;
-      return ServiceDetailsScreen.router(id);
+      final serviceDetailsScreenArguments =
+          arguments as ServiceDetailsScreenArguments;
+      return ServiceDetailsScreen.router(serviceDetailsScreenArguments);
 
     case ProviderDetailsScreen.routeName:
       // there is no arguments for this route
@@ -158,6 +159,7 @@ Route<dynamic>? onGenerateRoute(RouteSettings settings) {
         therapist: arguments.therapist,
         providersTabCubit: arguments.providersTabCubit,
         homeTherapistsCubit: arguments.homeTherapistsCubit,
+        avialbleTherapistCubit: arguments.avialbleTherapistCubit,
       );
     case BookServiceScreen.routeName:
       return BookServiceScreen.router();
@@ -169,8 +171,7 @@ Route<dynamic>? onGenerateRoute(RouteSettings settings) {
           avialbleTherapistCubit: avialbleTherapistCubit);
     case CheckoutScreen.routeName:
       return MaterialPageRoute(builder: (context) {
-        final CheckOutModel checkoutModel = arguments as CheckOutModel;
-        return CheckoutScreen(checkOutModel: checkoutModel);
+        return CheckoutScreen();
       });
 
     default:

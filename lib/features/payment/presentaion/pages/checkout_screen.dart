@@ -1,12 +1,11 @@
-import 'dart:developer';
-
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:masaj/core/app_export.dart';
 import 'package:masaj/core/data/di/injector.dart';
+import 'package:masaj/core/date_format_helper.dart';
 import 'package:masaj/core/presentation/colors/app_colors.dart';
-import 'package:masaj/core/presentation/navigation/navigator_helper.dart';
+import 'package:masaj/core/presentation/overlay/show_snack_bar.dart';
 import 'package:masaj/core/presentation/widgets/stateless/custom_app_bar.dart';
 import 'package:masaj/core/presentation/widgets/stateless/custom_app_page.dart';
 import 'package:masaj/core/presentation/widgets/stateless/custom_cached_network_image.dart';
@@ -17,17 +16,13 @@ import 'package:masaj/core/presentation/widgets/stateless/subtitle_text.dart';
 import 'package:masaj/core/presentation/widgets/stateless/text_fields/default_text_form_field.dart';
 import 'package:masaj/core/presentation/widgets/stateless/title_text.dart';
 import 'package:masaj/core/presentation/widgets/stateless/warning_container.dart';
+import 'package:masaj/features/book_service/presentation/blocs/book_cubit/book_service_cubit.dart';
 import 'package:masaj/features/payment/data/model/payment_method_model.dart';
-import 'package:masaj/features/payment/data/model/payment_model.dart';
 import 'package:masaj/features/payment/presentaion/bloc/payment_cubit.dart';
-import 'package:masaj/features/payment/presentaion/pages/success_payment.dart';
-import 'package:masaj/features/services/data/models/service_model.dart';
 
 class CheckoutScreen extends StatefulWidget {
-  const CheckoutScreen({super.key, required CheckOutModel checkOutModel})
-      : _checkOutModel = checkOutModel;
+  const CheckoutScreen({super.key});
   static const String routeName = '/checkoutScreen';
-  final CheckOutModel _checkOutModel;
 
   @override
   State<CheckoutScreen> createState() => _CheckoutScreenState();
@@ -48,7 +43,13 @@ class _CheckoutScreenState extends State<CheckoutScreen> {
     _couponEditingController = TextEditingController();
     _walletController = TextEditingController();
     _couponFocusNode = FocusNode();
+    getBooking();
     super.initState();
+  }
+
+  void getBooking() async {
+    final bookingCubit = context.read<BookingCubit>();
+    await bookingCubit.getBookingDetails();
   }
 
   @override
@@ -74,42 +75,59 @@ class _CheckoutScreenState extends State<CheckoutScreen> {
     });
   }
 
-  CustomAppPage _buildBody() {
-    return CustomAppPage(
-      child: SingleChildScrollView(
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            _buildServiceSection(),
-            const Divider(
-              thickness: _kDividerThickness,
-              color: AppColors.ExtraLight,
-            ),
-            _buildDetailsSection(),
-            const Divider(
-              thickness: _kDividerThickness,
-              color: AppColors.ExtraLight,
-            ),
-            _buildTherapistSection(),
-            const Divider(
-              thickness: _kDividerThickness,
-              color: AppColors.ExtraLight,
-            ),
-            _buildLocationSection(),
-            const Divider(
-              thickness: _kDividerThickness,
-              color: AppColors.ExtraLight,
-            ),
-            _buildPaymentSection(),
-            const Divider(
-              thickness: _kDividerThickness,
-              color: AppColors.ExtraLight,
-            ),
-            _buildSummarySection(),
-            _buildCheckoutButton()
-          ],
-        ),
-      ),
+  Widget _buildBody() {
+    return BlocConsumer<PaymentCubit, PaymentState>(
+      builder: (context, state) {
+        return BlocConsumer<BookingCubit, BookingState>(
+          builder: (context, state) {
+            if (state.isLoading) return const CustomLoading();
+
+            return CustomAppPage(
+              child: SingleChildScrollView(
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    _buildServiceSection(),
+                    const Divider(
+                      thickness: _kDividerThickness,
+                      color: AppColors.ExtraLight,
+                    ),
+                    _buildDetailsSection(context),
+                    const Divider(
+                      thickness: _kDividerThickness,
+                      color: AppColors.ExtraLight,
+                    ),
+                    _buildTherapistSection(context),
+                    const Divider(
+                      thickness: _kDividerThickness,
+                      color: AppColors.ExtraLight,
+                    ),
+                    _buildLocationSection(context),
+                    const Divider(
+                      thickness: _kDividerThickness,
+                      color: AppColors.ExtraLight,
+                    ),
+                    _buildPaymentSection(context),
+                    const Divider(
+                      thickness: _kDividerThickness,
+                      color: AppColors.ExtraLight,
+                    ),
+                    _buildSummarySection(context),
+                    _buildCheckoutButton(context)
+                  ],
+                ),
+              ),
+            );
+          },
+          listener: (BuildContext context, BookingState state) {
+            if (state.isError)
+              showSnackBar(context, message: state.errorMessage);
+          },
+        );
+      },
+      listener: (BuildContext context, PaymentState state) {
+        if (state.isError) showSnackBar(context, message: state.errorMessage);
+      },
     );
   }
 
@@ -118,7 +136,7 @@ class _CheckoutScreenState extends State<CheckoutScreen> {
       padding: const EdgeInsets.all(_KSectionPadding),
       child: Column(
         children: [
-          _buildServiceTitle(),
+          _buildServiceTitle(context),
           const SizedBox(height: _KSubVerticalSpace),
           const WarningContainer(title: 'checkout_warning'),
         ],
@@ -126,11 +144,13 @@ class _CheckoutScreenState extends State<CheckoutScreen> {
     );
   }
 
-  Row _buildServiceTitle() {
+  Row _buildServiceTitle(BuildContext context) {
+    final bookingCubit = context.read<BookingCubit>();
+    final bookingModel = bookingCubit.state.bookingModel;
     return Row(
       children: [
         CustomCachedNetworkImage(
-          imageUrl: widget._checkOutModel.service?.images.first,
+          imageUrl: bookingModel?.service?.mediaUrl,
           height: 70.0,
           width: 70.0,
           fit: BoxFit.cover,
@@ -141,19 +161,20 @@ class _CheckoutScreenState extends State<CheckoutScreen> {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             SubtitleText(
-              text: widget._checkOutModel.service?.title ?? '',
+              text: bookingModel?.service?.title ?? '',
               isBold: true,
             ),
             const SizedBox(height: 5.0),
-            SubtitleText(
-                text: widget._checkOutModel.service?.description ?? ''),
+            SubtitleText(text: bookingModel?.service?.description ?? ''),
           ],
         )
       ],
     );
   }
 
-  Widget _buildDetailsSection() {
+  Widget _buildDetailsSection(BuildContext context) {
+    final cubit = context.read<BookingCubit>();
+    final bookingModel = cubit.state.bookingModel;
     return Padding(
       padding: const EdgeInsets.all(_KSectionPadding),
       child: Column(
@@ -161,10 +182,20 @@ class _CheckoutScreenState extends State<CheckoutScreen> {
         children: [
           const TitleText(text: 'details'),
           const SizedBox(height: _KSubVerticalSpace),
-          _buildDetailsRow(title: 'date:', content: 'date_dummy'),
-          _buildDetailsRow(title: 'time:', content: 'date_dummy'),
-          _buildDetailsRow(title: 'name:', content: 'date_dummy'),
-          _buildDetailsRow(title: 'phone:', content: 'date_dummy'),
+          _buildDetailsRow(
+              title: 'date:',
+              content:
+                  DateFormatHelper.formatDate(bookingModel?.bookingDate) ?? ''),
+          _buildDetailsRow(
+              title: 'time:',
+              content:
+                  DateFormatHelper.formatDateTime(bookingModel?.bookingDate) ??
+                      ''),
+          _buildDetailsRow(
+              title: 'name:', content: bookingModel?.members?.first.name ?? ''),
+          _buildDetailsRow(
+              title: 'phone:',
+              content: bookingModel?.members?.first.phone ?? ''),
         ],
       ),
     );
@@ -180,7 +211,9 @@ class _CheckoutScreenState extends State<CheckoutScreen> {
     );
   }
 
-  Widget _buildTherapistSection() {
+  Widget _buildTherapistSection(BuildContext context) {
+    final bookingCubit = context.read<BookingCubit>();
+    final bookingModel = bookingCubit.state.bookingModel;
     return Padding(
       padding: const EdgeInsets.all(_KSectionPadding),
       child: Column(
@@ -194,7 +227,7 @@ class _CheckoutScreenState extends State<CheckoutScreen> {
           Row(
             children: [
               CustomCachedNetworkImage(
-                imageUrl: widget._checkOutModel.therapist?.profileImage,
+                imageUrl: bookingModel?.therapist?.profileImage,
                 height: 50.0,
                 width: 50.0,
                 fit: BoxFit.cover,
@@ -205,11 +238,10 @@ class _CheckoutScreenState extends State<CheckoutScreen> {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   SubtitleText(
-                    text: widget._checkOutModel.therapist?.fullName ?? '',
+                    text: bookingModel?.therapist?.fullName ?? '',
                     isBold: true,
                   ),
-                  SubtitleText(
-                      text: widget._checkOutModel.therapist?.title ?? ''),
+                  SubtitleText(text: bookingModel?.therapist?.title ?? ''),
                 ],
               )
             ],
@@ -219,8 +251,9 @@ class _CheckoutScreenState extends State<CheckoutScreen> {
     );
   }
 
-  Widget _buildLocationSection() {
-    log(widget._checkOutModel.address?.googleMapAddress ?? '');
+  Widget _buildLocationSection(BuildContext context) {
+    final bookingCubit = context.read<BookingCubit>();
+    final bookingModel = bookingCubit.state.bookingModel;
     return Padding(
       padding: const EdgeInsets.all(_KSectionPadding),
       child: Column(
@@ -229,20 +262,17 @@ class _CheckoutScreenState extends State<CheckoutScreen> {
           const TitleText(text: 'location'),
           const SizedBox(height: _KSubVerticalSpace),
           TitleText(
-            text: widget._checkOutModel.address!.nickName!.isEmpty
-                ? widget._checkOutModel.address?.formattedAddress ?? ''
-                : '',
+            text: bookingModel?.address?.addressTitle ?? '',
             subtractedSize: 2,
           ),
           const SizedBox(height: 4),
-          SubtitleText(
-              text: widget._checkOutModel.address?.formattedAddress ?? ''),
+          SubtitleText(text: bookingModel?.address?.formattedAddress ?? ''),
         ],
       ),
     );
   }
 
-  Widget _buildPaymentSection() {
+  Widget _buildPaymentSection(BuildContext context) {
     return Padding(
       padding: const EdgeInsets.all(_KSectionPadding),
       child: Column(
@@ -301,7 +331,7 @@ class _CheckoutScreenState extends State<CheckoutScreen> {
             padding: const EdgeInsets.all(24.0),
             child: Row(children: [
               SubtitleText(
-                text: paymentMethod.name ?? '',
+                text: paymentMethod.title ?? '',
                 isBold: true,
               ),
               const Spacer(),
@@ -321,12 +351,13 @@ class _CheckoutScreenState extends State<CheckoutScreen> {
     );
   }
 
-  Padding _buildSummarySection() {
-    final double subTotal = 90.0;
-    final double tax = 12.0;
-    final double discount = 2.0;
+  Padding _buildSummarySection(BuildContext context) {
+    final bookingModel = context.read<BookingCubit>().state.bookingModel;
+    final num subTotal = bookingModel?.subtotal ?? 0;
+    final num tax = bookingModel?.vatAmount ?? 0;
+    final num discount = bookingModel?.discountedAmount ?? 0;
     final double wallet = double.tryParse(_walletController.text) ?? 0.0;
-    final double total = subTotal + tax - discount - wallet;
+    final num total = bookingModel?.grandTotal ?? 0;
 
     return Padding(
       padding: const EdgeInsets.all(_KSectionPadding),
@@ -355,28 +386,13 @@ class _CheckoutScreenState extends State<CheckoutScreen> {
   }
 
   Widget _buildCoupon() {
-    return DefaultTextFormField(
-      currentFocusNode: _couponFocusNode,
-      currentController: _couponEditingController,
-      prefixIcon: Padding(
-        padding: const EdgeInsets.all(10.0),
-        child: SvgPicture.asset(
-          'assets/images/dicount_icon.svg',
-        ),
-      ),
-      hint: 'lbl_coupon_code',
-      suffixIcon: DefaultButton(
-        borderRadius: BorderRadius.circular(8),
-        onPressed: () {},
-        label: 'lbl_apply',
-      ),
-    );
+    return CouponWidget(
+        couponFocusNode: _couponFocusNode,
+        couponEditingController: _couponEditingController);
   }
 
   Widget _buildSummaryItem(
-      {bool isDiscount = false,
-      required String title,
-      required double amount}) {
+      {bool isDiscount = false, required String title, required num amount}) {
     return Padding(
       padding: const EdgeInsets.symmetric(vertical: 4.0),
       child: Row(
@@ -396,17 +412,74 @@ class _CheckoutScreenState extends State<CheckoutScreen> {
     );
   }
 
-  Widget _buildCheckoutButton() {
+  Widget _buildCheckoutButton(BuildContext context) {
     return Padding(
       padding: const EdgeInsets.all(24.0).copyWith(top: 10),
       child: DefaultButton(
         isExpanded: true,
-        onPressed: () {
-          NavigatorHelper.of(context).pushAndRemoveUntil(
-              MaterialPageRoute(builder: (_) => const SuccessPaymentPage()),
-              (_) => false);
+        onPressed: () async {
+          final cubit = context.read<PaymentCubit>();
+
+          await cubit.confirmOrder(_selectedPayment?.id);
         },
         label: 'lbl_book_now',
+      ),
+    );
+  }
+}
+
+class CouponWidget extends StatefulWidget {
+  const CouponWidget({
+    super.key,
+    required FocusNode couponFocusNode,
+    required TextEditingController couponEditingController,
+  })  : _couponFocusNode = couponFocusNode,
+        _couponEditingController = couponEditingController;
+
+  final FocusNode _couponFocusNode;
+  final TextEditingController _couponEditingController;
+
+  @override
+  State<CouponWidget> createState() => _CouponWidgetState();
+}
+
+class _CouponWidgetState extends State<CouponWidget> {
+  final GlobalKey<FormState> formKey = GlobalKey();
+
+  @override
+  Widget build(BuildContext context) {
+    return Form(
+      key: formKey,
+      child: BlocBuilder<BookingCubit, BookingState>(
+        builder: (context, state) {
+          return DefaultTextFormField(
+            currentFocusNode: widget._couponFocusNode,
+            currentController: widget._couponEditingController,
+            prefixIcon: Padding(
+              padding: const EdgeInsets.all(10.0),
+              child: SvgPicture.asset(
+                'assets/images/dicount_icon.svg',
+              ),
+            ),
+            hint: 'lbl_coupon_code',
+            suffixIcon: DefaultButton(
+              borderRadius: BorderRadius.circular(8),
+              onPressed: () async {
+                final cubit = context.read<BookingCubit>();
+                if (formKey.currentState!.validate()) {
+                  if (state.isCouponApplied) {
+                    await cubit.addBookingVoucher(
+                        widget._couponEditingController.text);
+                  } else {
+                    await cubit.deleteBookingVoucher(
+                        widget._couponEditingController.text);
+                  }
+                }
+              },
+              label: state.isCouponApplied ? 'cancel' : 'lbl_apply',
+            ),
+          );
+        },
       ),
     );
   }

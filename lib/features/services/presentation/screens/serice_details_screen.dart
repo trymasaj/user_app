@@ -20,28 +20,38 @@ import 'package:masaj/features/auth/presentation/pages/login_page.dart';
 import 'package:masaj/features/book_service/presentation/blocs/book_cubit/book_service_cubit.dart';
 import 'package:masaj/features/focus_area/presentation/pages/focus_area_page.dart';
 import 'package:masaj/features/members/presentaion/pages/select_members.dart';
+import 'package:masaj/features/providers_tab/data/models/therapist.dart';
 import 'package:masaj/features/services/application/service_details_cubit/service_details_cubit.dart';
 import 'package:masaj/features/services/data/models/service_model.dart';
 import 'package:masaj/features/services/presentation/widgets/deuration_section.dart';
 
-class ServiceDetailsScreen extends StatefulWidget {
-  const ServiceDetailsScreen({super.key, required this.id});
-
+class ServiceDetailsScreenArguments {
   final int id;
+  final Therapist? therapist;
+  ServiceDetailsScreenArguments({
+    required this.id,
+    this.therapist,
+  });
+}
+
+class ServiceDetailsScreen extends StatefulWidget {
+  const ServiceDetailsScreen({super.key, required this.arguments});
+
+  final ServiceDetailsScreenArguments arguments;
   static const routeName = '/ServiceDetailsScreen';
-  static MaterialPageRoute router<T>(int id) {
+  static MaterialPageRoute router<T>(ServiceDetailsScreenArguments arguments) {
     return MaterialPageRoute<T>(
       builder: (_) => builder(
-        id,
+        arguments,
       ),
     );
   }
 
-  static Widget builder(int id) {
+  static Widget builder(ServiceDetailsScreenArguments arguments) {
     return BlocProvider(
       create: (context) => Injector().serviceDetailsCubit,
       child: ServiceDetailsScreen(
-        id: id,
+        arguments: arguments,
       ),
     );
   }
@@ -118,12 +128,23 @@ class ServiceDetailsScreenState extends State<ServiceDetailsScreen> {
     return total;
   }
 
+  void checkFromTherapist() {
+    if (widget.arguments.therapist != null) {
+      context
+          .read<BookingCubit>()
+          .setSelectedTherapist(widget.arguments.therapist);
+    } else {
+      context.read<BookingCubit>().clearTherapist();
+    }
+  }
+
   @override
   void initState() {
     _serviceDetailsCubit = context.read<ServiceDetailsCubit>();
-    _serviceDetailsCubit.getServiceDetails(widget.id);
+    _serviceDetailsCubit.getServiceDetails(widget.arguments.id);
     focusAreaTextField = TextEditingController();
     selectedFocusPoints = ValueNotifier(null);
+    checkFromTherapist();
 
     super.initState();
   }
@@ -219,6 +240,7 @@ class ServiceDetailsScreenState extends State<ServiceDetailsScreen> {
                             SizedBox(
                               height: 14.h,
                             ),
+
                             Padding(
                               padding: EdgeInsets.symmetric(horizontal: 24.w),
                               child: Column(
@@ -399,6 +421,7 @@ class ServiceDetailsScreenState extends State<ServiceDetailsScreen> {
                                   ),
                                 ],
                               ),
+
                             // durations section
                             if (state.service!.serviceDurations!.isNotEmpty)
                               Column(
@@ -469,7 +492,7 @@ class ServiceDetailsScreenState extends State<ServiceDetailsScreen> {
 
     return ServiceBookModel(
         serviceId: serviceDetailsCubit.state.service!.serviceId,
-        durationId: selectedDurationNotifier.value?.serviceDurationId ?? 0,
+        durationId: selectedDurationNotifier.value?.serviceDurationId ,
         addonIds: selectedAddons.map((e) => e.addonId).toList(),
         focusAreas:
             selectedFocusPoints.value?.keys.map((e) => e.index).toList() ?? []);

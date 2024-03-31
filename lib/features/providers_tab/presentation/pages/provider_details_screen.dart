@@ -1,18 +1,18 @@
 import 'package:country_flags/country_flags.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:masaj/core/app_export.dart';
 import 'package:masaj/core/data/di/injector.dart';
 import 'package:masaj/core/presentation/colors/app_colors.dart';
-import 'package:masaj/core/presentation/navigation/navigator_helper.dart';
 import 'package:masaj/core/presentation/widgets/stateless/custom_app_bar.dart';
 import 'package:masaj/core/presentation/widgets/stateless/custom_cached_network_image.dart';
 import 'package:masaj/core/presentation/widgets/stateless/custom_rating_bar.dart';
 import 'package:masaj/core/presentation/widgets/stateless/custom_text.dart';
 import 'package:masaj/core/presentation/widgets/stateless/default_button.dart';
+import 'package:masaj/features/book_service/presentation/blocs/available_therapist_cubit/available_therapist_cubit.dart';
+import 'package:masaj/features/book_service/presentation/screens/book_servcie_screen.dart';
 import 'package:masaj/features/home/presentation/widget/category_list.dart';
-import 'package:masaj/features/payment/presentaion/pages/checkout_screen.dart';
+import 'package:masaj/features/providers_tab/data/models/avilable_therapist_model.dart';
 import 'package:masaj/features/providers_tab/data/models/therapist.dart';
 import 'package:masaj/features/providers_tab/presentation/cubits/home_therapists_cubit/home_therapists_cubit.dart';
 import 'package:masaj/features/providers_tab/presentation/cubits/providers_tab_cubit/providers_tab_cubit.dart';
@@ -25,9 +25,13 @@ class ProviderDetailsScreenNavArguements {
   final Therapist therapist;
   ProvidersTabCubit? providersTabCubit;
   HomeTherapistsCubit? homeTherapistsCubit;
+  AvialbleTherapistCubit? avialbleTherapistCubit;
+  final bool isFromSelectProvidersScreen;
   ProviderDetailsScreenNavArguements(
       {required this.therapist,
       this.providersTabCubit,
+      this.avialbleTherapistCubit,
+      this.isFromSelectProvidersScreen = false,
       this.homeTherapistsCubit});
 }
 
@@ -44,22 +48,31 @@ class ProviderDetailsScreen extends StatefulWidget {
   static MaterialPageRoute router(
       {required Therapist therapist,
       ProvidersTabCubit? providersTabCubit,
-      HomeTherapistsCubit? homeTherapistsCubit}) {
+      HomeTherapistsCubit? homeTherapistsCubit,
+      AvialbleTherapistCubit? avialbleTherapistCubit}) {
+    print('router');
+    print(avialbleTherapistCubit);
     return MaterialPageRoute(
         builder: (context) => builder(
             therapist: therapist,
             providersTabCubit: providersTabCubit,
-            homeTherapistsCubit: homeTherapistsCubit));
+            homeTherapistsCubit: homeTherapistsCubit,
+            avialbleTherapistCubit: avialbleTherapistCubit));
   }
 
   static Widget builder(
       {required Therapist therapist,
       ProvidersTabCubit? providersTabCubit,
-      HomeTherapistsCubit? homeTherapistsCubit}) {
+      HomeTherapistsCubit? homeTherapistsCubit,
+      AvialbleTherapistCubit? avialbleTherapistCubit}) {
     return MultiBlocProvider(providers: [
       if (providersTabCubit != null)
         BlocProvider.value(
           value: providersTabCubit,
+        ),
+      if (avialbleTherapistCubit != null)
+        BlocProvider.value(
+          value: avialbleTherapistCubit,
         ),
       if (homeTherapistsCubit != null)
         BlocProvider.value(
@@ -421,8 +434,16 @@ class _ProviderDetailsScreenState extends State<ProviderDetailsScreen> {
               child: DefaultButton(
                 label: 'Book with ${state.therapist?.fullName ?? ''}',
                 onPressed: () {
-                  NavigatorHelper.of(context)
-                      .pushNamed(CheckoutScreen.routeName);
+                  Navigator.of(context).popUntil((route) {
+                    return route.settings.name == BookServiceScreen.routeName;
+                  });
+                  context.read<AvialbleTherapistCubit>().selectTherapist(
+                      AvailableTherapistModel(
+                          therapist: state.therapist,
+                          userTriedBefore: null,
+                          availableTimeSlots: null));
+                  // NavigatorHelper.of(context)
+                  //     .pushNamed(CheckoutScreen.routeName);
                 },
               ));
         },

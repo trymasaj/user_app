@@ -41,9 +41,6 @@ class _BookWithTherapistScreenState extends State<BookWithTherapistScreen> {
   late Therapist therapist;
   @override
   void initState() {
-    context
-        .read<BookingCubit>()
-        .setSelectedTherapist(widget.arguments!.therapist);
     _scrollController = ScrollController();
     therapist = widget.arguments!.therapist;
     serviceCubit = context.read<ServiceCubit>();
@@ -148,6 +145,7 @@ class _BookWithTherapistScreenState extends State<BookWithTherapistScreen> {
                 child: SevicesGridView(
               serviceCubit: serviceCubit,
               scrollController: _scrollController,
+              therapist: therapist,
             ))
             // search field
           ],

@@ -3,14 +3,14 @@ import 'package:masaj/features/book_service/data/models/booking_model/booking_mo
 import 'package:masaj/features/services/data/models/service_model.dart';
 
 abstract class BookingRepository {
-  Future<void> getBookingLatestId();
+  Future<int> getBookingLatestId();
   Future<void> addBookingService(ServiceBookModel serviceBookModel);
   Future<void> addBookingMembers(List<int> members);
   Future<void> addBookingAddress(int addressId);
   Future<void> addBookingTherapist(
       {required int therapistId, required DateTime availableTime});
-  Future<void> addBookingVoucher(int voucherId);
-  Future<void> deleteBookingVoucher(int voucherId);
+  Future<BookingModel> addBookingVoucher(String voucherId);
+  Future<BookingModel> deleteBookingVoucher(String voucherId);
   Future<void> confirmBooking(int paymentId);
   Future<BookingModel> getBookingDetails(int bookingId);
 }
@@ -39,7 +39,7 @@ class BookingRepositoryImpl implements BookingRepository {
           therapistId: therapistId, availableTime: availableTime);
 
   @override
-  Future<void> addBookingVoucher(int voucherId) =>
+  Future<BookingModel> addBookingVoucher(String voucherId) =>
       _remoteDataSource.addBookingVoucher(voucherId);
 
   @override
@@ -47,7 +47,7 @@ class BookingRepositoryImpl implements BookingRepository {
       _remoteDataSource.confirmBooking(paymentId);
 
   @override
-  Future<void> deleteBookingVoucher(int voucherId) =>
+  Future<BookingModel> deleteBookingVoucher(String voucherId) =>
       _remoteDataSource.deleteBookingVoucher(voucherId);
 
   @override
@@ -55,5 +55,5 @@ class BookingRepositoryImpl implements BookingRepository {
       _remoteDataSource.getBookingDetails(bookingId);
 
   @override
-  Future<void> getBookingLatestId() => _remoteDataSource.getBookingLatestId();
+  Future<int> getBookingLatestId() => _remoteDataSource.getBookingLatestId();
 }

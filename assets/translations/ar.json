@@ -776,5 +776,7 @@
   "piack_a_therapist":"اختر معالج",
   "change":"تغيير",
   "view_profile":"عرض الملف الشخصي",
-  "time":"الوقت"
+  "time":"الوقت",
+  "date":"التاريخ",
+  "please_select_date":"الرجاء اختيار التاريخ"
 }

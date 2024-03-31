@@ -478,7 +478,7 @@ class ServicesResponse extends Equatable {
 
 class ServiceBookModel {
   final int serviceId;
-  final int durationId;
+  final int? durationId;
   final List<int> addonIds;
   final List<int> focusAreas;
   ServiceBookModel({
@@ -487,7 +487,6 @@ class ServiceBookModel {
     required this.addonIds,
     required this.focusAreas,
   });
-
 
   ServiceBookModel copyWith({
     int? serviceId,
@@ -506,7 +505,7 @@ class ServiceBookModel {
   Map<String, dynamic> toMap() {
     return {
       'serviceId': serviceId,
-      'durationId': durationId,
+      if (durationId != null) 'durationId': durationId,
       'addonIds': addonIds,
       'focusAreas': focusAreas,
     };
@@ -523,7 +522,8 @@ class ServiceBookModel {
 
   String toJson() => json.encode(toMap());
 
-  factory ServiceBookModel.fromJson(String source) => ServiceBookModel.fromMap(json.decode(source));
+  factory ServiceBookModel.fromJson(String source) =>
+      ServiceBookModel.fromMap(json.decode(source));
 
   @override
   String toString() {
@@ -533,19 +533,19 @@ class ServiceBookModel {
   @override
   bool operator ==(Object other) {
     if (identical(this, other)) return true;
-  
+
     return other is ServiceBookModel &&
-      other.serviceId == serviceId &&
-      other.durationId == durationId &&
-      listEquals(other.addonIds, addonIds) &&
-      listEquals(other.focusAreas, focusAreas);
+        other.serviceId == serviceId &&
+        other.durationId == durationId &&
+        listEquals(other.addonIds, addonIds) &&
+        listEquals(other.focusAreas, focusAreas);
   }
 
   @override
   int get hashCode {
     return serviceId.hashCode ^
-      durationId.hashCode ^
-      addonIds.hashCode ^
-      focusAreas.hashCode;
+        durationId.hashCode ^
+        addonIds.hashCode ^
+        focusAreas.hashCode;
   }
 }

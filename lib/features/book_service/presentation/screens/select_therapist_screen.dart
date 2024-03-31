@@ -27,6 +27,7 @@ class SelectTherapist extends StatefulWidget {
   static Widget builder(
       {required AvialbleTherapistCubit avialbleTherapistCubit,
       required BuildContext context}) {
+        
     return BlocProvider.value(
         value: avialbleTherapistCubit,
         child: SelectTherapist(

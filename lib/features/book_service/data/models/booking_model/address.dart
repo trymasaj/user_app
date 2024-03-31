@@ -18,6 +18,11 @@ class Address {
   String? additionalDetails;
   bool? isPrimary;
   String? buildingNumber;
+  String get formattedAddress => [street, block, avenue, floor, apartment]
+      .where((element) => element!.isNotEmpty)
+      .join(', ');
+
+  String get addressTitle => nickName ?? formattedAddress;
 
   Address({
     this.id,

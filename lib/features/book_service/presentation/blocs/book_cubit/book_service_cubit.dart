@@ -12,10 +12,10 @@ import '../../../data/models/booking_model/booking_model.dart';
 
 part 'book_service_state.dart';
 
-class BookingCubit extends BaseCubit<BookServiceState> {
+class BookingCubit extends BaseCubit<BookingState> {
   BookingCubit(BookingRepository bookingRepository)
       : _bookingRepository = bookingRepository,
-        super(const BookServiceState(status: BookServiceStatus.initial));
+        super(const BookingState(status: BookServiceStatus.initial));
 
   final BookingRepository _bookingRepository;
 
@@ -96,13 +96,15 @@ class BookingCubit extends BaseCubit<BookServiceState> {
     }
   }
 
-  Future<void> addBookingVoucher(int? voucherId) async {
+  Future<void> addBookingVoucher(String? voucherId) async {
     if (voucherId == null) return;
 
     emit(state.copyWith(status: BookServiceStatus.loading));
     try {
-      await _bookingRepository.addBookingVoucher(voucherId);
-      emit(state.copyWith(status: BookServiceStatus.loaded));
+      final bookingModel =
+          await _bookingRepository.addBookingVoucher(voucherId);
+      emit(state.copyWith(
+          status: BookServiceStatus.couponApplied, bookingModel: bookingModel));
     } on RedundantRequestException catch (e) {
       log(e.toString());
     } catch (e) {
@@ -111,13 +113,15 @@ class BookingCubit extends BaseCubit<BookServiceState> {
     }
   }
 
-  Future<void> deleteBookingVoucher(int? voucherId) async {
+  Future<void> deleteBookingVoucher(String? voucherId) async {
     if (voucherId == null) return;
 
     emit(state.copyWith(status: BookServiceStatus.loading));
     try {
-      await _bookingRepository.deleteBookingVoucher(voucherId);
-      emit(state.copyWith(status: BookServiceStatus.loaded));
+      final bookingModel =
+          await _bookingRepository.deleteBookingVoucher(voucherId);
+      emit(state.copyWith(
+          status: BookServiceStatus.couponRemoved, bookingModel: bookingModel));
     } on RedundantRequestException catch (e) {
       log(e.toString());
     } catch (e) {
@@ -126,10 +130,10 @@ class BookingCubit extends BaseCubit<BookServiceState> {
     }
   }
 
-  Future<void> getBookingDetails(int? bookingId) async {
-    if (bookingId == null) return;
+  Future<void> getBookingDetails() async {
     emit(state.copyWith(status: BookServiceStatus.loading));
     try {
+      final bookingId = await _bookingRepository.getBookingLatestId();
       final booking = await _bookingRepository.getBookingDetails(bookingId);
       emit(state.copyWith(
           status: BookServiceStatus.loaded, bookingModel: booking));
@@ -142,5 +146,8 @@ class BookingCubit extends BaseCubit<BookServiceState> {
   }
   void setSelectedTherapist (Therapist? therapist){
     emit(state.copyWith(selectedTherapist: therapist));
+  }
+  void clearTherapist (){
+    emit(state.copyWith(clearTherapist: true));
   }
 }

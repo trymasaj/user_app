@@ -892,5 +892,7 @@
     "use_wallet": "Use wallet payment",
     "apply_wallet_amount": "Amount",
     "booking_summary": "Booking Summary",
-    "time": "Time"
+    "time": "Time",
+    "date": "Date",
+    "please_select_date": "Please select date"
 }

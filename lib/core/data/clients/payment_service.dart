@@ -3,9 +3,9 @@ import 'dart:developer';
 import 'package:flutter/material.dart';
 import 'package:flutter_inappwebview/flutter_inappwebview.dart';
 import 'package:masaj/core/data/constants/api_end_point.dart';
-import 'package:masaj/core/domain/enums/payment_methods.dart';
 import 'package:masaj/core/domain/enums/request_result_enum.dart';
 import 'package:masaj/core/domain/exceptions/request_exception.dart';
+import 'package:masaj/core/presentation/widgets/stateless/custom_app_bar.dart';
 import 'package:masaj/core/presentation/widgets/stateless/custom_app_page.dart';
 import 'package:masaj/main.dart';
 import 'network_service.dart';
@@ -14,15 +14,14 @@ abstract class PaymentService {
   Future<void> buy(PaymentParam paymentParam);
 }
 
-class PayMobPaymentService implements PaymentService {
-  const PayMobPaymentService(this._networkService);
+class PaymentServiceImpl implements PaymentService {
+  const PaymentServiceImpl(this._networkService);
   final NetworkService _networkService;
   @override
   Future<void> buy(PaymentParam paymentParm) async {
-    if (paymentParm.paymentMethod == null || paymentParm.orderId == null)
+    if (paymentParm.paymentMethodId == null)
       throw Exception('paymentMethod is null');
-    final url = await getPaymentSessionUrl(
-        paymentParm.paymentMethod!, paymentParm.orderId!,
+    final url = await getPaymentSessionUrl(paymentParm.paymentMethodId!,
         params: paymentParm.params, urlPath: paymentParm.urlPath);
     final isPaymentSuccess =
         await _goToPaymentPage(url, paymentParm.customAppBar);
@@ -32,24 +31,24 @@ class PayMobPaymentService implements PaymentService {
     paymentParm.onFailure();
   }
 
-  Future<String> getPaymentSessionUrl(PaymentMethodEnum paymentMethod, int id,
+  Future<String> getPaymentSessionUrl(int paymentMethodId,
       {Map<String, dynamic>? params, String? urlPath}) {
     final url = urlPath ?? ApiEndPoint.BOOKING_CONFIRM;
 
-    final param = params ??
+    final data = params ??
         {
-          'id': id,
+          'paymentMethod': paymentMethodId,
         };
 
-    return _networkService.post(url, queryParameters: param).then(
+    return _networkService.post(url, data: data).then(
       (response) {
         if (response.statusCode != 200)
-          throw RequestException(message: response.data);
+          throw RequestException(message: response.data['detail']);
         final result = response.data;
         final resultStatus = result['result'];
         if (resultStatus == RequestResult.Failed.name)
           throw RequestException(message: result['msg']);
-        return result['data'];
+        return result['threeDSecureUrl'];
       },
     );
   }
@@ -90,8 +89,8 @@ class _PaymentPage extends StatelessWidget {
   Widget build(BuildContext context) {
     return SafeArea(
       bottom: false,
-      top: false,
       child: Scaffold(
+        appBar: CustomAppBar(title: 'payment'),
         body: _buildBody(context),
       ),
     );
@@ -118,8 +117,8 @@ class _PaymentPage extends StatelessWidget {
   void _handleUrl(BuildContext context, Uri? url) {
     log('url hist: $url');
     final urlString = url.toString();
-    final isSuccess = urlString.contains('Success');
-    final isFailed = urlString.contains('Failed');
+    final isSuccess = urlString.contains('success=true');
+    final isFailed = urlString.contains('success=false');
     if (isSuccess || isFailed) Navigator.of(context).pop(isSuccess);
   }
 }
@@ -129,12 +128,12 @@ class PaymentParam {
     this.orderId,
     this.params,
     this.urlPath,
-    this.paymentMethod,
+    this.paymentMethodId,
     required this.onSuccess,
     required this.onFailure,
     this.customAppBar,
   });
-  final PaymentMethodEnum? paymentMethod;
+  final int? paymentMethodId;
   final int? orderId;
   final void Function() onSuccess;
   final void Function() onFailure;
@@ -146,7 +145,7 @@ class PaymentParam {
   bool operator ==(covariant PaymentParam other) {
     if (identical(this, other)) return true;
 
-    return other.paymentMethod == paymentMethod &&
+    return other.paymentMethodId == paymentMethodId &&
         other.onSuccess == onSuccess &&
         other.onFailure == onFailure &&
         other.customAppBar == customAppBar &&
@@ -155,7 +154,7 @@ class PaymentParam {
 
   @override
   int get hashCode {
-    return paymentMethod.hashCode ^
+    return paymentMethodId.hashCode ^
         onSuccess.hashCode ^
         onFailure.hashCode ^
         orderId.hashCode ^

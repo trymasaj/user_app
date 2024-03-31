@@ -40,6 +40,8 @@ class AvialbleTherapistCubit extends BaseCubit<AvialbleTherapistState> {
 
   Future<void> selectTherapist(AvailableTherapistModel? therapist) async {
     emit(state.copyWith(selectedTherapist: therapist));
+    if (therapist?.therapist?.therapistId != null)
+      getTherapistById(therapist?.therapist?.therapistId ?? 1);
   }
 
   Future<void> getAvailableTherapists(

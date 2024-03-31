@@ -12,6 +12,7 @@ import 'package:masaj/core/presentation/widgets/stateless/custom_loading.dart';
 import 'package:masaj/core/presentation/widgets/stateless/custom_text.dart';
 import 'package:masaj/core/presentation/widgets/stateless/default_button.dart';
 import 'package:masaj/features/auth/application/auth_cubit/auth_cubit.dart';
+import 'package:masaj/features/book_service/presentation/blocs/available_therapist_cubit/available_therapist_cubit.dart';
 import 'package:masaj/features/home/presentation/pages/home_tab.dart';
 import 'package:masaj/features/providers_tab/data/models/avilable_therapist_model.dart';
 import 'package:masaj/features/providers_tab/data/models/therapist.dart';
@@ -114,6 +115,8 @@ class TherapistWidget extends StatelessWidget {
               arguments: ProviderDetailsScreenNavArguements(
                   therapist: therapist!,
                   homeTherapistsCubit: context.read<HomeTherapistsCubit?>(),
+                  avialbleTherapistCubit:
+                      context.read<AvialbleTherapistCubit?>(),
                   // ProvidersTabCubit is nullable
                   providersTabCubit: context.read<ProvidersTabCubit?>()));
       },
@@ -229,6 +232,7 @@ class AvailableTherapistWidget extends StatelessWidget {
               arguments: ProviderDetailsScreenNavArguements(
                   therapist: therapist!,
                   homeTherapistsCubit: context.read<HomeTherapistsCubit?>(),
+
                   // ProvidersTabCubit is nullable
                   providersTabCubit: context.read<ProvidersTabCubit?>()));
       },
@@ -245,6 +249,8 @@ class AvailableTherapistWidget extends StatelessWidget {
         ),
         child: Column(
           children: [
+            Text(context.read<AvialbleTherapistCubit?>()?.state.toString() ??
+                ''),
             Row(
               crossAxisAlignment: CrossAxisAlignment.center,
               children: [
@@ -340,6 +346,8 @@ class AvailableTherapistWidget extends StatelessWidget {
                             NavigatorHelper.of(context).pushNamed(
                                 ProviderDetailsScreen.routeName,
                                 arguments: ProviderDetailsScreenNavArguements(
+                                    avialbleTherapistCubit:
+                                        context.read<AvialbleTherapistCubit?>(),
                                     therapist: therapist,
                                     homeTherapistsCubit:
                                         context.read<HomeTherapistsCubit?>(),
