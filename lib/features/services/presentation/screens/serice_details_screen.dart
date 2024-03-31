@@ -478,6 +478,7 @@ class ServiceDetailsScreenState extends State<ServiceDetailsScreen> {
       ScaffoldMessenger.of(context).showSnackBar(SnackBar(
         content: Text('Please select a duration'),
       ));
+      return;
     }
     var bookingCubit = context.read<BookingCubit>();
     final serviceBookModel = createServiceBookingModel();
@@ -492,7 +493,7 @@ class ServiceDetailsScreenState extends State<ServiceDetailsScreen> {
 
     return ServiceBookModel(
         serviceId: serviceDetailsCubit.state.service!.serviceId,
-        durationId: selectedDurationNotifier.value?.serviceDurationId ,
+        durationId: selectedDurationNotifier.value?.serviceDurationId,
         addonIds: selectedAddons.map((e) => e.addonId).toList(),
         focusAreas:
             selectedFocusPoints.value?.keys.map((e) => e.index).toList() ?? []);
