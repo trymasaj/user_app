@@ -548,28 +548,33 @@ class _BookServiceScreenState extends State<BookServiceScreen> {
       padding: const EdgeInsets.symmetric(horizontal: 24.0),
       child: DefaultButton(
         onPressed: () async {
-          final addressCubit = context.read<MyAddressesCubit>();
-          await addressCubit.getAddresses();
-          final address = addressCubit.state.addressesData.first;
-          log(address.formattedAddress ?? '');
-          if (selectedDate == null) {
-            ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-              content: Text('please_select_date'.tr()),
-            ));
-            return;
+          try {
+            final addressCubit = context.read<MyAddressesCubit>();
+            await addressCubit.getAddresses();
+            final address = addressCubit.state.addressesData.first;
+            log(address.formattedAddress ?? '');
+            if (selectedDate == null) {
+              ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+                content: Text('please_select_date'.tr()),
+              ));
+              return;
+            }
+
+            await context.read<BookingCubit>().addBookingTherapist(
+                  therapistId: context
+                      .read<AvialbleTherapistCubit>()
+                      .state
+                      .selectedTherapist!
+                      .therapist!
+                      .therapistId,
+                  availableTime: getFinlaDate(),
+                );
+
+            NavigatorHelper.of(context).pushNamedAndRemoveUntil(
+                CheckoutScreen.routeName, (route) => route.isFirst);
+          } catch (e) {
+            print(e);
           }
-
-          await context.read<BookingCubit>().addBookingTherapist(
-                therapistId: context
-                    .read<AvialbleTherapistCubit>()
-                    .state
-                    .selectedTherapist!
-                    .therapist!
-                    .therapistId,
-                availableTime: getFinlaDate(),
-              );
-
-          NavigatorHelper.of(context).pushNamed(CheckoutScreen.routeName);
         },
         label: 'continue',
         isExpanded: true,

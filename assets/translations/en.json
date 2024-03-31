@@ -894,5 +894,6 @@
     "booking_summary": "Booking Summary",
     "time": "Time",
     "date": "Date",
-    "please_select_date": "Please select date"
+    "please_select_date": "Please select date",
+    "msg_payment_failed": "Payment failed"
 }

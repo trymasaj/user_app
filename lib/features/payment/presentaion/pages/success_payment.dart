@@ -42,6 +42,19 @@ class _SummaryPaymentPageState extends State<SummaryPaymentPage> {
 
         return CustomAppPage(
           child: Scaffold(
+            bottomSheet: Container(
+              color: Colors.white,
+              padding: const EdgeInsets.all(16),
+              height: 100,
+              child: DefaultButton(
+                onPressed: () {
+                  NavigatorHelper.of(context).pushNamedAndRemoveUntil(
+                      HomePage.routeName, (route) => false);
+                },
+                label: 'lbl_back_to_home',
+                isExpanded: true,
+              ),
+            ),
             appBar: CustomAppBar(
               title: 'lbl_payment_details',
               centerTitle: true,
@@ -57,33 +70,26 @@ class _SummaryPaymentPageState extends State<SummaryPaymentPage> {
                 )
               ],
             ),
-            body: Padding(
-              padding: const EdgeInsets.all(24.0),
-              child: Column(children: [
-                const SizedBox(height: 20),
-                SvgPicture.asset(isSucceeded
-                    ? 'assets/images/success_payment.svg'
-                    : 'assets/images/failed_payment.svg'),
-                SubtitleText(
-                    text: isSucceeded
-                        ? 'msg_payment_successful'
-                        : 'msg_payment_failed',
-                    subtractedSize: -1,
-                    isBold: true),
-                const SubtitleText(text: 'lbl_wallet_balance'),
-                const SizedBox(height: 20),
-                _buildSummary(context),
-                Spacer(),
-                DefaultButton(
-                  onPressed: () {
-                    NavigatorHelper.of(context).pushNamedAndRemoveUntil(
-                        HomePage.routeName, (route) => false);
-                  },
-                  label: 'lbl_back_to_home',
-                  isExpanded: true,
-                ),
-                const SizedBox(height: 20),
-              ]),
+            body: SingleChildScrollView(
+              child: Padding(
+                padding: const EdgeInsets.all(24.0),
+                child: Column(children: [
+                  const SizedBox(height: 20),
+                  SvgPicture.asset(isSucceeded
+                      ? 'assets/images/success_payment.svg'
+                      : 'assets/images/failed_payment.svg'),
+                  SubtitleText(
+                      text: isSucceeded
+                          ? 'msg_payment_successful'
+                          : 'msg_payment_failed',
+                      subtractedSize: -1,
+                      isBold: true),
+                  const SubtitleText(text: 'lbl_wallet_balance'),
+                  const SizedBox(height: 20),
+                  _buildSummary(context),
+                  const SizedBox(height: 100),
+                ]),
+              ),
             ),
           ),
         );
@@ -93,35 +99,32 @@ class _SummaryPaymentPageState extends State<SummaryPaymentPage> {
 
   Widget _buildSummary(BuildContext context) {
     final bookingModel = context.read<BookingCubit>().state.bookingModel;
-    return Flexible(
-      flex: 10,
-      child: DecoratedBox(
-        decoration: BoxDecoration(
-          borderRadius: BorderRadius.circular(10),
-          border: Border.all(
-            color: AppColors.GREY_LIGHT_COLOR,
-          ),
+    return DecoratedBox(
+      decoration: BoxDecoration(
+        borderRadius: BorderRadius.circular(10),
+        border: Border.all(
+          color: AppColors.GREY_LIGHT_COLOR,
         ),
-        child: Padding(
-          padding: const EdgeInsets.all(16.0),
-          child: Column(mainAxisSize: MainAxisSize.min, children: [
-            _buildSummaryItem(
-                amount: bookingModel?.subtotal, title: 'lbl_sub_total2'),
-            _buildSummaryItem(
-                amount: bookingModel?.discountedAmount,
-                title: 'lbl_coupon_discount'),
-            _buildSummaryItem(
-                amount: bookingModel?.grandTotal, title: 'lbl_total_amount2'),
-            _buildSummaryItem(
-                amount: bookingModel?.payment?.paymentMethod,
-                title: 'payment_method'),
-            _buildSummaryItem(
-                amount: bookingModel?.paymentStatus, title: 'payment_id'),
-            _buildSummaryItem(amount: 50, title: 'reference_id'),
-            _buildSummaryItem(amount: 50, title: 'payment_date'),
-            _buildSummaryItem(amount: 50, title: 'payment_status')
-          ]),
-        ),
+      ),
+      child: Padding(
+        padding: const EdgeInsets.all(16.0),
+        child: Column(mainAxisSize: MainAxisSize.min, children: [
+          _buildSummaryItem(
+              amount: bookingModel?.subtotal, title: 'lbl_sub_total2'),
+          _buildSummaryItem(
+              amount: bookingModel?.discountedAmount,
+              title: 'lbl_coupon_discount'),
+          _buildSummaryItem(
+              amount: bookingModel?.grandTotal, title: 'lbl_total_amount2'),
+          _buildSummaryItem(
+              amount: bookingModel?.payment?.paymentMethod,
+              title: 'payment_method'),
+          _buildSummaryItem(
+              amount: bookingModel?.paymentStatus, title: 'payment_id'),
+          _buildSummaryItem(amount: 50, title: 'reference_id'),
+          _buildSummaryItem(amount: 50, title: 'payment_date'),
+          _buildSummaryItem(amount: 50, title: 'payment_status')
+        ]),
       ),
     );
   }
@@ -134,13 +137,14 @@ class _SummaryPaymentPageState extends State<SummaryPaymentPage> {
         children: [
           SubtitleText(
             text: title,
-            color: isDiscount ? AppColors.SUCCESS_COLOR : null,
+            color: isDiscount ? AppColors.SUCCESS_COLOR : AppColors.FONT_LIGHT,
             subtractedSize: -1,
           ),
           const Spacer(),
           SubtitleText(
             text: '$amount KWD',
-            isBold: true,
+            isBold: false,
+            color: Color(0xff1D212C),
           )
         ],
       ),

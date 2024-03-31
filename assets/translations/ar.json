@@ -778,5 +778,6 @@
   "view_profile":"عرض الملف الشخصي",
   "time":"الوقت",
   "date":"التاريخ",
-  "please_select_date":"الرجاء اختيار التاريخ"
+  "please_select_date":"الرجاء اختيار التاريخ",
+  "msg_payment_failed":"فشل الدفع"
 }
