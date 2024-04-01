@@ -35,8 +35,8 @@ class PaymentCubit extends BaseCubit<PaymentState> {
     }
   }
 
-  Future<void> confirmOrder(int? paymentMethodId) async {
-    if (paymentMethodId == null) return;
+  Future<void> confirmOrder(int? paymentMethodId, int? bookingId) async {
+    if (paymentMethodId == null || bookingId == null) return;
     emit(state.copyWith(status: PaymentStateStatus.loading));
     try {
       await _paymentService.buy(PaymentParam(
@@ -44,14 +44,18 @@ class PaymentCubit extends BaseCubit<PaymentState> {
         onSuccess: () {
           navigatorKey.currentState!.pushAndRemoveUntil(
               MaterialPageRoute(
-                builder: (_) => const SummaryPaymentPage(),
+                builder: (_) => SummaryPaymentPage(
+                  bookingId: bookingId,
+                ),
               ),
               (_) => true);
         },
         onFailure: () {
           navigatorKey.currentState!.pushAndRemoveUntil(
               MaterialPageRoute(
-                builder: (_) => const SummaryPaymentPage(),
+                builder: (_) => SummaryPaymentPage(
+                  bookingId: bookingId,
+                ),
               ),
               (_) => true);
         },

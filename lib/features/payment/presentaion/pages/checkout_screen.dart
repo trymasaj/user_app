@@ -413,6 +413,8 @@ class _CheckoutScreenState extends State<CheckoutScreen> {
   }
 
   Widget _buildCheckoutButton(BuildContext context) {
+    final bookingCubit = context.read<BookingCubit>();
+    final bookingModel = bookingCubit.state.bookingModel;
     return Padding(
       padding: const EdgeInsets.all(24.0).copyWith(top: 10),
       child: DefaultButton(
@@ -420,7 +422,8 @@ class _CheckoutScreenState extends State<CheckoutScreen> {
         onPressed: () async {
           final cubit = context.read<PaymentCubit>();
 
-          await cubit.confirmOrder(_selectedPayment?.id);
+          await cubit.confirmOrder(
+              _selectedPayment?.id, bookingModel?.bookingId);
         },
         label: 'lbl_book_now',
       ),

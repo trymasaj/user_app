@@ -171,7 +171,7 @@ class BookingModel {
       'totalDuration': totalDuration,
       'bufferDuration': bufferDuration,
       'service': service?.toMap(),
-      'members': members?.map((x) => x?.toMap())?.toList(),
+      'members': members?.map((x) => x.toMap()).toList(),
       'therapist': therapist?.toMap(),
       'address': address?.toMap(),
       'payment': payment?.toMap(),

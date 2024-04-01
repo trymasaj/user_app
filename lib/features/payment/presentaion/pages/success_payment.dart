@@ -14,7 +14,8 @@ import 'package:masaj/features/book_service/presentation/blocs/book_cubit/book_s
 import 'package:masaj/features/home/presentation/pages/home_page.dart';
 
 class SummaryPaymentPage extends StatefulWidget {
-  const SummaryPaymentPage({super.key});
+  const SummaryPaymentPage({super.key, required this.bookingId});
+  final int bookingId;
   @override
   State<SummaryPaymentPage> createState() => _SummaryPaymentPageState();
 }
@@ -22,7 +23,7 @@ class SummaryPaymentPage extends StatefulWidget {
 class _SummaryPaymentPageState extends State<SummaryPaymentPage> {
   void getBooking() async {
     final bookingCubit = context.read<BookingCubit>();
-    await bookingCubit.getBookingDetails();
+    await bookingCubit.getBookingDetails(oldBookingId: widget.bookingId);
   }
 
   @override
@@ -37,7 +38,8 @@ class _SummaryPaymentPageState extends State<SummaryPaymentPage> {
       builder: (context, state) {
         final bookingModel = context.read<BookingCubit>().state.bookingModel;
         final isSucceeded =
-            bookingModel?.paymentStatus == PaymentStatus.Captured;
+            bookingModel?.paymentStatus == PaymentStatus.Captured ||
+                bookingModel?.paymentStatus == PaymentStatus.Pending;
         if (state.isLoading) return const CustomLoading();
 
         return CustomAppPage(
@@ -109,21 +111,28 @@ class _SummaryPaymentPageState extends State<SummaryPaymentPage> {
       child: Padding(
         padding: const EdgeInsets.all(16.0),
         child: Column(mainAxisSize: MainAxisSize.min, children: [
-          _buildSummaryItem(
+          _buildSummaryPriceItem(
               amount: bookingModel?.subtotal, title: 'lbl_sub_total2'),
-          _buildSummaryItem(
+          _buildSummaryPriceItem(
               amount: bookingModel?.discountedAmount,
+              isDiscount: true,
               title: 'lbl_coupon_discount'),
-          _buildSummaryItem(
+          _buildSummaryPriceItem(
               amount: bookingModel?.grandTotal, title: 'lbl_total_amount2'),
           _buildSummaryItem(
               amount: bookingModel?.payment?.paymentMethod,
               title: 'payment_method'),
           _buildSummaryItem(
-              amount: bookingModel?.paymentStatus, title: 'payment_id'),
-          _buildSummaryItem(amount: 50, title: 'reference_id'),
-          _buildSummaryItem(amount: 50, title: 'payment_date'),
-          _buildSummaryItem(amount: 50, title: 'payment_status')
+              amount: bookingModel?.payment?.paymentId, title: 'payment_id'),
+          _buildSummaryItem(
+              amount: bookingModel?.payment?.referenceId,
+              title: 'reference_id'),
+          _buildSummaryItem(
+              amount: bookingModel?.payment?.paymentDate,
+              title: 'payment_date'),
+          _buildSummaryItem(
+              amount: bookingModel?.payment?.paymentStatus?.name,
+              title: 'payment_status')
         ]),
       ),
     );
@@ -141,10 +150,43 @@ class _SummaryPaymentPageState extends State<SummaryPaymentPage> {
             subtractedSize: -1,
           ),
           const Spacer(),
+          Expanded(
+            flex: 6,
+            child: SubtitleText(
+              text: '$amount ',
+              textAlign: TextAlign.end,
+              isBold: false,
+              color: const Color(0xff1D212C),
+              maxLines: 2,
+            ),
+          )
+        ],
+      ),
+    );
+  }
+
+  Widget _buildSummaryPriceItem(
+      {bool isDiscount = false, required String title, dynamic amount}) {
+    return Padding(
+      padding: const EdgeInsets.symmetric(vertical: 12.0),
+      child: Row(
+        children: [
           SubtitleText(
-            text: '$amount KWD',
-            isBold: false,
-            color: Color(0xff1D212C),
+            text: title,
+            color: isDiscount ? AppColors.SUCCESS_COLOR : AppColors.FONT_LIGHT,
+            subtractedSize: -1,
+          ),
+          const Spacer(),
+          Expanded(
+            flex: 6,
+            child: SubtitleText(
+              text: '$amount KWD',
+              textAlign: TextAlign.end,
+              isBold: false,
+              color:
+                  isDiscount ? AppColors.SUCCESS_COLOR : AppColors.FONT_LIGHT,
+              maxLines: 2,
+            ),
           )
         ],
       ),
