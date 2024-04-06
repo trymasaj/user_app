@@ -1,6 +1,8 @@
+import 'package:flutter/widgets.dart';
 import 'package:masaj/core/data/clients/cache_service.dart';
 import 'package:masaj/features/home/data/datasources/home_local_data_source.dart';
 import 'package:masaj/features/home/data/datasources/home_remote_data_source.dart';
+import 'package:masaj/features/home/data/models/banner.dart';
 import 'package:masaj/features/home/data/models/event.dart';
 import 'package:masaj/features/home/data/models/home_data.dart';
 import 'package:masaj/features/home/data/models/home_search_reponse.dart';
@@ -11,6 +13,7 @@ abstract class HomeRepository {
   Future<HomeSearchResponse> search({required String keyWord});
 
   Future<HomeData> getHomePageData();
+  Future<List<BannerModel>> getBanners();
   Future<bool> saveRecentService(ServiceModel service);
   Future<List<ServiceModel>> getRecentServices();
   Future<bool> removeRecentService(ServiceModel service);
@@ -97,5 +100,10 @@ class HomeRepositoryImpl implements HomeRepository {
   @override
   Future<bool> saveSearchResult(SearchResultModel service) async {
     return await _homeLocalDatasource.saveSearchResult(service);
+  }
+
+  @override
+  Future<List<BannerModel>> getBanners() async {
+    return _homeRemoteDataSource.getBanners();
   }
 }

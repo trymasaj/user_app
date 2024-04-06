@@ -4,6 +4,7 @@ import 'package:masaj/core/data/clients/network_service.dart';
 import 'package:masaj/core/data/constants/api_end_point.dart';
 import 'package:masaj/core/domain/enums/request_result_enum.dart';
 import 'package:masaj/core/domain/exceptions/request_exception.dart';
+import 'package:masaj/features/home/data/models/banner.dart';
 import 'package:masaj/features/home/data/models/event.dart';
 import 'package:masaj/features/home/data/models/home_data.dart';
 import 'package:masaj/features/home/data/models/home_search_reponse.dart';
@@ -11,6 +12,7 @@ import 'package:masaj/features/home/data/models/notification.dart';
 
 abstract class HomeRemoteDataSource {
   Future<HomeData> getHomePageData();
+  Future<List<BannerModel>> getBanners();
   Future<HomeSearchResponse> search({required String keyWord});
 
   Future<Events> getHomeSearch({
@@ -108,6 +110,19 @@ class HomeRemoteDataSourceImpl implements HomeRemoteDataSource {
       }
       final result = response.data;
       return HomeSearchResponse.fromMap(result);
+    });
+  }
+
+  @override
+  Future<List<BannerModel>> getBanners() async {
+    const url = ApiEndPoint.BANNERS;
+    return _networkService.get(url).then((response) {
+      if (response.statusCode != 200) {
+        throw RequestException.fromStatusCode(
+            statusCode: response.statusCode!, response: response.data);
+      }
+      final result = response.data;
+      return List<BannerModel>.from(result.map((x) => BannerModel.fromMap(x)));
     });
   }
 }

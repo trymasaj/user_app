@@ -50,6 +50,7 @@ void main() async {
               BlocProvider(create: (context) => Injector().favoritesCubit),
               BlocProvider(create: (context) => Injector().countryCubit),
               BlocProvider(create: (context) => Injector().membersCubit),
+              BlocProvider(create: (context) => Injector().homePageCubit),
             ],
             child: const MyApp(),
           ),
@@ -130,9 +131,7 @@ class _MyAppState extends State<MyApp> with WidgetsBindingObserver {
                     create: (context) =>
                         getIt<MyAddressesCubit>()..getAddresses()),
                 BlocProvider(
-                    lazy: false,
-                    create: (context) =>
-                        Injector().bookingCubit),
+                    lazy: false, create: (context) => Injector().bookingCubit),
               ],
               child: MaterialApp(
                 onGenerateRoute: onGenerateRoute,

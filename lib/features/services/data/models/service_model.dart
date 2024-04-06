@@ -12,6 +12,8 @@ class ServiceModel extends Equatable {
   final String? description;
   final bool? isActive;
   final bool allowFocusAreas;
+  final double? discountedPrice;
+  final bool hasDiscount;
   final int sortKey;
   final double startingPrice;
   final List<ServiceBenefitModel>? serviceBenefits;
@@ -48,6 +50,8 @@ class ServiceModel extends Equatable {
     this.serviceMedia,
     this.serviceAddons,
     this.mainImage,
+    this.discountedPrice,
+    this.hasDiscount = false,
   });
 
   @override
@@ -66,6 +70,8 @@ class ServiceModel extends Equatable {
         serviceDurations,
         serviceMedia,
         serviceAddons,
+        discountedPrice,
+        hasDiscount,
       ];
 
   factory ServiceModel.fromMap(Map<String, dynamic> json) {
@@ -97,6 +103,8 @@ class ServiceModel extends Equatable {
             ? null
             : List<ServiceAddonModel>.from(
                 json['serviceAddons'].map((x) => ServiceAddonModel.fromMap(x))),
+        hasDiscount: json['hasDiscount'] ?? false,
+        discountedPrice: (json['discountedPrice'] as num).toDouble(),
       );
     } catch (e, s) {
       print(e);
@@ -129,6 +137,8 @@ class ServiceModel extends Equatable {
           ? null
           : List<ServiceAddonModel>.from(
               json['serviceAddons'].map((x) => ServiceAddonModel.fromMap(x))),
+      hasDiscount: json['hasDiscount'] ?? false,
+      discountedPrice: (json['discountedPrice'] as num).toDouble(),
     );
   }
 
@@ -156,6 +166,8 @@ class ServiceModel extends Equatable {
       'serviceAddons': serviceAddons == null
           ? null
           : List<dynamic>.from(serviceAddons!.map((x) => x.toMap())),
+      "discountedPrice": discountedPrice,
+      "hasDiscount": hasDiscount,
     };
   }
 
@@ -179,6 +191,8 @@ class ServiceModel extends Equatable {
     List<ServiceMediaModel>? serviceMedia,
     List<ServiceAddonModel>? serviceAddons,
     String? mainImage,
+    double? discountedPrice,
+    bool? hasDiscount,
   }) {
     return ServiceModel(
       serviceId: serviceId ?? this.serviceId,
@@ -195,6 +209,8 @@ class ServiceModel extends Equatable {
       serviceDurations: serviceDurations ?? this.serviceDurations,
       serviceMedia: serviceMedia ?? this.serviceMedia,
       serviceAddons: serviceAddons ?? this.serviceAddons,
+      discountedPrice: discountedPrice ?? this.discountedPrice,
+      hasDiscount: hasDiscount ?? this.hasDiscount,
     );
   }
 }
@@ -228,6 +244,8 @@ class ServiceDurationModel {
   final String duration;
   final bool isPromoted;
   final double price;
+  final bool hasDiscount;
+  final double? discountedPrice;
 
   //  duration like 00:30:00
   String get durationInMinutes => duration.split(':').length > 2
@@ -272,6 +290,8 @@ class ServiceDurationModel {
     required this.duration,
     required this.isPromoted,
     required this.price,
+    this.hasDiscount = false,
+    this.discountedPrice,
   });
 
   Map<String, dynamic> toMap() {
@@ -280,6 +300,8 @@ class ServiceDurationModel {
       'duration': duration,
       'isPromoted': isPromoted,
       'price': price,
+      "discountedPrice": discountedPrice,
+      "hasDiscount": hasDiscount,
     };
   }
 
@@ -289,6 +311,8 @@ class ServiceDurationModel {
       duration: json['duration'],
       isPromoted: json['isPromoted'],
       price: (json['price'] as num).toDouble(),
+      hasDiscount: json['hasDiscount'] ?? false,
+      discountedPrice: (json['discountedPrice'] as num).toDouble(),
     );
   }
 }
