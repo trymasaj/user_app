@@ -510,15 +510,19 @@ class ServiceDetailsScreenState extends State<ServiceDetailsScreen> {
 }
 
 class TotalSection extends StatelessWidget {
-  const TotalSection({
+  TotalSection({
     super.key,
     required this.totalPrice,
   });
   final String totalPrice;
+  int totalDuration = 0;
   @override
   Widget build(BuildContext context) {
     return BlocBuilder<ServiceDetailsCubit, ServiceDetailsState>(
       builder: (context, state) {
+        state.service?.serviceDurations?.forEach((element) {
+          totalDuration += int.tryParse(element.durationInMinutes) ?? 0;
+        });
         return Padding(
           padding: EdgeInsets.symmetric(horizontal: 24.w),
           child: Column(
@@ -574,13 +578,13 @@ class TotalSection extends StatelessWidget {
               Row(
                 children: [
                   const CustomText(
-                    text: 'total',
+                    text: 'total_duration',
                     fontSize: 14,
                     fontWeight: FontWeight.w500,
                   ),
                   const Spacer(),
                   CustomText(
-                    text: '${totalPrice} KWD',
+                    text: '$totalDuration min',
                     fontSize: 14,
                     fontWeight: FontWeight.w500,
                     color: AppColors.FONT_LIGHT.withOpacity(.7),

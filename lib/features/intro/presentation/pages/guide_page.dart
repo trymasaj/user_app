@@ -219,6 +219,7 @@ class _GuidePageState extends State<GuidePage> {
 
     return DefaultButton(
       label: 'skip',
+      textColor: AppColors.PRIMARY_COLOR,
       backgroundColor: Colors.transparent,
       color: Colors.transparent,
       onPressed: () {

@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:masaj/core/app_export.dart';
+import 'package:masaj/core/presentation/widgets/stateless/custom_app_bar.dart';
 import 'package:masaj/features/legal/bloc/privacy_policy_bloc/privacy_policy_bloc.dart';
 import 'package:masaj/features/legal/bloc/privacy_policy_bloc/privacy_policy_state.dart';
 import 'package:masaj/features/legal/models/privacy_policy_model.dart';
@@ -45,10 +46,9 @@ class PrivacyPolicyScreen extends StatelessWidget {
   }
 
   PreferredSizeWidget _buildAppBar(BuildContext context) {
-    return AppBar(
-      title: Text(
-        'lbl_privacy_policy'.tr(),
-      ),
+    return const CustomAppBar(
+      title: 'lbl_privacy_policy',
+      centerTitle: true,
     );
   }
 }

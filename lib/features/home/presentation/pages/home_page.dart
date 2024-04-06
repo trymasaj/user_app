@@ -60,9 +60,6 @@ class _HomePageState extends State<HomePage> {
         BlocProvider<ServiceCategoryCubit>(
             create: (context) =>
                 Injector().serviceCategoryCubit..getServiceCategories()),
-
-        // BlocProvider(create: (context) => Injector().zonesCubit..init()),
-        // BlocProvider(create: (context) => Injector().eventsCubit..init()),
       ],
       child: BlocListener<AuthCubit, AuthState>(
         listenWhen: (previous, current) =>

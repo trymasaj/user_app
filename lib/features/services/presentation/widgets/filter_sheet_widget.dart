@@ -215,11 +215,22 @@ class _FilterWidgetSheetState extends State<FilterWidgetSheet> {
                       // slider range
                       SliderTheme(
                         data: const SliderThemeData(
-                          thumbColor: Colors.white,
-                          activeTrackColor: AppColors.PRIMARY_COLOR,
-                          inactiveTrackColor: AppColors.PRIMARY_COLOR,
-                        ),
+                            thumbColor: Colors.white,
+                            activeTrackColor: AppColors.PRIMARY_COLOR,
+                            inactiveTrackColor: AppColors.PRIMARY_COLOR,
+                            showValueIndicator: ShowValueIndicator.always,
+                            valueIndicatorColor: Colors.white,
+                            valueIndicatorTextStyle: TextStyle(
+                                fontWeight: FontWeight.bold,
+                                fontSize: 14,
+                                color: AppColors.PRIMARY_COLOR)),
                         child: RangeSlider(
+                          labels: RangeLabels(
+                            'lbl_kwd'.tr(args: [_fromController.text]),
+                            'lbl_kwd'.tr(
+                              args: [_toController.text],
+                            ),
+                          ),
                           divisions: divisions,
                           values: values,
                           min: _starterValue,

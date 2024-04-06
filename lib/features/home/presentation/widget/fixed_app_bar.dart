@@ -232,7 +232,7 @@ class FixedAppBar extends StatelessWidget {
           child: SizedBox(
             width: 150,
             child: Text(
-              currentAddress!.formattedAddress ?? 'no_address_selected'.tr(),
+              currentAddress!.formattedAddress,
               overflow: TextOverflow.ellipsis,
               style: const TextStyle(
                   fontSize: 14,

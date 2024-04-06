@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:masaj/core/app_export.dart';
+import 'package:masaj/core/presentation/widgets/stateless/custom_app_bar.dart';
 import 'package:masaj/features/legal/bloc/terms_and_condititons_bloc/terms_and_condititons_bloc.dart';
 import 'package:masaj/features/legal/models/terms_and_condititons_model.dart';
 
@@ -45,10 +46,9 @@ class TermsAndCondititonsScreen extends StatelessWidget {
 
   /// Section Widget
   PreferredSizeWidget _buildAppBar(BuildContext context) {
-    return AppBar(
-      title: Text(
-        'msg_terms_conditions'.tr(),
-      ),
+    return const CustomAppBar(
+      title: 'msg_terms_conditions',
+      centerTitle: true,
     );
   }
 }

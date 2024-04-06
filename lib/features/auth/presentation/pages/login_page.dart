@@ -341,7 +341,6 @@ class _LoginPageState extends State<LoginPage> {
 
     return DefaultButton(
       label: 'sign_in',
-      backgroundColor: AppColors.PRIMARY_COLOR,
       padding: const EdgeInsets.symmetric(vertical: 8.0),
       isExpanded: true,
       onPressed: () async {

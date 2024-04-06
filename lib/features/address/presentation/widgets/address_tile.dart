@@ -53,6 +53,7 @@ class AddressTile extends StatelessWidget {
   Widget buildTile() {
     return GestureDetector(
       onTap: onTap,
+      behavior: HitTestBehavior.opaque,
       child: Column(
         children: [
           SizedBox(

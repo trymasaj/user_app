@@ -28,7 +28,8 @@ class DefaultButton extends StatefulWidget {
       this.borderWidth = 1.0,
       this.enabled = true,
       this.contentAlignment = MainAxisAlignment.center,
-      this.backgroundColor,
+      this.backgroundColor = Colors.transparent,
+      this.backgroundLoadingColor,
       this.initLoadingState = false,
       this.color,
       this.loadingSize,
@@ -53,6 +54,7 @@ class DefaultButton extends StatefulWidget {
   final double borderWidth;
   final bool enabled;
   final Color? backgroundColor;
+  final Color? backgroundLoadingColor;
   final List<BoxShadow>? shadow;
   final MainAxisAlignment contentAlignment;
   final bool initLoadingState;
@@ -104,6 +106,7 @@ class _DefaultButtonState extends State<DefaultButton>
         child: _isBusy
             ? _buildLoading(widget.keepButtonSizeOnLoading)
             : Material(
+                color: widget.backgroundColor,
                 child: Ink(
                   decoration: BoxDecoration(
                     gradient:
@@ -163,7 +166,7 @@ class _DefaultButtonState extends State<DefaultButton>
         decoration: BoxDecoration(
           shape: keepButtonSizeOnLoading ? BoxShape.rectangle : BoxShape.circle,
           borderRadius: keepButtonSizeOnLoading ? widget.borderRadius : null,
-          color: widget.backgroundColor ?? AppColors.PRIMARY_COLOR,
+          color: widget.backgroundLoadingColor ?? AppColors.PRIMARY_COLOR,
           border: widget.borderColor != null
               ? Border.all(
                   color: widget.borderColor!, width: widget.borderWidth)

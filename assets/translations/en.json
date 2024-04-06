@@ -603,7 +603,7 @@
     "lbl_khaled_saber": "Khaled Saber",
     "lbl_knet": "Knet",
     "lbl_kuwaiti": "Kuwaiti ",
-    "lbl_kwd": "KWD",
+    "lbl_kwd": "{} KWD",
     "lbl_language": "Language",
     "lbl_legal": "Legal",
     "lbl_location": "Location",

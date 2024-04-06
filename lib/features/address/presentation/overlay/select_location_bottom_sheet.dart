@@ -58,7 +58,9 @@ class _SelectLocationBottomSheetState extends State<SelectLocationBottomSheet> {
                                     padding:
                                         EdgeInsets.symmetric(vertical: 5.h),
                                     child: MyAddressTile(
-                                      title: address.addressTitle,
+                                      title: address.addressTitle.isEmpty
+                                          ? address.formattedAddress
+                                          : address.addressTitle,
                                       isPrimary:
                                           state.selectedAddressIndex == index,
                                       subTitle: address.formattedAddress,

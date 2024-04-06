@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:masaj/core/app_export.dart';
+import 'package:masaj/core/presentation/widgets/stateless/custom_app_bar.dart';
 import 'package:masaj/features/legal/bloc/conditions_bloc/conditions_bloc.dart';
 import 'package:masaj/features/legal/widgets/conditionslist_item_widget.dart';
 
@@ -44,8 +45,8 @@ class ConditionsScreen extends StatelessWidget {
 
   /// Section Widget
   PreferredSizeWidget _buildAppBar(BuildContext context) {
-    return AppBar(
-      title: Text('msg_select_conditions'.tr()),
+    return const CustomAppBar(
+      title: 'msg_select_conditions',
     );
   }
 

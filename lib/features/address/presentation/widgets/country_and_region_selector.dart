@@ -1,15 +1,11 @@
 import 'dart:developer';
-
 import 'package:cached_network_image/cached_network_image.dart';
-import 'package:dartz/dartz.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_form_builder/flutter_form_builder.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:masaj/core/app_export.dart';
 import 'package:masaj/core/application/states/app_state.dart';
-import 'package:masaj/core/presentation/colors/app_colors.dart';
 import 'package:masaj/core/presentation/widgets/stateless/state_widgets.dart';
-import 'package:masaj/core/presentation/widgets/stateless/subtitle_text.dart';
 import 'package:masaj/features/address/application/blocs/select_location_bloc/select_location_bloc.dart';
 import 'package:masaj/features/address/domain/entities/address.dart';
 import 'package:masaj/features/address/domain/entities/city.dart';
@@ -51,14 +47,14 @@ class CountryAndRegionSelector<T extends SelectAreaCubit>
                     name: Address.countryKey,
                     isExpanded: true,
                     decoration: decoration.copyWith(
-                      prefixIcon: Padding(
-                        padding: const EdgeInsets.all(10.0),
-                        child: SvgPicture.asset(
-                          'assets/images/globe.svg',
+                        prefixIcon: Padding(
+                          padding: const EdgeInsets.all(10.0),
+                          child: SvgPicture.asset(
+                            'assets/images/globe.svg',
+                          ),
                         ),
-                      ),
-                      hintText: "lbl_country".tr(),
-                    ),
+                        hintText: "lbl_country".tr(),
+                        hintStyle: CustomTextStyles.bodyMediumBluegray90003),
                     initialValue: controller.state.selectedCountry.toNullable(),
                     // value: state.selectedCountry.toNullable()?.id,
                     items: data
@@ -76,15 +72,13 @@ class CountryAndRegionSelector<T extends SelectAreaCubit>
                                 SizedBox(width: 3.w),
                                 Text(
                                   isArabic ? e.nameAr ?? '' : e.nameEn ?? '',
-                                  style: CustomTextStyles
-                                      .bodyMediumOnErrorContainer,
+                                  style:
+                                      CustomTextStyles.bodyMediumBluegray90003,
                                 ),
-                                Spacer(),
-                                Text(
-                                  e.code ?? '',
-                                  style: CustomTextStyles
-                                      .bodyMediumOnErrorContainer,
-                                ),
+                                const Spacer(),
+                                Text(e.code ?? '',
+                                    style: CustomTextStyles
+                                        .bodyMediumBluegray90003),
                               ],
                             )))
                         .toList(),
@@ -117,6 +111,7 @@ class CountryAndRegionSelector<T extends SelectAreaCubit>
                         isExpanded: true,
                         decoration: decoration.copyWith(
                           hintText: "lbl_region_area".tr(),
+                          hintStyle: CustomTextStyles.bodyMediumBluegray90003,
                           prefixIcon: Padding(
                             padding: const EdgeInsets.all(10.0),
                             child: SvgPicture.asset('assets/images/area.svg'),
@@ -130,11 +125,9 @@ class CountryAndRegionSelector<T extends SelectAreaCubit>
                                   mainAxisSize: MainAxisSize.max,
                                   children: [
                                     const SizedBox(width: 3),
-                                    Text(
-                                      e.name,
-                                      style: CustomTextStyles
-                                          .bodyMediumOnErrorContainer,
-                                    ),
+                                    Text(e.name,
+                                        style: CustomTextStyles
+                                            .bodyMediumBluegray90003),
                                   ],
                                 )))
                             .toList(),

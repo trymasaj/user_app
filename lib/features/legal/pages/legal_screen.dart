@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:masaj/core/app_export.dart';
 import 'package:masaj/core/presentation/navigation/navigator_helper.dart';
 import 'package:masaj/core/presentation/widgets/stateless/border_tile.dart';
+import 'package:masaj/core/presentation/widgets/stateless/custom_app_bar.dart';
 import 'package:masaj/features/legal/bloc/legal_bloc/legal_bloc.dart';
 import 'package:masaj/features/legal/models/legal_model.dart';
 import 'package:masaj/features/legal/pages/cancellation_policy_screen.dart';
@@ -76,8 +77,9 @@ class LegalScreen extends StatelessWidget {
 
   /// Section Widget
   PreferredSizeWidget _buildAppBar(BuildContext context) {
-    return AppBar(
-      title: Text('lbl_legal'.tr()),
+    return const CustomAppBar(
+      title: 'lbl_legal',
+      centerTitle: true,
     );
   }
 

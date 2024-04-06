@@ -1,12 +1,17 @@
+import 'dart:developer';
 import 'package:flutter_form_builder/flutter_form_builder.dart';
+import 'package:masaj/core/presentation/colors/app_colors.dart';
 import 'package:masaj/core/presentation/widgets/stateless/custom_app_bar.dart';
 import 'package:masaj/core/presentation/widgets/stateless/default_button.dart';
+import 'package:masaj/core/presentation/widgets/stateless/subtitle_text.dart';
 import 'package:masaj/features/address/presentation/widgets/country_and_region_selector.dart';
 import 'package:flutter/material.dart';
 import 'package:masaj/core/app_export.dart';
 import 'package:masaj/core/data/di/injection_setup.dart';
 import 'package:masaj/core/presentation/navigation/navigator_helper.dart';
 import 'package:masaj/features/address/application/blocs/select_location_bloc/select_location_bloc.dart';
+import 'package:masaj/features/auth/application/country_cubit/country_cubit.dart';
+import 'package:masaj/features/auth/application/country_cubit/country_state.dart';
 import 'package:masaj/features/auth/presentation/pages/login_page.dart';
 
 class SelectLocationScreen extends StatefulWidget {
@@ -42,14 +47,16 @@ class _SelectLocationScreenState extends State<SelectLocationScreen> {
   Widget _buildBody(BuildContext context) {
     return BlocProvider<SelectAreaCubit>(
       create: (context) => getIt<NotInitiallySelectAreaCubit>()..getCountries(),
-      child: Builder(builder: (context) {
-        return Container(
+      child: BlocBuilder<SelectAreaCubit, SelectAreaState>(
+        builder: (context, state) {
+          return Container(
             width: double.maxFinite,
             padding: EdgeInsets.only(
                 left: 24.w,
                 top: widget.isFromHomePage ? 24.w : 62.h,
                 right: 24.w),
-            child: Column(children: [
+            child:
+                Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
               Align(
                   alignment: Alignment.centerLeft,
                   child: Text('msg_select_your_location'.tr(),
@@ -75,35 +82,62 @@ class _SelectLocationScreenState extends State<SelectLocationScreen> {
                       disabledBorder: border,
                       errorBorder: border,
                       focusedErrorBorder: border)),
+              _buildCountryError(),
               SizedBox(height: 24.h),
-              Container(
+              SizedBox(
                 width: double.maxFinite,
-                //TODO review this
                 child: DefaultButton(
                     label: 'lbl_continue',
-                    // text: "lbl_continue".tr(),
-                    // buttonStyle: CustomButtonStyles.none,
-                    // decoration: CustomButtonStyles
-                    //     .gradientSecondaryContainerToPrimaryDecoration,
                     onPressed: () async {
                       await onTapContinue(context);
                     }),
               ),
               SizedBox(height: 5.h)
-            ]));
-      }),
+            ]),
+          );
+        },
+      ),
+    );
+  }
+
+  Widget _buildCountryError() {
+    return BlocSelector<CountryCubit, CountryState, bool>(
+      selector: (state) {
+        return state.showCountryError;
+      },
+      builder: (context, state) {
+        log(state.toString());
+        log('state');
+
+        return state
+            ? Padding(
+                padding: EdgeInsets.symmetric(horizontal: 14.w),
+                child: const SubtitleText(
+                  text: 'msg_please_select_your2',
+                  color: AppColors.ERROR_COLOR,
+                  subtractedSize: 4,
+                ),
+              )
+            : const SizedBox();
+      },
     );
   }
 
   Future onTapContinue(BuildContext context) async {
     final cubit = context.read<SelectAreaCubit>();
+    final countryCubit = context.read<CountryCubit>();
+
     final isCountrySet = await cubit.onContinuePressed();
+
     if (isCountrySet) {
+      countryCubit.setCountryError(false);
       if (widget.isFromHomePage) {
         NavigatorHelper.of(context).pop();
         return;
       }
       NavigatorHelper.of(context).pushReplacementNamed(LoginPage.routeName);
+    } else {
+      countryCubit.setCountryError(true);
     }
   }
 }
