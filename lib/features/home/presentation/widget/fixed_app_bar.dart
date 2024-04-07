@@ -14,6 +14,7 @@ import 'package:masaj/features/auth/application/auth_cubit/auth_cubit.dart';
 import 'package:masaj/features/auth/application/country_cubit/country_cubit.dart';
 import 'package:masaj/features/auth/application/country_cubit/country_state.dart';
 import 'package:masaj/features/book_service/presentation/blocs/book_cubit/book_service_cubit.dart';
+import 'package:masaj/features/home/presentation/bloc/home_page_cubit/home_page_cubit.dart';
 import 'package:masaj/gen/assets.gen.dart';
 
 class FixedAppBar extends StatelessWidget {
@@ -220,10 +221,13 @@ class FixedAppBar extends StatelessWidget {
                   final myAddressCubit = context.read<MyAddressesCubit>();
                   final bookingCubit = context.read<BookingCubit>();
                   final countryCubit = context.read<CountryCubit>();
+                  final homeCubit = context.read<HomePageCubit>();
+
                   await myAddressCubit.saveAddress();
                   await bookingCubit.addBookingAddress(currentAddress.id);
                   await countryCubit
                       .getAllAddressesAndSavePrimaryAddressLocally();
+                  await homeCubit.refresh();
                   Navigator.of(context).pop();
                 },
               ),

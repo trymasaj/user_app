@@ -41,7 +41,7 @@ class _RecommendedState extends State<Recommended> {
               ],
             ),
             SizedBox(
-              height: 125,
+              height: 155,
               child: ListView.builder(
                 padding: const EdgeInsets.symmetric(horizontal: 20),
                 scrollDirection: Axis.horizontal,
@@ -52,8 +52,7 @@ class _RecommendedState extends State<Recommended> {
                       Navigator.of(context).pushNamed(
                         ServiceDetailsScreen.routeName,
                         arguments: ServiceDetailsScreenArguments(
-                            id: widget.recommendedServices[index].serviceId ??
-                                1),
+                            id: widget.recommendedServices[index].serviceId),
                       );
                     },
                     child: Container(
@@ -93,7 +92,7 @@ class _RecommendedState extends State<Recommended> {
                             widget.recommendedServices[index].title ?? '',
                             maxLines: 1,
                             overflow: TextOverflow.ellipsis,
-                            style: TextStyle(
+                            style: const TextStyle(
                                 fontSize: 12,
                                 fontWeight: FontWeight.w400,
                                 color: AppColors.FONT_COLOR),

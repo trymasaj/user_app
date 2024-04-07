@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:intl_phone_field/phone_number.dart';
 import 'package:masaj/core/app_export.dart';
-import 'package:masaj/core/data/di/injector.dart';
 import 'package:masaj/core/domain/enums/gender.dart';
 import 'package:masaj/core/presentation/colors/app_colors.dart';
 import 'package:masaj/core/presentation/overlay/show_snack_bar.dart';
@@ -105,7 +104,7 @@ class _AddMemberScreenState extends State<AddMemberScreen> {
                           currentFocusNode: memberNameFocusNode,
                           currentController: memberNameController,
                           isRequired: true,
-                          hint: 'first_name'.tr(),
+                          hint: 'name'.tr(),
                         ),
                         const SizedBox(height: 16),
                         PhoneTextFormField(

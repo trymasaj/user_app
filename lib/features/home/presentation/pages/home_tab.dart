@@ -1,7 +1,5 @@
-import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:masaj/core/data/di/injector.dart';
 import 'package:masaj/core/presentation/colors/app_colors.dart';
 import 'package:masaj/core/presentation/size/size_utils.dart';
 import 'package:masaj/core/presentation/widgets/stateless/custom_app_page.dart';
@@ -11,7 +9,6 @@ import 'package:masaj/features/book_service/data/models/booking_model/session_mo
 import 'package:masaj/features/home/data/models/banner.dart';
 import 'package:masaj/features/home/presentation/bloc/home_cubit/home_cubit.dart';
 import 'package:masaj/features/home/presentation/bloc/home_page_cubit/home_page_cubit.dart';
-
 import 'package:masaj/features/home/presentation/widget/index.dart';
 import 'package:masaj/features/services/data/models/service_model.dart';
 import 'package:masaj/features/services/data/models/service_offer.dart';
@@ -34,56 +31,60 @@ class _HomeTabState extends State<HomeTab> {
   Widget build(BuildContext context) {
     return BlocBuilder<HomePageCubit, HomePageState>(
       builder: (context, state) {
-        return CustomAppPage(
-          safeBottom: false,
-          child: Scaffold(
-            floatingActionButtonLocation:
-                FloatingActionButtonLocation.startFloat,
-            body: CustomScrollView(
-              slivers: [
-                const FixedAppBar(),
+        final cubit = context.read<HomePageCubit>();
+        return RefreshIndicator(
+          onRefresh: cubit.refresh,
+          child: CustomAppPage(
+            safeBottom: false,
+            child: Scaffold(
+              floatingActionButtonLocation:
+                  FloatingActionButtonLocation.startFloat,
+              body: CustomScrollView(
+                slivers: [
+                  const FixedAppBar(),
 
-                SliverToBoxAdapter(
+                  SliverToBoxAdapter(
+                      child: SizedBox(
+                    height: 20.h,
+                  )),
+
+                  // search bar
+                  const SearchField(),
+                  SliverToBoxAdapter(
                     child: SizedBox(
-                  height: 20.h,
-                )),
-
-                // search bar
-                const SearchField(),
-                SliverToBoxAdapter(
-                  child: SizedBox(
-                    height: 20.h,
+                      height: 20.h,
+                    ),
                   ),
-                ),
 
-                // horizontal list view of categories
-                const CategoriesList(
-                  isSliver: true,
-                ),
-                SliverToBoxAdapter(
-                  child: SizedBox(
-                    height: 20.h,
+                  // horizontal list view of categories
+                  const CategoriesList(
+                    isSliver: true,
                   ),
-                ),
-                if (state.isLoaded) ...homeSection(state),
-                if (state.isLoading) ...[
+                  SliverToBoxAdapter(
+                    child: SizedBox(
+                      height: 20.h,
+                    ),
+                  ),
+                  if (state.isLoaded) ...homeSection(state),
+                  if (state.isLoading) ...[
+                    const SliverToBoxAdapter(
+                      child: CustomLoading(
+                        loadingStyle: LoadingStyle.ShimmerList,
+                      ),
+                    ),
+                  ],
+
+                  // therapists
+                  const Therapists(),
+
+                  // space of bottom bar height
                   const SliverToBoxAdapter(
-                    child: CustomLoading(
-                      loadingStyle: LoadingStyle.ShimmerList,
+                    child: SizedBox(
+                      height: kBottomNavigationBarHeight + 20,
                     ),
                   ),
                 ],
-
-                // therapists
-                const Therapists(),
-
-                // space of bottom bar height
-                const SliverToBoxAdapter(
-                  child: SizedBox(
-                    height: kBottomNavigationBarHeight + 20,
-                  ),
-                ),
-              ],
+              ),
             ),
           ),
         );
@@ -91,7 +92,7 @@ class _HomeTabState extends State<HomeTab> {
     );
   }
 
-  List<Widget> buildRepetedSessions(List<SessionModel> repeatedSessions) => [
+  List<Widget> buildRepeatedSessions(List<SessionModel> repeatedSessions) => [
         RepeatedSessions(
           repeatedSessions: repeatedSessions,
         ),
@@ -122,7 +123,8 @@ class _HomeTabState extends State<HomeTab> {
           ),
         ),
       ];
-  List<Widget> buildRecomendedSection(List<ServiceModel> recommendedServices) =>
+  List<Widget> buildRecommendedSection(
+          List<ServiceModel> recommendedServices) =>
       [
         Recommended(
           recommendedServices: recommendedServices,
@@ -135,9 +137,9 @@ class _HomeTabState extends State<HomeTab> {
       ];
 
   List<Widget> homeSection(HomePageState state) => [
-        // title : Repeate session with list view of sessions
+        // title : Repeat session with list view of sessions
         if (state.repeatedSessions != null)
-          ...buildRepetedSessions(state.repeatedSessions ?? []),
+          ...buildRepeatedSessions(state.repeatedSessions ?? []),
 
         // image slider
         if (state.banners != null) ...buildAdsSection(state.banners ?? []),
@@ -145,11 +147,9 @@ class _HomeTabState extends State<HomeTab> {
         if (state.offers != null) ...buildOffersSection(state.offers ?? []),
         // recommended
         if (state.recommendedServices != null)
-          ...buildRecomendedSection(state.recommendedServices ?? []),
+          ...buildRecommendedSection(state.recommendedServices ?? []),
       ];
 
-
-      
   Widget _buildBody(BuildContext context) {
     final cubit = context.read<HomeCubit>();
 
