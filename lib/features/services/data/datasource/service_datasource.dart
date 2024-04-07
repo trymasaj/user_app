@@ -3,6 +3,7 @@ import 'package:masaj/core/data/constants/api_end_point.dart';
 import 'package:masaj/core/domain/exceptions/request_exception.dart';
 import 'package:masaj/features/services/data/models/service_category_model.dart';
 import 'package:masaj/features/services/data/models/service_model.dart';
+import 'package:masaj/features/services/data/models/service_offer.dart';
 import 'package:masaj/features/services/data/models/service_query_model.dart';
 
 abstract class ServiceRemoteDataSource {
@@ -11,6 +12,8 @@ abstract class ServiceRemoteDataSource {
   // service
   Future<ServicesResponse> getServices(ServiceQueryModel serviceQueryModel);
   Future<ServiceModel> getSingleService(int id);
+  Future<List<ServiceModel>> getRecommended();
+  Future<List<ServiceOffer>> getOffers();
 }
 
 class ServiceRemoteDataSourceImpl implements ServiceRemoteDataSource {
@@ -78,5 +81,41 @@ class ServiceRemoteDataSourceImpl implements ServiceRemoteDataSource {
     }
 
     return ServiceCategory.fromMap(response.data);
+  }
+
+  @override
+  Future<List<ServiceModel>> getRecommended() async {
+    const url = ApiEndPoint.SERVICES_RECOMMENDED;
+
+    final response = await _networkService.get(url);
+    if (![201, 200].contains(response.statusCode)) {
+      throw RequestException.fromStatusCode(
+          statusCode: response.statusCode!, response: response.data);
+    }
+
+    final List<ServiceModel> services = [];
+    for (var item in response.data) {
+      services.add(ServiceModel.fromMap(item));
+    }
+
+    return services;
+  }
+
+  @override
+  Future<List<ServiceOffer>> getOffers() async {
+    const url = ApiEndPoint.SERVICES_OFFERS;
+
+    final response = await _networkService.get(url);
+    if (![201, 200].contains(response.statusCode)) {
+      throw RequestException.fromStatusCode(
+          statusCode: response.statusCode!, response: response.data);
+    }
+
+    final List<ServiceOffer> offers = [];
+    for (var item in response.data) {
+      offers.add(ServiceOffer.fromMap(item));
+    }
+
+    return offers;
   }
 }

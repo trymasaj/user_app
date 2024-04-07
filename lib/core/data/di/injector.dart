@@ -38,8 +38,10 @@ import 'package:masaj/features/home/data/datasources/home_local_data_source.dart
 import 'package:masaj/features/home/data/datasources/home_remote_data_source.dart';
 import 'package:masaj/features/home/data/repositories/home_repository.dart';
 import 'package:masaj/features/home/presentation/bloc/home_cubit/home_cubit.dart';
+import 'package:masaj/features/home/presentation/bloc/home_page_cubit/home_page_cubit.dart';
 import 'package:masaj/features/home/presentation/bloc/home_search_cubit/home_search_cubit.dart';
 import 'package:masaj/features/home/presentation/bloc/notificaions_cubit/notifications_cubit.dart';
+
 import 'package:masaj/features/intro/data/datasources/intro_local_data_source.dart';
 import 'package:masaj/features/intro/data/repositories/intro_repository.dart';
 import 'package:masaj/features/intro/presentation/blocs/choose_language_cubit/choose_language_cubit.dart';
@@ -337,5 +339,10 @@ class Injector {
       );
   HomeSearchCubit get homeSearchCubit => HomeSearchCubit(
         homeRepository: homeRepository,
+      );
+  HomePageCubit get homePageCubit => HomePageCubit(
+        homeRepository,
+        serviceRepository,
+        bookingRepository,
       );
 }

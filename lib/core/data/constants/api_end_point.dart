@@ -96,6 +96,10 @@ abstract class ApiEndPoint {
   static const SERVICE_CATEGORIES = '$BASE_URL/service-category';
   // services
   static const SERVICES = '$BASE_URL/services';
+  static const SERVICES_RECOMMENDED = '$SERVICES/recommended';
+  static const SERVICES_OFFERS = '$SERVICES/offers';
+  // banners
+  static const BANNERS = '$BASE_URL/banners';
   // therapists
   static const Therapists = '$BASE_URL/therapists';
   static const RECOMMENDED_THERAPISTS = '$Therapists/recommended';
@@ -113,6 +117,7 @@ abstract class ApiEndPoint {
   static const DELETE_MEMBER = '$BASE_URL/member';
 
   //Booking
+  static const BOOKING = '$BASE_URL/bookings';
   static const BOOKING_LATEST = '$BASE_URL/bookings/latest';
   static const BOOKING_ADDRESS = '$BASE_URL/bookings/address';
   static const BOOKING_SERVICE = '$BASE_URL/bookings/service';

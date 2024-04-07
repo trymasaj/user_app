@@ -1,13 +1,31 @@
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:masaj/core/data/di/injector.dart';
 import 'package:masaj/core/presentation/colors/app_colors.dart';
+import 'package:masaj/core/presentation/widgets/stateless/custom_cached_network_image.dart';
+import 'package:masaj/core/presentation/widgets/stateless/custom_loading.dart';
+import 'package:masaj/features/book_service/data/models/booking_model/session_model.dart';
 import 'package:masaj/features/home/presentation/pages/home_tab.dart';
+import 'package:masaj/features/services/presentation/screens/serice_details_screen.dart';
+import 'package:masaj/features/services/presentation/screens/services_screen.dart';
 import 'package:masaj/gen/assets.gen.dart';
 
-class RepeatedSessions extends StatelessWidget {
+class RepeatedSessions extends StatefulWidget {
   const RepeatedSessions({
     super.key,
+    required this.repeatedSessions,
   });
+  final List<SessionModel> repeatedSessions;
+  @override
+  State<RepeatedSessions> createState() => _RepeatedSessionsState();
+}
+
+class _RepeatedSessionsState extends State<RepeatedSessions> {
+  @override
+  void initState() {
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -30,9 +48,18 @@ class RepeatedSessions extends StatelessWidget {
               child: ListView.builder(
                 padding: const EdgeInsets.symmetric(horizontal: 10),
                 scrollDirection: Axis.horizontal,
-                itemCount: 10,
+                itemCount: widget.repeatedSessions.length,
                 itemBuilder: (context, index) {
+                  final repeatedSession = widget.repeatedSessions[index];
+
                   return GestureDetector(
+                    onTap: () {
+                      Navigator.of(context).pushNamed(
+                        ServiceDetailsScreen.routeName,
+                        arguments: ServiceDetailsScreenArguments(
+                            id: repeatedSession.serviceId ?? 1),
+                      );
+                    },
                     child: Container(
                       margin: const EdgeInsets.only(right: 10),
                       width: 280,
@@ -55,8 +82,8 @@ class RepeatedSessions extends StatelessWidget {
                               color: AppColors.GREY_LIGHT_COLOR_2,
                               borderRadius: BorderRadius.circular(12),
                               image: DecorationImage(
-                                image: AssetImage(
-                                  Assets.images.imgGroup8.path,
+                                image: CustomCachedNetworkImageProvider(
+                                  repeatedSession.serviceMediaUrl ?? '',
                                 ),
                                 fit: BoxFit.cover,
                               ),
@@ -65,12 +92,12 @@ class RepeatedSessions extends StatelessWidget {
                           const SizedBox(
                             width: 10,
                           ),
-                          const Column(
+                          Column(
                             mainAxisAlignment: MainAxisAlignment.center,
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
                               Text(
-                                'Deep tissue massage',
+                                repeatedSession?.serviceName ?? '',
                                 style: TextStyle(
                                     fontSize: 12,
                                     fontWeight: FontWeight.w400,
@@ -81,14 +108,14 @@ class RepeatedSessions extends StatelessWidget {
                               ),
                               // start from
                               Text(
-                                'Start from',
+                                'start_from'.tr(),
                                 style: TextStyle(
                                     fontSize: 10,
                                     fontWeight: FontWeight.w400,
                                     color: AppColors.PlaceholderColor),
                               ),
                               Text(
-                                'KD 10',
+                                'KD ${repeatedSession?.servicePrice ?? ''}',
                                 style: TextStyle(
                                     fontSize: 12,
                                     fontWeight: FontWeight.w500,

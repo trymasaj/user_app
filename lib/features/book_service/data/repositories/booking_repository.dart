@@ -1,5 +1,8 @@
+import 'package:masaj/core/data/models/pagination_response.dart';
 import 'package:masaj/features/book_service/data/datasources/booking_remote_data_source.dart';
 import 'package:masaj/features/book_service/data/models/booking_model/booking_model.dart';
+import 'package:masaj/features/book_service/data/models/booking_model/session_model.dart';
+import 'package:masaj/features/book_service/data/models/booking_query_model.dart';
 import 'package:masaj/features/services/data/models/service_model.dart';
 
 abstract class BookingRepository {
@@ -13,6 +16,8 @@ abstract class BookingRepository {
   Future<BookingModel> deleteBookingVoucher(String voucherId);
   Future<void> confirmBooking(int paymentId);
   Future<BookingModel> getBookingDetails(int bookingId);
+  Future<PaginationResponse<SessionModel>> getBookingList(
+      BookingQueryModel bookingQueryModel);
 }
 
 class BookingRepositoryImpl implements BookingRepository {
@@ -56,4 +61,10 @@ class BookingRepositoryImpl implements BookingRepository {
 
   @override
   Future<int> getBookingLatestId() => _remoteDataSource.getBookingLatestId();
+
+  @override
+  Future<PaginationResponse<SessionModel>> getBookingList(
+      BookingQueryModel bookingQueryModel) async {
+    return await _remoteDataSource.getBookingList(bookingQueryModel);
+  }
 }
