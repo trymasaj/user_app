@@ -130,12 +130,16 @@ class _ManageMembersScreenState extends State<ManageMembersScreen> {
   }
 }
 
-Widget buildAddMemberButton(BuildContext context) {
+Widget buildAddMemberButton(BuildContext context, {VoidCallback? onPop}) {
   return Builder(builder: (context) {
     return GestureDetector(
       onTap: () {
-        NavigatorHelper.of(context).pushNamed(AddMemberScreen.routeName).then(
-            (value) async => await context.read<MembersCubit>().getMembers());
+        NavigatorHelper.of(context)
+            .pushNamed(AddMemberScreen.routeName)
+            .then((value) async {
+          await context.read<MembersCubit>().getMembers();
+          onPop != null ? onPop() : null;
+        });
       },
       child: Padding(
         padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 14.0),

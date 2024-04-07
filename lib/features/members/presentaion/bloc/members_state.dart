@@ -16,12 +16,14 @@ class MembersState {
   final List<MemberModel>? members;
   final MemberModel? selectedMember;
   final String? errorMessage;
+  final List<MemberModel>? selectedMembers;
 
   const MembersState({
     this.members,
     this.selectedMember,
     this.status = MembersStateStatus.initial,
     this.errorMessage,
+    this.selectedMembers,
   });
 
   @override
@@ -32,7 +34,8 @@ class MembersState {
         (other as MembersState).status == status &&
         other.members == members &&
         other.selectedMember == selectedMember &&
-        other.errorMessage == errorMessage;
+        other.errorMessage == errorMessage &&
+        other.selectedMembers == members;
   }
 
   @override
@@ -40,18 +43,21 @@ class MembersState {
       status.hashCode ^
       errorMessage.hashCode ^
       Object.hashAll(members ?? []) ^
-      selectedMember.hashCode;
+      selectedMember.hashCode ^
+      Object.hashAll(selectedMembers ?? []);
 
   MembersState copyWith(
       {MembersStateStatus? status,
       String? errorMessage,
       MemberModel? selectedMember,
-      List<MemberModel>? members}) {
+      List<MemberModel>? members,
+      List<MemberModel>? selectedMembers}) {
     return MembersState(
       status: status ?? this.status,
       members: members ?? this.members,
       errorMessage: errorMessage ?? this.errorMessage,
       selectedMember: selectedMember ?? this.selectedMember,
+      selectedMembers: selectedMembers ?? this.selectedMembers,
     );
   }
 }

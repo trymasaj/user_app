@@ -26,26 +26,30 @@ class SelectMembersScreen extends StatefulWidget {
 }
 
 class _SelectMembersScreenState extends State<SelectMembersScreen> {
-  final List<MemberModel> selectedMembers = [];
-
-  @override
-  void initState() {
-    super.initState();
-  }
-
   @override
   Widget build(BuildContext context) {
     return BlocProvider(
         create: (context) => Injector().membersCubit..getMembers(),
-        child: Scaffold(
-            appBar: CustomAppBar(
-              title: 'lbl_select_member'.tr(),
-              actions: [buildAddMemberButton(context)],
-            ),
-            body: _buildBody(context)));
+        child: BlocBuilder<MembersCubit, MembersState>(
+          builder: (context, state) {
+            return Scaffold(
+                appBar: CustomAppBar(
+                  title: 'lbl_select_member'.tr(),
+                  actions: [
+                    buildAddMemberButton(context, onPop: () {
+                      final cubit = context.read<MembersCubit>();
+                      cubit.refresh();
+                    })
+                  ],
+                ),
+                body: _buildBody(context));
+          },
+        ));
   }
 
   Padding _buildBody(BuildContext context) {
+    final cubit = context.read<MembersCubit>();
+    final selectedMembers = cubit.state.selectedMembers;
     final bottomPadding = MediaQuery.of(context).padding.bottom;
     return Padding(
       padding: EdgeInsets.symmetric(horizontal: 24.w),
@@ -59,14 +63,16 @@ class _SelectMembersScreenState extends State<SelectMembersScreen> {
             margin: const EdgeInsets.symmetric(vertical: 20),
             isExpanded: true,
             onPressed: () async {
-              if (selectedMembers.isEmpty) {
+              if (selectedMembers!.isEmpty) {
                 return showSnackBar(context, message: 'select_member');
               }
               final bookingCubit = context.read<BookingCubit>();
               final selectedMembersIds =
                   selectedMembers.map((e) => e.id ?? 0).toList();
               await bookingCubit.addBookingMembers(selectedMembersIds);
-              Navigator.of(context).pushNamed(BookServiceScreen.routeName);
+              Navigator.of(context)
+                  .pushNamed(BookServiceScreen.routeName)
+                  .then((value) async => await cubit.refresh());
             },
             label: 'continue',
           ),
@@ -91,7 +97,7 @@ class _SelectMembersScreenState extends State<SelectMembersScreen> {
 
             if ((members == [] || members.isEmpty)) {
               return RefreshIndicator(
-                  onRefresh: cubit.getMembers,
+                  onRefresh: cubit.refresh,
                   child: const EmptyPageMessage(
                     heightRatio: 0.6,
                   ));
@@ -105,7 +111,7 @@ class _SelectMembersScreenState extends State<SelectMembersScreen> {
 
   Widget _buildMembersList(MembersCubit cubit) {
     return RefreshIndicator(
-      onRefresh: cubit.getMembers,
+      onRefresh: cubit.refresh,
       child: ListView.builder(
         itemCount: cubit.state.members?.length,
         itemBuilder: (context, index) => _buildMemberItem(cubit, index),
@@ -115,27 +121,35 @@ class _SelectMembersScreenState extends State<SelectMembersScreen> {
 
   Widget _buildMemberItem(MembersCubit cubit, int index) {
     final members = cubit.state.members;
-    return InkWell(
-      onTap: () {
-        _validateMembers(!(members[index].isSelected ?? false), members[index]);
-      },
-      child: MemberTile(
-        member: members![index],
-        action: Checkbox.adaptive(
-          activeColor: AppColors.PRIMARY_COLOR,
-          shape: RoundedRectangleBorder(
-              borderRadius: BorderRadius.circular(4),
-              side: const BorderSide(color: AppColors.PRIMARY_COLOR)),
-          onChanged: (value) {
-            _validateMembers(value, members[index]);
+    return BlocBuilder<MembersCubit, MembersState>(
+      builder: (context, state) {
+        return InkWell(
+          onTap: () {
+            _validateMembers(
+                !(members[index].isSelected ?? false), members[index], context);
           },
-          value: members[index].isSelected,
-        ),
-      ),
+          child: MemberTile(
+            member: members![index],
+            action: Checkbox.adaptive(
+              activeColor: AppColors.PRIMARY_COLOR,
+              shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(4),
+                  side: const BorderSide(color: AppColors.PRIMARY_COLOR)),
+              onChanged: (value) {
+                _validateMembers(value, members[index], context);
+              },
+              value: members[index].isSelected,
+            ),
+          ),
+        );
+      },
     );
   }
 
-  void _validateMembers(bool? value, MemberModel member) {
+  void _validateMembers(bool? value, MemberModel member, BuildContext context) {
+    final cubit = context.read<MembersCubit>();
+    final selectedMembers = cubit.state.selectedMembers ?? [];
+
     if (selectedMembers.isNotEmpty && !(member.isSelected ?? false)) {
       if (selectedMembers.length >= 2) {
         return showSnackBar(context, message: 'members_number_limit');
@@ -144,15 +158,6 @@ class _SelectMembersScreenState extends State<SelectMembersScreen> {
         return showSnackBar(context, message: 'members_number_gender_limit');
       }
     }
-    setState(() {
-      if (value ?? false) {
-        member.isSelected = value ?? false;
-        selectedMembers.add(member);
-      } else {
-        member.isSelected = value ?? false;
-
-        selectedMembers.remove(member);
-      }
-    });
+    cubit.updateSelectedMembers(value, member);
   }
 }

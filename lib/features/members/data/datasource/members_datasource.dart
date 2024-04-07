@@ -45,13 +45,12 @@ class MembersDataSourceImpl extends MembersDataSource {
             'multipart/form-data; boundary=<calculated when request is sent>');
     return _networkService.post(url, data: formData).then((response) {
       if (response.statusCode != 200) {
-        throw RequestException(
-            message: (response.data['errors'][''] as List).first);
+        throw RequestException(message: response.data['detail']);
       }
       final result = response.data;
       final resultStatus = result['result'];
       if (resultStatus == RequestResult.Failed.name) {
-        throw RequestException(message: result['msg']);
+        throw RequestException(message: result['detail']);
       }
       return MemberModel.fromMap(result);
     });

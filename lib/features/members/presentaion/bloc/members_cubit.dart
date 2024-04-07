@@ -20,6 +20,27 @@ class MembersCubit extends BaseCubit<MembersState> {
     return getMember(id);
   }
 
+  void updateSelectedMembers(bool? value, MemberModel member) {
+    if (value ?? false) {
+      member.isSelected = value ?? false;
+      final List<MemberModel> updatedMembers = [
+        ...state.selectedMembers ?? [],
+        member
+      ];
+      emit(state.copyWith(selectedMembers: updatedMembers));
+    } else {
+      member.isSelected = value ?? false;
+      final List<MemberModel> updatedMembers = [...state.selectedMembers ?? []];
+      updatedMembers.remove(member);
+      emit(state.copyWith(selectedMembers: updatedMembers));
+    }
+  }
+
+  Future<void> refresh() async {
+    emit(state.copyWith(selectedMembers: []));
+    await getMembers();
+  }
+
   Future<void> getMembers() async {
     emit(state.copyWith(status: MembersStateStatus.loading));
     try {

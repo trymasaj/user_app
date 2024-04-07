@@ -52,7 +52,9 @@ class _AddMemberScreenState extends State<AddMemberScreen> {
     return Builder(builder: (context) {
       return Scaffold(
         appBar: CustomAppBar(
-          title: 'lbl_add_member'.tr(),
+          title: widget._id == null
+              ? 'lbl_add_member'.tr()
+              : 'lbl_edit_member'.tr(),
           centerTitle: true,
         ),
         body: BlocListener<MembersCubit, MembersState>(
