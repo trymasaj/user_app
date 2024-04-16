@@ -21,13 +21,13 @@ class HomePageCubit extends BaseCubit<HomePageState> {
 
   Future<void> refresh() async => init();
 
-  Future<void> init() async {
+  Future<void> init({bool isGuest = false}) async {
     emit(state.copyWith(status: Status.loading));
     await Future.wait([
       getBanners(),
-      getRecommendedServices(),
+      if (!isGuest) getRecommendedServices(),
       getOffers(),
-      getRepeatedSessions(),
+      if (!isGuest) getRepeatedSessions(),
     ]);
     emit(state.copyWith(status: Status.loaded));
   }

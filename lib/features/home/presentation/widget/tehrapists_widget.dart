@@ -34,8 +34,10 @@ class _TherapistsState extends State<Therapists> {
   late HomeTherapistsCubit _cubit;
   @override
   void initState() {
+    final authCubit = context.read<AuthCubit>();
+    final isGuest = authCubit.state.isGuest;
     _cubit = Injector().homeTherapistsCubit;
-    _cubit.getRecommendedTherapists();
+    if (!isGuest) _cubit.getRecommendedTherapists();
     super.initState();
   }
 

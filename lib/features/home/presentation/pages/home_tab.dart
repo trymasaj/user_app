@@ -5,6 +5,7 @@ import 'package:masaj/core/presentation/size/size_utils.dart';
 import 'package:masaj/core/presentation/widgets/stateless/custom_app_page.dart';
 import 'package:masaj/core/presentation/widgets/stateless/custom_loading.dart';
 import 'package:masaj/core/presentation/widgets/stateless/empty_page_message.dart';
+import 'package:masaj/features/auth/application/auth_cubit/auth_cubit.dart';
 import 'package:masaj/features/book_service/data/models/booking_model/session_model.dart';
 import 'package:masaj/features/home/data/models/banner.dart';
 import 'package:masaj/features/home/presentation/bloc/home_cubit/home_cubit.dart';
@@ -23,7 +24,10 @@ class HomeTab extends StatefulWidget {
 class _HomeTabState extends State<HomeTab> {
   @override
   void initState() {
-    context.read<HomePageCubit>().init();
+    final cubit = context.read<AuthCubit>();
+    final isGuest = cubit.state.isGuest;
+
+    context.read<HomePageCubit>().init(isGuest: isGuest);
     super.initState();
   }
 

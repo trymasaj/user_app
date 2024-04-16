@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:masaj/core/app_export.dart';
 import 'package:masaj/core/presentation/navigation/navigator_helper.dart';
 import 'package:masaj/core/presentation/widgets/stateless/border_tile.dart';
+import 'package:masaj/core/presentation/widgets/stateless/custom_app_bar.dart';
 import 'package:masaj/features/account/bloc/account_bloc/account_bloc.dart';
 import 'package:masaj/features/account/models/account_model.dart';
 import 'package:masaj/features/account/pages/create_new_password_screen.dart';
@@ -93,8 +94,9 @@ class AccountScreen extends StatelessWidget {
 
   /// Section Widget
   PreferredSizeWidget _buildAppBar(BuildContext context) {
-    return AppBar(
-      title: Text('lbl_account'.tr()),
+    return CustomAppBar(
+      title: 'lbl_account'.tr(),
+      centerTitle: true,
     );
   }
 

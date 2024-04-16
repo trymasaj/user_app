@@ -1,5 +1,4 @@
 import 'dart:math';
-
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:masaj/core/app_export.dart';
@@ -21,7 +20,7 @@ class FixedAppBar extends StatelessWidget {
   const FixedAppBar({
     super.key,
   });
-
+  
   @override
   Widget build(BuildContext context) {
     final isGuest = context.read<AuthCubit>().state.isGuest;

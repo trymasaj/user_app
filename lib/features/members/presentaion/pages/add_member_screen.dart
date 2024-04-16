@@ -7,6 +7,7 @@ import 'package:masaj/core/presentation/overlay/show_snack_bar.dart';
 import 'package:masaj/core/presentation/widgets/stateful/default_tab.dart';
 import 'package:masaj/core/presentation/widgets/stateless/custom_app_bar.dart';
 import 'package:masaj/core/presentation/widgets/stateful/user_profile_image_picker.dart';
+import 'package:masaj/core/presentation/widgets/stateless/custom_app_page.dart';
 import 'package:masaj/core/presentation/widgets/stateless/custom_loading.dart';
 import 'package:masaj/core/presentation/widgets/stateless/default_button.dart';
 import 'package:masaj/core/presentation/widgets/stateless/subtitle_text.dart';
@@ -49,112 +50,116 @@ class _AddMemberScreenState extends State<AddMemberScreen> {
   @override
   Widget build(BuildContext context) {
     return Builder(builder: (context) {
-      return Scaffold(
-        appBar: CustomAppBar(
-          title: widget._id == null
-              ? 'lbl_add_member'.tr()
-              : 'lbl_edit_member'.tr(),
-          centerTitle: true,
-        ),
-        body: BlocListener<MembersCubit, MembersState>(
-          listener: (context, state) async {
-            if (state.isError) {
-              showSnackBar(context, message: state.errorMessage);
-            }
-            if (state.isAdded) {
-              await context.read<MembersCubit>().getMembers();
-              Navigator.pop(context);
-            }
-            if (state.isLoaded) {
-              if (widget._id != null) {
-                memberNameController.text = state.selectedMember?.name ?? '';
-                phoneNumberController.text = state.selectedMember?.phone ?? '';
-                _selectedGender = state.selectedMember?.gender;
-                image = state.selectedMember?.image;
-                _selectedPhoneNumber = PhoneNumber(
-                    countryISOCode: '',
-                    countryCode: state.selectedMember?.countryCode ?? '',
-                    number: state.selectedMember?.phone ?? '');
+      return CustomAppPage(
+        child: Scaffold(
+          appBar: CustomAppBar(
+            title: widget._id == null
+                ? 'lbl_add_member'.tr()
+                : 'lbl_edit_member'.tr(),
+            centerTitle: true,
+          ),
+          body: BlocListener<MembersCubit, MembersState>(
+            listener: (context, state) async {
+              if (state.isError) {
+                showSnackBar(context, message: state.errorMessage);
               }
-            }
-          },
-          child: BlocListener<MembersCubit, MembersState>(
-            listener: (context, state) {},
-            child: BlocBuilder<MembersCubit, MembersState>(
-              builder: (context, state) {
-                if (state.isLoading) {
-                  return const CustomLoading();
+              if (state.isAdded) {
+                await context.read<MembersCubit>().getMembers();
+                Navigator.pop(context);
+              }
+              if (state.isLoaded) {
+                if (widget._id != null) {
+                  memberNameController.text = state.selectedMember?.name ?? '';
+                  phoneNumberController.text =
+                      state.selectedMember?.phone ?? '';
+                  _selectedGender = state.selectedMember?.gender;
+                  image = state.selectedMember?.image;
+                  _selectedPhoneNumber = PhoneNumber(
+                      countryISOCode: '',
+                      countryCode: state.selectedMember?.countryCode ?? '',
+                      number: state.selectedMember?.phone ?? '');
                 }
+              }
+            },
+            child: BlocListener<MembersCubit, MembersState>(
+              listener: (context, state) {},
+              child: BlocBuilder<MembersCubit, MembersState>(
+                builder: (context, state) {
+                  if (state.isLoading) {
+                    return const CustomLoading();
+                  }
 
-                return SingleChildScrollView(
-                  child: Padding(
-                    padding: const EdgeInsets.symmetric(horizontal: 23),
-                    child: Form(
-                      key: formKey,
-                      child: Column(children: [
-                        SizedBox(height: 24.h),
-                        UserProfileImagePicker(
-                          currentImage: image,
-                          onImageSelected: (imagePath) {
-                            image = imagePath;
-                          },
-                        ),
-                        SizedBox(height: 24.h),
-                        DefaultTextFormField(
-                          currentFocusNode: memberNameFocusNode,
-                          currentController: memberNameController,
-                          isRequired: true,
-                          hint: 'name'.tr(),
-                        ),
-                        const SizedBox(height: 16),
-                        PhoneTextFormField(
-                          currentFocusNode: phoneNumberFocusNode,
-                          currentController: phoneNumberController,
-                          hint: 'phone_number'.tr(),
-                          initialValue: _selectedPhoneNumber,
-                          nextFocusNode: memberNameFocusNode,
-                          onInputChanged: (PhoneNumber? value) {
-                            _selectedPhoneNumber = value;
-                          },
-                        ),
-                        const SizedBox(height: 16),
-                        _buildGenderRow(),
-                        SizedBox(height: 32.h),
-                        DefaultButton(
-                          onPressed: () async {
-                            final String customerId =
-                                context.read<AuthCubit>().state.user?.id ?? '';
+                  return SingleChildScrollView(
+                    child: Padding(
+                      padding: const EdgeInsets.symmetric(horizontal: 23),
+                      child: Form(
+                        key: formKey,
+                        child: Column(children: [
+                          SizedBox(height: 24.h),
+                          UserProfileImagePicker(
+                            currentImage: image,
+                            onImageSelected: (imagePath) {
+                              image = imagePath;
+                            },
+                          ),
+                          SizedBox(height: 24.h),
+                          DefaultTextFormField(
+                            currentFocusNode: memberNameFocusNode,
+                            currentController: memberNameController,
+                            isRequired: true,
+                            hint: 'name'.tr(),
+                          ),
+                          const SizedBox(height: 16),
+                          PhoneTextFormField(
+                            currentFocusNode: phoneNumberFocusNode,
+                            currentController: phoneNumberController,
+                            hint: 'phone_number'.tr(),
+                            initialValue: _selectedPhoneNumber,
+                            nextFocusNode: memberNameFocusNode,
+                            onInputChanged: (PhoneNumber? value) {
+                              _selectedPhoneNumber = value;
+                            },
+                          ),
+                          const SizedBox(height: 16),
+                          _buildGenderRow(),
+                          SizedBox(height: 32.h),
+                          DefaultButton(
+                            onPressed: () async {
+                              final String customerId =
+                                  context.read<AuthCubit>().state.user?.id ??
+                                      '';
 
-                            if (!_notValid()) {
-                              MemberModel member = MemberModel(
-                                  id: widget._id,
-                                  customerId: int.parse(customerId),
-                                  image: image,
-                                  countryCode:
-                                      _selectedPhoneNumber?.countryCode ?? '',
-                                  name: memberNameController.text,
-                                  phone: phoneNumberController.text,
-                                  gender: _selectedGender);
+                              if (!_notValid()) {
+                                MemberModel member = MemberModel(
+                                    id: widget._id,
+                                    customerId: int.parse(customerId),
+                                    image: image,
+                                    countryCode:
+                                        _selectedPhoneNumber?.countryCode ?? '',
+                                    name: memberNameController.text,
+                                    phone: phoneNumberController.text,
+                                    gender: _selectedGender);
 
-                              if (widget._id == null) {
-                                await context
-                                    .read<MembersCubit>()
-                                    .addMember(member);
-                              } else {
-                                await context
-                                    .read<MembersCubit>()
-                                    .updateMember(member);
+                                if (widget._id == null) {
+                                  await context
+                                      .read<MembersCubit>()
+                                      .addMember(member);
+                                } else {
+                                  await context
+                                      .read<MembersCubit>()
+                                      .updateMember(member);
+                                }
                               }
-                            }
-                          },
-                          label: 'save'.tr(),
-                          isExpanded: true,
-                        )
-                      ]),
+                            },
+                            label: 'save'.tr(),
+                            isExpanded: true,
+                          )
+                        ]),
+                      ),
                     ),
-                  ),
-                );
-              },
+                  );
+                },
+              ),
             ),
           ),
         ),

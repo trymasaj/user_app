@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:masaj/core/app_export.dart';
+import 'package:masaj/core/presentation/widgets/stateless/custom_app_bar.dart';
 import 'package:masaj/core/presentation/widgets/stateless/custom_outlined_button.dart';
 
 import 'package:masaj/features/account/bloc/my_profile_bloc/my_profile_bloc.dart';
@@ -97,8 +98,9 @@ class MyProfileScreen extends StatelessWidget {
 
   /// Section Widget
   PreferredSizeWidget _buildAppBar(BuildContext context) {
-    return AppBar(
-      title: Text('lbl_my_profile'.tr()),
+    return CustomAppBar(
+      title: 'lbl_my_profile'.tr(),
+      centerTitle: true,
     );
   }
 

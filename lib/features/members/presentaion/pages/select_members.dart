@@ -3,6 +3,7 @@ import 'package:masaj/core/app_export.dart';
 import 'package:masaj/core/data/di/injector.dart';
 import 'package:masaj/core/presentation/colors/app_colors.dart';
 import 'package:masaj/core/presentation/overlay/show_snack_bar.dart';
+import 'package:masaj/core/presentation/widgets/stateless/custom_app_page.dart';
 import 'package:masaj/core/presentation/widgets/stateless/custom_loading.dart';
 import 'package:masaj/core/presentation/widgets/stateless/default_button.dart';
 import 'package:masaj/core/presentation/widgets/stateless/empty_page_message.dart';
@@ -14,7 +15,6 @@ import 'package:masaj/features/book_service/presentation/blocs/book_cubit/book_s
 import 'package:masaj/features/book_service/presentation/screens/book_servcie_screen.dart';
 import 'package:masaj/features/members/data/model/member_model.dart';
 import 'package:masaj/features/members/presentaion/bloc/members_cubit.dart';
-import 'package:masaj/features/services/data/models/service_model.dart';
 
 class SelectMembersScreen extends StatefulWidget {
   const SelectMembersScreen({
@@ -32,17 +32,19 @@ class _SelectMembersScreenState extends State<SelectMembersScreen> {
         create: (context) => Injector().membersCubit..getMembers(),
         child: BlocBuilder<MembersCubit, MembersState>(
           builder: (context, state) {
-            return Scaffold(
-                appBar: CustomAppBar(
-                  title: 'lbl_select_member'.tr(),
-                  actions: [
-                    buildAddMemberButton(context, onPop: () {
-                      final cubit = context.read<MembersCubit>();
-                      cubit.refresh();
-                    })
-                  ],
-                ),
-                body: _buildBody(context));
+            return CustomAppPage(
+              child: Scaffold(
+                  appBar: CustomAppBar(
+                    title: 'lbl_select_member'.tr(),
+                    actions: [
+                      buildAddMemberButton(context, onPop: () {
+                        final cubit = context.read<MembersCubit>();
+                        cubit.refresh();
+                      })
+                    ],
+                  ),
+                  body: _buildBody(context)),
+            );
           },
         ));
   }

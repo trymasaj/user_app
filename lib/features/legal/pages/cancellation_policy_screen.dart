@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:masaj/core/app_export.dart';
+import 'package:masaj/core/presentation/widgets/stateless/custom_app_bar.dart';
 import 'package:masaj/features/legal/bloc/cancellation_policy_bloc/cancellation_policy_bloc.dart';
 import 'package:masaj/features/legal/models/cancellation_policy_model.dart';
 
@@ -45,9 +46,9 @@ class CancellationPolicyScreen extends StatelessWidget {
 
   /// Section Widget
   PreferredSizeWidget _buildAppBar(BuildContext context) {
-    return AppBar(
-        title: Text(
-      'msg_cancellation_policy'.tr(),
-    ));
+    return CustomAppBar(
+      title: 'msg_cancellation_policy'.tr(),
+      centerTitle: true,
+    );
   }
 }

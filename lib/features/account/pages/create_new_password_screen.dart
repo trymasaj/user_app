@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:masaj/core/app_export.dart';
 import 'package:masaj/core/presentation/widgets/stateful/password_text_field.dart';
+import 'package:masaj/core/presentation/widgets/stateless/custom_app_bar.dart';
 
 import 'package:masaj/features/account/bloc/create_new_password_bloc/create_new_password_bloc.dart';
 
@@ -57,10 +58,9 @@ class CreateNewPasswordScreen extends StatelessWidget {
 
   /// Section Widget
   PreferredSizeWidget _buildAppBar(BuildContext context) {
-    return AppBar(
-      title: Text(
-        'lbl_change_password'.tr(),
-      ),
+    return CustomAppBar(
+      title: 'lbl_change_password'.tr(),
+      centerTitle: true,
     );
   }
 }

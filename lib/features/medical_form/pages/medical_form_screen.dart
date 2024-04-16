@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_form_builder/flutter_form_builder.dart';
 import 'package:masaj/core/app_export.dart';
+import 'package:masaj/core/presentation/widgets/stateless/custom_app_bar.dart';
 import 'package:masaj/core/presentation/widgets/stateless/custom_drop_down.dart';
 import 'package:masaj/features/medical_form/bloc/medical_form_bloc/medical_form_bloc.dart';
 
@@ -140,10 +141,8 @@ class MedicalFormScreen extends StatelessWidget {
 
   /// Section Widget
   PreferredSizeWidget _buildAppBar(BuildContext context) {
-    return AppBar(
-      title: Text(
-        'lbl_medical_form'.tr(),
-      ),
+    return CustomAppBar(
+      title: 'lbl_medical_form'.tr(),
     );
   }
 

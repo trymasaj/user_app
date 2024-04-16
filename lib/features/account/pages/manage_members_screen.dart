@@ -1,11 +1,10 @@
-import 'dart:developer';
 import 'package:flutter/material.dart';
 import 'package:flutter_slidable/flutter_slidable.dart';
 import 'package:masaj/core/app_export.dart';
-import 'package:masaj/core/data/di/injector.dart';
 import 'package:masaj/core/presentation/navigation/navigator_helper.dart';
 import 'package:masaj/core/presentation/overlay/show_snack_bar.dart';
 import 'package:masaj/core/presentation/widgets/stateless/custom_app_bar.dart';
+import 'package:masaj/core/presentation/widgets/stateless/custom_app_page.dart';
 import 'package:masaj/core/presentation/widgets/stateless/custom_loading.dart';
 import 'package:masaj/core/presentation/widgets/stateless/empty_page_message.dart';
 import 'package:masaj/features/members/data/model/member_model.dart';
@@ -32,12 +31,15 @@ class _ManageMembersScreenState extends State<ManageMembersScreen> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-        appBar: CustomAppBar(
-          title: 'lbl_manage_members'.tr(),
-          actions: [buildAddMemberButton(context)],
-        ),
-        body: _buildBody(context));
+    return CustomAppPage(
+      child: Scaffold(
+          appBar: CustomAppBar(
+            title: 'lbl_manage_members'.tr(),
+            actions: [buildAddMemberButton(context)],
+            centerTitle: true,
+          ),
+          body: _buildBody(context)),
+    );
   }
 
   Widget _buildBody(BuildContext context) {
