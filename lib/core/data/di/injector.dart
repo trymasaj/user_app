@@ -31,9 +31,12 @@ import 'package:masaj/features/auth/data/repositories/auth_repository.dart';
 import 'package:masaj/features/auth/application/auth_cubit/auth_cubit.dart';
 import 'package:masaj/features/book_service/data/datasources/booking_remote_data_source.dart';
 import 'package:masaj/features/book_service/data/repositories/booking_repository.dart';
-import 'package:masaj/features/book_service/enums/avalable_therapist_tab_enum.dart';
+
 import 'package:masaj/features/book_service/presentation/blocs/available_therapist_cubit/available_therapist_cubit.dart';
 import 'package:masaj/features/book_service/presentation/blocs/book_cubit/book_service_cubit.dart';
+import 'package:masaj/features/gifts/data/datasource/gifts_datasource.dart';
+import 'package:masaj/features/gifts/data/repo/gifts_repo.dart';
+import 'package:masaj/features/gifts/presentaion/bloc/gifts_cubit.dart';
 import 'package:masaj/features/home/data/datasources/home_local_data_source.dart';
 import 'package:masaj/features/home/data/datasources/home_remote_data_source.dart';
 import 'package:masaj/features/home/data/repositories/home_repository.dart';
@@ -274,13 +277,20 @@ class Injector {
   BookingRemoteDataSource get bookingRemoteDataSource =>
       _flyweightMap['bookingRemoteDataSource'] ??=
           BookingRemoteDataSourceImpl(networkService);
-  //===================[BOOKING_CUBIT]===================
+  //===================[WALLET_CUBIT]===================
 
   WalletBloc get walletCubit => WalletBloc(walletRepository);
   WalletRepository get walletRepository => _flyweightMap['WalletRepository'] ??=
       WalletRepositoryImpl(walletDataSource);
   WalletDataSource get walletDataSource => _flyweightMap['WalletDataSource'] ??=
       WalletDataSourceImpl(networkService);
+  //===================[GIFTS_CUBIT]===================
+
+  GiftsCubit get giftsCubit => GiftsCubit(giftsRepository: giftsRepository);
+  GiftsRepository get giftsRepository => _flyweightMap['GiftsRepository'] ??=
+      GiftsRepositoryImp(giftsDataSource: giftsDataSource);
+  GiftsDataSource get giftsDataSource => _flyweightMap['GiftsDataSource'] ??=
+      GiftsDataSourceImpl(networkService: networkService);
 
   //===================[NOTIFICATIONS_CUBIT]===================
   NotificationsCubit get notificationsCubit =>

@@ -130,4 +130,6 @@ abstract class ApiEndPoint {
   //Payment
   static const BOOKING_CONFIRM = '$BASE_URL/bookings/confirm';
   static const GET_PAYMENT_METHODS = '$BASE_URL/payments/methods';
+  //giftCards
+  static const GET_GIFT_CARDS = '$BASE_URL/giftcards';
 }

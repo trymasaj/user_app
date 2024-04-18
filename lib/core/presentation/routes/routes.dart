@@ -20,6 +20,7 @@ import 'package:masaj/features/book_service/presentation/blocs/available_therapi
 import 'package:masaj/features/book_service/presentation/screens/book_servcie_screen.dart';
 import 'package:masaj/features/book_service/presentation/screens/select_therapist_screen.dart';
 import 'package:masaj/features/bookings_tab/presentation/pages/booking_details.dart';
+import 'package:masaj/features/gifts/presentaion/pages/gift_cards.dart';
 import 'package:masaj/features/home/presentation/pages/home_page.dart';
 import 'package:masaj/features/intro/presentation/pages/choose_language_page.dart';
 import 'package:masaj/features/intro/presentation/pages/guide_page.dart';
@@ -172,6 +173,10 @@ Route<dynamic>? onGenerateRoute(RouteSettings settings) {
     case CheckoutScreen.routeName:
       return MaterialPageRoute(builder: (context) {
         return CheckoutScreen();
+      });
+    case GiftCardsScreen.routeName:
+      return MaterialPageRoute(builder: (context) {
+        return const GiftCardsScreen();
       });
 
     default:

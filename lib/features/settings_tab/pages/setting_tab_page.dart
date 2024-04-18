@@ -7,6 +7,7 @@ import 'package:masaj/features/account/pages/manage_members_screen.dart';
 import 'package:masaj/features/address/presentation/pages/address_page.dart';
 import 'package:masaj/features/auth/application/auth_cubit/auth_cubit.dart';
 import 'package:masaj/features/auth/presentation/pages/login_page.dart';
+import 'package:masaj/features/gifts/presentaion/pages/gift_cards.dart';
 import 'package:masaj/features/intro/presentation/pages/choose_language_page.dart';
 import 'package:masaj/features/legal/pages/legal_screen.dart';
 import 'package:masaj/features/medical_form/pages/medical_form_screen.dart';
@@ -214,6 +215,10 @@ class _SettingsTabPageState extends State<SettingsTabPage> {
             ]));
   }
 
+  void _goToGiftCardsPage() {
+    NavigatorHelper.of(context).pushNamed(GiftCardsScreen.routeName);
+  }
+
   /// Section Widget
   Widget _buildReferCreditColumn(BuildContext context) {
     final bool isLoggedIn = context.read<AuthCubit>().state.isLoggedIn;
@@ -245,7 +250,7 @@ class _SettingsTabPageState extends State<SettingsTabPage> {
                   SettingTile(
                     text: 'lbl_gift_voucher',
                     imagePath: ImageConstant.imgGroup1000003170,
-                    onTap: () {},
+                    onTap: _goToGiftCardsPage,
                   ),
                   SettingTile(
                     text: 'lbl_refer_a_friend',
