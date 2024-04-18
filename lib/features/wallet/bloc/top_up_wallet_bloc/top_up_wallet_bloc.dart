@@ -1,8 +1,9 @@
 import 'package:equatable/equatable.dart';
 import 'package:masaj/core/application/controllers/base_cubit.dart';
 import 'package:masaj/core/application/states/app_state.dart';
-import 'package:masaj/features/wallet/domain/entites/package.dart';
-import 'package:masaj/features/wallet/domain/repos/wallet_repo.dart';
+import 'package:masaj/features/wallet/data/repos/wallet_repo_impl.dart';
+import 'package:masaj/features/wallet/models/package.dart';
+
 import 'package:masaj/features/wallet/value_objects/coupon_code.dart';
 
 part 'top_up_wallet_state.dart';

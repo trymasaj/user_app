@@ -1,11 +1,16 @@
-import 'package:injectable/injectable.dart';
-import 'package:masaj/features/wallet/domain/entites/package.dart';
-import 'package:masaj/features/wallet/domain/repos/wallet_repo.dart';
+import 'package:masaj/features/wallet/data/data_source/wallet_data_source.dart';
+import 'package:masaj/features/wallet/models/package.dart';
 import 'package:masaj/features/wallet/value_objects/coupon_code.dart';
 
-@LazySingleton(as: WalletRepository)
+abstract class WalletRepository {
+  Future<void> purchasePackage(Package package);
+  Future<void> redeemCouponCode(CouponCode couponCode);
+}
+
 class WalletRepositoryImpl extends WalletRepository {
-  WalletRepositoryImpl(super.client);
+  WalletRepositoryImpl(this._walletDataSource);
+
+  final WalletDataSource _walletDataSource;
 
   @override
   Future<void> purchasePackage(Package package) {

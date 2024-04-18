@@ -65,6 +65,9 @@ import 'package:masaj/features/members/presentaion/bloc/members_cubit.dart';
 import 'package:masaj/features/splash/data/datasources/splash_local_data_source.dart';
 import 'package:masaj/features/splash/data/repositories/splash_repository_impl.dart';
 import 'package:masaj/features/splash/presentation/splash_cubit/splash_cubit.dart';
+import 'package:masaj/features/wallet/application/wallet_bloc/wallet_bloc.dart';
+import 'package:masaj/features/wallet/data/data_source/wallet_data_source.dart';
+import 'package:masaj/features/wallet/data/repos/wallet_repo_impl.dart';
 
 ///Implementing
 ///
@@ -271,6 +274,13 @@ class Injector {
   BookingRemoteDataSource get bookingRemoteDataSource =>
       _flyweightMap['bookingRemoteDataSource'] ??=
           BookingRemoteDataSourceImpl(networkService);
+  //===================[BOOKING_CUBIT]===================
+
+  WalletBloc get walletCubit => WalletBloc(walletRepository);
+  WalletRepository get walletRepository => _flyweightMap['WalletRepository'] ??=
+      WalletRepositoryImpl(walletDataSource);
+  WalletDataSource get walletDataSource => _flyweightMap['WalletDataSource'] ??=
+      WalletDataSourceImpl(networkService);
 
   //===================[NOTIFICATIONS_CUBIT]===================
   NotificationsCubit get notificationsCubit =>

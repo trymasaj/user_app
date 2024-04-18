@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:masaj/core/app_export.dart';
-import 'package:masaj/core/data/di/injection_setup.dart';
+import 'package:masaj/core/data/di/injector.dart';
 import 'package:masaj/core/presentation/navigation/navigator_helper.dart';
+import 'package:masaj/core/presentation/widgets/stateless/custom_app_bar.dart';
 import 'package:masaj/features/wallet/application/wallet_bloc/wallet_bloc.dart';
 import 'package:masaj/features/wallet/pages/top_up_wallet_screen.dart';
 import 'package:masaj/features/wallet/widgets/transactionhistory_item_widget.dart';
@@ -14,7 +15,7 @@ class WalletScreen extends StatelessWidget {
   static Widget builder(BuildContext context) {
     return BlocProvider<WalletBloc>(
         child: const WalletScreen(),
-        create: (context) => getIt<WalletBloc>()..getTransactionHistory());
+        create: (context) => Injector().walletCubit..getTransactionHistory());
   }
 
   @override
@@ -46,8 +47,8 @@ class WalletScreen extends StatelessWidget {
 
   /// Section Widget
   PreferredSizeWidget _buildAppBar(BuildContext context) {
-    return AppBar(
-      title: Text('lbl_wallet'.tr()),
+    return CustomAppBar(
+      title: 'lbl_wallet'.tr(),
     );
   }
 
@@ -111,12 +112,12 @@ class WalletScreen extends StatelessWidget {
       builder: (context, status) {
         if (status == WalletStateStatus.loaded) {
           final transactions =
-              getState(context).wallet.toNullable()!.transactions;
+              getState(context).wallet?.toNullable()!.transactions;
           return ListView.separated(
               separatorBuilder: (context, index) {
                 return SizedBox(height: 12.h);
               },
-              itemCount: transactions.length,
+              itemCount: transactions!.length,
               itemBuilder: (context, index) {
                 return TransactionItem(transactions[index]);
               });
@@ -127,7 +128,7 @@ class WalletScreen extends StatelessWidget {
           return const Center(child: CircularProgressIndicator());
         }
       },
-      selector: (WalletState state) => state.status,
+      selector: (WalletState state) => state.status!,
     );
   }
 }

@@ -1,7 +1,7 @@
 import 'package:dartz/dartz.dart';
 import 'package:equatable/equatable.dart';
 import 'package:masaj/core/application/controllers/base_cubit.dart';
-import 'package:masaj/features/wallet/domain/repos/wallet_repo.dart';
+import 'package:masaj/features/wallet/data/repos/wallet_repo_impl.dart';
 import 'package:masaj/features/wallet/models/transactionhistory_item_model.dart';
 import 'package:masaj/features/wallet/models/wallet_model.dart';
 
@@ -9,7 +9,7 @@ part 'wallet_state.dart';
 
 /// A bloc that manages the state of a Wallet according to the event that is dispatched to it.
 class WalletBloc extends BaseCubit<WalletState> {
-  WalletBloc(super.initialState, this.repo);
+  WalletBloc(this.repo) : super(const WalletState());
 
   final WalletRepository repo;
 

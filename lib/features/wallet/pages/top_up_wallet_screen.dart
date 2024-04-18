@@ -4,7 +4,7 @@ import 'package:masaj/core/application/states/app_state.dart';
 import 'package:masaj/core/data/di/injection_setup.dart';
 import 'package:masaj/core/presentation/widgets/stateless/state_widgets.dart';
 import 'package:masaj/features/wallet/bloc/top_up_wallet_bloc/top_up_wallet_bloc.dart';
-import 'package:masaj/features/wallet/domain/entites/package.dart';
+import 'package:masaj/features/wallet/models/package.dart';
 import 'package:masaj/features/wallet/overlay/top_up_wallet_payment_method_bottomsheet.dart';
 
 class TopUpWalletScreen extends StatelessWidget {

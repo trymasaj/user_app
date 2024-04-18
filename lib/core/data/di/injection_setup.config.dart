@@ -30,7 +30,6 @@ import '../../../features/quiz/application/quiz_page_cubit.dart' as _i22;
 import '../../../features/quiz/data/repositories/quiz_repo_impl.dart' as _i10;
 import '../../../features/quiz/domain/repositories/quiz_repo.dart' as _i9;
 import '../../../features/wallet/data/repos/wallet_repo_impl.dart' as _i12;
-import '../../../features/wallet/domain/repos/wallet_repo.dart' as _i11;
 import '../../domain/repos/countries_repo.dart' as _i14;
 import '../clients/cache_service.dart' as _i3;
 import '../clients/network_service.dart' as _i6;
@@ -67,8 +66,6 @@ extension GetItInjectableX on _i1.GetIt {
           gh<_i6.NetworkService>(),
           gh<_i3.CacheService>(),
         ));
-    gh.lazySingleton<_i11.WalletRepository>(
-        () => _i12.WalletRepositoryImpl(gh<_i6.NetworkService>()));
     gh.lazySingleton<_i13.AddressRepo>(() => _i13.AddressRepo(
           gh<_i6.NetworkService>(),
           gh<_i3.CacheService>(),

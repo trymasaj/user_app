@@ -16,10 +16,13 @@ extension WalletStateX on WalletState {
 
 /// Represents the state of Wallet in the application.
 class WalletState extends Equatable {
-  const WalletState({required this.wallet, required this.status});
+  final Option<Wallet>? wallet;
+  final WalletStateStatus? status;
 
-  final Option<Wallet> wallet;
-  final WalletStateStatus status;
+  const WalletState({
+    this.wallet,
+    this.status = WalletStateStatus.initial,
+  });
 
   @override
   List<Object?> get props => [
