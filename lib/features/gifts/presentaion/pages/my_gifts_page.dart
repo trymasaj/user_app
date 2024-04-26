@@ -1,0 +1,97 @@
+part of 'gift_cards.dart';
+
+class MyGiftsPage extends StatelessWidget {
+  const MyGiftsPage({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return _buildBody();
+  }
+
+  Widget _buildBody() {
+    return Padding(
+      padding: EdgeInsets.symmetric(horizontal: 24.w),
+      child: Column(
+        children: [
+          Expanded(child: _buildGiftCardsList()),
+        ],
+      ),
+    );
+  }
+
+  Widget _buildGiftCardsList() {
+    return BlocBuilder<GiftsCubit, GiftsState>(
+      builder: (context, state) {
+        final cubit = context.read<GiftsCubit>();
+
+        if (state.isLoading) {
+          return const CustomLoading();
+        }
+        final gifts = state.giftCards ?? [];
+
+        if ((gifts == [] || gifts.isEmpty)) {
+          return RefreshIndicator(
+              onRefresh: cubit.refresh,
+              child: const EmptyPageMessage(
+                heightRatio: 0.6,
+              ));
+        }
+        return _buildGiftsList(cubit);
+      },
+    );
+  }
+
+  Widget _buildGiftsList(GiftsCubit cubit) {
+    return RefreshIndicator(
+      onRefresh: cubit.refresh,
+      child: ListView.builder(
+          itemCount: 3, itemBuilder: (context, index) => _buildMyGiftItem()),
+    );
+  }
+
+  Widget _buildMyGiftItem() {
+    return Card(
+      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(20.0)),
+      child: Padding(
+        padding: const EdgeInsets.all(8.0),
+        child: Row(crossAxisAlignment: CrossAxisAlignment.start, children: [
+          Container(
+            height: 70.0,
+            width: 70.0,
+            padding: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 8),
+            margin: const EdgeInsets.all(8.0),
+            decoration: BoxDecoration(
+              gradient: LinearGradient(
+                colors: [
+                  AppColors.PRIMARY_COLOR.withOpacity(0.9),
+                  AppColors.PRIMARY_COLOR.withOpacity(0.7),
+                ],
+              ),
+              borderRadius: BorderRadius.circular(20.0),
+            ),
+            child: Image.asset(
+              'assets/images/gift.png',
+              scale: 2.8,
+              color: AppColors.PRIMARY_COLOR.withOpacity(0.5),
+              colorBlendMode: BlendMode.srcATop,
+            ),
+          ),
+          Column(
+            mainAxisAlignment: MainAxisAlignment.end,
+            mainAxisSize: MainAxisSize.max,
+            children: [
+              SubtitleText(text: 'gift_off'),
+              SizedBox(height: 8.0),
+              SubtitleText(
+                text: 'lbl_kwd'.tr(args: ['20']),
+                isBold: true,
+              )
+            ],
+          ),
+          Spacer(),
+          Icon(Icons.copy)
+        ]),
+      ),
+    );
+  }
+}

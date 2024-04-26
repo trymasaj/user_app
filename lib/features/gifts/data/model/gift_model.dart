@@ -1,78 +1,75 @@
 import 'dart:convert';
-import 'package:collection/collection.dart';
 
-import 'package:masaj/core/domain/enums/gender.dart';
+import 'package:flutter/material.dart';
+import 'package:flutter/widgets.dart';
 
 class GiftModel {
   int? id;
-  int? customerId;
-  String? name;
-  String? countryCode;
-  String? phone;
-  Gender? gender;
-  String? image;
-  bool? isSelected = false;
+  String? shareCode;
+  double? amount;
+  Color? color;
+  GiftModel({
+    this.id,
+    this.shareCode,
+    this.amount,
+    this.color,
+  });
 
-  GiftModel(
-      {this.id,
-      this.customerId,
-      this.name,
-      this.countryCode,
-      this.phone,
-      this.gender,
-      this.isSelected,
-      this.image});
+  GiftModel copyWith({
+    ValueGetter<int?>? id,
+    ValueGetter<String?>? shareCode,
+    ValueGetter<double?>? amount,
+    ValueGetter<Color?>? color,
+  }) {
+    return GiftModel(
+      id: id != null ? id() : this.id,
+      shareCode: shareCode != null ? shareCode() : this.shareCode,
+      amount: amount != null ? amount() : this.amount,
+      color: color != null ? color() : this.color,
+    );
+  }
+
+  Map<String, dynamic> toMap() {
+    return {
+      'id': id,
+      'shareCode': shareCode,
+      'amount': amount,
+      'color': color?.value,
+    };
+  }
+
+  factory GiftModel.fromMap(Map<String, dynamic> map) {
+    return GiftModel(
+      id: map['id']?.toInt(),
+      shareCode: map['shareCode'],
+      amount: map['amount']?.toDouble(),
+      color: map['color'] != null ? Color(map['color']) : null,
+    );
+  }
 
   String toJson() => json.encode(toMap());
 
   factory GiftModel.fromJson(String source) =>
-      GiftModel.fromMap(json.decode(source) as Map<String, dynamic>);
+      GiftModel.fromMap(json.decode(source));
 
-  GiftModel.fromMap(Map<String, dynamic> json) {
-    id = json['id'];
-    customerId = json['customerId'];
-    name = json['name'];
-    countryCode = json['countryCode'];
-    phone = json['phone'];
-    gender = Gender.values.firstWhereOrNull((e) => e.id == json['gender']);
-    image = json['image'];
-  }
-
-  Map<String, dynamic> toMap() {
-    final Map<String, dynamic> data = <String, dynamic>{};
-    data['id'] = id;
-    data['customerId'] = customerId;
-    data['name'] = name;
-    data['countryCode'] = countryCode;
-    data['phone'] = phone;
-    data['gender'] = gender?.id;
-    data['image'] = image;
-    return data;
+  @override
+  String toString() {
+    return 'GiftModel(id: $id, shareCode: $shareCode, amount: $amount, color: $color)';
   }
 
   @override
-  String toString() =>
-      'MemberModel(id: $id , name: $name , image: $image , phone: $phone , gender: $gender, countryCode: $countryCode , customerId: $customerId)';
-
-  @override
-  bool operator ==(covariant GiftModel other) {
+  bool operator ==(Object other) {
     if (identical(this, other)) return true;
 
-    return other.id == id &&
-        other.customerId == customerId &&
-        other.phone == phone &&
-        other.image == image &&
-        other.gender == gender &&
-        other.countryCode == countryCode &&
-        other.name == name;
+    return other is GiftModel &&
+        other.id == id &&
+        other.shareCode == shareCode &&
+        other.amount == amount &&
+        other.color == color;
   }
 
   @override
-  int get hashCode =>
-      id.hashCode ^
-      name.hashCode ^
-      image.hashCode ^
-      gender.hashCode ^
-      countryCode.hashCode ^
-      customerId.hashCode;
+  int get hashCode {
+    return id.hashCode ^ shareCode.hashCode ^ amount.hashCode ^ color.hashCode;
+  }
 }
