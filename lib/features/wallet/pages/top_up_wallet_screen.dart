@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:masaj/core/app_export.dart';
 import 'package:masaj/core/application/states/app_state.dart';
-import 'package:masaj/core/data/di/injection_setup.dart';
+import 'package:masaj/core/data/di/injector.dart';
+import 'package:masaj/core/presentation/widgets/stateless/custom_app_bar.dart';
 import 'package:masaj/core/presentation/widgets/stateless/state_widgets.dart';
 import 'package:masaj/features/wallet/bloc/top_up_wallet_bloc/top_up_wallet_bloc.dart';
 import 'package:masaj/features/wallet/models/package.dart';
@@ -14,7 +15,7 @@ class TopUpWalletScreen extends StatelessWidget {
 
   static Widget builder(BuildContext context) {
     return BlocProvider<TopUpWalletBloc>(
-        create: (context) => getIt<TopUpWalletBloc>(),
+        create: (context) => Injector().topUpWalletBloc,
         child: const TopUpWalletScreen());
   }
 
@@ -47,8 +48,8 @@ class TopUpWalletScreen extends StatelessWidget {
 
   /// Section Widget
   PreferredSizeWidget _buildAppBar(BuildContext context) {
-    return AppBar(
-      title: Text('lbl_wallet_top_up'.tr()),
+    return CustomAppBar(
+      title: 'lbl_wallet_top_up'.tr(),
     );
   }
 
@@ -136,11 +137,10 @@ class TopUpWalletScreen extends StatelessWidget {
                 padding: EdgeInsets.only(top: 19.h, bottom: 23.h),
                 child: Column(children: [
                   Row(mainAxisAlignment: MainAxisAlignment.center, children: [
-                    Text('lbl_35'.tr(), style: theme.textTheme.headlineSmall),
                     Padding(
                         padding:
                             EdgeInsets.only(left: 4.w, top: 3.h, bottom: 2.h),
-                        child: Text('lbl_kwd'.tr(),
+                        child: Text('lbl_kwd'.tr(args: ['lbl_35'.tr()]),
                             style: CustomTextStyles.titleLargeOnPrimary))
                   ]),
                   Text('lbl_free_7_kwd'.tr(),
@@ -180,12 +180,11 @@ class TopUpWalletScreen extends StatelessWidget {
                           Row(
                               mainAxisAlignment: MainAxisAlignment.center,
                               children: [
-                                Text('lbl_502'.tr(),
-                                    style: theme.textTheme.headlineSmall),
                                 Padding(
                                     padding: EdgeInsets.only(
                                         left: 4.w, top: 3.h, bottom: 2.h),
-                                    child: Text('lbl_kwd'.tr(),
+                                    child: Text(
+                                        'lbl_kwd'.tr(args: ['lbl_502'.tr()]),
                                         style: CustomTextStyles
                                             .titleLargeOnPrimary))
                               ]),
@@ -241,12 +240,11 @@ class TopUpWalletScreen extends StatelessWidget {
                         Row(
                             mainAxisAlignment: MainAxisAlignment.center,
                             children: [
-                              Text('lbl_45'.tr(),
-                                  style: theme.textTheme.headlineSmall),
                               Padding(
                                   padding: EdgeInsets.only(
                                       left: 4.w, top: 3.h, bottom: 2.h),
-                                  child: Text('lbl_kwd'.tr(),
+                                  child: Text(
+                                      'lbl_kwd'.tr(args: ['lbl_45'.tr()]),
                                       style:
                                           CustomTextStyles.titleLargeOnPrimary))
                             ]),

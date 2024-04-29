@@ -69,6 +69,7 @@ import 'package:masaj/features/splash/data/datasources/splash_local_data_source.
 import 'package:masaj/features/splash/data/repositories/splash_repository_impl.dart';
 import 'package:masaj/features/splash/presentation/splash_cubit/splash_cubit.dart';
 import 'package:masaj/features/wallet/application/wallet_bloc/wallet_bloc.dart';
+import 'package:masaj/features/wallet/bloc/top_up_wallet_bloc/top_up_wallet_bloc.dart';
 import 'package:masaj/features/wallet/data/data_source/wallet_data_source.dart';
 import 'package:masaj/features/wallet/data/repos/wallet_repo_impl.dart';
 
@@ -280,6 +281,7 @@ class Injector {
   //===================[WALLET_CUBIT]===================
 
   WalletBloc get walletCubit => WalletBloc(walletRepository);
+  TopUpWalletBloc get topUpWalletBloc => TopUpWalletBloc(walletRepository);
   WalletRepository get walletRepository => _flyweightMap['WalletRepository'] ??=
       WalletRepositoryImpl(walletDataSource);
   WalletDataSource get walletDataSource => _flyweightMap['WalletDataSource'] ??=

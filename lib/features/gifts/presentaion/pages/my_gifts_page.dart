@@ -80,16 +80,16 @@ class MyGiftsPage extends StatelessWidget {
             mainAxisAlignment: MainAxisAlignment.end,
             mainAxisSize: MainAxisSize.max,
             children: [
-              SubtitleText(text: 'gift_off'),
-              SizedBox(height: 8.0),
+              const SubtitleText(text: 'gift_off'),
+              const SizedBox(height: 8.0),
               SubtitleText(
                 text: 'lbl_kwd'.tr(args: ['20']),
                 isBold: true,
               )
             ],
           ),
-          Spacer(),
-          Icon(Icons.copy)
+          const Spacer(),
+          const Icon(Icons.copy)
         ]),
       ),
     );

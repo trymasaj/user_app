@@ -131,5 +131,12 @@ abstract class ApiEndPoint {
   static const BOOKING_CONFIRM = '$BASE_URL/bookings/confirm';
   static const GET_PAYMENT_METHODS = '$BASE_URL/payments/methods';
   //giftCards
-  static const GET_GIFT_CARDS = '$BASE_URL/giftcards';
+  static const GET_GIFT_CARDS = '$BASE_URL/gift-cards';
+  static const GET_PURCHASED_GIFT_CARDS = '$BASE_URL/gift-cards/purchased';
+  static const BUY_GIFT_CARD = '$BASE_URL/gift-cards/purchase/';
+  static const REDEEM_GIFT_CARDS = '$BASE_URL/gift-cards/redeem';
+  //Wallet
+  static const GET_WALLET_BALANCE = '$BASE_URL/wallet';
+  static const CHANGE_WALLET = '$BASE_URL/wallet';
+  static const GET_PREDEFINED_WALLET = '$BASE_URL/wallet/predefined';
 }
