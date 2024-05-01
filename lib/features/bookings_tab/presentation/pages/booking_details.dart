@@ -13,6 +13,7 @@ import 'package:masaj/core/presentation/widgets/stateless/custom_text.dart';
 import 'package:masaj/core/presentation/widgets/stateless/default_button.dart';
 import 'package:masaj/features/book_service/enums/booking_status.dart';
 import 'package:masaj/features/bookings_tab/presentation/cubits/booking_details_cubit/booking_details_cubit.dart';
+import 'package:masaj/features/bookings_tab/presentation/pages/add_review_screen.dart';
 import 'package:masaj/features/bookings_tab/presentation/widgets/booking_card.dart';
 import 'package:masaj/features/bookings_tab/presentation/widgets/payment_info_card.dart';
 import 'package:masaj/features/bookings_tab/presentation/widgets/therapist_info_card.dart';
@@ -46,36 +47,7 @@ class _BookingDetialsScreenState extends State<BookingDetialsScreen> {
       create: (context) => Injector().paymentCubit..getPaymentMethods(),
       child: CustomAppPage(
         child: Scaffold(
-          // bottomNavigationBar: Container(
-          //   // top elevation
-          //   decoration: BoxDecoration(color: Colors.white, boxShadow: [
-          //     // elevation in top
-          //     BoxShadow(
-          //         color: const Color(0xff9DB2D6).withOpacity(.13),
-          //         offset: const Offset(0, -3),
-          //         blurRadius: 8,
-          //         spreadRadius: 1)
-          //   ]),
-          //   padding: EdgeInsets.symmetric(horizontal: 24.w, vertical: 16.h),
-          //   child: Row(children: [
-          //     Expanded(
-          //       child: DefaultButton(
-          //         borderColor: AppColors.ERROR_COLOR,
-          //         textColor: AppColors.ERROR_COLOR,
-          //         color: Colors.white,
-          //         label: 'cancel'.tr(),
-          //         onPressed: () {},
-          //       ),
-          //     ),
-          //     SizedBox(width: 8.w),
-          //     Expanded(
-          //       child: DefaultButton(
-          //         label: 'reschedule'.tr(),
-          //         onPressed: () {},
-          //       ),
-          //     ),
-          //   ]),
-          // ),
+          bottomNavigationBar: _buildCompletedActionButton(),
           appBar: const CustomAppBar(
             title: 'Booking details',
           ),
@@ -131,6 +103,69 @@ class _BookingDetialsScreenState extends State<BookingDetialsScreen> {
           ),
         ),
       ),
+    );
+  }
+
+  Container _buildUpComingActionButton() {
+    return Container(
+      // top elevation
+      decoration: BoxDecoration(color: Colors.white, boxShadow: [
+        // elevation in top
+        BoxShadow(
+            color: const Color(0xff9DB2D6).withOpacity(.13),
+            offset: const Offset(0, -3),
+            blurRadius: 8,
+            spreadRadius: 1)
+      ]),
+      padding: EdgeInsets.symmetric(horizontal: 24.w, vertical: 16.h),
+      child: Row(children: [
+        Expanded(
+          child: DefaultButton(
+            borderColor: AppColors.ERROR_COLOR,
+            textColor: AppColors.ERROR_COLOR,
+            color: Colors.white,
+            label: 'cancel'.tr(),
+            onPressed: () {},
+          ),
+        ),
+        SizedBox(width: 8.w),
+        Expanded(
+          child: DefaultButton(
+            label: 'reschedule'.tr(),
+            onPressed: () {},
+          ),
+        ),
+      ]),
+    );
+  }
+
+  Container _buildCompletedActionButton() {
+    return Container(
+      // top elevation
+      decoration: BoxDecoration(color: Colors.white, boxShadow: [
+        // elevation in top
+        BoxShadow(
+            color: const Color(0xff9DB2D6).withOpacity(.13),
+            offset: const Offset(0, -3),
+            blurRadius: 8,
+            spreadRadius: 1)
+      ]),
+      padding: EdgeInsets.symmetric(horizontal: 24.w, vertical: 16.h),
+      child: Row(children: [
+        Expanded(
+          child: DefaultButton(
+            label: 'add_review'.tr(),
+            onPressed: () {
+              if (context.read<BookingDetailsCubit>().state.booking != null) {
+                Navigator.of(context).pushNamed(
+                  AddReviewScreen.routeName,
+                  arguments: context.read<BookingDetailsCubit>().state.booking,
+                );
+              }
+            },
+          ),
+        ),
+      ]),
     );
   }
 

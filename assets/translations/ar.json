@@ -785,5 +785,15 @@
   "timeout": "انتهت مهلة الطلب",
   "initiated": "بدأ",
   "authorized": "تم التفويض",
-  "your_booking_has_been_cancelled": "تم إلغاء حجزك"
+  "your_booking_has_been_cancelled": "تم إلغاء حجزك",
+  "add_review": "إضافة مراجعة",
+  "write_review": "اكتب مراجعة",
+  "review": "مراجعة",
+  "what_is_you_rate": "ما هو تقييمك؟",
+  "please_share_your_opinion": "يرجى مشاركة رأيك",
+  "how_can_we_improve_our_services": "كيف يمكننا تحسين خدماتنا؟",
+  "tips": "بقشيش",
+  "tip_amount": "مبلغ البقشيش",
+  "optional": "(اختياري)"
+
 }

@@ -1,5 +1,6 @@
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/widgets.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:masaj/core/presentation/colors/app_colors.dart';
@@ -144,14 +145,21 @@ class BookingCard extends StatelessWidget {
             SizedBox(height: 10.h),
             Row(
               children: [
-                SvgPicture.asset(Assets.images.imgLocation),
+                SvgPicture.asset(
+                  Assets.images.imgFluentLocation20Regular,
+                  color: AppColors.FONT_LIGHT_COLOR,
+                ),
                 SizedBox(width: 5.w),
-                CustomText(
-                  text:
-                      sessionModel?.address?.formattedAddress ?? 'Service Name',
-                  fontSize: 14.sp,
-                  fontWeight: FontWeight.w400,
-                  color: const Color(0xff19223C),
+                SizedBox(
+                  width: 250.w,
+                  child: CustomText(
+                    text: sessionModel?.address?.formattedAddress ??
+                        'Service Name',
+                    maxLines: 1,
+                    fontSize: 14.sp,
+                    fontWeight: FontWeight.w400,
+                    color: const Color(0xff19223C),
+                  ),
                 ),
               ],
             )

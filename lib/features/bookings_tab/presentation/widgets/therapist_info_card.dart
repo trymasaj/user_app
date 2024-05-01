@@ -118,18 +118,20 @@ class TherapistInfoCard extends StatelessWidget {
             SizedBox(height: 10.h)
           ],
           // for (var addon in (bookingModel.service?.addons ?? <Addon>[]))
-          Column(
-            children: [
-              _InfoItem(
-                iconPath: Assets.images.imgTablerApps,
-                title: (bookingModel.service?.addons ?? <Addon>[])
-                    .map(
-                        (e) => context.isAr ? e.titleAr ?? '' : e.titleEn ?? '')
-                    .join(', '),
-                // context.isAr ? addon.titleAr ?? '' : addon.titleEn ?? '',
-              ),
-            ],
-          ),
+          if (bookingModel.service?.addons != null &&
+              bookingModel.service?.addons?.isNotEmpty == true)
+            Column(
+              children: [
+                _InfoItem(
+                  iconPath: Assets.images.imgTablerApps,
+                  title: (bookingModel.service?.addons ?? <Addon>[])
+                      .map((e) =>
+                          context.isAr ? e.titleAr ?? '' : e.titleEn ?? '')
+                      .join(', '),
+                  // context.isAr ? addon.titleAr ?? '' : addon.titleEn ?? '',
+                ),
+              ],
+            ),
           // _InfoItem(
           //   iconPath: Assets.images.imgMaterialSymbolBlueGray90003,
           //   title: 'Khaled Ahmed',
