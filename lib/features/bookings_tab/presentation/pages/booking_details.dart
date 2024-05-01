@@ -83,6 +83,8 @@ class _BookingDetialsScreenState extends State<BookingDetialsScreen> {
                             ),
                           ),
                         if (state.booking != null) ...[
+                          // build stepper
+                          if (!isCompleted(state.booking!)) buildStepper(),
                           if (state.booking!.bookingStatus ==
                               BookingStatus.Cancelled)
                             _buildCancelledAlert(),
@@ -112,6 +114,61 @@ class _BookingDetialsScreenState extends State<BookingDetialsScreen> {
             ),
           ),
         ),
+      ),
+    );
+  }
+
+  Widget buildStepper() {
+    return Padding(
+      padding: EdgeInsets.symmetric(horizontal: 16.w),
+      child: Column(
+        children: [
+          SizedBox(height: 16.h),
+          Row(
+            children: [
+              Container(
+                height: 40.h,
+                child: Icon(
+                  Icons.check,
+                  color: Colors.white,
+                ),
+                width: 40.w,
+                decoration: BoxDecoration(
+                    shape: BoxShape.circle, gradient: AppColors.GRADIENT_COLOR),
+              ),
+              Expanded(
+                  child: Container(
+                height: 1,
+                color: AppColors.BORDER_COLOR,
+              )),
+              Container(
+                height: 40.h,
+                width: 40.w,
+                decoration: BoxDecoration(
+                  border: Border.all(color: AppColors.BORDER_COLOR),
+                  shape: BoxShape.circle,
+                ),
+              ),
+            ],
+          ),
+          SizedBox(height: 8.h),
+          Row(
+            children: [
+              CustomText(
+                text: 'upcoming',
+                fontSize: 12.sp,
+                fontWeight: FontWeight.w500,
+              ),
+              Spacer(),
+              CustomText(
+                text: 'completed',
+                fontSize: 12.sp,
+                fontWeight: FontWeight.w500,
+              ),
+            ],
+          ),
+          SizedBox(height: 16.h),
+        ],
       ),
     );
   }
