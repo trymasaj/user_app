@@ -83,7 +83,6 @@ class _BookingDetialsScreenState extends State<BookingDetialsScreen> {
                             ),
                           ),
                         if (state.booking != null) ...[
-                          // build stepper
                           if (!isCompleted(state.booking!)) buildStepper(),
                           if (state.booking!.bookingStatus ==
                               BookingStatus.Cancelled)
@@ -92,8 +91,6 @@ class _BookingDetialsScreenState extends State<BookingDetialsScreen> {
                             isCompleted: state.booking?.bookingDate
                                     ?.isBefore(DateTime.now()) ??
                                 false,
-                            // isCompleted: state.booking!.bookingStatus ==
-                            //     BookingStatus.Completed,
                             sessionModel: state.booking?.toSessionModel(),
                             enable: false,
                           ),

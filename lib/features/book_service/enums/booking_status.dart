@@ -1,11 +1,13 @@
 enum BookingStatus {
-  Pending,
-  Scheduled,
-  Rescheduled,
-  InProgress,
-  Completed,
-  Cancelled,
-  Confirmed,
+  Pending ('pending'),
+  Scheduled ('pcheduled'),
+  Rescheduled ('Rescheduled'),
+  InProgress ('inProgress'),
+  Completed ('completed'),
+  Cancelled ('cancelled'),
+  Confirmed ('confirmed');
+  final String name;
+  const BookingStatus(this.name);
 }
 
 extension BookingStatusExtension on BookingStatus {

@@ -107,7 +107,7 @@ class PaymentInfoCard extends StatelessWidget {
               data: '${bookingModel.discountedAmount} KD'),
           SizedBox(height: 16.h),
           buildInfoItem(
-              title: 'paid_amount', data: '${bookingModel.subtotal} KD'),
+              title: 'paid_amount', data: '${bookingModel.grandTotal} KD'),
           SizedBox(height: 16.h),
           BlocBuilder<PaymentCubit, PaymentState>(
             builder: (context, state) {
@@ -123,8 +123,8 @@ class PaymentInfoCard extends StatelessWidget {
           ),
           SizedBox(height: 16.h),
           buildInfoItem(
-              title: 'status',
-              data: bookingModel?.bookingStatus.toString() ?? ''),
+              title: 'status', data: bookingModel?.bookingStatus?.name ?? ''),
+          SizedBox(height: 16.h),
           buildInfoItem(
               title: 'payment_id',
               data: bookingModel?.payment?.paymentId.toString() ?? ''),
