@@ -13,8 +13,9 @@ class TextWithGradiant extends StatelessWidget {
       this.maxLines = 1,
       this.overflow = TextOverflow.ellipsis,
       this.textAlign = TextAlign.start,
+      this.disableGradiant = false,
       this.height,
-      this.color = Colors.white});
+      this.color});
 
   final String text;
   final double fontSize;
@@ -23,11 +24,22 @@ class TextWithGradiant extends StatelessWidget {
   final int maxLines;
   final TextOverflow overflow;
   final TextAlign textAlign;
-  final Color color;
+  final Color? color;
   final double? height;
+  final bool disableGradiant;
 
   @override
   Widget build(BuildContext context) {
+    if (disableGradiant)
+      return CustomText(
+        text: text,
+        fontSize: fontSize,
+        fontWeight: fontWeight,
+        height: height,
+        maxLines: maxLines,
+        textAlign: textAlign,
+        color: color?? Colors.white,
+      );
     return ShaderMask(
       blendMode: BlendMode.srcIn,
       shaderCallback: (bounds) =>
@@ -43,7 +55,7 @@ class TextWithGradiant extends StatelessWidget {
         maxLines: maxLines,
         // overflow: overflow,
         textAlign: textAlign,
-        color: color,
+        color:color?? Colors.white ,
       ),
     );
   }

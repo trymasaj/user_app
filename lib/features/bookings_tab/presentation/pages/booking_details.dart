@@ -11,6 +11,7 @@ import 'package:masaj/core/presentation/widgets/stateless/custom_app_page.dart';
 import 'package:masaj/core/presentation/widgets/stateless/custom_loading.dart';
 import 'package:masaj/core/presentation/widgets/stateless/custom_text.dart';
 import 'package:masaj/core/presentation/widgets/stateless/default_button.dart';
+import 'package:masaj/features/book_service/data/models/booking_model/booking_model.dart';
 import 'package:masaj/features/book_service/enums/booking_status.dart';
 import 'package:masaj/features/bookings_tab/presentation/cubits/booking_details_cubit/booking_details_cubit.dart';
 import 'package:masaj/features/bookings_tab/presentation/pages/add_review_screen.dart';
@@ -39,6 +40,10 @@ class _BookingDetialsScreenState extends State<BookingDetialsScreen> {
           widget.id,
         );
     super.initState();
+  }
+
+  bool isCompleted(BookingModel bookingModel) {
+    return bookingModel.bookingDate?.isBefore(DateTime.now()) ?? false;
   }
 
   @override
@@ -82,6 +87,11 @@ class _BookingDetialsScreenState extends State<BookingDetialsScreen> {
                               BookingStatus.Cancelled)
                             _buildCancelledAlert(),
                           BookingCard(
+                            isCompleted: state.booking?.bookingDate
+                                    ?.isBefore(DateTime.now()) ??
+                                false,
+                            // isCompleted: state.booking!.bookingStatus ==
+                            //     BookingStatus.Completed,
                             sessionModel: state.booking?.toSessionModel(),
                             enable: false,
                           ),
@@ -139,33 +149,47 @@ class _BookingDetialsScreenState extends State<BookingDetialsScreen> {
     );
   }
 
-  Container _buildCompletedActionButton() {
-    return Container(
-      // top elevation
-      decoration: BoxDecoration(color: Colors.white, boxShadow: [
-        // elevation in top
-        BoxShadow(
-            color: const Color(0xff9DB2D6).withOpacity(.13),
-            offset: const Offset(0, -3),
-            blurRadius: 8,
-            spreadRadius: 1)
-      ]),
-      padding: EdgeInsets.symmetric(horizontal: 24.w, vertical: 16.h),
-      child: Row(children: [
-        Expanded(
-          child: DefaultButton(
-            label: 'add_review'.tr(),
-            onPressed: () {
-              if (context.read<BookingDetailsCubit>().state.booking != null) {
-                Navigator.of(context).pushNamed(
-                  AddReviewScreen.routeName,
-                  arguments: context.read<BookingDetailsCubit>().state.booking,
-                );
-              }
-            },
-          ),
-        ),
-      ]),
+  Widget? _buildCompletedActionButton() {
+    return BlocBuilder<BookingDetailsCubit, BookingDetailsState>(
+      builder: (context, state) {
+        if (!state.isSuccess ||
+            state.booking == null ||
+            state.booking?.bookingDate == null) {
+          return SizedBox.shrink();
+        }
+        if (!isCompleted(state.booking!)) {
+          return const SizedBox.shrink();
+        }
+        return Container(
+          // top elevation
+          decoration: BoxDecoration(color: Colors.white, boxShadow: [
+            // elevation in top
+            BoxShadow(
+                color: const Color(0xff9DB2D6).withOpacity(.13),
+                offset: const Offset(0, -3),
+                blurRadius: 8,
+                spreadRadius: 1)
+          ]),
+          padding: EdgeInsets.symmetric(horizontal: 24.w, vertical: 16.h),
+          child: Row(children: [
+            Expanded(
+              child: DefaultButton(
+                label: 'add_review'.tr(),
+                onPressed: () {
+                  if (context.read<BookingDetailsCubit>().state.booking !=
+                      null) {
+                    Navigator.of(context).pushNamed(
+                      AddReviewScreen.routeName,
+                      arguments:
+                          context.read<BookingDetailsCubit>().state.booking,
+                    );
+                  }
+                },
+              ),
+            ),
+          ]),
+        );
+      },
     );
   }
 

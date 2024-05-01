@@ -11,11 +11,22 @@ import 'package:masaj/core/presentation/widgets/stateless/default_button.dart';
 import 'package:masaj/core/presentation/widgets/stateless/empty_page_message.dart';
 import 'package:masaj/core/presentation/widgets/stateless/subtitle_text.dart';
 import 'package:masaj/core/presentation/widgets/stateless/text_fields/default_text_form_field.dart';
+import 'package:masaj/core/presentation/widgets/stateless/text_with_gradiant.dart';
 import 'package:masaj/core/presentation/widgets/stateless/title_text.dart';
 import 'package:masaj/features/book_service/data/models/booking_model/booking_model.dart';
 import 'package:masaj/features/payment/data/model/payment_method_model.dart';
 import 'package:masaj/features/payment/presentaion/bloc/payment_cubit.dart';
 import 'package:masaj/features/payment/presentaion/pages/checkout_screen.dart';
+
+enum TipsAmountEnumn {
+  one('1_kwd', 1),
+  two('2_kwd', 2),
+  other('other');
+
+  final String name;
+  final int? value;
+  const TipsAmountEnumn(this.name, [this.value]);
+}
 
 class AddReviewScreen extends StatefulWidget {
   const AddReviewScreen({super.key, required this.bookingModel});
@@ -52,6 +63,7 @@ class _AddReviewScreenState extends State<AddReviewScreen> {
     );
   }
 
+  TipsAmountEnumn _selectedTipAmount = TipsAmountEnumn.one;
   @override
   void initState() {
     _walletController = TextEditingController();
@@ -73,12 +85,110 @@ class _AddReviewScreenState extends State<AddReviewScreen> {
             children: [
               _buildReviewForm(),
               _buildDivider(),
-              _buildPaymentSection(context),
+              _buildTipsSection(context),
               _buildWriteReviwButton()
             ],
           ),
         ),
       ),
+    );
+  }
+
+  Column _buildTipsSection(BuildContext context) {
+    return Column(
+      children: [
+        Padding(
+          padding: EdgeInsets.symmetric(
+            horizontal: 24.w,
+          ),
+          child: Column(
+            children: [
+              SizedBox(height: 20.h),
+              Row(
+                children: [
+                  CustomText(
+                    text: 'tips',
+                    fontSize: 16,
+                    fontWeight: FontWeight.w700,
+                    color: const Color(0xff19223C),
+                  ),
+                  SizedBox(width: 4.w),
+                  CustomText(
+                    text: 'optional',
+                    fontSize: 14,
+                    fontWeight: FontWeight.w500,
+                    color: const Color(0xff8C8C8C),
+                  )
+                ],
+              ),
+              SizedBox(height: 16.h),
+              Row(
+                children: [
+                  CustomText(
+                    text: 'tip_amount',
+                    fontSize: 14,
+                    fontWeight: FontWeight.w500,
+                    color: const Color(0xff1D212C),
+                  )
+                ],
+              ),
+              SizedBox(height: 16.h),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  for (var tipAmount in TipsAmountEnumn.values)
+                    GestureDetector(
+                      onTap: () {
+                        if (tipAmount == TipsAmountEnumn.other) {
+                          setState(() {
+                            _selectedTipAmount = tipAmount;
+                          });
+                          // show dialog
+                        } else {
+                          _walletController.text = tipAmount.value.toString();
+                          setState(() {
+                            _selectedTipAmount = tipAmount;
+                          });
+                        }
+                      },
+                      child: Container(
+                        height: 50.h,
+                        width: 103.w,
+                        padding: EdgeInsets.symmetric(
+                            horizontal: 16.w, vertical: 8.h),
+                        decoration: BoxDecoration(
+                          color: tipAmount == _selectedTipAmount
+                              ? AppColors.PRIMARY_COLOR.withOpacity(0.09)
+                              : AppColors.BACKGROUND_COLOR.withOpacity(0.09),
+                          borderRadius: BorderRadius.circular(12),
+                          border: Border.all(
+                              color: AppColors.PRIMARY_COLOR, width: 1.5),
+                        ),
+                        alignment: Alignment.center,
+                        child: TextWithGradiant(
+                          disableGradiant: tipAmount != _selectedTipAmount,
+                          text: tipAmount.name.tr(),
+                          fontSize: 14,
+                          fontWeight: FontWeight.w500,
+                          color: AppColors.FONT_LIGHT_COLOR,
+                        ),
+                      ),
+                    )
+                ],
+              ),
+              SizedBox(height: 16.h),
+              if (_selectedTipAmount == TipsAmountEnumn.other)
+                DefaultTextFormField(
+                    fillColor: Colors.white,
+                    borderColor: Color(0xffD9D9D9),
+                    currentFocusNode: FocusNode(),
+                    currentController: _walletController,
+                    hint: 'enter_amount'.tr()),
+            ],
+          ),
+        ),
+        _buildPaymentSection(context),
+      ],
     );
   }
 

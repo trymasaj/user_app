@@ -112,6 +112,8 @@ class _BookingsTabState extends State<BookingsTab> {
                               return Container(
                                   margin: const EdgeInsets.only(top: 10),
                                   child: BookingCard(
+                                      isCompleted: state.type ==
+                                          BookingQueryStatus.completed,
                                       sessionModel: state.sessions[index]));
                             }),
                       )

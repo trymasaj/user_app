@@ -16,9 +16,11 @@ class BookingCard extends StatelessWidget {
     super.key,
     this.sessionModel,
     this.enable = true,
+    this.isCompleted = false,
   });
   final SessionModel? sessionModel;
   final bool enable;
+  final bool isCompleted;
 
   @override
   Widget build(BuildContext context) {
@@ -47,17 +49,23 @@ class BookingCard extends StatelessWidget {
                   padding: const EdgeInsets.fromLTRB(6, 14, 6, 14),
                   decoration: BoxDecoration(
                       borderRadius: BorderRadius.circular(8),
-                      color: AppColors.PRIMARY_COLOR.withOpacity(.09)),
+                      color: isCompleted
+                          ? Color(0xffF7F7F7)
+                          : AppColors.PRIMARY_COLOR.withOpacity(.09)),
                   child: Column(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
                       TextWithGradiant(
+                        disableGradiant: isCompleted,
                         text: sessionModel?.bookingDate?.day.toString() ?? '',
                         fontSize: 24.sp,
                         fontWeight: FontWeight.w700,
+                        color: isCompleted ? AppColors.FONT_LIGHT_COLOR : null,
                         height: 1.2,
                       ),
                       TextWithGradiant(
+                        disableGradiant: isCompleted,
+                        color: isCompleted ? AppColors.FONT_LIGHT_COLOR : null,
                         text:
                             sessionModel?.bookingDate?.monthString.toString() ??
                                 '',
@@ -142,27 +150,29 @@ class BookingCard extends StatelessWidget {
                 )
               ],
             ),
-            SizedBox(height: 10.h),
-            Row(
-              children: [
-                SvgPicture.asset(
-                  Assets.images.imgFluentLocation20Regular,
-                  color: AppColors.FONT_LIGHT_COLOR,
-                ),
-                SizedBox(width: 5.w),
-                SizedBox(
-                  width: 250.w,
-                  child: CustomText(
-                    text: sessionModel?.address?.formattedAddress ??
-                        'Service Name',
-                    maxLines: 1,
-                    fontSize: 14.sp,
-                    fontWeight: FontWeight.w400,
-                    color: const Color(0xff19223C),
+            if (sessionModel?.address != null) ...[
+              SizedBox(height: 10.h),
+              Row(
+                children: [
+                  SvgPicture.asset(
+                    Assets.images.imgFluentLocation20Regular,
+                    color: AppColors.FONT_LIGHT_COLOR,
                   ),
-                ),
-              ],
-            )
+                  SizedBox(width: 5.w),
+                  SizedBox(
+                    width: 250.w,
+                    child: CustomText(
+                      text: sessionModel?.address?.formattedAddress ??
+                          'Service Name',
+                      maxLines: 1,
+                      fontSize: 14.sp,
+                      fontWeight: FontWeight.w400,
+                      color: const Color(0xff19223C),
+                    ),
+                  ),
+                ],
+              )
+            ]
           ],
         ),
       ),

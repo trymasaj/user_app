@@ -794,6 +794,8 @@
   "how_can_we_improve_our_services": "كيف يمكننا تحسين خدماتنا؟",
   "tips": "بقشيش",
   "tip_amount": "مبلغ البقشيش",
-  "optional": "(اختياري)"
-
+  "optional": "(اختياري)",
+  "1_kwd": "1 د.ك",
+  "2_kwd": "2 د.ك",
+  "other": "آخر"
 }

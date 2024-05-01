@@ -1,8 +1,8 @@
 import 'package:masaj/core/data/models/query_model.dart';
 
 enum BookingQueryStatus {
-  completed('completed', 0),
-  upcoming('upcoming', 1);
+  upcoming('upcoming', 1),
+  completed('completed', 0);
 
   final String name;
   final int id;

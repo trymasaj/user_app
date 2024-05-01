@@ -916,6 +916,9 @@
   "how_can_we_improve_our_services": "How can we improve our services?",
   "tips": "Tips",
   "tip_amount": "Tip amount",
-  "optional": "(Optional)"
+  "optional": "(Optional)",
+  "1_kwd": "1 KWD",
+  "2_kwd": "2 KWD",
+  "other": "Other"
 
 }
