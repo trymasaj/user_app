@@ -10,7 +10,7 @@ class Payment {
   String? referenceId;
   PaymentStatus? paymentStatus;
   String? paymentDate;
-  PaymentMethodEnum? paymentMethod;
+  int? paymentMethod;
   Payment({
     this.paymentId,
     this.referenceId,
@@ -18,13 +18,18 @@ class Payment {
     this.paymentDate,
     this.paymentMethod,
   });
+  // 20/02/2023 01:00 PM
+  String get formattedDate {
+    final date = DateTime.parse(paymentDate!);
+    return '${date.day}/${date.month}/${date.year} ${date.hour}:${date.minute} ${date.hour > 12 ? 'PM' : 'AM'}';
+  }
 
   Payment copyWith({
     ValueGetter<int?>? paymentId,
     ValueGetter<String?>? referenceId,
     ValueGetter<PaymentStatus?>? paymentStatus,
     ValueGetter<String?>? paymentDate,
-    ValueGetter<PaymentMethodEnum?>? paymentMethod,
+    ValueGetter<int?>? paymentMethod,
   }) {
     return Payment(
       paymentId: paymentId != null ? paymentId() : this.paymentId,
@@ -43,7 +48,7 @@ class Payment {
       'referenceId': referenceId,
       'paymentStatus': paymentStatus?.index,
       'paymentDate': paymentDate,
-      'paymentMethod': paymentMethod?.index,
+      'paymentMethod': paymentMethod,
     };
   }
 
@@ -53,7 +58,7 @@ class Payment {
       referenceId: map['referenceId'],
       paymentStatus: PaymentStatus.values[map['paymentStatus']?.toInt()],
       paymentDate: map['paymentDate'],
-      paymentMethod: PaymentMethodEnum.values[map['paymentMethod']?.toInt()],
+      paymentMethod: map['paymentMethod']?.toInt(),
     );
   }
 

@@ -1,22 +1,33 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:masaj/core/presentation/colors/app_colors.dart';
 import 'package:masaj/core/presentation/widgets/stateless/custom_text.dart';
 import 'package:masaj/core/presentation/widgets/stateless/text_with_gradiant.dart';
+import 'package:masaj/features/book_service/data/models/booking_model/member.dart';
+import 'package:masaj/features/book_service/data/models/booking_model/session_model.dart';
+import 'package:masaj/features/bookings_tab/presentation/pages/booking_details.dart';
 import 'package:masaj/gen/assets.gen.dart';
 
 class BookingCard extends StatelessWidget {
   const BookingCard({
     super.key,
+    this.sessionModel,
+    this.enable = true,
   });
+  final SessionModel? sessionModel;
+  final bool enable;
 
   @override
   Widget build(BuildContext context) {
     return InkWell(
-      onTap: () {
-        Navigator.of(context).pushNamed('/BookingDetialsScreen');
-      },
+      onTap: enable
+          ? () {
+              Navigator.of(context).pushNamed(BookingDetialsScreen.routeName,
+                  arguments: sessionModel?.id);
+            }
+          : null,
       child: Container(
         margin: EdgeInsets.only(bottom: 12.h),
         padding: //,
@@ -31,6 +42,7 @@ class BookingCard extends StatelessWidget {
             Row(
               children: [
                 Container(
+                  width: 60.w,
                   padding: const EdgeInsets.fromLTRB(6, 14, 6, 14),
                   decoration: BoxDecoration(
                       borderRadius: BorderRadius.circular(8),
@@ -39,13 +51,15 @@ class BookingCard extends StatelessWidget {
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
                       TextWithGradiant(
-                        text: '12',
+                        text: sessionModel?.bookingDate?.day.toString() ?? '',
                         fontSize: 24.sp,
                         fontWeight: FontWeight.w700,
                         height: 1.2,
                       ),
                       TextWithGradiant(
-                        text: 'Monday',
+                        text:
+                            sessionModel?.bookingDate?.monthString.toString() ??
+                                '',
                         fontSize: 12.sp,
                         height: 1.2,
                         fontWeight: FontWeight.w400,
@@ -60,12 +74,15 @@ class BookingCard extends StatelessWidget {
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
                       CustomText(
-                        text: 'Sat',
+                        text: sessionModel?.bookingDate?.weekDayString
+                                .toString() ??
+                            '',
                         fontSize: 18.sp,
                         fontWeight: FontWeight.w500,
                       ),
                       CustomText(
-                        text: '10 AM -12 PM',
+                        // text: '10 AM -12 PM',
+                        text: sessionModel?.timeString ?? '',
                         fontSize: 14.sp,
                         fontWeight: FontWeight.w400,
                         color: const Color(0xff181B28).withOpacity(.7),
@@ -83,19 +100,41 @@ class BookingCard extends StatelessWidget {
               color: AppColors.BORDER_COLOR,
             ),
             SizedBox(height: 10.h),
+            for (var member in sessionModel?.members ?? <Member>[]) ...[
+              Row(
+                children: [
+                  SvgPicture.asset(
+                      Assets.images.imgMaterialSymbolBlueGray90003),
+                  SizedBox(width: 5.w),
+                  CustomText(
+                    text: member.name ?? '',
+                    fontSize: 14.sp,
+                    fontWeight: FontWeight.w400,
+                    color: const Color(0xff19223C),
+                  ),
+                  const Spacer(),
+                  CustomText(
+                    text: (member.countryCode ?? '') + (member.phone ?? ''),
+                    fontSize: 14.sp,
+                    fontWeight: FontWeight.w400,
+                    color: const Color(0xff19223C).withOpacity(.64),
+                  )
+                ],
+              ),
+              SizedBox(height: 10.h)
+            ],
             Row(
               children: [
-                SvgPicture.asset(Assets.images.imgMaterialSymbolBlueGray90003),
+                SvgPicture.asset(Assets.images.imgMaterialSymbolOnprimary),
                 SizedBox(width: 5.w),
                 CustomText(
-                  text: 'Khaled Ahmed',
+                  text: sessionModel?.serviceName ?? 'Service Name',
                   fontSize: 14.sp,
                   fontWeight: FontWeight.w400,
                   color: const Color(0xff19223C),
                 ),
-                const Spacer(),
                 CustomText(
-                  text: '+9983747228',
+                  text: ' (${sessionModel?.durationInMinutes} ${'min'.tr()})',
                   fontSize: 14.sp,
                   fontWeight: FontWeight.w400,
                   color: const Color(0xff19223C).withOpacity(.64),
@@ -105,20 +144,15 @@ class BookingCard extends StatelessWidget {
             SizedBox(height: 10.h),
             Row(
               children: [
-                SvgPicture.asset(Assets.images.imgMaterialSymbolOnprimary),
+                SvgPicture.asset(Assets.images.imgLocation),
                 SizedBox(width: 5.w),
                 CustomText(
-                  text: 'Deep Tissue massage',
+                  text:
+                      sessionModel?.address?.formattedAddress ?? 'Service Name',
                   fontSize: 14.sp,
                   fontWeight: FontWeight.w400,
                   color: const Color(0xff19223C),
                 ),
-                CustomText(
-                  text: '(60 min)',
-                  fontSize: 14.sp,
-                  fontWeight: FontWeight.w400,
-                  color: const Color(0xff19223C).withOpacity(.64),
-                )
               ],
             )
           ],

@@ -1,8 +1,13 @@
 import 'package:masaj/core/data/models/query_model.dart';
 
 enum BookingQueryStatus {
-  completed,
-  upcoming,
+  completed('completed', 0),
+  upcoming('upcoming', 1);
+
+  final String name;
+  final int id;
+
+  const BookingQueryStatus(this.name, this.id);
 }
 
 class BookingQueryModel extends QueryModel {
@@ -18,7 +23,7 @@ class BookingQueryModel extends QueryModel {
   Map<String, dynamic> toMap() {
     return super.toMap()
       ..addAll({
-        'status': status?.index,
+        'status': status?.id,
       });
   }
 }

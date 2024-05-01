@@ -62,7 +62,7 @@ Route<dynamic>? onGenerateRoute(RouteSettings settings) {
       return MaterialPageRoute(builder: (context) => const QuizStartPage());
     case BookingDetialsScreen.routeName:
       return MaterialPageRoute(
-          builder: (context) => const BookingDetialsScreen());
+          builder: (context) => BookingDetialsScreen.builder(context, arguments as int));
     case GuidePage.routeName:
       return MaterialPageRoute(builder: (context) => const GuidePage());
     case LoginPage.routeName:

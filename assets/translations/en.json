@@ -9,6 +9,7 @@
     "first_name": "Full Name",
     "lbl_guest": "Guest",
     "book_service": "Book a service",
+    
     "no_address_selected": "No Address selected",
     "email_address": "Email Address",
     "i_agree": "I agree",
@@ -896,5 +897,16 @@
     "time": "Time",
     "date": "Date",
     "please_select_date": "Please select date",
-    "msg_payment_failed": "Payment failed"
+    "msg_payment_failed": "Payment failed",
+    "msg_payment_success": "Payment success",
+    "pending": "Pending",
+    "completed": "Completed",
+    "success" : "Success",
+    "failed": "Failed",
+    "timeout": "Timeout",
+    "initiated": "Initiated",
+    "authorized": "Authorized",
+    "your_booking_has_been_cancelled": "Your booking has been cancelled"
+
+   
 }
