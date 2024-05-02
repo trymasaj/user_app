@@ -5,6 +5,7 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/widgets.dart';
 
 import 'package:masaj/features/book_service/data/models/booking_model/payment.dart';
+import 'package:masaj/features/book_service/data/models/booking_model/session_model.dart';
 import 'package:masaj/features/book_service/enums/booking_status.dart';
 import 'package:masaj/features/book_service/enums/payment_status.dart';
 import 'package:masaj/features/providers_tab/data/models/therapist.dart';
@@ -292,5 +293,21 @@ class BookingModel {
         therapist.hashCode ^
         address.hashCode ^
         payment.hashCode;
+  }
+
+  SessionModel toSessionModel() {
+    return SessionModel(
+      address: address,
+      id: bookingId!,
+      serviceName: service?.title,
+      serviceMediaUrl: service?.mediaUrl,
+      therapistName: therapist?.fullName,
+      members: members,
+      bookingDate: bookingDate,
+      totalDuration: totalDuration,
+      countryId: countryId ?? 0,
+      serviceId: serviceId,
+      servicePrice: (servicePrice ?? 0).toDouble(),
+    );
   }
 }

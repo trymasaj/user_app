@@ -7,6 +7,7 @@ class Therapist {
   final int? therapistId;
   final int? countryId;
   final String? fullNameEn;
+  final String? phone;
   final String? fullNameAr;
   final String? fullName;
   final String? titleEn;
@@ -26,6 +27,7 @@ class Therapist {
   final List<Schedule>? schedule;
   final List<Review>? reviews;
   final Country? country;
+  final String? countryCode;
 
   // copy with
   Therapist copyWith({
@@ -33,11 +35,13 @@ class Therapist {
     int? countryId,
     String? fullNameEn,
     String? fullNameAr,
+    String? countryCode,
     String? fullName,
     String? titleEn,
     String? titleAr,
     String? title,
     String? aboutEn,
+    String? phone,
     String? aboutAr,
     String? about,
     String? profileImage,
@@ -54,10 +58,13 @@ class Therapist {
   }) {
     return Therapist(
       therapistId: therapistId ?? this.therapistId,
+      countryCode: countryCode ?? this.countryCode,
       countryId: countryId ?? this.countryId,
       fullNameEn: fullNameEn ?? this.fullNameEn,
       fullNameAr: fullNameAr ?? this.fullNameAr,
+
       fullName: fullName ?? this.fullName,
+      phone: phone ?? this.phone,
       titleEn: titleEn ?? this.titleEn,
       titleAr: titleAr ?? this.titleAr,
       title: title ?? this.title,
@@ -84,6 +91,7 @@ class Therapist {
     this.fullNameEn,
     this.fullNameAr,
     this.fullName,
+    this.phone,
     this.titleEn,
     this.titleAr,
     this.title,
@@ -97,6 +105,7 @@ class Therapist {
     this.rank,
     this.isActive,
     this.isFavourite,
+    this.countryCode,
     this.services,
     this.schedule,
     this.reviews,
@@ -115,6 +124,7 @@ class Therapist {
       fullNameEn: fullNameEn,
       fullNameAr: fullNameAr,
       fullName: fullName,
+      countryCode:  json['countryCode'],
       titleEn: json['titleEn'],
       titleAr: json['titleAr'],
       title: json['title'],
@@ -128,6 +138,7 @@ class Therapist {
       rank: (json['rank'] as num).toDouble(),
       isActive: json['isActive'],
       isFavourite: json['isFavourite'],
+      phone: json['phone'],
       services: json['services'] == null
           ? null
           : List<TherapistService>.from(
@@ -157,7 +168,9 @@ class Therapist {
       'fullNameAr': fullNameAr,
       'fullName': fullName,
       'titleEn': titleEn,
+      'phone': phone,
       'titleAr': titleAr,
+      'countryCode': countryCode,
       'title': title,
       'aboutEn': aboutEn,
       'aboutAr': aboutAr,
@@ -183,12 +196,14 @@ class Therapist {
       fullNameEn.hashCode ^
       fullNameAr.hashCode ^
       fullName.hashCode ^
+      phone.hashCode ^
       titleEn.hashCode ^
       titleAr.hashCode ^
       title.hashCode ^
       aboutEn.hashCode ^
       aboutAr.hashCode ^
       about.hashCode ^
+      countryCode.hashCode ^
       profileImage.hashCode ^
       commission.hashCode ^
       homePageFeatured.hashCode ^
@@ -211,9 +226,11 @@ class Therapist {
         other.fullNameEn == fullNameEn &&
         other.fullNameAr == fullNameAr &&
         other.fullName == fullName &&
+        countryCode == other.countryCode &&
         other.titleEn == titleEn &&
         other.titleAr == titleAr &&
         other.title == title &&
+        phone == other.phone &&
         other.aboutEn == aboutEn &&
         other.aboutAr == aboutAr &&
         other.about == about &&

@@ -281,7 +281,7 @@ class _CheckoutScreenState extends State<CheckoutScreen> {
           const TitleText(
             text: 'payment_method',
           ),
-          _WalletSection(controller: _walletController),
+          WalletSection(controller: _walletController),
           _buildPaymentMethods()
         ],
       ),
@@ -488,17 +488,17 @@ class _CouponWidgetState extends State<CouponWidget> {
   }
 }
 
-class _WalletSection extends StatefulWidget {
-  const _WalletSection({
+class WalletSection extends StatefulWidget {
+  const WalletSection({
     super.key,
     required this.controller,
   });
   final TextEditingController controller;
   @override
-  State<_WalletSection> createState() => _WalletSectionState();
+  State<WalletSection> createState() => _WalletSectionState();
 }
 
-class _WalletSectionState extends State<_WalletSection> {
+class _WalletSectionState extends State<WalletSection> {
   late final FocusNode _focusNode;
   bool _useWallet = false;
 

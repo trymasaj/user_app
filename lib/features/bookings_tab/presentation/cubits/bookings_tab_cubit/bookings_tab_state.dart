@@ -5,16 +5,18 @@ enum BookingsTabStateStatus {
   loading,
   loaded,
   error,
+  loadingMore,
+  isRefreshing
 }
 
-enum BookingsTabStateType {
-  upComaing('upcoming'),
-  completed('completed');
+// enum BookingsTabStateType {
+//   upComaing('upcoming'),
+//   completed('completed');
 
-  final String name;
+//   final String name;
 
-  const BookingsTabStateType(this.name);
-}
+//   const BookingsTabStateType(this.name);
+// }
 
 extension BookingsTabStateX on BookingsTabState {
   bool get isInitial => status == BookingsTabStateStatus.initial;
@@ -24,19 +26,25 @@ extension BookingsTabStateX on BookingsTabState {
   bool get isLoaded => status == BookingsTabStateStatus.loaded;
 
   bool get isError => status == BookingsTabStateStatus.error;
+  bool get isLoadingMore => status == BookingsTabStateStatus.loadingMore;
+  bool get isRefreshing => status == BookingsTabStateStatus.isRefreshing;
 }
 
 @immutable
 class BookingsTabState {
   final BookingsTabStateStatus status;
   final String? errorMessage;
-  final BookingsTabStateType type;
-
+  final BookingQueryStatus type;
+  final int? page;
+  final int? pageSize;
+  final List<SessionModel> sessions;
   const BookingsTabState(
       {this.status = BookingsTabStateStatus.initial,
       this.errorMessage,
-      th,
-      this.type = BookingsTabStateType.upComaing});
+      this.page,
+      this.sessions = const [],
+      this.pageSize = 10,
+      this.type = BookingQueryStatus.completed});
 
   @override
   bool operator ==(Object other) {
@@ -45,21 +53,36 @@ class BookingsTabState {
     return other.runtimeType == runtimeType &&
         (other as BookingsTabState).status == status &&
         other.type == type &&
-        other.errorMessage == errorMessage;
+        other.errorMessage == errorMessage &&
+        other.sessions == sessions &&
+        other.page == page &&
+        other.pageSize == pageSize;
   }
 
   @override
-  int get hashCode => status.hashCode ^ errorMessage.hashCode;
+  int get hashCode =>
+      status.hashCode ^
+      errorMessage.hashCode ^
+      type.hashCode ^
+      page.hashCode ^
+      pageSize.hashCode ^
+      sessions.hashCode;
 
   BookingsTabState copyWith({
     BookingsTabStateStatus? status,
     String? errorMessage,
-    BookingsTabStateType? type,
+    BookingQueryStatus? type,
+    int? page,
+    int? pageSize,
+    List<SessionModel>? sessions,
   }) {
     return BookingsTabState(
       status: status ?? this.status,
       errorMessage: errorMessage ?? this.errorMessage,
       type: type ?? this.type,
+      page: page ?? this.page,
+      pageSize: pageSize ?? this.pageSize,
+      sessions: sessions ?? this.sessions,
     );
   }
 }

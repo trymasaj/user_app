@@ -37,6 +37,8 @@ import 'package:masaj/features/book_service/presentation/blocs/book_cubit/book_s
 import 'package:masaj/features/gifts/data/datasource/gifts_datasource.dart';
 import 'package:masaj/features/gifts/data/repo/gifts_repo.dart';
 import 'package:masaj/features/gifts/presentaion/bloc/gifts_cubit.dart';
+import 'package:masaj/features/bookings_tab/presentation/cubits/booking_details_cubit/booking_details_cubit.dart';
+import 'package:masaj/features/bookings_tab/presentation/cubits/bookings_tab_cubit/bookings_tab_cubit.dart';
 import 'package:masaj/features/home/data/datasources/home_local_data_source.dart';
 import 'package:masaj/features/home/data/datasources/home_remote_data_source.dart';
 import 'package:masaj/features/home/data/repositories/home_repository.dart';
@@ -348,6 +350,12 @@ class Injector {
   ProvidersTabCubit get providersTabCubit => ProvidersTabCubit(
         providersTabRepository: providersTabRepository,
       );
+
+  BookingsTabCubit get bookingsTabCubit => BookingsTabCubit(
+        bookingsTabRepository: bookingRepository,
+      );
+  BookingDetailsCubit get bookingDetailsCubit =>
+      BookingDetailsCubit(bookingRepository);
   AvialbleTherapistCubit get avialbleTherapistCubit => AvialbleTherapistCubit(
         providersTabRepository: providersTabRepository,
       );

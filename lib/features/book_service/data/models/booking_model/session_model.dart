@@ -16,24 +16,78 @@
 
 import 'dart:convert';
 
+import 'package:masaj/core/app_export.dart';
+import 'package:masaj/features/book_service/data/models/booking_model/address.dart';
+import 'package:masaj/features/book_service/data/models/booking_model/member.dart';
+
 class SessionModel {
-  SessionModel({
-    required this.id,
-    this.serviceNameEn,
-    this.serviceNameAr,
-    this.serviceName,
-    this.serviceMediaUrlEn,
-    this.serviceMediaUrlAr,
-    this.serviceMediaUrl,
-    this.therapistNameEn,
-    this.therapistNameAr,
-    this.therapistName,
-    this.bookingDate,
-    this.totalDuration,
-    required this.countryId,
-    this.servicePrice,
-    this.serviceId,
-  });
+  SessionModel(
+      {required this.id,
+      this.serviceNameEn,
+      this.serviceNameAr,
+      this.serviceName,
+      this.serviceMediaUrlEn,
+      this.serviceMediaUrlAr,
+      this.serviceMediaUrl,
+      this.therapistNameEn,
+      this.therapistNameAr,
+      this.address,
+      this.therapistName,
+      this.bookingDate,
+      this.totalDuration,
+      required this.countryId,
+      this.servicePrice,
+      this.serviceId,
+      this.members});
+
+  final List<Member>? members;
+
+  String get durationInMinutes {
+    if (totalDuration == null) return '0';
+    return totalDuration!.split(':').length > 2
+        ? (int.parse(totalDuration!.split(':')[0]) * 60 +
+                int.parse(totalDuration!.split(':')[1]))
+            .toString()
+        : totalDuration!.split(':')[1];
+  }
+
+  String get durationInHours {
+    if (totalDuration == null) return '0';
+    return totalDuration!.split(':').length > 2
+        ? (int.parse(totalDuration!.split(':')[0]) * 60 +
+                int.parse(totalDuration!.split(':')[1]))
+            .toString()
+        : totalDuration!.split(':')[0];
+  }
+
+  int get durationInMinutesInt => int.parse(durationInMinutes);
+
+  String get formattedString {
+    if (totalDuration == null) return '0';
+    // if duration hourse is 0 return minutes if not return hours and minutes if minutes is not 0 if not return hours
+    final hourse = int.parse(totalDuration!.split(':')[0]);
+    final minutes = int.parse(totalDuration!.split(':')[1]);
+    if (hourse == 0) {
+      return '$minutes';
+    }
+    if (minutes == 0) {
+      return '$hourse';
+    }
+    return '$hourse:$minutes';
+  }
+
+  String get unit {
+    if (totalDuration == null) return 'Minutes';
+    final hourse = int.parse(totalDuration!.split(':')[0]);
+    final minutes = int.parse(totalDuration!.split(':')[1]);
+    if (hourse == 0) {
+      return 'Minutes';
+    }
+    if (minutes == 0) {
+      return 'Hours';
+    }
+    return 'Hours';
+  }
 
   final int id;
   final String? serviceNameEn;
@@ -50,12 +104,22 @@ class SessionModel {
   final String? therapistName;
   final DateTime? bookingDate;
   final String? totalDuration;
+  final Address? address;
+
   final int countryId;
+  // 10 AM -12 PM 
+  String get timeString {
+    if (bookingDate == null) return '';
+    return '${bookingDate!.timeString} - ${(bookingDate!.add(Duration(minutes: durationInMinutesInt))).timeString}';
+  }
 
   factory SessionModel.fromMap(Map<String, dynamic> json) => SessionModel(
         id: json["id"],
         serviceNameEn: json["serviceNameEn"],
         serviceNameAr: json["serviceNameAr"],
+        address: json['address'] == null
+            ? null
+            : Address.fromMap(json['address']),
         serviceName: json["serviceName"],
         serviceMediaUrlEn: json["serviceMediaUrlEn"],
         serviceMediaUrlAr: json["serviceMediaUrlAr"],
@@ -63,13 +127,16 @@ class SessionModel {
         therapistNameEn: json["therapistNameEn"],
         therapistNameAr: json["therapistNameAr"],
         therapistName: json["therapistName"],
-        servicePrice:( json["servicePrice"] as num?)?.toDouble()  ,
+        servicePrice: (json["servicePrice"] as num?)?.toDouble(),
         serviceId: json["serviceId"],
         bookingDate: json["bookingDate"] == null
             ? null
             : DateTime.parse(json["bookingDate"]),
         totalDuration: json["totalDuration"],
         countryId: json["countryId"],
+        members: json['members'] == null
+            ? null
+            : List<Member>.from(json['members'].map((x) => Member.fromMap(x))),
       );
 
   Map<String, dynamic> toMap() => {
@@ -83,12 +150,15 @@ class SessionModel {
         "therapistNameEn": therapistNameEn,
         "therapistNameAr": therapistNameAr,
         "therapistName": therapistName,
-        "bookingDate":
-            bookingDate?.toIso8601String(),
+        "bookingDate": bookingDate?.toIso8601String(),
         "totalDuration": totalDuration,
         "countryId": countryId,
         "servicePrice": servicePrice,
         "serviceId": serviceId,
+        'address': address?.toMap(),
+        "members": members == null
+            ? null
+            : List<dynamic>.from(members!.map((x) => x.toMap())),
       };
 
   SessionModel copyWith({
@@ -107,6 +177,8 @@ class SessionModel {
     int? countryId,
     int? serviceId,
     double? servicePrice,
+    List<Member>? members,
+    Address? address,
   }) =>
       SessionModel(
         id: id ?? this.id,
@@ -124,6 +196,8 @@ class SessionModel {
         countryId: countryId ?? this.countryId,
         serviceId: serviceId ?? this.serviceId,
         servicePrice: servicePrice ?? this.servicePrice,
+        members: members ?? this.members,
+        address: address ?? this.address,
       );
 
   factory SessionModel.fromJson(String source) =>
@@ -135,6 +209,7 @@ class SessionModel {
   String toString() {
     return 'SessionModel(id: $id, serviceNameEn: $serviceNameEn, serviceNameAr: $serviceNameAr, serviceName: $serviceName, serviceMediaUrlEn: $serviceMediaUrlEn, serviceMediaUrlAr: $serviceMediaUrlAr, serviceMediaUrl: $serviceMediaUrl, therapistNameEn: $therapistNameEn, therapistNameAr: $therapistNameAr, therapistName: $therapistName, bookingDate: $bookingDate, totalDuration: $totalDuration, countryId: $countryId)';
   }
+
   @override
   bool operator ==(Object other) {
     if (identical(this, other)) return true;
@@ -154,7 +229,9 @@ class SessionModel {
         other.totalDuration == totalDuration &&
         other.servicePrice == servicePrice &&
         other.serviceId == serviceId &&
-        other.countryId == countryId;
+        other.countryId == countryId &&
+        address == other.address &&
+        (other.members == members);
   }
 
   @override
@@ -173,6 +250,24 @@ class SessionModel {
         totalDuration.hashCode ^
         servicePrice.hashCode ^
         serviceId.hashCode ^
-        countryId.hashCode;
+        countryId.hashCode
+        ^ address.hashCode 
+        ^ members.hashCode;
+  }
+}
+
+extension DateStrings on DateTime {
+  // week day like sat sun mon by local by intl
+  String get weekDayString {
+    return DateFormat.EEEE().format(this);
+  }
+
+  String get monthString {
+    return DateFormat.MMMM().format(this);
+  }
+
+// am to pm like 10 Am to Pm
+  String get timeString {
+    return DateFormat.jm().format(this);
   }
 }

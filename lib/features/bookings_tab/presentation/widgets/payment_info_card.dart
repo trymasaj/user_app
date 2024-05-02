@@ -1,12 +1,21 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/widgets.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:masaj/core/presentation/colors/app_colors.dart';
 import 'package:masaj/core/presentation/widgets/stateless/custom_text.dart';
+import 'package:masaj/core/presentation/widgets/stateless/subtitle_text.dart';
+import 'package:masaj/features/book_service/data/models/booking_model/booking_model.dart';
+import 'package:masaj/features/book_service/data/models/booking_model/payment.dart';
+import 'package:masaj/features/payment/presentaion/bloc/payment_cubit.dart';
 
 class PaymentInfoCard extends StatelessWidget {
   const PaymentInfoCard({
     super.key,
+    required this.bookingModel,
   });
+  final BookingModel bookingModel;
 
   Widget buildInfoItem(
           {required String title,
@@ -21,15 +30,46 @@ class PaymentInfoCard extends StatelessWidget {
             fontWeight: FontWeight.w400,
             color: AppColors.FONT_LIGHT.withOpacity(.7),
           ),
-          CustomText(
-            text: data,
-            fontSize: 14,
-            fontWeight: FontWeight.w400,
-            color:
-                isSuccess ? AppColors.SUCCESS_COLOR : const Color(0xff19223C),
+          SizedBox(
+            width: 170.w,
+            child: CustomText(
+              maxLines: 1,
+              text: data,
+              fontSize: 14,
+              fontWeight: FontWeight.w400,
+              textAlign: TextAlign.end,
+              color:
+                  isSuccess ? AppColors.SUCCESS_COLOR : const Color(0xff19223C),
+            ),
           )
         ],
       );
+  Widget _buildSummaryItem(
+      {bool isDiscount = false, required String title, dynamic amount}) {
+    return Padding(
+      padding: const EdgeInsets.symmetric(vertical: 12.0),
+      child: Row(
+        children: [
+          SubtitleText(
+            text: title,
+            color: isDiscount ? AppColors.SUCCESS_COLOR : AppColors.FONT_LIGHT,
+            subtractedSize: -1,
+          ),
+          const Spacer(),
+          Expanded(
+            flex: 6,
+            child: SubtitleText(
+              text: '$amount ',
+              textAlign: TextAlign.end,
+              isBold: false,
+              color: const Color(0xff1D212C),
+              maxLines: 2,
+            ),
+          )
+        ],
+      ),
+    );
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -60,22 +100,48 @@ class PaymentInfoCard extends StatelessWidget {
           ),
 
           SizedBox(height: 12.h),
-          buildInfoItem(title: 'amount', data: '10.000 KD'),
-          SizedBox(height: 16.h),
-          buildInfoItem(title: 'cupon_discount', data: '0 KD'),
-          SizedBox(height: 16.h),
-          buildInfoItem(title: 'paid_amount', data: '10.000 KD'),
-          SizedBox(height: 16.h),
-          buildInfoItem(title: 'payment_method', data: 'KNET/Credit card'),
-          SizedBox(height: 16.h),
-          buildInfoItem(title: 'payment_id', data: '2030293929'),
-          SizedBox(height: 16.h),
-          buildInfoItem(title: 'reference_id', data: '2030293929'),
-          SizedBox(height: 16.h),
-          buildInfoItem(title: 'payment_date', data: '20/02/2023 01:00 PM'),
+          buildInfoItem(title: 'amount', data: '${bookingModel.grandTotal} KD'),
           SizedBox(height: 16.h),
           buildInfoItem(
-              title: 'payment_status', data: 'Success', isSuccess: true),
+              title: 'cupon_discount',
+              data: '${bookingModel.discountedAmount} KD'),
+          SizedBox(height: 16.h),
+          buildInfoItem(
+              title: 'paid_amount', data: '${bookingModel.grandTotal} KD'),
+          SizedBox(height: 16.h),
+          BlocBuilder<PaymentCubit, PaymentState>(
+            builder: (context, state) {
+              return buildInfoItem(
+                  title: 'payment_method',
+                  data: state.methods
+                          ?.where((element) =>
+                              element.id == bookingModel.payment?.paymentMethod)
+                          .firstOrNull
+                          ?.title ??
+                      '');
+            },
+          ),
+          SizedBox(height: 16.h),
+          buildInfoItem(
+              title: 'status', data: bookingModel?.bookingStatus?.name ?? ''),
+          SizedBox(height: 16.h),
+          buildInfoItem(
+              title: 'payment_id',
+              data: bookingModel?.payment?.paymentId.toString() ?? ''),
+          SizedBox(height: 16.h),
+          buildInfoItem(
+              title: 'reference_id',
+              data: bookingModel?.payment?.referenceId.toString() ?? ''),
+
+          SizedBox(height: 16.h),
+          buildInfoItem(
+              title: 'payment_date',
+              data: bookingModel?.payment?.formattedDate ?? ''),
+          SizedBox(height: 16.h),
+          buildInfoItem(
+              title: 'payment_status',
+              data: bookingModel.paymentStatus?.name ?? '',
+              isSuccess: true),
         ],
       ),
     );

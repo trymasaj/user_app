@@ -16,9 +16,11 @@ import 'package:masaj/features/auth/presentation/pages/forget_password_page.dart
 import 'package:masaj/features/auth/presentation/pages/login_page.dart';
 import 'package:masaj/features/auth/presentation/pages/otp_verification_page.dart';
 import 'package:masaj/features/auth/presentation/pages/sign_up_page.dart';
+import 'package:masaj/features/book_service/data/models/booking_model/booking_model.dart';
 import 'package:masaj/features/book_service/presentation/blocs/available_therapist_cubit/available_therapist_cubit.dart';
 import 'package:masaj/features/book_service/presentation/screens/book_servcie_screen.dart';
 import 'package:masaj/features/book_service/presentation/screens/select_therapist_screen.dart';
+import 'package:masaj/features/bookings_tab/presentation/pages/add_review_screen.dart';
 import 'package:masaj/features/bookings_tab/presentation/pages/booking_details.dart';
 import 'package:masaj/features/gifts/presentaion/pages/gift_cards.dart';
 import 'package:masaj/features/home/presentation/pages/home_page.dart';
@@ -63,7 +65,10 @@ Route<dynamic>? onGenerateRoute(RouteSettings settings) {
       return MaterialPageRoute(builder: (context) => const QuizStartPage());
     case BookingDetialsScreen.routeName:
       return MaterialPageRoute(
-          builder: (context) => const BookingDetialsScreen());
+          builder: (context) =>
+              BookingDetialsScreen.builder(context, arguments as int));
+    case AddReviewScreen.routeName:
+      return AddReviewScreen.route(arguments as BookingModel);
     case GuidePage.routeName:
       return MaterialPageRoute(builder: (context) => const GuidePage());
     case LoginPage.routeName:
