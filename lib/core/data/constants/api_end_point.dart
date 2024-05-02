@@ -137,6 +137,6 @@ abstract class ApiEndPoint {
   static const REDEEM_GIFT_CARDS = '$BASE_URL/gift-cards/redeem';
   //Wallet
   static const GET_WALLET_BALANCE = '$BASE_URL/wallet';
-  static const CHANGE_WALLET = '$BASE_URL/wallet';
+  static const CHARGE_WALLET = '$BASE_URL/wallet';
   static const GET_PREDEFINED_WALLET = '$BASE_URL/wallet/predefined';
 }

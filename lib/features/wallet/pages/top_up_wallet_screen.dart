@@ -1,11 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:masaj/core/app_export.dart';
-import 'package:masaj/core/application/states/app_state.dart';
 import 'package:masaj/core/data/di/injector.dart';
 import 'package:masaj/core/presentation/widgets/stateless/custom_app_bar.dart';
-import 'package:masaj/core/presentation/widgets/stateless/state_widgets.dart';
-import 'package:masaj/features/wallet/bloc/top_up_wallet_bloc/top_up_wallet_bloc.dart';
-import 'package:masaj/features/wallet/models/package.dart';
+import 'package:masaj/features/wallet/bloc/wallet_bloc/wallet_bloc.dart';
+import 'package:masaj/features/wallet/models/wallet_amounts.dart';
 import 'package:masaj/features/wallet/overlay/top_up_wallet_payment_method_bottomsheet.dart';
 
 class TopUpWalletScreen extends StatelessWidget {
@@ -14,8 +12,8 @@ class TopUpWalletScreen extends StatelessWidget {
   const TopUpWalletScreen({super.key});
 
   static Widget builder(BuildContext context) {
-    return BlocProvider<TopUpWalletBloc>(
-        create: (context) => Injector().topUpWalletBloc,
+    return BlocProvider<WalletBloc>(
+        create: (context) => Injector().walletCubit..getPredefinedAmounts(),
         child: const TopUpWalletScreen());
   }
 
@@ -38,9 +36,6 @@ class TopUpWalletScreen extends StatelessWidget {
                             SizedBox(height: 25.h),
                             _buildPackages(context),
                             SizedBox(height: 12.h),
-                            _buildFrameRow(context),
-                            SizedBox(height: 12.h),
-                            _buildFrameRow1(context)
                           ]))))
             ])),
         bottomNavigationBar: _buildPurchaseButton(context));
@@ -96,126 +91,26 @@ class TopUpWalletScreen extends StatelessWidget {
     return Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
       Text('msg_top_up_your_wallet'.tr(), style: theme.textTheme.titleSmall),
       SizedBox(height: 8.h),
-      BlocSelector<TopUpWalletBloc, TopUpWalletState,
-              DataLoadState<List<Package>>>(
-          selector: (state) => state.packages,
+      BlocSelector<WalletBloc, WalletState, List<WalletAmountsModel>?>(
+          selector: (state) => state.predefinedAmounts,
           builder: (context, state) {
-            return LoadStateHandler(
-              customState: state,
-              onTapRetry: () {},
-              onData: (data) => GridView.builder(
-                  shrinkWrap: true,
-                  gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-                      mainAxisExtent: 121.h,
-                      crossAxisCount: 2,
-                      mainAxisSpacing: 10.w,
-                      crossAxisSpacing: 10.w),
-                  physics: const NeverScrollableScrollPhysics(),
-                  itemCount: data.length,
-                  itemBuilder: (context, index) {
-                    return const SizedBox();
-                  }),
-            );
+            return GridView.builder(
+                shrinkWrap: true,
+                gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                    mainAxisExtent: 121.h,
+                    crossAxisCount: 2,
+                    mainAxisSpacing: 10.w,
+                    crossAxisSpacing: 10.w),
+                physics: const NeverScrollableScrollPhysics(),
+                itemCount: state?.length ?? 0,
+                itemBuilder: (context, index) {
+                  return _buildAmountItem(state![index]);
+                });
           })
     ]);
   }
 
-  /// Section Widget
-  Widget _buildFrameRow(BuildContext context) {
-    return Row(mainAxisAlignment: MainAxisAlignment.spaceBetween, children: [
-      Container(
-          padding: EdgeInsets.all(9.w),
-          decoration: AppDecoration.outlineBlueGray
-              .copyWith(borderRadius: BorderRadiusStyle.roundedBorder12),
-          child: Row(crossAxisAlignment: CrossAxisAlignment.start, children: [
-            CustomImageView(
-                imagePath: ImageConstant.imgClock,
-                height: 24.adaptSize,
-                width: 24.adaptSize,
-                margin: EdgeInsets.only(bottom: 76.h)),
-            Padding(
-                padding: EdgeInsets.only(top: 19.h, bottom: 23.h),
-                child: Column(children: [
-                  Row(mainAxisAlignment: MainAxisAlignment.center, children: [
-                    Padding(
-                        padding:
-                            EdgeInsets.only(left: 4.w, top: 3.h, bottom: 2.h),
-                        child: Text('lbl_kwd'.tr(args: ['lbl_35'.tr()]),
-                            style: CustomTextStyles.titleLargeOnPrimary))
-                  ]),
-                  Text('lbl_free_7_kwd'.tr(),
-                      style: CustomTextStyles.bodyMediumLightgreen900)
-                ]))
-          ])),
-      _buildRectangleStack(context)
-    ]);
-  }
-
-  /// Section Widget
-  Widget _buildFrameRow1(BuildContext context) {
-    return Row(mainAxisAlignment: MainAxisAlignment.spaceBetween, children: [
-      _buildRectangleStack(context),
-      Card(
-          clipBehavior: Clip.antiAlias,
-          elevation: 0,
-          margin: const EdgeInsets.all(0),
-          color: theme.colorScheme.onPrimaryContainer.withOpacity(1),
-          shape: RoundedRectangleBorder(
-              side: BorderSide(color: appTheme.blueGray100, width: 1.w),
-              borderRadius: BorderRadiusStyle.roundedBorder12),
-          child: Container(
-              height: 120.h,
-              width: 158.w,
-              padding: EdgeInsets.all(9.w),
-              decoration: AppDecoration.outlineBlueGray
-                  .copyWith(borderRadius: BorderRadiusStyle.roundedBorder12),
-              child: Stack(alignment: Alignment.topLeft, children: [
-                Align(
-                    alignment: Alignment.topCenter,
-                    child: Padding(
-                        padding:
-                            EdgeInsets.only(left: 21.w, top: 19.h, right: 21.w),
-                        child:
-                            Column(mainAxisSize: MainAxisSize.min, children: [
-                          Row(
-                              mainAxisAlignment: MainAxisAlignment.center,
-                              children: [
-                                Padding(
-                                    padding: EdgeInsets.only(
-                                        left: 4.w, top: 3.h, bottom: 2.h),
-                                    child: Text(
-                                        'lbl_kwd'.tr(args: ['lbl_502'.tr()]),
-                                        style: CustomTextStyles
-                                            .titleLargeOnPrimary))
-                              ]),
-                          Text('lbl_free_10_kwd'.tr(),
-                              style: CustomTextStyles.bodyMediumLightgreen900)
-                        ]))),
-                CustomImageView(
-                    imagePath: ImageConstant.imgClock,
-                    height: 24.adaptSize,
-                    width: 24.adaptSize,
-                    alignment: Alignment.topLeft)
-              ])))
-    ]);
-  }
-
-  /// Section Widget
-  Widget _buildPurchaseButton(BuildContext context) {
-    return CustomElevatedButton(
-        text: 'lbl_purchase'.tr(),
-        margin: EdgeInsets.only(left: 24.w, right: 24.w, bottom: 31.h),
-        buttonStyle: CustomButtonStyles.none,
-        decoration: CustomButtonStyles
-            .gradientSecondaryContainerToDeepOrangeTL28Decoration,
-        buttonTextStyle: CustomTextStyles.titleMediumSemiBold,
-        onPressed: () {
-          onTapPurchaseButton(context);
-        });
-  }
-
-  /// Common widget
-  Widget _buildRectangleStack(BuildContext context) {
+  Card _buildAmountItem(WalletAmountsModel walletAmountsModel) {
     return Card(
         clipBehavior: Clip.antiAlias,
         elevation: 0,
@@ -244,7 +139,9 @@ class TopUpWalletScreen extends StatelessWidget {
                                   padding: EdgeInsets.only(
                                       left: 4.w, top: 3.h, bottom: 2.h),
                                   child: Text(
-                                      'lbl_kwd'.tr(args: ['lbl_45'.tr()]),
+                                      'lbl_kwd'.tr(args: [
+                                        walletAmountsModel.amount.toString()
+                                      ]),
                                       style:
                                           CustomTextStyles.titleLargeOnPrimary))
                             ]),
@@ -257,6 +154,20 @@ class TopUpWalletScreen extends StatelessWidget {
                   width: 24.adaptSize,
                   alignment: Alignment.topLeft)
             ])));
+  }
+
+  /// Section Widget
+  Widget _buildPurchaseButton(BuildContext context) {
+    return CustomElevatedButton(
+        text: 'lbl_purchase'.tr(),
+        margin: EdgeInsets.only(left: 24.w, right: 24.w, bottom: 31.h),
+        buttonStyle: CustomButtonStyles.none,
+        decoration: CustomButtonStyles
+            .gradientSecondaryContainerToDeepOrangeTL28Decoration,
+        buttonTextStyle: CustomTextStyles.titleMediumSemiBold,
+        onPressed: () {
+          onTapPurchaseButton(context);
+        });
   }
 
   onTapPurchaseButton(BuildContext context) {

@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:masaj/core/app_export.dart';
-import 'package:masaj/features/wallet/models/transactionhistory_item_model.dart';
+import 'package:masaj/features/wallet/models/wallet_model.dart';
 
 // ignore: must_be_immutable
 class TransactionItem extends StatelessWidget {
@@ -9,7 +9,7 @@ class TransactionItem extends StatelessWidget {
     super.key,
   });
 
-  final Transaction transaction;
+  final WalletTransactionHistory? transaction;
 
   @override
   Widget build(BuildContext context) {
@@ -31,12 +31,12 @@ class TransactionItem extends StatelessWidget {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Text(
-                  transaction.transactionTitle!,
+                  transaction?.transactionReason ?? '',
                   style: theme.textTheme.titleSmall,
                 ),
                 SizedBox(height: 2.h),
                 Text(
-                  transaction.transactionDate!,
+                  transaction?.transactionDate ?? '',
                   style: theme.textTheme.bodySmall,
                 ),
               ],
@@ -45,7 +45,7 @@ class TransactionItem extends StatelessWidget {
           Padding(
             padding: EdgeInsets.only(bottom: 22.h),
             child: Text(
-              transaction.transactionAmount!,
+              (transaction?.balance ?? '').toString(),
               style: CustomTextStyles.bodyMediumLightgreen900,
             ),
           ),

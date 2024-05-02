@@ -4,9 +4,14 @@ import 'package:masaj/core/data/clients/network_service.dart';
 import 'package:masaj/core/data/constants/api_end_point.dart';
 import 'package:masaj/core/domain/exceptions/request_exception.dart';
 import 'package:masaj/features/gifts/data/model/gift_model.dart';
+import 'package:masaj/features/gifts/data/model/purchased_gift_card.dart';
+import 'package:masaj/features/gifts/data/model/redeem_git_card_model.dart';
 
 abstract class GiftsDataSource {
   Future<List<GiftModel>> getGitsCards();
+  Future<List<PurchasedGiftCard>> getPurchasedGitsCards();
+  Future<GiftModel> purchaseGiftCard(int paymentMethod);
+  Future<RedeemGiftCard> redeemGiftCard(String code);
 }
 
 class GiftsDataSourceImpl extends GiftsDataSource {
@@ -27,6 +32,49 @@ class GiftsDataSourceImpl extends GiftsDataSource {
       return result != null
           ? (result as List).map((e) => GiftModel.fromMap(e)).toList()
           : [];
+    });
+  }
+
+  @override
+  Future<List<PurchasedGiftCard>> getPurchasedGitsCards() {
+    const url = ApiEndPoint.GET_PURCHASED_GIFT_CARDS;
+    return _networkService.get(url).then((response) {
+      if (response.statusCode != 200) {
+        throw RequestException(message: response.data);
+      }
+      final result = response.data;
+      log(response.data.toString());
+      return result != null
+          ? (result as List).map((e) => PurchasedGiftCard.fromMap(e)).toList()
+          : [];
+    });
+  }
+
+  @override
+  Future<GiftModel> purchaseGiftCard(int paymentMethod) {
+    const url = ApiEndPoint.BUY_GIFT_CARD;
+    var param = {'paymentMethod': paymentMethod};
+    return _networkService.post(url, data: param).then((response) {
+      if (response.statusCode != 200) {
+        throw RequestException(message: response.data);
+      }
+      final result = response.data;
+      log(response.data.toString());
+      return GiftModel.fromMap(result);
+    });
+  }
+
+  @override
+  Future<RedeemGiftCard> redeemGiftCard(String code) {
+    const url = ApiEndPoint.REDEEM_GIFT_CARDS;
+    var param = {'code': code};
+    return _networkService.post(url, data: param).then((response) {
+      if (response.statusCode != 200) {
+        throw RequestException(message: response.data);
+      }
+      final result = response.data;
+      log(response.data.toString());
+      return RedeemGiftCard.fromMap(result);
     });
   }
 }

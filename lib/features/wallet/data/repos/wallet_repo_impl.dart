@@ -1,10 +1,12 @@
 import 'package:masaj/features/wallet/data/data_source/wallet_data_source.dart';
-import 'package:masaj/features/wallet/models/package.dart';
-import 'package:masaj/features/wallet/value_objects/coupon_code.dart';
+import 'package:masaj/features/wallet/models/wallet_amounts.dart';
+import 'package:masaj/features/wallet/models/wallet_model.dart';
 
 abstract class WalletRepository {
-  Future<void> purchasePackage(Package package);
-  Future<void> redeemCouponCode(CouponCode couponCode);
+  Future<WalletModel> getWalletBalance();
+  Future<WalletModel> chargeWallet(
+      {required int paymentMethod, required int walletPredefinedWalletId});
+  Future<List<WalletAmountsModel>> getPredefinedAmounts();
 }
 
 class WalletRepositoryImpl extends WalletRepository {
@@ -13,12 +15,18 @@ class WalletRepositoryImpl extends WalletRepository {
   final WalletDataSource _walletDataSource;
 
   @override
-  Future<void> purchasePackage(Package package) {
-    throw UnimplementedError();
-  }
+  Future<WalletModel> chargeWallet(
+          {required int paymentMethod,
+          required int walletPredefinedWalletId}) =>
+      _walletDataSource.chargeWallet(
+          paymentMethod: paymentMethod,
+          walletPredefinedWalletId: walletPredefinedWalletId);
 
   @override
-  Future<void> redeemCouponCode(CouponCode couponCode) {
-    throw UnimplementedError();
-  }
+  Future<List<WalletAmountsModel>> getPredefinedAmounts() =>
+      _walletDataSource.getPredefinedAmounts();
+
+  @override
+  Future<WalletModel> getWalletBalance() =>
+      _walletDataSource.getWalletBalance();
 }
