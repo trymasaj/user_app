@@ -1,6 +1,14 @@
 part of 'wallet_bloc.dart';
 
-enum WalletStateStatus { initial, loading, loaded, error, deleted, added }
+enum WalletStateStatus {
+  initial,
+  loading,
+  loaded,
+  error,
+  deleted,
+  added,
+  paying
+}
 
 extension WalletStateX on WalletState {
   bool get isInitial => status == WalletStateStatus.initial;
@@ -9,6 +17,7 @@ extension WalletStateX on WalletState {
   bool get isError => status == WalletStateStatus.error;
   bool get isDeleted => status == WalletStateStatus.deleted;
   bool get isAdded => status == WalletStateStatus.added;
+  bool get isPaying => status == WalletStateStatus.paying;
 }
 
 class WalletState {

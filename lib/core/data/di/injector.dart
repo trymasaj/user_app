@@ -281,7 +281,7 @@ class Injector {
           BookingRemoteDataSourceImpl(networkService);
   //===================[WALLET_CUBIT]===================
 
-  WalletBloc get walletCubit => WalletBloc(walletRepository);
+  WalletBloc get walletCubit => WalletBloc(walletRepository, paymentService);
   WalletRepository get walletRepository => _flyweightMap['WalletRepository'] ??=
       WalletRepositoryImpl(walletDataSource);
   WalletDataSource get walletDataSource => _flyweightMap['WalletDataSource'] ??=

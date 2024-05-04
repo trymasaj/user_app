@@ -1,21 +1,35 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 import 'package:masaj/core/app_export.dart';
 import 'package:masaj/core/data/di/injector.dart';
+import 'package:masaj/core/presentation/overlay/show_snack_bar.dart';
 import 'package:masaj/core/presentation/widgets/stateless/custom_app_bar.dart';
 import 'package:masaj/features/wallet/bloc/wallet_bloc/wallet_bloc.dart';
 import 'package:masaj/features/wallet/models/wallet_amounts.dart';
 import 'package:masaj/features/wallet/overlay/top_up_wallet_payment_method_bottomsheet.dart';
 
-class TopUpWalletScreen extends StatelessWidget {
+class TopUpWalletScreen extends StatefulWidget {
   static const routeName = '/top-up-wallet';
 
   const TopUpWalletScreen({super.key});
 
   static Widget builder(BuildContext context) {
-    return BlocProvider<WalletBloc>(
+    return MultiBlocProvider(providers: [
+      BlocProvider(
         create: (context) => Injector().walletCubit..getPredefinedAmounts(),
-        child: const TopUpWalletScreen());
+      ),
+      BlocProvider(
+        create: (context) => Injector().paymentCubit..getPaymentMethods(),
+      )
+    ], child: const TopUpWalletScreen());
   }
+
+  @override
+  State<TopUpWalletScreen> createState() => _TopUpWalletScreenState();
+}
+
+class _TopUpWalletScreenState extends State<TopUpWalletScreen> {
+  int? _selectedIndex;
 
   @override
   Widget build(BuildContext context) {
@@ -104,56 +118,67 @@ class TopUpWalletScreen extends StatelessWidget {
                 physics: const NeverScrollableScrollPhysics(),
                 itemCount: state?.length ?? 0,
                 itemBuilder: (context, index) {
-                  return _buildAmountItem(state![index]);
+                  return _buildAmountItem(state![index], index);
                 });
           })
     ]);
   }
 
-  Card _buildAmountItem(WalletAmountsModel walletAmountsModel) {
-    return Card(
-        clipBehavior: Clip.antiAlias,
-        elevation: 0,
-        margin: const EdgeInsets.all(0),
-        color: theme.colorScheme.onPrimaryContainer.withOpacity(1),
-        shape: RoundedRectangleBorder(
-            side: BorderSide(color: appTheme.blueGray100, width: 1.w),
-            borderRadius: BorderRadiusStyle.roundedBorder12),
-        child: Container(
-            height: 120.h,
-            width: 158.w,
-            padding: EdgeInsets.all(9.w),
-            decoration: AppDecoration.outlineBlueGray
-                .copyWith(borderRadius: BorderRadiusStyle.roundedBorder12),
-            child: Stack(alignment: Alignment.topLeft, children: [
-              Align(
-                  alignment: Alignment.topCenter,
-                  child: Padding(
-                      padding:
-                          EdgeInsets.only(left: 23.w, top: 19.h, right: 23.w),
-                      child: Column(mainAxisSize: MainAxisSize.min, children: [
-                        Row(
-                            mainAxisAlignment: MainAxisAlignment.center,
-                            children: [
-                              Padding(
-                                  padding: EdgeInsets.only(
-                                      left: 4.w, top: 3.h, bottom: 2.h),
-                                  child: Text(
-                                      'lbl_kwd'.tr(args: [
-                                        walletAmountsModel.amount.toString()
-                                      ]),
-                                      style:
-                                          CustomTextStyles.titleLargeOnPrimary))
-                            ]),
-                        Text('lbl_free_9_kwd'.tr(),
-                            style: CustomTextStyles.bodyMediumLightgreen900)
-                      ]))),
-              CustomImageView(
-                  imagePath: ImageConstant.imgClock,
-                  height: 24.adaptSize,
-                  width: 24.adaptSize,
-                  alignment: Alignment.topLeft)
-            ])));
+  Widget _buildAmountItem(WalletAmountsModel walletAmountsModel, int index) {
+    final bool isSelected = _selectedIndex == index;
+    return GestureDetector(
+      onTap: () {
+        setState(() {
+          _selectedIndex = index;
+        });
+      },
+      child: Card(
+          clipBehavior: Clip.antiAlias,
+          elevation: 0,
+          margin: const EdgeInsets.all(0),
+          color: theme.colorScheme.onPrimaryContainer.withOpacity(1),
+          shape: RoundedRectangleBorder(
+              side: BorderSide(color: appTheme.blueGray100, width: 1.w),
+              borderRadius: BorderRadiusStyle.roundedBorder12),
+          child: Container(
+              height: 120.h,
+              width: 158.w,
+              padding: EdgeInsets.all(9.w),
+              decoration: AppDecoration.outlineBlueGray
+                  .copyWith(borderRadius: BorderRadiusStyle.roundedBorder12),
+              child: Stack(alignment: Alignment.topLeft, children: [
+                Align(
+                    alignment: Alignment.topCenter,
+                    child: Padding(
+                        padding:
+                            EdgeInsets.only(left: 23.w, top: 19.h, right: 23.w),
+                        child:
+                            Column(mainAxisSize: MainAxisSize.min, children: [
+                          Row(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              children: [
+                                Padding(
+                                    padding: EdgeInsets.only(
+                                        left: 4.w, top: 3.h, bottom: 2.h),
+                                    child: Text(
+                                        'lbl_kwd'.tr(args: [
+                                          walletAmountsModel.amount.toString()
+                                        ]),
+                                        style: CustomTextStyles
+                                            .titleLargeOnPrimary))
+                              ]),
+                          Text('lbl_free_9_kwd'.tr(),
+                              style: CustomTextStyles.bodyMediumLightgreen900)
+                        ]))),
+                SvgPicture.asset(
+                    isSelected
+                        ? 'assets/images/radio_button.svg'
+                        : ImageConstant.imgClock,
+                    height: 18.adaptSize,
+                    width: 18.adaptSize,
+                    alignment: Alignment.topLeft)
+              ]))),
+    );
   }
 
   /// Section Widget
@@ -170,10 +195,22 @@ class TopUpWalletScreen extends StatelessWidget {
         });
   }
 
-  onTapPurchaseButton(BuildContext context) {
-    showModalBottomSheet(
-        context: context,
-        builder: (_) => TopUpWalletPaymentMethodBottomsheet.builder(context),
-        isScrollControlled: true);
+  void onTapPurchaseButton(BuildContext context) {
+    if (_selectedIndex != null) {
+      final id = context
+          .read<WalletBloc>()
+          .state
+          .predefinedAmounts![_selectedIndex!]
+          .id;
+      showModalBottomSheet(
+          context: context,
+          shape:
+              RoundedRectangleBorder(borderRadius: BorderRadius.circular(20.0)),
+          builder: (_) =>
+              TopUpWalletPaymentMethodBottomsheet(walletPredefinedAmountId: id!)
+                  .builder(context, id),
+          isScrollControlled: true);
+    } else
+      showSnackBar(context, message: 'select at least one');
   }
 }

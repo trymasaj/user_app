@@ -121,7 +121,8 @@ class WalletScreen extends StatelessWidget {
     return BlocSelector<WalletBloc, WalletState, WalletStateStatus>(
       builder: (context, status) {
         if (status == WalletStateStatus.loaded) {
-          final transactions = getState(context).wallet;
+          final transactions =
+              getState(context).walletBalance?.walletTransactionHistory;
           return ListView.separated(
               separatorBuilder: (context, index) {
                 return SizedBox(height: 12.h);
@@ -137,7 +138,7 @@ class WalletScreen extends StatelessWidget {
           return const Center(child: CircularProgressIndicator());
         }
       },
-      selector: (WalletState state) => state.status!,
+      selector: (WalletState state) => state.status,
     );
   }
 }

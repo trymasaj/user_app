@@ -1,6 +1,14 @@
 part of 'payment_cubit.dart';
 
-enum PaymentStateStatus { initial, loading, loaded, error, deleted, added }
+enum PaymentStateStatus {
+  initial,
+  loading,
+  loaded,
+  error,
+  deleted,
+  added,
+  paying
+}
 
 extension PaymentStateX on PaymentState {
   bool get isInitial => status == PaymentStateStatus.initial;
