@@ -1,11 +1,13 @@
 import 'package:masaj/features/gifts/data/datasource/gifts_datasource.dart';
+import 'package:masaj/features/gifts/data/enums/gift_card_status.dart';
 import 'package:masaj/features/gifts/data/model/gift_model.dart';
 import 'package:masaj/features/gifts/data/model/purchased_gift_card.dart';
 import 'package:masaj/features/gifts/data/model/redeem_git_card_model.dart';
 
 abstract class GiftsRepository {
   Future<List<GiftModel>> getGitsCards();
-  Future<List<PurchasedGiftCard>> getPurchasedGitsCards();
+  Future<List<PurchasedGiftCard>> getPurchasedGitsCards(
+      GiftCardStatus giftCardStatus);
   Future<GiftModel> purchaseGiftCard(int paymentMethod);
   Future<RedeemGiftCard> redeemGiftCard(String code);
 }
@@ -19,8 +21,9 @@ class GiftsRepositoryImp extends GiftsRepository {
   Future<List<GiftModel>> getGitsCards() => _giftsDataSource.getGitsCards();
 
   @override
-  Future<List<PurchasedGiftCard>> getPurchasedGitsCards() =>
-      _giftsDataSource.getPurchasedGitsCards();
+  Future<List<PurchasedGiftCard>> getPurchasedGitsCards(
+          GiftCardStatus giftCardsstatus) =>
+      _giftsDataSource.getPurchasedGitsCards(giftCardsstatus);
 
   @override
   Future<GiftModel> purchaseGiftCard(int paymentMethod) =>

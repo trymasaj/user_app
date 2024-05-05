@@ -288,7 +288,8 @@ class Injector {
       WalletDataSourceImpl(networkService);
   //===================[GIFTS_CUBIT]===================
 
-  GiftsCubit get giftsCubit => GiftsCubit(giftsRepository: giftsRepository);
+  GiftsCubit get giftsCubit => GiftsCubit(
+      giftsRepository: giftsRepository, paymentService: paymentService);
   GiftsRepository get giftsRepository => _flyweightMap['GiftsRepository'] ??=
       GiftsRepositoryImp(giftsDataSource: giftsDataSource);
   GiftsDataSource get giftsDataSource => _flyweightMap['GiftsDataSource'] ??=

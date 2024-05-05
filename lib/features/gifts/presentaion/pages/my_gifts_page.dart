@@ -5,7 +5,11 @@ class MyGiftsPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return _buildBody();
+    return BlocProvider(
+      create: (context) => Injector().giftsCubit
+        ..getPurchasedGiftCards(GiftCardStatus.Available),  
+      child: _buildBody(),
+    );
   }
 
   Widget _buildBody() {

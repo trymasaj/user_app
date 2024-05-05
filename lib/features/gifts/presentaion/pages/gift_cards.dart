@@ -3,13 +3,16 @@ import 'package:flutter_svg/flutter_svg.dart';
 import 'package:masaj/core/app_export.dart';
 import 'package:masaj/core/data/di/injector.dart';
 import 'package:masaj/core/presentation/colors/app_colors.dart';
+import 'package:masaj/core/presentation/overlay/show_snack_bar.dart';
 import 'package:masaj/core/presentation/widgets/stateless/custom_app_page.dart';
 import 'package:masaj/core/presentation/widgets/stateless/custom_loading.dart';
 import 'package:masaj/core/presentation/widgets/stateless/default_button.dart';
 import 'package:masaj/core/presentation/widgets/stateless/custom_app_bar.dart';
 import 'package:masaj/core/presentation/widgets/stateless/empty_page_message.dart';
 import 'package:masaj/core/presentation/widgets/stateless/subtitle_text.dart';
+import 'package:masaj/features/gifts/data/enums/gift_card_status.dart';
 import 'package:masaj/features/gifts/presentaion/bloc/gifts_cubit.dart';
+import 'package:masaj/features/gifts/presentaion/pages/gifts_payment_method_bottomsheet.dart';
 part 'my_gifts_page.dart';
 part 'new_gift_cards_page.dart';
 part 'purchased_cards_page.dart';
@@ -38,19 +41,13 @@ class _GiftCardsScreenState extends State<GiftCardsScreen>
 
   @override
   Widget build(BuildContext context) {
-    return BlocProvider(
-        create: (context) => Injector().giftsCubit..getGiftCards(),
-        child: BlocBuilder<GiftsCubit, GiftsState>(
-          builder: (context, state) {
-            return CustomAppPage(
-              child: Scaffold(
-                  appBar: CustomAppBar(
-                    title: 'lbl_gift_cards'.tr(),
-                  ),
-                  body: _buildBody(context)),
-            );
-          },
-        ));
+    return CustomAppPage(
+      child: Scaffold(
+          appBar: CustomAppBar(
+            title: 'lbl_gift_cards'.tr(),
+          ),
+          body: _buildBody(context)),
+    );
   }
 
   Widget _buildBody(BuildContext context) {

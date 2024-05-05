@@ -83,27 +83,7 @@ class WalletBloc extends BaseCubit<WalletState> {
     }
   }
 
-  // Future<void> chargeWallet({
-  //   int? paymentMethod,
-  //   int? walletPredefinedWalletId,
-  // }) async {
-  //   if (paymentMethod == null || walletPredefinedWalletId == null) return;
-
-  //   emit(state.copyWith(status: WalletStateStatus.loading));
-  //   try {
-  //     final chargeWallet = await _repository.chargeWallet(
-  //       paymentMethod: paymentMethod,
-  //       walletPredefinedWalletId: walletPredefinedWalletId,
-  //     );
-  //     emit(state.copyWith(status: WalletStateStatus.loaded));
-  //   } on RedundantRequestException catch (e) {
-  //     log(e.toString());
-  //   } catch (e) {
-  //     emit(state.copyWith(
-  //         status: WalletStateStatus.error, errorMessage: e.toString()));
-  //   }
-  // }
-
+  
   Future<void> getPredefinedAmounts() async {
     emit(state.copyWith(status: WalletStateStatus.loading));
     try {

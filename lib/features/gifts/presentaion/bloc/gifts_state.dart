@@ -14,12 +14,15 @@ extension GiftsStateX on GiftsState {
 class GiftsState {
   final GiftsStateStatus status;
   final List<GiftModel>? giftCards;
+
+  final List<PurchasedGiftCard>? purchasedGiftCards;
   final String? errorMessage;
 
   const GiftsState({
     this.giftCards,
     this.status = GiftsStateStatus.initial,
     this.errorMessage,
+    this.purchasedGiftCards,
   });
 
   @override
@@ -29,6 +32,7 @@ class GiftsState {
     return other.runtimeType == runtimeType &&
         (other as GiftsState).status == status &&
         listEquals(other.giftCards, giftCards) &&
+        listEquals(other.purchasedGiftCards, purchasedGiftCards) &&
         other.errorMessage == errorMessage;
   }
 
@@ -40,11 +44,13 @@ class GiftsState {
     GiftsStateStatus? status,
     String? errorMessage,
     List<GiftModel>? giftCards,
+    List<PurchasedGiftCard>? purchasedGiftCards,
   }) {
     return GiftsState(
       status: status ?? this.status,
       giftCards: giftCards ?? this.giftCards,
       errorMessage: errorMessage ?? this.errorMessage,
+      purchasedGiftCards: purchasedGiftCards ?? this.purchasedGiftCards,
     );
   }
 }

@@ -1,0 +1,1 @@
+enum GiftCardStatus { Available, Redeemed }
