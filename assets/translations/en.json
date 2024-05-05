@@ -9,7 +9,6 @@
   "first_name": "Full Name",
   "lbl_guest": "Guest",
   "book_service": "Book a service",
-
   "no_address_selected": "No Address selected",
   "email_address": "Email Address",
   "i_agree": "I agree",
@@ -900,7 +899,6 @@
   "msg_payment_failed": "Payment failed",
   "msg_payment_success": "Payment success",
   "pending": "Pending",
-  "completed": "Completed",
   "success": "Success",
   "failed": "Failed",
   "timeout": "Timeout",
@@ -910,7 +908,6 @@
   "add_review": "Add review",
   "write_review": "Write a review",
   "review": "Review",
-
   "what_is_you_rate": "What is you rate?",
   "please_share_your_opinion": "Please share your opinion about the session",
   "how_can_we_improve_our_services": "How can we improve our services?",
@@ -919,6 +916,6 @@
   "optional": "(Optional)",
   "1_kwd": "1 KWD",
   "2_kwd": "2 KWD",
-  "other": "Other"
-
+  "other": "Other",
+  "my_gifts": "My Gifts"
 }

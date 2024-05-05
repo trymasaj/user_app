@@ -83,15 +83,15 @@ class _GiftCardsScreenState extends State<GiftCardsScreen>
           border: Border.all(color: AppColors.PRIMARY_COLOR),
           color: AppColors.PRIMARY_COLOR.withOpacity(0.3),
         ),
-        tabs: const [
+        tabs: [
           Tab(
-            text: 'new',
+            text: 'lbl_new'.tr(),
           ),
           Tab(
-            text: 'purchased',
+            text: 'lbl_purchased'.tr(),
           ),
           Tab(
-            text: 'my_gifts',
+            text: 'my_gifts'.tr(),
           ),
         ],
       ),

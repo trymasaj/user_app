@@ -89,6 +89,7 @@ class _NewGiftCardsPageState extends State<NewGiftCardsPage> {
           },
           child: GiftCardItem(
             amount: 20.0,
+            color: cubit.state.giftCards![index].imageColor!,
             action: Radio.adaptive(
               value: index,
               groupValue: _selectIndex,
