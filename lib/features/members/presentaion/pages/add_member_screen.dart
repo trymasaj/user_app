@@ -223,7 +223,8 @@ class _AddMemberScreenState extends State<AddMemberScreen> {
       return true;
     }
     // if (_selectedPhoneNumber == null) {
-    //   showSnackBar(context, message: 'invalid_phone_number');
+    //   showSnackBar(context,
+    //       message: 'err_msg_please_enter_valid_phone_number'.tr());
     //   return true;
     // }
     setState(() {

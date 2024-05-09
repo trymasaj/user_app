@@ -323,7 +323,6 @@ class _SignUpPageState extends State<SignUpPage> {
 
     return DefaultButton(
       label: 'sign_up'.tr(),
-      backgroundColor: AppColors.PRIMARY_COLOR,
       isExpanded: true,
       iconLocation: DefaultButtonIconLocation.End,
       onPressed: signUpCallBack,

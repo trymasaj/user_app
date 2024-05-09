@@ -10,9 +10,22 @@ import 'package:masaj/features/address/domain/entities/address.dart';
 import 'package:masaj/features/address/presentation/pages/update_address_screen.dart';
 import 'package:masaj/features/address/presentation/widgets/address_tile.dart';
 
-class AddressPage extends StatelessWidget {
+class AddressPage extends StatefulWidget {
   static const routeName = '/address';
-  const AddressPage({Key? key}) : super(key: key);
+  const AddressPage({super.key});
+
+  @override
+  State<AddressPage> createState() => _AddressPageState();
+}
+
+class _AddressPageState extends State<AddressPage> {
+  @override
+  void initState() {
+    super.initState();
+    final controller = context.read<MyAddressesCubit>();
+    controller.getAddresses();
+  }
+
   @override
   Widget build(BuildContext context) {
     final controller = context.read<MyAddressesCubit>();
@@ -37,36 +50,40 @@ class AddressPage extends StatelessWidget {
         ),
         body: BlocBuilder<MyAddressesCubit, MyAddressesState>(
           builder: (context, state) {
-            return LoadStateHandler(
-              customState: state.addresses,
-              onTapRetry: controller.getAddresses,
-              onData: (data) => Padding(
-                padding: const EdgeInsets.all(4.0),
-                child: ListView.separated(
-                  separatorBuilder: (context, index) => const Divider(
-                    height: 1,
-                    color: Color(0xffE7E7E7),
+            return RefreshIndicator(
+              onRefresh: controller.getAddresses,
+              child: LoadStateHandler(
+                customState: state.addresses,
+                onTapRetry: controller.getAddresses,
+                onData: (data) => Padding(
+                  padding: const EdgeInsets.all(4.0),
+                  child: ListView.separated(
+                    separatorBuilder: (context, index) => const Divider(
+                      height: 1,
+                      color: Color(0xffE7E7E7),
+                    ),
+                    itemCount: data.length,
+                    itemBuilder: (context, index) {
+                      final address = data[index];
+                      return AddressTile(
+                        onDeleted: () {
+                          controller.deleteAddress(index);
+                        },
+                        address: address,
+                        onTap: () async {
+                          final result = await NavigatorHelper.of(context)
+                                  .pushNamed(EditAddressScreen.routeName,
+                                      arguments: EditAddressArguments(
+                                          oldAddress: address,
+                                          isPrimary: address.isPrimary))
+                              as Address?;
+                          if (result != null) {
+                            await controller.getAddresses();
+                          }
+                        },
+                      );
+                    },
                   ),
-                  itemCount: data.length,
-                  itemBuilder: (context, index) {
-                    final address = data[index];
-                    return AddressTile(
-                      onDeleted: () {
-                        controller.deleteAddress(index);
-                      },
-                      address: address,
-                      onTap: () async {
-                        final result = await NavigatorHelper.of(context)
-                            .pushNamed(EditAddressScreen.routeName,
-                                arguments: EditAddressArguments(
-                                    oldAddress: address,
-                                    isPrimary: address.isPrimary)) as Address?;
-                        if (result != null) {
-                          await controller.getAddresses();
-                        }
-                      },
-                    );
-                  },
                 ),
               ),
             );
