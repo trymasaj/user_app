@@ -4,6 +4,7 @@ import 'package:masaj/core/data/extensions/extensions.dart';
 import 'package:masaj/core/domain/enums/gender.dart';
 import 'package:masaj/core/presentation/colors/app_colors.dart';
 import 'package:masaj/core/presentation/widgets/stateful/default_tab.dart';
+import 'package:masaj/core/presentation/widgets/stateful/user_profile_image_picker.dart';
 import 'package:masaj/core/presentation/widgets/stateless/custom_app_bar.dart';
 import 'package:masaj/core/presentation/widgets/stateless/custom_outlined_button.dart';
 import 'package:masaj/core/presentation/widgets/stateless/subtitle_text.dart';
@@ -41,12 +42,14 @@ class _MyProfileScreenState extends State<MyProfileScreen> {
   late final FocusNode _birthDateNode;
   Gender? _selectedGender;
   bool showGenderError = false;
+  String? _image;
   @override
   void initState() {
     super.initState();
     final authCubit = context.read<AuthCubit>();
     final user = authCubit.state.user;
     _selectedGender = user?.gender;
+    _image = user?.profileImage;
     _nameController = TextEditingController(text: user?.fullName);
     _emailController = TextEditingController(text: user?.email);
     _birthDateController = TextEditingController(
@@ -73,33 +76,11 @@ class _MyProfileScreenState extends State<MyProfileScreen> {
               ),
               child: Column(
                 children: [
-                  SizedBox(
-                    height: 102.h,
-                    width: 104.w,
-                    child: Stack(
-                      alignment: Alignment.bottomRight,
-                      children: [
-                        CustomImageView(
-                          imagePath: ImageConstant.imgRectangle4237,
-                          height: 96.adaptSize,
-                          width: 96.adaptSize,
-                          radius: BorderRadius.circular(
-                            12.w,
-                          ),
-                          alignment: Alignment.topLeft,
-                        ),
-                        CustomIconButton(
-                          height: 30.adaptSize,
-                          width: 30.adaptSize,
-                          padding: EdgeInsets.all(7.w),
-                          decoration: IconButtonStyleHelper.outlineBlackTL15,
-                          alignment: Alignment.bottomRight,
-                          child: CustomImageView(
-                            imagePath: ImageConstant.imgSolarCameraOutline,
-                          ),
-                        ),
-                      ],
-                    ),
+                  UserProfileImagePicker(
+                    currentImage: _image,
+                    onImageSelected: (imagePath) {
+                      _image = imagePath;
+                    },
                   ),
                   SizedBox(height: 8.h),
                   DefaultTextFormField(
@@ -193,41 +174,6 @@ class _MyProfileScreenState extends State<MyProfileScreen> {
     );
   }
 
-  /// Section Widget
-  Widget _buildGenderButton(String title) {
-    return Expanded(
-      child: CustomOutlinedButton(
-        text: title.tr(),
-        margin: EdgeInsets.only(right: 4.w),
-        buttonStyle: CustomButtonStyles.outlineBlueGray,
-        buttonTextStyle: CustomTextStyles.bodyMediumBluegray40001_1,
-      ),
-    );
-  }
-
-  /// Section Widget
-  Widget _buildFemaleButton(BuildContext context) {
-    return Expanded(
-      child: CustomOutlinedButton(
-        text: 'lbl_female'.tr(),
-        margin: EdgeInsets.only(right: 4.w),
-        buttonStyle: CustomButtonStyles.outlineBlueGray,
-        buttonTextStyle: CustomTextStyles.bodyMediumBluegray40001_1,
-      ),
-    );
-  }
-
-  /// Section Widget
-  Widget _buildFrameRow(BuildContext context) {
-    return Row(
-      mainAxisAlignment: MainAxisAlignment.center,
-      children: [
-        _buildGenderButton('lbl_male'),
-        _buildGenderButton('lbl_female'),
-      ],
-    );
-  }
-
   Widget _buildGenderRow() {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
@@ -275,43 +221,30 @@ class _MyProfileScreenState extends State<MyProfileScreen> {
 
   /// Section Widget
   Widget _buildSaveButton(BuildContext context) {
+    final cubit = context.read<AuthCubit>();
     return CustomElevatedButton(
       text: 'lbl_save'.tr(),
+      onPressed: () async {
+        if (_isValid()) {
+          final newUser = cubit.state.user?.copyWith(
+              birthDate: _birthDateController.text.parseDate(),
+              email: _emailController.text,
+              fullName: _nameController.text,
+              gender: _selectedGender,
+              profileImage: _image);
+          await cubit.editAccountData(newUser);
+        }
+      },
       buttonStyle: CustomButtonStyles.none,
       decoration:
           CustomButtonStyles.gradientSecondaryContainerToPrimaryDecoration,
     );
   }
-}
-/*
-    return Expanded(
-      child: Padding(
-        padding: EdgeInsets.only(left: 4.h),
-        child: OutlineGradientButton(
-            elevation: 0,
-            padding:
-                EdgeInsets.only(left: 1.h, top: 1.v, right: 1.h, bottom: 1.v),
-            strokeWidth: 1.h,
-            gradient: LinearGradient(
-                begin: Alignment(0, 0.5),
-                end: Alignment(1, 0.5),
-                colors: [
-                  theme.colorScheme.secondaryContainer,
-                  theme.colorScheme.primary
-                ]),
-            corners: Corners(
-                topLeft: Radius.circular(12),
-                topRight: Radius.circular(12),
-                bottomLeft: Radius.circular(12),
-                bottomRight: Radius.circular(12)),
-            child: CustomOutlinedButton(
-              text: "lbl_female".tr(),
-              buttonStyle: CustomButtonStyles.none,
-              decoration: CustomButtonStyles
-                  .gradientSecondaryContainerToDeepOrangeDecoration,
-              buttonTextStyle: CustomTextStyles.bodyMediumSecondaryContainer,
-            )),
-      ),
-    );
 
- */
+  bool _isValid() {
+    if (!_formKey.currentState!.validate() || _selectedGender == null) {
+      return false;
+    } else
+      return true;
+  }
+}

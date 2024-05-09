@@ -35,7 +35,7 @@ abstract class ApiEndPoint {
   static const ABOUT_US_DETAILS = '$_REQUEST_URL/getaboutus';
   static const CHANGE_PASSWORD = '$_REQUEST_URL/changepassword';
   static const USER_INFO = '$_REQUEST_URL/userinfo';
-  static const EDIT_USER_INFO = '$_REQUEST_URL/edituserinfo';
+  static const EDIT_USER_INFO = '$BASE_URL/identity/update-profile';
   static const UPDATE_USER_LANGUAGE = '$_REQUEST_URL/updateuserlanguage';
   static const GET_INTERESTS = '$_REQUEST_URL/getInterests';
   static const EDIT_USER_INTERESTS = '$_REQUEST_URL/edituserinterests';

@@ -275,7 +275,8 @@ class AuthCubit extends BaseCubit<AuthState> {
     }
   }
 
-  Future<bool> editAccountData(User newUser) async {
+  Future<bool> editAccountData(User? newUser) async {
+    if (newUser == null) return false;
     if (newUser.fullName == state.user?.fullName &&
         newUser.email == state.user?.email &&
         newUser.gender == state.user?.gender &&
@@ -289,9 +290,9 @@ class AuthCubit extends BaseCubit<AuthState> {
       emit(state.copyWith(
           status: AuthStateStatus.loggedIn,
           user: user.copyWith(
-            token: oldUser.token,
-            refreshToken: oldUser.refreshToken,
-          )));
+              // token: oldUser.token,
+              // refreshToken: oldUser.refreshToken,
+              )));
       return true;
     } on RedundantRequestException catch (e) {
       log(e.toString());

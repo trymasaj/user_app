@@ -212,7 +212,9 @@ class AuthRemoteDataSourceImpl implements AuthRemoteDataSource {
 
     final formData = await _createFormData(newUser.toMap());
 
-    return _networkService.post(url, data: formData).then((response) {
+    return _networkService
+        .post(url, data: newUser.toMap()..addAll({'userId': newUser.id}))
+        .then((response) {
       if (response.statusCode != 200) {
         throw RequestException.fromStatusCode(
             statusCode: response.statusCode!, response: response.data);
