@@ -34,8 +34,6 @@ class SettingsTabPage extends StatefulWidget {
           ),
         ),
       ),
-      BlocProvider(
-          create: (context) => Injector().walletCubit..getWalletBalance())
     ], child: const SettingsTabPage());
   }
 
