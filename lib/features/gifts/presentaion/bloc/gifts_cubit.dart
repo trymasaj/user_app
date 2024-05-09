@@ -5,6 +5,7 @@ import 'package:masaj/core/application/controllers/base_cubit.dart';
 import 'package:masaj/core/data/clients/payment_service.dart';
 import 'package:masaj/core/data/constants/api_end_point.dart';
 import 'package:masaj/core/domain/exceptions/redundant_request_exception.dart';
+import 'package:masaj/core/presentation/overlay/show_snack_bar.dart';
 import 'package:masaj/features/gifts/data/enums/gift_card_status.dart';
 import 'package:masaj/features/gifts/data/model/gift_model.dart';
 import 'package:masaj/features/gifts/data/model/purchased_gift_card.dart';
@@ -41,7 +42,8 @@ class GiftsCubit extends BaseCubit<GiftsState> {
     }
   }
 
-  Future<void> redeemgift({int? paymentMethodId, int? giftId}) async {
+  Future<void> redeemGift(BuildContext context,
+      {int? paymentMethodId, int? giftId}) async {
     if (paymentMethodId == null || giftId == null) return;
     emit(state.copyWith(status: GiftsStateStatus.loading));
     try {
@@ -52,22 +54,13 @@ class GiftsCubit extends BaseCubit<GiftsState> {
         },
         paymentMethodId: paymentMethodId,
         onSuccess: () {
-          navigatorKey.currentState!.pushAndRemoveUntil(
-              MaterialPageRoute(
-                builder: (_) => SummaryPaymentPage(
-                  bookingId: giftId,
-                ),
-              ),
-              (_) => true);
+          navigatorKey.currentState!.pop();
+          showSnackBar(context,
+              message: 'gift card has been redeemed successfully');
         },
         onFailure: () {
-          navigatorKey.currentState!.pushAndRemoveUntil(
-              MaterialPageRoute(
-                builder: (_) => SummaryPaymentPage(
-                  bookingId: giftId,
-                ),
-              ),
-              (_) => true);
+          navigatorKey.currentState!.pop();
+          showSnackBar(context, message: 'Please try again');
         },
       ));
       emit(state.copyWith(status: GiftsStateStatus.loaded));

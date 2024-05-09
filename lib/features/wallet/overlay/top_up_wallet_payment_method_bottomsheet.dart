@@ -92,7 +92,7 @@ class _TopUpWalletPaymentMethodBottomsheetState
                       child: DefaultButton(
                           onPressed: () {
                             final walletCubit = context.read<WalletBloc>();
-                            walletCubit.chargeWallet(
+                            walletCubit.chargeWallet(context,
                                 paymentMethodId: _selectedPayment?.id,
                                 walletPredefinedAmountId:
                                     widget.walletPredefinedAmountId);

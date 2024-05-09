@@ -76,15 +76,17 @@ class WalletScreen extends StatelessWidget {
                               return state.walletBalance;
                             },
                             builder: (context, state) {
-                              return Text((state?.balance ?? '').toString(),
-                                  style: theme.textTheme.headlineSmall);
+                              return Padding(
+                                  padding: EdgeInsets.only(
+                                      left: 4.w, top: 8.h, bottom: 6.h),
+                                  child: Text(
+                                      'lbl_kwd'.tr(args: [
+                                        (state?.balance ?? '').toString()
+                                      ]),
+                                      style: CustomTextStyles
+                                          .titleSmallSemiBold_1));
                             },
                           ),
-                          Padding(
-                              padding: EdgeInsets.only(
-                                  left: 4.w, top: 8.h, bottom: 6.h),
-                              child: Text('lbl_kwd'.tr(),
-                                  style: CustomTextStyles.titleSmallSemiBold_1))
                         ]),
                         SizedBox(height: 1.h),
                         Text('lbl_current_balance'.tr(),

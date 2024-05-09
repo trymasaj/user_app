@@ -1,17 +1,21 @@
 import 'package:flutter/material.dart';
 import 'package:masaj/core/app_export.dart';
+import 'package:masaj/core/data/extensions/extensions.dart';
+import 'package:masaj/core/domain/enums/gender.dart';
+import 'package:masaj/core/presentation/colors/app_colors.dart';
+import 'package:masaj/core/presentation/widgets/stateful/default_tab.dart';
 import 'package:masaj/core/presentation/widgets/stateless/custom_app_bar.dart';
 import 'package:masaj/core/presentation/widgets/stateless/custom_outlined_button.dart';
-
+import 'package:masaj/core/presentation/widgets/stateless/subtitle_text.dart';
+import 'package:masaj/core/presentation/widgets/stateless/text_fields/default_text_form_field.dart';
 import 'package:masaj/features/account/bloc/my_profile_bloc/my_profile_bloc.dart';
 import 'package:masaj/features/account/models/my_profile_model.dart';
+import 'package:masaj/features/auth/application/auth_cubit/auth_cubit.dart';
 
-class MyProfileScreen extends StatelessWidget {
+class MyProfileScreen extends StatefulWidget {
   static const routeName = '/my_profile';
 
   MyProfileScreen({super.key});
-
-  final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
 
   static Widget builder(BuildContext context) {
     return BlocProvider<MyProfileBloc>(
@@ -23,8 +27,39 @@ class MyProfileScreen extends StatelessWidget {
   }
 
   @override
+  State<MyProfileScreen> createState() => _MyProfileScreenState();
+}
+
+class _MyProfileScreenState extends State<MyProfileScreen> {
+  final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
+  late final TextEditingController _emailController;
+  late final TextEditingController _nameController;
+  late final TextEditingController _birthDateController;
+
+  late final FocusNode _emailNode;
+  late final FocusNode _nameNode;
+  late final FocusNode _birthDateNode;
+  Gender? _selectedGender;
+  bool showGenderError = false;
+  @override
+  void initState() {
+    super.initState();
+    final authCubit = context.read<AuthCubit>();
+    final user = authCubit.state.user;
+    _selectedGender = user?.gender;
+    _nameController = TextEditingController(text: user?.fullName);
+    _emailController = TextEditingController(text: user?.email);
+    _birthDateController = TextEditingController(
+        text: user?.birthDate?.toLocal().toIso8601String());
+
+    _nameNode = FocusNode();
+    _emailNode = FocusNode();
+    _birthDateNode = FocusNode();
+  }
+
+  @override
   Widget build(BuildContext context) {
-    return BlocBuilder<MyProfileBloc, MyProfileState>(
+    return BlocBuilder<AuthCubit, AuthState>(
       builder: (context, state) {
         return Scaffold(
           resizeToAvoidBottomInset: false,
@@ -67,23 +102,30 @@ class MyProfileScreen extends StatelessWidget {
                     ),
                   ),
                   SizedBox(height: 8.h),
-                  TextFormField(
+                  DefaultTextFormField(
                     decoration: InputDecoration(
                       labelText: 'lbl_name'.tr(),
                       labelStyle: CustomTextStyles.bodyMediumOnPrimary_2,
                     ),
+                    currentFocusNode: _nameNode,
+                    nextFocusNode: _emailNode,
+                    currentController: _nameController,
+                    hint: '',
                   ),
                   SizedBox(height: 16.h),
-                  TextFormField(
+                  DefaultTextFormField(
                     decoration: InputDecoration(
                       labelText: 'lbl_email'.tr(),
                       labelStyle: CustomTextStyles.bodyMediumOnPrimary_2,
                     ),
+                    currentFocusNode: _emailNode,
+                    currentController: _emailController,
+                    hint: '',
                   ),
                   SizedBox(height: 16.h),
                   _buildBirthDate(context),
                   SizedBox(height: 20.h),
-                  _buildFrameRow(context),
+                  _buildGenderRow(),
                   SizedBox(height: 32.h),
                   _buildSaveButton(context),
                   SizedBox(height: 5.h),
@@ -104,28 +146,50 @@ class MyProfileScreen extends StatelessWidget {
     );
   }
 
+  Widget buildImage(String imagePath) {
+    return Padding(
+      padding: EdgeInsets.fromLTRB(18.w, 17.h, 10.w, 19.h),
+      child: CustomImageView(
+        imagePath: imagePath,
+        height: 20.h,
+        width: 20.w,
+        color: appTheme.blueGray40001,
+      ),
+    );
+  }
+
   Widget _buildBirthDate(BuildContext context) {
-    return Stack(
-      children: [
-        TextFormField(
-            decoration: InputDecoration(
-          labelText: 'lbl_birth_date'.tr(),
-          labelStyle: CustomTextStyles.bodyMediumOnPrimary_2,
-        )),
-        Positioned.fill(
-          right: 20,
-          left: 20,
-          child: Align(
-            alignment: AlignmentDirectional.centerEnd,
-            child: CustomImageView(
-              imagePath: ImageConstant.imgCalendar,
-              height: 20.adaptSize,
-              width: 20.adaptSize,
-              margin: EdgeInsets.only(top: 1.h),
-            ),
-          ),
-        ),
-      ],
+    return DefaultTextFormField(
+      isRequired: true,
+      readOnly: true,
+      currentFocusNode: _birthDateNode,
+      currentController: _birthDateController,
+      hint: 'lbl_birth_date',
+      prefixIcon: buildImage(ImageConstant.imgCalendar),
+      suffixIcon: buildImage(ImageConstant.imgCalendar),
+      onTap: () async {
+        final initialDate = _birthDateController.text.isNotEmpty
+            ? _birthDateController.text.parseDate()
+            : DateTime.now();
+        final pickedDate = await showDatePicker(
+            context: context,
+            initialDate: initialDate,
+            firstDate: DateTime.now().subtract(const Duration(days: 43800)),
+            lastDate: DateTime.now(),
+            builder: (context, child) {
+              return Theme(
+                data: ThemeData.light().copyWith(
+                  colorScheme: const ColorScheme.light(
+                    primary: AppColors.PRIMARY_COLOR,
+                  ),
+                ),
+                child: child!,
+              );
+            });
+        if (pickedDate != null) {
+          _birthDateController.text = pickedDate.formatDate();
+        }
+      },
     );
   }
 
@@ -160,6 +224,51 @@ class MyProfileScreen extends StatelessWidget {
       children: [
         _buildGenderButton('lbl_male'),
         _buildGenderButton('lbl_female'),
+      ],
+    );
+  }
+
+  Widget _buildGenderRow() {
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        Row(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            Expanded(
+                child: InkWell(
+              onTap: () {
+                setState(() {
+                  _selectedGender = Gender.male;
+                  showGenderError = false;
+                });
+              },
+              child: DefaultTab(
+                isSelected: _selectedGender == Gender.male,
+                title: 'Male'.tr(),
+              ),
+            )),
+            SizedBox(width: 10.w),
+            Expanded(
+                child: InkWell(
+              onTap: () {
+                setState(() {
+                  _selectedGender = Gender.female;
+                  showGenderError = false;
+                });
+              },
+              child: DefaultTab(
+                  isSelected: _selectedGender == Gender.female,
+                  title: 'Female'.tr()),
+            )),
+          ],
+        ),
+        const SizedBox(height: 10),
+        if (showGenderError)
+          const SubtitleText.small(
+            text: 'empty_field_not_valid',
+            color: AppColors.ERROR_COLOR,
+          )
       ],
     );
   }

@@ -90,7 +90,7 @@ class _GiftsPaymentMethodBottomSheetState
                       child: DefaultButton(
                           onPressed: () {
                             final giftsCubit = context.read<GiftsCubit>();
-                            giftsCubit.redeemgift(
+                            giftsCubit.redeemGift(context,
                                 paymentMethodId: _selectedPayment?.id,
                                 giftId: widget.giftId);
                           },

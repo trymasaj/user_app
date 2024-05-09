@@ -411,7 +411,7 @@
   "lbl_free_6_kwd": "+ Free 6 KWD",
   "lbl_free_7_kwd": "+ Free 7 KWD",
   "lbl_free_8_kwd": "+ Free 8 KWD",
-  "lbl_free_9_kwd": "+ Free 9 KWD",
+  "lbl_free_kwd": "+ Free {} KWD",
   "msg_enter_redeem_code": "Enter redeem code",
   "msg_have_a_gift_voucher": "Have a gift voucher ?",
   "msg_top_up_your_wallet": "Top up your wallet",

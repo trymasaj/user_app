@@ -13,6 +13,8 @@ import 'package:masaj/core/presentation/widgets/stateless/subtitle_text.dart';
 import 'package:masaj/features/gifts/data/enums/gift_card_status.dart';
 import 'package:masaj/features/gifts/presentaion/bloc/gifts_cubit.dart';
 import 'package:masaj/features/gifts/presentaion/pages/gifts_payment_method_bottomsheet.dart';
+
+import '../../data/model/purchased_gift_card.dart';
 part 'my_gifts_page.dart';
 part 'new_gift_cards_page.dart';
 part 'purchased_cards_page.dart';

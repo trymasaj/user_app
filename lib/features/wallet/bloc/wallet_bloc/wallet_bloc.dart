@@ -4,6 +4,7 @@ import 'package:masaj/core/application/controllers/base_cubit.dart';
 import 'package:masaj/core/data/clients/payment_service.dart';
 import 'package:masaj/core/data/constants/api_end_point.dart';
 import 'package:masaj/core/domain/exceptions/redundant_request_exception.dart';
+import 'package:masaj/core/presentation/overlay/show_snack_bar.dart';
 import 'package:masaj/features/payment/presentaion/pages/success_payment.dart';
 import 'package:masaj/features/wallet/data/repos/wallet_repo_impl.dart';
 
@@ -44,7 +45,10 @@ class WalletBloc extends BaseCubit<WalletState> {
   }
 
   Future<void> chargeWallet(
-      {int? paymentMethodId, int? walletPredefinedAmountId}) async {
+    BuildContext context, {
+    int? paymentMethodId,
+    int? walletPredefinedAmountId,
+  }) async {
     if (paymentMethodId == null || walletPredefinedAmountId == null) return;
     emit(state.copyWith(status: WalletStateStatus.loading));
     try {
@@ -56,22 +60,14 @@ class WalletBloc extends BaseCubit<WalletState> {
         },
         paymentMethodId: paymentMethodId,
         onSuccess: () {
-          navigatorKey.currentState!.pushAndRemoveUntil(
-              MaterialPageRoute(
-                builder: (_) => SummaryPaymentPage(
-                  bookingId: walletPredefinedAmountId,
-                ),
-              ),
-              (_) => true);
+          navigatorKey.currentState!.pop();
+          showSnackBar(context,
+              message: 'wallet has been charged successfully');
         },
         onFailure: () {
-          navigatorKey.currentState!.pushAndRemoveUntil(
-              MaterialPageRoute(
-                builder: (_) => SummaryPaymentPage(
-                  bookingId: walletPredefinedAmountId,
-                ),
-              ),
-              (_) => true);
+          navigatorKey.currentState!.pop();
+          showSnackBar(context,
+              message: 'wallet has been charged successfully');
         },
       ));
       emit(state.copyWith(status: WalletStateStatus.loaded));
@@ -83,7 +79,6 @@ class WalletBloc extends BaseCubit<WalletState> {
     }
   }
 
-  
   Future<void> getPredefinedAmounts() async {
     emit(state.copyWith(status: WalletStateStatus.loading));
     try {

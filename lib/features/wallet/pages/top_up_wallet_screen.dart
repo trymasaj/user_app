@@ -167,7 +167,10 @@ class _TopUpWalletScreenState extends State<TopUpWalletScreen> {
                                         style: CustomTextStyles
                                             .titleLargeOnPrimary))
                               ]),
-                          Text('lbl_free_9_kwd'.tr(),
+                          Text(
+                              'lbl_free_kwd'.tr(args: [
+                                walletAmountsModel.bonusAmount.toString()
+                              ]),
                               style: CustomTextStyles.bodyMediumLightgreen900)
                         ]))),
                 SvgPicture.asset(

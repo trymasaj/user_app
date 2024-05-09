@@ -7,7 +7,7 @@ class MyGiftsPage extends StatelessWidget {
   Widget build(BuildContext context) {
     return BlocProvider(
       create: (context) => Injector().giftsCubit
-        ..getPurchasedGiftCards(GiftCardStatus.Available),  
+        ..getPurchasedGiftCards(GiftCardStatus.Available),
       child: _buildBody(),
     );
   }
@@ -31,7 +31,7 @@ class MyGiftsPage extends StatelessWidget {
         if (state.isLoading) {
           return const CustomLoading();
         }
-        final gifts = state.giftCards ?? [];
+        final gifts = state.purchasedGiftCards ?? [];
 
         if ((gifts == [] || gifts.isEmpty)) {
           return RefreshIndicator(
@@ -46,14 +46,16 @@ class MyGiftsPage extends StatelessWidget {
   }
 
   Widget _buildGiftsList(GiftsCubit cubit) {
+    final gifts = cubit.state.purchasedGiftCards;
     return RefreshIndicator(
       onRefresh: cubit.refresh,
       child: ListView.builder(
-          itemCount: 3, itemBuilder: (context, index) => _buildMyGiftItem()),
+          itemCount: gifts?.length,
+          itemBuilder: (context, index) => _buildMyGiftItem(gifts![index])),
     );
   }
 
-  Widget _buildMyGiftItem() {
+  Widget _buildMyGiftItem(PurchasedGiftCard gift) {
     return Card(
       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(20.0)),
       child: Padding(
@@ -87,7 +89,7 @@ class MyGiftsPage extends StatelessWidget {
               const SubtitleText(text: 'gift_off'),
               const SizedBox(height: 8.0),
               SubtitleText(
-                text: 'lbl_kwd'.tr(args: ['20']),
+                text: 'lbl_kwd'.tr(args: [gift.amount.toString()]),
                 isBold: true,
               )
             ],
