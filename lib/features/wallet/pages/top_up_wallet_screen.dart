@@ -4,6 +4,7 @@ import 'package:masaj/core/app_export.dart';
 import 'package:masaj/core/data/di/injector.dart';
 import 'package:masaj/core/presentation/overlay/show_snack_bar.dart';
 import 'package:masaj/core/presentation/widgets/stateless/custom_app_bar.dart';
+import 'package:masaj/features/gifts/presentaion/bloc/gifts_cubit.dart';
 import 'package:masaj/features/wallet/bloc/wallet_bloc/wallet_bloc.dart';
 import 'package:masaj/features/wallet/models/wallet_amounts.dart';
 import 'package:masaj/features/wallet/overlay/top_up_wallet_payment_method_bottomsheet.dart';
@@ -20,6 +21,9 @@ class TopUpWalletScreen extends StatefulWidget {
       ),
       BlocProvider(
         create: (context) => Injector().paymentCubit..getPaymentMethods(),
+      ),
+      BlocProvider(
+        create: (context) => Injector().giftsCubit,
       )
     ], child: const TopUpWalletScreen());
   }
@@ -30,7 +34,8 @@ class TopUpWalletScreen extends StatefulWidget {
 
 class _TopUpWalletScreenState extends State<TopUpWalletScreen> {
   int? _selectedIndex;
-
+  final TextEditingController _giftController = TextEditingController();
+  final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -67,35 +72,56 @@ class _TopUpWalletScreenState extends State<TopUpWalletScreen> {
     return Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
       Text('msg_have_a_gift_voucher'.tr(), style: theme.textTheme.titleSmall),
       SizedBox(height: 8.h),
-      TextField(
-        decoration: InputDecoration(
-            hintText: 'msg_enter_redeem_code'.tr(),
-            hintStyle: CustomTextStyles.bodyMediumBluegray40001_1,
-            suffixIcon: Padding(
-              padding: EdgeInsets.symmetric(vertical: 3.h, horizontal: 12.w),
-              child: CustomElevatedButton(
-                  height: 36.h,
-                  width: 64.w,
-                  onPressed: () {
-                    print('helooo');
-                  },
-                  text: 'lbl_apply'.tr(),
-                  buttonStyle: CustomButtonStyles.none,
-                  decoration: CustomButtonStyles
-                      .gradientSecondaryContainerToPrimaryTL6Decoration,
-                  buttonTextStyle:
-                      CustomTextStyles.labelLargeOnPrimaryContainer),
+      BlocBuilder<GiftsCubit, GiftsState>(
+        builder: (context, state) {
+          return Form(
+            key: _formKey,
+            child: TextFormField(
+              validator: (value) {
+                if (value == null || value.isEmpty)
+                  return 'add valid gift code';
+              },
+              controller: _giftController,
+              decoration: InputDecoration(
+                  hintText: 'msg_enter_redeem_code'.tr(),
+                  hintStyle: CustomTextStyles.bodyMediumBluegray40001_1,
+                  suffixIcon: Padding(
+                    padding:
+                        EdgeInsets.symmetric(vertical: 3.h, horizontal: 12.w),
+                    child: CustomElevatedButton(
+                        height: 36.h,
+                        width: 64.w,
+                        onPressed: () {
+                          if (_formKey.currentState!.validate()) {
+                            context
+                                .read<GiftsCubit>()
+                                .redeemGiftCard(_giftController.text);
+                          } else {
+                            showSnackBar(context,
+                                message: 'add valid gift code');
+                          }
+                        },
+                        text: 'lbl_apply'.tr(),
+                        buttonStyle: CustomButtonStyles.none,
+                        decoration: CustomButtonStyles
+                            .gradientSecondaryContainerToPrimaryTL6Decoration,
+                        buttonTextStyle:
+                            CustomTextStyles.labelLargeOnPrimaryContainer),
+                  ),
+                  prefixIcon: CustomImageView(
+                      imagePath: ImageConstant.imgTelevision,
+                      height: 20.adaptSize,
+                      width: 20.adaptSize,
+                      margin: EdgeInsets.symmetric(
+                          vertical: 8.h, horizontal: 12.w)),
+                  prefixIconConstraints: BoxConstraints(
+                      minWidth: 20.adaptSize, minHeight: 20.adaptSize),
+                  border: OutlineInputBorder(
+                      borderRadius: BorderRadiusStyle.roundedBorder8,
+                      borderSide: BorderSide.none)),
             ),
-            prefixIcon: CustomImageView(
-                imagePath: ImageConstant.imgTelevision,
-                height: 20.adaptSize,
-                width: 20.adaptSize,
-                margin: EdgeInsets.symmetric(vertical: 8.h, horizontal: 12.w)),
-            prefixIconConstraints:
-                BoxConstraints(minWidth: 20.adaptSize, minHeight: 20.adaptSize),
-            border: OutlineInputBorder(
-                borderRadius: BorderRadiusStyle.roundedBorder8,
-                borderSide: BorderSide.none)),
+          );
+        },
       ),
     ]);
   }

@@ -45,7 +45,7 @@ class TransactionItem extends StatelessWidget {
           Padding(
             padding: EdgeInsets.only(bottom: 22.h),
             child: Text(
-              (transaction?.balance ?? '').toString(),
+              (transaction?.credit ?? '').toString(),
               style: CustomTextStyles.bodyMediumLightgreen900,
             ),
           ),

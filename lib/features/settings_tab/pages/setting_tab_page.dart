@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:masaj/core/app_export.dart';
+import 'package:masaj/core/data/di/injector.dart';
 import 'package:masaj/core/presentation/navigation/navigator_helper.dart';
 import 'package:masaj/features/account/pages/account_screen.dart';
 import 'package:masaj/features/account/pages/manage_members_screen.dart';
@@ -15,6 +16,8 @@ import 'package:masaj/features/settings_tab/bloc/settings_bloc/setting_bloc.dart
 import 'package:masaj/features/settings_tab/bloc/settings_bloc/setting_state.dart';
 import 'package:masaj/features/settings_tab/models/settings_model.dart';
 import 'package:masaj/features/settings_tab/widgets/setting_tile.dart';
+import 'package:masaj/features/wallet/bloc/wallet_bloc/wallet_bloc.dart';
+import 'package:masaj/features/wallet/models/wallet_model.dart';
 import 'package:masaj/features/wallet/pages/wallet_screen.dart';
 
 // ignore_for_file: must_be_immutable
@@ -22,11 +25,18 @@ class SettingsTabPage extends StatefulWidget {
   const SettingsTabPage({super.key});
 
   static Widget builder(BuildContext context) {
-    return BlocProvider<SettingsBloc>(
-        create: (context) => SettingsBloc(SettingsState(
+    return MultiBlocProvider(providers: [
+      BlocProvider(
+        create: (context) => SettingsBloc(
+          SettingsState(
             settingsSubscribedToMasajPlusModelObj:
-                const SettingsSubscribedToMasajPlusModel())),
-        child: const SettingsTabPage());
+                const SettingsSubscribedToMasajPlusModel(),
+          ),
+        ),
+      ),
+      BlocProvider(
+          create: (context) => Injector().walletCubit..getWalletBalance())
+    ], child: const SettingsTabPage());
   }
 
   @override
@@ -235,16 +245,24 @@ class _SettingsTabPageState extends State<SettingsTabPage> {
                   Text('lbl_refer_credit'.tr(),
                       style: CustomTextStyles.titleSmallOnPrimary_3),
                   SizedBox(height: 17.h),
-                  SettingTile(
-                    imagePath: ImageConstant.imgGroup1000003167,
-                    text: 'lbl_my_wallet'.tr(),
-                    trailing: Text('lbl_30_000_kwd'.tr(),
-                        style: theme.textTheme.bodyMedium!.copyWith(
-                            color:
-                                theme.colorScheme.onPrimary.withOpacity(0.7))),
-                    onTap: () {
-                      NavigatorHelper.of(context)
-                          .pushNamed(WalletScreen.routeName);
+                  BlocSelector<WalletBloc, WalletState, WalletModel>(
+                    selector: (state) {
+                      return state.walletBalance ?? WalletModel();
+                    },
+                    builder: (context, state) {
+                      return SettingTile(
+                        imagePath: ImageConstant.imgGroup1000003167,
+                        text: 'lbl_my_wallet'.tr(),
+                        trailing: Text(
+                            'lbl_kwd'.tr(args: [state.balance.toString()]),
+                            style: theme.textTheme.bodyMedium!.copyWith(
+                                color: theme.colorScheme.onPrimary
+                                    .withOpacity(0.7))),
+                        onTap: () {
+                          NavigatorHelper.of(context)
+                              .pushNamed(WalletScreen.routeName);
+                        },
+                      );
                     },
                   ),
                   SettingTile(

@@ -7,6 +7,7 @@ import 'package:masaj/core/presentation/widgets/stateless/custom_loading.dart';
 import 'package:masaj/core/presentation/widgets/stateless/default_button.dart';
 import 'package:masaj/core/presentation/widgets/stateless/empty_page_message.dart';
 import 'package:masaj/core/presentation/widgets/stateless/subtitle_text.dart';
+import 'package:masaj/core/presentation/widgets/stateless/text_fields/default_text_form_field.dart';
 import 'package:masaj/core/presentation/widgets/stateless/title_text.dart';
 import 'package:masaj/features/payment/data/model/payment_method_model.dart';
 import 'package:masaj/features/payment/presentaion/bloc/payment_cubit.dart';
@@ -40,6 +41,8 @@ class TopUpWalletPaymentMethodBottomsheet extends StatefulWidget {
 class _TopUpWalletPaymentMethodBottomsheetState
     extends State<TopUpWalletPaymentMethodBottomsheet> {
   PaymentMethodModel? _selectedPayment;
+  final TextEditingController _controller = TextEditingController();
+  final FocusNode _node = FocusNode();
 
   @override
   Widget build(BuildContext context) {
@@ -56,6 +59,9 @@ class _TopUpWalletPaymentMethodBottomsheetState
               children: [
                 const TitleText(text: 'payment method'),
                 const SizedBox(height: 18.0),
+                // _buildCouponItem(
+                //   PaymentMethodModel(isSelected: false, title: 'gift card'),
+                // ),
                 Expanded(
                   child: BlocBuilder<PaymentCubit, PaymentState>(
                     builder: (context, state) {
@@ -108,6 +114,85 @@ class _TopUpWalletPaymentMethodBottomsheetState
       },
     );
   }
+
+  // Widget _buildCouponItem(PaymentMethodModel? paymentMethod) {
+  //   return Column(
+  //     children: [
+  //       GestureDetector(
+  //         onTap: () {
+  //           setState(() {
+  //             _selectedPayment = paymentMethod;
+  //           });
+  //         },
+  //         child: Padding(
+  //           padding: const EdgeInsets.symmetric(vertical: 6.0),
+  //           child: DecoratedBox(
+  //             decoration: BoxDecoration(
+  //               color: paymentMethod == _selectedPayment
+  //                   ? AppColors.PRIMARY_COLOR.withOpacity(0.09)
+  //                   : AppColors.BACKGROUND_COLOR.withOpacity(0.09),
+  //               borderRadius: BorderRadius.circular(20),
+  //               border: Border.all(color: AppColors.PRIMARY_COLOR, width: 1.5),
+  //             ),
+  //             child: Padding(
+  //               padding: const EdgeInsets.all(24.0),
+  //               child: Row(children: [
+  //                 SubtitleText(
+  //                   text: paymentMethod?.title ?? '',
+  //                   isBold: true,
+  //                 ),
+  //                 const Spacer(),
+  //                 Radio.adaptive(
+  //                     activeColor: AppColors.PRIMARY_COLOR,
+  //                     value: paymentMethod,
+  //                     groupValue: _selectedPayment,
+  //                     onChanged: (value) {
+  //                       setState(() {
+  //                         _selectedPayment = value;
+  //                       });
+  //                     })
+  //               ]),
+  //             ),
+  //           ),
+  //         ),
+  //       ),
+  //       DefaultTextFormField(
+  //         currentFocusNode: _node,
+  //         currentController: _controller,
+  //         hint: 'add Coupon code',
+  //         decoration: InputDecoration(
+  //             hintText: 'msg_enter_redeem_code'.tr(),
+  //             hintStyle: CustomTextStyles.bodyMediumBluegray40001_1,
+  //             suffixIcon: Padding(
+  //               padding: EdgeInsets.symmetric(vertical: 3.h, horizontal: 12.w),
+  //               child: CustomElevatedButton(
+  //                   height: 36.h,
+  //                   width: 64.w,
+  //                   onPressed: () {
+  //                     print('helooo');
+  //                   },
+  //                   text: 'lbl_apply'.tr(),
+  //                   buttonStyle: CustomButtonStyles.none,
+  //                   decoration: CustomButtonStyles
+  //                       .gradientSecondaryContainerToPrimaryTL6Decoration,
+  //                   buttonTextStyle:
+  //                       CustomTextStyles.labelLargeOnPrimaryContainer),
+  //             ),
+  //             prefixIcon: CustomImageView(
+  //                 imagePath: ImageConstant.imgTelevision,
+  //                 height: 20.adaptSize,
+  //                 width: 20.adaptSize,
+  //                 margin:
+  //                     EdgeInsets.symmetric(vertical: 8.h, horizontal: 12.w)),
+  //             prefixIconConstraints: BoxConstraints(
+  //                 minWidth: 20.adaptSize, minHeight: 20.adaptSize),
+  //             border: OutlineInputBorder(
+  //                 borderRadius: BorderRadiusStyle.roundedBorder8,
+  //                 borderSide: BorderSide.none)),
+  //       ),
+  //     ],
+  //   );
+  // }
 
   Widget _buildPaymentMethodItem(PaymentMethodModel? paymentMethod) {
     return GestureDetector(

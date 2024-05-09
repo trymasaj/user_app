@@ -10,8 +10,10 @@ import 'package:masaj/features/gifts/data/enums/gift_card_status.dart';
 import 'package:masaj/features/gifts/data/model/gift_model.dart';
 import 'package:masaj/features/gifts/data/model/purchased_gift_card.dart';
 import 'package:masaj/features/gifts/data/repo/gifts_repo.dart';
-import 'package:masaj/features/payment/presentaion/pages/success_payment.dart';
+
 import 'package:masaj/main.dart';
+
+import '../../data/model/redeem_git_card_model.dart';
 part 'gifts_state.dart';
 
 class GiftsCubit extends BaseCubit<GiftsState> {
@@ -42,7 +44,7 @@ class GiftsCubit extends BaseCubit<GiftsState> {
     }
   }
 
-  Future<void> redeemGift(BuildContext context,
+  Future<void> purchaseGiftCard(BuildContext context,
       {int? paymentMethodId, int? giftId}) async {
     if (paymentMethodId == null || giftId == null) return;
     emit(state.copyWith(status: GiftsStateStatus.loading));
@@ -79,6 +81,21 @@ class GiftsCubit extends BaseCubit<GiftsState> {
           await _giftsRepository.getPurchasedGitsCards(giftCardsstatus);
       emit(state.copyWith(
           status: GiftsStateStatus.loaded, purchasedGiftCards: giftCards));
+    } on RedundantRequestException catch (e) {
+      log(e.toString());
+    } catch (e) {
+      emit(state.copyWith(
+          status: GiftsStateStatus.error, errorMessage: e.toString()));
+    }
+  }
+
+  Future<void> redeemGiftCard(String? code) async {
+    if (code == null) return;
+    emit(state.copyWith(status: GiftsStateStatus.loading));
+    try {
+      final redeemGiftCard = await _giftsRepository.redeemGiftCard(code);
+      emit(state.copyWith(
+          status: GiftsStateStatus.loaded, redeemGiftCard: redeemGiftCard));
     } on RedundantRequestException catch (e) {
       log(e.toString());
     } catch (e) {
