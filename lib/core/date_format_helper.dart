@@ -15,7 +15,8 @@ class DateFormatHelper {
       );
   static String? formatDate(DateTime? dateTime) {
     if (dateTime == null) return null;
-    return dateFormat.format(dateTime);
+    //Expected Result: The date format should be Day, DD MM YYYY e.g. Monday 05 Aug 2024
+    return DateFormat('EEEE dd MMM yyyy').format(dateTime);
   }
 
   static String? formatDateTime(DateTime? dateTime) {

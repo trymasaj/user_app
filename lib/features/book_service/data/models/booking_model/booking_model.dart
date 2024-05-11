@@ -147,6 +147,15 @@ class BookingModel {
     );
   }
 
+  String get durationInMinutes {
+    if (totalDuration == null) return '0';
+    return totalDuration!.split(':').length > 2
+        ? (int.parse(totalDuration!.split(':')[0]) * 60 +
+                int.parse(totalDuration!.split(':')[1]))
+            .toString()
+        : totalDuration!.split(':')[1];
+  }
+
   Map<String, dynamic> toMap() {
     return {
       'bookingId': bookingId,

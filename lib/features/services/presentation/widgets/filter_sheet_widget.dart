@@ -46,6 +46,7 @@ class _FilterWidgetSheetState extends State<FilterWidgetSheet> {
 
     _fromController.addListener(_starterListener);
     _toController.addListener(_endListener);
+    // add formatter to _fromController to not accept number greater that to
 
     super.initState();
   }
@@ -186,6 +187,19 @@ class _FilterWidgetSheetState extends State<FilterWidgetSheet> {
                                 FilteringTextInputFormatter.allow(
                                   RegExp(r'^\d+\.?\d{0,2}'),
                                 ),
+                                TextInputFormatter.withFunction(
+                                    (oldValue, newValue) {
+                                  if (newValue.text == '') return newValue;
+                                  final i = int.tryParse(newValue.text);
+                                  if (i == null) return oldValue;
+                                  if (i > _endValue)
+                                    return newValue.copyWith(
+                                        text: '${_endValue}',
+                                        selection:
+                                            const TextSelection.collapsed(
+                                                offset: 2));
+                                  return newValue;
+                                })
                               ],
                               focusNode: _fromFocusNode,
                               controller: _fromController,

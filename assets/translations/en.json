@@ -89,7 +89,7 @@
   "gallery": "Gallery",
   "camera": "Camera",
   "cancel": "Cancel",
-  "connection_error": "Connection error",
+  "connection_error": "Connection error please try again later",
   "show_all": "Show all",
   "contact_us_success": "Message has been sent",
   "message": "Your Message",
@@ -917,5 +917,10 @@
   "1_kwd": "1 KWD",
   "2_kwd": "2 KWD",
   "other": "Other",
-  "my_gifts": "My Gifts"
+  "my_gifts": "My Gifts",
+  "min": "Min",
+  "addons": "Add on’s",
+  "name": "Name",
+  "phone": "Phone",
+  "please_select_therapist": "Please select therapist"
 }

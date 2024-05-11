@@ -2,6 +2,7 @@ import 'dart:developer';
 
 import 'package:masaj/core/application/controllers/base_cubit.dart';
 import 'package:masaj/core/data/clients/cache_service.dart';
+import 'package:masaj/core/domain/exceptions/redundant_request_exception.dart';
 import 'package:masaj/features/home/data/models/home_search_reponse.dart';
 import 'package:masaj/features/home/data/repositories/home_repository.dart';
 import 'package:masaj/features/services/data/models/service_model.dart';
@@ -169,6 +170,9 @@ class HomeSearchCubit extends BaseCubit<HomeSearchCubitState> {
         status: HomeSearchStateStatus.loaded,
         result: homeSearchResponse,
       ));
+    } on RedundantRequestException {
+      log('Redundant request');
+      emit(state.copyWith(status: HomeSearchStateStatus.loaded));
     } catch (e) {
       emit(state.copyWith(
         status: HomeSearchStateStatus.error,

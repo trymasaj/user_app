@@ -798,5 +798,9 @@
   "1_kwd": "1 د.ك",
   "2_kwd": "2 د.ك",
   "other": "آخر",
-  "my_gifts": "هداياي"
+  "my_gifts": "هداياي",
+  "addons": "اضافات",
+  "name": "الاسم",
+  "phone": "الهاتف",
+  "please_select_therapist": "الرجاء اختيار معالج"
 }

@@ -13,7 +13,7 @@ import '../../../book_service/data/models/booking_model/booking_model.dart';
 abstract class BookingRemoteDataSource {
   Future<int> getBookingLatestId();
   Future<void> addBookingService(ServiceBookModel serviceBookModel);
-  Future<void> addBookingMembers(List<int> members);
+  Future<BookingModel> addBookingMembers(List<int> members);
   Future<void> addBookingAddress(int addressId);
   Future<void> addBookingTherapist(
       {required int therapistId, required DateTime availableTime});
@@ -43,7 +43,7 @@ class BookingRemoteDataSourceImpl implements BookingRemoteDataSource {
   }
 
   @override
-  Future<void> addBookingMembers(List<int> members) {
+  Future<BookingModel> addBookingMembers(List<int> members) async {
     const url = ApiEndPoint.BOOKING_MEMBERS;
     final data = {'memberIds': members};
 
@@ -51,6 +51,9 @@ class BookingRemoteDataSourceImpl implements BookingRemoteDataSource {
       if (response.statusCode != 200) {
         throw RequestException(message: response.data['detail']);
       }
+      final result = response.data;
+
+      return BookingModel.fromMap(result);
     });
   }
 

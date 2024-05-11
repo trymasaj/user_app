@@ -1,7 +1,10 @@
 // ignore_for_file: no_leading_underscores_for_local_identifiers
 
+import 'dart:developer';
+
 import 'package:equatable/equatable.dart';
 import 'package:masaj/core/application/controllers/base_cubit.dart';
+import 'package:masaj/core/domain/exceptions/redundant_request_exception.dart';
 import 'package:masaj/features/services/data/models/service_category_model.dart';
 import 'package:masaj/features/services/data/models/service_model.dart';
 import 'package:masaj/features/services/data/models/service_query_model.dart';
@@ -73,7 +76,11 @@ class ServiceCubit extends BaseCubit<ServiceState> {
         searchKeyword: state.searchKeyword,
         therapistId: state.therapistId,
       ));
+    } on RedundantRequestException {
+      log('RedundantRequestException occurred');
+      emit(state.copyWith(status: ServiceStateStatus.loaded));
     } catch (e) {
+      print(e);
       emit(state.copyWith(
           status: ServiceStateStatus.error, errorMessage: e.toString()));
     }
@@ -100,6 +107,9 @@ class ServiceCubit extends BaseCubit<ServiceState> {
             ...services.data ?? [],
           ]),
           page: state.page! + 1));
+    } on RedundantRequestException {
+      log('RedundantRequestException occurred');
+      emit(state.copyWith(status: ServiceStateStatus.loaded));
     } catch (e) {
       emit(state.copyWith(
           status: ServiceStateStatus.error, errorMessage: e.toString()));

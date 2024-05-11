@@ -59,7 +59,7 @@ class DurationsSection extends StatelessWidget {
                                   .toggleSelectDuration(duration);
                             },
                             child: Container(
-                              margin: EdgeInsets.only(right: 8.w),
+                              margin: EdgeInsets.only(right: 8.w, top: 16.h),
                               child: DurationContainer(
                                 isSelected: value?.serviceDurationId ==
                                     state.service?.serviceDurations![index]

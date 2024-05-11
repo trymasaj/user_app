@@ -52,8 +52,10 @@ class BookingCubit extends BaseCubit<BookingState> {
 
     try {
       emit(state.copyWith(status: BookServiceStatus.loading));
-      await _bookingRepository.addBookingMembers(members);
-      emit(state.copyWith(status: BookServiceStatus.loaded));
+      final boolingModel = await _bookingRepository.addBookingMembers(members);
+
+      emit(state.copyWith(
+          status: BookServiceStatus.loaded, bookingModel: boolingModel));
     } on RedundantRequestException catch (e) {
       log(e.toString());
     } catch (e) {

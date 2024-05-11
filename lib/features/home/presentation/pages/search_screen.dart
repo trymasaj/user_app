@@ -207,7 +207,17 @@ class _SearchScreenState extends State<SearchScreen> {
                     (state.result?.therapists ?? []).isEmpty &&
                     state.isLoading)
                   buildLoading(),
-
+                if ((state.result?.services ?? []).isEmpty &&
+                    (state.result?.therapists ?? []).isEmpty &&
+                    state.isLoaded)
+                  SliverToBoxAdapter(
+                    child: Container(
+                      padding: const EdgeInsets.all(60),
+                      child: const EmptyPageMessage(
+                        svgImage: 'empty',
+                      ),
+                    ),
+                  ),
                 if (state.isEmptyResult && _searchController.text.isEmpty)
                   ...buildRecentlyViews(
                     state.recentSearchResults,
