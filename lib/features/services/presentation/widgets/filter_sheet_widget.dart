@@ -15,13 +15,14 @@ class FilterWidgetSheet extends StatefulWidget {
 
 class _FilterWidgetSheetState extends State<FilterWidgetSheet> {
   double _starterValue = 0;
-  double _endValue = 1000;
+  double _endValue = 0;
   late RangeValues values;
   late TextEditingController _fromController;
   late TextEditingController _toController;
   late FocusNode _fromFocusNode;
   late FocusNode _toFocusNode;
-  int divisions = 1000;
+  int divisions = 0;
+  bool lockRangeUpdate = false;
 
   @override
   void initState() {
@@ -41,8 +42,9 @@ class _FilterWidgetSheetState extends State<FilterWidgetSheet> {
       priceTo ?? _endValue,
     );
 
-    _fromController.text = values.start.toString();
-    _toController.text = values.end.toString();
+    _fromController.text =
+        (values.start == 0 ? ''.tr() : values.start).toString();
+    _toController.text = (values.end == 0 ? ''.tr() : values.end).toString();
 
     _fromController.addListener(_starterListener);
     _toController.addListener(_endListener);
@@ -73,20 +75,24 @@ class _FilterWidgetSheetState extends State<FilterWidgetSheet> {
       }
     }
   }
-  // from formatter
 
+  // from formatter
+  String prevToStr = '';
   void _endListener() {
     if (_toController.text.isNotEmpty) {
       final value = num.parse(_toController.text).toDouble();
 
-      if (value > _endValue) {
-        setState(() {
+      // if (value > _endValue) {
+      setState(() {
+        if (!lockRangeUpdate && prevToStr != _toController.text)
           _endValue = value;
-          values = RangeValues(values.start, _endValue);
-          divisions = _endValue.toInt();
-        });
-        return;
-      }
+
+        values = RangeValues(values.start, value);
+        divisions = (_endValue / 2).toInt();
+      });
+      prevToStr = _toController.text;
+      return;
+      // }
 
       // 'values.start <= values.end'
       if (value >= _starterValue &&
@@ -101,8 +107,10 @@ class _FilterWidgetSheetState extends State<FilterWidgetSheet> {
   // onchange listener
 
   void onChangeSlider(RangeValues newValues) {
+    lockRangeUpdate = true;
     _fromController.text = newValues.start.toString();
     _toController.text = newValues.end.toString();
+    lockRangeUpdate = false;
   }
 
   @override
@@ -185,19 +193,24 @@ class _FilterWidgetSheetState extends State<FilterWidgetSheet> {
                               inputFormatters: [
                                 // filtering the input to not allow inpuut more than the _endValue
                                 FilteringTextInputFormatter.allow(
+                                  // allow int only
                                   RegExp(r'^\d+\.?\d{0,2}'),
                                 ),
                                 TextInputFormatter.withFunction(
                                     (oldValue, newValue) {
                                   if (newValue.text == '') return newValue;
-                                  final i = int.tryParse(newValue.text);
-                                  if (i == null) return oldValue;
-                                  if (i > _endValue)
-                                    return newValue.copyWith(
-                                        text: '${_endValue}',
-                                        selection:
-                                            const TextSelection.collapsed(
-                                                offset: 2));
+
+                                  final i =
+                                      (double.tryParse(newValue.text) ?? 0)
+                                          .toInt();
+
+                                  if (i > _endValue) {
+                                    return TextEditingValue(
+                                        text: (_endValue.toInt()).toString(),
+                                        selection: TextSelection.collapsed(
+                                            offset: newValue.text.length));
+                                  }
+
                                   return newValue;
                                 })
                               ],
@@ -220,6 +233,38 @@ class _FilterWidgetSheetState extends State<FilterWidgetSheet> {
                               controller: _toController,
                               textInputType: TextInputType.number,
                               hintText: 'to'.tr(),
+                              inputFormatters: [
+                                // filtering the input to not allow inpuut more than the _endValue
+                                FilteringTextInputFormatter.allow(
+                                  RegExp(r'^\d+\.?\d{0,2}'),
+                                ),
+                                TextInputFormatter.withFunction(
+                                    (oldValue, newValue) {
+                                  if (newValue.text == '') return newValue;
+
+                                  final i =
+                                      (double.tryParse(newValue.text) ?? 0)
+                                          .toInt();
+                                  print('i_________: $i');
+                                  if (i > 1000000) {
+                                    return TextEditingValue(
+                                        text: '1000000',
+                                        selection: TextSelection.collapsed(
+                                            offset: newValue.text.length));
+                                  }
+                                  if (i <= values.start) {
+                                    final oldValueNum =
+                                        double.tryParse(_fromController.text) ??
+                                            _starterValue;
+                                    return TextEditingValue(
+                                        text: (oldValueNum.toInt()).toString(),
+                                        selection: TextSelection.collapsed(
+                                            offset: newValue.text.length));
+                                  }
+
+                                  return newValue;
+                                })
+                              ],
                             ),
                           ),
                         ],
@@ -245,7 +290,7 @@ class _FilterWidgetSheetState extends State<FilterWidgetSheet> {
                               args: [_toController.text],
                             ),
                           ),
-                          divisions: divisions,
+                          divisions: divisions == 0 ? null : divisions,
                           values: values,
                           min: _starterValue,
                           max: _endValue,

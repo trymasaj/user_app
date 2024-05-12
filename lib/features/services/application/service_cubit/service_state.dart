@@ -41,7 +41,7 @@ class ServiceState extends Equatable {
       this.page = 1,
       this.pageSize = 10,
       this.slectedServiceCategory,
-      this.maxPrice = 1000,
+      this.maxPrice = 0,
       this.minPrice = 0,
       this.allServiceCategories,
       this.hasReachedMax = false,
