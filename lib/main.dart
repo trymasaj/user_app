@@ -41,6 +41,7 @@ void main() async {
         path: 'assets/translations',
         fallbackLocale: const Locale('en'),
         child: RequestsInspector(
+          navigatorKey: navigatorKey,
           enabled: inspectorEnabled,
           showInspectorOn: ShowInspectorOn.LongPress,
           child: MultiBlocProvider(

@@ -490,7 +490,7 @@ class AuthRemoteDataSourceImpl implements AuthRemoteDataSource {
   }
 
   @override
-  Future<User> updateProfileInformation(User user) {
+  Future<User> updateProfileInformation(User user) async {
     const url = ApiEndPoint.UPDATE_PROFILE_INFORMATION;
     final data = {
       'userId': user.id,
@@ -502,10 +502,10 @@ class AuthRemoteDataSourceImpl implements AuthRemoteDataSource {
       'countryId': user.countryId,
       'birthDate': user.birthDate?.toIso8601String(),
     }..removeWhere((_, v) => v == null);
-
+    final formData = await _createFormData(data);
     return _networkService.post(
       url,
-      data: data,
+      data: formData,
       headers: {'Authorization': 'Bearer ${user.token}'},
     ).then((response) {
       if (response.statusCode != 200) {
