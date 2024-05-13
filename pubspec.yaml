@@ -52,9 +52,9 @@ dependencies:
   dotted_border: ^2.0.0+3
   easy_localization: ^3.0.1
   firebase_analytics: ^10.4.5
-  firebase_core: ^2.9.0
-  firebase_crashlytics: ^3.1.0
-  firebase_messaging: ^14.7.10
+  firebase_core: ^2.31.0
+  firebase_crashlytics: ^3.5.5
+  firebase_messaging: ^14.7.21
   firebase_dynamic_links: ^5.4.8
   flutter_bloc: ^8.1.1
   flutter_cache_manager: ^3.3.0
