@@ -13,6 +13,9 @@ import 'package:masaj/features/book_service/enums/payment_status.dart';
 import 'package:masaj/features/book_service/presentation/blocs/book_cubit/book_service_cubit.dart';
 import 'package:masaj/features/home/presentation/pages/home_page.dart';
 
+import '../../../wallet/bloc/wallet_bloc/wallet_bloc.dart';
+import '../../../wallet/models/wallet_model.dart';
+
 class SummaryPaymentPage extends StatefulWidget {
   const SummaryPaymentPage({super.key, required this.bookingId});
   final int bookingId;
@@ -87,6 +90,16 @@ class _SummaryPaymentPageState extends State<SummaryPaymentPage> {
                       subtractedSize: -1,
                       isBold: true),
                   const SubtitleText(text: 'lbl_wallet_balance'),
+                  BlocSelector<WalletBloc, WalletState, WalletModel?>(
+                    selector: (state) {
+                      return state.walletBalance;
+                    },
+                    builder: (context, state) {
+                      return SubtitleText(
+                          text: 'lbl_kwd'
+                              .tr(args: [(state?.balance ?? 0).toString()]));
+                    },
+                  ),
                   const SizedBox(height: 20),
                   _buildSummary(context),
                   const SizedBox(height: 100),
@@ -115,7 +128,6 @@ class _SummaryPaymentPageState extends State<SummaryPaymentPage> {
               amount: bookingModel?.subtotal, title: 'lbl_sub_total2'),
           _buildSummaryPriceItem(
               amount: bookingModel?.discountedAmount,
-              isDiscount: true,
               title: 'lbl_coupon_discount'),
           _buildSummaryPriceItem(
               amount: bookingModel?.grandTotal, title: 'lbl_total_amount2'),

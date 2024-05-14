@@ -1,6 +1,4 @@
 import 'dart:async';
-import 'dart:developer';
-
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
@@ -11,29 +9,20 @@ import 'package:masaj/core/presentation/colors/app_colors.dart';
 import 'package:masaj/core/presentation/navigation/navigator_helper.dart';
 import 'package:masaj/core/presentation/overlay/custom_bottom_sheet.dart';
 import 'package:masaj/core/presentation/widgets/stateless/custom_app_bar.dart';
-import 'package:masaj/core/presentation/widgets/stateless/custom_cached_network_image.dart';
 import 'package:masaj/core/presentation/widgets/stateless/custom_loading.dart';
 import 'package:masaj/core/presentation/widgets/stateless/custom_text.dart';
 import 'package:masaj/core/presentation/widgets/stateless/default_button.dart';
 import 'package:masaj/core/presentation/widgets/stateless/empty_page_message.dart';
 import 'package:masaj/core/presentation/widgets/stateless/text_fields/default_text_form_field.dart';
 import 'package:masaj/core/presentation/widgets/stateless/text_with_gradiant.dart';
-
-import 'package:masaj/features/address/application/blocs/my_addresses_bloc/my_addresses_cubit.dart';
 import 'package:masaj/features/book_service/data/models/booking_model/timeslot.dart';
-
-import 'package:masaj/features/book_service/data/models/time_slot.dart';
 import 'package:masaj/features/book_service/enums/avalable_therapist_tab_enum.dart';
 import 'package:masaj/features/book_service/presentation/blocs/available_therapist_cubit/available_therapist_cubit.dart';
 import 'package:masaj/features/book_service/presentation/blocs/book_cubit/book_service_cubit.dart';
 import 'package:masaj/features/book_service/presentation/screens/select_therapist_screen.dart';
 import 'package:masaj/features/home/presentation/widget/index.dart';
 import 'package:masaj/features/home/presentation/widget/tehrapists_widget.dart';
-import 'package:masaj/features/payment/data/model/payment_model.dart';
 import 'package:masaj/features/payment/presentaion/pages/checkout_screen.dart';
-import 'package:masaj/features/providers_tab/data/models/avilable_therapist_model.dart';
-import 'package:masaj/features/providers_tab/data/models/therapist.dart';
-import 'package:masaj/features/services/data/models/service_model.dart';
 
 class BookServiceScreen extends StatefulWidget {
   const BookServiceScreen({super.key});
@@ -547,24 +536,20 @@ class _BookServiceScreenState extends State<BookServiceScreen> {
       child: DefaultButton(
         onPressed: () async {
           try {
-            final addressCubit = context.read<MyAddressesCubit>();
-            await addressCubit.getAddresses();
-            final address = addressCubit.state.addressesData.first;
-            log(address.formattedAddress ?? '');
             if (selectedDate == null) {
               ScaffoldMessenger.of(context).showSnackBar(SnackBar(
                 content: Text('please_select_date'.tr()),
               ));
               return;
             }
-
+            final therapistId = context
+                .read<AvialbleTherapistCubit>()
+                .state
+                .selectedTherapist!
+                .therapist!
+                .therapistId;
             await context.read<BookingCubit>().addBookingTherapist(
-                  therapistId: context
-                      .read<AvialbleTherapistCubit>()
-                      .state
-                      .selectedTherapist!
-                      .therapist!
-                      .therapistId,
+                  therapistId: therapistId,
                   availableTime: getFinlaDate(),
                 );
 

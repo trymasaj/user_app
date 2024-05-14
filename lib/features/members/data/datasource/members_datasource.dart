@@ -45,7 +45,8 @@ class MembersDataSourceImpl extends MembersDataSource {
             'multipart/form-data; boundary=<calculated when request is sent>');
     return _networkService.post(url, data: formData).then((response) {
       if (response.statusCode != 200) {
-        throw RequestException(message: response.data['detail']);
+        throw RequestException(
+            message: (response.data['errors'][''] as List).first);
       }
       final result = response.data;
       final resultStatus = result['result'];
@@ -78,7 +79,8 @@ class MembersDataSourceImpl extends MembersDataSource {
     const url = ApiEndPoint.GET_MEMBER;
     return _networkService.get(url + '/' + id.toString()).then((response) {
       if (response.statusCode != 200) {
-        throw RequestException(message: response.data);
+        throw RequestException(
+            message: (response.data['errors'][''] as List).first);
       }
       final result = response.data;
       final resultStatus = result['status'];
@@ -94,14 +96,12 @@ class MembersDataSourceImpl extends MembersDataSource {
     const url = ApiEndPoint.GET_MEMBERS;
     return _networkService.get(url).then((response) {
       if (response.statusCode != 200) {
-        throw RequestException(message: response.data);
+        throw RequestException(
+            message: (response.data['errors'][''] as List).first);
       }
       final result = response.data;
       log(response.data.toString());
-      // final resultStatus = result['status'];
-      // if (resultStatus == RequestResult.Failed.name) {
-      //   throw RequestException(message: result['msg']);
-      // }
+
       return result != null
           ? (result as List).map((e) => MemberModel.fromMap(e)).toList()
           : [];

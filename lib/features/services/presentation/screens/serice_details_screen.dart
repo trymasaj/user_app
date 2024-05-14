@@ -689,15 +689,9 @@ class AddonsSection extends StatelessWidget {
                             width: 8,
                           ),
                           // checkbox
-                          Checkbox(
+                          Checkbox.adaptive(
                               // when the value is false the fill color is white
-
-                              fillColor: ServiceDetailsScreen.of(context)
-                                      .isAddonSelected(addon)
-                                  ? null
-                                  : MaterialStateProperty.all(
-                                      Colors.white,
-                                    ),
+                              activeColor: AppColors.PRIMARY_COLOR,
                               value: ServiceDetailsScreen.of(context)
                                   .isAddonSelected(addon),
                               onChanged: (value) {
