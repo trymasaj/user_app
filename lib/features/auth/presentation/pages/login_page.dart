@@ -250,8 +250,7 @@ class _LoginPageState extends State<LoginPage> {
 
     return DefaultButton(
       padding: const EdgeInsets.symmetric(vertical: 12.0),
-      isExpanded: true,
-      contentAlignment: MainAxisAlignment.start,
+      contentAlignment: MainAxisAlignment.center,
       backgroundColor: Colors.transparent,
       margin: const EdgeInsets.symmetric(vertical: 4.0),
       label: 'lbl_sign_with_google'.tr(),
@@ -278,7 +277,7 @@ class _LoginPageState extends State<LoginPage> {
     return DefaultButton(
       padding: const EdgeInsets.symmetric(vertical: 12.0),
       isExpanded: true,
-      contentAlignment: MainAxisAlignment.start,
+      contentAlignment: MainAxisAlignment.center,
       backgroundColor: Colors.transparent,
       margin: const EdgeInsets.symmetric(vertical: 4.0),
       label: 'lbl_sign_with_apple'.tr(),

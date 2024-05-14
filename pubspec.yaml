@@ -2,7 +2,7 @@ name: masaj
 description: A new Flutter project.
 # The following line prevents the package from being accidentally published to
 # pub.dev using `flutter pub publish`. This is preferred for private packages.
-publish_to: 'none' # Remove this line if you wish to publish to pub.dev
+publish_to: "none" # Remove this line if you wish to publish to pub.dev
 
 # The following defines the version and build number for your application.
 # A version number is three numbers separated by dots, like 1.2.43
@@ -19,7 +19,7 @@ publish_to: 'none' # Remove this line if you wish to publish to pub.dev
 version: 1.0.0+1
 
 environment:
-  sdk: '>=3.0.6 <4.0.0'
+  sdk: ">=3.0.6 <4.0.0"
 
 # Dependencies specify other packages that your package needs in order to work.
 # To automatically upgrade your package dependencies to the latest versions
@@ -43,19 +43,18 @@ dependencies:
 
   flutter_rating_bar: ^4.0.1
   carousel_slider: ^4.2.1
-  connectivity_plus: ^3.0.6
+  connectivity_plus: ^5.0.2
   geocoding: ^2.1.1
   dartz: ^0.10.1
   injectable: ^2.3.2
   get_it: ^7.6.4
-
   dio: ^5.3.3
   dotted_border: ^2.0.0+3
   easy_localization: ^3.0.1
   firebase_analytics: ^10.4.5
-  firebase_core: ^2.9.0
-  firebase_crashlytics: ^3.1.0
-  firebase_messaging: ^14.7.10
+  firebase_core: ^2.31.0
+  firebase_crashlytics: ^3.5.5
+  firebase_messaging: ^14.7.21
   firebase_dynamic_links: ^5.4.8
   flutter_bloc: ^8.1.1
   flutter_cache_manager: ^3.3.0
@@ -66,7 +65,7 @@ dependencies:
   flutter_svg: ^2.0.9
   flutter_wallet:
     git:
-      url: 'https://github.com/benunes01/flutter_wallet_pkpass'
+      url: "https://github.com/benunes01/flutter_wallet_pkpass"
   font_awesome_flutter: ^10.4.0
   geolocator: ^10.1.0
   google_maps_flutter: ^2.2.3
@@ -185,7 +184,7 @@ flutter:
           weight: 400
 
 flutter_native_splash:
-  color: '#000000'
+  color: "#000000"
   android: true
   ios: true
   android_gravity: fill

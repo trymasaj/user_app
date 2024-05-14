@@ -189,17 +189,17 @@ class _SignUpPageState extends State<SignUpPage> {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.stretch,
         children: [
+          DefaultTextFormField(
+            isRequired: true,
+            currentFocusNode: _fullNameFocusNode,
+            currentController: _fullNameTextController,
+            nextFocusNode: _emailFocusNode,
+            inputFormatters: [LengthLimitingTextInputFormatter(40)],
+            hint: 'lbl_name',
+            prefixIcon: buildImage(ImageConstant.imgLock),
+          ),
+          SizedBox(height: 18.h),
           if (!widget.isFromSocial) ...[
-            DefaultTextFormField(
-              isRequired: true,
-              currentFocusNode: _fullNameFocusNode,
-              currentController: _fullNameTextController,
-              nextFocusNode: _emailFocusNode,
-              inputFormatters: [LengthLimitingTextInputFormatter(40)],
-              hint: 'lbl_name',
-              prefixIcon: buildImage(ImageConstant.imgLock),
-            ),
-            SizedBox(height: 18.h),
             EmailTextFormField(
               currentController: _emailTextController,
               currentFocusNode: _emailFocusNode,
@@ -323,7 +323,6 @@ class _SignUpPageState extends State<SignUpPage> {
 
     return DefaultButton(
       label: 'sign_up'.tr(),
-      backgroundColor: AppColors.PRIMARY_COLOR,
       isExpanded: true,
       iconLocation: DefaultButtonIconLocation.End,
       onPressed: signUpCallBack,
