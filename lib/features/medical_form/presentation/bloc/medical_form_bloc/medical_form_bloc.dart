@@ -1,7 +1,7 @@
 import 'dart:developer';
 
+import 'package:flutter/foundation.dart';
 import 'package:masaj/core/application/controllers/base_cubit.dart';
-import 'package:masaj/core/presentation/models/selection_popup_model.dart';
 import 'package:masaj/features/medical_form/data/model/condition_model.dart';
 import 'package:masaj/features/medical_form/data/model/medical_form_model.dart';
 import 'package:masaj/features/medical_form/data/repo/medical_form_repo.dart';
@@ -15,26 +15,12 @@ class MedicalFormBloc extends BaseCubit<MedicalFormState> {
   MedicalFormBloc(this._medicalFormRepo) : super(const MedicalFormState());
   final MedicalFormRepository _medicalFormRepo;
 
-  void _changeDropDown() {
-    emit(state.copyWith());
-  }
+  void saveSelectedConditions(List<MedicalCondition>? conditions) {
+    if (conditions == null) return;
 
-  List<SelectionPopupModel> fillDropdownItemList() {
-    return [
-      SelectionPopupModel(
-        id: 1,
-        title: 'Item One',
-        isSelected: true,
-      ),
-      SelectionPopupModel(
-        id: 2,
-        title: 'Item Two',
-      ),
-      SelectionPopupModel(
-        id: 3,
-        title: 'Item Three',
-      )
-    ];
+    emit(state.copyWith(
+        selectedConditions: conditions,
+        status: MedicalFormStateStatus.conditionSaved));
   }
 
   Future<void> getConditions() async {
@@ -78,5 +64,9 @@ class MedicalFormBloc extends BaseCubit<MedicalFormState> {
       emit(state.copyWith(
           status: MedicalFormStateStatus.error, errorMessage: e.toString()));
     }
+  }
+
+  void clear() {
+    emit(state.copyWith(selectedConditions: []));
   }
 }

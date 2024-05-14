@@ -1,9 +1,8 @@
-import 'package:country_pickers/country.dart';
-import 'package:country_pickers/country_pickers.dart';
 import 'package:flutter/material.dart';
+import 'package:intl_phone_field/phone_number.dart';
 import 'package:masaj/core/app_export.dart';
 import 'package:masaj/core/presentation/widgets/stateless/custom_app_bar.dart';
-import 'package:masaj/core/presentation/widgets/stateless/custom_phone_number.dart';
+import 'package:masaj/core/presentation/widgets/stateless/text_fields/phone_number_text_field.dart';
 import 'package:masaj/features/account/bloc/phone_bloc/phone_bloc.dart';
 import 'package:masaj/features/account/models/phone_model.dart';
 
@@ -22,6 +21,10 @@ class PhoneScreen extends StatelessWidget {
         child: PhoneScreen());
   }
 
+  late final TextEditingController _phoneNumberConttroleer;
+  late final FocusNode _phoneFocusNode;
+  PhoneNumber? _phoneNumber;
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -34,12 +37,13 @@ class PhoneScreen extends StatelessWidget {
                 padding: EdgeInsets.all(23.w),
                 child: Column(children: [
                   BlocBuilder<PhoneBloc, PhoneState>(builder: (context, state) {
-                    return CustomPhoneNumber(
-                        country: state.selectedCountry ??
-                            CountryPickerUtils.getCountryByPhoneCode('1'),
-                        onTap: (Country value) {
-                          context.read<PhoneBloc>().changeCountry((value));
-                        });
+                    return PhoneTextFormField(
+                      currentController: _phoneNumberConttroleer,
+                      currentFocusNode: _phoneFocusNode,
+                      initialValue: _phoneNumber,
+                      onInputChanged: (value) => _phoneNumber = value,
+                      nextFocusNode: null,
+                    );
                   }),
                   SizedBox(height: 32.h),
                   CustomElevatedButton(

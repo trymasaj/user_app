@@ -33,12 +33,12 @@ import 'package:masaj/features/legal/pages/privacy_policy_screen.dart';
 import 'package:masaj/features/legal/pages/reschedule_policy_screen.dart';
 import 'package:masaj/features/legal/pages/terms_and_condititons_screen.dart';
 import 'package:masaj/features/medical_form/presentation/pages/medical_form_screen.dart';
-import 'package:masaj/features/payment/data/model/payment_model.dart';
+
 import 'package:masaj/features/payment/presentaion/pages/checkout_screen.dart';
 import 'package:masaj/features/providers_tab/presentation/pages/provider_details_screen.dart';
 import 'package:masaj/features/members/presentaion/pages/add_member_screen.dart';
 import 'package:masaj/features/quiz/presentation/pages/quiz_start_page.dart';
-import 'package:masaj/features/services/data/models/service_model.dart';
+
 import 'package:masaj/features/services/presentation/screens/serice_details_screen.dart';
 import 'package:masaj/features/splash/presentation/pages/splash_page.dart';
 import 'package:masaj/features/wallet/pages/top_up_wallet_screen.dart';
@@ -115,8 +115,7 @@ Route<dynamic>? onGenerateRoute(RouteSettings settings) {
       return MaterialPageRoute(
           builder: (context) => WalletScreen.builder(context));
     case MedicalFormScreen.routeName:
-      return MaterialPageRoute(
-          builder: (context) => MedicalFormScreen.builder(context));
+      return MaterialPageRoute(builder: (context) => const MedicalFormScreen());
     case ManageMembersScreen.routeName:
       return MaterialPageRoute(
           builder: (context) => const ManageMembersScreen());

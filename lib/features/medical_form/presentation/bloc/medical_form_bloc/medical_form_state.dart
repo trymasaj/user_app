@@ -1,6 +1,14 @@
 part of 'medical_form_bloc.dart';
 
-enum MedicalFormStateStatus { initial, loading, loaded, error, deleted, added }
+enum MedicalFormStateStatus {
+  initial,
+  loading,
+  loaded,
+  error,
+  deleted,
+  added,
+  conditionSaved
+}
 
 extension MedicalFormStateX on MedicalFormState {
   bool get isInitial => status == MedicalFormStateStatus.initial;
@@ -9,16 +17,19 @@ extension MedicalFormStateX on MedicalFormState {
   bool get isError => status == MedicalFormStateStatus.error;
   bool get isDeleted => status == MedicalFormStateStatus.deleted;
   bool get isAdded => status == MedicalFormStateStatus.added;
+  bool get isConditionSaved => status == MedicalFormStateStatus.conditionSaved;
 }
 
 class MedicalFormState {
   final MedicalFormStateStatus status;
   final List<MedicalCondition>? conditions;
+  final List<MedicalCondition>? selectedConditions;
   final MedicalForm? medicalForm;
   final String? errorMessage;
 
   const MedicalFormState({
     this.conditions,
+    this.selectedConditions,
     this.medicalForm,
     this.status = MedicalFormStateStatus.initial,
     this.errorMessage,
@@ -30,7 +41,8 @@ class MedicalFormState {
 
     return other.runtimeType == runtimeType &&
         (other as MedicalFormState).status == status &&
-        other.conditions == conditions &&
+        listEquals(other.conditions, conditions) &&
+        listEquals(other.selectedConditions, selectedConditions) &&
         other.medicalForm == medicalForm &&
         other.errorMessage == errorMessage;
   }
@@ -40,6 +52,7 @@ class MedicalFormState {
       status.hashCode ^
       errorMessage.hashCode ^
       Object.hashAll(conditions ?? []) ^
+      Object.hashAll(selectedConditions ?? []) ^
       medicalForm.hashCode;
 
   MedicalFormState copyWith({
@@ -47,11 +60,14 @@ class MedicalFormState {
     String? errorMessage,
     MedicalForm? medicalForm,
     List<MedicalCondition>? conditions,
+    List<MedicalCondition>? selectedConditions,
   }) {
     return MedicalFormState(
-        status: status ?? this.status,
-        conditions: conditions ?? this.conditions,
-        errorMessage: errorMessage ?? this.errorMessage,
-        medicalForm: medicalForm ?? this.medicalForm);
+      status: status ?? this.status,
+      conditions: conditions ?? this.conditions,
+      errorMessage: errorMessage ?? this.errorMessage,
+      medicalForm: medicalForm ?? this.medicalForm,
+      selectedConditions: selectedConditions ?? this.selectedConditions,
+    );
   }
 }

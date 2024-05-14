@@ -1,9 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_form_builder/flutter_form_builder.dart';
 import 'package:masaj/core/app_export.dart';
-import 'package:masaj/core/data/di/injector.dart';
+import 'package:masaj/core/data/extensions/extensions.dart';
+
+import 'package:masaj/core/presentation/colors/app_colors.dart';
 import 'package:masaj/core/presentation/navigation/navigator_helper.dart';
 import 'package:masaj/core/presentation/widgets/stateless/custom_app_bar.dart';
+import 'package:masaj/core/presentation/widgets/stateless/text_fields/default_text_form_field.dart';
 import 'package:masaj/features/medical_form/presentation/bloc/medical_form_bloc/medical_form_bloc.dart';
 import 'package:masaj/features/medical_form/presentation/pages/medical_conditions_screen.dart';
 
@@ -12,18 +15,22 @@ class MedicalFormScreen extends StatefulWidget {
 
   const MedicalFormScreen({super.key});
 
-  static Widget builder(BuildContext context) {
-    return BlocProvider<MedicalFormBloc>(
-      create: (context) => Injector().medicalFormBloc,
-      child: const MedicalFormScreen(),
-    );
-  }
-
   @override
   State<MedicalFormScreen> createState() => _MedicalFormScreenState();
 }
 
 class _MedicalFormScreenState extends State<MedicalFormScreen> {
+  late final TextEditingController _conditionsController;
+  final _birthDateTextController = TextEditingController();
+  final _birthDateFocusNode = FocusNode();
+
+  @override
+  void initState() {
+    _conditionsController = TextEditingController(text: 'lbl_conditions'.tr());
+    context.read<MedicalFormBloc>().clear();
+    super.initState();
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -32,113 +39,125 @@ class _MedicalFormScreenState extends State<MedicalFormScreen> {
       body: Container(
         width: double.maxFinite,
         padding: EdgeInsets.symmetric(vertical: 8.h),
-        child: Column(
-          children: [
-            SizedBox(height: 22.h),
-            Expanded(
-              child: SingleChildScrollView(
-                child: Padding(
-                  padding: EdgeInsets.only(
-                    left: 24.w,
-                    right: 24.w,
-                    bottom: 5.h,
-                  ),
-                  child: Column(
-                    children: [
-                      _buildFrame(context),
-                      SizedBox(height: 18.h),
-                      Align(
-                        alignment: Alignment.centerLeft,
-                        child: Text(
-                          'msg_health_condititons'.tr(),
-                          style: CustomTextStyles.titleMediumOnPrimary_1,
-                        ),
+        child: BlocConsumer<MedicalFormBloc, MedicalFormState>(
+          builder: (context, state) {
+            return Column(
+              children: [
+                SizedBox(height: 22.h),
+                Expanded(
+                  child: SingleChildScrollView(
+                    child: Padding(
+                      padding: EdgeInsets.only(
+                        left: 24.w,
+                        right: 24.w,
+                        bottom: 5.h,
                       ),
-                      SizedBox(height: 7.h),
-                      SizedBox(
-                        width: 325.w,
-                        child: Text(
-                          'msg_select_all_the_conditions'.tr(),
-                          maxLines: 2,
-                          overflow: TextOverflow.ellipsis,
-                          style: theme.textTheme.bodyMedium!.copyWith(
-                            height: 1.57,
-                          ),
-                        ),
-                      ),
-                      SizedBox(height: 7.h),
-                      Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
+                      child: Column(
                         children: [
-                          Text(
-                            'lbl_conditions'.tr(),
-                            style: theme.textTheme.bodyMedium,
-                          ),
-                          SizedBox(height: 7.h),
-                          FormBuilderTextField(
-                            name: 'lbl_conditions',
-                            onTap: () {
-                              NavigatorHelper.of(context)
-                                  .push(MaterialPageRoute(
-                                      builder: (context) => BlocProvider(
-                                            create: (context) =>
-                                                Injector().medicalFormBloc
-                                                  ..getConditions(),
-                                            child:
-                                                const MedicalConditionScreen(),
-                                          )));
-                            },
-                          ),
-                        ],
-                      ),
-                      SizedBox(height: 17.h),
-                      _buildFrame1(context),
-                      SizedBox(height: 16.h),
-                      Align(
-                        alignment: Alignment.centerLeft,
-                        child: Container(
-                          width: 290.w,
-                          margin: EdgeInsets.only(right: 36.w),
-                          child: Text(
-                            'msg_are_you_presently'.tr(),
-                            maxLines: 3,
-                            overflow: TextOverflow.ellipsis,
-                            style: theme.textTheme.bodyMedium!.copyWith(
-                              height: 1.57,
+                          _buildFrame(context),
+                          SizedBox(height: 18.h),
+                          Align(
+                            alignment: Alignment.centerLeft,
+                            child: Text(
+                              'msg_health_condititons'.tr(),
+                              style: CustomTextStyles.titleMediumOnPrimary_1,
                             ),
                           ),
-                        ),
-                      ),
-                      SizedBox(height: 7.h),
-                      Container(
-                        height: 80.h,
-                        width: 327.w,
-                        decoration: BoxDecoration(
-                          color: theme.colorScheme.onPrimaryContainer
-                              .withOpacity(1),
-                          borderRadius: BorderRadius.circular(
-                            12.w,
+                          SizedBox(height: 7.h),
+                          SizedBox(
+                            width: 325.w,
+                            child: Text(
+                              'msg_select_all_the_conditions'.tr(),
+                              maxLines: 2,
+                              overflow: TextOverflow.ellipsis,
+                              style: theme.textTheme.bodyMedium!.copyWith(
+                                height: 1.57,
+                              ),
+                            ),
                           ),
-                          border: Border.all(
-                            color: appTheme.blueGray100,
-                            width: 1.w,
+                          SizedBox(height: 7.h),
+                          Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Text(
+                                'lbl_conditions'.tr(),
+                                style: theme.textTheme.bodyMedium,
+                              ),
+                              SizedBox(height: 7.h),
+                              FormBuilderTextField(
+                                style: TextStyle(
+                                    color: AppColors.GREY_NORMAL_COLOR),
+                                readOnly: true,
+                                controller: _conditionsController,
+                                name: 'conditions',
+                                onTap: () async {
+                                  await NavigatorHelper.of(context)
+                                      .push(MaterialPageRoute(
+                                    builder: (context) =>
+                                        const MedicalConditionScreen(),
+                                  ));
+                                },
+                              ),
+                            ],
                           ),
-                        ),
+                          SizedBox(height: 17.h),
+                          _buildFrame1(context),
+                          SizedBox(height: 16.h),
+                          Align(
+                            alignment: Alignment.centerLeft,
+                            child: Container(
+                              width: 290.w,
+                              margin: EdgeInsets.only(right: 36.w),
+                              child: Text(
+                                'msg_are_you_presently'.tr(),
+                                maxLines: 3,
+                                overflow: TextOverflow.ellipsis,
+                                style: theme.textTheme.bodyMedium!.copyWith(
+                                  height: 1.57,
+                                ),
+                              ),
+                            ),
+                          ),
+                          SizedBox(height: 7.h),
+                          Container(
+                            height: 80.h,
+                            width: 327.w,
+                            decoration: BoxDecoration(
+                              color: theme.colorScheme.onPrimaryContainer
+                                  .withOpacity(1),
+                              borderRadius: BorderRadius.circular(
+                                12.w,
+                              ),
+                              border: Border.all(
+                                color: appTheme.blueGray100,
+                                width: 1.w,
+                              ),
+                            ),
+                          ),
+                          SizedBox(height: 20.h),
+                          _buildEditText(context),
+                          SizedBox(height: 16.h),
+                          _buildFrame2(context),
+                          SizedBox(height: 16.h),
+                          _buildFrame3(context),
+                          SizedBox(height: 18.h),
+                          _buildFrame4(context),
+                        ],
                       ),
-                      SizedBox(height: 20.h),
-                      _buildEditText(context),
-                      SizedBox(height: 16.h),
-                      _buildFrame2(context),
-                      SizedBox(height: 16.h),
-                      _buildFrame3(context),
-                      SizedBox(height: 18.h),
-                      _buildFrame4(context),
-                    ],
+                    ),
                   ),
                 ),
-              ),
-            ),
-          ],
+              ],
+            );
+          },
+          listener: (BuildContext context, MedicalFormState state) {
+            if (state.isConditionSaved) {
+              _conditionsController.clear();
+              for (var condition in state.selectedConditions ?? []) {
+                _conditionsController.text = (condition.nameEn ?? '') + ',';
+              }
+            }
+          },
         ),
       ),
       bottomNavigationBar: _buildSave(context),
@@ -162,24 +181,51 @@ class _MedicalFormScreenState extends State<MedicalFormScreen> {
           style: CustomTextStyles.titleMediumOnPrimary_1,
         ),
         SizedBox(height: 7.h),
-        Container(
-          padding: EdgeInsets.symmetric(
-            horizontal: 19.w,
-            vertical: 17.h,
-          ),
-          decoration: AppDecoration.outlineBlueGray.copyWith(
-            borderRadius: BorderRadiusStyle.roundedBorder12,
-          ),
-          child: Align(
-            alignment: AlignmentDirectional.centerEnd,
-            child: CustomImageView(
-              imagePath: ImageConstant.imgCalendarOnprimary20x20,
-              height: 20.adaptSize,
-              width: 20.adaptSize,
-            ),
-          ),
+        DefaultTextFormField(
+          isRequired: true,
+          readOnly: true,
+          currentFocusNode: _birthDateFocusNode,
+          currentController: _birthDateTextController,
+          hint: 'lbl_birth_date',
+          prefixIcon: buildImage(ImageConstant.imgCalendar),
+          suffixIcon: buildImage(ImageConstant.imgCalendar),
+          onTap: () async {
+            final initialDate = _birthDateTextController.text.isNotEmpty
+                ? _birthDateTextController.text.parseDate()
+                : DateTime.now();
+            final pickedDate = await showDatePicker(
+                context: context,
+                initialDate: initialDate,
+                firstDate: DateTime.now().subtract(const Duration(days: 43800)),
+                lastDate: DateTime.now(),
+                builder: (context, child) {
+                  return Theme(
+                    data: ThemeData.light().copyWith(
+                      colorScheme: const ColorScheme.light(
+                        primary: AppColors.PRIMARY_COLOR,
+                      ),
+                    ),
+                    child: child!,
+                  );
+                });
+            if (pickedDate != null) {
+              _birthDateTextController.text = pickedDate.formatDate();
+            }
+          },
         ),
       ],
+    );
+  }
+
+  Widget buildImage(String imagePath) {
+    return Padding(
+      padding: EdgeInsets.fromLTRB(18.w, 17.h, 10.w, 19.h),
+      child: CustomImageView(
+        imagePath: imagePath,
+        height: 20.h,
+        width: 20.w,
+        color: appTheme.blueGray40001,
+      ),
     );
   }
 

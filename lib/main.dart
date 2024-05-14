@@ -55,6 +55,10 @@ void main() async {
               BlocProvider(
                   create: (context) =>
                       Injector().walletCubit..getWalletBalance()),
+              BlocProvider(
+                  lazy: false,
+                  create: (context) =>
+                      Injector().medicalFormBloc..getConditions())
             ],
             child: const MyApp(),
           ),

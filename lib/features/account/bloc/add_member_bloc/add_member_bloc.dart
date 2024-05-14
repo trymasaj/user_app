@@ -1,4 +1,3 @@
-import 'package:country_pickers/country.dart';
 import 'package:dartz/dartz.dart';
 import 'package:equatable/equatable.dart';
 import 'package:masaj/core/application/controllers/base_cubit.dart';
@@ -11,9 +10,9 @@ part 'add_member_state.dart';
 class AddMemberBloc extends BaseCubit<AddMemberState> {
   AddMemberBloc(super.initialState);
 
-  changeCountry(Country country) {
-    emit(state.copyWith(selectedCountry: some(country)));
-  }
+  // changeCountry(Country country) {
+  //   emit(state.copyWith(selectedCountry: some(country)));
+  // }
 
   onInitialize() async {}
 }

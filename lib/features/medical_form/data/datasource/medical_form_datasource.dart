@@ -1,6 +1,5 @@
 import 'package:masaj/core/data/clients/network_service.dart';
 import 'package:masaj/core/data/constants/api_end_point.dart';
-import 'package:masaj/core/domain/enums/request_result_enum.dart';
 import 'package:masaj/core/domain/exceptions/request_exception.dart';
 import 'package:masaj/features/medical_form/data/model/condition_model.dart';
 import 'package:masaj/features/medical_form/data/model/medical_form_model.dart';
