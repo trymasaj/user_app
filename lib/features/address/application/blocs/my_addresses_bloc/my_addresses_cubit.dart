@@ -42,7 +42,7 @@ class MyAddressesCubit extends BaseCubit<MyAddressesState> {
     addresses[index] = addresses[index].copyWith(isPrimary: true);
     emit(state.copyWith(addresses: DataLoadState.loaded(addresses)));
   }
-
+// Education2016
   Future<void> update(int index, Address result) async {
     final addressId = state.addressesData[index].id;
     await _repo.updateAddress(addressId, result);

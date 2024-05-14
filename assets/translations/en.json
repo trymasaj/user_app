@@ -922,5 +922,6 @@
   "addons": "Add on’s",
   "name": "Name",
   "phone": "Phone",
-  "please_select_therapist": "Please select therapist"
+  "please_select_therapist": "Please select therapist",
+  "minutes": "Minutes"
 }

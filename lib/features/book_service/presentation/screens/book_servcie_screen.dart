@@ -156,6 +156,7 @@ class _BookServiceScreenState extends State<BookServiceScreen> {
   Widget _buildServiceCard(BuildContext context) {
     return BlocBuilder<BookingCubit, BookingState>(
       builder: (context, state) {
+        
         final bookingModel = state.bookingModel;
         final service = bookingModel?.service;
         return Container(
@@ -231,6 +232,32 @@ class _BookServiceScreenState extends State<BookServiceScreen> {
                   SizedBox(
                     height: 3,
                   ),
+                  // Row(
+                  //   children: [
+                  //     Text(
+                  //       'addons'.tr(),
+                  //       style: TextStyle(
+                  //           fontSize: 12,
+                  //           fontWeight: FontWeight.w400,
+                  //           color: AppColors.PlaceholderColor),
+                  //     ),
+                  //     Text(
+                  //       ': '.tr(),
+                  //       style: TextStyle(
+                  //           fontSize: 12,
+                  //           fontWeight: FontWeight.w400,
+                  //           color: AppColors.PlaceholderColor),
+                  //     ),
+                  //     CustomText(
+                  //         fontSize: 12,
+                  //         fontWeight: FontWeight.w400,
+                  //         color: AppColors.FONT_LIGHT,
+                  //         text: bookingModel?.service?.addons
+                  //                 ?.map((e) => e.titleAr)
+                  //                 .join(',') ??
+                  //             '')
+                  //   ],
+                  // )
                   // Row(
                   //   children: [
                   //     Text(

@@ -15,6 +15,7 @@ class HomeSearchCubit extends BaseCubit<HomeSearchCubitState> {
   })  : _homeRepository = homeRepository,
         super(const HomeSearchCubitState()) {
     getRecentServices();
+    getRecentSearchKeyWords();
     getRecentSearchResults();
   }
 
@@ -121,6 +122,74 @@ class HomeSearchCubit extends BaseCubit<HomeSearchCubitState> {
         status: HomeSearchStateStatus.loaded,
         recentServices: recentServices,
       ));
+    } catch (e) {
+      emit(state.copyWith(
+        status: HomeSearchStateStatus.error,
+        errorMessage: e.toString(),
+      ));
+    }
+  }
+
+  // get recent key words
+  Future<void> getRecentSearchKeyWords() async {
+    emit(state.copyWith(status: HomeSearchStateStatus.loading));
+    try {
+      final recentSearchKeywords = await _homeRepository.getSearchKeyWords();
+      emit(state.copyWith(
+        status: HomeSearchStateStatus.loaded,
+        recentSearchKeywords: recentSearchKeywords,
+      ));
+      print('recentSearchKeywords: $recentSearchKeywords');
+    } catch (e) {
+      emit(state.copyWith(
+        status: HomeSearchStateStatus.error,
+        errorMessage: e.toString(),
+      ));
+    }
+  }
+
+  // remove search key word
+  Future<void> removeSearchKeyWord(String keyWord) async {
+    emit(state.copyWith(status: HomeSearchStateStatus.loading));
+    try {
+      final result = await _homeRepository.removeSearchKeyWord(keyWord);
+      if (result) {
+        final recentSearchKeywords = await _homeRepository.getSearchKeyWords();
+        emit(state.copyWith(
+          status: HomeSearchStateStatus.loaded,
+          recentSearchKeywords: recentSearchKeywords,
+        ));
+      } else {
+        emit(state.copyWith(
+          status: HomeSearchStateStatus.error,
+          errorMessage: 'Failed to remove service',
+        ));
+      }
+    } catch (e) {
+      emit(state.copyWith(
+        status: HomeSearchStateStatus.error,
+        errorMessage: e.toString(),
+      ));
+    }
+  }
+
+  // save search key word
+  Future<void> saveSearchKeyWord(String keyWord) async {
+    emit(state.copyWith(status: HomeSearchStateStatus.loading));
+    try {
+      final result = await _homeRepository.saveSearchKeyWord(keyWord);
+      if (result) {
+        final recentSearchKeywords = await _homeRepository.getSearchKeyWords();
+        emit(state.copyWith(
+          status: HomeSearchStateStatus.loaded,
+          recentSearchKeywords: recentSearchKeywords,
+        ));
+      } else {
+        emit(state.copyWith(
+          status: HomeSearchStateStatus.error,
+          errorMessage: 'Failed to remove service',
+        ));
+      }
     } catch (e) {
       emit(state.copyWith(
         status: HomeSearchStateStatus.error,

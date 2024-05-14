@@ -15,13 +15,13 @@ class FilterWidgetSheet extends StatefulWidget {
 
 class _FilterWidgetSheetState extends State<FilterWidgetSheet> {
   double _starterValue = 0;
-  double _endValue = 0;
+  double _endValue = 1000;
   late RangeValues values;
   late TextEditingController _fromController;
   late TextEditingController _toController;
   late FocusNode _fromFocusNode;
   late FocusNode _toFocusNode;
-  int divisions = 0;
+  int divisions = 1000;
   bool lockRangeUpdate = false;
 
   @override

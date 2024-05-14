@@ -12,6 +12,11 @@ abstract class HomeLocalDatasource {
   Future<bool> removeRecentService(
     ServiceModel service,
   );
+  Future<bool> saveSearchKeyWord(String keyWord);
+  // get search key words
+  Future<List<String>> getSearchKeyWords();
+  // remove search key word
+  Future<bool> removeSearchKeyWord(String keyWord);
 }
 
 class HomeLocalDatasourceImpl implements HomeLocalDatasource {
@@ -47,5 +52,20 @@ class HomeLocalDatasourceImpl implements HomeLocalDatasource {
   @override
   Future<bool> saveSearchResult(SearchResultModel service) async {
     return _cacheService.saveSearchResultModel(service);
+  }
+  
+  @override
+  Future<List<String>> getSearchKeyWords() async{
+    return _cacheService.getSearchKeyWords();
+  }
+  
+  @override
+  Future<bool> removeSearchKeyWord(String keyWord) async{
+    return _cacheService.removeSearchKeyWord(keyWord);
+  }
+  
+  @override
+  Future<bool> saveSearchKeyWord(String keyWord) async{
+    return _cacheService.saveSearchKeyWord(keyWord);
   }
 }

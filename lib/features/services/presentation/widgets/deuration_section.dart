@@ -127,17 +127,17 @@ class DurationContainer extends StatelessWidget {
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
                 buildText(
-                  duration.formattedString,
+                  duration.durationInMinutes,
                   fontSize: 12,
                   fontWeight: FontWeight.w500,
                 ),
                 buildText(
-                  duration.unit,
+                  'minutes'.tr(),
                   fontSize: 10,
                   fontWeight: FontWeight.w400,
                 ),
                 buildText(
-                  '(${duration.price} KWD)',
+                  '(${duration.hasDiscount ? duration.discountedPrice : duration.price} KWD)',
                   fontSize: 10,
                   fontWeight: FontWeight.w500,
                 )
@@ -161,12 +161,12 @@ class DurationContainer extends StatelessWidget {
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
                 buildText(
-                  duration.formattedString,
+                  duration.durationInMinutes,
                   fontSize: 12,
                   fontWeight: FontWeight.w500,
                 ),
                 buildText(
-                  duration.unit,
+                  'minutes'.tr(),
                   fontSize: 10,
                   fontWeight: FontWeight.w400,
                 ),

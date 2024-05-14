@@ -32,6 +32,11 @@ abstract class HomeRepository {
   Future<bool> removeRecentSearchResult(
     SearchResultModel service,
   );
+  Future<bool> saveSearchKeyWord(String keyWord);
+  // get search key words
+  Future<List<String>> getSearchKeyWords();
+  // remove search key word
+  Future<bool> removeSearchKeyWord(String keyWord);
 }
 
 class HomeRepositoryImpl implements HomeRepository {
@@ -105,5 +110,20 @@ class HomeRepositoryImpl implements HomeRepository {
   @override
   Future<List<BannerModel>> getBanners() async {
     return _homeRemoteDataSource.getBanners();
+  }
+  
+  @override
+  Future<List<String>> getSearchKeyWords()async {
+    return await _homeLocalDatasource.getSearchKeyWords();
+  }
+  
+  @override
+  Future<bool> removeSearchKeyWord(String keyWord)async {
+    return await _homeLocalDatasource.removeSearchKeyWord(keyWord); 
+  }
+  
+  @override
+  Future<bool> saveSearchKeyWord(String keyWord)async {
+    return await _homeLocalDatasource.saveSearchKeyWord(keyWord);
   }
 }

@@ -83,6 +83,12 @@ abstract class CacheService {
   // get all service models
   Future<List<ServiceModel>> getAllServiceModels();
   Future<bool> removeServiceModel(ServiceModel serviceModel);
+  // svave search key word
+  Future<bool> saveSearchKeyWord(String keyWord);
+  // get search key words
+  Future<List<String>> getSearchKeyWords();
+  // remove search key word
+  Future<bool> removeSearchKeyWord(String keyWord);
 }
 
 @LazySingleton(as: CacheService)
@@ -330,6 +336,40 @@ class CacheServiceImplV2 implements CacheService {
 
     await storage.setString(_SEARCH_RESULT_MODEL,
         jsonEncode(searchResultModels.map((e) => e.toMap()).toList()));
+    return true;
+  }
+
+  @override
+  Future<List<String>> getSearchKeyWords() async {
+    final storage = await SharedPreferences.getInstance();
+    final searchKeyWords = storage.getStringList('SEARCH_KEY_WORDS') ?? [];
+    return searchKeyWords.reversed.toList();
+  }
+
+  @override
+  Future<bool> saveSearchKeyWord(String keyWord) async {
+    // get the search key words and if more than 10 remove the last one
+    final storage = await SharedPreferences.getInstance();
+    final searchKeyWords = storage.getStringList('SEARCH_KEY_WORDS') ?? [];
+    // is exist
+    if (searchKeyWords.contains(keyWord)) {
+      searchKeyWords.remove(keyWord);
+    }
+    if (searchKeyWords.length >= 10) {
+      searchKeyWords.removeLast();
+    }
+    searchKeyWords.add(keyWord);
+    await storage.setStringList('SEARCH_KEY_WORDS', searchKeyWords);
+
+    return true;
+  }
+
+  @override
+  Future<bool> removeSearchKeyWord(String keyWord) async {
+    final storage = await SharedPreferences.getInstance();
+    final searchKeyWords = storage.getStringList('SEARCH_KEY_WORDS') ?? [];
+    searchKeyWords.remove(keyWord);
+    await storage.setStringList('SEARCH_KEY_WORDS', searchKeyWords);
     return true;
   }
 }

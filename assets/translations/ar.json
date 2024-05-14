@@ -802,5 +802,6 @@
   "addons": "اضافات",
   "name": "الاسم",
   "phone": "الهاتف",
-  "please_select_therapist": "الرجاء اختيار معالج"
+  "please_select_therapist": "الرجاء اختيار معالج",
+  "minutes": "دقائق"
 }
