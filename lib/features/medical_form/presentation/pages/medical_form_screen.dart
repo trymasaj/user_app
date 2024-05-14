@@ -5,8 +5,11 @@ import 'package:masaj/core/data/extensions/extensions.dart';
 
 import 'package:masaj/core/presentation/colors/app_colors.dart';
 import 'package:masaj/core/presentation/navigation/navigator_helper.dart';
+import 'package:masaj/core/presentation/overlay/show_snack_bar.dart';
 import 'package:masaj/core/presentation/widgets/stateless/custom_app_bar.dart';
+import 'package:masaj/core/presentation/widgets/stateless/default_button.dart';
 import 'package:masaj/core/presentation/widgets/stateless/text_fields/default_text_form_field.dart';
+import 'package:masaj/features/medical_form/data/model/medical_form_model.dart';
 import 'package:masaj/features/medical_form/presentation/bloc/medical_form_bloc/medical_form_bloc.dart';
 import 'package:masaj/features/medical_form/presentation/pages/medical_conditions_screen.dart';
 
@@ -21,8 +24,14 @@ class MedicalFormScreen extends StatefulWidget {
 
 class _MedicalFormScreenState extends State<MedicalFormScreen> {
   late final TextEditingController _conditionsController;
-  final _birthDateTextController = TextEditingController();
-  final _birthDateFocusNode = FocusNode();
+  final _birthDateTextController = TextEditingController(),
+      _treatmentGoalsController = TextEditingController(),
+      _birthDateFocusNode = FocusNode(),
+      _allergiesStatementController = TextEditingController(),
+      _medicationsController = TextEditingController(),
+      _avoidAreasController = TextEditingController(),
+      _guardianNameController = TextEditingController(),
+      _anyInstructionsController = TextEditingController();
 
   @override
   void initState() {
@@ -119,20 +128,9 @@ class _MedicalFormScreenState extends State<MedicalFormScreen> {
                             ),
                           ),
                           SizedBox(height: 7.h),
-                          Container(
-                            height: 80.h,
-                            width: 327.w,
-                            decoration: BoxDecoration(
-                              color: theme.colorScheme.onPrimaryContainer
-                                  .withOpacity(1),
-                              borderRadius: BorderRadius.circular(
-                                12.w,
-                              ),
-                              border: Border.all(
-                                color: appTheme.blueGray100,
-                                width: 1.w,
-                              ),
-                            ),
+                          FormBuilderTextField(
+                            controller: _medicationsController,
+                            name: 'medications',
                           ),
                           SizedBox(height: 20.h),
                           _buildEditText(context),
@@ -156,6 +154,12 @@ class _MedicalFormScreenState extends State<MedicalFormScreen> {
               for (var condition in state.selectedConditions ?? []) {
                 _conditionsController.text = (condition.nameEn ?? '') + ',';
               }
+            }
+            if (state.isLoaded) {
+              NavigatorHelper.of(context).pop();
+            }
+            if (state.isError) {
+              showSnackBar(context, message: state.errorMessage);
             }
           },
         ),
@@ -240,6 +244,7 @@ class _MedicalFormScreenState extends State<MedicalFormScreen> {
         ),
         SizedBox(height: 7.h),
         FormBuilderTextField(
+          controller: _allergiesStatementController,
           name: 'allergies',
         ),
       ],
@@ -262,6 +267,7 @@ class _MedicalFormScreenState extends State<MedicalFormScreen> {
         ),
         SizedBox(height: 7.h),
         FormBuilderTextField(
+          controller: _treatmentGoalsController,
           name: 'treatment_goals',
         ),
       ],
@@ -287,6 +293,7 @@ class _MedicalFormScreenState extends State<MedicalFormScreen> {
         ),
         SizedBox(height: 7.h),
         FormBuilderTextField(
+          controller: _avoidAreasController,
           name: 'avoid_areas',
         ),
       ],
@@ -304,6 +311,7 @@ class _MedicalFormScreenState extends State<MedicalFormScreen> {
         ),
         SizedBox(height: 8.h),
         FormBuilderTextField(
+          controller: _anyInstructionsController,
           name: 'any_instructions',
         ),
       ],
@@ -326,6 +334,7 @@ class _MedicalFormScreenState extends State<MedicalFormScreen> {
         ),
         SizedBox(height: 9.h),
         FormBuilderTextField(
+          controller: _guardianNameController,
           name: 'guardian_name',
         ),
       ],
@@ -334,16 +343,26 @@ class _MedicalFormScreenState extends State<MedicalFormScreen> {
 
   /// Section Widget
   Widget _buildSave(BuildContext context) {
-    return CustomElevatedButton(
-      text: 'lbl_save'.tr(),
+    final cubit = context.read<MedicalFormBloc>();
+    return DefaultButton(
+      label: 'lbl_save'.tr(),
       margin: EdgeInsets.only(
         left: 24.w,
         right: 24.w,
         bottom: 32.h,
       ),
-      buttonStyle: CustomButtonStyles.none,
-      decoration:
-          CustomButtonStyles.gradientSecondaryContainerToPrimaryDecoration,
+      onPressed: () async {
+        await cubit.addMedicalForm(MedicalForm(
+          birthDate: _birthDateTextController.text.parseDate(),
+          conditions: cubit.state.selectedConditions,
+          treatmentGoals: _treatmentGoalsController.text,
+          medicationsStatement: _medicationsController.text,
+          allergiesStatement: _allergiesStatementController.text,
+          avoidedAreas: _avoidAreasController.text,
+          guardianName: _guardianNameController.text,
+          instructions: _anyInstructionsController.text,
+        ));
+      },
     );
   }
 }

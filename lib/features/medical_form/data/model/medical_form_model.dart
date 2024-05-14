@@ -8,7 +8,7 @@ import 'package:masaj/features/medical_form/data/model/condition_model.dart';
 class MedicalForm {
   int? id;
   int? customerId;
-  String? birthDate;
+  DateTime? birthDate;
   String? allergiesStatement;
   String? medicationsStatement;
   String? treatmentGoals;
@@ -32,7 +32,7 @@ class MedicalForm {
   MedicalForm copyWith({
     ValueGetter<int?>? id,
     ValueGetter<int?>? customerId,
-    ValueGetter<String?>? birthDate,
+    ValueGetter<DateTime?>? birthDate,
     ValueGetter<String?>? allergiesStatement,
     ValueGetter<String?>? medicationsStatement,
     ValueGetter<String?>? treatmentGoals,
@@ -64,7 +64,7 @@ class MedicalForm {
     return {
       'id': id,
       'customerId': customerId,
-      'birthDate': birthDate,
+      'birthDate': birthDate?.toIso8601String(),
       'allergiesStatement': allergiesStatement,
       'medicationsStatement': medicationsStatement,
       'treatmentGoals': treatmentGoals,
@@ -79,7 +79,8 @@ class MedicalForm {
     return MedicalForm(
       id: map['id']?.toInt(),
       customerId: map['customerId']?.toInt(),
-      birthDate: map['birthDate'],
+      birthDate:
+          map['birthDate'] != null ? DateTime.parse(map['birthDate']) : null,
       allergiesStatement: map['allergiesStatement'],
       medicationsStatement: map['medicationsStatement'],
       treatmentGoals: map['treatmentGoals'],

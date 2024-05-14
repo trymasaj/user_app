@@ -22,7 +22,7 @@ class MedicalFormDataSourceImpl extends MedicalFormDataSource {
     return _networkService
         .post(
       url,
-      data: medicalForm.toMap(),
+      data: medicalForm.toMap()..removeWhere((key, value) => value == null),
     )
         .then((response) {
       if (response.statusCode != 200) {
