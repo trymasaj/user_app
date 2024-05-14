@@ -1,0 +1,57 @@
+part of 'medical_form_bloc.dart';
+
+enum MedicalFormStateStatus { initial, loading, loaded, error, deleted, added }
+
+extension MedicalFormStateX on MedicalFormState {
+  bool get isInitial => status == MedicalFormStateStatus.initial;
+  bool get isLoading => status == MedicalFormStateStatus.loading;
+  bool get isLoaded => status == MedicalFormStateStatus.loaded;
+  bool get isError => status == MedicalFormStateStatus.error;
+  bool get isDeleted => status == MedicalFormStateStatus.deleted;
+  bool get isAdded => status == MedicalFormStateStatus.added;
+}
+
+class MedicalFormState {
+  final MedicalFormStateStatus status;
+  final List<MedicalCondition>? conditions;
+  final MedicalForm? medicalForm;
+  final String? errorMessage;
+
+  const MedicalFormState({
+    this.conditions,
+    this.medicalForm,
+    this.status = MedicalFormStateStatus.initial,
+    this.errorMessage,
+  });
+
+  @override
+  bool operator ==(Object other) {
+    if (identical(this, other)) return true;
+
+    return other.runtimeType == runtimeType &&
+        (other as MedicalFormState).status == status &&
+        other.conditions == conditions &&
+        other.medicalForm == medicalForm &&
+        other.errorMessage == errorMessage;
+  }
+
+  @override
+  int get hashCode =>
+      status.hashCode ^
+      errorMessage.hashCode ^
+      Object.hashAll(conditions ?? []) ^
+      medicalForm.hashCode;
+
+  MedicalFormState copyWith({
+    MedicalFormStateStatus? status,
+    String? errorMessage,
+    MedicalForm? medicalForm,
+    List<MedicalCondition>? conditions,
+  }) {
+    return MedicalFormState(
+        status: status ?? this.status,
+        conditions: conditions ?? this.conditions,
+        errorMessage: errorMessage ?? this.errorMessage,
+        medicalForm: medicalForm ?? this.medicalForm);
+  }
+}

@@ -139,4 +139,7 @@ abstract class ApiEndPoint {
   static const GET_WALLET_BALANCE = '$BASE_URL/wallet';
   static const CHARGE_WALLET = '$BASE_URL/wallet';
   static const GET_PREDEFINED_WALLET = '$BASE_URL/wallet/predefined';
+  // Medical Form
+  static const MEDICAL_FORM = '$BASE_URL/medical-form';
+  static const MEDICAL_CONDITION = '$BASE_URL/medical-form/conditions';
 }

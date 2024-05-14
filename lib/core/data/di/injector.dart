@@ -51,6 +51,9 @@ import 'package:masaj/features/intro/data/datasources/intro_local_data_source.da
 import 'package:masaj/features/intro/data/repositories/intro_repository.dart';
 import 'package:masaj/features/intro/presentation/blocs/choose_language_cubit/choose_language_cubit.dart';
 import 'package:masaj/features/intro/presentation/blocs/guide_page_cubit/guide_page_cubit.dart';
+import 'package:masaj/features/medical_form/data/datasource/medical_form_datasource.dart';
+import 'package:masaj/features/medical_form/data/repo/medical_form_repo.dart';
+import 'package:masaj/features/medical_form/presentation/bloc/medical_form_bloc/medical_form_bloc.dart';
 import 'package:masaj/features/payment/data/datasource/payment_datasource.dart';
 import 'package:masaj/features/payment/data/repo/payment_repo.dart';
 import 'package:masaj/features/payment/presentaion/bloc/payment_cubit.dart';
@@ -294,6 +297,16 @@ class Injector {
       GiftsRepositoryImp(giftsDataSource: giftsDataSource);
   GiftsDataSource get giftsDataSource => _flyweightMap['GiftsDataSource'] ??=
       GiftsDataSourceImpl(networkService: networkService);
+
+  //===================[Medical_Form_Bloc]===================
+
+  MedicalFormBloc get medicalFormBloc => MedicalFormBloc(medicalFormRepository);
+  MedicalFormRepository get medicalFormRepository =>
+      _flyweightMap['MedicalFormRepository'] ??=
+          MedicalFormRepositoryImp(medicalFormDataSource);
+  MedicalFormDataSource get medicalFormDataSource =>
+      _flyweightMap['MedicalFormDataSource'] ??=
+          MedicalFormDataSourceImpl(networkService: networkService);
 
   //===================[NOTIFICATIONS_CUBIT]===================
   NotificationsCubit get notificationsCubit =>

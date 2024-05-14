@@ -1,22 +1,29 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_form_builder/flutter_form_builder.dart';
 import 'package:masaj/core/app_export.dart';
+import 'package:masaj/core/data/di/injector.dart';
+import 'package:masaj/core/presentation/navigation/navigator_helper.dart';
 import 'package:masaj/core/presentation/widgets/stateless/custom_app_bar.dart';
-import 'package:masaj/core/presentation/widgets/stateless/custom_drop_down.dart';
-import 'package:masaj/features/medical_form/bloc/medical_form_bloc/medical_form_bloc.dart';
+import 'package:masaj/features/medical_form/presentation/bloc/medical_form_bloc/medical_form_bloc.dart';
+import 'package:masaj/features/medical_form/presentation/pages/medical_conditions_screen.dart';
 
-class MedicalFormScreen extends StatelessWidget {
+class MedicalFormScreen extends StatefulWidget {
   static const routeName = '/medical-form';
 
   const MedicalFormScreen({super.key});
 
   static Widget builder(BuildContext context) {
     return BlocProvider<MedicalFormBloc>(
-      create: (context) => MedicalFormBloc(const MedicalFormState()),
+      create: (context) => Injector().medicalFormBloc,
       child: const MedicalFormScreen(),
     );
   }
 
+  @override
+  State<MedicalFormScreen> createState() => _MedicalFormScreenState();
+}
+
+class _MedicalFormScreenState extends State<MedicalFormScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -60,30 +67,29 @@ class MedicalFormScreen extends StatelessWidget {
                         ),
                       ),
                       SizedBox(height: 7.h),
-                      CustomDropDown(
-                        icon: Container(
-                          margin: EdgeInsets.fromLTRB(30.w, 18.h, 20.w, 18.h),
-                          child: CustomImageView(
-                            imagePath: ImageConstant.imgArrowdownOnprimary,
-                            height: 20.adaptSize,
-                            width: 20.adaptSize,
+                      Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Text(
+                            'lbl_conditions'.tr(),
+                            style: theme.textTheme.bodyMedium,
                           ),
-                        ),
-                        hintText: 'lbl_conditions'.tr(),
-                        hintStyle: CustomTextStyles.bodyMediumOnPrimary_1,
-                        items: const [],
-                        contentPadding: EdgeInsets.only(
-                          left: 20.w,
-                          top: 17.h,
-                          bottom: 17.h,
-                        ),
-                        onChanged: (value) {
-/*
-                              context
-                                  .read<MedicalFormBloc>()
-                                  .add(ChangeDropDownEvent(value: value));
-*/
-                        },
+                          SizedBox(height: 7.h),
+                          FormBuilderTextField(
+                            name: 'lbl_conditions',
+                            onTap: () {
+                              NavigatorHelper.of(context)
+                                  .push(MaterialPageRoute(
+                                      builder: (context) => BlocProvider(
+                                            create: (context) =>
+                                                Injector().medicalFormBloc
+                                                  ..getConditions(),
+                                            child:
+                                                const MedicalConditionScreen(),
+                                          )));
+                            },
+                          ),
+                        ],
                       ),
                       SizedBox(height: 17.h),
                       _buildFrame1(context),
