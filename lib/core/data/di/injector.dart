@@ -54,6 +54,8 @@ import 'package:masaj/features/intro/presentation/blocs/guide_page_cubit/guide_p
 import 'package:masaj/features/medical_form/data/datasource/medical_form_datasource.dart';
 import 'package:masaj/features/medical_form/data/repo/medical_form_repo.dart';
 import 'package:masaj/features/medical_form/presentation/bloc/medical_form_bloc/medical_form_bloc.dart';
+import 'package:masaj/features/membership/data/datasource/membership_datasource.dart';
+import 'package:masaj/features/membership/presentaion/bloc/membership_cubit.dart';
 import 'package:masaj/features/payment/data/datasource/payment_datasource.dart';
 import 'package:masaj/features/payment/data/repo/payment_repo.dart';
 import 'package:masaj/features/payment/presentaion/bloc/payment_cubit.dart';
@@ -76,6 +78,8 @@ import 'package:masaj/features/splash/presentation/splash_cubit/splash_cubit.dar
 import 'package:masaj/features/wallet/bloc/wallet_bloc/wallet_bloc.dart';
 import 'package:masaj/features/wallet/data/data_source/wallet_data_source.dart';
 import 'package:masaj/features/wallet/data/repos/wallet_repo_impl.dart';
+
+import '../../../features/membership/data/repo/membership_repo.dart';
 
 ///Implementing
 ///
@@ -307,6 +311,16 @@ class Injector {
   MedicalFormDataSource get medicalFormDataSource =>
       _flyweightMap['MedicalFormDataSource'] ??=
           MedicalFormDataSourceImpl(networkService: networkService);
+  //===================[Membership_Bloc]===================
+
+  MembershipCubit get membershipCubit =>
+      MembershipCubit(membershipRepository: membershipRepository);
+  MembershipRepository get membershipRepository =>
+      _flyweightMap['MembershipRepository'] ??=
+          MembershipRepositoryImp(membershipDataSource: membershipDataSource);
+  MembershipDataSource get membershipDataSource =>
+      _flyweightMap['MembershipDataSource'] ??=
+          MembershipDataSourceImpl(networkService: networkService);
 
   //===================[NOTIFICATIONS_CUBIT]===================
   NotificationsCubit get notificationsCubit =>

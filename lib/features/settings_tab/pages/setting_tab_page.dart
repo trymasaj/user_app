@@ -12,6 +12,7 @@ import 'package:masaj/features/gifts/presentaion/pages/gift_cards.dart';
 import 'package:masaj/features/intro/presentation/pages/choose_language_page.dart';
 import 'package:masaj/features/legal/pages/legal_screen.dart';
 import 'package:masaj/features/medical_form/presentation/pages/medical_form_screen.dart';
+import 'package:masaj/features/membership/presentaion/pages/memberships_screen.dart';
 import 'package:masaj/features/settings_tab/bloc/settings_bloc/setting_bloc.dart';
 import 'package:masaj/features/settings_tab/bloc/settings_bloc/setting_state.dart';
 import 'package:masaj/features/settings_tab/models/settings_model.dart';
@@ -213,10 +214,8 @@ class _SettingsTabPageState extends State<SettingsTabPage> {
                   : SizedBox(),
               SettingTile(
                   onTap: () {
-/*
-                    NavigatorHelper.of(context)
-                        .pushNamed(ManageMembersScreen.routeName);
-*/
+                    NavigatorHelper.of(context).push(MaterialPageRoute(
+                        builder: (context) => const MembershipPlansScreen()));
                   },
                   text: 'lbl_membership_plan',
                   imagePath: ImageConstant.imgCreditCard),

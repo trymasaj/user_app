@@ -142,4 +142,7 @@ abstract class ApiEndPoint {
   // Medical Form
   static const MEDICAL_FORM = '$BASE_URL/medical-form';
   static const MEDICAL_CONDITION = '$BASE_URL/medical-form/conditions';
+  // membership
+  static const MEMBERSHIP = '$BASE_URL/subscription';
+  static const MEMBERSHIP_PLANS = '$BASE_URL/plan';
 }
