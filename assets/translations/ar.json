@@ -818,10 +818,7 @@
   "inProgress": "قيد التقدم",
   "cancelled": "تم الإلغاء",
   "confirmed": "تم التأكيد",
-  "status": "الحالة"
-}
-
-  "my_gifts": "هداياي",
+  "status": "الحالة",
   "apply_wallet_amount": "تطبيق مبلغ المحفظة",
   "booking_summary": "ملخص الحجز",
   "checkout_title": "عنوان الدفع",
