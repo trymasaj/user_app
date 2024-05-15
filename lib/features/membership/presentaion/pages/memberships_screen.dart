@@ -37,7 +37,7 @@ class _MembershipPlansScreenState extends State<MembershipPlansScreen> {
             return CustomAppPage(
               child: Scaffold(
                 appBar: CustomAppBar(
-                  title: 'lbl_membership'.tr(),
+                  title: 'lbl_membership_plan'.tr(),
                 ),
                 body: _buildBody(context),
               ),

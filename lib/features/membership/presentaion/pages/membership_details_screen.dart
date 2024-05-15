@@ -64,7 +64,7 @@ class _MembershipCheckoutScreenState extends State<MembershipCheckoutScreen> {
         create: (context) => Injector().paymentCubit..getPaymentMethods(),
         child: Scaffold(
           appBar: CustomAppBar(
-            title: 'checkout_title'.tr(),
+            title: 'lbl_membership_plan'.tr(),
           ),
           body: _buildBody(),
         ),
@@ -276,7 +276,7 @@ class _MembershipCheckoutScreenState extends State<MembershipCheckoutScreen> {
         onPressed: () async {
           final cubit = context.read<MembershipCubit>();
 
-          await cubit.purchaseSubscription(
+          await cubit.purchaseSubscription(context,
               paymentMethod: _selectedPayment,
               planId: cubit.state.plans?.id,
               fromWallet: false);

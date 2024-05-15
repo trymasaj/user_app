@@ -313,8 +313,9 @@ class Injector {
           MedicalFormDataSourceImpl(networkService: networkService);
   //===================[Membership_Bloc]===================
 
-  MembershipCubit get membershipCubit =>
-      MembershipCubit(membershipRepository: membershipRepository);
+  MembershipCubit get membershipCubit => MembershipCubit(
+      membershipRepository: membershipRepository,
+      paymentService: paymentService);
   MembershipRepository get membershipRepository =>
       _flyweightMap['MembershipRepository'] ??=
           MembershipRepositoryImp(membershipDataSource: membershipDataSource);
