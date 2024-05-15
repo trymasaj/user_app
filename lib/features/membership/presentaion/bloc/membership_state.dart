@@ -13,7 +13,7 @@ extension MembershipStateX on MembershipState {
 
 class MembershipState {
   final MembershipStateStatus status;
-  final List<Plan>? plans;
+  final Plan? plans;
   final SubscriptionModel? selectedSubscription;
   final String? errorMessage;
 
@@ -39,14 +39,14 @@ class MembershipState {
   int get hashCode =>
       status.hashCode ^
       errorMessage.hashCode ^
-      Object.hashAll(plans ?? []) ^
+      plans.hashCode ^
       selectedSubscription.hashCode;
 
   MembershipState copyWith({
     MembershipStateStatus? status,
     String? errorMessage,
     SubscriptionModel? selectedSubscription,
-    List<Plan>? plans,
+    Plan? plans,
   }) {
     return MembershipState(
       status: status ?? this.status,

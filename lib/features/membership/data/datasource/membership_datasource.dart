@@ -3,12 +3,11 @@ import 'dart:developer';
 import 'package:masaj/core/data/clients/network_service.dart';
 import 'package:masaj/core/data/constants/api_end_point.dart';
 import 'package:masaj/core/domain/enums/payment_methods.dart';
-import 'package:masaj/core/domain/enums/request_result_enum.dart';
 import 'package:masaj/core/domain/exceptions/request_exception.dart';
 import 'package:masaj/features/membership/data/model/membership_model.dart';
 
 abstract class MembershipDataSource {
-  Future<List<Plan>> getSubscriptionPlans();
+  Future<Plan> getSubscriptionPlans();
   Future<SubscriptionModel> getSubscription();
   Future<SubscriptionModel> purchaseSubscription(
       {required int planId,
@@ -24,7 +23,7 @@ class MembershipDataSourceImpl extends MembershipDataSource {
       : _networkService = networkService;
 
   @override
-  Future<List<Plan>> getSubscriptionPlans() {
+  Future<Plan> getSubscriptionPlans() {
     const url = ApiEndPoint.MEMBERSHIP_PLANS;
     return _networkService.get(url).then((response) {
       if (response.statusCode != 200) {
@@ -32,13 +31,7 @@ class MembershipDataSourceImpl extends MembershipDataSource {
             message: (response.data['errors'][''] as List).first);
       }
       final result = response.data;
-      final resultStatus = result['status'];
-      if (resultStatus == RequestResult.Failed.name) {
-        throw RequestException(message: result['msg']);
-      }
-      return result != null
-          ? (result as List).map((e) => Plan.fromMap(e)).toList()
-          : [];
+      return Plan.fromMap(result);
     });
   }
 
@@ -51,10 +44,7 @@ class MembershipDataSourceImpl extends MembershipDataSource {
             message: (response.data['errors'][''] as List).first);
       }
       final result = response.data;
-      final resultStatus = result['status'];
-      if (resultStatus == RequestResult.Failed.name) {
-        throw RequestException(message: result['msg']);
-      }
+
       return SubscriptionModel.fromMap(result);
     });
   }
@@ -81,10 +71,6 @@ class MembershipDataSourceImpl extends MembershipDataSource {
             message: (response.data['errors'][''] as List).first);
       }
       final result = response.data;
-      final resultStatus = result['status'];
-      if (resultStatus == RequestResult.Failed.name) {
-        throw RequestException(message: result['msg']);
-      }
       return SubscriptionModel.fromMap(result);
     });
   }

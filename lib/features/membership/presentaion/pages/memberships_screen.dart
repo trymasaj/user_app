@@ -10,7 +10,6 @@ import 'package:masaj/core/presentation/widgets/stateless/default_button.dart';
 import 'package:masaj/core/presentation/widgets/stateless/empty_page_message.dart';
 import 'package:masaj/core/presentation/widgets/stateless/subtitle_text.dart';
 
-
 import 'package:masaj/core/presentation/widgets/stateless/custom_app_bar.dart';
 import 'package:masaj/features/members/data/model/member_model.dart';
 import 'package:masaj/features/members/presentaion/bloc/members_cubit.dart';
@@ -30,7 +29,7 @@ class _MembershipPlansScreenState extends State<MembershipPlansScreen> {
   @override
   Widget build(BuildContext context) {
     return BlocProvider(
-        create: (context) => Injector().membersCubit..getMembers(),
+        create: (context) => Injector().membershipCubit..getSubscriptionPlans(),
         child: BlocBuilder<MembershipCubit, MembershipState>(
           builder: (context, state) {
             return CustomAppPage(
@@ -45,82 +44,91 @@ class _MembershipPlansScreenState extends State<MembershipPlansScreen> {
   }
 
   Padding _buildBody(BuildContext context) {
-    final cubit = context.read<MembershipCubit>();
     return Padding(
-        padding: EdgeInsets.symmetric(horizontal: 24.w),
-        child: _buildMembershipList());
+        padding: EdgeInsets.all(24.w), child: _buildMembershipList());
   }
 
   Widget _buildMembershipList() {
-    return Builder(builder: (context) {
-      final cubit = context.read<MembershipCubit>();
-
-      return Expanded(
-        flex: 10,
-        child: BlocBuilder<MembershipCubit, MembershipState>(
-          builder: (context, state) {
-            if (state.isLoading) {
-              return const CustomLoading();
-            }
-            final plans = state.plans ?? [];
-
-            if ((plans == [] || plans.isEmpty)) {
-              return const EmptyPageMessage(
-                heightRatio: 0.6,
-              );
-            }
-            return _buildMembersList(cubit);
-          },
-        ),
-      );
-    });
-  }
-
-  Widget _buildMembersList(MembershipCubit cubit) {
-    return ListView.builder(
-      itemCount: cubit.state.plans?.length,
-      itemBuilder: (context, index) => _buildMemberItem(cubit, index),
-    );
-  }
-
-  Widget _buildMemberItem(MembershipCubit cubit, int index) {
-    final plans = cubit.state.plans;
-    return BlocBuilder<MembersCubit, MembersState>(
+    return BlocBuilder<MembershipCubit, MembershipState>(
       builder: (context, state) {
-        return _buildPlanItem(plans?[index]);
+        if (state.isLoading) {
+          return const CustomLoading();
+        }
+        final plans = state.plans;
+
+        if ((plans == null)) {
+          return const EmptyPageMessage(
+            heightRatio: 0.6,
+          );
+        }
+        return _buildPlanItem(plans);
       },
     );
   }
 
   Container _buildPlanItem(Plan? plan) {
     return Container(
-      decoration: BoxDecoration(gradient: AppColors.GRADIENT_COLOR),
-      child: Column(children: [
-        SubtitleText(text: plan?.nameEn ?? ''),
-        SubtitleText(text: 'lbl_kwd'.tr(args: [plan!.price.toString()])),
-        SubtitleText(text: plan.duration ?? ''),
-        SubtitleText(text: plan.descriptionEn ?? ''),
-        ListView.builder(
-          physics: const NeverScrollableScrollPhysics(),
-          itemBuilder: (context, index) =>
-              _buildBenefitItem(plan.benefits?[index].benefitEn ?? ''),
-          itemCount: plan.benefits?.length,
-        ),
-        DefaultButton(
-          onPressed: () {},
-          isExpanded: true,
-          label: 'upgrade',
-        )
-      ]),
+      decoration: BoxDecoration(
+          gradient: AppColors.GRADIENT_COLOR,
+          borderRadius: BorderRadius.circular(10)),
+      padding: EdgeInsets.all(24.w),
+      child: Column(
+          mainAxisSize: MainAxisSize.min,
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            SubtitleText.large(
+              text: plan?.nameEn ?? '',
+              color: AppColors.ExtraLight,
+              isBold: true,
+            ),
+            SizedBox(height: 12.h),
+            SubtitleText.medium(
+              text: 'lbl_kwd'.tr(args: [plan!.price.toString()]),
+              isBold: true,
+              color: AppColors.ExtraLight,
+            ),
+            SubtitleText(
+              text: '/month',
+              color: AppColors.ExtraLight,
+            ),
+            SizedBox(height: 12.h),
+            SubtitleText(
+              text: plan.descriptionEn ?? '',
+              color: AppColors.ExtraLight,
+            ),
+            SizedBox(height: 24.h),
+            SizedBox(
+              height: 300,
+              child: ListView.builder(
+                physics: const NeverScrollableScrollPhysics(),
+                itemBuilder: (context, index) =>
+                    _buildBenefitItem(plan.benefits?[index].benefitEn ?? ''),
+                itemCount: plan.benefits?.length,
+              ),
+            ),
+            DefaultButton(
+              onPressed: () {},
+              textColor: AppColors.PRIMARY_COLOR,
+              color: AppColors.ExtraLight,
+              isExpanded: true,
+              label: 'upgrade',
+            )
+          ]),
     );
   }
 
   Row _buildBenefitItem(String title) {
     return Row(
       children: [
-        Icon(Icons.check),
+        Icon(
+          Icons.check,
+          color: AppColors.ExtraLight,
+        ),
         SizedBox(width: 20.w),
-        SubtitleText(text: title)
+        SubtitleText(
+          text: title,
+          color: AppColors.ExtraLight,
+        )
       ],
     );
   }
