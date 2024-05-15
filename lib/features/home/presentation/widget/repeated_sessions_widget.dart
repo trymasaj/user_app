@@ -1,15 +1,11 @@
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:masaj/core/data/di/injector.dart';
 import 'package:masaj/core/presentation/colors/app_colors.dart';
 import 'package:masaj/core/presentation/widgets/stateless/custom_cached_network_image.dart';
-import 'package:masaj/core/presentation/widgets/stateless/custom_loading.dart';
 import 'package:masaj/features/book_service/data/models/booking_model/session_model.dart';
 import 'package:masaj/features/home/presentation/pages/home_tab.dart';
 import 'package:masaj/features/services/presentation/screens/serice_details_screen.dart';
-import 'package:masaj/features/services/presentation/screens/services_screen.dart';
-import 'package:masaj/gen/assets.gen.dart';
+
 
 class RepeatedSessions extends StatefulWidget {
   const RepeatedSessions({
@@ -98,18 +94,18 @@ class _RepeatedSessionsState extends State<RepeatedSessions> {
                             children: [
                               Text(
                                 repeatedSession?.serviceName ?? '',
-                                style: TextStyle(
+                                style: const TextStyle(
                                     fontSize: 12,
                                     fontWeight: FontWeight.w400,
                                     color: AppColors.FONT_COLOR),
                               ),
-                              SizedBox(
+                              const SizedBox(
                                 height: 3,
                               ),
                               // start from
                               Text(
                                 'start_from'.tr(),
-                                style: TextStyle(
+                                style: const TextStyle(
                                     fontSize: 10,
                                     fontWeight: FontWeight.w400,
                                     color: AppColors.PlaceholderColor),
@@ -120,7 +116,7 @@ class _RepeatedSessionsState extends State<RepeatedSessions> {
                                       ''
                                 ]),
                                 // 'KD ${repeatedSession?.servicePrice ?? ''}',
-                                style: TextStyle(
+                                style: const TextStyle(
                                     fontSize: 12,
                                     fontWeight: FontWeight.w500,
                                     color: AppColors.FONT_COLOR),
