@@ -43,8 +43,9 @@ class _FilterWidgetSheetState extends State<FilterWidgetSheet> {
     );
 
     _fromController.text =
-        (values.start == 0 ? ''.tr() : values.start).toString();
-    _toController.text = (values.end == 0 ? ''.tr() : values.end).toString();
+        (values.start == 0 ? '0'.tr() : values.start.toInt()).toString();
+    _toController.text =
+        (values.end == 0 ? '0'.tr() : values.end.toInt()).toString();
 
     _fromController.addListener(_starterListener);
     _toController.addListener(_endListener);
@@ -88,7 +89,7 @@ class _FilterWidgetSheetState extends State<FilterWidgetSheet> {
           _endValue = value;
 
         values = RangeValues(values.start, value);
-        divisions = (_endValue / 2).toInt();
+        // divisions = (_endValue / 2).toInt();
       });
       prevToStr = _toController.text;
       return;
@@ -108,8 +109,8 @@ class _FilterWidgetSheetState extends State<FilterWidgetSheet> {
 
   void onChangeSlider(RangeValues newValues) {
     lockRangeUpdate = true;
-    _fromController.text = newValues.start.toString();
-    _toController.text = newValues.end.toString();
+    _fromController.text = newValues.start.toInt().toString();
+    _toController.text = newValues.end.toInt().toString();
     lockRangeUpdate = false;
   }
 
@@ -184,6 +185,8 @@ class _FilterWidgetSheetState extends State<FilterWidgetSheet> {
                         children: [
                           Expanded(
                             child: CustomTextFormField(
+                              // key board type int only
+
                               autofocus: false,
                               textStyle: const TextStyle(
                                 fontSize: 14,
@@ -246,9 +249,9 @@ class _FilterWidgetSheetState extends State<FilterWidgetSheet> {
                                       (double.tryParse(newValue.text) ?? 0)
                                           .toInt();
                                   print('i_________: $i');
-                                  if (i > 1000000) {
+                                  if (i > 1000) {
                                     return TextEditingValue(
-                                        text: '1000000',
+                                        text: '1000',
                                         selection: TextSelection.collapsed(
                                             offset: newValue.text.length));
                                   }

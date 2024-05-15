@@ -142,15 +142,19 @@ class _HomeTabState extends State<HomeTab> {
 
   List<Widget> homeSection(HomePageState state) => [
         // title : Repeat session with list view of sessions
-        if (state.repeatedSessions != null)
+        if (state.repeatedSessions != null &&
+            state.repeatedSessions?.isNotEmpty == true)
           ...buildRepeatedSessions(state.repeatedSessions ?? []),
 
         // image slider
-        if (state.banners != null) ...buildAdsSection(state.banners ?? []),
+        if (state.banners != null && state.banners?.isNotEmpty == true)
+          ...buildAdsSection(state.banners ?? []),
         // offers
-        if (state.offers != null) ...buildOffersSection(state.offers ?? []),
+        if (state.offers != null && state.offers?.isNotEmpty == true)
+          ...buildOffersSection(state.offers ?? []),
         // recommended
-        if (state.recommendedServices != null)
+        if (state.recommendedServices != null &&
+            state.recommendedServices?.isNotEmpty == true)
           ...buildRecommendedSection(state.recommendedServices ?? []),
       ];
 
