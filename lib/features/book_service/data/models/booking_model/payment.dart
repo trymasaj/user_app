@@ -1,9 +1,11 @@
 import 'dart:convert';
 
 import 'package:flutter/widgets.dart';
+import 'package:masaj/core/app_export.dart';
 
 import 'package:masaj/core/domain/enums/payment_methods.dart';
 import 'package:masaj/features/book_service/enums/payment_status.dart';
+import 'package:masaj/main.dart';
 
 class Payment {
   int? paymentId;
@@ -21,7 +23,14 @@ class Payment {
   // 20/02/2023 01:00 PM
   String get formattedDate {
     final date = DateTime.parse(paymentDate!);
-    return '${date.day}/${date.month}/${date.year} ${date.hour}:${date.minute} ${date.hour > 12 ? 'PM' : 'AM'}';
+    // return '${date.day}/${date.month}/${date.year} ${date.hour}:${date.minute} ${date.hour > 12 ? 'PM' : 'AM'}';
+    // using intl
+    final local = EasyLocalization.of(
+      navigatorKey!.currentContext!,
+    )!
+        .currentLocale
+        ?.languageCode;
+    return DateFormat('dd/MM/yyyy hh:mm a', local).format(date);
   }
 
   Payment copyWith({

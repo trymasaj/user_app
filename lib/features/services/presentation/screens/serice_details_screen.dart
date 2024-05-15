@@ -599,8 +599,10 @@ class TotalSection extends StatelessWidget {
                     ),
                     const Spacer(),
                     CustomText(
-                      text:
-                          '${selectedDuration!.formattedString} ${selectedDuration?.unit}',
+                      text: 'min_count'.tr(args: [
+                        selectedDuration?.durationInMinutes?.toString() ?? ''
+                      ]),
+                      // '${selectedDuration!.formattedString} ${selectedDuration?.unit}',
                       fontSize: 14,
                       fontWeight: FontWeight.w400,
                       color: AppColors.PlaceholderColor,
@@ -611,14 +613,14 @@ class TotalSection extends StatelessWidget {
                 Row(
                   children: [
                     CustomText(
-                      text: 'No duration selected',
+                      text: 'no_duration_selected',
                       fontSize: 14,
                       fontWeight: FontWeight.w400,
                       color: AppColors.FONT_LIGHT.withOpacity(.7),
                     ),
                     const Spacer(),
                     CustomText(
-                      text: '0 ' + 'min'.tr(),
+                      text: 'min_count'.tr(args: ['0']),
                       fontSize: 14,
                       fontWeight: FontWeight.w400,
                       color: AppColors.PlaceholderColor,
@@ -669,7 +671,7 @@ class TotalSection extends StatelessWidget {
                   ),
                   const Spacer(),
                   CustomText(
-                    text: '$totalDuration min',
+                    text: "min_count".tr(args: [totalDuration ?? '0']),
                     fontSize: 14,
                     fontWeight: FontWeight.w500,
                     color: AppColors.FONT_LIGHT.withOpacity(.7),
@@ -731,8 +733,11 @@ class AddonsSection extends StatelessWidget {
                       Row(
                         children: [
                           CustomText(
-                            text:
-                                '(${addon.price} KWD, ${addon.durationInMinutes} min)',
+                            text: '(${"price_in_kd".tr(args: [
+                                  addon.price.toString()
+                                ])}, ${'min_count'.tr(args: [
+                                  addon.durationInMinutes
+                                ])})',
                             fontSize: 14,
                             fontWeight: FontWeight.w400,
                             color: AppColors.PlaceholderColor,

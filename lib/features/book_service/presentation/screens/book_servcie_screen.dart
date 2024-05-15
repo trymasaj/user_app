@@ -156,7 +156,6 @@ class _BookServiceScreenState extends State<BookServiceScreen> {
   Widget _buildServiceCard(BuildContext context) {
     return BlocBuilder<BookingCubit, BookingState>(
       builder: (context, state) {
-        
         final bookingModel = state.bookingModel;
         final service = bookingModel?.service;
         return Container(
@@ -664,9 +663,11 @@ class _BookServiceScreenState extends State<BookServiceScreen> {
                             onPressed: () {
                               selectedDate = updatedDate;
                               _dateController.text = fromTherapistFow == true
-                                  ? DateFormat('E, MMM d, yyyy')
+                                  ? DateFormat('E, MMM d, yyyy',
+                                          context.locale.languageCode)
                                       .format(updatedDate)
-                                  : DateFormat('E, MMM d, yyyy, hh:mm a')
+                                  : DateFormat('E, MMM d, yyyy, hh:mm a',
+                                          context.locale.languageCode)
                                       .format(updatedDate);
                               _timeController.clear();
                               selectedTimeSlot = null;

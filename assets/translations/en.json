@@ -923,5 +923,25 @@
   "name": "Name",
   "phone": "Phone",
   "please_select_therapist": "Please select therapist",
-  "minutes": "Minutes"
+  "minutes": "Minutes",
+  "price_in_kd": "{} KD",
+  "percentage_off": "{}% off",
+  "min_count": "{} min",
+  "no_duration_selected": "No duration selected",
+  "book_with": "Book with {}",
+  "book_with_therapist": "Book with therapist",
+  "reviews": "Reviews",
+
+  "scheduled": "Scheduled",
+  "rescheduled": "Rescheduled",
+  "inProgress": "In Progress",
+  "cancelled": "Cancelled",
+  "confirmed": "Confirmed",
+  "status": "Status"
+ 
+
+
+  
+  
+
 }

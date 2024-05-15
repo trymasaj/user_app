@@ -115,7 +115,11 @@ class _RepeatedSessionsState extends State<RepeatedSessions> {
                                     color: AppColors.PlaceholderColor),
                               ),
                               Text(
-                                'KD ${repeatedSession?.servicePrice ?? ''}',
+                                "price_in_kd".tr(args: [
+                                  repeatedSession?.servicePrice?.toString() ??
+                                      ''
+                                ]),
+                                // 'KD ${repeatedSession?.servicePrice ?? ''}',
                                 style: TextStyle(
                                     fontSize: 12,
                                     fontWeight: FontWeight.w500,

@@ -137,7 +137,12 @@ class DurationContainer extends StatelessWidget {
                   fontWeight: FontWeight.w400,
                 ),
                 buildText(
-                  '(${duration.hasDiscount ? duration.discountedPrice : duration.price} KWD)',
+                  '(${"price_in_kd".tr(args: [
+                        (duration.hasDiscount
+                                ? duration.discountedPrice
+                                : duration.price)
+                            .toString()
+                      ])})',
                   fontSize: 10,
                   fontWeight: FontWeight.w500,
                 )
@@ -171,7 +176,7 @@ class DurationContainer extends StatelessWidget {
                   fontWeight: FontWeight.w400,
                 ),
                 buildText(
-                  '(${duration.price} KWD)',
+                  '(${'price_in_kd'.tr(args: [duration.price.toString()])})',
                   fontSize: 10,
                   fontWeight: FontWeight.w500,
                 )
