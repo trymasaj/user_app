@@ -187,12 +187,12 @@ class _BookServiceScreenState extends State<BookServiceScreen> {
                 children: [
                   Text(
                     service?.title ?? '',
-                    style: TextStyle(
+                    style: const TextStyle(
                         fontSize: 12,
                         fontWeight: FontWeight.w500,
                         color: AppColors.FONT_COLOR),
                   ),
-                  SizedBox(
+                  const SizedBox(
                     height: 3,
                   ),
                   // start from
@@ -200,14 +200,14 @@ class _BookServiceScreenState extends State<BookServiceScreen> {
                     children: [
                       Text(
                         'duration'.tr(),
-                        style: TextStyle(
+                        style: const TextStyle(
                             fontSize: 12,
                             fontWeight: FontWeight.w400,
                             color: AppColors.PlaceholderColor),
                       ),
                       Text(
                         ': '.tr(),
-                        style: TextStyle(
+                        style: const TextStyle(
                             fontSize: 12,
                             fontWeight: FontWeight.w400,
                             color: AppColors.PlaceholderColor),
@@ -220,7 +220,7 @@ class _BookServiceScreenState extends State<BookServiceScreen> {
                               "${bookingModel?.durationInMinutes}  ${'min'.tr()}")
                     ],
                   ),
-                  SizedBox(
+                  const SizedBox(
                     height: 3,
                   ),
                   // Row(
@@ -342,9 +342,9 @@ class _BookServiceScreenState extends State<BookServiceScreen> {
                     SizedBox(height: 20.h),
                   ],
                 ),
-              if (state.isLoading) CustomLoading(),
+              if (state.isLoading) const CustomLoading(),
               if (state.isLoaded && state.availableTherapists.isEmpty)
-                SizedBox(
+                const SizedBox(
                   child: EmptyPageMessage(
                     message: 'No therapist available',
                     heightRatio: .4,
@@ -360,7 +360,7 @@ class _BookServiceScreenState extends State<BookServiceScreen> {
                       Row(
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
-                          CustomText(
+                          const CustomText(
                             text: 'msg_selected_therapist',
                             fontFamily: 'Poppins',
                             fontSize: 14,
@@ -369,7 +369,7 @@ class _BookServiceScreenState extends State<BookServiceScreen> {
                           ),
                           GestureDetector(
                             onTap: _onChangeTherapist,
-                            child: TextWithGradiant(
+                            child: const TextWithGradiant(
                               text: 'change',
                               fontSize: 14,
                               fontWeight: FontWeight.w500,
@@ -410,7 +410,7 @@ class _BookServiceScreenState extends State<BookServiceScreen> {
       child: Container(
         height: 80.h,
         width: 100.w,
-        padding: EdgeInsets.symmetric(horizontal: 12),
+        padding: const EdgeInsets.symmetric(horizontal: 12),
         alignment: Alignment.center,
         decoration: BoxDecoration(
           color: AppColors.ExtraLight,
@@ -460,7 +460,7 @@ class _BookServiceScreenState extends State<BookServiceScreen> {
         ),
         SizedBox(height: 8.h),
         DefaultTextFormField(
-          borderColor: Color(0xffD9D9D9),
+          borderColor: const Color(0xffD9D9D9),
           fillColor: Colors.transparent,
           currentFocusNode: FocusNode(),
           currentController: _timeController,
@@ -487,7 +487,7 @@ class _BookServiceScreenState extends State<BookServiceScreen> {
                         child: Column(
                           children: [
                             SizedBox(height: 20.h),
-                            Row(
+                            const Row(
                               mainAxisAlignment: MainAxisAlignment.spaceBetween,
                               children: [
                                 CustomText(
@@ -539,7 +539,7 @@ class _BookServiceScreenState extends State<BookServiceScreen> {
                                                             fontSize: 18,
                                                             fontWeight:
                                                                 FontWeight.w500,
-                                                            color: Color(
+                                                            color: const Color(
                                                                 0xff343C44),
                                                           ),
                                                         ),
@@ -551,7 +551,7 @@ class _BookServiceScreenState extends State<BookServiceScreen> {
                                   },
                                 )),
                             DefaultButton(
-                              margin: EdgeInsets.symmetric(vertical: 20),
+                              margin: const EdgeInsets.symmetric(vertical: 20),
                               isExpanded: true,
                               onPressed: () {
                                 Navigator.of(context).pop();
@@ -589,7 +589,7 @@ class _BookServiceScreenState extends State<BookServiceScreen> {
         ),
         SizedBox(height: 8.h),
         DefaultTextFormField(
-          borderColor: Color(0xffD9D9D9),
+          borderColor: const Color(0xffD9D9D9),
           fillColor: Colors.transparent,
           currentFocusNode: FocusNode(),
           currentController: _dateController,
@@ -613,7 +613,7 @@ class _BookServiceScreenState extends State<BookServiceScreen> {
                       child: Column(
                         children: [
                           SizedBox(height: 20.h),
-                          Row(
+                          const Row(
                             mainAxisAlignment: MainAxisAlignment.spaceBetween,
                             children: [
                               CustomText(
@@ -650,7 +650,7 @@ class _BookServiceScreenState extends State<BookServiceScreen> {
                             ),
                           ),
                           DefaultButton(
-                            margin: EdgeInsets.symmetric(vertical: 20),
+                            margin: const EdgeInsets.symmetric(vertical: 20),
                             isExpanded: true,
                             onPressed: () {
                               selectedDate = updatedDate;
@@ -686,7 +686,7 @@ class _BookServiceScreenState extends State<BookServiceScreen> {
   Container _buildDivider() {
     return Container(
       height: 6.h,
-      decoration: BoxDecoration(
+      decoration: const BoxDecoration(
         color: AppColors.ExtraLight,
       ),
     );
@@ -712,10 +712,7 @@ class _BookServiceScreenState extends State<BookServiceScreen> {
               ));
               return;
             }
-            // final addressCubit = context.read<MyAddressesCubit>();
-            // await addressCubit.getAddresses();
-            // final address = addressCubit.state.addressesData.first;
-            // log(address.formattedAddress ?? '');
+
             final therapistId = context
                 .read<AvialbleTherapistCubit>()
                 .state
