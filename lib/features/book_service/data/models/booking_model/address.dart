@@ -1,6 +1,6 @@
 import 'dart:convert';
 
-import 'package:collection/collection.dart';
+import 'package:flutter/widgets.dart';
 
 class Address {
   int? id;
@@ -8,8 +8,8 @@ class Address {
   int? customerId;
   int? areaId;
   String? addressLineOne;
-  int? lat;
-  int? lng;
+  double? lat;
+  double? lng;
   String? street;
   String? block;
   String? avenue;
@@ -18,12 +18,6 @@ class Address {
   String? additionalDetails;
   bool? isPrimary;
   String? buildingNumber;
-  String get formattedAddress => [street, block, avenue, floor, apartment]
-      .where((element) => element!.isNotEmpty)
-      .join(', ');
-
-  String get addressTitle => nickName ?? formattedAddress;
-
   Address({
     this.id,
     this.nickName,
@@ -41,119 +35,140 @@ class Address {
     this.isPrimary,
     this.buildingNumber,
   });
+  String get formattedAddress => [street, block, avenue, floor, apartment]
+      .where((element) => element!.isNotEmpty)
+      .join(', ');
+
+  String get addressTitle => nickName ?? formattedAddress;
+
+  Address copyWith({
+    ValueGetter<int?>? id,
+    ValueGetter<String?>? nickName,
+    ValueGetter<int?>? customerId,
+    ValueGetter<int?>? areaId,
+    ValueGetter<String?>? addressLineOne,
+    ValueGetter<double?>? lat,
+    ValueGetter<double?>? lng,
+    ValueGetter<String?>? street,
+    ValueGetter<String?>? block,
+    ValueGetter<String?>? avenue,
+    ValueGetter<String?>? floor,
+    ValueGetter<String?>? apartment,
+    ValueGetter<String?>? additionalDetails,
+    ValueGetter<bool?>? isPrimary,
+    ValueGetter<String?>? buildingNumber,
+  }) {
+    return Address(
+      id: id != null ? id() : this.id,
+      nickName: nickName != null ? nickName() : this.nickName,
+      customerId: customerId != null ? customerId() : this.customerId,
+      areaId: areaId != null ? areaId() : this.areaId,
+      addressLineOne:
+          addressLineOne != null ? addressLineOne() : this.addressLineOne,
+      lat: lat != null ? lat() : this.lat,
+      lng: lng != null ? lng() : this.lng,
+      street: street != null ? street() : this.street,
+      block: block != null ? block() : this.block,
+      avenue: avenue != null ? avenue() : this.avenue,
+      floor: floor != null ? floor() : this.floor,
+      apartment: apartment != null ? apartment() : this.apartment,
+      additionalDetails: additionalDetails != null
+          ? additionalDetails()
+          : this.additionalDetails,
+      isPrimary: isPrimary != null ? isPrimary() : this.isPrimary,
+      buildingNumber:
+          buildingNumber != null ? buildingNumber() : this.buildingNumber,
+    );
+  }
+
+  Map<String, dynamic> toMap() {
+    return {
+      'id': id,
+      'nickName': nickName,
+      'customerId': customerId,
+      'areaId': areaId,
+      'addressLineOne': addressLineOne,
+      'lat': lat,
+      'lng': lng,
+      'street': street,
+      'block': block,
+      'avenue': avenue,
+      'floor': floor,
+      'apartment': apartment,
+      'additionalDetails': additionalDetails,
+      'isPrimary': isPrimary,
+      'buildingNumber': buildingNumber,
+    };
+  }
+
+  factory Address.fromMap(Map<String, dynamic> map) {
+    return Address(
+      id: map['id']?.toInt(),
+      nickName: map['nickName'],
+      customerId: map['customerId']?.toInt(),
+      areaId: map['areaId']?.toInt(),
+      addressLineOne: map['addressLineOne'],
+      lat: map['lat']?.toDouble(),
+      lng: map['lng']?.toDouble(),
+      street: map['street'],
+      block: map['block'],
+      avenue: map['avenue'],
+      floor: map['floor'],
+      apartment: map['apartment'],
+      additionalDetails: map['additionalDetails'],
+      isPrimary: map['isPrimary'],
+      buildingNumber: map['buildingNumber'],
+    );
+  }
+
+  String toJson() => json.encode(toMap());
+
+  factory Address.fromJson(String source) =>
+      Address.fromMap(json.decode(source));
 
   @override
   String toString() {
     return 'Address(id: $id, nickName: $nickName, customerId: $customerId, areaId: $areaId, addressLineOne: $addressLineOne, lat: $lat, lng: $lng, street: $street, block: $block, avenue: $avenue, floor: $floor, apartment: $apartment, additionalDetails: $additionalDetails, isPrimary: $isPrimary, buildingNumber: $buildingNumber)';
   }
 
-  factory Address.fromMap(Map<String, dynamic> data) => Address(
-        id: data['id'] as int?,
-        nickName: data['nickName'] as String?,
-        customerId: data['customerId'] as int?,
-        areaId: data['areaId'] as int?,
-        addressLineOne: data['addressLineOne'] as String?,
-        lat: data['lat'] as int?,
-        lng: data['lng'] as int?,
-        street: data['street'] as String?,
-        block: data['block'] as String?,
-        avenue: data['avenue'] as String?,
-        floor: data['floor'] as String?,
-        apartment: data['apartment'] as String?,
-        additionalDetails: data['additionalDetails'] as String?,
-        isPrimary: data['isPrimary'] as bool?,
-        buildingNumber: data['buildingNumber'] as String?,
-      );
-
-  Map<String, dynamic> toMap() => {
-        'id': id,
-        'nickName': nickName,
-        'customerId': customerId,
-        'areaId': areaId,
-        'addressLineOne': addressLineOne,
-        'lat': lat,
-        'lng': lng,
-        'street': street,
-        'block': block,
-        'avenue': avenue,
-        'floor': floor,
-        'apartment': apartment,
-        'additionalDetails': additionalDetails,
-        'isPrimary': isPrimary,
-        'buildingNumber': buildingNumber,
-      };
-
-  /// `dart:convert`
-  ///
-  /// Parses the string and returns the resulting Json object as [Address].
-  factory Address.fromJson(String data) {
-    return Address.fromMap(json.decode(data) as Map<String, dynamic>);
-  }
-
-  /// `dart:convert`
-  ///
-  /// Converts [Address] to a JSON string.
-  String toJson() => json.encode(toMap());
-
-  Address copyWith({
-    int? id,
-    String? nickName,
-    int? customerId,
-    int? areaId,
-    String? addressLineOne,
-    int? lat,
-    int? lng,
-    String? street,
-    String? block,
-    String? avenue,
-    String? floor,
-    String? apartment,
-    String? additionalDetails,
-    bool? isPrimary,
-    String? buildingNumber,
-  }) {
-    return Address(
-      id: id ?? this.id,
-      nickName: nickName ?? this.nickName,
-      customerId: customerId ?? this.customerId,
-      areaId: areaId ?? this.areaId,
-      addressLineOne: addressLineOne ?? this.addressLineOne,
-      lat: lat ?? this.lat,
-      lng: lng ?? this.lng,
-      street: street ?? this.street,
-      block: block ?? this.block,
-      avenue: avenue ?? this.avenue,
-      floor: floor ?? this.floor,
-      apartment: apartment ?? this.apartment,
-      additionalDetails: additionalDetails ?? this.additionalDetails,
-      isPrimary: isPrimary ?? this.isPrimary,
-      buildingNumber: buildingNumber ?? this.buildingNumber,
-    );
-  }
-
   @override
   bool operator ==(Object other) {
-    if (identical(other, this)) return true;
-    if (other is! Address) return false;
-    final mapEquals = const DeepCollectionEquality().equals;
-    return mapEquals(other.toMap(), toMap());
+    if (identical(this, other)) return true;
+
+    return other is Address &&
+        other.id == id &&
+        other.nickName == nickName &&
+        other.customerId == customerId &&
+        other.areaId == areaId &&
+        other.addressLineOne == addressLineOne &&
+        other.lat == lat &&
+        other.lng == lng &&
+        other.street == street &&
+        other.block == block &&
+        other.avenue == avenue &&
+        other.floor == floor &&
+        other.apartment == apartment &&
+        other.additionalDetails == additionalDetails &&
+        other.isPrimary == isPrimary &&
+        other.buildingNumber == buildingNumber;
   }
 
   @override
-  int get hashCode =>
-      id.hashCode ^
-      nickName.hashCode ^
-      customerId.hashCode ^
-      areaId.hashCode ^
-      addressLineOne.hashCode ^
-      lat.hashCode ^
-      lng.hashCode ^
-      street.hashCode ^
-      block.hashCode ^
-      avenue.hashCode ^
-      floor.hashCode ^
-      apartment.hashCode ^
-      additionalDetails.hashCode ^
-      isPrimary.hashCode ^
-      buildingNumber.hashCode;
+  int get hashCode {
+    return id.hashCode ^
+        nickName.hashCode ^
+        customerId.hashCode ^
+        areaId.hashCode ^
+        addressLineOne.hashCode ^
+        lat.hashCode ^
+        lng.hashCode ^
+        street.hashCode ^
+        block.hashCode ^
+        avenue.hashCode ^
+        floor.hashCode ^
+        apartment.hashCode ^
+        additionalDetails.hashCode ^
+        isPrimary.hashCode ^
+        buildingNumber.hashCode;
+  }
 }
