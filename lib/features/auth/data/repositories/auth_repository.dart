@@ -198,12 +198,15 @@ class AuthRepositoryImpl implements AuthRepository {
   Future<void> logout() async {
     final currentUser = await _localDataSource.getUserData();
     final userId = currentUser?.id;
-    await Future.wait([
-//TODO: uncomment this
-      // if (userId != null) _remoteDataSource.logout(userId),
-      _localDataSource.clearUserData(),
-      _notificationService.cancelAll(),
-    ]);
+    await _localDataSource.clearUserData();
+    await _notificationService.cancelAll();
+
+//     await Future.wait([
+// //TODO: uncomment this
+//       // if (userId != null) _remoteDataSource.logout(userId),
+//       _localDataSource.clearUserData(),
+//       _notificationService.cancelAll(),
+//     ]);
   }
 
   @override

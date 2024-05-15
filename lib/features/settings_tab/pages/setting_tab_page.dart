@@ -64,12 +64,14 @@ class _SettingsTabPageState extends State<SettingsTabPage> {
                       ]),
                       SizedBox(height: 10.h),
                       CustomElevatedButton(
-                          onPressed: () {
-                            if (!context.read<AuthCubit>().state.isLoggedIn) {
-                              Navigator.pushNamedAndRemoveUntil(context,
-                                  LoginPage.routeName, (route) => false);
-                            }
-                            context.read<AuthCubit>().logout();
+                          onPressed: () async {
+                            final isGuest =
+                                context.read<AuthCubit>().state.isGuest;
+                            if (!isGuest)
+                              await context.read<AuthCubit>().logout();
+
+                            Navigator.pushNamedAndRemoveUntil(
+                                context, LoginPage.routeName, (route) => false);
                           },
                           height: 48.h,
                           text: context.read<AuthCubit>().state.isLoggedIn

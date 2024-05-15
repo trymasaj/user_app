@@ -55,7 +55,7 @@ extension GetItInjectableX on _i1.GetIt {
         () => _i5.DeviceTypeDataSourceImpl());
     gh.lazySingleton<_i6.NetworkServiceUtil>(
         () => _i6.NetworkServiceUtilImpl(gh<_i3.CacheService>()));
-    gh.singleton<_i7.NotificationService>(_i7.NotificationService());
+    // gh.singleton<_i7.NotificationService>(_i7.NotificationService());
     gh.lazySingleton<_i8.AuthLocalDataSource>(
         () => _i8.AuthLocalDataSourceImpl(gh<_i3.CacheService>()));
     gh.lazySingleton<_i6.NetworkService>(() => _i6.NetworkServiceImpl(

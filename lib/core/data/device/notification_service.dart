@@ -15,7 +15,7 @@ typedef FutureCallback<T> = FutureOr<T> Function();
 typedef FutureCallbackWithData<T, V> = FutureOr<T> Function(V data);
 typedef FutureValueChanged<T> = FutureOr<void> Function(T);
 
-@singleton
+
 class NotificationService {
   Future<void> init() async {
     await _FlutterLocalNotificationHelper.init();
