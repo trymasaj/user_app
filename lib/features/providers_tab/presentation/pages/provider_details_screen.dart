@@ -4,11 +4,13 @@ import 'package:flutter_svg/flutter_svg.dart';
 import 'package:masaj/core/app_export.dart';
 import 'package:masaj/core/data/di/injector.dart';
 import 'package:masaj/core/presentation/colors/app_colors.dart';
+import 'package:masaj/core/presentation/overlay/show_snack_bar.dart';
 import 'package:masaj/core/presentation/widgets/stateless/custom_app_bar.dart';
 import 'package:masaj/core/presentation/widgets/stateless/custom_cached_network_image.dart';
 import 'package:masaj/core/presentation/widgets/stateless/custom_rating_bar.dart';
 import 'package:masaj/core/presentation/widgets/stateless/custom_text.dart';
 import 'package:masaj/core/presentation/widgets/stateless/default_button.dart';
+import 'package:masaj/features/auth/application/auth_cubit/auth_cubit.dart';
 import 'package:masaj/features/book_service/presentation/blocs/available_therapist_cubit/available_therapist_cubit.dart';
 import 'package:masaj/features/book_service/presentation/screens/book_servcie_screen.dart';
 import 'package:masaj/features/home/presentation/widget/category_list.dart';
@@ -438,35 +440,43 @@ class _ProviderDetailsScreenState extends State<ProviderDetailsScreen> {
                 // label: 'Book with ${state.therapist?.fullName ?? ''}',
                 label: 'book_with'.tr(args: [state.therapist?.fullName ?? '']),
                 onPressed: () {
-                  if (!fromBookServiceScreen &&
-                      serviceCategoryCubit
-                              .state.serviceCategories.firstOrNull !=
-                          null) {
-                    Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                            builder: (context) => BlocProvider(
-                                  create: (context) => Injector().serviceCubit,
-                                  child: BookWithTherapistScreen(
-                                      arguments:
-                                          BookWithTherapistScreenArguments(
-                                    therapist: widget.therapist,
-                                    selectedServiceCategory:
-                                        serviceCategoryCubit
-                                            .state.serviceCategories.first,
-                                    allServiceCategories: serviceCategoryCubit
-                                        .state.serviceCategories,
-                                  )),
-                                )));
+                  final isGuest = context.read<AuthCubit>().state.isGuest;
+                  if (!isGuest) {
+                    if (!fromBookServiceScreen &&
+                        serviceCategoryCubit
+                                .state.serviceCategories.firstOrNull !=
+                            null) {
+                      Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                              builder: (context) => BlocProvider(
+                                    create: (context) =>
+                                        Injector().serviceCubit,
+                                    child: BookWithTherapistScreen(
+                                        arguments:
+                                            BookWithTherapistScreenArguments(
+                                      therapist: widget.therapist,
+                                      selectedServiceCategory:
+                                          serviceCategoryCubit
+                                              .state.serviceCategories.first,
+                                      allServiceCategories: serviceCategoryCubit
+                                          .state.serviceCategories,
+                                    )),
+                                  )));
+                    } else {
+                      Navigator.of(context).popUntil((route) {
+                        return route.settings.name ==
+                            BookServiceScreen.routeName;
+                      });
+                      context.read<AvialbleTherapistCubit?>()?.selectTherapist(
+                          AvailableTherapistModel(
+                              therapist: state.therapist,
+                              userTriedBefore: null,
+                              availableTimeSlots: null));
+                    }
                   } else {
-                    Navigator.of(context).popUntil((route) {
-                      return route.settings.name == BookServiceScreen.routeName;
-                    });
-                    context.read<AvialbleTherapistCubit?>()?.selectTherapist(
-                        AvailableTherapistModel(
-                            therapist: state.therapist,
-                            userTriedBefore: null,
-                            availableTimeSlots: null));
+                    showSnackBar(context,
+                        message: 'msg_in_order_to_accessing'.tr());
                   }
                 },
               ));

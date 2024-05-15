@@ -7,6 +7,7 @@ import 'package:masaj/core/data/di/injector.dart';
 import 'package:masaj/core/domain/enums/focus_area_enum.dart';
 import 'package:masaj/core/presentation/colors/app_colors.dart';
 import 'package:masaj/core/presentation/navigation/navigator_helper.dart';
+import 'package:masaj/core/presentation/overlay/show_snack_bar.dart';
 import 'package:masaj/core/presentation/widgets/stateful/full_screen_video.dart';
 import 'package:masaj/core/presentation/widgets/stateless/custom_cached_network_image.dart';
 import 'package:masaj/core/presentation/widgets/stateless/custom_loading.dart';
@@ -245,7 +246,14 @@ class ServiceDetailsScreenState extends State<ServiceDetailsScreen> {
                       }),
                   DefaultButton(
                     label: 'continue',
-                    onPressed: () => onContinuePressed(context),
+                    onPressed: () {
+                      final isGuest = context.read<AuthCubit>().state.isGuest;
+                      if (!isGuest)
+                        onContinuePressed(context);
+                      else
+                        showSnackBar(context,
+                            message: 'msg_in_order_to_accessing'.tr());
+                    },
                   ),
                 ],
               ),
@@ -1073,14 +1081,6 @@ class _ServiceImagesViewWidgetState extends State<ServiceImagesViewWidget> {
               decoration: const BoxDecoration(
                 color: Colors.white,
                 shape: BoxShape.circle,
-
-                // boxShadow: [
-                //   BoxShadow(
-                //     color: Colors.black.withOpacity(.1),
-                //     blurRadius: 10,
-                //     spreadRadius: 5,
-                //   )
-                // ],
               ),
               child: _buildBackButton(context),
             ),
