@@ -712,10 +712,10 @@ class _BookServiceScreenState extends State<BookServiceScreen> {
               ));
               return;
             }
-            final addressCubit = context.read<MyAddressesCubit>();
-            await addressCubit.getAddresses();
-            final address = addressCubit.state.addressesData.first;
-            log(address.formattedAddress ?? '');
+            // final addressCubit = context.read<MyAddressesCubit>();
+            // await addressCubit.getAddresses();
+            // final address = addressCubit.state.addressesData.first;
+            // log(address.formattedAddress ?? '');
             final therapistId = context
                 .read<AvialbleTherapistCubit>()
                 .state
