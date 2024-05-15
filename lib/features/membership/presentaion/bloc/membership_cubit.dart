@@ -1,5 +1,6 @@
 import 'dart:developer';
 import 'package:flutter/material.dart';
+import 'package:masaj/core/app_export.dart';
 import 'package:masaj/core/application/controllers/base_cubit.dart';
 import 'package:masaj/core/data/clients/payment_service.dart';
 import 'package:masaj/core/data/constants/api_end_point.dart';
@@ -64,13 +65,12 @@ class MembershipCubit extends BaseCubit<MembershipState> {
         paymentMethodId: paymentMethod.id,
         onSuccess: () {
           navigatorKey.currentState!.pop();
-          showSnackBar(context,
-              message: 'wallet has been charged successfully');
+          navigatorKey.currentState!.pop();
+          showSnackBar(context, message: 'Plan upgraded successfully!');
         },
         onFailure: () {
           navigatorKey.currentState!.pop();
-          showSnackBar(context,
-              message: 'wallet has been charged successfully');
+          showSnackBar(context, message: 'error_occurred'.tr());
         },
       ));
       emit(state.copyWith(status: MembershipStateStatus.loaded));
