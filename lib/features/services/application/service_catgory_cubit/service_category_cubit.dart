@@ -18,6 +18,7 @@ class ServiceCategoryCubit extends BaseCubit<ServiceCategoryState> {
           status: ServiceCategoryStateStatus.loaded,
           serviceCategories: serviceCategories));
     } catch (e) {
+     
       emit(state.copyWith(
           status: ServiceCategoryStateStatus.error,
           errorMessage: e.toString()));

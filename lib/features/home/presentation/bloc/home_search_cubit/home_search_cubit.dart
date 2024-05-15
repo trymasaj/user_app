@@ -2,6 +2,7 @@ import 'dart:developer';
 
 import 'package:masaj/core/application/controllers/base_cubit.dart';
 import 'package:masaj/core/data/clients/cache_service.dart';
+import 'package:masaj/core/domain/exceptions/redundant_request_exception.dart';
 import 'package:masaj/features/home/data/models/home_search_reponse.dart';
 import 'package:masaj/features/home/data/repositories/home_repository.dart';
 import 'package:masaj/features/services/data/models/service_model.dart';
@@ -14,6 +15,7 @@ class HomeSearchCubit extends BaseCubit<HomeSearchCubitState> {
   })  : _homeRepository = homeRepository,
         super(const HomeSearchCubitState()) {
     getRecentServices();
+    getRecentSearchKeyWords();
     getRecentSearchResults();
   }
 
@@ -128,6 +130,74 @@ class HomeSearchCubit extends BaseCubit<HomeSearchCubitState> {
     }
   }
 
+  // get recent key words
+  Future<void> getRecentSearchKeyWords() async {
+    emit(state.copyWith(status: HomeSearchStateStatus.loading));
+    try {
+      final recentSearchKeywords = await _homeRepository.getSearchKeyWords();
+      emit(state.copyWith(
+        status: HomeSearchStateStatus.loaded,
+        recentSearchKeywords: recentSearchKeywords,
+      ));
+      print('recentSearchKeywords: $recentSearchKeywords');
+    } catch (e) {
+      emit(state.copyWith(
+        status: HomeSearchStateStatus.error,
+        errorMessage: e.toString(),
+      ));
+    }
+  }
+
+  // remove search key word
+  Future<void> removeSearchKeyWord(String keyWord) async {
+    emit(state.copyWith(status: HomeSearchStateStatus.loading));
+    try {
+      final result = await _homeRepository.removeSearchKeyWord(keyWord);
+      if (result) {
+        final recentSearchKeywords = await _homeRepository.getSearchKeyWords();
+        emit(state.copyWith(
+          status: HomeSearchStateStatus.loaded,
+          recentSearchKeywords: recentSearchKeywords,
+        ));
+      } else {
+        emit(state.copyWith(
+          status: HomeSearchStateStatus.error,
+          errorMessage: 'Failed to remove service',
+        ));
+      }
+    } catch (e) {
+      emit(state.copyWith(
+        status: HomeSearchStateStatus.error,
+        errorMessage: e.toString(),
+      ));
+    }
+  }
+
+  // save search key word
+  Future<void> saveSearchKeyWord(String keyWord) async {
+    emit(state.copyWith(status: HomeSearchStateStatus.loading));
+    try {
+      final result = await _homeRepository.saveSearchKeyWord(keyWord);
+      if (result) {
+        final recentSearchKeywords = await _homeRepository.getSearchKeyWords();
+        emit(state.copyWith(
+          status: HomeSearchStateStatus.loaded,
+          recentSearchKeywords: recentSearchKeywords,
+        ));
+      } else {
+        emit(state.copyWith(
+          status: HomeSearchStateStatus.error,
+          errorMessage: 'Failed to remove service',
+        ));
+      }
+    } catch (e) {
+      emit(state.copyWith(
+        status: HomeSearchStateStatus.error,
+        errorMessage: e.toString(),
+      ));
+    }
+  }
+
   // removeRecentService
   Future<void> removeRecentService(ServiceModel service) async {
     emit(state.copyWith(status: HomeSearchStateStatus.loading));
@@ -169,6 +239,9 @@ class HomeSearchCubit extends BaseCubit<HomeSearchCubitState> {
         status: HomeSearchStateStatus.loaded,
         result: homeSearchResponse,
       ));
+    } on RedundantRequestException {
+      log('Redundant request');
+      emit(state.copyWith(status: HomeSearchStateStatus.loaded));
     } catch (e) {
       emit(state.copyWith(
         status: HomeSearchStateStatus.error,

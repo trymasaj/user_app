@@ -182,7 +182,6 @@ class ServiceDetailsScreenState extends State<ServiceDetailsScreen> {
               padding: EdgeInsets.symmetric(horizontal: 24.w, vertical: 14.h),
               width: double.infinity,
               height: 100.h,
-              //box-shadow: 0px -3px 8px 0px #9DB2D621;
               decoration: BoxDecoration(
                 color: Colors.white,
                 boxShadow: [
@@ -293,12 +292,14 @@ class ServiceDetailsScreenState extends State<ServiceDetailsScreen> {
                                     ),
                                     Row(
                                       children: [
-                                        CustomText(
-                                          text:
-                                              state.service?.description ?? '',
-                                          fontSize: 12,
-                                          fontWeight: FontWeight.w400,
-                                          color: AppColors.FONT_LIGHT,
+                                        Expanded(
+                                          child: CustomText(
+                                            text: state.service?.description ??
+                                                '',
+                                            fontSize: 12,
+                                            fontWeight: FontWeight.w400,
+                                            color: AppColors.FONT_LIGHT,
+                                          ),
                                         ),
                                       ],
                                     ),
@@ -494,6 +495,8 @@ class ServiceDetailsScreenState extends State<ServiceDetailsScreen> {
                                   valueListenable: selectedDurationNotifier,
                                   builder: (context, value, child) {
                                     return TotalSection(
+                                      totalDuration: totalDuration.toString(),
+                                      selectedDuration: value,
                                       totalPrice:
                                           totalPrice().toStringAsFixed(2),
                                     );
@@ -517,8 +520,14 @@ class ServiceDetailsScreenState extends State<ServiceDetailsScreen> {
   Future<void> onContinuePressed(BuildContext context) async {
     checkIfGuest(context);
     if (selectedDurationNotifier.value == null) {
+      //close the keyboard
+      ScaffoldMessenger.of(context).clearSnackBars();
       ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-        content: Text('Please select a duration'),
+        closeIconColor: Colors.white,
+        showCloseIcon: true,
+        content: Text(
+          'Please select a duration',
+        ),
       ));
       return;
     }
@@ -552,19 +561,22 @@ class ServiceDetailsScreenState extends State<ServiceDetailsScreen> {
 }
 
 class TotalSection extends StatelessWidget {
-  TotalSection({
-    super.key,
-    required this.totalPrice,
-  });
+  TotalSection(
+      {super.key,
+      required this.totalPrice,
+      this.selectedDuration,
+      this.totalDuration});
   final String totalPrice;
-  int totalDuration = 0;
+  final String? totalDuration;
+  // int totalDuration = 0;
+  final ServiceDurationModel? selectedDuration;
   @override
   Widget build(BuildContext context) {
     return BlocBuilder<ServiceDetailsCubit, ServiceDetailsState>(
       builder: (context, state) {
-        state.service?.serviceDurations?.forEach((element) {
-          totalDuration += int.tryParse(element.durationInMinutes) ?? 0;
-        });
+        // state.service?.serviceDurations?.forEach((element) {
+        //   totalDuration += int.tryParse(element.durationInMinutes) ?? 0;
+        // });
         return Padding(
           padding: EdgeInsets.symmetric(horizontal: 24.w),
           child: Column(
@@ -585,10 +597,8 @@ class TotalSection extends StatelessWidget {
               SizedBox(
                 height: 8.h,
               ),
-              ...List.generate(state.service?.serviceDurations!.length ?? 0,
-                  (index) {
-                final duration = state.service?.serviceDurations![index];
-                return Row(
+              if (selectedDuration != null)
+                Row(
                   children: [
                     CustomText(
                       text: state.service!.title ?? '',
@@ -598,14 +608,58 @@ class TotalSection extends StatelessWidget {
                     ),
                     const Spacer(),
                     CustomText(
-                      text: '${duration!.formattedString} ${duration.unit}',
+                      text: 'min_count'.tr(args: [
+                        selectedDuration?.durationInMinutes?.toString() ?? ''
+                      ]),
+                      // '${selectedDuration!.formattedString} ${selectedDuration?.unit}',
                       fontSize: 14,
                       fontWeight: FontWeight.w400,
                       color: AppColors.PlaceholderColor,
                     ),
                   ],
-                );
-              }),
+                )
+              else
+                Row(
+                  children: [
+                    CustomText(
+                      text: 'no_duration_selected',
+                      fontSize: 14,
+                      fontWeight: FontWeight.w400,
+                      color: AppColors.FONT_LIGHT.withOpacity(.7),
+                    ),
+                    const Spacer(),
+                    CustomText(
+                      text: 'min_count'.tr(args: ['0']),
+                      fontSize: 14,
+                      fontWeight: FontWeight.w400,
+                      color: AppColors.PlaceholderColor,
+                    ),
+                  ],
+                )
+
+              // ...List.generate(state.service?.serviceDurations
+              // !.length ?? 0,
+              //     (index) {
+              //   final duration = state.service?.serviceDurations![index];
+              //   return Row(
+              //     children: [
+              //       CustomText(
+              //         text: state.service!.title ?? '',
+              //         fontSize: 14,
+              //         fontWeight: FontWeight.w400,
+              //         color: AppColors.FONT_LIGHT.withOpacity(.7),
+              //       ),
+              //       const Spacer(),
+              //       CustomText(
+              //         text: '${duration!.formattedString} ${duration.unit}',
+              //         fontSize: 14,
+              //         fontWeight: FontWeight.w400,
+              //         color: AppColors.PlaceholderColor,
+              //       ),
+              //     ],
+              //   );
+              // }),
+              ,
               SizedBox(
                 height: 12.h,
               ),
@@ -626,7 +680,7 @@ class TotalSection extends StatelessWidget {
                   ),
                   const Spacer(),
                   CustomText(
-                    text: '$totalDuration min',
+                    text: "min_count".tr(args: [totalDuration ?? '0']),
                     fontSize: 14,
                     fontWeight: FontWeight.w500,
                     color: AppColors.FONT_LIGHT.withOpacity(.7),
@@ -688,8 +742,11 @@ class AddonsSection extends StatelessWidget {
                       Row(
                         children: [
                           CustomText(
-                            text:
-                                '(${addon.price} KWD, ${addon.durationInMinutes} min)',
+                            text: '(${"price_in_kd".tr(args: [
+                                  addon.price.toString()
+                                ])}, ${'min_count'.tr(args: [
+                                  addon.durationInMinutes
+                                ])})',
                             fontSize: 14,
                             fontWeight: FontWeight.w400,
                             color: AppColors.PlaceholderColor,

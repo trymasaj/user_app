@@ -103,11 +103,14 @@ class _OffersSectionState extends State<OffersSection> {
                                     padding: const EdgeInsets.symmetric(
                                         horizontal: 5, vertical: 2),
                                     decoration: BoxDecoration(
-                                      color: Colors.red,
+                                      color: Color(0xffB73E53),
                                       borderRadius: BorderRadius.circular(4),
                                     ),
                                     child: Text(
-                                      '${discountPercentage}% OFF',
+                                      'percentage_off'.tr(args: [
+                                        '${discountPercentage.toStringAsFixed(0)}'
+                                      ]),
+                                      // '${discountPercentage}% OFF',
                                       style: TextStyle(
                                           fontSize: 10,
                                           fontWeight: FontWeight.w500,
@@ -151,7 +154,10 @@ class _OffersSectionState extends State<OffersSection> {
                               Row(
                                 children: [
                                   Text(
-                                    'KD ${offer.originalPrice ?? 0.0}',
+                                    'price_in_kd'.tr(args: [
+                                      '${offer.originalPrice ?? 0.0}'
+                                    ]),
+                                    // 'KD ${offer.originalPrice ?? 0.0}',
                                     style: TextStyle(
                                         decoration: TextDecoration.lineThrough,
                                         fontSize: 12,
@@ -162,7 +168,10 @@ class _OffersSectionState extends State<OffersSection> {
                                     width: 5,
                                   ),
                                   Text(
-                                    'KD ${offer.discountedPrice ?? 0.0}',
+                                    'price_in_kd'.tr(args: [
+                                      '${offer.discountedPrice ?? 0.0}'
+                                    ]),
+                                    // 'KD ${offer.discountedPrice ?? 0.0}',
                                     style: TextStyle(
                                         fontSize: 12,
                                         fontWeight: FontWeight.w500,

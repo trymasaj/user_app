@@ -17,8 +17,10 @@
 import 'dart:convert';
 
 import 'package:masaj/core/app_export.dart';
+import 'package:masaj/core/data/di/injector.dart';
 import 'package:masaj/features/book_service/data/models/booking_model/address.dart';
 import 'package:masaj/features/book_service/data/models/booking_model/member.dart';
+import 'package:masaj/main.dart';
 
 class SessionModel {
   SessionModel(
@@ -107,7 +109,7 @@ class SessionModel {
   final Address? address;
 
   final int countryId;
-  // 10 AM -12 PM 
+  // 10 AM -12 PM
   String get timeString {
     if (bookingDate == null) return '';
     return '${bookingDate!.timeString} - ${(bookingDate!.add(Duration(minutes: durationInMinutesInt))).timeString}';
@@ -117,9 +119,8 @@ class SessionModel {
         id: json["id"],
         serviceNameEn: json["serviceNameEn"],
         serviceNameAr: json["serviceNameAr"],
-        address: json['address'] == null
-            ? null
-            : Address.fromMap(json['address']),
+        address:
+            json['address'] == null ? null : Address.fromMap(json['address']),
         serviceName: json["serviceName"],
         serviceMediaUrlEn: json["serviceMediaUrlEn"],
         serviceMediaUrlAr: json["serviceMediaUrlAr"],
@@ -250,24 +251,33 @@ class SessionModel {
         totalDuration.hashCode ^
         servicePrice.hashCode ^
         serviceId.hashCode ^
-        countryId.hashCode
-        ^ address.hashCode 
-        ^ members.hashCode;
+        countryId.hashCode ^
+        address.hashCode ^
+        members.hashCode;
   }
 }
 
 extension DateStrings on DateTime {
   // week day like sat sun mon by local by intl
   String get weekDayString {
-    return DateFormat.EEEE().format(this);
+    final local = EasyLocalization.of(navigatorKey!.currentContext!)!
+        .currentLocale
+        ?.languageCode;
+    return DateFormat.EEEE(local).format(this);
   }
 
   String get monthString {
-    return DateFormat.MMMM().format(this);
+    final local = EasyLocalization.of(navigatorKey!.currentContext!)!
+        .currentLocale
+        ?.languageCode;
+    return DateFormat.MMMM(local).format(this);
   }
 
 // am to pm like 10 Am to Pm
   String get timeString {
-    return DateFormat.jm().format(this);
+    final local = EasyLocalization.of(navigatorKey!.currentContext!)!
+        .currentLocale
+        ?.languageCode;
+    return DateFormat.jm(local).format(this);
   }
 }

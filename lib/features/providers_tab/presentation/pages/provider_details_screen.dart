@@ -243,7 +243,7 @@ class _ProviderDetailsScreenState extends State<ProviderDetailsScreen> {
             const Row(
               children: [
                 CustomText(
-                  text: 'About',
+                  text: 'lbl_about',
                   fontFamily: 'DM Sans',
                   fontSize: 16,
                   fontWeight: FontWeight.w700,
@@ -285,7 +285,7 @@ class _ProviderDetailsScreenState extends State<ProviderDetailsScreen> {
             const Row(
               children: [
                 CustomText(
-                  text: 'Services',
+                  text: 'lbl_services',
                   fontFamily: 'DM Sans',
                   fontSize: 16,
                   fontWeight: FontWeight.w700,
@@ -335,7 +335,7 @@ class _ProviderDetailsScreenState extends State<ProviderDetailsScreen> {
               children: [
                 RichText(
                   text: TextSpan(
-                      text: 'Reviews ',
+                      text: '${'reviews'.tr()} ',
                       style: const TextStyle(
                         fontSize: 16,
                         fontWeight: FontWeight.w500,
@@ -435,7 +435,8 @@ class _ProviderDetailsScreenState extends State<ProviderDetailsScreen> {
               height: 60,
               color: Colors.white,
               child: DefaultButton(
-                label: 'Book with ${state.therapist?.fullName ?? ''}',
+                // label: 'Book with ${state.therapist?.fullName ?? ''}',
+                label: 'book_with'.tr(args: [state.therapist?.fullName ?? '']),
                 onPressed: () {
                   if (!fromBookServiceScreen &&
                       serviceCategoryCubit

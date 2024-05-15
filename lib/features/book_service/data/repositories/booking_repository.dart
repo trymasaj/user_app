@@ -8,7 +8,7 @@ import 'package:masaj/features/services/data/models/service_model.dart';
 abstract class BookingRepository {
   Future<int> getBookingLatestId();
   Future<void> addBookingService(ServiceBookModel serviceBookModel);
-  Future<void> addBookingMembers(List<int> members);
+  Future<BookingModel> addBookingMembers(List<int> members);
   Future<void> addBookingAddress(int addressId);
   Future<void> addBookingTherapist(
       {required int therapistId, required DateTime availableTime});
@@ -31,7 +31,7 @@ class BookingRepositoryImpl implements BookingRepository {
       _remoteDataSource.addBookingAddress(addressId);
 
   @override
-  Future<void> addBookingMembers(List<int> members) =>
+  Future<BookingModel> addBookingMembers(List<int> members) =>
       _remoteDataSource.addBookingMembers(members);
 
   @override

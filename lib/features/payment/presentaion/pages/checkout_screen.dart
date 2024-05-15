@@ -183,19 +183,23 @@ class _CheckoutScreenState extends State<CheckoutScreen> {
           const TitleText(text: 'details'),
           const SizedBox(height: _KSubVerticalSpace),
           _buildDetailsRow(
-              title: 'date:',
+              title: 'date'.tr() + ':',
               content:
                   DateFormatHelper.formatDate(bookingModel?.bookingDate) ?? ''),
           _buildDetailsRow(
-              title: 'time:',
+              title: 'time'.tr() + ':',
               content:
                   DateFormatHelper.formatDateTime(bookingModel?.bookingDate) ??
                       ''),
           _buildDetailsRow(
-              title: 'name:', content: bookingModel?.members?.first.name ?? ''),
+            title: 'name'.tr() + ':',
+            content:
+                (bookingModel?.members ?? []).map((e) => e.name).join(', '),
+          ),
           _buildDetailsRow(
-              title: 'phone:',
-              content: bookingModel?.members?.first.phone ?? ''),
+              title: 'phone'.tr() + ':',
+              content: (bookingModel?.members?.first.countryCode ?? '') +
+                  (bookingModel?.members?.first.phone ?? '')),
         ],
       ),
     );

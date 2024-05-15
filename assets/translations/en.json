@@ -89,7 +89,7 @@
   "gallery": "Gallery",
   "camera": "Camera",
   "cancel": "Cancel",
-  "connection_error": "Connection error",
+  "connection_error": "Connection error please try again later",
   "show_all": "Show all",
   "contact_us_success": "Message has been sent",
   "message": "Your Message",
@@ -668,7 +668,7 @@
   "lbl_purchase": "Purchase",
   "lbl_recent_searches": "Recent searches",
   "lbl_refer_a_friend": "Refer a friend",
-  "lbl_refer_credit": "Refer& Credit",
+  "lbl_refer_credit": "Refer&Credit",
   "lbl_reference_id": "Reference ID",
   "lbl_region": "Region",
   "lbl_resend_in_39_00": "Resend in 39:00",
@@ -917,5 +917,31 @@
   "1_kwd": "1 KWD",
   "2_kwd": "2 KWD",
   "other": "Other",
-  "my_gifts": "My Gifts"
+  "my_gifts": "My Gifts",
+  "min": "Min",
+  "addons": "Add on’s",
+  "name": "Name",
+  "phone": "Phone",
+  "please_select_therapist": "Please select therapist",
+  "minutes": "Minutes",
+  "price_in_kd": "{} KD",
+  "percentage_off": "{}% off",
+  "min_count": "{} min",
+  "no_duration_selected": "No duration selected",
+  "book_with": "Book with {}",
+  "book_with_therapist": "Book with therapist",
+  "reviews": "Reviews",
+
+  "scheduled": "Scheduled",
+  "rescheduled": "Rescheduled",
+  "inProgress": "In Progress",
+  "cancelled": "Cancelled",
+  "confirmed": "Confirmed",
+  "status": "Status"
+ 
+
+
+  
+  
+
 }

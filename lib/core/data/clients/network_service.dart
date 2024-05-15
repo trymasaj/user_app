@@ -5,6 +5,7 @@ import 'dart:typed_data';
 import 'package:dio/dio.dart';
 import 'package:http/http.dart' as http;
 import 'package:injectable/injectable.dart';
+import 'package:masaj/core/app_export.dart';
 import 'package:masaj/core/data/clients/cache_service.dart';
 import 'package:masaj/core/data/constants/api_end_point.dart';
 import 'package:masaj/core/data/datasources/device_type_data_source.dart';
@@ -550,7 +551,7 @@ class NetworkServiceImpl implements NetworkService {
         'HandshakeException',
         'Failed host lookup'
       ].any((e) => message.contains(e))) {
-        throw ConnectionException(message: 'connection_error');
+        throw ConnectionException(message: 'connection_error'.tr());
       }
       rethrow;
     }

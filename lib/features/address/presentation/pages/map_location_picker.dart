@@ -46,6 +46,17 @@ class MapLocationPicker extends StatefulWidget {
 class _MapLocationPickerState extends State<MapLocationPicker> {
   final googleMapController = Completer<GoogleMapController>();
   final FocusNode focusNode = FocusNode();
+  Future<LatLng> getCenter() async {
+    final GoogleMapController controller = await googleMapController.future;
+    LatLngBounds visibleRegion = await controller.getVisibleRegion();
+    LatLng centerLatLng = LatLng(
+      (visibleRegion.northeast.latitude + visibleRegion.southwest.latitude) / 2,
+      (visibleRegion.northeast.longitude + visibleRegion.southwest.longitude) /
+          2,
+    );
+
+    return centerLatLng;
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -74,8 +85,8 @@ class _MapLocationPickerState extends State<MapLocationPicker> {
                     onCameraIdle: () async {
                       final googleMapController =
                           await this.googleMapController.future;
-                      final latLng = await googleMapController
-                          .getLatLng(context.getScreenCoordinate());
+
+                      final latLng = await getCenter();
                       await controller.onCameraIdle(latLng);
                     },
                     myLocationEnabled: true,
@@ -135,8 +146,7 @@ class _MapLocationPickerState extends State<MapLocationPicker> {
                           onTapContinue: () async {
                             final googleMapController =
                                 await this.googleMapController.future;
-                            final latLng = await googleMapController
-                                .getLatLng(context.getScreenCoordinate());
+                            final latLng = await getCenter();
                             Navigator.of(context).pop(MapLocationPickerResult(
                                 address: address, latLng: latLng));
                           },

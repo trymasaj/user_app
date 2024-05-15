@@ -25,7 +25,7 @@ class BookingCubit extends BaseCubit<BookingState> {
       await _bookingRepository.getBookingLatestId();
       emit(state.copyWith(status: BookServiceStatus.loaded));
     } on RedundantRequestException catch (e) {
-      log(e.toString());
+      log(e.toString());//Wed, Sep 4, 2024, 04:00 PM
     } catch (e) {
       emit(state.copyWith(
           status: BookServiceStatus.error, errorMessage: e.toString()));
@@ -52,8 +52,10 @@ class BookingCubit extends BaseCubit<BookingState> {
 
     try {
       emit(state.copyWith(status: BookServiceStatus.loading));
-      await _bookingRepository.addBookingMembers(members);
-      emit(state.copyWith(status: BookServiceStatus.loaded));
+      final boolingModel = await _bookingRepository.addBookingMembers(members);
+
+      emit(state.copyWith(
+          status: BookServiceStatus.loaded, bookingModel: boolingModel));
     } on RedundantRequestException catch (e) {
       log(e.toString());
     } catch (e) {

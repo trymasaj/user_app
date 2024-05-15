@@ -1,6 +1,6 @@
 enum BookingStatus {
   Pending ('pending'),
-  Scheduled ('pcheduled'),
+  Scheduled ('scheduled'),
   Rescheduled ('Rescheduled'),
   InProgress ('inProgress'),
   Completed ('completed'),

@@ -142,11 +142,156 @@ class _BookServiceScreenState extends State<BookServiceScreen> {
     );
   }
 
+  Widget _buildServiceCard(BuildContext context) {
+    return BlocBuilder<BookingCubit, BookingState>(
+      builder: (context, state) {
+        final bookingModel = state.bookingModel;
+        final service = bookingModel?.service;
+        return Container(
+          width: 280,
+          padding: const EdgeInsets.all(10),
+          // decoration: BoxDecoration(
+          //   borderRadius: BorderRadius.circular(8),
+          //   border: Border.all(
+          //     color: AppColors.GREY_LIGHT_COLOR_2,
+          //     width: 1,
+          //   ),
+          // ),
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.start,
+            children: [
+              // image
+              Container(
+                height: 80,
+                width: 80,
+                decoration: BoxDecoration(
+                  color: AppColors.GREY_LIGHT_COLOR_2,
+                  borderRadius: BorderRadius.circular(12),
+                  image: DecorationImage(
+                    image: CustomCachedNetworkImageProvider(
+                      service?.mediaUrl ?? '',
+                    ),
+                    fit: BoxFit.cover,
+                  ),
+                ),
+              ),
+              const SizedBox(
+                width: 10,
+              ),
+              Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text(
+                    service?.title ?? '',
+                    style: TextStyle(
+                        fontSize: 12,
+                        fontWeight: FontWeight.w500,
+                        color: AppColors.FONT_COLOR),
+                  ),
+                  SizedBox(
+                    height: 3,
+                  ),
+                  // start from
+                  Row(
+                    children: [
+                      Text(
+                        'duration'.tr(),
+                        style: TextStyle(
+                            fontSize: 12,
+                            fontWeight: FontWeight.w400,
+                            color: AppColors.PlaceholderColor),
+                      ),
+                      Text(
+                        ': '.tr(),
+                        style: TextStyle(
+                            fontSize: 12,
+                            fontWeight: FontWeight.w400,
+                            color: AppColors.PlaceholderColor),
+                      ),
+                      CustomText(
+                          fontSize: 12,
+                          fontWeight: FontWeight.w400,
+                          color: AppColors.FONT_LIGHT,
+                          text:
+                              "${bookingModel?.durationInMinutes}  ${'min'.tr()}")
+                    ],
+                  ),
+                  SizedBox(
+                    height: 3,
+                  ),
+                  // Row(
+                  //   children: [
+                  //     Text(
+                  //       'addons'.tr(),
+                  //       style: TextStyle(
+                  //           fontSize: 12,
+                  //           fontWeight: FontWeight.w400,
+                  //           color: AppColors.PlaceholderColor),
+                  //     ),
+                  //     Text(
+                  //       ': '.tr(),
+                  //       style: TextStyle(
+                  //           fontSize: 12,
+                  //           fontWeight: FontWeight.w400,
+                  //           color: AppColors.PlaceholderColor),
+                  //     ),
+                  //     CustomText(
+                  //         fontSize: 12,
+                  //         fontWeight: FontWeight.w400,
+                  //         color: AppColors.FONT_LIGHT,
+                  //         text: bookingModel?.service?.addons
+                  //                 ?.map((e) => e.titleAr)
+                  //                 .join(',') ??
+                  //             '')
+                  //   ],
+                  // )
+                  // Row(
+                  //   children: [
+                  //     Text(
+                  //       'addons'.tr(),
+                  //       style: TextStyle(
+                  //           fontSize: 12,
+                  //           fontWeight: FontWeight.w400,
+                  //           color: AppColors.PlaceholderColor),
+                  //     ),
+                  //     Text(
+                  //       ': '.tr(),
+                  //       style: TextStyle(
+                  //           fontSize: 12,
+                  //           fontWeight: FontWeight.w400,
+                  //           color: AppColors.PlaceholderColor),
+                  //     ),
+                  //     CustomText(
+                  //         fontSize: 12,
+                  //         fontWeight: FontWeight.w400,
+                  //         color: AppColors.FONT_LIGHT,
+                  //         text:
+                  //             )
+                  //   ],
+                  // )
+                  // Text(
+                  //   'KD ${service?.price ?? ''}',
+                  //   style: TextStyle(
+                  //       fontSize: 12,
+                  //       fontWeight: FontWeight.w500,
+                  //       color: AppColors.FONT_COLOR),
+                  // ),
+                ],
+              ),
+            ],
+          ),
+        );
+      },
+    );
+  }
+
   Padding _buildBookingDetails(
       BuildContext context, AvialbleTherapistState state) {
     return Padding(
       padding: EdgeInsets.symmetric(horizontal: 24.w),
       child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           SizedBox(height: 20.h),
           const Row(
@@ -159,6 +304,7 @@ class _BookServiceScreenState extends State<BookServiceScreen> {
               ),
             ],
           ),
+          _buildServiceCard(context),
           SizedBox(height: 20.h),
           if (!fromTherapistFow)
             Column(
@@ -479,11 +625,22 @@ class _BookServiceScreenState extends State<BookServiceScreen> {
                           SizedBox(
                             height: 160.h,
                             child: CupertinoDatePicker(
+                              minuteInterval: 30,
+
+                              minimumDate: DateTime.now().add(
+                                Duration(
+                                    minutes: 30 - DateTime.now().minute % 30),
+                              ),
                               mode: fromTherapistFow
                                   ? CupertinoDatePickerMode.date
                                   : CupertinoDatePickerMode.dateAndTime,
                               // mode: CupertinoDatePickerMode.date,
-                              initialDateTime: selectedDate ?? DateTime.now(),
+                              initialDateTime: selectedDate ??
+                                  DateTime.now().add(
+                                    Duration(
+                                        minutes:
+                                            30 - DateTime.now().minute % 30),
+                                  ),
                               onDateTimeChanged: (DateTime dateTime) {
                                 updatedDate = dateTime;
                               },
@@ -495,9 +652,11 @@ class _BookServiceScreenState extends State<BookServiceScreen> {
                             onPressed: () {
                               selectedDate = updatedDate;
                               _dateController.text = fromTherapistFow == true
-                                  ? DateFormat('E, MMM d, yyyy')
+                                  ? DateFormat('E, MMM d, yyyy',
+                                          context.locale.languageCode)
                                       .format(updatedDate)
-                                  : DateFormat('E, MMM d, yyyy, hh:mm a')
+                                  : DateFormat('E, MMM d, yyyy, hh:mm a',
+                                          context.locale.languageCode)
                                       .format(updatedDate);
                               _timeController.clear();
                               selectedTimeSlot = null;
@@ -542,6 +701,18 @@ class _BookServiceScreenState extends State<BookServiceScreen> {
               ));
               return;
             }
+            final therapist =
+                context.read<AvialbleTherapistCubit>().state.selectedTherapist;
+            if (therapist == null) {
+              ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+                content: Text('please_select_therapist'.tr()),
+              ));
+              return;
+            }
+            final addressCubit = context.read<MyAddressesCubit>();
+            await addressCubit.getAddresses();
+            final address = addressCubit.state.addressesData.first;
+            log(address.formattedAddress ?? '');
             final therapistId = context
                 .read<AvialbleTherapistCubit>()
                 .state

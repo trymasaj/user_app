@@ -124,7 +124,7 @@ class _BookWithTherapistScreenState extends State<BookWithTherapistScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
         appBar: CustomAppBar(
-          title: 'Book With Therapist',
+          title: 'book_with_therapist',
         ),
         body: Column(
           children: [

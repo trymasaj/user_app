@@ -23,10 +23,12 @@ class HomeSearchCubitState {
   final HomeSearchResponse? result;
   final List<ServiceModel> recentServices;
   final List<SearchResultModel> recentSearchResults;
+  final List<String> recentSearchKeywords;
 
   const HomeSearchCubitState({
     this.status = HomeSearchStateStatus.initial,
     this.errorMessage,
+    this.recentSearchKeywords = const [],
     this.result,
     this.recentServices = const [],
     this.recentSearchResults = const [],
@@ -44,6 +46,7 @@ class HomeSearchCubitState {
     return other is HomeSearchCubitState &&
         other.status == status &&
         other.errorMessage == errorMessage &&
+        other.recentSearchKeywords == recentSearchKeywords &&
         other.recentSearchResults == recentSearchResults &&
         other.result == result &&
         other.recentServices == recentServices;
@@ -53,6 +56,7 @@ class HomeSearchCubitState {
   int get hashCode =>
       status.hashCode ^
       errorMessage.hashCode ^
+      recentSearchKeywords.hashCode ^
       result.hashCode ^
       recentSearchResults.hashCode ^
       recentServices.hashCode;
@@ -60,12 +64,14 @@ class HomeSearchCubitState {
   HomeSearchCubitState copyWith({
     HomeSearchStateStatus? status,
     String? errorMessage,
+    List<String>? recentSearchKeywords,
     HomeSearchResponse? result,
     List<ServiceModel>? recentServices,
     List<SearchResultModel>? recentSearchResults,
   }) {
     return HomeSearchCubitState(
       status: status ?? this.status,
+      recentSearchKeywords: recentSearchKeywords ?? this.recentSearchKeywords,
       errorMessage: errorMessage ?? this.errorMessage,
       result: result ?? this.result,
       recentServices: recentServices ?? this.recentServices,

@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -85,7 +87,14 @@ class _SearchScreenState extends State<SearchScreen> {
         ),
       ),
       // if ((state.result?.services ?? []).isNotEmpty)
-      ServicesResults(services: services)
+      ServicesResults(
+        services: services,
+        onServiceTap: () async {
+          await context
+              .read<HomeSearchCubit>()
+              .saveSearchKeyWord(_searchController.text);
+        },
+      )
     ];
   }
 
@@ -115,7 +124,13 @@ class _SearchScreenState extends State<SearchScreen> {
         ),
       ),
       // if ((state.result?.therapists ?? []).isNotEmpty)
-      ProvidersResults(therapists: therapists)
+      ProvidersResults(
+          therapists: therapists,
+          onProviderTap: () async {
+            await context
+                .read<HomeSearchCubit>()
+                .saveSearchKeyWord(_searchController.text);
+          })
     ];
   }
 
@@ -128,9 +143,9 @@ class _SearchScreenState extends State<SearchScreen> {
   }
 
   List<Widget> buildRecentlyViews(
-    List<SearchResultModel> services,
+    List<String> keys,
   ) {
-    if (services.isEmpty) {
+    if (keys.isEmpty) {
       return [
         SliverToBoxAdapter(
           child: Container(
@@ -166,10 +181,54 @@ class _SearchScreenState extends State<SearchScreen> {
       ),
       // list of recent searches
       RecenetHostory(
-        services: services,
+        keys: keys,
+        searchController: _searchController,
       ),
     ];
   }
+  // List<Widget> buildRecentlyViews(
+  //   List<SearchResultModel> services,
+  // ) {
+  //   if (services.isEmpty) {
+  //     return [
+  //       SliverToBoxAdapter(
+  //         child: Container(
+  //           padding: const EdgeInsets.all(60),
+  //           child: const EmptyPageMessage(
+  //             svgImage: 'empty',
+  //           ),
+  //         ),
+  //       )
+  //     ];
+  //   }
+  //   return [
+  //     SliverToBoxAdapter(
+  //       child: Container(
+  //         margin: const EdgeInsets.symmetric(horizontal: 20),
+  //         child: const Row(
+  //           mainAxisAlignment: MainAxisAlignment.spaceBetween,
+  //           children: [
+  //             CustomText(
+  //               text: 'recent_searches',
+  //               fontSize: 14,
+  //               fontWeight: FontWeight.w400,
+  //               color: AppColors.FONT_COLOR,
+  //             ),
+  //           ],
+  //         ),
+  //       ),
+  //     ),
+  //     const SliverToBoxAdapter(
+  //       child: SizedBox(
+  //         height: 10,
+  //       ),
+  //     ),
+  //     // list of recent searches
+  //     RecenetHostory(
+  //       services: services,
+  //     ),
+  //   ];
+  // }
 
   @override
   Widget build(BuildContext context) {
@@ -207,10 +266,22 @@ class _SearchScreenState extends State<SearchScreen> {
                     (state.result?.therapists ?? []).isEmpty &&
                     state.isLoading)
                   buildLoading(),
+                if ((state.result?.services ?? []).isEmpty &&
+                    (state.result?.therapists ?? []).isEmpty &&
+                    _searchController.text.isNotEmpty &&
+                    state.isLoaded)
+                  SliverToBoxAdapter(
+                    child: Container(
+                      padding: const EdgeInsets.all(60),
+                      child: const EmptyPageMessage(
+                        svgImage: 'empty',
+                      ),
+                    ),
+                  ),
 
                 if (state.isEmptyResult && _searchController.text.isEmpty)
                   ...buildRecentlyViews(
-                    state.recentSearchResults,
+                    state.recentSearchKeywords,
                   ),
               ],
             ),
@@ -225,8 +296,13 @@ class ServicesResults extends StatelessWidget {
   const ServicesResults({
     super.key,
     required this.services,
+    this.onServiceTap,
   });
   final List<ServiceModel> services;
+  // onServiceTap future function
+  // future or not
+
+  final FutureOr<void> Function()? onServiceTap;
 
   @override
   Widget build(BuildContext context) {
@@ -236,6 +312,11 @@ class ServicesResults extends StatelessWidget {
         final service = services[index];
         return GestureDetector(
           onTap: () async {
+            if (onServiceTap != null) {
+              // if on service is future
+              await onServiceTap!();
+            }
+
             await context
                 .read<HomeSearchCubit>()
                 .saveRecentSearchResult(SearchResultModel(
@@ -243,6 +324,8 @@ class ServicesResults extends StatelessWidget {
                   name: service.title,
                   type: SearchResultModelEnum.Service,
                 ));
+            // save recent search key
+
             Future.delayed(
                 const Duration(milliseconds: 0),
                 () => NavigatorHelper.of(context).pushNamed(
@@ -295,8 +378,10 @@ class ProvidersResults extends StatelessWidget {
   const ProvidersResults({
     super.key,
     required this.therapists,
+    this.onProviderTap,
   });
   final List<Therapist> therapists;
+  final FutureOr<void> Function()? onProviderTap;
 
   @override
   Widget build(BuildContext context) {
@@ -306,6 +391,10 @@ class ProvidersResults extends StatelessWidget {
         final therapist = therapists[index];
         return GestureDetector(
           onTap: () async {
+            if (onProviderTap != null) {
+              // if on service is future
+              await onProviderTap!();
+            }
             await context
                 .read<HomeSearchCubit>()
                 .saveRecentSearchResult(SearchResultModel(
@@ -362,31 +451,118 @@ class ProvidersResults extends StatelessWidget {
   }
 }
 
+// class RecenetHostory extends StatelessWidget {
+//   const RecenetHostory({
+//     super.key,
+//     required this.services,
+//   });
+//   final List<SearchResultModel> services;
+
+//   @override
+//   Widget build(BuildContext context) {
+//     return SliverList.builder(
+//       itemCount: services.length,
+//       itemBuilder: (context, index) {
+//         final service = services[index];
+//         return GestureDetector(
+//           onTap: () async {
+//             if (service.isService)
+//               NavigatorHelper.of(context).pushNamed(
+//                   ServiceDetailsScreen.routeName,
+//                   arguments: ServiceDetailsScreenArguments(id: service.id!));
+//             else if (service.isTherapist)
+//               NavigatorHelper.of(context)
+//                   .pushNamed(ProviderDetailsScreen.routeName,
+//                       arguments: ProviderDetailsScreenNavArguements(
+//                         therapist: Therapist(therapistId: service.id),
+//                       ));
+//           },
+//           child: Container(
+//             margin: const EdgeInsets.symmetric(horizontal: 20),
+//             child: Column(
+//               children: [
+//                 // search item
+//                 Container(
+//                   margin: const EdgeInsets.symmetric(vertical: 10),
+//                   child: Row(
+//                     children: [
+//                       // icon
+//                       Container(
+//                         margin: EdgeInsets.only(
+//                             right: context.isAr ? 0 : 10,
+//                             left: context.isAr ? 10 : 0),
+//                         child: SvgPicture.asset(
+//                           Assets.images.imgSolarHistoryOutline,
+//                           color: AppColors.ACCENT_COLOR,
+//                         ),
+//                       ),
+//                       // text
+//                       Expanded(
+//                         child: Text(
+//                           service.name ?? '',
+//                           style: TextStyle(
+//                             fontSize: 14,
+//                             fontWeight: FontWeight.w400,
+//                             color: AppColors.FONT_COLOR,
+//                           ),
+//                         ),
+//                       ),
+//                       // close icon
+//                       GestureDetector(
+//                         onTap: () {
+//                           context
+//                               .read<HomeSearchCubit>()
+//                               .removeRecentSearchResult(service);
+//                         },
+//                         child: Container(
+//                           margin: const EdgeInsets.only(left: 10),
+//                           child: SvgPicture.asset(
+//                             Assets.images.imgCloseOnprimary,
+//                             color: AppColors.PlaceholderColor,
+//                           ),
+//                         ),
+//                       ),
+//                     ],
+//                   ),
+//                 ),
+//                 // divider
+//               ],
+//             ),
+//           ),
+//         );
+//       },
+//     );
+//   }
+// }
 class RecenetHostory extends StatelessWidget {
   const RecenetHostory({
     super.key,
-    required this.services,
+    required this.keys,
+    required this.searchController,
   });
-  final List<SearchResultModel> services;
+  final List<String> keys;
+  final TextEditingController searchController;
 
   @override
   Widget build(BuildContext context) {
     return SliverList.builder(
-      itemCount: services.length,
+      itemCount: keys.length,
       itemBuilder: (context, index) {
-        final service = services[index];
+        final service = keys[index];
         return GestureDetector(
           onTap: () async {
-            if (service.isService)
-              NavigatorHelper.of(context).pushNamed(
-                  ServiceDetailsScreen.routeName,
-                  arguments: ServiceDetailsScreenArguments(id: service.id!));
-            else if (service.isTherapist)
-              NavigatorHelper.of(context)
-                  .pushNamed(ProviderDetailsScreen.routeName,
-                      arguments: ProviderDetailsScreenNavArguements(
-                        therapist: Therapist(therapistId: service.id),
-                      ));
+            searchController.text = service;
+            await context.read<HomeSearchCubit>().search(service);
+            // if (service.isService)
+            //   NavigatorHelper.of(context).pushNamed(
+            //       ServiceDetailsScreen.routeName,
+            //       arguments: ServiceDetailsScreenArguments(id: service.id!));
+            // else if (service.isTherapist)
+            //   NavigatorHelper.of(context)
+            //       .pushNamed(ProviderDetailsScreen.routeName,
+            //           arguments: ProviderDetailsScreenNavArguements(
+            //             therapist: Therapist(therapistId: service.id),
+            //           ));
           },
           child: Container(
             margin: const EdgeInsets.symmetric(horizontal: 20),
@@ -410,7 +586,7 @@ class RecenetHostory extends StatelessWidget {
                       // text
                       Expanded(
                         child: Text(
-                          service.name ?? '',
+                          service ?? '',
                           style: TextStyle(
                             fontSize: 14,
                             fontWeight: FontWeight.w400,
@@ -423,7 +599,7 @@ class RecenetHostory extends StatelessWidget {
                         onTap: () {
                           context
                               .read<HomeSearchCubit>()
-                              .removeRecentSearchResult(service);
+                              .removeSearchKeyWord(service);
                         },
                         child: Container(
                           margin: const EdgeInsets.only(left: 10),

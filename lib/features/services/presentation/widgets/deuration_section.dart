@@ -59,7 +59,7 @@ class DurationsSection extends StatelessWidget {
                                   .toggleSelectDuration(duration);
                             },
                             child: Container(
-                              margin: EdgeInsets.only(right: 8.w),
+                              margin: EdgeInsets.only(right: 8.w, top: 16.h),
                               child: DurationContainer(
                                 isSelected: value?.serviceDurationId ==
                                     state.service?.serviceDurations![index]
@@ -127,17 +127,22 @@ class DurationContainer extends StatelessWidget {
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
                 buildText(
-                  duration.formattedString,
+                  duration.durationInMinutes,
                   fontSize: 12,
                   fontWeight: FontWeight.w500,
                 ),
                 buildText(
-                  duration.unit,
+                  'minutes'.tr(),
                   fontSize: 10,
                   fontWeight: FontWeight.w400,
                 ),
                 buildText(
-                  '(${duration.price} KWD)',
+                  '(${"price_in_kd".tr(args: [
+                        (duration.hasDiscount
+                                ? duration.discountedPrice
+                                : duration.price)
+                            .toString()
+                      ])})',
                   fontSize: 10,
                   fontWeight: FontWeight.w500,
                 )
@@ -161,17 +166,17 @@ class DurationContainer extends StatelessWidget {
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
                 buildText(
-                  duration.formattedString,
+                  duration.durationInMinutes,
                   fontSize: 12,
                   fontWeight: FontWeight.w500,
                 ),
                 buildText(
-                  duration.unit,
+                  'minutes'.tr(),
                   fontSize: 10,
                   fontWeight: FontWeight.w400,
                 ),
                 buildText(
-                  '(${duration.price} KWD)',
+                  '(${'price_in_kd'.tr(args: [duration.price.toString()])})',
                   fontSize: 10,
                   fontWeight: FontWeight.w500,
                 )

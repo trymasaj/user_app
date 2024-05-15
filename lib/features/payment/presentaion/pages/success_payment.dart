@@ -144,14 +144,19 @@ class _SummaryPaymentPageState extends State<SummaryPaymentPage> {
               title: 'payment_date'),
           _buildSummaryItem(
               amount: bookingModel?.payment?.paymentStatus?.name,
+              isStatus: bookingModel?.payment?.paymentStatus ==
+                  PaymentStatus.Captured,
               title: 'payment_status')
         ]),
-      ),
+      ),//Education2016
     );
   }
 
   Widget _buildSummaryItem(
-      {bool isDiscount = false, required String title, dynamic amount}) {
+      {bool isDiscount = false,
+      required String title,
+      dynamic amount,
+      bool? isStatus}) {
     return Padding(
       padding: const EdgeInsets.symmetric(vertical: 12.0),
       child: Row(
@@ -168,7 +173,11 @@ class _SummaryPaymentPageState extends State<SummaryPaymentPage> {
               text: '$amount ',
               textAlign: TextAlign.end,
               isBold: false,
-              color: const Color(0xff1D212C),
+              color: isStatus != null
+                  ? (isStatus == true
+                      ? AppColors.SUCCESS_COLOR
+                      : AppColors.ERROR_COLOR)
+                  : const Color(0xff1D212C),
               maxLines: 2,
             ),
           )

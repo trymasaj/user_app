@@ -1,8 +1,13 @@
+import 'dart:developer';
+
 import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
 import 'package:injectable/injectable.dart';
 import 'package:masaj/core/application/controllers/base_cubit.dart';
 import 'package:masaj/core/application/states/app_state.dart';
+import 'package:masaj/core/domain/exceptions/app_exception.dart';
+import 'package:masaj/core/domain/exceptions/redundant_request_exception.dart';
+import 'package:masaj/core/domain/exceptions/request_exception.dart';
 import 'package:masaj/features/address/domain/entities/address.dart';
 import 'package:masaj/features/address/infrastructure/repos/address_repo.dart';
 import 'package:meta/meta.dart';
@@ -14,11 +19,21 @@ class MyAddressesCubit extends BaseCubit<MyAddressesState> {
   final AddressRepo _repo;
 
   Future<void> getAddresses() async {
-    emit(state.copyWith(addresses: DataLoadState.loading()));
-    final result = await _repo.getAddresses();
-    emit(state.copyWith(
-        selectedAddressIndex: result.indexWhere((element) => element.isPrimary),
-        addresses: DataLoadState.loaded([...result])));
+    try {
+      emit(state.copyWith(addresses: DataLoadState.loading()));
+      final result = await _repo.getAddresses();
+      emit(state.copyWith(
+          selectedAddressIndex:
+              result.indexWhere((element) => element.isPrimary),
+          addresses: DataLoadState.loaded([...result])));
+    } on RedundantRequestException {
+      log('RedundantRequestException');
+    } catch (e) {
+      emit(state.copyWith(
+          addresses: DataLoadState.error(
+        e is AppException ? e : RequestException(exception: e.toString()),
+      )));
+    }
   }
 
   Future<void> add(Address result) async {
@@ -43,6 +58,7 @@ class MyAddressesCubit extends BaseCubit<MyAddressesState> {
     emit(state.copyWith(addresses: DataLoadState.loaded(addresses)));
   }
 
+// Education2016
   Future<void> update(int index, Address result) async {
     final addressId = state.addressesData[index].id;
     await _repo.updateAddress(addressId, result);

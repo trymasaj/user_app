@@ -34,6 +34,7 @@ class BookingModel {
   DateTime? bookingDate;
   PaymentStatus? paymentStatus;
   bool? isFreeBooking;
+  List<AddonModel>? addons;
   BookingStatus? bookingStatus;
   String? totalDuration;
   String? bufferDuration;
@@ -45,6 +46,7 @@ class BookingModel {
   BookingModel({
     this.bookingId,
     this.countryId,
+    this.addons,
     this.therapistId,
     this.serviceId,
     this.customerId,
@@ -75,6 +77,7 @@ class BookingModel {
   BookingModel copyWith({
     ValueGetter<int?>? bookingId,
     ValueGetter<int?>? countryId,
+    ValueGetter<List<AddonModel>?>? addons,
     ValueGetter<int?>? therapistId,
     ValueGetter<int?>? serviceId,
     ValueGetter<int?>? customerId,
@@ -103,6 +106,7 @@ class BookingModel {
   }) {
     return BookingModel(
       bookingId: bookingId != null ? bookingId() : this.bookingId,
+      addons: addons != null ? addons() : this.addons,
       countryId: countryId != null ? countryId() : this.countryId,
       therapistId: therapistId != null ? therapistId() : this.therapistId,
       serviceId: serviceId != null ? serviceId() : this.serviceId,
@@ -147,6 +151,15 @@ class BookingModel {
     );
   }
 
+  String get durationInMinutes {
+    if (totalDuration == null) return '0';
+    return totalDuration!.split(':').length > 2
+        ? (int.parse(totalDuration!.split(':')[0]) * 60 +
+                int.parse(totalDuration!.split(':')[1]))
+            .toString()
+        : totalDuration!.split(':')[1];
+  }
+
   Map<String, dynamic> toMap() {
     return {
       'bookingId': bookingId,
@@ -154,6 +167,7 @@ class BookingModel {
       'therapistId': therapistId,
       'serviceId': serviceId,
       'customerId': customerId,
+      'addons': addons?.map((x) => x.toMap()).toList(),
       'servicePrice': servicePrice,
       'serviceDurationId': serviceDurationId,
       'serviceTotalDuration': serviceTotalDuration,
@@ -180,8 +194,18 @@ class BookingModel {
   }
 
   factory BookingModel.fromMap(Map<String, dynamic> map) {
+    print('''
+_______________________
+addons  ${map['addons']}
+_______________________
+
+''');
     return BookingModel(
       bookingId: map['bookingId']?.toInt(),
+      addons: map['addons'] == null
+          ? null
+          : List<AddonModel>.from(
+              map['addons']?.map((x) => AddonModel.fromMap(x))),
       countryId: map['countryId']?.toInt(),
       therapistId: map['therapistId']?.toInt(),
       serviceId: map['serviceId']?.toInt(),
@@ -236,6 +260,7 @@ class BookingModel {
 
     return other is BookingModel &&
         other.bookingId == bookingId &&
+        other.addons == addons &&
         other.countryId == countryId &&
         other.therapistId == therapistId &&
         other.serviceId == serviceId &&
@@ -270,6 +295,7 @@ class BookingModel {
         countryId.hashCode ^
         therapistId.hashCode ^
         serviceId.hashCode ^
+        addons.hashCode ^
         customerId.hashCode ^
         servicePrice.hashCode ^
         serviceDurationId.hashCode ^
@@ -310,4 +336,77 @@ class BookingModel {
       servicePrice: (servicePrice ?? 0).toDouble(),
     );
   }
+}
+
+//  {
+//       "addonId": 2,
+//       "serviceId": 1,
+//       "countryId": 1,
+//       "titleEn": "add new adddon",
+//       "titleAr": "add new addon",
+//       "title": "add new adddon",
+//       "descriptionEn": "desc ",
+//       "descriptionAr": "desc ar ",
+//       "description": "desc ",
+//       "duration": "00:20:00",
+//       "price": 20
+//     }
+class AddonModel {
+  final int? addonId;
+  final int? serviceId;
+  final int? countryId;
+  final String? titleEn;
+  final String? titleAr;
+  final String? title;
+  final String? descriptionEn;
+  final String? descriptionAr;
+  final String? description;
+  final String? duration;
+  final int? price;
+  AddonModel({
+    this.addonId,
+    this.serviceId,
+    this.countryId,
+    this.titleEn,
+    this.titleAr,
+    this.title,
+    this.descriptionEn,
+    this.descriptionAr,
+    this.description,
+    this.duration,
+    this.price,
+  });
+  // from map
+  factory AddonModel.fromMap(Map<String, dynamic> map) {
+    return AddonModel(
+      addonId: map['addonId']?.toInt(),
+      serviceId: map['serviceId']?.toInt(),
+      countryId: map['countryId']?.toInt(),
+      titleEn: map['titleEn'],
+      titleAr: map['titleAr'],
+      title: map['title'],
+      descriptionEn: map['descriptionEn'],
+      descriptionAr: map['descriptionAr'],
+      description: map['description'],
+      duration: map['duration'],
+      price: map['price']?.toInt(),
+    );
+  }
+  // to map
+  Map<String, dynamic> toMap() {
+    return {
+      'addonId': addonId,
+      'serviceId': serviceId,
+      'countryId': countryId,
+      'titleEn': titleEn,
+      'titleAr': titleAr,
+      'title': title,
+      'descriptionEn': descriptionEn,
+      'descriptionAr': descriptionAr,
+      'description': description,
+      'duration': duration,
+      'price': price,
+    };
+  }
+  // to json
 }
