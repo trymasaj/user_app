@@ -1,236 +1,288 @@
 import 'package:flutter/material.dart';
-import 'package:intl_phone_field/phone_number.dart';
 import 'package:masaj/core/app_export.dart';
-import 'package:masaj/core/domain/enums/gender.dart';
+import 'package:masaj/core/data/di/injector.dart';
 import 'package:masaj/core/presentation/colors/app_colors.dart';
 import 'package:masaj/core/presentation/overlay/show_snack_bar.dart';
-import 'package:masaj/core/presentation/widgets/stateful/default_tab.dart';
 import 'package:masaj/core/presentation/widgets/stateless/custom_app_bar.dart';
-import 'package:masaj/core/presentation/widgets/stateful/user_profile_image_picker.dart';
 import 'package:masaj/core/presentation/widgets/stateless/custom_app_page.dart';
 import 'package:masaj/core/presentation/widgets/stateless/custom_loading.dart';
 import 'package:masaj/core/presentation/widgets/stateless/default_button.dart';
+import 'package:masaj/core/presentation/widgets/stateless/empty_page_message.dart';
 import 'package:masaj/core/presentation/widgets/stateless/subtitle_text.dart';
-import 'package:masaj/core/presentation/widgets/stateless/text_fields/default_text_form_field.dart';
-import 'package:masaj/core/presentation/widgets/stateless/text_fields/phone_number_text_field.dart';
-import 'package:masaj/features/auth/application/auth_cubit/auth_cubit.dart';
-import 'package:masaj/features/members/data/model/member_model.dart';
-import 'package:masaj/features/members/presentaion/bloc/members_cubit.dart';
+import 'package:masaj/core/presentation/widgets/stateless/title_text.dart';
+import 'package:masaj/features/book_service/presentation/blocs/book_cubit/book_service_cubit.dart';
+import 'package:masaj/features/membership/presentaion/bloc/membership_cubit.dart';
+import 'package:masaj/features/payment/data/model/payment_method_model.dart';
+import 'package:masaj/features/payment/presentaion/bloc/payment_cubit.dart';
+import 'package:masaj/features/payment/presentaion/pages/checkout_screen.dart';
 
-class AddMemberScreen extends StatefulWidget {
-  const AddMemberScreen({super.key, int? id}) : _id = id;
-  static const String routeName = '/add_member';
-  final int? _id;
+class MembershipCheckoutScreen extends StatefulWidget {
+  const MembershipCheckoutScreen({super.key});
+  static const String routeName = '/checkoutScreen';
 
   @override
-  State<AddMemberScreen> createState() => _AddMemberScreenState();
+  State<MembershipCheckoutScreen> createState() =>
+      _MembershipCheckoutScreenState();
 }
 
-class _AddMemberScreenState extends State<AddMemberScreen> {
-  final TextEditingController memberNameController = TextEditingController();
+class _MembershipCheckoutScreenState extends State<MembershipCheckoutScreen> {
+  static const double _kDividerThickness = 6;
+  static const double _KSubVerticalSpace = 12;
+  static const double _KSectionPadding = 24;
+  PaymentMethodModel? _selectedPayment;
 
-  final TextEditingController phoneNumberController = TextEditingController();
-
-  final FocusNode memberNameFocusNode = FocusNode();
-
-  final formKey = GlobalKey<FormState>();
-  final FocusNode phoneNumberFocusNode = FocusNode();
-  Gender? _selectedGender;
-  bool showGenderError = false;
-  PhoneNumber? _selectedPhoneNumber;
-  String? image;
+  late final TextEditingController _couponEditingController;
+  late final TextEditingController _walletController;
+  late final FocusNode _couponFocusNode;
 
   @override
   void initState() {
-    final cubit = context.read<MembersCubit>();
-    cubit.initEditMember(widget._id);
+    _couponEditingController = TextEditingController();
+    _walletController = TextEditingController();
+    _couponFocusNode = FocusNode();
+    getBooking();
     super.initState();
+  }
+
+  void getBooking() async {
+    final bookingCubit = context.read<BookingCubit>();
+    await bookingCubit.getBookingDetails();
+  }
+
+  @override
+  void dispose() {
+    _couponEditingController.dispose();
+    _walletController.dispose();
+    _couponFocusNode.dispose();
+    super.dispose();
   }
 
   @override
   Widget build(BuildContext context) {
     return Builder(builder: (context) {
-      return CustomAppPage(
+      return BlocProvider(
+        create: (context) => Injector().paymentCubit..getPaymentMethods(),
         child: Scaffold(
           appBar: CustomAppBar(
-            title: widget._id == null
-                ? 'lbl_add_member'.tr()
-                : 'lbl_edit_member'.tr(),
-            centerTitle: true,
+            title: 'checkout_title'.tr(),
           ),
-          body: BlocListener<MembersCubit, MembersState>(
-            listener: (context, state) async {
-              if (state.isError) {
-                showSnackBar(context, message: state.errorMessage);
-              }
-              if (state.isAdded) {
-                await context.read<MembersCubit>().getMembers();
-                Navigator.pop(context);
-              }
-              if (state.isLoaded) {
-                if (widget._id != null) {
-                  memberNameController.text = state.selectedMember?.name ?? '';
-                  phoneNumberController.text =
-                      state.selectedMember?.phone ?? '';
-                  _selectedGender = state.selectedMember?.gender;
-                  image = state.selectedMember?.image;
-                  _selectedPhoneNumber = PhoneNumber(
-                      countryISOCode: '',
-                      countryCode: state.selectedMember?.countryCode ?? '',
-                      number: state.selectedMember?.phone ?? '');
-                }
-              }
-            },
-            child: BlocListener<MembersCubit, MembersState>(
-              listener: (context, state) {},
-              child: BlocBuilder<MembersCubit, MembersState>(
-                builder: (context, state) {
-                  if (state.isLoading) {
-                    return const CustomLoading();
-                  }
-
-                  return SingleChildScrollView(
-                    child: Padding(
-                      padding: const EdgeInsets.symmetric(horizontal: 23),
-                      child: Form(
-                        key: formKey,
-                        child: Column(children: [
-                          SizedBox(height: 24.h),
-                          UserProfileImagePicker(
-                            currentImage: image,
-                            onImageSelected: (imagePath) {
-                              image = imagePath;
-                            },
-                          ),
-                          SizedBox(height: 24.h),
-                          DefaultTextFormField(
-                            currentFocusNode: memberNameFocusNode,
-                            currentController: memberNameController,
-                            isRequired: true,
-                            hint: 'name'.tr(),
-                          ),
-                          const SizedBox(height: 16),
-                          PhoneTextFormField(
-                            currentFocusNode: phoneNumberFocusNode,
-                            currentController: phoneNumberController,
-                            hint: 'phone_number'.tr(),
-                            initialValue: _selectedPhoneNumber,
-                            nextFocusNode: memberNameFocusNode,
-                            onInputChanged: (PhoneNumber? value) {
-                              _selectedPhoneNumber = value;
-                            },
-                          ),
-                          const SizedBox(height: 16),
-                          _buildGenderRow(),
-                          SizedBox(height: 32.h),
-                          DefaultButton(
-                            onPressed: () async {
-                              final String customerId =
-                                  context.read<AuthCubit>().state.user?.id ??
-                                      '';
-
-                              if (!_notValid()) {
-                                MemberModel member = MemberModel(
-                                    id: widget._id,
-                                    customerId: int.parse(customerId),
-                                    image: image,
-                                    countryCode:
-                                        _selectedPhoneNumber?.countryCode ?? '',
-                                    name: memberNameController.text,
-                                    phone: phoneNumberController.text,
-                                    gender: _selectedGender);
-
-                                if (widget._id == null) {
-                                  await context
-                                      .read<MembersCubit>()
-                                      .addMember(member);
-                                } else {
-                                  await context
-                                      .read<MembersCubit>()
-                                      .updateMember(member);
-                                }
-                              }
-                            },
-                            label: 'save'.tr(),
-                            isExpanded: true,
-                          )
-                        ]),
-                      ),
-                    ),
-                  );
-                },
-              ),
-            ),
-          ),
+          body: _buildBody(),
         ),
       );
     });
   }
 
-  Widget _buildGenderRow() {
+  Widget _buildBody() {
+    return BlocConsumer<PaymentCubit, PaymentState>(
+      builder: (context, state) {
+        return BlocConsumer<MembershipCubit, MembershipState>(
+          builder: (context, state) {
+            if (state.isLoading) return const CustomLoading();
+
+            return CustomAppPage(
+              child: SingleChildScrollView(
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    _buildServiceSection(),
+                    const Divider(
+                      thickness: _kDividerThickness,
+                      color: AppColors.ExtraLight,
+                    ),
+                    _buildPaymentSection(context),
+                    const Divider(
+                      thickness: _kDividerThickness,
+                      color: AppColors.ExtraLight,
+                    ),
+                    _buildSummarySection(context),
+                    _buildCheckoutButton(context)
+                  ],
+                ),
+              ),
+            );
+          },
+          listener: (BuildContext context, MembershipState state) {
+            if (state.isError)
+              showSnackBar(context, message: state.errorMessage);
+          },
+        );
+      },
+      listener: (BuildContext context, PaymentState state) {
+        if (state.isError) showSnackBar(context, message: state.errorMessage);
+      },
+    );
+  }
+
+  Widget _buildServiceSection() {
+    return Padding(
+      padding: const EdgeInsets.all(_KSectionPadding),
+      child: Column(
+        children: [
+          _buildServiceTitle(context),
+        ],
+      ),
+    );
+  }
+
+  Widget _buildServiceTitle(BuildContext context) {
+    final membershipCubit = context.read<MembershipCubit>();
+    final membershipModel = membershipCubit.state.plans;
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        Row(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            Expanded(
-                child: InkWell(
-              onTap: () {
-                setState(() {
-                  _selectedGender = Gender.male;
-                  showGenderError = false;
-                });
-              },
-              child: DefaultTab(
-                isSelected: _selectedGender == Gender.male,
-                title: 'Male'.tr(),
-              ),
-            )),
-            SizedBox(width: 10.w),
-            Expanded(
-                child: InkWell(
-              onTap: () {
-                setState(() {
-                  _selectedGender = Gender.female;
-                  showGenderError = false;
-                });
-              },
-              child: DefaultTab(
-                  isSelected: _selectedGender == Gender.female,
-                  title: 'Female'.tr()),
-            )),
-          ],
+        SubtitleText(
+          text: membershipModel?.nameEn ?? '',
+          isBold: true,
         ),
-        const SizedBox(height: 10),
-        if (showGenderError)
-          const SubtitleText.small(
-            text: 'empty_field_not_valid',
-            color: AppColors.ERROR_COLOR,
-          )
+        const SizedBox(height: 5.0),
+        SubtitleText(
+          text: membershipModel?.descriptionEn ?? '',
+          maxLines: 2,
+        ),
       ],
     );
   }
 
-  bool _notValid() {
-    if (!formKey.currentState!.validate()) {
-      return true;
-    }
-    if (_selectedGender == null) {
-      setState(() {
-        showGenderError = true;
-      });
-      return true;
-    }
-    // if (_selectedPhoneNumber == null) {
-    //   showSnackBar(context,
-    //       message: 'err_msg_please_enter_valid_phone_number'.tr());
-    //   return true;
-    // }
-    setState(() {
-      showGenderError = false;
-    });
+  Widget _buildPaymentSection(BuildContext context) {
+    return Padding(
+      padding: const EdgeInsets.all(_KSectionPadding),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          const TitleText(
+            text: 'payment_method',
+          ),
+          WalletSection(controller: _walletController),
+          _buildPaymentMethods()
+        ],
+      ),
+    );
+  }
 
-    return false;
+  Widget _buildPaymentMethods() {
+    return BlocBuilder<PaymentCubit, PaymentState>(
+      builder: (context, state) {
+        if (state.isLoading) {
+          return const CustomLoading();
+        }
+        final methods = state.methods ?? [];
+
+        if ((methods == [] || methods.isEmpty)) {
+          return const EmptyPageMessage();
+        }
+        return ListView.builder(
+            shrinkWrap: true,
+            itemCount: methods.length,
+            physics: const NeverScrollableScrollPhysics(),
+            itemBuilder: (context, index) {
+              return _buildPaymentMethodItem(methods[index]);
+            });
+      },
+    );
+  }
+
+  Widget _buildPaymentMethodItem(PaymentMethodModel paymentMethod) {
+    return GestureDetector(
+      onTap: () {
+        setState(() {
+          _selectedPayment = paymentMethod;
+        });
+      },
+      child: Padding(
+        padding: const EdgeInsets.symmetric(vertical: 6.0),
+        child: DecoratedBox(
+          decoration: BoxDecoration(
+            color: paymentMethod == _selectedPayment
+                ? AppColors.PRIMARY_COLOR.withOpacity(0.09)
+                : AppColors.BACKGROUND_COLOR.withOpacity(0.09),
+            borderRadius: BorderRadius.circular(20),
+            border: Border.all(color: AppColors.PRIMARY_COLOR, width: 1.5),
+          ),
+          child: Padding(
+            padding: const EdgeInsets.all(24.0),
+            child: Row(children: [
+              SubtitleText(
+                text: paymentMethod.title ?? '',
+                isBold: true,
+              ),
+              const Spacer(),
+              Radio.adaptive(
+                  activeColor: AppColors.PRIMARY_COLOR,
+                  value: paymentMethod,
+                  groupValue: _selectedPayment,
+                  onChanged: (value) {
+                    setState(() {
+                      _selectedPayment = value;
+                    });
+                  })
+            ]),
+          ),
+        ),
+      ),
+    );
+  }
+
+  Padding _buildSummarySection(BuildContext context) {
+    final bookingModel = context.read<MembershipCubit>().state.plans;
+    final num subTotal = bookingModel?.price ?? 0;
+    final num total = bookingModel?.price ?? 0;
+
+    return Padding(
+      padding: const EdgeInsets.all(_KSectionPadding),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          TitleText(text: 'lbl_summary'),
+          const SizedBox(height: 12.0),
+          _buildSummaryItem(title: 'lbl_sub_total2', amount: subTotal),
+          const SizedBox(height: 12.0),
+          const Divider(
+            thickness: 3,
+            color: AppColors.ExtraLight,
+          ),
+          const SizedBox(height: 12.0),
+          _buildSummaryItem(title: 'total', amount: total),
+        ],
+      ),
+    );
+  }
+
+  Widget _buildSummaryItem(
+      {bool isDiscount = false, required String title, required num amount}) {
+    return Padding(
+      padding: const EdgeInsets.symmetric(vertical: 4.0),
+      child: Row(
+        children: [
+          SubtitleText(
+            text: title,
+            color: isDiscount ? AppColors.SUCCESS_COLOR : null,
+            subtractedSize: -1,
+          ),
+          const Spacer(),
+          SubtitleText(
+            text: '$amount KWD',
+            isBold: true,
+          )
+        ],
+      ),
+    );
+  }
+
+  Widget _buildCheckoutButton(BuildContext context) {
+    return Padding(
+      padding: const EdgeInsets.all(24.0).copyWith(top: 10),
+      child: DefaultButton(
+        isExpanded: true,
+        onPressed: () async {
+          final cubit = context.read<MembershipCubit>();
+
+          await cubit.purchaseSubscription(
+              paymentMethod: _selectedPayment,
+              planId: cubit.state.plans?.id,
+              fromWallet: false);
+        },
+        label: 'lbl_upgrade_now',
+      ),
+    );
   }
 }

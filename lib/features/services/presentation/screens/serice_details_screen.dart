@@ -20,6 +20,7 @@ import 'package:masaj/features/auth/presentation/pages/login_page.dart';
 import 'package:masaj/features/book_service/presentation/blocs/book_cubit/book_service_cubit.dart';
 import 'package:masaj/features/focus_area/presentation/pages/focus_area_page.dart';
 import 'package:masaj/features/members/presentaion/pages/select_members.dart';
+import 'package:masaj/features/membership/presentaion/pages/memberships_screen.dart';
 import 'package:masaj/features/providers_tab/data/models/therapist.dart';
 import 'package:masaj/features/services/application/service_details_cubit/service_details_cubit.dart';
 import 'package:masaj/features/services/data/models/service_model.dart';
@@ -227,10 +228,18 @@ class ServiceDetailsScreenState extends State<ServiceDetailsScreen> {
                                     )),
                               ]),
                             ),
-                            const CustomText(
-                              text: 'How to become a member?',
-                              color: AppColors.PlaceholderColor,
-                              fontSize: 11,
+                            InkWell(
+                              onTap: () {
+                                NavigatorHelper.of(context).push(
+                                    MaterialPageRoute(
+                                        builder: (context) =>
+                                            const MembershipPlansScreen()));
+                              },
+                              child: CustomText(
+                                text: 'msg_how_to_become_a'.tr(),
+                                color: AppColors.PlaceholderColor,
+                                fontSize: 11,
+                              ),
                             )
                           ],
                         );

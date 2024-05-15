@@ -1,13 +1,14 @@
 import 'package:masaj/core/domain/enums/payment_methods.dart';
 import 'package:masaj/features/membership/data/datasource/membership_datasource.dart';
 import 'package:masaj/features/membership/data/model/membership_model.dart';
+import 'package:masaj/features/payment/data/model/payment_method_model.dart';
 
 abstract class MembershipRepository {
   Future<Plan> getSubscriptionPlans();
   Future<SubscriptionModel> getSubscription();
   Future<SubscriptionModel> purchaseSubscription(
       {required int planId,
-      required PaymentMethodEnum paymentMethodEnum,
+      required PaymentMethodModel paymentMethodEnum,
       required bool fromWallet});
   Future<void> deleteSubscription();
 }
@@ -33,7 +34,7 @@ class MembershipRepositoryImp extends MembershipRepository {
   @override
   Future<SubscriptionModel> purchaseSubscription(
           {required int planId,
-          required PaymentMethodEnum paymentMethodEnum,
+          required PaymentMethodModel paymentMethodEnum,
           required bool fromWallet}) =>
       _membershipDataSource.purchaseSubscription(
           fromWallet: fromWallet,

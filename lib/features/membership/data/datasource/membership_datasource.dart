@@ -5,13 +5,14 @@ import 'package:masaj/core/data/constants/api_end_point.dart';
 import 'package:masaj/core/domain/enums/payment_methods.dart';
 import 'package:masaj/core/domain/exceptions/request_exception.dart';
 import 'package:masaj/features/membership/data/model/membership_model.dart';
+import 'package:masaj/features/payment/data/model/payment_method_model.dart';
 
 abstract class MembershipDataSource {
   Future<Plan> getSubscriptionPlans();
   Future<SubscriptionModel> getSubscription();
   Future<SubscriptionModel> purchaseSubscription(
       {required int planId,
-      required PaymentMethodEnum paymentMethodEnum,
+      required PaymentMethodModel paymentMethodEnum,
       required bool fromWallet});
   Future<void> deleteSubscription();
 }
@@ -52,12 +53,12 @@ class MembershipDataSourceImpl extends MembershipDataSource {
   @override
   Future<SubscriptionModel> purchaseSubscription(
       {required int planId,
-      required PaymentMethodEnum paymentMethodEnum,
+      required PaymentMethodModel paymentMethodEnum,
       required bool fromWallet}) {
     const url = ApiEndPoint.MEMBERSHIP;
     final data = {
       "planId": planId,
-      "paymentMethod": paymentMethodEnum,
+      "paymentMethod": paymentMethodEnum.id,
       "walletPayment": fromWallet,
     };
     return _networkService
