@@ -101,9 +101,11 @@ class AuthRemoteDataSourceImpl implements AuthRemoteDataSource {
   }
 
   Future<FormData> _createFormData(Map<String, dynamic> user) async {
-    if (user['imageFile'] == null) return FormData.fromMap(user);
+    if (user['profileImage'] == null ||
+        (user['profileImage'] as String).contains('http'))
+      return FormData.fromMap(user);
 
-    user['imageFile'] = await MultipartFile.fromFile(user['imageFile']);
+    user['profileImage'] = await MultipartFile.fromFile(user['profileImage']);
 
     return FormData.fromMap(user);
   }
@@ -225,9 +227,10 @@ class AuthRemoteDataSourceImpl implements AuthRemoteDataSource {
     const url = ApiEndPoint.EDIT_USER_INFO;
 
     final formData = await _createFormData(newUser.toMap());
-
+    final headers = await _networkService.getDefaultHeaders();
+    headers.putIfAbsent('Content-Type', () => 'multipart/form-data');
     return _networkService
-        .post(url, data: newUser.toMap()..addAll({'userId': newUser.id}))
+        .post(url, data: formData, headers: headers)
         .then((response) {
       if (response.statusCode != 200) {
         throw RequestException.fromStatusCode(
@@ -238,7 +241,7 @@ class AuthRemoteDataSourceImpl implements AuthRemoteDataSource {
       if (resultStatus == RequestResult.Failed.name) {
         throw RequestException(message: result['msg']);
       }
-      return User.fromMap(result['data']);
+      return User.fromMap(result);
     });
   }
 

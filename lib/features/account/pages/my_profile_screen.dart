@@ -3,15 +3,16 @@ import 'package:masaj/core/app_export.dart';
 import 'package:masaj/core/data/extensions/extensions.dart';
 import 'package:masaj/core/domain/enums/gender.dart';
 import 'package:masaj/core/presentation/colors/app_colors.dart';
+import 'package:masaj/core/presentation/overlay/show_snack_bar.dart';
 import 'package:masaj/core/presentation/widgets/stateful/default_tab.dart';
 import 'package:masaj/core/presentation/widgets/stateful/user_profile_image_picker.dart';
 import 'package:masaj/core/presentation/widgets/stateless/custom_app_bar.dart';
-import 'package:masaj/core/presentation/widgets/stateless/custom_outlined_button.dart';
+import 'package:masaj/core/presentation/widgets/stateless/default_button.dart';
 import 'package:masaj/core/presentation/widgets/stateless/subtitle_text.dart';
 import 'package:masaj/core/presentation/widgets/stateless/text_fields/default_text_form_field.dart';
-import 'package:masaj/features/account/bloc/my_profile_bloc/my_profile_bloc.dart';
-import 'package:masaj/features/account/models/my_profile_model.dart';
 import 'package:masaj/features/auth/application/auth_cubit/auth_cubit.dart';
+
+import '../../../core/presentation/navigation/navigator_helper.dart';
 
 class MyProfileScreen extends StatefulWidget {
   static const routeName = '/my_profile';
@@ -19,12 +20,7 @@ class MyProfileScreen extends StatefulWidget {
   MyProfileScreen({super.key});
 
   static Widget builder(BuildContext context) {
-    return BlocProvider<MyProfileBloc>(
-      create: (context) => MyProfileBloc(MyProfileState(
-        myProfileModelObj: const MyProfileModel(),
-      )),
-      child: MyProfileScreen(),
-    );
+    return MyProfileScreen();
   }
 
   @override
@@ -62,7 +58,7 @@ class _MyProfileScreenState extends State<MyProfileScreen> {
 
   @override
   Widget build(BuildContext context) {
-    return BlocBuilder<AuthCubit, AuthState>(
+    return BlocConsumer<AuthCubit, AuthState>(
       builder: (context, state) {
         return Scaffold(
           resizeToAvoidBottomInset: false,
@@ -91,6 +87,7 @@ class _MyProfileScreenState extends State<MyProfileScreen> {
                     currentFocusNode: _nameNode,
                     nextFocusNode: _emailNode,
                     currentController: _nameController,
+                    isRequired: true,
                     hint: '',
                   ),
                   SizedBox(height: 16.h),
@@ -101,6 +98,7 @@ class _MyProfileScreenState extends State<MyProfileScreen> {
                     ),
                     currentFocusNode: _emailNode,
                     currentController: _emailController,
+                    isRequired: true,
                     hint: '',
                   ),
                   SizedBox(height: 16.h),
@@ -115,6 +113,14 @@ class _MyProfileScreenState extends State<MyProfileScreen> {
             ),
           ),
         );
+      },
+      listener: (BuildContext context, AuthState state) {
+        if (state.isUpdateUser) {
+          NavigatorHelper.of(context).pop();
+          showSnackBar(context, message: 'account_updated'.tr());
+        }
+        if (state.isAccountError)
+          showSnackBar(context, message: state.errorMessage);
       },
     );
   }
@@ -222,8 +228,8 @@ class _MyProfileScreenState extends State<MyProfileScreen> {
   /// Section Widget
   Widget _buildSaveButton(BuildContext context) {
     final cubit = context.read<AuthCubit>();
-    return CustomElevatedButton(
-      text: 'lbl_save'.tr(),
+    return DefaultButton(
+      label: 'lbl_save'.tr(),
       onPressed: () async {
         if (_isValid()) {
           final newUser = cubit.state.user?.copyWith(
@@ -235,16 +241,18 @@ class _MyProfileScreenState extends State<MyProfileScreen> {
           await cubit.editAccountData(newUser);
         }
       },
-      buttonStyle: CustomButtonStyles.none,
-      decoration:
-          CustomButtonStyles.gradientSecondaryContainerToPrimaryDecoration,
+      isExpanded: true,
     );
   }
 
   bool _isValid() {
-    if (!_formKey.currentState!.validate() || _selectedGender == null) {
+    if (!_formKey.currentState!.validate()) {
       return false;
-    } else
-      return true;
+    }
+    if (_selectedGender == null) {
+      showSnackBar(context, message: 'msg_choose_your_gender'.tr());
+      return false;
+    }
+    return true;
   }
 }

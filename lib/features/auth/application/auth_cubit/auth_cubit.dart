@@ -333,24 +333,22 @@ class AuthCubit extends BaseCubit<AuthState> {
         newUser.gender == state.user?.gender &&
         newUser.ageGroup == state.user?.ageGroup) return false;
     final oldUser = state.user;
+    emit(state.copyWith(accountStatus: AccountStateStatus.loading));
     try {
       final user = await _authRepository.editAccountData(newUser.copyWith(
-        id: oldUser!.id,
-      ));
+          id: oldUser!.id,
+          phone: oldUser.phone,
+          countryCode: oldUser.countryCode));
 
       emit(state.copyWith(
-          status: AuthStateStatus.loggedIn,
-          user: user.copyWith(
-              // token: oldUser.token,
-              // refreshToken: oldUser.refreshToken,
-              )));
+          accountStatus: AccountStateStatus.updateUser, user: user));
       return true;
     } on RedundantRequestException catch (e) {
       log(e.toString());
       return false;
     } catch (e) {
       emit(state.copyWith(
-          status: AuthStateStatus.error, errorMessage: e.toString()));
+          accountStatus: AccountStateStatus.error, errorMessage: e.toString()));
       return false;
     }
   }
