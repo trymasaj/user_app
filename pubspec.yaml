@@ -93,7 +93,7 @@ dependencies:
   outline_gradient_button: ^2.0.1+1
   pin_code_fields: ^8.0.1
   sms_autofill: ^2.3.0
-
+  is_first_run: ^1.0.0
   flutter:
     sdk: flutter
 

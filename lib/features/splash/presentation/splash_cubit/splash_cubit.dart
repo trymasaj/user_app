@@ -28,7 +28,7 @@ class SplashCubit extends BaseCubit<SplashState> {
       final isFirstLaunch = await _splashRepository.isFirstLaunch();
       final isCountrySet = await _splashRepository.isCountrySet();
       //await _notificationService.inti();
-      await Future.delayed(const Duration(seconds: 4));
+      //await Future.delayed(const Duration(seconds: 4));
       emit(state.copyWith(
         status: SplashStateStatus.loaded,
         isFirstLaunch: isFirstLaunch,

@@ -628,7 +628,7 @@ class NetworkServiceImpl implements NetworkService {
   @override
   Future<void> logout() async {
     await _networkServiceUtil.clearCurrentUserData();
-    _navigateToLoginPage();
+    // _navigateToLoginPage();
   }
 
   Future<Map<String, dynamic>> _updateHeaderWithNewToken(
