@@ -13,6 +13,15 @@ enum AuthStateStatus {
   completeSignUp,
 }
 
+enum AccountStateStatus {
+  initial,
+  loading,
+  changePhone,
+  changePassword,
+  verifyingChangePhone,
+  error,
+}
+
 extension AuthStateX on AuthState {
   bool get isInitial => status == AuthStateStatus.initial;
 
@@ -28,15 +37,22 @@ extension AuthStateX on AuthState {
   bool get isGuest => status == AuthStateStatus.guest;
 
   bool get isError => status == AuthStateStatus.error;
+  bool get isChangePassword => status == AccountStateStatus.changePassword;
+  bool get isAccountError => accountStatus == AccountStateStatus.error;
 
   bool get isSelectingProject => status == AuthStateStatus.selectingProject;
 
   bool get isCompleteSignUp => status == AuthStateStatus.completeSignUp;
+
+  bool get isChangePhone => accountStatus == AccountStateStatus.changePhone;
+  bool get isVerifyingChangePhone =>
+      accountStatus == AccountStateStatus.verifyingChangePhone;
 }
 
 @immutable
 class AuthState {
   final AuthStateStatus status;
+  final AccountStateStatus accountStatus;
   final User? user;
   final Gender? selectedGender;
   final String? errorMessage;
@@ -44,6 +60,7 @@ class AuthState {
 
   const AuthState({
     this.status = AuthStateStatus.initial,
+    this.accountStatus = AccountStateStatus.initial,
     this.user,
     this.selectedGender,
     this.errorMessage,
@@ -56,6 +73,7 @@ class AuthState {
 
     return other.runtimeType == runtimeType &&
         (other as AuthState).status == status &&
+        other.accountStatus == accountStatus &&
         other.user == user &&
         other.selectedGender == selectedGender &&
         other.beginResendTimer == beginResendTimer &&
@@ -65,12 +83,14 @@ class AuthState {
   @override
   int get hashCode =>
       status.hashCode ^
+      accountStatus.hashCode ^
       user.hashCode ^
       selectedGender.hashCode ^
       errorMessage.hashCode ^
       beginResendTimer.hashCode;
   AuthState copyWith({
     AuthStateStatus? status,
+    AccountStateStatus? accountStatus,
     User? user,
     String? errorMessage,
     List<InterestModel>? interests,
@@ -80,6 +100,7 @@ class AuthState {
   }) {
     return AuthState(
       status: status ?? this.status,
+      accountStatus: accountStatus ?? this.accountStatus,
       user: user ?? this.user,
       errorMessage: errorMessage ?? this.errorMessage,
       selectedGender: selectedGender ?? this.selectedGender,

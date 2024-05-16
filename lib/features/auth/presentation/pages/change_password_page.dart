@@ -188,6 +188,7 @@ class _ChangePasswordPageState extends State<ChangePasswordPage> {
         await authCubit.changePassword(
           _oldPasswordTextController.text.trim(),
           _newPasswordTextController.text.trim(),
+          _confirmPasswordTextController.text.trim(),
         );
       },
     );

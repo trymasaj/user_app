@@ -1,4 +1,4 @@
-export 'package:easy_localization/easy_localization.dart';
+export 'package:easy_localization/easy_localization.dart' hide TextDirection;
 export 'package:flutter_bloc/flutter_bloc.dart';
 export 'package:masaj/core/app_export.dart';
 export 'package:masaj/core/presentation/constants/image_constant.dart';

@@ -4,6 +4,7 @@ import 'dart:developer';
 import 'package:firebase_analytics/firebase_analytics.dart';
 import 'package:firebase_crashlytics/firebase_crashlytics.dart';
 import 'package:flutter/foundation.dart';
+import 'package:intl_phone_field/phone_number.dart';
 import 'package:masaj/core/application/controllers/base_cubit.dart';
 import 'package:masaj/core/data/show_case_helper.dart';
 import 'package:masaj/core/domain/enums/gender.dart';
@@ -140,6 +141,54 @@ class AuthCubit extends BaseCubit<AuthState> {
     }
   }
 
+  Future<void> changePhone({
+    String? phone,
+    String? countryCode,
+  }) async {
+    if (phone == null || countryCode == null) return;
+
+    emit(state.copyWith(accountStatus: AccountStateStatus.loading));
+    try {
+      final response = await _authRepository.changePhone(
+        phone: phone,
+        countryCode: countryCode,
+      );
+      emit(state.copyWith(
+        accountStatus: AccountStateStatus.changePhone,
+      ));
+    } on SocialLoginCanceledException catch (e) {
+      log(e.toString());
+    } on RedundantRequestException catch (e) {
+      log(e.toString());
+    } catch (e) {
+      emit(state.copyWith(
+          accountStatus: AccountStateStatus.error, errorMessage: e.toString()));
+    }
+  }
+
+  Future<void> verifyChangePhone({
+    String? phone,
+    String? countryCode,
+    String? otp,
+  }) async {
+    if (phone == null || countryCode == null || otp == null) return;
+
+    emit(state.copyWith(accountStatus: AccountStateStatus.loading));
+    try {
+      final user = await _authRepository.verifyChangePhone(
+          phone: phone, countryCode: countryCode, otp: otp);
+      emit(state.copyWith(
+          accountStatus: AccountStateStatus.verifyingChangePhone, user: user));
+    } on SocialLoginCanceledException catch (e) {
+      log(e.toString());
+    } on RedundantRequestException catch (e) {
+      log(e.toString());
+    } catch (e) {
+      emit(state.copyWith(
+          accountStatus: AccountStateStatus.error, errorMessage: e.toString()));
+    }
+  }
+
   // resendOtp
   Future<void> resendOtp() async {
     if (state.user == null) return;
@@ -242,16 +291,18 @@ class AuthCubit extends BaseCubit<AuthState> {
     }
   }
 
-  Future<void> changePassword(String oldPassword, String newPassword) async {
+  Future<void> changePassword(
+      String oldPassword, String newPassword, String confirmPassword) async {
     try {
-      emit(state.copyWith(status: AuthStateStatus.loading));
-      await _authRepository.changePassword(oldPassword, newPassword);
-      emit(state.copyWith(status: AuthStateStatus.loggedIn));
+      emit(state.copyWith(accountStatus: AccountStateStatus.loading));
+      await _authRepository.changePassword(
+          oldPassword, newPassword, confirmPassword);
+      emit(state.copyWith(accountStatus: AccountStateStatus.changePassword));
     } on RedundantRequestException catch (e) {
       log(e.toString());
     } catch (e) {
       emit(state.copyWith(
-          status: AuthStateStatus.error, errorMessage: e.toString()));
+          accountStatus: AccountStateStatus.error, errorMessage: e.toString()));
     }
   }
 

@@ -53,8 +53,10 @@ void main() async {
               BlocProvider(create: (context) => Injector().membersCubit),
               BlocProvider(create: (context) => Injector().homePageCubit),
               BlocProvider(
-                  create: (context) =>
-                      Injector().membershipCubit..getSubscriptionPlans()),
+                create: (context) =>
+                    Injector().membershipCubit..getSubscription(),
+                lazy: false,
+              ),
               BlocProvider(
                   create: (context) =>
                       Injector().walletCubit..getWalletBalance()),

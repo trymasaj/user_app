@@ -1,4 +1,5 @@
 import 'package:masaj/core/data/device/notification_service.dart';
+import 'package:masaj/core/data/models/response_model.dart';
 import 'package:masaj/core/domain/exceptions/request_exception.dart';
 
 import 'package:masaj/core/data/datasources/device_type_data_source.dart';
@@ -36,7 +37,8 @@ abstract class AuthRepository {
 
   Future<User?> getUserData([bool fromRemote = false]);
 
-  Future<void> changePassword(String oldPassword, String newPassword);
+  Future<void> changePassword(
+      String oldPassword, String newPassword, String confirmPassword);
 
   Future<User> editAccountData(User newUser);
 
@@ -60,11 +62,20 @@ abstract class AuthRepository {
   Future<User?> verifyOtp(User user, String otp, {bool afterLogin = false});
   Future<User?> updateUser(User user);
   Future<void> resendOtp(User user);
+  Future<ResponseModel> changePhone({
+    required String phone,
+    required String countryCode,
+  });
   Future<Country?> getCurrentCountry();
   Future<void> setCurrentCountry(Country country);
 
   Future<Address?> getCurrentAddress();
   Future<void> setCurrentAddress(Address address);
+
+  Future<User> verifyChangePhone(
+      {required String phone,
+      required String countryCode,
+      required String otp});
 }
 
 class AuthRepositoryImpl implements AuthRepository {
@@ -208,8 +219,11 @@ class AuthRepositoryImpl implements AuthRepository {
       : _localDataSource.getUserData();
 
   @override
-  Future<void> changePassword(String oldPassword, String newPassword) {
-    return _remoteDataSource.changePassword(oldPassword, newPassword);
+  Future<void> changePassword(
+      String oldPassword, String newPassword, String confirmPassword) async {
+    final updatedUser = await _remoteDataSource.changePassword(
+        oldPassword, newPassword, confirmPassword);
+    await _localDataSource.saveAppleUserData(updatedUser);
   }
 
   @override
@@ -332,4 +346,17 @@ class AuthRepositoryImpl implements AuthRepository {
   Future<void> setCurrentAddress(Address address) {
     return _localDataSource.setCurrentAddress(address);
   }
+
+  @override
+  Future<ResponseModel> changePhone(
+          {required String phone, required String countryCode}) =>
+      _remoteDataSource.changePhone(phone: phone, countryCode: countryCode);
+
+  @override
+  Future<User> verifyChangePhone(
+          {required String phone,
+          required String countryCode,
+          required String otp}) =>
+      _remoteDataSource.verifyChangePhone(
+          phone: phone, countryCode: countryCode, otp: otp);
 }
