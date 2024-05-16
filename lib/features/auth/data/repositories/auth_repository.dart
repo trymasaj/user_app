@@ -215,8 +215,7 @@ class AuthRepositoryImpl implements AuthRepository {
   @override
   Future<User> editAccountData(User newUser) async {
     final user = await _remoteDataSource.editAccountData(newUser);
-
-    await _localDataSource.updateUserData(user);
+    await _localDataSource.saveUserData(user);
     return user;
   }
 
@@ -308,8 +307,10 @@ class AuthRepositoryImpl implements AuthRepository {
   }
 
   @override
-  Future<User> updateProfileInformation(User user) {
-    return _remoteDataSource.updateProfileInformation(user);
+  Future<User> updateProfileInformation(User user) async {
+    final newUser = await _remoteDataSource.updateProfileInformation(user);
+    await _localDataSource.saveUserData(newUser);
+    return newUser;
   }
 
   @override
