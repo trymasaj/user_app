@@ -64,13 +64,13 @@ class _HomePageState extends State<HomePage> {
                 Injector().serviceCategoryCubit..getServiceCategories()),
         BlocProvider(
           create: (context) => Injector().membershipCubit..getSubscription(),
-          lazy: !isGuest,
+          lazy: isGuest,
         ),
         BlocProvider(
-            lazy: !isGuest,
+            lazy: isGuest,
             create: (context) => Injector().walletCubit..getWalletBalance()),
         BlocProvider(
-            lazy: !isGuest,
+            lazy: isGuest,
             create: (context) => Injector().medicalFormBloc..getConditions())
       ],
       child: BlocListener<AuthCubit, AuthState>(
