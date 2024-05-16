@@ -475,8 +475,7 @@ class _ProviderDetailsScreenState extends State<ProviderDetailsScreen> {
                               availableTimeSlots: null));
                     }
                   } else {
-                    showSnackBar(context,
-                        message: 'msg_in_order_to_accessing'.tr());
+                    showGuestSnackBar(context);
                   }
                 },
               ));

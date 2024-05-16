@@ -19,10 +19,16 @@ class MedicalFormDataSourceImpl extends MedicalFormDataSource {
   @override
   Future<MedicalForm> addMedicalForm(MedicalForm medicalForm) {
     const url = ApiEndPoint.MEDICAL_FORM;
+
+    final conditions = medicalForm.conditions!.map((e) => e.id).toList();
+    final data = medicalForm.toMap()
+      ..remove('conditions')
+      ..addAll({'conditions': conditions})
+      ..removeWhere((key, value) => value == null);
     return _networkService
         .post(
       url,
-      data: medicalForm.toMap()..removeWhere((key, value) => value == null),
+      data: data,
     )
         .then((response) {
       if (response.statusCode != 200) {

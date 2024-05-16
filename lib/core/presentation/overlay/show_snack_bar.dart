@@ -4,6 +4,9 @@ import 'package:easy_localization/easy_localization.dart' hide TextDirection;
 import 'package:flutter/material.dart';
 import 'package:masaj/core/domain/exceptions/redundant_request_exception.dart';
 import 'package:masaj/core/presentation/colors/app_colors.dart';
+import 'package:masaj/core/presentation/navigation/navigator_helper.dart';
+import 'package:masaj/core/presentation/widgets/stateless/default_button.dart';
+import 'package:masaj/features/auth/presentation/pages/login_page.dart';
 
 void showSnackBar(BuildContext context,
     {required dynamic message,
@@ -48,4 +51,23 @@ void showSnackBar(BuildContext context,
       ));
 
   scaffoldMessenger.showSnackBar(snackBar);
+}
+
+void showGuestSnackBar(
+  BuildContext context,
+) {
+  showSnackBar(context,
+      message: 'msg_in_order_to_accessing'.tr(),
+      action: DefaultButton(
+        padding: EdgeInsets.symmetric(horizontal: 10),
+        margin: EdgeInsets.all(4),
+        color: AppColors.ExtraLight,
+        textColor: AppColors.FONT_COLOR,
+        onPressed: () {
+          NavigatorHelper.of(context).pushAndRemoveUntil(
+              MaterialPageRoute(builder: (context) => const LoginPage()),
+              (_) => false);
+        },
+        label: 'login'.tr(),
+      ));
 }

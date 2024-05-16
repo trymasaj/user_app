@@ -230,6 +230,9 @@ class ServiceDetailsScreenState extends State<ServiceDetailsScreen> {
                             ),
                             InkWell(
                               onTap: () {
+                                final isGuest =
+                                    context.read<AuthCubit>().state.isGuest;
+                                if (isGuest) return showGuestSnackBar(context);
                                 NavigatorHelper.of(context).push(
                                     MaterialPageRoute(
                                         builder: (context) =>
@@ -251,8 +254,7 @@ class ServiceDetailsScreenState extends State<ServiceDetailsScreen> {
                       if (!isGuest)
                         onContinuePressed(context);
                       else
-                        showSnackBar(context,
-                            message: 'msg_in_order_to_accessing'.tr());
+                        showGuestSnackBar(context);
                     },
                   ),
                 ],

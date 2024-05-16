@@ -159,6 +159,7 @@
   "ready_to_complete_your_info": "Ready to complete your info",
   "enter_full_name": "Enter Full Name",
   "choose_your_gender": "Choose your gender (optional)",
+  "msg_choose_your_gender": "Choose your gender",
   "how_old_are_you": "How old are you? (optional)",
   "age_group": "Age Group",
   "from18to25": "From 18 to 25 years old",
@@ -931,17 +932,10 @@
   "book_with": "Book with {}",
   "book_with_therapist": "Book with therapist",
   "reviews": "Reviews",
-
   "scheduled": "Scheduled",
   "rescheduled": "Rescheduled",
   "inProgress": "In Progress",
   "cancelled": "Cancelled",
   "confirmed": "Confirmed",
   "status": "Status"
- 
-
-
-  
-  
-
 }

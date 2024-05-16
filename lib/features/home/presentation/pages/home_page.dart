@@ -214,6 +214,7 @@ class __CustomNavBarState extends State<_CustomNavBar> {
             unselectedItemColor: AppColors.GREY_NORMAL_COLOR,
             elevation: 0,
             onTap: (index) {
+              final isGuest = context.read<AuthCubit>().state.isGuest;
               if (index == 2) {
                 final allServiceCategories = context
                     .read<ServiceCategoryCubit>()
@@ -231,6 +232,9 @@ class __CustomNavBarState extends State<_CustomNavBar> {
                                     selectedServiceCategory,
                                 allServiceCategories: allServiceCategories))));
                 return;
+              }
+              if (isGuest) {
+                if (index == 1 || index == 3) return showGuestSnackBar(context);
               }
               widget._pageController.jumpToPage(index < 2 ? index : index - 1);
               setState(() {

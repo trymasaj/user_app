@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_svg/flutter_svg.dart';
+import 'package:flutter_svg/flutter_svg.dart' ;
 import 'package:masaj/core/app_export.dart';
-import 'package:masaj/core/data/di/injector.dart';
 import 'package:masaj/core/presentation/navigation/navigator_helper.dart';
+import 'package:masaj/core/presentation/overlay/show_snack_bar.dart';
+import 'package:masaj/core/presentation/widgets/stateless/custom_text.dart';
+import 'package:masaj/core/presentation/widgets/stateless/subtitle_text.dart';
 import 'package:masaj/features/account/pages/account_screen.dart';
 import 'package:masaj/features/account/pages/manage_members_screen.dart';
 import 'package:masaj/features/address/presentation/pages/address_page.dart';
@@ -12,6 +14,7 @@ import 'package:masaj/features/gifts/presentaion/pages/gift_cards.dart';
 import 'package:masaj/features/intro/presentation/pages/choose_language_page.dart';
 import 'package:masaj/features/legal/pages/legal_screen.dart';
 import 'package:masaj/features/medical_form/presentation/pages/medical_form_screen.dart';
+import 'package:masaj/features/membership/presentaion/bloc/membership_cubit.dart';
 import 'package:masaj/features/membership/presentaion/pages/memberships_screen.dart';
 import 'package:masaj/features/settings_tab/bloc/settings_bloc/setting_bloc.dart';
 import 'package:masaj/features/settings_tab/bloc/settings_bloc/setting_state.dart';
@@ -88,6 +91,7 @@ class _SettingsTabPageState extends State<SettingsTabPage> {
   /// Section Widget
   Widget _buildSettingsColumn(BuildContext context) {
     final user = context.select((AuthCubit cubit) => cubit.state.user);
+    final authState = context.read<AuthCubit>().state;
     final String? fullName = context.read<AuthCubit>().state.isLoggedIn
         ? user?.fullName
         : 'lbl_guest'.tr(context: context);
@@ -139,26 +143,38 @@ class _SettingsTabPageState extends State<SettingsTabPage> {
                         child: Column(
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
-                              Container(
-                                  padding: EdgeInsets.symmetric(
-                                      horizontal: 10.w, vertical: 1.h),
-                                  decoration: AppDecoration
-                                      .gradientSecondaryContainerToPrimary
-                                      .copyWith(
-                                          borderRadius:
-                                              BorderRadiusStyle.roundedBorder8),
-                                  child: Text('lbl_plus'.tr(),
-                                      style: CustomTextStyles
-                                          .labelLargeOnPrimaryContainer_1)),
+                              if (authState.isLoggedIn)
+                                BlocSelector<MembershipCubit, MembershipState,
+                                    bool>(
+                                  selector: (state) {
+                                    return state.selectedSubscription?.id != 0;
+                                  },
+                                  builder: (context, isUpgraded) {
+                                    if (isUpgraded)
+                                      return Container(
+                                          padding: EdgeInsets.symmetric(
+                                              horizontal: 10.w, vertical: 1.h),
+                                          decoration: AppDecoration
+                                              .gradientSecondaryContainerToPrimary
+                                              .copyWith(
+                                                  borderRadius:
+                                                      BorderRadiusStyle
+                                                          .roundedBorder8),
+                                          child: Text('lbl_plus'.tr(),
+                                              style: CustomTextStyles
+                                                  .labelLargeOnPrimaryContainer_1));
+                                    return const SizedBox.shrink();
+                                  },
+                                ),
                               SizedBox(height: 1.h),
-                              Text(
-                                  fullName!.isNotEmpty
-                                      ? fullName
-                                      : 'lbl_jasmine_sanchez'.tr(),
+                              Text(fullName!.isNotEmpty ? fullName : ''.tr(),
                                   style: CustomTextStyles.titleMediumGray90003),
                               SizedBox(height: 2.h),
-                              Text('lbl_965231131123'.tr(),
-                                  style: theme.textTheme.bodySmall)
+                              SubtitleText.medium(
+                                text: (user?.countryCode ?? '') +
+                                    (user?.phone ?? ''),
+                                textDirection: TextDirection.ltr,
+                              )
                             ]))
                   ])),
           SizedBox(height: 13.h)
@@ -213,11 +229,17 @@ class _SettingsTabPageState extends State<SettingsTabPage> {
                             imagePath: ImageConstant.imgGroup1000003180),
                       ],
                     )
-                  : SizedBox(),
+                  : const SizedBox(),
               SettingTile(
                   onTap: () {
-                    NavigatorHelper.of(context).push(MaterialPageRoute(
-                        builder: (context) => const MembershipPlansScreen()));
+                    final cubit = context.read<AuthCubit>();
+                    if (cubit.state.isLoggedIn) {
+                      NavigatorHelper.of(context).push(MaterialPageRoute(
+                          builder: (context) => const MembershipPlansScreen()));
+                    } else {
+                      showSnackBar(context,
+                          message: 'msg_in_order_to_accessing'.tr());
+                    }
                   },
                   text: 'lbl_membership_plan',
                   imagePath: ImageConstant.imgCreditCard),
@@ -280,7 +302,7 @@ class _SettingsTabPageState extends State<SettingsTabPage> {
                     },
                   ),
                 ]))
-        : SizedBox();
+        : const SizedBox();
   }
 
   /// Section Widget

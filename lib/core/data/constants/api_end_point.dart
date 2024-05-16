@@ -30,10 +30,12 @@ abstract class ApiEndPoint {
       '$BASE_URL/Identity/verify-forget-password';
   //RESET_PASSWORD
   static const RESET_PASSWORD = '$BASE_URL/Identity/reset-password';
+  static const CHANGE_PHONE = '$BASE_URL/Identity/change-phone';
+  static const VERIFY_CHANGE_PHONE = '$BASE_URL/Identity/verify-change-phone';
   static const REFRESH_TOKEN = '$_REQUEST_URL/refresh';
   static const LOGOUT = '$_REQUEST_URL/revoke';
   static const ABOUT_US_DETAILS = '$_REQUEST_URL/getaboutus';
-  static const CHANGE_PASSWORD = '$_REQUEST_URL/changepassword';
+  static const CHANGE_PASSWORD = '$BASE_URL/identity/reset-password';
   static const USER_INFO = '$_REQUEST_URL/userinfo';
   static const EDIT_USER_INFO = '$BASE_URL/identity/update-profile';
   static const UPDATE_USER_LANGUAGE = '$_REQUEST_URL/updateuserlanguage';

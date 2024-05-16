@@ -10,6 +10,8 @@ import 'package:masaj/core/data/models/interest_model.dart';
 import 'package:masaj/features/account/data/models/contact_us_message_model.dart';
 import 'package:masaj/features/auth/domain/entities/user.dart';
 
+import '../../../../core/data/models/response_model.dart';
+
 abstract class AuthRemoteDataSource {
   Future<User> login(
     String phoneNumber,
@@ -30,7 +32,8 @@ abstract class AuthRemoteDataSource {
   Future<User> resetPassword(
       String newPassword, String confirmPassword, int userId, String token);
 
-  Future<void> changePassword(String oldPassword, String newPassword);
+  Future<User> changePassword(
+      String oldPassword, String newPassword, String confirmPassword);
 
   Future<User?> getUserData();
 
@@ -62,6 +65,14 @@ abstract class AuthRemoteDataSource {
   Future<void> updateUserNotificationStatus(bool isEnabled);
   Future<User?> verifyOtp(User user, String otp);
   Future<void> resendOtp(User user);
+  Future<ResponseModel> changePhone({
+    required String phone,
+    required String countryCode,
+  });
+  Future<User> verifyChangePhone(
+      {required String phone,
+      required String countryCode,
+      required String otp});
 }
 
 class AuthRemoteDataSourceImpl implements AuthRemoteDataSource {
@@ -90,9 +101,11 @@ class AuthRemoteDataSourceImpl implements AuthRemoteDataSource {
   }
 
   Future<FormData> _createFormData(Map<String, dynamic> user) async {
-    if (user['imageFile'] == null) return FormData.fromMap(user);
+    if (user['profileImage'] == null ||
+        (user['profileImage'] as String).contains('http'))
+      return FormData.fromMap(user);
 
-    user['imageFile'] = await MultipartFile.fromFile(user['imageFile']);
+    user['profileImage'] = await MultipartFile.fromFile(user['profileImage']);
 
     return FormData.fromMap(user);
   }
@@ -168,11 +181,13 @@ class AuthRemoteDataSourceImpl implements AuthRemoteDataSource {
   }
 
   @override
-  Future<void> changePassword(String oldPassword, String newPassword) {
+  Future<User> changePassword(
+      String oldPassword, String newPassword, String confirmPassword) {
     const url = ApiEndPoint.CHANGE_PASSWORD;
     final data = {
-      'OldPassword': oldPassword,
-      'NewPassword': newPassword,
+      "oldPassword": oldPassword,
+      "password": newPassword,
+      "confirmPassword": confirmPassword,
     };
 
     return _networkService.post(url, data: data).then((response) {
@@ -185,6 +200,7 @@ class AuthRemoteDataSourceImpl implements AuthRemoteDataSource {
       if (resultStatus == RequestResult.Failed.name) {
         throw RequestException(message: result['msg']);
       }
+      return User.fromMap(result);
     });
   }
 
@@ -211,9 +227,10 @@ class AuthRemoteDataSourceImpl implements AuthRemoteDataSource {
     const url = ApiEndPoint.EDIT_USER_INFO;
 
     final formData = await _createFormData(newUser.toMap());
-
+    final headers = await _networkService.getDefaultHeaders();
+    headers.putIfAbsent('Content-Type', () => 'multipart/form-data');
     return _networkService
-        .post(url, data: newUser.toMap()..addAll({'userId': newUser.id}))
+        .post(url, data: formData, headers: headers)
         .then((response) {
       if (response.statusCode != 200) {
         throw RequestException.fromStatusCode(
@@ -224,7 +241,7 @@ class AuthRemoteDataSourceImpl implements AuthRemoteDataSource {
       if (resultStatus == RequestResult.Failed.name) {
         throw RequestException(message: result['msg']);
       }
-      return User.fromMap(result['data']);
+      return User.fromMap(result);
     });
   }
 
@@ -513,6 +530,53 @@ class AuthRemoteDataSourceImpl implements AuthRemoteDataSource {
             statusCode: response.statusCode!, response: response.data);
       }
 
+      return User.fromMap(response.data);
+    });
+  }
+
+  @override
+  Future<ResponseModel> changePhone(
+      {required String phone, required String countryCode}) {
+    const url = ApiEndPoint.CHANGE_PHONE;
+    final data = {
+      'newPhoneNumber': phone,
+      'countryCode': countryCode,
+    };
+    return _networkService
+        .post(
+      url,
+      data: data,
+    )
+        .then((response) {
+      if (response.statusCode != 200) {
+        throw RequestException.fromStatusCode(
+            statusCode: response.statusCode!, response: response.data);
+      }
+      return ResponseModel.fromMap(response.data);
+    });
+  }
+
+  @override
+  Future<User> verifyChangePhone(
+      {required String phone,
+      required String countryCode,
+      required String otp}) {
+    const url = ApiEndPoint.VERIFY_CHANGE_PHONE;
+    final data = {
+      'newPhoneNumber': phone,
+      'countryCode': countryCode,
+      'otp': otp
+    };
+    return _networkService
+        .post(
+      url,
+      data: data,
+    )
+        .then((response) {
+      if (response.statusCode != 200) {
+        throw RequestException.fromStatusCode(
+            statusCode: response.statusCode!, response: response.data);
+      }
       return User.fromMap(response.data);
     });
   }
