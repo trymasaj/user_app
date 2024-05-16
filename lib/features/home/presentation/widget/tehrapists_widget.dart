@@ -101,27 +101,33 @@ class TherapistWidget extends StatelessWidget {
     this.padding,
     this.margin,
     this.therapist,
+    this.isClckable = true,
   });
   final double? width;
   final EdgeInsets? padding;
   final EdgeInsets? margin;
   final bool withFiv;
   final Therapist? therapist;
+  final bool isClckable;
 
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
-      onTap: () {
-        if (therapist != null)
-          NavigatorHelper.of(context).pushNamed(ProviderDetailsScreen.routeName,
-              arguments: ProviderDetailsScreenNavArguements(
-                  therapist: therapist!,
-                  homeTherapistsCubit: context.read<HomeTherapistsCubit?>(),
-                  avialbleTherapistCubit:
-                      context.read<AvialbleTherapistCubit?>(),
-                  // ProvidersTabCubit is nullable
-                  providersTabCubit: context.read<ProvidersTabCubit?>()));
-      },
+      onTap: !isClckable
+          ? null
+          : () {
+              if (therapist != null)
+                NavigatorHelper.of(context).pushNamed(
+                    ProviderDetailsScreen.routeName,
+                    arguments: ProviderDetailsScreenNavArguements(
+                        therapist: therapist!,
+                        homeTherapistsCubit:
+                            context.read<HomeTherapistsCubit?>(),
+                        avialbleTherapistCubit:
+                            context.read<AvialbleTherapistCubit?>(),
+                        // ProvidersTabCubit is nullable
+                        providersTabCubit: context.read<ProvidersTabCubit?>()));
+            },
       child: Container(
         margin: margin ?? const EdgeInsets.only(right: 10),
         width: width ?? (withFiv ? 300 : 280),
@@ -251,8 +257,8 @@ class AvailableTherapistWidget extends StatelessWidget {
         ),
         child: Column(
           children: [
-            Text(context.read<AvialbleTherapistCubit?>()?.state.toString() ??
-                ''),
+            // Text(context.read<AvialbleTherapistCubit?>()?.state.toString() ??
+            //     ''),
             Row(
               crossAxisAlignment: CrossAxisAlignment.center,
               children: [

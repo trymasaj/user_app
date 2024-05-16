@@ -78,7 +78,9 @@ class AvialbleTherapistCubit extends BaseCubit<AvialbleTherapistState> {
           state.selectedTherapist?.therapist?.therapistId ?? 1, bookingDate);
       emit(state.copyWith(
           timeSlotsStatus: TimeSlotsStatus.loaded,
-          availableTimeSlots: timeSlots));
+          availableTimeSlots: timeSlots
+          
+          ));
     } catch (e) {
       emit(state.copyWith(timeSlotsStatus: TimeSlotsStatus.error));
     }

@@ -377,6 +377,7 @@ class _BookServiceScreenState extends State<BookServiceScreen> {
                       ),
                     SizedBox(height: 8.h),
                     TherapistWidget(
+                      isClckable: false,
                       width: double.infinity,
                       therapist:
                           state.availableTherapists.firstOrNull?.therapist!,
@@ -479,84 +480,98 @@ class _BookServiceScreenState extends State<BookServiceScreen> {
                 builder: (context) {
                   return BlocProvider.value(
                     value: cubit,
-                    child: CustomBottomSheet(
-                      padding: EdgeInsets.symmetric(horizontal: 24.w),
-                      child: SizedBox(
-                        child: Column(
-                          children: [
-                            SizedBox(height: 20.h),
-                            const Row(
-                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                              children: [
-                                CustomText(
-                                  text: 'select_date_and_time',
-                                  fontSize: 16,
-                                  fontWeight: FontWeight.w500,
-                                  color: AppColors.FONT_COLOR,
-                                ),
-                              ],
-                            ),
-                            SizedBox(height: 20.h),
-                            Container(
-                                height: 160.h,
-                                padding: EdgeInsets.symmetric(horizontal: 12.w),
-                                child: BlocBuilder<AvialbleTherapistCubit,
-                                    AvialbleTherapistState>(
-                                  builder: (context, state) {
-                                    return CupertinoPicker(
-                                        scrollController:
-                                            FixedExtentScrollController(
-                                          initialItem: selectedTimeSlot == null
-                                              ? 0
-                                              : state.availableTimeSlots
-                                                  .indexOf(selectedTimeSlot!),
-                                        ),
-                                        diameterRatio: 10,
-                                        selectionOverlay: Container(),
-                                        itemExtent: 40,
-                                        onSelectedItemChanged: (int index) {
-                                          setSelectedTimeSlot(
-                                              state.availableTimeSlots![index]);
-                                        },
-                                        children: [
-                                          ...(state.availableTimeSlots ??
-                                                  <AvailableTimeSlot>[])
-                                              .map((e) => Center(
-                                                    child: Row(
-                                                      mainAxisAlignment:
-                                                          MainAxisAlignment
-                                                              .center,
-                                                      children: [
-                                                        Container(
-                                                          width: 120,
-                                                          child: CustomText(
-                                                            fontFamily:
-                                                                'Poppins',
-                                                            text: e
-                                                                .timeString12HourFormat,
-                                                            fontSize: 18,
-                                                            fontWeight:
-                                                                FontWeight.w500,
-                                                            color: const Color(
-                                                                0xff343C44),
+                    child: BlocListener<AvialbleTherapistCubit,
+                        AvialbleTherapistState>(
+                      listener: (context, state) {
+                        if (state.availableTimeSlots?.isNotEmpty == true &&
+                            selectedTimeSlot == null) {
+                          setSelectedTimeSlot(state.availableTimeSlots!.first);
+                        }
+                      },
+                      child: CustomBottomSheet(
+                        padding: EdgeInsets.symmetric(horizontal: 24.w),
+                        child: SizedBox(
+                          child: Column(
+                            children: [
+                              SizedBox(height: 20.h),
+                              const Row(
+                                mainAxisAlignment:
+                                    MainAxisAlignment.spaceBetween,
+                                children: [
+                                  CustomText(
+                                    text: 'select_date_and_time',
+                                    fontSize: 16,
+                                    fontWeight: FontWeight.w500,
+                                    color: AppColors.FONT_COLOR,
+                                  ),
+                                ],
+                              ),
+                              SizedBox(height: 20.h),
+                              Container(
+                                  height: 160.h,
+                                  padding:
+                                      EdgeInsets.symmetric(horizontal: 12.w),
+                                  child: BlocBuilder<AvialbleTherapistCubit,
+                                      AvialbleTherapistState>(
+                                    builder: (context, state) {
+                                      return CupertinoPicker(
+                                          scrollController:
+                                              FixedExtentScrollController(
+                                            initialItem: selectedTimeSlot ==
+                                                    null
+                                                ? 0
+                                                : state.availableTimeSlots
+                                                    .indexOf(selectedTimeSlot!),
+                                          ),
+                                          diameterRatio: 10,
+                                          selectionOverlay: Container(),
+                                          itemExtent: 40,
+                                          onSelectedItemChanged: (int index) {
+                                            setSelectedTimeSlot(state
+                                                .availableTimeSlots![index]);
+                                          },
+                                          children: [
+                                            ...(state.availableTimeSlots ??
+                                                    <AvailableTimeSlot>[])
+                                                .map((e) => Center(
+                                                      child: Row(
+                                                        mainAxisAlignment:
+                                                            MainAxisAlignment
+                                                                .center,
+                                                        children: [
+                                                          Container(
+                                                            width: 120,
+                                                            child: CustomText(
+                                                              fontFamily:
+                                                                  'Poppins',
+                                                              text: e
+                                                                  .timeString12HourFormat,
+                                                              fontSize: 18,
+                                                              fontWeight:
+                                                                  FontWeight
+                                                                      .w500,
+                                                              color: const Color(
+                                                                  0xff343C44),
+                                                            ),
                                                           ),
-                                                        ),
-                                                      ],
-                                                    ),
-                                                  ))
-                                              .toList(),
-                                        ]);
-                                  },
-                                )),
-                            DefaultButton(
-                              margin: const EdgeInsets.symmetric(vertical: 20),
-                              isExpanded: true,
-                              onPressed: () {
-                                Navigator.of(context).pop();
-                              },
-                              label: 'save',
-                            )
-                          ],
+                                                        ],
+                                                      ),
+                                                    ))
+                                                .toList(),
+                                          ]);
+                                    },
+                                  )),
+                              DefaultButton(
+                                margin:
+                                    const EdgeInsets.symmetric(vertical: 20),
+                                isExpanded: true,
+                                onPressed: () {
+                                  Navigator.of(context).pop();
+                                },
+                                label: 'save',
+                              )
+                            ],
+                          ),
                         ),
                       ),
                     ),
@@ -604,7 +619,13 @@ class _BookServiceScreenState extends State<BookServiceScreen> {
                   ),
                 ),
                 builder: (context) {
-                  DateTime updatedDate = selectedDate ?? DateTime.now();
+                  DateTime updatedDate = (selectedDate != null &&
+                          // date is in the past
+                          selectedDate!.isAfter(DateTime.now()))
+                      ? selectedDate!
+                      : DateTime.now().add(
+                          Duration(minutes: 30 - DateTime.now().minute % 30),
+                        );
                   return CustomBottomSheet(
                     padding: EdgeInsets.symmetric(horizontal: 24.w),
                     child: SizedBox(
@@ -636,13 +657,21 @@ class _BookServiceScreenState extends State<BookServiceScreen> {
                                   ? CupertinoDatePickerMode.date
                                   : CupertinoDatePickerMode.dateAndTime,
                               // mode: CupertinoDatePickerMode.date,
-                              initialDateTime: selectedDate ??
-                                  DateTime.now().add(
-                                    Duration(
-                                        minutes:
-                                            30 - DateTime.now().minute % 30),
-                                  ),
+                              initialDateTime: (selectedDate != null &&
+                                      // date is in the past
+                                      selectedDate!.isAfter(DateTime.now().add(
+                                        Duration(
+                                            minutes: 30 -
+                                                DateTime.now().minute % 30),
+                                      )))
+                                  ? selectedDate!
+                                  : DateTime.now().add(
+                                      Duration(
+                                          minutes:
+                                              30 - DateTime.now().minute % 30),
+                                    ),
                               onDateTimeChanged: (DateTime dateTime) {
+                                print(dateTime);
                                 updatedDate = dateTime;
                               },
                             ),
