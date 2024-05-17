@@ -6,11 +6,13 @@ import 'package:masaj/features/home/data/models/banner.dart';
 import 'package:masaj/features/home/data/models/event.dart';
 import 'package:masaj/features/home/data/models/home_data.dart';
 import 'package:masaj/features/home/data/models/home_search_reponse.dart';
+import 'package:masaj/features/home/data/models/home_section.dart';
 import 'package:masaj/features/home/data/models/notification.dart';
 import 'package:masaj/features/services/data/models/service_model.dart';
 
 abstract class HomeRepository {
   Future<HomeSearchResponse> search({required String keyWord});
+  Future<List<HomeSectionModel>> getHomeSections();
 
   Future<HomeData> getHomePageData();
   Future<List<BannerModel>> getBanners();
@@ -125,5 +127,10 @@ class HomeRepositoryImpl implements HomeRepository {
   @override
   Future<bool> saveSearchKeyWord(String keyWord)async {
     return await _homeLocalDatasource.saveSearchKeyWord(keyWord);
+  }
+  
+  @override
+  Future<List<HomeSectionModel>> getHomeSections()async {
+    return await _homeRemoteDataSource.getHomeSections();
   }
 }

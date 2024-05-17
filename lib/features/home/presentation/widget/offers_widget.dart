@@ -29,167 +29,164 @@ class _OffersSectionState extends State<OffersSection> {
 
   @override
   Widget build(BuildContext context) {
-    return SliverToBoxAdapter(
-      child: Container(
-        margin: const EdgeInsets.symmetric(horizontal: 20),
-        child: Column(
-          children: [
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                SectionTitle(title: 'enjoy_offers'.tr()),
-              ],
-            ),
-            const SizedBox(
-              height: 10,
-            ),
-            SizedBox(
-              height: 190,
-              child: ListView.builder(
-                padding: const EdgeInsets.symmetric(horizontal: 10),
-                scrollDirection: Axis.horizontal,
-                itemCount: widget.offers.length,
-                itemBuilder: (context, index) {
-                  final offer = widget.offers[index];
-                  double originalPrice = offer.originalPrice ?? 0.0;
-                  double discountPrice = offer.discountedPrice ?? 0.0;
-                  final discountPercentage =
-                      ((originalPrice - discountPrice) / originalPrice) * 100;
+    return Container(
+      margin: const EdgeInsets.symmetric(horizontal: 20),
+      child: Column(
+        children: [
+          Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              SectionTitle(title: 'enjoy_offers'.tr()),
+            ],
+          ),
+          const SizedBox(
+            height: 10,
+          ),
+          SizedBox(
+            height: 190,
+            child: ListView.builder(
+              padding: const EdgeInsets.symmetric(horizontal: 10),
+              scrollDirection: Axis.horizontal,
+              itemCount: widget.offers.length,
+              itemBuilder: (context, index) {
+                final offer = widget.offers[index];
+                double originalPrice = offer.originalPrice ?? 0.0;
+                double discountPrice = offer.discountedPrice ?? 0.0;
+                final discountPercentage =
+                    ((originalPrice - discountPrice) / originalPrice) * 100;
 
-                  return GestureDetector(
-                    onTap: () {
-                      Navigator.of(context).pushNamed(
-                        ServiceDetailsScreen.routeName,
-                        arguments: ServiceDetailsScreenArguments(
-                          id: offer.serviceId,
-                          durationId: offer.serviceDurationId,
-                        ),
-                      );
-                    },
-                    child: Container(
-                      margin: const EdgeInsets.only(right: 10),
-                      width: 280,
-                      padding: const EdgeInsets.all(10),
-                      decoration: BoxDecoration(
-                        borderRadius: BorderRadius.circular(8),
-                        border: Border.all(
-                          color: AppColors.GREY_LIGHT_COLOR_2,
-                          width: 1,
-                        ),
+                return GestureDetector(
+                  onTap: () {
+                    Navigator.of(context).pushNamed(
+                      ServiceDetailsScreen.routeName,
+                      arguments: ServiceDetailsScreenArguments(
+                        id: offer.serviceId,
+                        durationId: offer.serviceDurationId,
                       ),
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          // image with discount
-                          Expanded(
-                            child: Stack(
-                              children: [
-                                Container(
-                                  decoration: BoxDecoration(
-                                    color: AppColors.GREY_LIGHT_COLOR_2,
-                                    borderRadius: BorderRadius.circular(12),
-                                    image: DecorationImage(
-                                      image: CustomCachedNetworkImageProvider(
-                                        widget.offers[index].mainImage ?? '',
-                                      ),
-                                      fit: BoxFit.cover,
-                                    ),
-                                  ),
-                                ),
-                                Positioned(
-                                  top: 10,
-                                  left: 10,
-                                  child: Container(
-                                    padding: const EdgeInsets.symmetric(
-                                        horizontal: 5, vertical: 2),
-                                    decoration: BoxDecoration(
-                                      color: Color(0xffB73E53),
-                                      borderRadius: BorderRadius.circular(4),
-                                    ),
-                                    child: Text(
-                                      'percentage_off'.tr(args: [
-                                        '${discountPercentage.toStringAsFixed(0)}'
-                                      ]),
-                                      // '${discountPercentage}% OFF',
-                                      style: TextStyle(
-                                          fontSize: 10,
-                                          fontWeight: FontWeight.w500,
-                                          color: Colors.white),
-                                    ),
-                                  ),
-                                ),
-                              ],
-                            ),
-                          ),
-
-                          const SizedBox(
-                            height: 10,
-                          ),
-                          // title
-                          Text(
-                            offer.title ?? '',
-                            style: TextStyle(
-                                fontSize: 12,
-                                fontWeight: FontWeight.w400,
-                                color: AppColors.FONT_COLOR),
-                          ),
-                          const SizedBox(
-                            height: 3,
-                          ),
-                          // row of start from and price
-                          Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    );
+                  },
+                  child: Container(
+                    margin: const EdgeInsets.only(right: 10),
+                    width: 280,
+                    padding: const EdgeInsets.all(10),
+                    decoration: BoxDecoration(
+                      borderRadius: BorderRadius.circular(8),
+                      border: Border.all(
+                        color: AppColors.GREY_LIGHT_COLOR_2,
+                        width: 1,
+                      ),
+                    ),
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        // image with discount
+                        Expanded(
+                          child: Stack(
                             children: [
-                              // start from
-                              Text(
-                                'start_from'.tr(),
-                                style: TextStyle(
-                                    fontSize: 10,
-                                    fontWeight: FontWeight.w400,
-                                    color: AppColors.PlaceholderColor),
+                              Container(
+                                decoration: BoxDecoration(
+                                  color: AppColors.GREY_LIGHT_COLOR_2,
+                                  borderRadius: BorderRadius.circular(12),
+                                  image: DecorationImage(
+                                    image: CustomCachedNetworkImageProvider(
+                                      widget.offers[index].mainImage ?? '',
+                                    ),
+                                    fit: BoxFit.cover,
+                                  ),
+                                ),
                               ),
-                              // price before discount
-
-                              // price
-                              Row(
-                                children: [
-                                  Text(
-                                    'price_in_kd'.tr(args: [
-                                      '${offer.originalPrice ?? 0.0}'
+                              Positioned(
+                                top: 10,
+                                left: 10,
+                                child: Container(
+                                  padding: const EdgeInsets.symmetric(
+                                      horizontal: 5, vertical: 2),
+                                  decoration: BoxDecoration(
+                                    color: Color(0xffB73E53),
+                                    borderRadius: BorderRadius.circular(4),
+                                  ),
+                                  child: Text(
+                                    'percentage_off'.tr(args: [
+                                      '${discountPercentage.toStringAsFixed(0)}'
                                     ]),
-                                    // 'KD ${offer.originalPrice ?? 0.0}',
+                                    // '${discountPercentage}% OFF',
                                     style: TextStyle(
-                                        decoration: TextDecoration.lineThrough,
-                                        fontSize: 12,
+                                        fontSize: 10,
                                         fontWeight: FontWeight.w500,
-                                        color: AppColors.PlaceholderColor),
+                                        color: Colors.white),
                                   ),
-                                  SizedBox(
-                                    width: 5,
-                                  ),
-                                  Text(
-                                    'price_in_kd'.tr(args: [
-                                      '${offer.discountedPrice ?? 0.0}'
-                                    ]),
-                                    // 'KD ${offer.discountedPrice ?? 0.0}',
-                                    style: TextStyle(
-                                        fontSize: 12,
-                                        fontWeight: FontWeight.w500,
-                                        color: AppColors.FONT_COLOR),
-                                  ),
-                                ],
+                                ),
                               ),
                             ],
                           ),
-                        ],
-                      ),
+                        ),
+
+                        const SizedBox(
+                          height: 10,
+                        ),
+                        // title
+                        Text(
+                          offer.title ?? '',
+                          style: TextStyle(
+                              fontSize: 12,
+                              fontWeight: FontWeight.w400,
+                              color: AppColors.FONT_COLOR),
+                        ),
+                        const SizedBox(
+                          height: 3,
+                        ),
+                        // row of start from and price
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [
+                            // start from
+                            Text(
+                              'start_from'.tr(),
+                              style: TextStyle(
+                                  fontSize: 10,
+                                  fontWeight: FontWeight.w400,
+                                  color: AppColors.PlaceholderColor),
+                            ),
+                            // price before discount
+
+                            // price
+                            Row(
+                              children: [
+                                Text(
+                                  'price_in_kd'.tr(
+                                      args: ['${offer.originalPrice ?? 0.0}']),
+                                  // 'KD ${offer.originalPrice ?? 0.0}',
+                                  style: TextStyle(
+                                      decoration: TextDecoration.lineThrough,
+                                      fontSize: 12,
+                                      fontWeight: FontWeight.w500,
+                                      color: AppColors.PlaceholderColor),
+                                ),
+                                SizedBox(
+                                  width: 5,
+                                ),
+                                Text(
+                                  'price_in_kd'.tr(args: [
+                                    '${offer.discountedPrice ?? 0.0}'
+                                  ]),
+                                  // 'KD ${offer.discountedPrice ?? 0.0}',
+                                  style: TextStyle(
+                                      fontSize: 12,
+                                      fontWeight: FontWeight.w500,
+                                      color: AppColors.FONT_COLOR),
+                                ),
+                              ],
+                            ),
+                          ],
+                        ),
+                      ],
                     ),
-                  );
-                },
-              ),
+                  ),
+                );
+              },
             ),
-          ],
-        ),
+          ),
+        ],
       ),
     );
   }

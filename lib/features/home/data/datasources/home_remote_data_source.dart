@@ -8,10 +8,12 @@ import 'package:masaj/features/home/data/models/banner.dart';
 import 'package:masaj/features/home/data/models/event.dart';
 import 'package:masaj/features/home/data/models/home_data.dart';
 import 'package:masaj/features/home/data/models/home_search_reponse.dart';
+import 'package:masaj/features/home/data/models/home_section.dart';
 import 'package:masaj/features/home/data/models/notification.dart';
 
 abstract class HomeRemoteDataSource {
   Future<HomeData> getHomePageData();
+  Future<List<HomeSectionModel>> getHomeSections();
   Future<List<BannerModel>> getBanners();
   Future<HomeSearchResponse> search({required String keyWord});
 
@@ -123,6 +125,19 @@ class HomeRemoteDataSourceImpl implements HomeRemoteDataSource {
       }
       final result = response.data;
       return List<BannerModel>.from(result.map((x) => BannerModel.fromMap(x)));
+    });
+  }
+  
+  @override
+  Future<List<HomeSectionModel>> getHomeSections() async{
+    const url = ApiEndPoint.HOME;
+    return _networkService.get(url).then((response) {
+      if (response.statusCode != 200) {
+        throw RequestException.fromStatusCode(
+            statusCode: response.statusCode!, response: response.data);
+      }
+      final result = response.data;
+      return List<HomeSectionModel>.from(result.map((x) => HomeSectionModel.fromMap(x)));
     });
   }
 }

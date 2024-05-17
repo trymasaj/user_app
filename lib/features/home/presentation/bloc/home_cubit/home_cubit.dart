@@ -6,6 +6,7 @@ import 'package:masaj/core/application/controllers/base_cubit.dart';
 import 'package:masaj/core/data/device/launcher_service.dart';
 import 'package:masaj/core/domain/exceptions/redundant_request_exception.dart';
 import 'package:masaj/features/home/data/models/home_data.dart';
+import 'package:masaj/features/home/data/models/home_section.dart';
 import 'package:masaj/features/home/data/repositories/home_repository.dart';
 
 part 'home_state.dart';
@@ -24,13 +25,16 @@ class HomeCubit extends BaseCubit<HomeState> {
     bool refresh = false,
   }) async {
     try {
-      if (!refresh) emit(state.copyWith(status: HomeStateStatus.loading));
-      final homeData = await _homeRepository.getHomePageData();
-
-      emit(state.copyWith(
-        status: HomeStateStatus.loaded,
-        homeData: homeData,
-      ));
+      // if (!refresh)
+      emit(state.copyWith(status: HomeStateStatus.loading));
+      final homeData = await _homeRepository.getHomeSections();
+      final isIos = (defaultTargetPlatform == TargetPlatform.iOS);
+      emit(state.copyWith(status: HomeStateStatus.loaded, homeSections: [
+        if (isIos)
+          ...homeData.where((element) => element.isForIos == true)
+        else
+          ...homeData.where((element) => element.isForAndroid == true)
+      ]));
     } on RedundantRequestException catch (e) {
       log(e.toString());
     } catch (e) {

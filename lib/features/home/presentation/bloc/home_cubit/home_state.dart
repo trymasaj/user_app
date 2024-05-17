@@ -23,11 +23,13 @@ class HomeState {
   final HomeStateStatus status;
   final String? message;
   final HomeData? homeData;
+  final List<HomeSectionModel>? homeSections; 
 
   const HomeState({
     this.status = HomeStateStatus.initial,
     this.message,
     this.homeData,
+    this.homeSections,
   });
 
   @override
@@ -37,22 +39,26 @@ class HomeState {
     return other is HomeState &&
         other.status == status &&
         other.message == message &&
-        other.homeData == homeData;
+        other.homeData == homeData &&
+        other.homeSections == homeSections;
   }
 
   @override
-  int get hashCode => status.hashCode ^ message.hashCode ^ homeData.hashCode;
+  int get hashCode => status.hashCode ^ message.hashCode ^ homeData.hashCode
+  ^ homeSections.hashCode;
 
   HomeState copyWith({
     HomeStateStatus? status,
     String? appInfo,
     String? message,
     HomeData? homeData,
+    List<HomeSectionModel>? homeSections,
   }) {
     return HomeState(
       status: status ?? this.status,
       message: message ?? this.message,
       homeData: homeData ?? this.homeData,
+      homeSections: homeSections ?? this.homeSections,
     );
   }
 }
