@@ -35,7 +35,9 @@ class BorderTile extends StatelessWidget {
                               .copyWith(color: appTheme.gray90003))),
                   const Spacer(),
                   CustomImageView(
-                      imagePath: ImageConstant.imgArrowRightOnprimary,
+                      imagePath: context.locale.languageCode == 'ar'
+                          ? ImageConstant.imgArrowLeftOnprimary
+                          : ImageConstant.imgArrowRightOnprimary,
                       height: 17.adaptSize,
                       width: 17.adaptSize,
                       radius: BorderRadius.circular(8.w),

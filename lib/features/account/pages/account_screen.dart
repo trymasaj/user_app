@@ -100,20 +100,6 @@ class AccountScreen extends StatelessWidget {
     );
   }
 
-/*
-  Widget _buildTile({
-    required String image,
-    required String text,
-    required VoidCallback onTap,
-  }) {
-    return BorderTile(
-      image: image,
-      text: text,
-      onTap: onTap,
-    );
-  }
-*/
-
   /// Common widget
   Widget _buildTile({
     required String image,
