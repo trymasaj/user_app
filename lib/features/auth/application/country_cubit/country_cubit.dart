@@ -121,10 +121,16 @@ class CountryCubit extends BaseCubit<CountryState> {
       if (primaryAddress != null) {
         await _authRepository.setCurrentAddress(primaryAddress);
       }
-      emit(state.copyWith(
+
+      emit(CountryState(
         status: CountryStateStatus.primaryAddressLoaded,
         addresses: addresses,
         currentAddress: primaryAddress,
+        currentCountry: state.currentCountry,
+        countries: state.countries,
+        areas: state.areas,
+        showCountryError: state.showCountryError,
+        message: state.message,
       ));
     } catch (e) {
       emit(

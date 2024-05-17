@@ -20,7 +20,7 @@ class FixedAppBar extends StatelessWidget {
   const FixedAppBar({
     super.key,
   });
-  
+
   @override
   Widget build(BuildContext context) {
     final isGuest = context.read<AuthCubit>().state.isGuest;
