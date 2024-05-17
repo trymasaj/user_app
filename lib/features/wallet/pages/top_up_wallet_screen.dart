@@ -16,8 +16,8 @@ class TopUpWalletScreen extends StatefulWidget {
 
   static Widget builder(BuildContext context) {
     return MultiBlocProvider(providers: [
-      BlocProvider(
-        create: (context) => Injector().walletCubit..getPredefinedAmounts(),
+      BlocProvider.value(
+        value: context.read<WalletBloc>()..getPredefinedAmounts(),
       ),
       BlocProvider(
         create: (context) => Injector().paymentCubit..getPaymentMethods(),

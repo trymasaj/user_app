@@ -56,6 +56,7 @@ void main() async {
               BlocProvider(
                   create: (context) => Injector().homeCubit..loadHome()),
               BlocProvider(create: (context) => Injector().homePageCubit),
+              BlocProvider(create: (context) => Injector().walletCubit),
             ],
             child: const MyApp(),
           ),

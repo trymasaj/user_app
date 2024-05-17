@@ -5,6 +5,8 @@ import 'package:masaj/features/payment/data/model/payment_method_model.dart';
 
 abstract class PaymentDataSource {
   Future<List<PaymentMethodModel>> getPaymentMethods();
+  Future<void> purchasePayment(
+      {required int paymentId, required bool fromWallet});
 }
 
 class PaymentDataSourceImpl extends PaymentDataSource {
@@ -25,6 +27,23 @@ class PaymentDataSourceImpl extends PaymentDataSource {
       return result != null
           ? (result as List).map((e) => PaymentMethodModel.fromMap(e)).toList()
           : [];
+    });
+  }
+
+  @override
+  Future<void> purchasePayment(
+      {required int paymentId, required bool fromWallet}) {
+    const url = ApiEndPoint.BOOKING_CONFIRM;
+    final data = {"paymentMethod": paymentId, "walletPayment": fromWallet};
+    return _networkService
+        .post(
+      url,
+      data: data,
+    )
+        .then((response) {
+      if (response.statusCode != 200) {
+        throw RequestException(message: response.data['detail']);
+      }
     });
   }
 }

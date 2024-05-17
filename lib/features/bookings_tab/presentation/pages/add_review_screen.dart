@@ -324,7 +324,10 @@ class _AddReviewScreenState extends State<AddReviewScreen> {
           const TitleText(
             text: 'payment_method',
           ),
-          WalletSection(controller: _walletController),
+          WalletSection(
+            controller: _walletController,
+            totalPrice: 0,
+          ),
           _buildPaymentMethods()
         ],
       ),
