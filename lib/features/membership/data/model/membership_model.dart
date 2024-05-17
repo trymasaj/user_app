@@ -1,6 +1,7 @@
 import 'dart:convert';
 
 import 'package:flutter/foundation.dart';
+import 'package:flutter/widgets.dart';
 
 class SubscriptionModel {
   int? id;
@@ -26,8 +27,6 @@ class SubscriptionModel {
     this.plan,
   });
 
-  
-
   SubscriptionModel copyWith({
     ValueGetter<int?>? id,
     ValueGetter<int?>? customerId,
@@ -44,12 +43,14 @@ class SubscriptionModel {
       id: id != null ? id() : this.id,
       customerId: customerId != null ? customerId() : this.customerId,
       planId: planId != null ? planId() : this.planId,
-      paymentMethodId: paymentMethodId != null ? paymentMethodId() : this.paymentMethodId,
+      paymentMethodId:
+          paymentMethodId != null ? paymentMethodId() : this.paymentMethodId,
       started: started != null ? started() : this.started,
       endsAt: endsAt != null ? endsAt() : this.endsAt,
       paymentDate: paymentDate != null ? paymentDate() : this.paymentDate,
       status: status != null ? status() : this.status,
-      paymentMethod: paymentMethod != null ? paymentMethod() : this.paymentMethod,
+      paymentMethod:
+          paymentMethod != null ? paymentMethod() : this.paymentMethod,
       plan: plan != null ? plan() : this.plan,
     );
   }
@@ -86,7 +87,8 @@ class SubscriptionModel {
 
   String toJson() => json.encode(toMap());
 
-  factory SubscriptionModel.fromJson(String source) => SubscriptionModel.fromMap(json.decode(source));
+  factory SubscriptionModel.fromJson(String source) =>
+      SubscriptionModel.fromMap(json.decode(source));
 
   @override
   String toString() {
@@ -96,40 +98,42 @@ class SubscriptionModel {
   @override
   bool operator ==(Object other) {
     if (identical(this, other)) return true;
-  
+
     return other is SubscriptionModel &&
-      other.id == id &&
-      other.customerId == customerId &&
-      other.planId == planId &&
-      other.paymentMethodId == paymentMethodId &&
-      other.started == started &&
-      other.endsAt == endsAt &&
-      other.paymentDate == paymentDate &&
-      other.status == status &&
-      other.paymentMethod == paymentMethod &&
-      other.plan == plan;
+        other.id == id &&
+        other.customerId == customerId &&
+        other.planId == planId &&
+        other.paymentMethodId == paymentMethodId &&
+        other.started == started &&
+        other.endsAt == endsAt &&
+        other.paymentDate == paymentDate &&
+        other.status == status &&
+        other.paymentMethod == paymentMethod &&
+        other.plan == plan;
   }
 
   @override
   int get hashCode {
     return id.hashCode ^
-      customerId.hashCode ^
-      planId.hashCode ^
-      paymentMethodId.hashCode ^
-      started.hashCode ^
-      endsAt.hashCode ^
-      paymentDate.hashCode ^
-      status.hashCode ^
-      paymentMethod.hashCode ^
-      plan.hashCode;
+        customerId.hashCode ^
+        planId.hashCode ^
+        paymentMethodId.hashCode ^
+        started.hashCode ^
+        endsAt.hashCode ^
+        paymentDate.hashCode ^
+        status.hashCode ^
+        paymentMethod.hashCode ^
+        plan.hashCode;
   }
 }
 
 class Plan {
   int? id;
   String? nameEn;
+  String? name;
   String? nameAr;
   String? descriptionEn;
+  String? description;
   String? descriptionAr;
   String? duration;
   int? price;
@@ -140,8 +144,10 @@ class Plan {
   Plan({
     this.id,
     this.nameEn,
+    this.name,
     this.nameAr,
     this.descriptionEn,
+    this.description,
     this.descriptionAr,
     this.duration,
     this.price,
@@ -151,12 +157,13 @@ class Plan {
     this.benefits,
   });
 
-
   Plan copyWith({
     ValueGetter<int?>? id,
     ValueGetter<String?>? nameEn,
+    ValueGetter<String?>? name,
     ValueGetter<String?>? nameAr,
     ValueGetter<String?>? descriptionEn,
+    ValueGetter<String?>? description,
     ValueGetter<String?>? descriptionAr,
     ValueGetter<String?>? duration,
     ValueGetter<int?>? price,
@@ -168,12 +175,18 @@ class Plan {
     return Plan(
       id: id != null ? id() : this.id,
       nameEn: nameEn != null ? nameEn() : this.nameEn,
+      name: name != null ? name() : this.name,
       nameAr: nameAr != null ? nameAr() : this.nameAr,
-      descriptionEn: descriptionEn != null ? descriptionEn() : this.descriptionEn,
-      descriptionAr: descriptionAr != null ? descriptionAr() : this.descriptionAr,
+      descriptionEn:
+          descriptionEn != null ? descriptionEn() : this.descriptionEn,
+      description: description != null ? description() : this.description,
+      descriptionAr:
+          descriptionAr != null ? descriptionAr() : this.descriptionAr,
       duration: duration != null ? duration() : this.duration,
       price: price != null ? price() : this.price,
-      discountPercentage: discountPercentage != null ? discountPercentage() : this.discountPercentage,
+      discountPercentage: discountPercentage != null
+          ? discountPercentage()
+          : this.discountPercentage,
       countryId: countryId != null ? countryId() : this.countryId,
       isActive: isActive != null ? isActive() : this.isActive,
       benefits: benefits != null ? benefits() : this.benefits,
@@ -184,15 +197,17 @@ class Plan {
     return {
       'id': id,
       'nameEn': nameEn,
+      'name': name,
       'nameAr': nameAr,
       'descriptionEn': descriptionEn,
+      'description': description,
       'descriptionAr': descriptionAr,
       'duration': duration,
       'price': price,
       'discountPercentage': discountPercentage,
       'countryId': countryId,
       'isActive': isActive,
-      'benefits': benefits?.map((x) => x.toMap()).toList(),
+      'benefits': benefits?.map((x) => x?.toMap())?.toList(),
     };
   }
 
@@ -200,15 +215,20 @@ class Plan {
     return Plan(
       id: map['id']?.toInt(),
       nameEn: map['nameEn'],
+      name: map['name'],
       nameAr: map['nameAr'],
       descriptionEn: map['descriptionEn'],
+      description: map['description'],
       descriptionAr: map['descriptionAr'],
       duration: map['duration'],
       price: map['price']?.toInt(),
       discountPercentage: map['discountPercentage']?.toInt(),
       countryId: map['countryId']?.toInt(),
       isActive: map['isActive'],
-      benefits: map['benefits'] != null ? List<Benefits>.from(map['benefits']?.map((x) => Benefits.fromMap(x))) : null,
+      benefits: map['benefits'] != null
+          ? List<Benefits>.from(
+              map['benefits']?.map((x) => Benefits.fromMap(x)))
+          : null,
     );
   }
 
@@ -218,40 +238,44 @@ class Plan {
 
   @override
   String toString() {
-    return 'Plan(id: $id, nameEn: $nameEn, nameAr: $nameAr, descriptionEn: $descriptionEn, descriptionAr: $descriptionAr, duration: $duration, price: $price, discountPercentage: $discountPercentage, countryId: $countryId, isActive: $isActive, benefits: $benefits)';
+    return 'Plan(id: $id, nameEn: $nameEn, name: $name, nameAr: $nameAr, descriptionEn: $descriptionEn, description: $description, descriptionAr: $descriptionAr, duration: $duration, price: $price, discountPercentage: $discountPercentage, countryId: $countryId, isActive: $isActive, benefits: $benefits)';
   }
 
   @override
   bool operator ==(Object other) {
     if (identical(this, other)) return true;
-  
+
     return other is Plan &&
-      other.id == id &&
-      other.nameEn == nameEn &&
-      other.nameAr == nameAr &&
-      other.descriptionEn == descriptionEn &&
-      other.descriptionAr == descriptionAr &&
-      other.duration == duration &&
-      other.price == price &&
-      other.discountPercentage == discountPercentage &&
-      other.countryId == countryId &&
-      other.isActive == isActive &&
-      listEquals(other.benefits, benefits);
+        other.id == id &&
+        other.nameEn == nameEn &&
+        other.name == name &&
+        other.nameAr == nameAr &&
+        other.descriptionEn == descriptionEn &&
+        other.description == description &&
+        other.descriptionAr == descriptionAr &&
+        other.duration == duration &&
+        other.price == price &&
+        other.discountPercentage == discountPercentage &&
+        other.countryId == countryId &&
+        other.isActive == isActive &&
+        listEquals(other.benefits, benefits);
   }
 
   @override
   int get hashCode {
     return id.hashCode ^
-      nameEn.hashCode ^
-      nameAr.hashCode ^
-      descriptionEn.hashCode ^
-      descriptionAr.hashCode ^
-      duration.hashCode ^
-      price.hashCode ^
-      discountPercentage.hashCode ^
-      countryId.hashCode ^
-      isActive.hashCode ^
-      benefits.hashCode;
+        nameEn.hashCode ^
+        name.hashCode ^
+        nameAr.hashCode ^
+        descriptionEn.hashCode ^
+        description.hashCode ^
+        descriptionAr.hashCode ^
+        duration.hashCode ^
+        price.hashCode ^
+        discountPercentage.hashCode ^
+        countryId.hashCode ^
+        isActive.hashCode ^
+        benefits.hashCode;
   }
 }
 
@@ -264,8 +288,6 @@ class Benefits {
     this.benefitEn,
     this.benefitAr,
   });
-
-  
 
   Benefits copyWith({
     ValueGetter<int?>? id,
@@ -297,19 +319,21 @@ class Benefits {
 
   String toJson() => json.encode(toMap());
 
-  factory Benefits.fromJson(String source) => Benefits.fromMap(json.decode(source));
+  factory Benefits.fromJson(String source) =>
+      Benefits.fromMap(json.decode(source));
 
   @override
-  String toString() => 'Benefits(id: $id, benefitEn: $benefitEn, benefitAr: $benefitAr)';
+  String toString() =>
+      'Benefits(id: $id, benefitEn: $benefitEn, benefitAr: $benefitAr)';
 
   @override
   bool operator ==(Object other) {
     if (identical(this, other)) return true;
-  
+
     return other is Benefits &&
-      other.id == id &&
-      other.benefitEn == benefitEn &&
-      other.benefitAr == benefitAr;
+        other.id == id &&
+        other.benefitEn == benefitEn &&
+        other.benefitAr == benefitAr;
   }
 
   @override

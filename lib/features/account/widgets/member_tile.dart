@@ -3,9 +3,11 @@ import 'package:masaj/core/app_export.dart';
 import 'package:masaj/features/members/data/model/member_model.dart';
 
 class MemberTile extends StatelessWidget {
-  const MemberTile({super.key, required this.member, this.action});
+  const MemberTile(
+      {super.key, required this.member, this.action, required this.index});
 
   final MemberModel member;
+  final int index;
   final Widget? action;
 
   @override
@@ -21,7 +23,7 @@ class MemberTile extends StatelessWidget {
               radius: BorderRadius.circular(8.w)),
           SizedBox(width: 8.h),
           Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
-            Text(member.name ?? '',
+            Text(index == 0 ? 'lbl_me'.tr() : member.name ?? '',
                 style: CustomTextStyles.titleMediumOnPrimary_1),
             SizedBox(height: 2.h),
             Text((member.countryCode ?? '') + (member.phone ?? ''),

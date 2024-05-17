@@ -18,6 +18,7 @@ enum AccountStateStatus {
   loading,
   changePhone,
   changePassword,
+  accountDeleted,
   updateUser,
   verifyingChangePhone,
   error,
@@ -41,6 +42,8 @@ extension AuthStateX on AuthState {
   bool get isChangePassword => status == AccountStateStatus.changePassword;
   bool get isAccountError => accountStatus == AccountStateStatus.error;
   bool get isUpdateUser => accountStatus == AccountStateStatus.updateUser;
+  bool get isAccountDeleted =>
+      accountStatus == AccountStateStatus.accountDeleted;
 
   bool get isSelectingProject => status == AuthStateStatus.selectingProject;
 

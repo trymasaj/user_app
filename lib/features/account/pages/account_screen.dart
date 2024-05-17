@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:masaj/core/app_export.dart';
+import 'package:masaj/core/presentation/colors/app_colors.dart';
 import 'package:masaj/core/presentation/navigation/navigator_helper.dart';
 import 'package:masaj/core/presentation/widgets/stateless/border_tile.dart';
 import 'package:masaj/core/presentation/widgets/stateless/custom_app_bar.dart';
@@ -8,6 +9,8 @@ import 'package:masaj/features/account/models/account_model.dart';
 import 'package:masaj/features/account/pages/create_new_password_screen.dart';
 import 'package:masaj/features/account/pages/my_profile_screen.dart';
 import 'package:masaj/features/account/pages/phone_screen.dart';
+import 'package:masaj/features/auth/application/auth_cubit/auth_cubit.dart';
+import 'package:masaj/features/auth/presentation/pages/login_page.dart';
 
 class AccountScreen extends StatelessWidget {
   static const routeName = '/account';
@@ -25,7 +28,7 @@ class AccountScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return BlocBuilder<AccountBloc, AccountState>(
+    return BlocConsumer<AuthCubit, AuthState>(
       builder: (context, state) {
         return Scaffold(
           appBar: _buildAppBar(context),
@@ -80,7 +83,11 @@ class AccountScreen extends StatelessWidget {
                   child: _buildTile(
                     image: ImageConstant.imgTrash,
                     text: 'lbl_delete_account'.tr(),
-                    onTap: () {},
+                    color: AppColors.ERROR_COLOR,
+                    onTap: () async {
+                      final cubit = context.read<AuthCubit>();
+                      cubit.deleteAccount();
+                    },
                   ),
                 ),
                 SizedBox(height: 4.h),
@@ -88,6 +95,13 @@ class AccountScreen extends StatelessWidget {
             ),
           ),
         );
+      },
+      listener: (BuildContext context, AuthState state) {
+        if (state.accountStatus == AccountStateStatus.accountDeleted) {
+          NavigatorHelper.of(context).pushAndRemoveUntil(
+              MaterialPageRoute(builder: (context) => const LoginPage()),
+              (_) => false);
+        }
       },
     );
   }
@@ -105,11 +119,13 @@ class AccountScreen extends StatelessWidget {
     required String image,
     required String text,
     required VoidCallback onTap,
+    Color? color,
   }) {
     return BorderTile(
       image: image,
       text: text,
       onTap: onTap,
+      color: color,
     );
   }
 }

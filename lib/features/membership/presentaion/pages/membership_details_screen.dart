@@ -10,16 +10,15 @@ import 'package:masaj/core/presentation/widgets/stateless/default_button.dart';
 import 'package:masaj/core/presentation/widgets/stateless/empty_page_message.dart';
 import 'package:masaj/core/presentation/widgets/stateless/subtitle_text.dart';
 import 'package:masaj/core/presentation/widgets/stateless/title_text.dart';
-import 'package:masaj/features/book_service/presentation/blocs/book_cubit/book_service_cubit.dart';
 import 'package:masaj/features/membership/presentaion/bloc/membership_cubit.dart';
 import 'package:masaj/features/payment/data/model/payment_method_model.dart';
 import 'package:masaj/features/payment/presentaion/bloc/payment_cubit.dart';
 import 'package:masaj/features/payment/presentaion/pages/checkout_screen.dart';
 
 class MembershipCheckoutScreen extends StatefulWidget {
-  const MembershipCheckoutScreen({super.key});
+  const MembershipCheckoutScreen({super.key,required this.membershipCubit});
   static const String routeName = '/checkoutScreen';
-
+  final MembershipCubit membershipCubit;
   @override
   State<MembershipCheckoutScreen> createState() =>
       _MembershipCheckoutScreenState();
@@ -27,7 +26,6 @@ class MembershipCheckoutScreen extends StatefulWidget {
 
 class _MembershipCheckoutScreenState extends State<MembershipCheckoutScreen> {
   static const double _kDividerThickness = 6;
-  static const double _KSubVerticalSpace = 12;
   static const double _KSectionPadding = 24;
   PaymentMethodModel? _selectedPayment;
 
@@ -40,13 +38,7 @@ class _MembershipCheckoutScreenState extends State<MembershipCheckoutScreen> {
     _couponEditingController = TextEditingController();
     _walletController = TextEditingController();
     _couponFocusNode = FocusNode();
-    getBooking();
     super.initState();
-  }
-
-  void getBooking() async {
-    final bookingCubit = context.read<BookingCubit>();
-    await bookingCubit.getBookingDetails();
   }
 
   @override
@@ -60,8 +52,15 @@ class _MembershipCheckoutScreenState extends State<MembershipCheckoutScreen> {
   @override
   Widget build(BuildContext context) {
     return Builder(builder: (context) {
-      return BlocProvider(
-        create: (context) => Injector().paymentCubit..getPaymentMethods(),
+      return MultiBlocProvider(
+        providers: [
+          BlocProvider(
+            create: (context) => Injector().paymentCubit..getPaymentMethods(),
+          ),
+          BlocProvider.value(
+            value: widget.membershipCubit,
+          ),
+        ],
         child: Scaffold(
           appBar: CustomAppBar(
             title: 'lbl_membership_plan'.tr(),
@@ -84,7 +83,7 @@ class _MembershipCheckoutScreenState extends State<MembershipCheckoutScreen> {
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    _buildServiceSection(),
+                    _buildServiceSection(context),
                     const Divider(
                       thickness: _kDividerThickness,
                       color: AppColors.ExtraLight,
@@ -113,7 +112,7 @@ class _MembershipCheckoutScreenState extends State<MembershipCheckoutScreen> {
     );
   }
 
-  Widget _buildServiceSection() {
+  Widget _buildServiceSection(BuildContext context) {
     return Padding(
       padding: const EdgeInsets.all(_KSectionPadding),
       child: Column(
@@ -131,12 +130,12 @@ class _MembershipCheckoutScreenState extends State<MembershipCheckoutScreen> {
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         SubtitleText(
-          text: membershipModel?.nameEn ?? '',
+          text: membershipModel?.name ?? '',
           isBold: true,
         ),
         const SizedBox(height: 5.0),
         SubtitleText(
-          text: membershipModel?.descriptionEn ?? '',
+          text: membershipModel?.description ?? '',
           maxLines: 2,
         ),
       ],

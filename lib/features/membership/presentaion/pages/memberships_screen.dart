@@ -92,39 +92,50 @@ class _MembershipPlansScreenState extends State<MembershipPlansScreen> {
                       label: 'lbl_cancel',
                       onPressed: () {
                         showAdaptiveDialog(
+                            useRootNavigator: true,
                             barrierDismissible: true,
                             context: context,
                             builder: (BuildContext context) {
-                              return AlertDialog.adaptive(
-                                iconPadding: const EdgeInsets.all(20),
-                                alignment: Alignment.center,
-                                title: const SubtitleText.large(
-                                    isBold: true,
-                                    text: 'msg_cancel_subscription'),
-                                content: const SubtitleText.medium(
-                                    text: 'msg_are_you_sure_you2'),
-                                actions: [
-                                  TextButton(
-                                    onPressed: () {
-                                      NavigatorHelper.of(context).pop();
-                                    },
-                                    child:
-                                        const SubtitleText(text: 'lbl_cancel'),
-                                  ),
-                                  TextButton(
-                                    onPressed: () {
-                                      context
-                                          .read<MembershipCubit>()
-                                          .cancelSubscriptionPlans();
-                                    },
-                                    child: Center(
-                                      child: const SubtitleText.small(
-                                        text: 'msg_cancel_subscription',
-                                        color: AppColors.ERROR_COLOR,
-                                      ),
-                                    ),
-                                  )
-                                ],
+                              return BlocProvider(
+                                create: (context) => Injector().membershipCubit,
+                                child: BlocBuilder<MembershipCubit,
+                                    MembershipState>(
+                                  builder: (context, state) {
+                                    return AlertDialog.adaptive(
+                                      iconPadding: const EdgeInsets.all(20),
+                                      alignment: Alignment.center,
+                                      title: const SubtitleText.large(
+                                          isBold: true,
+                                          text: 'msg_cancel_subscription'),
+                                      content: const SubtitleText.medium(
+                                          text: 'msg_are_you_sure_you2'),
+                                      actions: [
+                                        TextButton(
+                                          onPressed: () {
+                                            NavigatorHelper.of(context).pop();
+                                          },
+                                          child: const SubtitleText(
+                                              text: 'lbl_cancel'),
+                                        ),
+                                        TextButton(
+                                          onPressed: () async {
+                                            await context
+                                                .read<MembershipCubit>()
+                                                .cancelSubscriptionPlans();
+                                            NavigatorHelper.of(context).pop();
+                                            NavigatorHelper.of(context).pop();
+                                          },
+                                          child: const Center(
+                                            child: SubtitleText.small(
+                                              text: 'msg_cancel_subscription',
+                                              color: AppColors.ERROR_COLOR,
+                                            ),
+                                          ),
+                                        )
+                                      ],
+                                    );
+                                  },
+                                ),
                               );
                             });
                       },
@@ -137,7 +148,7 @@ class _MembershipPlansScreenState extends State<MembershipPlansScreen> {
               ),
               SizedBox(height: 12.h),
               Flexible(
-                  child: _buildPlanItem(selectedSubscription?.plan,
+                  child: _buildPlanItem(context, selectedSubscription?.plan,
                       showUpgrade: false))
             ],
           );
@@ -149,7 +160,7 @@ class _MembershipPlansScreenState extends State<MembershipPlansScreen> {
             heightRatio: 0.6,
           );
         }
-        return _buildPlanItem(plans);
+        return _buildPlanItem(context, plans);
       },
       listener: (BuildContext context, MembershipState state) {
         if (state.isError) {
@@ -162,7 +173,8 @@ class _MembershipPlansScreenState extends State<MembershipPlansScreen> {
     );
   }
 
-  Container _buildPlanItem(Plan? plan, {bool showUpgrade = true}) {
+  Container _buildPlanItem(BuildContext mainContext, Plan? plan,
+      {bool showUpgrade = true}) {
     return Container(
       decoration: BoxDecoration(
           gradient: AppColors.GRADIENT_COLOR,
@@ -173,7 +185,7 @@ class _MembershipPlansScreenState extends State<MembershipPlansScreen> {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             SubtitleText.large(
-              text: plan?.nameEn ?? '',
+              text: plan?.name ?? '',
               color: AppColors.ExtraLight,
               isBold: true,
             ),
@@ -184,12 +196,12 @@ class _MembershipPlansScreenState extends State<MembershipPlansScreen> {
               color: AppColors.ExtraLight,
             ),
             const SubtitleText(
-              text: '/month',
+              text: 'lbl_month',
               color: AppColors.ExtraLight,
             ),
             SizedBox(height: 12.h),
             SubtitleText(
-              text: plan.descriptionEn ?? '',
+              text: plan.description ?? '',
               color: AppColors.ExtraLight,
             ),
             SizedBox(height: 24.h),
@@ -205,12 +217,15 @@ class _MembershipPlansScreenState extends State<MembershipPlansScreen> {
               DefaultButton(
                 onPressed: () {
                   NavigatorHelper.of(context).push(MaterialPageRoute(
-                      builder: (context) => const MembershipCheckoutScreen()));
+                      builder: (context) => MembershipCheckoutScreen(
+                            membershipCubit:
+                                mainContext.read<MembershipCubit>(),
+                          )));
                 },
                 textColor: AppColors.PRIMARY_COLOR,
                 color: AppColors.ExtraLight,
                 isExpanded: true,
-                label: 'upgrade',
+                label: 'lbl_upgrade',
               )
           ]),
     );
@@ -230,20 +245,5 @@ class _MembershipPlansScreenState extends State<MembershipPlansScreen> {
         )
       ],
     );
-  }
-
-  void _validateMembers(bool? value, MemberModel member, BuildContext context) {
-    final cubit = context.read<MembersCubit>();
-    final selectedMembers = cubit.state.selectedMembers ?? [];
-
-    if (selectedMembers.isNotEmpty && !(member.isSelected ?? false)) {
-      if (selectedMembers.length >= 2) {
-        return showSnackBar(context, message: 'members_number_limit');
-      }
-      if (selectedMembers[0].gender != member.gender) {
-        return showSnackBar(context, message: 'members_number_gender_limit');
-      }
-    }
-    cubit.updateSelectedMembers(value, member);
   }
 }

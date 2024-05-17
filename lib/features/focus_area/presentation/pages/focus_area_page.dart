@@ -8,9 +8,7 @@ import 'package:masaj/core/presentation/widgets/stateful/default_tab.dart';
 import 'package:masaj/core/presentation/widgets/stateless/custom_app_bar.dart';
 import 'package:masaj/core/presentation/widgets/stateless/custom_app_page.dart';
 import 'package:masaj/core/presentation/widgets/stateless/custom_text.dart';
-
 import 'package:masaj/core/presentation/widgets/stateless/default_button.dart';
-import 'package:masaj/features/members/presentaion/pages/select_members.dart';
 
 class FocusAreaPage extends StatefulWidget {
   static const routeName = '/FocusArea';
@@ -84,7 +82,7 @@ class _FocusAreaPageState extends State<FocusAreaPage>
                 selectedFocusPoints.length;
                 NavigatorHelper.of(context).pop(selectedFocusPoints);
               },
-              label: 'Save',
+              label: 'lbl_save',
             ),
           ]),
         ),

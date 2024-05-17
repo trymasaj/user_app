@@ -131,6 +131,7 @@ class _SelectMembersScreenState extends State<SelectMembersScreen> {
                 !(members[index].isSelected ?? false), members[index], context);
           },
           child: MemberTile(
+            index: index,
             member: members![index],
             action: Checkbox.adaptive(
               activeColor: AppColors.PRIMARY_COLOR,
