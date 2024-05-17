@@ -28,6 +28,7 @@ class HomeCubit extends BaseCubit<HomeState> {
       // if (!refresh)
       emit(state.copyWith(status: HomeStateStatus.loading));
       final homeData = await _homeRepository.getHomeSections();
+      homeData.sort((a, b) => ((a.sortKey ?? 0)));
       final isIos = (defaultTargetPlatform == TargetPlatform.iOS);
       emit(state.copyWith(status: HomeStateStatus.loaded, homeSections: [
         if (isIos)
