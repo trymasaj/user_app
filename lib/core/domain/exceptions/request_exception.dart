@@ -40,7 +40,7 @@ class RequestException extends AppException {
     if (response is Map<String, dynamic>) {
       String message =
           response['detail'] ?? 'An error occurred, please try again later.';
-      message += _parseFieldErrors(response['errors']);
+      message = _parseFieldErrors(response['errors']) ?? message;
       return message;
     } else if (response is String) {
       return response;
@@ -49,18 +49,18 @@ class RequestException extends AppException {
   }
 
   // Private method to parse field-specific errors and format them
-  static String _parseFieldErrors(dynamic errors) {
+  static String? _parseFieldErrors(dynamic errors) {
     if (errors is Map<String, dynamic> && errors.isNotEmpty) {
-      var fieldErrors = errors.entries.map((entry) {
-        var fieldName = entry.key;
-        var errorMessages = entry.value is List
-            ? entry.value.join(', ')
-            : entry.value.toString();
-        return '$errorMessages';
-      }).join(', ');
-      return fieldErrors.isNotEmpty ? fieldErrors : '';
+      return errors.values.firstOrNull;
     }
-    return '';
+    //if list and not empty return first error
+    if (errors is List && errors.isNotEmpty) {
+      return errors.firstOrNull;
+    }
+    if (errors is String?) {
+      return errors;
+    }
+    return null;
   }
 }
 
