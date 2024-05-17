@@ -29,83 +29,81 @@ class _RecommendedState extends State<Recommended> {
 
   @override
   Widget build(BuildContext context) {
-    return SliverToBoxAdapter(
-      child: Container(
-        margin: const EdgeInsets.symmetric(horizontal: 20),
-        child: Column(
-          children: [
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                SectionTitle(title: 'recommended'.tr()),
-              ],
-            ),
-            SizedBox(
-              height: 155,
-              child: ListView.builder(
-                padding: const EdgeInsets.symmetric(horizontal: 20),
-                scrollDirection: Axis.horizontal,
-                itemCount: widget.recommendedServices.length,
-                itemBuilder: (context, index) {
-                  return GestureDetector(
-                    onTap: () {
-                      Navigator.of(context).pushNamed(
-                        ServiceDetailsScreen.routeName,
-                        arguments: ServiceDetailsScreenArguments(
-                            id: widget.recommendedServices[index].serviceId),
-                      );
-                    },
-                    child: Container(
-                      margin: const EdgeInsets.only(right: 10),
-                      width: 100.w,
-                      padding: const EdgeInsets.all(10),
-                      decoration: BoxDecoration(
-                        borderRadius: BorderRadius.circular(8),
-                        border: Border.all(
-                          color: AppColors.GREY_LIGHT_COLOR_2,
-                          width: 1,
-                        ),
-                      ),
-                      child: Column(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: [
-                          // image
-                          Container(
-                            height: 80.h,
-                            width: 80.w,
-                            decoration: BoxDecoration(
-                              color: AppColors.GREY_LIGHT_COLOR_2,
-                              borderRadius: BorderRadius.circular(6),
-                              image: DecorationImage(
-                                image: CustomCachedNetworkImageProvider(
-                                  widget.recommendedServices[index].mainImage ??
-                                      '',
-                                ),
-                                fit: BoxFit.cover,
-                              ),
-                            ),
-                          ),
-                          const SizedBox(
-                            height: 5,
-                          ),
-                          Text(
-                            widget.recommendedServices[index].title ?? '',
-                            maxLines: 1,
-                            overflow: TextOverflow.ellipsis,
-                            style: const TextStyle(
-                                fontSize: 12,
-                                fontWeight: FontWeight.w400,
-                                color: AppColors.FONT_COLOR),
-                          ),
-                        ],
+    return Container(
+      margin: const EdgeInsets.symmetric(horizontal: 20),
+      child: Column(
+        children: [
+          Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              SectionTitle(title: 'recommended'.tr()),
+            ],
+          ),
+          SizedBox(
+            height: 155,
+            child: ListView.builder(
+              padding: const EdgeInsets.symmetric(horizontal: 20),
+              scrollDirection: Axis.horizontal,
+              itemCount: widget.recommendedServices.length,
+              itemBuilder: (context, index) {
+                return GestureDetector(
+                  onTap: () {
+                    Navigator.of(context).pushNamed(
+                      ServiceDetailsScreen.routeName,
+                      arguments: ServiceDetailsScreenArguments(
+                          id: widget.recommendedServices[index].serviceId),
+                    );
+                  },
+                  child: Container(
+                    margin: const EdgeInsets.only(right: 10),
+                    width: 100.w,
+                    padding: const EdgeInsets.all(10),
+                    decoration: BoxDecoration(
+                      borderRadius: BorderRadius.circular(8),
+                      border: Border.all(
+                        color: AppColors.GREY_LIGHT_COLOR_2,
+                        width: 1,
                       ),
                     ),
-                  );
-                },
-              ),
+                    child: Column(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        // image
+                        Container(
+                          height: 80.h,
+                          width: 80.w,
+                          decoration: BoxDecoration(
+                            color: AppColors.GREY_LIGHT_COLOR_2,
+                            borderRadius: BorderRadius.circular(6),
+                            image: DecorationImage(
+                              image: CustomCachedNetworkImageProvider(
+                                widget.recommendedServices[index].mainImage ??
+                                    '',
+                              ),
+                              fit: BoxFit.cover,
+                            ),
+                          ),
+                        ),
+                        const SizedBox(
+                          height: 5,
+                        ),
+                        Text(
+                          widget.recommendedServices[index].title ?? '',
+                          maxLines: 1,
+                          overflow: TextOverflow.ellipsis,
+                          style: const TextStyle(
+                              fontSize: 12,
+                              fontWeight: FontWeight.w400,
+                              color: AppColors.FONT_COLOR),
+                        ),
+                      ],
+                    ),
+                  ),
+                );
+              },
             ),
-          ],
-        ),
+          ),
+        ],
       ),
     );
   }

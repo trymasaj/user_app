@@ -58,7 +58,6 @@ class _HomePageState extends State<HomePage> {
     return MultiBlocProvider(
       providers: [
         // BlocProvider(create: (context) => Injector().homeCubit..loadHome()),
-        BlocProvider(create: (context) => Injector().homeCubit),
         BlocProvider<ServiceCategoryCubit>(
             create: (context) =>
                 Injector().serviceCategoryCubit..getServiceCategories()),
