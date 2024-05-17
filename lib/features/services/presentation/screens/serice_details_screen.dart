@@ -205,26 +205,32 @@ class ServiceDetailsScreenState extends State<ServiceDetailsScreen> {
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
                             CustomText(
-                              text: '${totalPrice()} KWD Nonmember',
+                              text: '${'lbl_kwd'.tr(args: [
+                                    totalPrice().toString()
+                                  ])} ${'lbl_nonmember'.tr()}',
                               fontSize: 14,
                               color: const Color(0xff1D212C),
                             ),
                             RichText(
                               text: TextSpan(children: [
                                 TextSpan(
-                                    text:
-                                        '${getPriceAfterDiscount().toStringAsFixed(2)} KWD member ',
-                                    style: TextStyle(
-                                      fontSize: 12,
-                                      color:
-                                          AppColors.FONT_LIGHT.withOpacity(.7),
-                                    )),
-                                TextSpan(
-                                    text: '${discountPercentage * 100}% off',
+                                    text: 'percentage_off'.tr(args: [
+                                      (discountPercentage * 100).toString()
+                                    ]),
                                     style: const TextStyle(
                                       fontSize: 12,
                                       fontWeight: FontWeight.w700,
                                       color: AppColors.ERROR_COLOR,
+                                    )),
+                                TextSpan(
+                                    text: ' ${'lbl_kwd'.tr(args: [
+                                          getPriceAfterDiscount()
+                                              .toStringAsFixed(2)
+                                        ])} ${'lbl_member'.tr()}',
+                                    style: TextStyle(
+                                      fontSize: 12,
+                                      color:
+                                          AppColors.FONT_LIGHT.withOpacity(.7),
                                     )),
                               ]),
                             ),

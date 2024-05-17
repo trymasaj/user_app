@@ -234,8 +234,10 @@ class AuthRepositoryImpl implements AuthRepository {
   }
 
   @override
-  Future<void> deleteAccount(ContactUsMessage message) =>
-      _remoteDataSource.deleteAccount(message);
+  Future<void> deleteAccount(ContactUsMessage message) async {
+    await _remoteDataSource.deleteAccount(message);
+    await _localDataSource.clearUserData();
+  }
 
   @override
   Future<void> informBackendAboutLanguageChanges(String languageCode) =>

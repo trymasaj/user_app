@@ -83,7 +83,7 @@ class _ManageMembersScreenState extends State<ManageMembersScreen> {
         padding: EdgeInsets.symmetric(horizontal: 24.w, vertical: 23.h),
         child: ListView.builder(
           itemBuilder: (context, index) {
-            return _buildMemberTile(members[index], context);
+            return _buildMemberTile(members[index], context, index);
           },
           itemCount: members!.length,
         ),
@@ -92,7 +92,7 @@ class _ManageMembersScreenState extends State<ManageMembersScreen> {
   }
 
   /// Section Widget
-  Widget _buildMemberTile(MemberModel member, BuildContext context) {
+  Widget _buildMemberTile(MemberModel member, BuildContext context, int index) {
     final cubit = context.read<MembersCubit>();
 
     return GestureDetector(
@@ -120,6 +120,7 @@ class _ManageMembersScreenState extends State<ManageMembersScreen> {
           ],
         ),
         child: MemberTile(
+          index: index,
           member: member,
         ),
       ),

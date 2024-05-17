@@ -53,6 +53,8 @@ class _HomePageState extends State<HomePage> {
 
   @override
   Widget build(BuildContext context) {
+    final authCubit = context.read<AuthCubit>();
+    final isGuest = authCubit.state.isGuest;
     return MultiBlocProvider(
       providers: [
         // BlocProvider(create: (context) => Injector().homeCubit..loadHome()),
@@ -60,6 +62,16 @@ class _HomePageState extends State<HomePage> {
         BlocProvider<ServiceCategoryCubit>(
             create: (context) =>
                 Injector().serviceCategoryCubit..getServiceCategories()),
+        BlocProvider(
+          create: (context) => Injector().membershipCubit..getSubscription(),
+          lazy: isGuest,
+        ),
+        BlocProvider(
+            lazy: isGuest,
+            create: (context) => Injector().walletCubit..getWalletBalance()),
+        BlocProvider(
+            lazy: isGuest,
+            create: (context) => Injector().medicalFormBloc..getConditions())
       ],
       child: BlocListener<AuthCubit, AuthState>(
         listenWhen: (previous, current) =>

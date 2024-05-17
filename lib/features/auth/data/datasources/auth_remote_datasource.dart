@@ -265,7 +265,7 @@ class AuthRemoteDataSourceImpl implements AuthRemoteDataSource {
 
   @override
   Future<void> deleteAccount(ContactUsMessage message) {
-    const url = ApiEndPoint.CONTACT_US;
+    const url = ApiEndPoint.DELETE_ACCOUNT;
 
     return _networkService.post(url, data: message.toMap()).then((response) {
       if (response.statusCode != 200) {

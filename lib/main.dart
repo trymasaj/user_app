@@ -18,6 +18,7 @@ import 'package:masaj/features/address/application/blocs/my_addresses_bloc/my_ad
 import 'package:masaj/features/splash/presentation/pages/splash_page.dart';
 import 'package:requests_inspector/requests_inspector.dart';
 import 'package:masaj/firebase_options.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 ///Don't forget to change it in release!!
 const isRelease = false;
@@ -26,6 +27,7 @@ const inspectorEnabled = true;
 void main() async {
   runZonedGuarded<Future<void>>(() async {
     final widgetsBinding = WidgetsFlutterBinding.ensureInitialized();
+
     await EasyLocalization.ensureInitialized();
     configureDependencies();
     await Firebase.initializeApp(
@@ -52,18 +54,6 @@ void main() async {
               BlocProvider(create: (context) => Injector().countryCubit),
               BlocProvider(create: (context) => Injector().membersCubit),
               BlocProvider(create: (context) => Injector().homePageCubit),
-              BlocProvider(
-                create: (context) =>
-                    Injector().membershipCubit..getSubscription(),
-                lazy: false,
-              ),
-              BlocProvider(
-                  create: (context) =>
-                      Injector().walletCubit..getWalletBalance()),
-              BlocProvider(
-                  lazy: false,
-                  create: (context) =>
-                      Injector().medicalFormBloc..getConditions())
             ],
             child: const MyApp(),
           ),

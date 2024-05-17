@@ -88,6 +88,7 @@ abstract class ApiEndPoint {
   static const SCAN_TREASURE = '$_REQUEST_URL/scanqrcode';
   static const GET_USER_POINTS = '$_REQUEST_URL/getuserpointhistory';
   static const GET_MORE_USER_POINTS = '$_REQUEST_URL/userpointhistory';
+  static const DELETE_ACCOUNT = '$BASE_URL/identity';
 
   //TicketMX
   static const CHECK_TICKETMX_TOKEN = '$_TICKETMX_API_URL/checktoken';

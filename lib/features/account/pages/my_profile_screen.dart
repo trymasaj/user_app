@@ -48,8 +48,8 @@ class _MyProfileScreenState extends State<MyProfileScreen> {
     _image = user?.profileImage;
     _nameController = TextEditingController(text: user?.fullName);
     _emailController = TextEditingController(text: user?.email);
-    _birthDateController = TextEditingController(
-        text: user?.birthDate?.toLocal().toIso8601String());
+    _birthDateController =
+        TextEditingController(text: user?.birthDate?.toLocal().formatDate());
 
     _nameNode = FocusNode();
     _emailNode = FocusNode();

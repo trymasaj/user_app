@@ -84,9 +84,11 @@ class MyGiftsPage extends StatelessWidget {
           ),
           Column(
             mainAxisAlignment: MainAxisAlignment.end,
+            crossAxisAlignment: CrossAxisAlignment.start,
             mainAxisSize: MainAxisSize.max,
             children: [
-              const SubtitleText(text: 'gift_off'),
+              SubtitleText(
+                  text: 'lbl_gift_card_off'.tr(args: [gift.amount.toString()])),
               const SizedBox(height: 8.0),
               SubtitleText(
                 text: 'lbl_kwd'.tr(args: [gift.amount.toString()]),

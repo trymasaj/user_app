@@ -31,7 +31,7 @@ class _NewGiftCardsPageState extends State<NewGiftCardsPage> {
                 onPressed: () async {
                   onTapPurchaseButton(context);
                 },
-                label: 'purchase',
+                label: 'lbl_purchase'.tr(),
               ),
             ],
           ),

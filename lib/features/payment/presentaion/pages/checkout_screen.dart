@@ -518,7 +518,7 @@ class _WalletSectionState extends State<WalletSection> {
       children: [
         Row(
           children: [
-            SubtitleText(text: 'use_wallet'.tr(args: ['200'])),
+            SubtitleText(text: 'use_wallet'.tr()),
             const Spacer(),
             CustomSwitch(
               onChange: (value) {
