@@ -9,7 +9,6 @@ import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_native_splash/flutter_native_splash.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:is_first_run/is_first_run.dart';
 import 'package:masaj/core/data/di/injection_setup.dart';
 import 'package:masaj/core/data/di/injector.dart';
 import 'package:masaj/core/presentation/routes/routes.dart';
@@ -28,12 +27,7 @@ const inspectorEnabled = true;
 void main() async {
   runZonedGuarded<Future<void>>(() async {
     final widgetsBinding = WidgetsFlutterBinding.ensureInitialized();
-    final firstRun = await IsFirstRun.isFirstRun();
-    if (firstRun) {
-      //clear cache on first run
-      final sharedPrefs = await SharedPreferences.getInstance();
-      await sharedPrefs.clear();
-    }
+
     await EasyLocalization.ensureInitialized();
     configureDependencies();
     await Firebase.initializeApp(
