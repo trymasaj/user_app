@@ -6,6 +6,7 @@ enum PaymentStateStatus {
   loaded,
   error,
   deleted,
+  walletPayment,
   added,
   paying
 }
@@ -17,6 +18,7 @@ extension PaymentStateX on PaymentState {
   bool get isError => status == PaymentStateStatus.error;
   bool get isDeleted => status == PaymentStateStatus.deleted;
   bool get isAdded => status == PaymentStateStatus.added;
+  bool get isWalletPayment => status == PaymentStateStatus.walletPayment;
 }
 
 class PaymentState {

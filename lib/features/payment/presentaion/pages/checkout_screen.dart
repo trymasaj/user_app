@@ -131,7 +131,7 @@ class _CheckoutScreenState extends State<CheckoutScreen> {
       listener: (BuildContext context, PaymentState state) {
         if (state.isError) showSnackBar(context, message: state.errorMessage);
 
-        if (state.isLoaded) {
+        if (state.isWalletPayment) {
           final bookingCubit = context.read<BookingCubit>();
 
           final bookingModel = bookingCubit.state.bookingModel;

@@ -42,8 +42,7 @@ class PaymentCubit extends BaseCubit<PaymentState> {
       if (fromWallet) {
         _paymentRepository.purchasePayment(
             paymentId: paymentMethodId, fromWallet: fromWallet);
-        emit(state.copyWith(status: PaymentStateStatus.loaded));
-
+        emit(state.copyWith(status: PaymentStateStatus.walletPayment));
       } else {
         await _paymentService.buy(PaymentParam(
           paymentMethodId: paymentMethodId,

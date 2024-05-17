@@ -283,21 +283,25 @@ class Benefits {
   int? id;
   String? benefitEn;
   String? benefitAr;
+  String? benefit;
   Benefits({
     this.id,
     this.benefitEn,
     this.benefitAr,
+    this.benefit,
   });
 
   Benefits copyWith({
     ValueGetter<int?>? id,
     ValueGetter<String?>? benefitEn,
     ValueGetter<String?>? benefitAr,
+    ValueGetter<String?>? benefit,
   }) {
     return Benefits(
       id: id != null ? id() : this.id,
       benefitEn: benefitEn != null ? benefitEn() : this.benefitEn,
       benefitAr: benefitAr != null ? benefitAr() : this.benefitAr,
+      benefit: benefit != null ? benefit() : this.benefit,
     );
   }
 
@@ -306,6 +310,7 @@ class Benefits {
       'id': id,
       'benefitEn': benefitEn,
       'benefitAr': benefitAr,
+      'benefit': benefit,
     };
   }
 
@@ -314,6 +319,7 @@ class Benefits {
       id: map['id']?.toInt(),
       benefitEn: map['benefitEn'],
       benefitAr: map['benefitAr'],
+      benefit: map['benefit'],
     );
   }
 
@@ -324,7 +330,7 @@ class Benefits {
 
   @override
   String toString() =>
-      'Benefits(id: $id, benefitEn: $benefitEn, benefitAr: $benefitAr)';
+      'Benefits(id: $id, benefitEn: $benefitEn, benefitAr: $benefitAr , benefit :$benefit)';
 
   @override
   bool operator ==(Object other) {
@@ -333,9 +339,11 @@ class Benefits {
     return other is Benefits &&
         other.id == id &&
         other.benefitEn == benefitEn &&
-        other.benefitAr == benefitAr;
+        other.benefitAr == benefitAr &&
+        other.benefit == benefit;
   }
 
   @override
-  int get hashCode => id.hashCode ^ benefitEn.hashCode ^ benefitAr.hashCode;
+  int get hashCode =>
+      id.hashCode ^ benefitEn.hashCode ^ benefitAr.hashCode ^ benefit.hashCode;
 }

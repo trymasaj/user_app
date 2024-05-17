@@ -144,10 +144,11 @@ class _SummaryPaymentPageState extends State<SummaryPaymentPage> {
           _buildSummaryItem(
               amount: bookingModel?.payment?.referenceId,
               title: 'reference_id'),
-          _buildSummaryItem(
-              amount: DateTime.parse(bookingModel?.payment?.paymentDate ?? '')
-                  .formatDate(),
-              title: 'payment_date'),
+          if (bookingModel?.payment?.paymentDate == null)
+            _buildSummaryItem(
+                amount: DateTime.parse(bookingModel!.payment!.paymentDate!)
+                    .formatDate(),
+                title: 'payment_date'),
           _buildSummaryItem(
               amount: bookingModel?.payment?.paymentStatus?.name,
               isStatus: bookingModel?.payment?.paymentStatus ==
