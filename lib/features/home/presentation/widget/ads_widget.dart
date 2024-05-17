@@ -36,8 +36,7 @@ class _AdsState extends State<Ads> {
 
   @override
   Widget build(BuildContext context) {
-    return SliverToBoxAdapter(
-        child: Column(
+    return Column(
       children: [
         CarouselSlider(
           carouselController: _carouselController,
@@ -173,6 +172,6 @@ class _AdsState extends State<Ads> {
           ),
         ),
       ],
-    ));
+    );
   }
 }

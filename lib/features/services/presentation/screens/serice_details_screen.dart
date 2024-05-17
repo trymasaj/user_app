@@ -1098,3 +1098,7 @@ class _ServiceImagesViewWidgetState extends State<ServiceImagesViewWidget> {
     );
   }
 }
+
+
+
+final str =''.codeUnits;
