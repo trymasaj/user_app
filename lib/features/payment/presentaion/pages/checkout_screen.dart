@@ -19,6 +19,9 @@ import 'package:masaj/core/presentation/widgets/stateless/warning_container.dart
 import 'package:masaj/features/book_service/presentation/blocs/book_cubit/book_service_cubit.dart';
 import 'package:masaj/features/payment/data/model/payment_method_model.dart';
 import 'package:masaj/features/payment/presentaion/bloc/payment_cubit.dart';
+import 'package:masaj/features/payment/presentaion/pages/success_payment.dart';
+import 'package:masaj/features/wallet/bloc/wallet_bloc/wallet_bloc.dart';
+import 'package:masaj/main.dart';
 
 class CheckoutScreen extends StatefulWidget {
   const CheckoutScreen({super.key});
@@ -37,7 +40,7 @@ class _CheckoutScreenState extends State<CheckoutScreen> {
   late final TextEditingController _couponEditingController;
   late final TextEditingController _walletController;
   late final FocusNode _couponFocusNode;
-
+  bool _useWallet = false;
   @override
   void initState() {
     _couponEditingController = TextEditingController();
@@ -127,6 +130,19 @@ class _CheckoutScreenState extends State<CheckoutScreen> {
       },
       listener: (BuildContext context, PaymentState state) {
         if (state.isError) showSnackBar(context, message: state.errorMessage);
+
+        if (state.isLoaded) {
+          final bookingCubit = context.read<BookingCubit>();
+
+          final bookingModel = bookingCubit.state.bookingModel;
+          navigatorKey.currentState!.pushAndRemoveUntil(
+              MaterialPageRoute(
+                builder: (_) => SummaryPaymentPage(
+                  bookingId: bookingModel?.bookingId ?? 0,
+                ),
+              ),
+              (_) => true);
+        }
       },
     );
   }
@@ -183,21 +199,21 @@ class _CheckoutScreenState extends State<CheckoutScreen> {
           const TitleText(text: 'details'),
           const SizedBox(height: _KSubVerticalSpace),
           _buildDetailsRow(
-              title: 'date'.tr() + ':',
+              title: '${'date'.tr()}:',
               content:
                   DateFormatHelper.formatDate(bookingModel?.bookingDate) ?? ''),
           _buildDetailsRow(
-              title: 'time'.tr() + ':',
+              title: '${'time'.tr()}:',
               content:
                   DateFormatHelper.formatDateTime(bookingModel?.bookingDate) ??
                       ''),
           _buildDetailsRow(
-            title: 'name'.tr() + ':',
+            title: '${'name'.tr()}:',
             content:
                 (bookingModel?.members ?? []).map((e) => e.name).join(', '),
           ),
           _buildDetailsRow(
-              title: 'phone'.tr() + ':',
+              title: '${'phone'.tr()}:',
               content: (bookingModel?.members?.first.countryCode ?? '') +
                   (bookingModel?.members?.first.phone ?? '')),
         ],
@@ -277,6 +293,8 @@ class _CheckoutScreenState extends State<CheckoutScreen> {
   }
 
   Widget _buildPaymentSection(BuildContext context) {
+    final bookingModel = context.read<BookingCubit>().state.bookingModel;
+
     return Padding(
       padding: const EdgeInsets.all(_KSectionPadding),
       child: Column(
@@ -285,7 +303,10 @@ class _CheckoutScreenState extends State<CheckoutScreen> {
           const TitleText(
             text: 'payment_method',
           ),
-          WalletSection(controller: _walletController),
+          WalletSection(
+            controller: _walletController,
+            totalPrice: bookingModel?.grandTotal?.toDouble() ?? 0,
+          ),
           _buildPaymentMethods()
         ],
       ),
@@ -355,7 +376,7 @@ class _CheckoutScreenState extends State<CheckoutScreen> {
     );
   }
 
-  Padding _buildSummarySection(BuildContext context) {
+  Widget _buildSummarySection(BuildContext context) {
     final bookingModel = context.read<BookingCubit>().state.bookingModel;
     final num subTotal = bookingModel?.subtotal ?? 0;
     final num tax = bookingModel?.vatAmount ?? 0;
@@ -368,7 +389,7 @@ class _CheckoutScreenState extends State<CheckoutScreen> {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          TitleText(text: 'booking_summary'),
+          const TitleText(text: 'booking_summary'),
           const SizedBox(height: 12.0),
           _buildCoupon(),
           const SizedBox(height: 12.0),
@@ -418,6 +439,7 @@ class _CheckoutScreenState extends State<CheckoutScreen> {
 
   Widget _buildCheckoutButton(BuildContext context) {
     final bookingCubit = context.read<BookingCubit>();
+    final walletCubit = context.read<WalletBloc>();
     final bookingModel = bookingCubit.state.bookingModel;
     return Padding(
       padding: const EdgeInsets.all(24.0).copyWith(top: 10),
@@ -427,7 +449,10 @@ class _CheckoutScreenState extends State<CheckoutScreen> {
           final cubit = context.read<PaymentCubit>();
 
           await cubit.confirmOrder(
-              _selectedPayment?.id, bookingModel?.bookingId);
+            _selectedPayment?.id ?? 1,
+            bookingModel?.bookingId,
+            fromWallet: walletCubit.state.useWallet,
+          );
         },
         label: 'lbl_book_now',
       ),
@@ -495,52 +520,73 @@ class _CouponWidgetState extends State<CouponWidget> {
 class WalletSection extends StatefulWidget {
   const WalletSection({
     super.key,
+    required this.totalPrice,
     required this.controller,
   });
   final TextEditingController controller;
+  final double totalPrice;
+
   @override
   State<WalletSection> createState() => _WalletSectionState();
 }
 
 class _WalletSectionState extends State<WalletSection> {
   late final FocusNode _focusNode;
-  bool _useWallet = false;
 
   @override
   void initState() {
     super.initState();
+    widget.controller.text = widget.totalPrice.toString();
+    final cubit = context.read<WalletBloc>();
+    cubit.getWalletBalance();
     _focusNode = FocusNode();
   }
 
   @override
   Widget build(BuildContext context) {
-    return Column(
-      children: [
-        Row(
+    final walletCubit = context.read<WalletBloc>();
+    bool useWallet = walletCubit.state.useWallet;
+    return BlocBuilder<WalletBloc, WalletState>(
+      builder: (context, state) {
+        return Column(
           children: [
-            SubtitleText(text: 'use_wallet'.tr()),
-            const Spacer(),
-            CustomSwitch(
-              onChange: (value) {
-                setState(() {
-                  _useWallet = value;
-                });
-              },
-              value: _useWallet,
+            Row(
+              children: [
+                SubtitleText(text: 'use_wallet'.tr()),
+                SizedBox(width: 4.w),
+                SubtitleText(
+                    text: 'lbl_kwd'.tr(args: [
+                  (walletCubit.state.walletBalance?.balance ?? 0).toString()
+                ])),
+                const Spacer(),
+                CustomSwitch(
+                  onChange: (value) {
+                    if ((walletCubit.state.walletBalance?.balance ?? 0) <
+                        widget.totalPrice)
+                      return showSnackBar(context,
+                          message: 'msg_wallet_balance'.tr());
+                    setState(() {
+                      walletCubit.onChooseWallet(value);
+                    });
+                  },
+                  value: useWallet,
+                ),
+              ],
             ),
+            if (useWallet) const SizedBox(height: 4),
+            if (useWallet)
+              DefaultTextFormField(
+                currentFocusNode: _focusNode,
+                readOnly: true,
+                currentController: widget.controller,
+                hint: 'apply_wallet_amount',
+                keyboardType: TextInputType.number,
+                inputFormatters: [FilteringTextInputFormatter.digitsOnly],
+              ),
+            if (useWallet) const SizedBox(height: 8),
           ],
-        ),
-        if (_useWallet) const SizedBox(height: 4),
-        if (_useWallet)
-          DefaultTextFormField(
-            currentFocusNode: _focusNode,
-            currentController: widget.controller,
-            hint: 'apply_wallet_amount',
-            keyboardType: TextInputType.number,
-            inputFormatters: [FilteringTextInputFormatter.digitsOnly],
-          ),
-        if (_useWallet) const SizedBox(height: 8),
-      ],
+        );
+      },
     );
   }
 }

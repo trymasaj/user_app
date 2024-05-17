@@ -255,10 +255,10 @@ class ServiceDetailsScreenState extends State<ServiceDetailsScreen> {
                       }),
                   DefaultButton(
                     label: 'continue',
-                    onPressed: () {
+                    onPressed: () async {
                       final isGuest = context.read<AuthCubit>().state.isGuest;
                       if (!isGuest)
-                        onContinuePressed(context);
+                        await onContinuePressed(context);
                       else
                         showGuestSnackBar(context);
                     },

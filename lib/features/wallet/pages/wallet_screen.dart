@@ -14,9 +14,9 @@ class WalletScreen extends StatelessWidget {
   const WalletScreen({super.key});
 
   static Widget builder(BuildContext context) {
-    return BlocProvider<WalletBloc>(
+    return BlocProvider<WalletBloc>.value(
         child: const WalletScreen(),
-        create: (context) => Injector().walletCubit
+        value: context.read<WalletBloc>()
           ..getWalletBalance()
           ..getTransactionHistory());
   }

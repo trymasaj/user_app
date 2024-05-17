@@ -16,7 +16,7 @@ import 'package:masaj/features/payment/presentaion/bloc/payment_cubit.dart';
 import 'package:masaj/features/payment/presentaion/pages/checkout_screen.dart';
 
 class MembershipCheckoutScreen extends StatefulWidget {
-  const MembershipCheckoutScreen({super.key,required this.membershipCubit});
+  const MembershipCheckoutScreen({super.key, required this.membershipCubit});
   static const String routeName = '/checkoutScreen';
   final MembershipCubit membershipCubit;
   @override
@@ -143,6 +143,9 @@ class _MembershipCheckoutScreenState extends State<MembershipCheckoutScreen> {
   }
 
   Widget _buildPaymentSection(BuildContext context) {
+    final planModel = context.read<MembershipCubit>().state.plans;
+
+    final num total = planModel?.price ?? 0;
     return Padding(
       padding: const EdgeInsets.all(_KSectionPadding),
       child: Column(
@@ -151,7 +154,10 @@ class _MembershipCheckoutScreenState extends State<MembershipCheckoutScreen> {
           const TitleText(
             text: 'payment_method',
           ),
-          WalletSection(controller: _walletController),
+          WalletSection(
+            controller: _walletController,
+            totalPrice: total.toDouble(),
+          ),
           _buildPaymentMethods()
         ],
       ),
@@ -222,9 +228,9 @@ class _MembershipCheckoutScreenState extends State<MembershipCheckoutScreen> {
   }
 
   Padding _buildSummarySection(BuildContext context) {
-    final bookingModel = context.read<MembershipCubit>().state.plans;
-    final num subTotal = bookingModel?.price ?? 0;
-    final num total = bookingModel?.price ?? 0;
+    final planModel = context.read<MembershipCubit>().state.plans;
+    final num subTotal = planModel?.price ?? 0;
+    final num total = planModel?.price ?? 0;
 
     return Padding(
       padding: const EdgeInsets.all(_KSectionPadding),

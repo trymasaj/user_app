@@ -423,6 +423,8 @@
   "lbl_next": "التالي",
   "lbl_nonmember": "غير عضو",
   "lbl_member": "عضو",
+  "msg_wallet_success": "تم شحن المحفظة بنجاح",
+  "msg_wallet_balance": "لا يوجد رصيد كافي",
   "use_wallet": "استخدم الدفع بالمحفظة",
   "lbl_notifications": "الإشعارات",
   "lbl_nourish": "تغذية",

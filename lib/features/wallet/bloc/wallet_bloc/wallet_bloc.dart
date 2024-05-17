@@ -1,13 +1,12 @@
 import 'dart:developer';
 import 'package:flutter/material.dart';
+import 'package:masaj/core/app_export.dart';
 import 'package:masaj/core/application/controllers/base_cubit.dart';
 import 'package:masaj/core/data/clients/payment_service.dart';
 import 'package:masaj/core/data/constants/api_end_point.dart';
 import 'package:masaj/core/domain/exceptions/redundant_request_exception.dart';
 import 'package:masaj/core/presentation/overlay/show_snack_bar.dart';
-import 'package:masaj/features/payment/presentaion/pages/success_payment.dart';
 import 'package:masaj/features/wallet/data/repos/wallet_repo_impl.dart';
-
 import 'package:masaj/features/wallet/models/wallet_amounts.dart';
 import 'package:masaj/features/wallet/models/wallet_model.dart';
 import 'package:masaj/features/wallet/value_objects/coupon_code.dart';
@@ -24,6 +23,10 @@ class WalletBloc extends BaseCubit<WalletState> {
 
   void onChangedCouponCode(CouponCode code) {
     emit(state.copyWith(couponCode: code));
+  }
+
+  void onChooseWallet(bool useWallet) {
+    emit(state.copyWith(useWallet: useWallet));
   }
 
   void onSelectPackageIndex(int index) {
@@ -61,16 +64,14 @@ class WalletBloc extends BaseCubit<WalletState> {
         paymentMethodId: paymentMethodId,
         onSuccess: () {
           navigatorKey.currentState!.pop();
-          showSnackBar(context,
-              message: 'wallet has been charged successfully');
+          showSnackBar(context, message: 'msg_wallet_success'.tr());
         },
         onFailure: () {
           navigatorKey.currentState!.pop();
-          showSnackBar(context,
-              message: 'wallet has been charged successfully');
+          showSnackBar(context, message: 'msg_something_went_wrong'.tr());
         },
       ));
-      emit(state.copyWith(status: WalletStateStatus.loaded));
+      emit(state.copyWith(status: WalletStateStatus.charged));
     } on RedundantRequestException catch (e) {
       log(e.toString());
     } catch (e) {
