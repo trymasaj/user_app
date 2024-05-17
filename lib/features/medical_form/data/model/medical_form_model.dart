@@ -64,7 +64,7 @@ class MedicalForm {
     return {
       'id': id,
       'customerId': customerId,
-      'birthDate': birthDate?.toIso8601String(),
+      'birthDate': birthDate?.toUtc().toIso8601String(),
       'allergiesStatement': allergiesStatement,
       'medicationsStatement': medicationsStatement,
       'treatmentGoals': treatmentGoals,

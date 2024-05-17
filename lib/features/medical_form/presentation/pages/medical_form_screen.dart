@@ -160,6 +160,8 @@ class _MedicalFormScreenState extends State<MedicalFormScreen> {
                 }
               }
               if (state.isLoaded) {
+                showSnackBar(context, message: 'msg_medical_form'.tr());
+
                 NavigatorHelper.of(context).pop();
               }
               if (state.isError) {
