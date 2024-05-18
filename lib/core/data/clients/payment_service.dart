@@ -23,6 +23,9 @@ class PaymentServiceImpl implements PaymentService {
       throw Exception('paymentMethod is null');
     final url = await getPaymentSessionUrl(paymentParm.paymentMethodId!,
         params: paymentParm.params, urlPath: paymentParm.urlPath);
+    if (url == '') {
+      return paymentParm.onSuccess();
+    }
     final isPaymentSuccess =
         await _goToPaymentPage(url, paymentParm.customAppBar);
     if (isPaymentSuccess == null) return;
@@ -48,7 +51,11 @@ class PaymentServiceImpl implements PaymentService {
         final resultStatus = result['result'];
         if (resultStatus == RequestResult.Failed.name)
           throw RequestException(message: result['msg']);
-        return result['threeDSecureUrl'];
+        if (result['isThreeDSecure']) {
+          return result['threeDSecureUrl'];
+        } else {
+          return '';
+        }
       },
     );
   }
@@ -57,8 +64,9 @@ class PaymentServiceImpl implements PaymentService {
     String url,
     Widget? customAppBar,
   ) {
-    return navigatorKey.currentState!.push<bool?>(MaterialPageRoute(
-        builder: (_) => createPaymentPage(url, customAppBar)));
+    return navigatorKey.currentState!.pushReplacement<bool?, bool?>(
+        MaterialPageRoute(
+            builder: (_) => createPaymentPage(url, customAppBar)));
   }
 
   static final Map<String, _PaymentPage> _cache = {};

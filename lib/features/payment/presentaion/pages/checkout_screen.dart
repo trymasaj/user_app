@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:masaj/core/app_export.dart';
 import 'package:masaj/core/data/di/injector.dart';
@@ -19,9 +18,7 @@ import 'package:masaj/core/presentation/widgets/stateless/warning_container.dart
 import 'package:masaj/features/book_service/presentation/blocs/book_cubit/book_service_cubit.dart';
 import 'package:masaj/features/payment/data/model/payment_method_model.dart';
 import 'package:masaj/features/payment/presentaion/bloc/payment_cubit.dart';
-import 'package:masaj/features/payment/presentaion/pages/success_payment.dart';
 import 'package:masaj/features/wallet/bloc/wallet_bloc/wallet_bloc.dart';
-import 'package:masaj/main.dart';
 
 class CheckoutScreen extends StatefulWidget {
   const CheckoutScreen({super.key});
@@ -46,6 +43,7 @@ class _CheckoutScreenState extends State<CheckoutScreen> {
     _couponEditingController = TextEditingController();
     _walletController = TextEditingController();
     _couponFocusNode = FocusNode();
+
     getBooking();
     super.initState();
   }
@@ -65,17 +63,15 @@ class _CheckoutScreenState extends State<CheckoutScreen> {
 
   @override
   Widget build(BuildContext context) {
-    return Builder(builder: (context) {
-      return BlocProvider(
-        create: (context) => Injector().paymentCubit..getPaymentMethods(),
-        child: Scaffold(
-          appBar: CustomAppBar(
-            title: 'checkout_title'.tr(),
-          ),
-          body: _buildBody(),
+    return BlocProvider(
+      create: (context) => Injector().paymentCubit..getPaymentMethods(),
+      child: Scaffold(
+        appBar: CustomAppBar(
+          title: 'checkout_title'.tr(),
         ),
-      );
-    });
+        body: _buildBody(),
+      ),
+    );
   }
 
   Widget _buildBody() {
@@ -129,20 +125,9 @@ class _CheckoutScreenState extends State<CheckoutScreen> {
         );
       },
       listener: (BuildContext context, PaymentState state) {
+        if (state.isGetMethods) _selectedPayment = state.methods?[0];
+
         if (state.isError) showSnackBar(context, message: state.errorMessage);
-
-        if (state.isWalletPayment) {
-          final bookingCubit = context.read<BookingCubit>();
-
-          final bookingModel = bookingCubit.state.bookingModel;
-          navigatorKey.currentState!.pushAndRemoveUntil(
-              MaterialPageRoute(
-                builder: (_) => SummaryPaymentPage(
-                  bookingId: bookingModel?.bookingId ?? 0,
-                ),
-              ),
-              (_) => true);
-        }
       },
     );
   }
@@ -324,6 +309,7 @@ class _CheckoutScreenState extends State<CheckoutScreen> {
         if ((methods == [] || methods.isEmpty)) {
           return const EmptyPageMessage();
         }
+
         return ListView.builder(
             shrinkWrap: true,
             itemCount: methods.length,
@@ -548,42 +534,26 @@ class _WalletSectionState extends State<WalletSection> {
     bool useWallet = walletCubit.state.useWallet;
     return BlocBuilder<WalletBloc, WalletState>(
       builder: (context, state) {
-        return Column(
+        return Row(
           children: [
-            Row(
-              children: [
-                SubtitleText(text: 'use_wallet'.tr()),
-                SizedBox(width: 4.w),
-                SubtitleText(
-                    text: 'lbl_kwd'.tr(args: [
-                  (walletCubit.state.walletBalance?.balance ?? 0).toString()
-                ])),
-                const Spacer(),
-                CustomSwitch(
-                  onChange: (value) {
-                    if ((walletCubit.state.walletBalance?.balance ?? 0) <
-                        widget.totalPrice)
-                      return showSnackBar(context,
-                          message: 'msg_wallet_balance'.tr());
-                    setState(() {
-                      walletCubit.onChooseWallet(value);
-                    });
-                  },
-                  value: useWallet,
-                ),
-              ],
+            SubtitleText(text: 'use_wallet'.tr()),
+            SizedBox(width: 4.w),
+            SubtitleText(
+                text: 'lbl_kwd'.tr(args: [
+              (walletCubit.state.walletBalance?.balance ?? 0).toString()
+            ])),
+            const Spacer(),
+            CustomSwitch(
+              onChange: (value) {
+                if ((walletCubit.state.walletBalance?.balance ?? 0) == 0)
+                  return showSnackBar(context,
+                      message: 'msg_wallet_balance'.tr());
+                setState(() {
+                  walletCubit.onChooseWallet(value);
+                });
+              },
+              value: useWallet,
             ),
-            if (useWallet) const SizedBox(height: 4),
-            if (useWallet)
-              DefaultTextFormField(
-                currentFocusNode: _focusNode,
-                readOnly: true,
-                currentController: widget.controller,
-                hint: 'apply_wallet_amount',
-                keyboardType: TextInputType.number,
-                inputFormatters: [FilteringTextInputFormatter.digitsOnly],
-              ),
-            if (useWallet) const SizedBox(height: 8),
           ],
         );
       },

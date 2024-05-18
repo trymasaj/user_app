@@ -39,81 +39,78 @@ class _SummaryPaymentPageState extends State<SummaryPaymentPage> {
 
   @override
   Widget build(BuildContext context) {
-    return BlocProvider(
-      create: (context) => Injector().walletCubit,
-      child: BlocBuilder<BookingCubit, BookingState>(
-        builder: (context, state) {
-          final bookingModel = context.read<BookingCubit>().state.bookingModel;
-          final isSucceeded =
-              bookingModel?.paymentStatus == PaymentStatus.Captured ||
-                  bookingModel?.paymentStatus == PaymentStatus.Pending;
-          if (state.isLoading) return const CustomLoading();
+    return BlocBuilder<BookingCubit, BookingState>(
+      builder: (context, state) {
+        final bookingModel = context.read<BookingCubit>().state.bookingModel;
+        final isSucceeded =
+            bookingModel?.paymentStatus == PaymentStatus.Captured ||
+                bookingModel?.paymentStatus == PaymentStatus.Pending;
+        if (state.isLoading) return const CustomLoading();
 
-          return CustomAppPage(
-            child: Scaffold(
-              bottomSheet: Container(
-                color: Colors.white,
-                padding: const EdgeInsets.all(16),
-                height: 100,
-                child: DefaultButton(
-                  onPressed: () {
-                    NavigatorHelper.of(context).pushNamedAndRemoveUntil(
-                        HomePage.routeName, (route) => false);
-                  },
-                  label: 'lbl_back_to_home',
-                  isExpanded: true,
-                ),
-              ),
-              appBar: CustomAppBar(
-                title: 'lbl_payment_details',
-                centerTitle: true,
-                showBackButton: false,
-                actions: [
-                  IconButton(
-                    onPressed: () {},
-                    icon: SvgPicture.asset(
-                      'assets/images/share.svg',
-                      height: 25,
-                      color: AppColors.ACCENT_COLOR,
-                    ),
-                  )
-                ],
-              ),
-              body: SingleChildScrollView(
-                child: Padding(
-                  padding: const EdgeInsets.all(24.0),
-                  child: Column(children: [
-                    const SizedBox(height: 20),
-                    SvgPicture.asset(isSucceeded
-                        ? 'assets/images/success_payment.svg'
-                        : 'assets/images/failed_payment.svg'),
-                    SubtitleText(
-                        text: isSucceeded
-                            ? 'msg_payment_successful'
-                            : 'msg_payment_failed',
-                        subtractedSize: -1,
-                        isBold: true),
-                    const SubtitleText(text: 'lbl_wallet_balance'),
-                    BlocSelector<WalletBloc, WalletState, WalletModel?>(
-                      selector: (state) {
-                        return state.walletBalance;
-                      },
-                      builder: (context, state) {
-                        return SubtitleText(
-                            text: 'lbl_kwd'
-                                .tr(args: [(state?.balance ?? 0).toString()]));
-                      },
-                    ),
-                    const SizedBox(height: 20),
-                    _buildSummary(context),
-                    const SizedBox(height: 100),
-                  ]),
-                ),
+        return CustomAppPage(
+          child: Scaffold(
+            bottomSheet: Container(
+              color: Colors.white,
+              padding: const EdgeInsets.all(16),
+              height: 100,
+              child: DefaultButton(
+                onPressed: () {
+                  NavigatorHelper.of(context).pushNamedAndRemoveUntil(
+                      HomePage.routeName, (route) => false);
+                },
+                label: 'lbl_back_to_home',
+                isExpanded: true,
               ),
             ),
-          );
-        },
-      ),
+            appBar: CustomAppBar(
+              title: 'lbl_payment_details',
+              centerTitle: true,
+              showBackButton: false,
+              actions: [
+                IconButton(
+                  onPressed: () {},
+                  icon: SvgPicture.asset(
+                    'assets/images/share.svg',
+                    height: 25,
+                    color: AppColors.ACCENT_COLOR,
+                  ),
+                )
+              ],
+            ),
+            body: SingleChildScrollView(
+              child: Padding(
+                padding: const EdgeInsets.all(24.0),
+                child: Column(children: [
+                  const SizedBox(height: 20),
+                  SvgPicture.asset(isSucceeded
+                      ? 'assets/images/success_payment.svg'
+                      : 'assets/images/failed_payment.svg'),
+                  SubtitleText(
+                      text: isSucceeded
+                          ? 'msg_payment_successful'
+                          : 'msg_payment_failed',
+                      subtractedSize: -1,
+                      isBold: true),
+                  const SubtitleText(text: 'lbl_wallet_balance'),
+                  BlocSelector<WalletBloc, WalletState, WalletModel?>(
+                    selector: (state) {
+                      return state.walletBalance;
+                    },
+                    builder: (context, state) {
+                      return SubtitleText(
+                          text: 'lbl_kwd'
+                              .tr(args: [(state?.balance ?? 0).toString()]));
+                    },
+                  ),
+                  const SizedBox(height: 20),
+                  _buildSummary(context),
+                  const SizedBox(height: 100),
+                ]),
+              ),
+            ),
+          ),
+        );
+      },
     );
   }
 
@@ -136,24 +133,28 @@ class _SummaryPaymentPageState extends State<SummaryPaymentPage> {
               title: 'lbl_coupon_discount'),
           _buildSummaryPriceItem(
               amount: bookingModel?.grandTotal, title: 'lbl_total_amount2'),
-          _buildSummaryItem(
-              amount: bookingModel?.payment?.paymentMethod,
-              title: 'payment_method'),
-          _buildSummaryItem(
-              amount: bookingModel?.payment?.paymentId, title: 'payment_id'),
-          _buildSummaryItem(
-              amount: bookingModel?.payment?.referenceId,
-              title: 'reference_id'),
-          if (bookingModel?.payment?.paymentDate == null)
+          if (bookingModel?.payment != null)
+            _buildSummaryItem(
+                amount: bookingModel?.payment?.paymentMethod,
+                title: 'payment_method'),
+          if (bookingModel?.payment != null)
+            _buildSummaryItem(
+                amount: bookingModel?.payment?.paymentId, title: 'payment_id'),
+          if (bookingModel?.payment != null)
+            _buildSummaryItem(
+                amount: bookingModel?.payment?.referenceId,
+                title: 'reference_id'),
+          if (bookingModel?.payment != null)
             _buildSummaryItem(
                 amount: DateTime.parse(bookingModel!.payment!.paymentDate!)
                     .formatDate(),
                 title: 'payment_date'),
-          _buildSummaryItem(
-              amount: bookingModel?.payment?.paymentStatus?.name,
-              isStatus: bookingModel?.payment?.paymentStatus ==
-                  PaymentStatus.Captured,
-              title: 'payment_status')
+          if (bookingModel?.payment != null)
+            _buildSummaryItem(
+                amount: bookingModel?.payment?.paymentStatus?.name,
+                isStatus: bookingModel?.payment?.paymentStatus ==
+                    PaymentStatus.Captured,
+                title: 'payment_status')
         ]),
       ), //Education2016
     );

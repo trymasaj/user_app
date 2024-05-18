@@ -25,7 +25,8 @@ class PaymentCubit extends BaseCubit<PaymentState> {
     emit(state.copyWith(status: PaymentStateStatus.loading));
     try {
       final methods = await _paymentRepository.getPaymentMethods();
-      emit(state.copyWith(status: PaymentStateStatus.loaded, methods: methods));
+      emit(state.copyWith(
+          status: PaymentStateStatus.getMethods, methods: methods));
     } on RedundantRequestException catch (e) {
       log(e.toString());
     } catch (e) {
@@ -39,34 +40,32 @@ class PaymentCubit extends BaseCubit<PaymentState> {
     if (paymentMethodId == null || bookingId == null) return;
     emit(state.copyWith(status: PaymentStateStatus.loading));
     try {
-      if (fromWallet) {
-        _paymentRepository.purchasePayment(
-            paymentId: paymentMethodId, fromWallet: fromWallet);
-        emit(state.copyWith(status: PaymentStateStatus.walletPayment));
-      } else {
-        await _paymentService.buy(PaymentParam(
-          paymentMethodId: paymentMethodId,
-          onSuccess: () {
-            navigatorKey.currentState!.pushAndRemoveUntil(
-                MaterialPageRoute(
-                  builder: (_) => SummaryPaymentPage(
-                    bookingId: bookingId,
-                  ),
+      await _paymentService.buy(PaymentParam(
+        paymentMethodId: paymentMethodId,
+        params: {
+          'paymentMethod': paymentMethodId,
+          'walletPayment': fromWallet,
+        },
+        onSuccess: () {
+          navigatorKey.currentState!.pushAndRemoveUntil(
+              MaterialPageRoute(
+                builder: (_) => SummaryPaymentPage(
+                  bookingId: bookingId,
                 ),
-                (_) => true);
-          },
-          onFailure: () {
-            navigatorKey.currentState!.pushAndRemoveUntil(
-                MaterialPageRoute(
-                  builder: (_) => SummaryPaymentPage(
-                    bookingId: bookingId,
-                  ),
+              ),
+              (_) => true);
+        },
+        onFailure: () {
+          navigatorKey.currentState!.pushAndRemoveUntil(
+              MaterialPageRoute(
+                builder: (_) => SummaryPaymentPage(
+                  bookingId: bookingId,
                 ),
-                (_) => true);
-          },
-        ));
-        emit(state.copyWith(status: PaymentStateStatus.loaded));
-      }
+              ),
+              (_) => true);
+        },
+      ));
+      emit(state.copyWith(status: PaymentStateStatus.loaded));
     } on RedundantRequestException catch (e) {
       log(e.toString());
     } catch (e) {
