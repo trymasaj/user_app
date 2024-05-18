@@ -51,11 +51,12 @@ class MyGiftsPage extends StatelessWidget {
       onRefresh: cubit.refresh,
       child: ListView.builder(
           itemCount: gifts?.length,
-          itemBuilder: (context, index) => _buildMyGiftItem(gifts![index])),
+          itemBuilder: (context, index) =>
+              _buildMyGiftItem(context, gifts![index])),
     );
   }
 
-  Widget _buildMyGiftItem(PurchasedGiftCard gift) {
+  Widget _buildMyGiftItem(BuildContext context, PurchasedGiftCard gift) {
     return Card(
       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(20.0)),
       child: Padding(
@@ -97,7 +98,14 @@ class MyGiftsPage extends StatelessWidget {
             ],
           ),
           const Spacer(),
-          const Icon(Icons.copy)
+          IconButton(
+            icon: const Icon(Icons.copy),
+            onPressed: () async {
+              await Clipboard.setData(
+                  ClipboardData(text: gift.redemptionCode ?? ''));
+              showSnackBar(context, message: 'msg_copy_code'.tr());
+            },
+          )
         ]),
       ),
     );

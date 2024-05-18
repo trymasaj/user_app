@@ -37,7 +37,7 @@ class _CheckoutScreenState extends State<CheckoutScreen> {
   late final TextEditingController _couponEditingController;
   late final TextEditingController _walletController;
   late final FocusNode _couponFocusNode;
-  bool _useWallet = false;
+
   @override
   void initState() {
     _couponEditingController = TextEditingController();
@@ -363,36 +363,44 @@ class _CheckoutScreenState extends State<CheckoutScreen> {
   }
 
   Widget _buildSummarySection(BuildContext context) {
-    final bookingModel = context.read<BookingCubit>().state.bookingModel;
-    final num subTotal = bookingModel?.subtotal ?? 0;
-    final num tax = bookingModel?.vatAmount ?? 0;
-    final num discount = bookingModel?.discountedAmount ?? 0;
-    final double wallet = double.tryParse(_walletController.text) ?? 0.0;
-    final num total = bookingModel?.grandTotal ?? 0;
+    return BlocBuilder<WalletBloc, WalletState>(
+      builder: (context, state) {
+        final bookingModel = context.read<BookingCubit>().state.bookingModel;
+        final useWallet = context.read<WalletBloc>().state.useWallet;
+        final num subTotal = bookingModel?.subtotal ?? 0;
+        final num tax = bookingModel?.vatAmount ?? 0;
+        final num discount = bookingModel?.discountedAmount ?? 0;
 
-    return Padding(
-      padding: const EdgeInsets.all(_KSectionPadding),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          const TitleText(text: 'booking_summary'),
-          const SizedBox(height: 12.0),
-          _buildCoupon(),
-          const SizedBox(height: 12.0),
-          _buildSummaryItem(title: 'lbl_sub_total2', amount: subTotal),
-          _buildSummaryItem(title: 'lbl_tax', amount: tax),
-          _buildSummaryItem(
-              isDiscount: true, title: 'lbl_discount', amount: discount),
-          _buildSummaryItem(title: 'lbl_wallet', amount: wallet),
-          const SizedBox(height: 12.0),
-          const Divider(
-            thickness: 3,
-            color: AppColors.ExtraLight,
+        final double wallet =
+            useWallet ? double.tryParse(_walletController.text) ?? 0.0 : 0.0;
+        final num totalWithDiscounts =
+            (bookingModel?.grandTotal ?? 0) - wallet - discount;
+        final num total = totalWithDiscounts < 0 ? 0 : totalWithDiscounts;
+        return Padding(
+          padding: const EdgeInsets.all(_KSectionPadding),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              const TitleText(text: 'booking_summary'),
+              const SizedBox(height: 12.0),
+              _buildCoupon(),
+              const SizedBox(height: 12.0),
+              _buildSummaryItem(title: 'lbl_sub_total2', amount: subTotal),
+              _buildSummaryItem(title: 'lbl_tax', amount: tax),
+              _buildSummaryItem(
+                  isDiscount: true, title: 'lbl_discount', amount: discount),
+              _buildSummaryItem(title: 'lbl_wallet', amount: wallet),
+              const SizedBox(height: 12.0),
+              const Divider(
+                thickness: 3,
+                color: AppColors.ExtraLight,
+              ),
+              const SizedBox(height: 12.0),
+              _buildSummaryItem(title: 'total', amount: total),
+            ],
           ),
-          const SizedBox(height: 12.0),
-          _buildSummaryItem(title: 'total', amount: total),
-        ],
-      ),
+        );
+      },
     );
   }
 
@@ -415,7 +423,7 @@ class _CheckoutScreenState extends State<CheckoutScreen> {
           ),
           const Spacer(),
           SubtitleText(
-            text: '$amount KWD',
+            text: '${amount.toStringAsFixed(2)} KWD',
             isBold: true,
           )
         ],
@@ -480,21 +488,24 @@ class _CouponWidgetState extends State<CouponWidget> {
               ),
             ),
             hint: 'lbl_coupon_code',
-            suffixIcon: DefaultButton(
-              borderRadius: BorderRadius.circular(8),
-              onPressed: () async {
-                final cubit = context.read<BookingCubit>();
-                if (formKey.currentState!.validate()) {
-                  if (state.isCouponApplied) {
-                    await cubit.addBookingVoucher(
-                        widget._couponEditingController.text);
-                  } else {
-                    await cubit.deleteBookingVoucher(
-                        widget._couponEditingController.text);
+            suffixIcon: SizedBox(
+              width: 80,
+              child: DefaultButton(
+                borderRadius: BorderRadius.circular(8),
+                onPressed: () async {
+                  final cubit = context.read<BookingCubit>();
+                  if (formKey.currentState!.validate()) {
+                    if (state.isCouponApplied) {
+                      await cubit.deleteBookingVoucher(
+                          widget._couponEditingController.text);
+                    } else {
+                      await cubit.addBookingVoucher(
+                          widget._couponEditingController.text);
+                    }
                   }
-                }
-              },
-              label: state.isCouponApplied ? 'cancel' : 'lbl_apply',
+                },
+                label: state.isCouponApplied ? 'cancel' : 'lbl_apply',
+              ),
             ),
           );
         },
@@ -517,15 +528,12 @@ class WalletSection extends StatefulWidget {
 }
 
 class _WalletSectionState extends State<WalletSection> {
-  late final FocusNode _focusNode;
-
   @override
   void initState() {
     super.initState();
     widget.controller.text = widget.totalPrice.toString();
     final cubit = context.read<WalletBloc>();
     cubit.getWalletBalance();
-    _focusNode = FocusNode();
   }
 
   @override

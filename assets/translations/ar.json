@@ -227,6 +227,7 @@
   "lbl_tuesday": "الثلاثاء",
   "lbl_completed": "مكتمل",
   "lbl_copy_code": "نسخ الرمز",
+  "msg_copy_code": "تم نسخ الكود",
   "lbl_gift_card": "بطاقة هدية",
   "lbl_gift_card_off": "هدية بخصم {}",
   "lbl_your_gift_card": "بطاقة هداياك",

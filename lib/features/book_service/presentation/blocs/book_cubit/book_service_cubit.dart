@@ -25,7 +25,7 @@ class BookingCubit extends BaseCubit<BookingState> {
       await _bookingRepository.getBookingLatestId();
       emit(state.copyWith(status: BookServiceStatus.loaded));
     } on RedundantRequestException catch (e) {
-      log(e.toString());//Wed, Sep 4, 2024, 04:00 PM
+      log(e.toString()); //Wed, Sep 4, 2024, 04:00 PM
     } catch (e) {
       emit(state.copyWith(
           status: BookServiceStatus.error, errorMessage: e.toString()));
@@ -101,7 +101,6 @@ class BookingCubit extends BaseCubit<BookingState> {
   Future<void> addBookingVoucher(String? voucherId) async {
     if (voucherId == null) return;
 
-    emit(state.copyWith(status: BookServiceStatus.loading));
     try {
       final bookingModel =
           await _bookingRepository.addBookingVoucher(voucherId);
@@ -118,7 +117,6 @@ class BookingCubit extends BaseCubit<BookingState> {
   Future<void> deleteBookingVoucher(String? voucherId) async {
     if (voucherId == null) return;
 
-    emit(state.copyWith(status: BookServiceStatus.loading));
     try {
       final bookingModel =
           await _bookingRepository.deleteBookingVoucher(voucherId);
