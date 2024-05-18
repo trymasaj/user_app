@@ -52,10 +52,10 @@ class _GiftsPaymentMethodBottomSheetState
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                const TitleText(text: 'payment method'),
+                const TitleText(text: 'lbl_payment_method'),
                 const SizedBox(height: 18.0),
                 Expanded(
-                  child: BlocBuilder<PaymentCubit, PaymentState>(
+                  child: BlocConsumer<PaymentCubit, PaymentState>(
                     builder: (context, state) {
                       final paymentMethods = state.methods ?? [];
                       if (state.isLoading) return const CustomLoading();
@@ -67,6 +67,10 @@ class _GiftsPaymentMethodBottomSheetState
                           return _buildPaymentMethodItem(paymentMethods[index]);
                         },
                       );
+                    },
+                    listener: (BuildContext context, PaymentState state) {
+                      if (state.isGetMethods)
+                        _selectedPayment = state.methods?[0];
                     },
                   ),
                 ),
@@ -94,7 +98,7 @@ class _GiftsPaymentMethodBottomSheetState
                                 paymentMethodId: _selectedPayment?.id,
                                 giftId: widget.giftId);
                           },
-                          label: 'purchase'),
+                          label: 'lbl_purchase'),
                     )
                   ],
                 )
