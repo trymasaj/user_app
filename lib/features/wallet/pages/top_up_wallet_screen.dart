@@ -4,6 +4,7 @@ import 'package:masaj/core/app_export.dart';
 import 'package:masaj/core/data/di/injector.dart';
 import 'package:masaj/core/presentation/overlay/show_snack_bar.dart';
 import 'package:masaj/core/presentation/widgets/stateless/custom_app_bar.dart';
+import 'package:masaj/core/presentation/widgets/stateless/text_fields/default_text_form_field.dart';
 import 'package:masaj/features/gifts/presentaion/bloc/gifts_cubit.dart';
 import 'package:masaj/features/wallet/bloc/wallet_bloc/wallet_bloc.dart';
 import 'package:masaj/features/wallet/models/wallet_amounts.dart';
@@ -76,29 +77,27 @@ class _TopUpWalletScreenState extends State<TopUpWalletScreen> {
         builder: (context, state) {
           return Form(
             key: _formKey,
-            child: TextFormField(
+            child: DefaultTextFormField(
               validator: (value) {
                 if (value == null || value.isEmpty)
-                  return 'add valid gift code';
+                  return 'lbl_gift_voucher_validation'.tr();
               },
-              controller: _giftController,
+              currentController: _giftController,
               decoration: InputDecoration(
-                  hintText: 'msg_enter_redeem_code'.tr(),
-                  hintStyle: CustomTextStyles.bodyMediumBluegray40001_1,
                   suffixIcon: Padding(
                     padding:
                         EdgeInsets.symmetric(vertical: 3.h, horizontal: 12.w),
                     child: CustomElevatedButton(
                         height: 36.h,
                         width: 64.w,
-                        onPressed: () {
+                        onPressed: () async {
                           if (_formKey.currentState!.validate()) {
-                            context
+                            await context
                                 .read<GiftsCubit>()
                                 .redeemGiftCard(_giftController.text);
                           } else {
                             showSnackBar(context,
-                                message: 'add valid gift code');
+                                message: 'lbl_gift_voucher_validation'.tr());
                           }
                         },
                         text: 'lbl_apply'.tr(),
@@ -119,6 +118,8 @@ class _TopUpWalletScreenState extends State<TopUpWalletScreen> {
                   border: OutlineInputBorder(
                       borderRadius: BorderRadiusStyle.roundedBorder8,
                       borderSide: BorderSide.none)),
+              currentFocusNode: null,
+              hint: 'msg_enter_redeem_code'.tr(),
             ),
           );
         },

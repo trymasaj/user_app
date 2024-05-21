@@ -70,7 +70,7 @@ class _ChooseLanguagePageState extends State<ChooseLanguagePage> {
                   );
                   return;
                 }
-                if (state.isLanguageSetFromSetting) {
+                if (widget.fromSetting) {
                   await Navigator.pushAndRemoveUntil(
                       context,
                       MaterialPageRoute(builder: (_) => const HomePage()),
