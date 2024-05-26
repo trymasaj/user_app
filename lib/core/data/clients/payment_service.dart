@@ -85,20 +85,27 @@ class PaymentServiceImpl implements PaymentService {
   }
 }
 
-class _PaymentPage extends StatelessWidget {
+class _PaymentPage extends StatefulWidget {
   const _PaymentPage({
     required this.url,
     this.customAppBar,
   });
-
   final String url;
   final Widget? customAppBar;
+
+  @override
+  State<_PaymentPage> createState() => _PaymentPageState();
+}
+
+class _PaymentPageState extends State<_PaymentPage> {
+  bool isLoading = true;
+
   @override
   Widget build(BuildContext context) {
     return SafeArea(
       bottom: false,
       child: Scaffold(
-        appBar: CustomAppBar(title: 'payment'),
+        appBar: const CustomAppBar(title: 'payment'),
         body: _buildBody(context),
       ),
     );
@@ -107,15 +114,30 @@ class _PaymentPage extends StatelessWidget {
   Widget _buildBody(BuildContext context) {
     return CustomAppPage(
       child: Column(children: [
-        if (customAppBar != null) ...[
+        if (widget.customAppBar != null) ...[
           const SizedBox(height: 48.0),
-          customAppBar!,
+          widget.customAppBar!,
           const SizedBox(height: 12.0),
         ],
         Expanded(
-          child: InAppWebView(
-            initialUrlRequest: URLRequest(url: Uri.parse(url)),
-            onUpdateVisitedHistory: (_, url, __) => _handleUrl(context, url),
+          child: Stack(
+            children: [
+              InAppWebView(
+                initialUrlRequest: URLRequest(url: Uri.parse(widget.url)),
+                onUpdateVisitedHistory: (_, url, __) =>
+                    _handleUrl(context, url),
+                onLoadStop: (finish, _) {
+                  setState(() {
+                    isLoading = false;
+                  });
+                },
+              ),
+              isLoading
+                  ? const Center(
+                      child: CircularProgressIndicator(),
+                    )
+                  : const Stack(),
+            ],
           ),
         )
       ]),

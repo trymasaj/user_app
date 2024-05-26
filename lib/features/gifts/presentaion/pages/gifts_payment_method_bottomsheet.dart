@@ -3,6 +3,7 @@ import 'package:masaj/core/app_export.dart';
 import 'package:masaj/core/data/di/injector.dart';
 import 'package:masaj/core/presentation/colors/app_colors.dart';
 import 'package:masaj/core/presentation/navigation/navigator_helper.dart';
+import 'package:masaj/core/presentation/overlay/show_snack_bar.dart';
 import 'package:masaj/core/presentation/widgets/stateless/custom_loading.dart';
 import 'package:masaj/core/presentation/widgets/stateless/default_button.dart';
 import 'package:masaj/core/presentation/widgets/stateless/empty_page_message.dart';
@@ -42,7 +43,11 @@ class _GiftsPaymentMethodBottomSheetState
   @override
   Widget build(BuildContext context) {
     return BlocConsumer<GiftsCubit, GiftsState>(
-      listener: (BuildContext context, GiftsState state) {},
+      listener: (BuildContext context, GiftsState state) {
+        if (state.isError) {
+          return showSnackBar(context, message: state.errorMessage);
+        }
+      },
       builder: (context, state) {
         return Padding(
           padding: const EdgeInsets.symmetric(horizontal: 22.0, vertical: 40.0),
@@ -69,6 +74,10 @@ class _GiftsPaymentMethodBottomSheetState
                       );
                     },
                     listener: (BuildContext context, PaymentState state) {
+                      if (state.isError) {
+                        return showSnackBar(context,
+                            message: state.errorMessage);
+                      }
                       if (state.isGetMethods)
                         _selectedPayment = state.methods?[0];
                     },

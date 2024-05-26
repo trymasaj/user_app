@@ -135,7 +135,7 @@ class _SummaryPaymentPageState extends State<SummaryPaymentPage> {
               amount: bookingModel?.grandTotal, title: 'lbl_total_amount2'),
           if (bookingModel?.payment != null)
             _buildSummaryItem(
-                amount: bookingModel?.payment?.paymentMethod,
+                amount: bookingModel?.payment?.paymentMethod?.name,
                 title: 'payment_method'),
           if (bookingModel?.payment != null)
             _buildSummaryItem(

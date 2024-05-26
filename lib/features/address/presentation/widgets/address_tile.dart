@@ -117,13 +117,14 @@ class AddressTile extends StatelessWidget {
                           ],
                         ),
                         SizedBox(height: 10.h),
-                        Expanded(
-                          child: CustomText(
-                            text: address.formattedAddress,
-                            fontSize: 14.fSize,
-                            color: const Color(0xff5D5F69),
-                          ),
-                        )
+                        if (address.addressTitle != '')
+                          Expanded(
+                            child: CustomText(
+                              text: address.formattedAddress,
+                              fontSize: 14.fSize,
+                              color: const Color(0xff5D5F69),
+                            ),
+                          )
                       ],
                     ),
                   )
