@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_svg/flutter_svg.dart' ;
+import 'package:flutter_svg/flutter_svg.dart';
 import 'package:masaj/core/app_export.dart';
 import 'package:masaj/core/presentation/navigation/navigator_helper.dart';
 import 'package:masaj/core/presentation/overlay/show_snack_bar.dart';
@@ -114,11 +114,11 @@ class _SettingsTabPageState extends State<SettingsTabPage> {
                     color: theme.colorScheme.onPrimaryContainer.withOpacity(1),
                   ),
                 ),
-                TextButton.icon(
-                  onPressed: () {},
-                  icon: SvgPicture.asset(ImageConstant.imgFluentChat24Regular),
-                  label: Text('lbl_support'.tr()),
-                ),
+                // TextButton.icon(
+                //   onPressed: () {},
+                //   icon: SvgPicture.asset(ImageConstant.imgFluentChat24Regular),
+                //   label: Text('lbl_support'.tr()),
+                // ),
               ],
             ),
           ),
@@ -291,16 +291,16 @@ class _SettingsTabPageState extends State<SettingsTabPage> {
                     imagePath: ImageConstant.imgGroup1000003170,
                     onTap: _goToGiftCardsPage,
                   ),
-                  SettingTile(
-                    text: 'lbl_refer_a_friend',
-                    imagePath: ImageConstant.imgSvgexport65,
-                    onTap: () {
-/*
-                  NavigatorHelper.of(context)
-                      .pushNamed(WalletScreen.routeName);
-*/
-                    },
-                  ),
+//                   SettingTile(
+//                     text: 'lbl_refer_a_friend',
+//                     imagePath: ImageConstant.imgSvgexport65,
+//                     onTap: () {
+// /*
+//                   NavigatorHelper.of(context)
+//                       .pushNamed(WalletScreen.routeName);
+// */
+//                     },
+//                   ),
                 ]))
         : const SizedBox();
   }

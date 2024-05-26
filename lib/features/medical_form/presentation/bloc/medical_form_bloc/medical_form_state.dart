@@ -4,6 +4,8 @@ enum MedicalFormStateStatus {
   initial,
   loading,
   loaded,
+  getMedicalForm,
+  loadedCondition,
   error,
   deleted,
   added,
@@ -13,6 +15,7 @@ enum MedicalFormStateStatus {
 extension MedicalFormStateX on MedicalFormState {
   bool get isInitial => status == MedicalFormStateStatus.initial;
   bool get isLoading => status == MedicalFormStateStatus.loading;
+  bool get isGetMedicalForm => status == MedicalFormStateStatus.getMedicalForm;
   bool get isLoaded => status == MedicalFormStateStatus.loaded;
   bool get isError => status == MedicalFormStateStatus.error;
   bool get isDeleted => status == MedicalFormStateStatus.deleted;

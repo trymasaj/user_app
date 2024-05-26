@@ -53,6 +53,7 @@ void main() async {
               BlocProvider(create: (context) => Injector().favoritesCubit),
               BlocProvider(create: (context) => Injector().countryCubit),
               BlocProvider(create: (context) => Injector().membersCubit),
+              BlocProvider(create: (context) => Injector().medicalFormBloc),
               BlocProvider(
                   create: (context) => Injector().homeCubit..loadHome()),
               BlocProvider(create: (context) => Injector().homePageCubit),

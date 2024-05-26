@@ -70,10 +70,11 @@ class _TopUpWalletScreenState extends State<TopUpWalletScreen> {
 
   /// Section Widget
   Widget _buildFrameColumn(BuildContext context) {
+    final walletCubit = context.read<WalletBloc>();
     return Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
       Text('msg_have_a_gift_voucher'.tr(), style: theme.textTheme.titleSmall),
       SizedBox(height: 8.h),
-      BlocBuilder<GiftsCubit, GiftsState>(
+      BlocConsumer<GiftsCubit, GiftsState>(
         builder: (context, state) {
           return Form(
             key: _formKey,
@@ -122,6 +123,9 @@ class _TopUpWalletScreenState extends State<TopUpWalletScreen> {
               hint: 'msg_enter_redeem_code'.tr(),
             ),
           );
+        },
+        listener: (BuildContext context, GiftsState state) async {
+          if (state.isLoaded) await walletCubit.getWalletBalance();
         },
       ),
     ]);

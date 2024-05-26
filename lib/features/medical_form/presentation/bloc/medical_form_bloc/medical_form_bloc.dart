@@ -28,7 +28,8 @@ class MedicalFormBloc extends BaseCubit<MedicalFormState> {
     try {
       final conditions = await _medicalFormRepo.getConditions();
       emit(state.copyWith(
-          status: MedicalFormStateStatus.loaded, conditions: conditions));
+          status: MedicalFormStateStatus.loadedCondition,
+          conditions: conditions));
     } on RedundantRequestException catch (e) {
       log(e.toString());
     } catch (e) {
@@ -42,7 +43,8 @@ class MedicalFormBloc extends BaseCubit<MedicalFormState> {
     try {
       final medicalForm = await _medicalFormRepo.getMedicalForm();
       emit(state.copyWith(
-          status: MedicalFormStateStatus.loaded, medicalForm: medicalForm));
+          status: MedicalFormStateStatus.getMedicalForm,
+          medicalForm: medicalForm));
     } on RedundantRequestException catch (e) {
       log(e.toString());
     } catch (e) {
