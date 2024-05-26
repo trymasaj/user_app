@@ -1,9 +1,6 @@
 import 'dart:convert';
-
 import 'package:flutter/widgets.dart';
 import 'package:masaj/core/app_export.dart';
-
-import 'package:masaj/core/domain/enums/payment_methods.dart';
 import 'package:masaj/features/book_service/enums/payment_status.dart';
 import 'package:masaj/main.dart';
 
