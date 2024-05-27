@@ -1,4 +1,5 @@
 import 'package:dotted_line/dotted_line.dart';
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
@@ -68,19 +69,19 @@ class TherapistInfoCard extends StatelessWidget {
               Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  Text(bookingModel.therapist?.fullName ?? '',
-                      style: TextStyle(
-                        fontSize: 16.sp,
-                        fontWeight: FontWeight.w700,
-                        color: const Color(0xff19223C),
-                      )),
+                  CustomText(
+                    text: bookingModel.therapist?.fullName ?? '',
+                    fontSize: 16,
+                    fontWeight: FontWeight.w700,
+                    color: const Color(0xff19223C),
+                  ),
                   // SizedBox(height: 5.h),
-                  Text(bookingModel.therapist?.title ?? '',
-                      style: TextStyle(
-                        fontSize: 14.sp,
-                        fontWeight: FontWeight.w400,
-                        color: const Color(0x0019223c).withOpacity(.64),
-                      )),
+                  CustomText(
+                    text: bookingModel.therapist?.title ?? '',
+                    fontSize: 14,
+                    fontWeight: FontWeight.w400,
+                    color: const Color(0x0019223c).withOpacity(.64),
+                  ),
                 ],
               ),
 
@@ -93,6 +94,7 @@ class TherapistInfoCard extends StatelessWidget {
                       // phone number
                       final completedPhoneNumber =
                           '${bookingModel.therapist?.countryCode}${bookingModel.therapist?.phone}';
+                      print('completedPhoneNumber ' + completedPhoneNumber);
                       Injector().launcherService.openWhatsappChat(
                           phoneNumber: completedPhoneNumber, message: '');
                     },
@@ -110,6 +112,8 @@ class TherapistInfoCard extends StatelessWidget {
                       // phone number
                       final completedPhoneNumber =
                           '${bookingModel.therapist?.countryCode}${bookingModel.therapist?.phone}';
+                      print('completedPhoneNumber ' + completedPhoneNumber);
+
                       Injector()
                           .launcherService
                           .callPhone(completedPhoneNumber);
@@ -139,19 +143,38 @@ class TherapistInfoCard extends StatelessWidget {
             ),
             SizedBox(height: 10.h)
           ],
+          Row(
+            children: [
+              SvgPicture.asset(Assets.images.imgMaterialSymbolOnprimary),
+              SizedBox(width: 5.w),
+              CustomText(
+                text: bookingModel?.service?.title ?? 'Service Name',
+                fontSize: 14.sp,
+                fontWeight: FontWeight.w400,
+                color: const Color(0xff19223C),
+              ),
+              CustomText(
+                text: ' (${bookingModel?.durationInMinutes} ${'min'.tr()})',
+                fontSize: 14.sp,
+                fontWeight: FontWeight.w400,
+                color: const Color(0xff19223C).withOpacity(.64),
+              )
+            ],
+          ),
+          SizedBox(height: 10.h),
           // for (var addon in (bookingModel.service?.addons ?? <Addon>[]))
           if (bookingModel.service?.addons != null &&
               bookingModel.service?.addons?.isNotEmpty == true)
             Column(
               children: [
                 _InfoItem(
-                  iconPath: Assets.images.imgTablerApps,
-                  title: (bookingModel.service?.addons ?? <Addon>[])
-                      .map((e) =>
-                          context.isAr ? e.titleAr ?? '' : e.titleEn ?? '')
-                      .join(', '),
-                  // context.isAr ? addon.titleAr ?? '' : addon.titleEn ?? '',
-                ),
+                    iconPath: Assets.images.imgTablerApps,
+                    title: (bookingModel.service?.addons ?? <Addon>[])
+                        .map((e) =>
+                            context.isAr ? e.titleAr ?? '' : e.titleEn ?? '')
+                        .join(', ')
+                    // context.isAr ? addon.titleAr ?? '' : addon.titleEn ?? '',
+                    ),
               ],
             ),
           // _InfoItem(
@@ -216,23 +239,33 @@ class _InfoItem extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Row(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      mainAxisAlignment: MainAxisAlignment.spaceBetween,
       children: [
         //Khaled Ahmed
         // SvgPicture.asset(Assets.images.imgMaterialSymbolBlueGray90003),
-        SvgPicture.asset(iconPath),
-
-        SizedBox(width: 5.w),
-        CustomText(
-          text: title,
-          fontSize: 14.sp,
-          fontWeight: FontWeight.w400,
-          color: const Color(0xff19223C),
+        Expanded(
+          child: Row(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              SvgPicture.asset(iconPath),
+              SizedBox(width: 5.w),
+              Expanded(
+                child: CustomText(
+                  text: title,
+                  fontSize: 14,
+                  fontWeight: FontWeight.w400,
+                  color: const Color(0xff19223C),
+                ),
+              ),
+            ],
+          ),
         ),
-        const Spacer(),
+
         if (subtitle != null)
           CustomText(
             text: subtitle!,
-            fontSize: 14.sp,
+            fontSize: 14,
             fontWeight: FontWeight.w400,
             color: AppColors.FONT_LIGHT.withOpacity(.7),
           )

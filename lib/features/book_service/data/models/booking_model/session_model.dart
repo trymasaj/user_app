@@ -31,6 +31,7 @@ class SessionModel {
       this.serviceMediaUrlEn,
       this.serviceMediaUrlAr,
       this.serviceMediaUrl,
+      this.therapistPhone,
       this.therapistNameEn,
       this.therapistNameAr,
       this.address,
@@ -100,6 +101,7 @@ class SessionModel {
   final String? serviceName;
   final String? serviceMediaUrlEn;
   final String? serviceMediaUrlAr;
+  final String? therapistPhone;
   final String? serviceMediaUrl;
   final String? therapistNameEn;
   final String? therapistNameAr;
@@ -125,6 +127,7 @@ class SessionModel {
         serviceMediaUrlEn: json["serviceMediaUrlEn"],
         serviceMediaUrlAr: json["serviceMediaUrlAr"],
         serviceMediaUrl: json["serviceMediaUrl"],
+        therapistPhone: json["therapistPhone"],
         therapistNameEn: json["therapistNameEn"],
         therapistNameAr: json["therapistNameAr"],
         therapistName: json["therapistName"],
@@ -144,6 +147,7 @@ class SessionModel {
         "id": id,
         "serviceNameEn": serviceNameEn,
         "serviceNameAr": serviceNameAr,
+        "therapistPhone": therapistPhone,
         "serviceName": serviceName,
         "serviceMediaUrlEn": serviceMediaUrlEn,
         "serviceMediaUrlAr": serviceMediaUrlAr,
@@ -169,6 +173,7 @@ class SessionModel {
     String? serviceName,
     String? serviceMediaUrlEn,
     String? serviceMediaUrlAr,
+    String? therapistPhone,
     String? serviceMediaUrl,
     String? therapistNameEn,
     String? therapistNameAr,
@@ -186,6 +191,7 @@ class SessionModel {
         serviceNameEn: serviceNameEn ?? this.serviceNameEn,
         serviceNameAr: serviceNameAr ?? this.serviceNameAr,
         serviceName: serviceName ?? this.serviceName,
+        therapistPhone: therapistPhone ?? this.therapistPhone,
         serviceMediaUrlEn: serviceMediaUrlEn ?? this.serviceMediaUrlEn,
         serviceMediaUrlAr: serviceMediaUrlAr ?? this.serviceMediaUrlAr,
         serviceMediaUrl: serviceMediaUrl ?? this.serviceMediaUrl,

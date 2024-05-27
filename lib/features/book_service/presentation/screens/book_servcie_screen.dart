@@ -390,7 +390,7 @@ class _BookServiceScreenState extends State<BookServiceScreen> {
                           SizedBox(height: 16.h),
                         ],
                       ),
-                    if (fromTherapistFow) _buildTimeSlotPicker(context),
+                    if (fromTherapistFow) _buildTimeSlotPicker(context, state),
                   ],
                 )
             ],
@@ -444,7 +444,8 @@ class _BookServiceScreenState extends State<BookServiceScreen> {
     );
   }
 
-  Widget _buildTimeSlotPicker(BuildContext context) {
+  Widget _buildTimeSlotPicker(
+      BuildContext context, AvialbleTherapistState state) {
     return Column(
       children: [
         Row(
@@ -458,139 +459,192 @@ class _BookServiceScreenState extends State<BookServiceScreen> {
           ],
         ),
         SizedBox(height: 8.h),
-        DefaultTextFormField(
-          borderColor: const Color(0xffD9D9D9),
-          fillColor: Colors.transparent,
-          currentFocusNode: FocusNode(),
-          currentController: _timeController,
-          isRequired: true,
-          readOnly: true,
-          hint: 'lbl_select_date'.tr(),
-          onTap: () {
-            final cubit = context.read<AvialbleTherapistCubit>();
-            cubit.getAvailableTimeSlots(selectedDate!);
-            showModalBottomSheet(
-                context: context,
-                shape: const RoundedRectangleBorder(
-                  borderRadius: BorderRadius.only(
-                    topLeft: Radius.circular(32),
-                    topRight: Radius.circular(32),
-                  ),
-                ),
-                builder: (context) {
-                  int? _selectedTimeSlot;
-                  return BlocProvider.value(
-                    value: cubit,
-                    child: BlocListener<AvialbleTherapistCubit,
-                        AvialbleTherapistState>(
-                      listener: (context, state) {
-                        if (state.availableTimeSlots?.isNotEmpty == true &&
-                            selectedTimeSlot == null) {
-                          setSelectedTimeSlot(state.availableTimeSlots!.first);
-                        }
-                      },
-                      child: CustomBottomSheet(
-                        padding: EdgeInsets.symmetric(horizontal: 24.w),
-                        child: SizedBox(
-                          child: Column(
-                            children: [
-                              SizedBox(height: 20.h),
-                              const Row(
-                                mainAxisAlignment:
-                                    MainAxisAlignment.spaceBetween,
-                                children: [
-                                  CustomText(
-                                    text: 'select_date_and_time',
-                                    fontSize: 16,
-                                    fontWeight: FontWeight.w500,
-                                    color: AppColors.FONT_COLOR,
-                                  ),
-                                ],
-                              ),
-                              SizedBox(height: 20.h),
-                              Container(
-                                  height: 160.h,
-                                  padding:
-                                      EdgeInsets.symmetric(horizontal: 12.w),
-                                  child: BlocBuilder<AvialbleTherapistCubit,
-                                      AvialbleTherapistState>(
-                                    builder: (context, state) {
-                                      return CupertinoPicker(
-                                          scrollController:
-                                              FixedExtentScrollController(
-                                            initialItem: selectedTimeSlot ==
-                                                    null
-                                                ? 0
-                                                : state.availableTimeSlots
-                                                    .indexOf(selectedTimeSlot!),
-                                          ),
-                                          diameterRatio: 10,
-                                          selectionOverlay: Container(),
-                                          itemExtent: 40,
-                                          onSelectedItemChanged: (int index) {
-                                            _selectedTimeSlot = index;
-                                          },
-                                          children: [
-                                            ...(state.availableTimeSlots ??
-                                                    <AvailableTimeSlot>[])
-                                                .map((e) => Center(
-                                                      child: Row(
-                                                        mainAxisAlignment:
-                                                            MainAxisAlignment
-                                                                .center,
-                                                        children: [
-                                                          Container(
-                                                            width: 120,
-                                                            child: CustomText(
-                                                              fontFamily:
-                                                                  'Poppins',
-                                                              text: e
-                                                                  .timeString12HourFormat,
-                                                              fontSize: 18,
-                                                              fontWeight:
-                                                                  FontWeight
-                                                                      .w500,
-                                                              color: const Color(
-                                                                  0xff343C44),
-                                                            ),
-                                                          ),
-                                                        ],
-                                                      ),
-                                                    ))
-                                                .toList(),
-                                          ]);
-                                    },
-                                  )),
-                              Builder(builder: (context) {
-                                return DefaultButton(
-                                  margin:
-                                      const EdgeInsets.symmetric(vertical: 20),
-                                  isExpanded: true,
-                                  onPressed: () {
-                                    if (_selectedTimeSlot != null)
-                                      setSelectedTimeSlot(context
-                                              .read<AvialbleTherapistCubit>()
-                                              .state
-                                              .availableTimeSlots![
-                                          _selectedTimeSlot!]);
-                                    Navigator.of(context).pop();
-                                  },
-                                  label: 'save',
-                                );
-                              })
-                            ],
+        if (state.isTimeSlotsLoading)
+          const CustomLoading()
+        else if (!state.isTimeSlotsLoading)
+          BlocListener<AvialbleTherapistCubit, AvialbleTherapistState>(
+            listener: (context, state) {
+              ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+                showCloseIcon: true,
+                closeIconColor: Colors.white,
+                content: Text(state.errorMessage ?? ''),
+              ));
+            },
+            child: DefaultTextFormField(
+              borderColor: const Color(0xffD9D9D9),
+              fillColor: Colors.transparent,
+              currentFocusNode: FocusNode(),
+              currentController: _timeController,
+              isRequired: true,
+              readOnly: true,
+              hint: 'lbl_select_date'.tr(),
+              onTap: () async {
+                final cubit = context.read<AvialbleTherapistCubit>();
+                await cubit.getAvailableTimeSlots(selectedDate!);
+                Future.delayed(Duration.zero, () {
+                  if (state.isTimeSlotsLoaded)
+                    showModalBottomSheet(
+                        context: context,
+                        shape: const RoundedRectangleBorder(
+                          borderRadius: BorderRadius.only(
+                            topLeft: Radius.circular(32),
+                            topRight: Radius.circular(32),
                           ),
                         ),
-                      ),
-                    ),
-                  );
+                        builder: (context) {
+                          int? _selectedTimeSlot;
+                          AvailableTimeSlot? firstTimeSlot;
+                          bool didPickerSpinned = false;
+
+                          return BlocProvider.value(
+                            value: cubit,
+                            child: BlocListener<AvialbleTherapistCubit,
+                                AvialbleTherapistState>(
+                              listener: (context, state) {
+                                if (state.availableTimeSlots?.isNotEmpty ==
+                                        true &&
+                                    selectedTimeSlot == null) {
+                                  firstTimeSlot =
+                                      state.availableTimeSlots!.first;
+                                  // setSelectedTimeSlot(state.availableTimeSlots!.first);
+                                }
+                              },
+                              child: CustomBottomSheet(
+                                padding: EdgeInsets.symmetric(horizontal: 24.w),
+                                child: SizedBox(
+                                  child: Column(
+                                    children: [
+                                      SizedBox(height: 20.h),
+                                      const Row(
+                                        mainAxisAlignment:
+                                            MainAxisAlignment.spaceBetween,
+                                        children: [
+                                          CustomText(
+                                            text: 'select_date_and_time',
+                                            fontSize: 16,
+                                            fontWeight: FontWeight.w500,
+                                            color: AppColors.FONT_COLOR,
+                                          ),
+                                        ],
+                                      ),
+                                      SizedBox(height: 20.h),
+                                      Container(
+                                          height: 160.h,
+                                          padding: EdgeInsets.symmetric(
+                                              horizontal: 12.w),
+                                          child: BlocBuilder<
+                                              AvialbleTherapistCubit,
+                                              AvialbleTherapistState>(
+                                            builder: (context, state) {
+                                              if (state.availableTimeSlots
+                                                  .isNotEmpty)
+                                                return CupertinoPicker(
+                                                    scrollController:
+                                                        FixedExtentScrollController(
+                                                      initialItem: selectedTimeSlot ==
+                                                              null
+                                                          ? 0
+                                                          : state
+                                                              .availableTimeSlots
+                                                              .indexOf(
+                                                                  selectedTimeSlot!),
+                                                    ),
+                                                    diameterRatio: 10,
+                                                    selectionOverlay:
+                                                        Container(),
+                                                    itemExtent: 40,
+                                                    onSelectedItemChanged:
+                                                        (int index) {
+                                                      didPickerSpinned = true;
+                                                      _selectedTimeSlot = index;
+                                                    },
+                                                    children: [
+                                                      ...(state.availableTimeSlots ??
+                                                              <AvailableTimeSlot>[])
+                                                          .map((e) => Center(
+                                                                child: Row(
+                                                                  mainAxisAlignment:
+                                                                      MainAxisAlignment
+                                                                          .center,
+                                                                  children: [
+                                                                    Container(
+                                                                      width:
+                                                                          120,
+                                                                      child:
+                                                                          CustomText(
+                                                                        fontFamily:
+                                                                            'Poppins',
+                                                                        text: e
+                                                                            .timeString12HourFormat,
+                                                                        fontSize:
+                                                                            18,
+                                                                        fontWeight:
+                                                                            FontWeight.w500,
+                                                                        color: const Color(
+                                                                            0xff343C44),
+                                                                      ),
+                                                                    ),
+                                                                  ],
+                                                                ),
+                                                              ))
+                                                          .toList(),
+                                                    ]);
+
+                                              if (state.timeSlotsStatus ==
+                                                  TimeSlotsStatus.loading)
+                                                return const CustomLoading();
+                                              if (state.timeSlotsStatus ==
+                                                      TimeSlotsStatus.loaded &&
+                                                  state.availableTimeSlots!
+                                                      .isEmpty)
+                                                return const EmptyPageMessage(
+                                                  message:
+                                                      'No time slots available',
+                                                  heightRatio: .4,
+                                                );
+                                              return Container();
+                                            },
+                                          )),
+                                      Builder(builder: (context) {
+                                        return DefaultButton(
+                                          margin: const EdgeInsets.symmetric(
+                                              vertical: 20),
+                                          isExpanded: true,
+                                          onPressed: () {
+                                            if (_selectedTimeSlot != null)
+                                              setSelectedTimeSlot(context
+                                                      .read<
+                                                          AvialbleTherapistCubit>()
+                                                      .state
+                                                      .availableTimeSlots![
+                                                  _selectedTimeSlot!]); //Education2016
+
+                                            if (!didPickerSpinned &&
+                                                firstTimeSlot != null &&
+                                                selectedTimeSlot == null) {
+                                              setSelectedTimeSlot(
+                                                  firstTimeSlot!);
+                                            }
+                                            Navigator.of(context).pop();
+                                          },
+                                          label: 'save',
+                                        );
+                                      })
+                                    ],
+                                  ),
+                                ),
+                              ),
+                            ),
+                          );
+                        });
                 });
-          },
-          suffixIcon: const Icon(
-            Icons.calendar_today,
-            color: AppColors.FONT_LIGHT,
+              },
+              suffixIcon: const Icon(
+                Icons.calendar_today,
+                color: AppColors.FONT_LIGHT,
+              ),
+            ),
           ),
-        ),
       ],
     );
   }
@@ -754,10 +808,24 @@ class _BookServiceScreenState extends State<BookServiceScreen> {
                 .selectedTherapist!
                 .therapist!
                 .therapistId;
-            await context.read<BookingCubit>().addBookingTherapist(
-                  therapistId: therapistId,
-                  availableTime: getFinlaDate(),
-                );
+            final addingTherapistSuccess =
+                await context.read<BookingCubit>().addBookingTherapist(
+                      therapistId: therapistId,
+                      availableTime: getFinlaDate(),
+                    );
+            if (!addingTherapistSuccess) {
+              final errorMsg =
+                  context.read<BookingCubit>().state.errorMessage?.isEmpty ==
+                          true
+                      ? 'error_adding_therapist'.tr()
+                      : context.read<BookingCubit>().state.errorMessage;
+              ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+                content: Text(errorMsg ?? ''),
+                showCloseIcon: true,
+                closeIconColor: Colors.white,
+              ));
+              return;
+            }
 
             NavigatorHelper.of(context).pushNamedAndRemoveUntil(
                 CheckoutScreen.routeName, (route) => route.isFirst);

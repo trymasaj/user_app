@@ -79,9 +79,9 @@ class BookingCubit extends BaseCubit<BookingState> {
     }
   }
 
-  Future<void> addBookingTherapist(
+  Future<bool> addBookingTherapist(
       {int? therapistId, DateTime? availableTime}) async {
-    if (therapistId == null || availableTime == null) return;
+    if (therapistId == null || availableTime == null) return false;
 
     emit(state.copyWith(status: BookServiceStatus.loading));
     try {
@@ -90,12 +90,14 @@ class BookingCubit extends BaseCubit<BookingState> {
         availableTime: availableTime,
       );
       emit(state.copyWith(status: BookServiceStatus.loaded));
+      return true;
     } on RedundantRequestException catch (e) {
       log(e.toString());
     } catch (e) {
       emit(state.copyWith(
           status: BookServiceStatus.error, errorMessage: e.toString()));
     }
+    return false;
   }
 
   Future<void> addBookingVoucher(String? voucherId) async {

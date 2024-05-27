@@ -14,6 +14,8 @@ import 'address.dart';
 import 'member.dart';
 import 'service.dart';
 
+enum PaymentStatusPaidOrNotPaid { notPaid, paid }
+
 class BookingModel {
   int? bookingId;
   int? countryId;
@@ -32,7 +34,7 @@ class BookingModel {
   num? vatAmount;
   num? grandTotal;
   DateTime? bookingDate;
-  PaymentStatus? paymentStatus;
+  PaymentStatusPaidOrNotPaid? paymentStatus;
   bool? isFreeBooking;
   List<AddonModel>? addons;
   BookingStatus? bookingStatus;
@@ -93,7 +95,7 @@ class BookingModel {
     ValueGetter<num?>? vatAmount,
     ValueGetter<num?>? grandTotal,
     ValueGetter<DateTime?>? bookingDate,
-    ValueGetter<PaymentStatus?>? paymentStatus,
+    ValueGetter<PaymentStatusPaidOrNotPaid?>? paymentStatus,
     ValueGetter<bool?>? isFreeBooking,
     ValueGetter<BookingStatus?>? bookingStatus,
     ValueGetter<String?>? totalDuration,
@@ -225,7 +227,7 @@ _______________________
           ? DateTime.parse(map['bookingDate'])
           : null,
       paymentStatus: map['paymentStatus'] != null
-          ? PaymentStatus.values[map['paymentStatus']]
+          ? PaymentStatusPaidOrNotPaid.values[map['paymentStatus']]
           : null,
       isFreeBooking: map['isFreeBooking'],
       bookingStatus: map['bookingStatus'] != null

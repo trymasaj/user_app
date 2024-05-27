@@ -19,6 +19,12 @@
 			<string>en</string>
 			<string>ar</string>
 		</array>
+			<key>LSApplicationQueriesSchemes</key>
+	<array>
+		<string>sms</string>
+		<string>tel</string>
+		<string>whatsapp</string>
+	</array>
 		<key>CFBundleName</key>
 		<string>masaj</string>
 		<key>CFBundlePackageType</key>

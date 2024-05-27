@@ -11,11 +11,14 @@ enum AvialbleTherapistStatus {
 
 enum TimeSlotsStatus { initial, loading, loaded, error }
 
-extension TimeSlotsX on TimeSlotsStatus {
-  bool get isInitial => this == TimeSlotsStatus.initial;
-  bool get isLoading => this == TimeSlotsStatus.loading;
-  bool get isLoaded => this == TimeSlotsStatus.loaded;
-  bool get isError => this == TimeSlotsStatus.error;
+extension TimeSlotsX on AvialbleTherapistState {
+  bool get isTimeSlotsInitial => timeSlotsStatus == TimeSlotsStatus.initial;
+
+  bool get isTimeSlotsLoading => timeSlotsStatus == TimeSlotsStatus.loading;
+
+  bool get isTimeSlotsLoaded => timeSlotsStatus == TimeSlotsStatus.loaded;
+
+  bool get isTimeSlotsError => timeSlotsStatus == TimeSlotsStatus.error;
 }
 
 extension AvialbleTherapistStateX on AvialbleTherapistState {

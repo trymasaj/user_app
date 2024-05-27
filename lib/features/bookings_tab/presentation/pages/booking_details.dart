@@ -83,7 +83,13 @@ class _BookingDetialsScreenState extends State<BookingDetialsScreen> {
                             ),
                           ),
                         if (state.booking != null) ...[
-                          if (!isCompleted(state.booking!)) buildStepper(),
+                          // if (!isCompleted(state.booking!))
+                          if ((state.booking!.bookingStatus != null &&
+                              state.booking!.bookingStatus !=
+                                  BookingStatus.Cancelled &&
+                              state.booking!.bookingStatus !=
+                                  BookingStatus.Completed))
+                            buildStepper(),
                           if (state.booking!.bookingStatus ==
                               BookingStatus.Cancelled)
                             _buildCancelledAlert(),

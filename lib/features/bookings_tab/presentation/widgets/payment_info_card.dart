@@ -132,9 +132,9 @@ class PaymentInfoCard extends StatelessWidget {
             },
           ),
           SizedBox(height: 16.h),
-          buildInfoItem(
-              title: 'status', data: bookingModel?.bookingStatus?.name ?? ''),
-          SizedBox(height: 16.h),
+          // buildInfoItem(
+          //     title: 'status', data: bookingModel?.bookingStatus?.name ?? ''),
+          // SizedBox(height: 16.h),
           buildInfoItem(
               title: 'payment_id',
               data: bookingModel?.payment?.paymentId.toString() ?? ''),

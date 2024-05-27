@@ -82,7 +82,9 @@ class AvialbleTherapistCubit extends BaseCubit<AvialbleTherapistState> {
           
           ));
     } catch (e) {
-      emit(state.copyWith(timeSlotsStatus: TimeSlotsStatus.error));
+      emit(state.copyWith(
+        errorMessage: e.toString(),
+        timeSlotsStatus: TimeSlotsStatus.error));
     }
   }
 }
