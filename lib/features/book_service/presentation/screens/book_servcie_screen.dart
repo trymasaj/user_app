@@ -478,6 +478,7 @@ class _BookServiceScreenState extends State<BookServiceScreen> {
                   ),
                 ),
                 builder: (context) {
+                  int? _selectedTimeSlot;
                   return BlocProvider.value(
                     value: cubit,
                     child: BlocListener<AvialbleTherapistCubit,
@@ -527,8 +528,7 @@ class _BookServiceScreenState extends State<BookServiceScreen> {
                                           selectionOverlay: Container(),
                                           itemExtent: 40,
                                           onSelectedItemChanged: (int index) {
-                                            setSelectedTimeSlot(state
-                                                .availableTimeSlots![index]);
+                                            _selectedTimeSlot = index;
                                           },
                                           children: [
                                             ...(state.availableTimeSlots ??
@@ -561,15 +561,23 @@ class _BookServiceScreenState extends State<BookServiceScreen> {
                                           ]);
                                     },
                                   )),
-                              DefaultButton(
-                                margin:
-                                    const EdgeInsets.symmetric(vertical: 20),
-                                isExpanded: true,
-                                onPressed: () {
-                                  Navigator.of(context).pop();
-                                },
-                                label: 'save',
-                              )
+                              Builder(builder: (context) {
+                                return DefaultButton(
+                                  margin:
+                                      const EdgeInsets.symmetric(vertical: 20),
+                                  isExpanded: true,
+                                  onPressed: () {
+                                    if (_selectedTimeSlot != null)
+                                      setSelectedTimeSlot(context
+                                              .read<AvialbleTherapistCubit>()
+                                              .state
+                                              .availableTimeSlots![
+                                          _selectedTimeSlot!]);
+                                    Navigator.of(context).pop();
+                                  },
+                                  label: 'save',
+                                );
+                              })
                             ],
                           ),
                         ),

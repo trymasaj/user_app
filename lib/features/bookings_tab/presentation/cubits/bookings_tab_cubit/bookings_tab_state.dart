@@ -44,7 +44,7 @@ class BookingsTabState {
       this.page,
       this.sessions = const [],
       this.pageSize = 10,
-      this.type = BookingQueryStatus.completed});
+      this.type = BookingQueryStatus.upcoming});
 
   @override
   bool operator ==(Object other) {

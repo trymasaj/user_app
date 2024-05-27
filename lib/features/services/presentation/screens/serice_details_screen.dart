@@ -511,6 +511,7 @@ class ServiceDetailsScreenState extends State<ServiceDetailsScreen> {
                                   valueListenable: selectedDurationNotifier,
                                   builder: (context, value, child) {
                                     return TotalSection(
+                                      selectedAddons: selectedAddons,
                                       totalDuration: totalDuration.toString(),
                                       selectedDuration: value,
                                       totalPrice:
@@ -581,7 +582,9 @@ class TotalSection extends StatelessWidget {
       {super.key,
       required this.totalPrice,
       this.selectedDuration,
+      required this.selectedAddons,
       this.totalDuration});
+  final List<ServiceAddonModel> selectedAddons;
   final String totalPrice;
   final String? totalDuration;
   // int totalDuration = 0;
@@ -613,28 +616,58 @@ class TotalSection extends StatelessWidget {
               SizedBox(
                 height: 8.h,
               ),
-              if (selectedDuration != null)
-                Row(
-                  children: [
-                    CustomText(
-                      text: state.service!.title ?? '',
-                      fontSize: 14,
-                      fontWeight: FontWeight.w400,
-                      color: AppColors.FONT_LIGHT.withOpacity(.7),
-                    ),
-                    const Spacer(),
-                    CustomText(
-                      text: 'min_count'.tr(args: [
-                        selectedDuration?.durationInMinutes?.toString() ?? ''
-                      ]),
-                      // '${selectedDuration!.formattedString} ${selectedDuration?.unit}',
-                      fontSize: 14,
-                      fontWeight: FontWeight.w400,
-                      color: AppColors.PlaceholderColor,
-                    ),
-                  ],
-                )
-              else
+              if (selectedDuration != null || selectedAddons.isNotEmpty) ...[
+                Container(
+                  margin: EdgeInsets.only(bottom: 8.h),
+                  child: Row(
+                    children: [
+                      CustomText(
+                        text: state.service!.title ?? '',
+                        fontSize: 14,
+                        fontWeight: FontWeight.w400,
+                        color: AppColors.FONT_LIGHT.withOpacity(.7),
+                      ),
+                      const Spacer(),
+                      CustomText(
+                        text: 'min_count'.tr(args: [
+                          selectedDuration?.durationInMinutes?.toString() ?? ''
+                        ]),
+                        // '${selectedDuration!.formattedString} ${selectedDuration?.unit}',
+                        fontSize: 14,
+                        fontWeight: FontWeight.w400,
+                        color: AppColors.PlaceholderColor,
+                      ),
+                    ],
+                  ),
+                ),
+                ...selectedAddons.map((addon) => Container(
+                      margin: EdgeInsets.only(bottom: 8.h),
+                      child: Row(
+                        children: [
+                          // dot
+
+                          // benefit text
+                          CustomText(
+                            text: addon.title,
+                            fontSize: 14,
+                            fontWeight: FontWeight.w400,
+                            color: AppColors.FONT_LIGHT.withOpacity(.7),
+                          ),
+                          const Spacer(),
+                          CustomText(
+                            text: '(${"price_in_kd".tr(args: [
+                                  addon.price.toString()
+                                ])}, ${'min_count'.tr(args: [
+                                  addon.durationInMinutes
+                                ])})',
+                            fontSize: 14,
+                            fontWeight: FontWeight.w400,
+                            color: AppColors.PlaceholderColor,
+                          ),
+                        ],
+                      ),
+                    )),
+              ] else
                 Row(
                   children: [
                     CustomText(
@@ -1099,6 +1132,4 @@ class _ServiceImagesViewWidgetState extends State<ServiceImagesViewWidget> {
   }
 }
 
-
-
-final str =''.codeUnits;
+final str = ''.codeUnits;
