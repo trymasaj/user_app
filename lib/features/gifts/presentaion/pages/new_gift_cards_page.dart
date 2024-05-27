@@ -18,7 +18,7 @@ class _NewGiftCardsPageState extends State<NewGiftCardsPage> {
   }
 
   Widget _buildBody() {
-    return BlocBuilder<GiftsCubit, GiftsState>(
+    return BlocConsumer<GiftsCubit, GiftsState>(
       builder: (context, state) {
         return Padding(
           padding: EdgeInsets.symmetric(horizontal: 24.w),
@@ -36,6 +36,11 @@ class _NewGiftCardsPageState extends State<NewGiftCardsPage> {
             ],
           ),
         );
+      },
+      listener: (BuildContext context, GiftsState state) {
+        if (state.isError) {
+          return showSnackBar(context, message: state.errorMessage);
+        }
       },
     );
   }
@@ -62,6 +67,7 @@ class _NewGiftCardsPageState extends State<NewGiftCardsPage> {
         if (state.isLoading) {
           return const CustomLoading();
         }
+
         final gifts = state.giftCards ?? [];
 
         if ((gifts == [] || gifts.isEmpty)) {
@@ -88,7 +94,7 @@ class _NewGiftCardsPageState extends State<NewGiftCardsPage> {
             });
           },
           child: GiftCardItem(
-            amount: 20.0,
+            amount: cubit.state.giftCards![index].amount?.toDouble() ?? 0,
             color: cubit.state.giftCards![index].imageColor!,
             action: Radio.adaptive(
               value: index,

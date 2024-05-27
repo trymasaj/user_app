@@ -1,10 +1,8 @@
 import 'dart:convert';
-
 import 'package:flutter/widgets.dart';
 import 'package:masaj/core/app_export.dart';
-
-import 'package:masaj/core/domain/enums/payment_methods.dart';
 import 'package:masaj/features/book_service/enums/payment_status.dart';
+import 'package:masaj/features/payment/data/enum/payment_methods.dart';
 import 'package:masaj/main.dart';
 
 class Payment {
@@ -12,7 +10,7 @@ class Payment {
   String? referenceId;
   PaymentStatus? paymentStatus;
   String? paymentDate;
-  int? paymentMethod;
+  PaymentMethodType? paymentMethod;
   Payment({
     this.paymentId,
     this.referenceId,
@@ -38,7 +36,7 @@ class Payment {
     ValueGetter<String?>? referenceId,
     ValueGetter<PaymentStatus?>? paymentStatus,
     ValueGetter<String?>? paymentDate,
-    ValueGetter<int?>? paymentMethod,
+    ValueGetter<PaymentMethodType?>? paymentMethod,
   }) {
     return Payment(
       paymentId: paymentId != null ? paymentId() : this.paymentId,
@@ -57,7 +55,7 @@ class Payment {
       'referenceId': referenceId,
       'paymentStatus': paymentStatus?.index,
       'paymentDate': paymentDate,
-      'paymentMethod': paymentMethod,
+      'paymentMethod': paymentMethod?.getIndex,
     };
   }
 
@@ -67,7 +65,7 @@ class Payment {
       referenceId: map['referenceId'],
       paymentStatus: PaymentStatus.values[map['paymentStatus']?.toInt()],
       paymentDate: map['paymentDate'],
-      paymentMethod: map['paymentMethod']?.toInt(),
+      paymentMethod: PaymentMethodType.values[map['paymentMethod'] - 1],
     );
   }
 

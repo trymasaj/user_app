@@ -78,6 +78,7 @@ class ServiceCubit extends BaseCubit<ServiceState> {
       ));
     } on RedundantRequestException {
       log('RedundantRequestException occurred');
+      // TODO MOATODO: CHECK THEIS
       emit(state.copyWith(status: ServiceStateStatus.loaded));
     } catch (e) {
       print(e);

@@ -50,7 +50,12 @@ class PurchasedGiftsPage extends StatelessWidget {
         itemBuilder: (context, index) => GiftCardItem(
           amount: gifts[index].amount!.toDouble(),
           action: TextButton.icon(
-            onPressed: () {},
+            onPressed: () {
+              ShareServiceImpl().shareLink(
+                gifts[index].redemptionCode.toString(),
+                sharePositionOrigin: Rect.zero,
+              );
+            },
             icon: SvgPicture.asset(
               'assets/images/share.svg',
               color: Colors.white,

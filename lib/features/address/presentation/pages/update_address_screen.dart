@@ -400,9 +400,6 @@ class UpdateAddressScreen<T extends UpdateAddressCubit,
   /// Section Widget
   Widget _buildFloorEditText(BuildContext context) {
     return FormBuilderTextField(
-      validator: FormBuilderValidators.compose([
-        FormBuilderValidators.required(errorText: 'empty_field_not_valid'.tr()),
-      ]),
       style: CustomTextStyles.bodyMediumGray90003,
       decoration: InputDecoration(
         helperText: '',
@@ -418,9 +415,6 @@ class UpdateAddressScreen<T extends UpdateAddressCubit,
   /// Section Widget
   Widget _buildApartmentNoEditText(BuildContext context) {
     return FormBuilderTextField(
-      validator: FormBuilderValidators.compose([
-        FormBuilderValidators.required(errorText: 'empty_field_not_valid'.tr()),
-      ]),
       name: Address.apartmentKey,
       style: CustomTextStyles.bodyMediumGray90003,
       decoration: InputDecoration(

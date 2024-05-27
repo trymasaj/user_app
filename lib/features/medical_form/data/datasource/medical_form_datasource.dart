@@ -32,7 +32,7 @@ class MedicalFormDataSourceImpl extends MedicalFormDataSource {
     )
         .then((response) {
       if (response.statusCode != 200) {
-        throw RequestException(message: response.data);
+        throw RequestException(message: response.data['detail']);
       }
       final result = response.data;
 

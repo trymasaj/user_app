@@ -56,16 +56,19 @@ class GiftsCubit extends BaseCubit<GiftsState> {
         },
         paymentMethodId: paymentMethodId,
         onSuccess: () {
+          emit(state.copyWith(status: GiftsStateStatus.loaded));
           navigatorKey.currentState!.pop();
           showSnackBar(context,
               message: 'gift card has been redeemed successfully');
         },
         onFailure: () {
+          emit(state.copyWith(
+              status: GiftsStateStatus.error,
+              errorMessage: 'msg_something_went_wrong'));
           navigatorKey.currentState!.pop();
           showSnackBar(context, message: 'Please try again');
         },
       ));
-      emit(state.copyWith(status: GiftsStateStatus.loaded));
     } on RedundantRequestException catch (e) {
       log(e.toString());
     } catch (e) {

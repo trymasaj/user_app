@@ -107,6 +107,8 @@ class _MembershipCheckoutScreenState extends State<MembershipCheckoutScreen> {
         );
       },
       listener: (BuildContext context, PaymentState state) {
+        if (state.isGetMethods) _selectedPayment = state.methods?[0];
+
         if (state.isError) showSnackBar(context, message: state.errorMessage);
       },
     );

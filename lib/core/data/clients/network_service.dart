@@ -14,6 +14,7 @@ import 'package:masaj/core/domain/enums/request_result_enum.dart';
 import 'package:masaj/core/domain/exceptions/connection_exception.dart';
 import 'package:masaj/core/domain/exceptions/redundant_request_exception.dart';
 import 'package:masaj/core/domain/exceptions/request_exception.dart';
+import 'package:masaj/core/presentation/overlay/show_snack_bar.dart';
 import 'package:masaj/features/auth/domain/entities/user.dart';
 import 'package:masaj/features/auth/presentation/pages/login_page.dart';
 import 'package:masaj/main.dart';
@@ -315,15 +316,16 @@ class NetworkServiceImpl implements NetworkService {
     _logResponse(requestName, response);
 
     if ([401, 403].contains(response.statusCode) && refreshTokenIfNeeded) {
-      response = (await _refreshToken((_) async {
-        _requestName = requestName!;
-        return _get(
-          apiBaseUrl,
-          queryParameters: queryParameters,
-          headers: await _updateHeaderWithNewToken(headers),
-          responseType: responseType,
-        );
-      }))!;
+      // response = (await _refreshToken((_) async {
+      //   _requestName = requestName!;
+      //   return _get(
+      //     apiBaseUrl,
+      //     queryParameters: queryParameters,
+      //     headers: await _updateHeaderWithNewToken(headers),
+      //     responseType: responseType,
+      //   );
+      // }))!;
+      showGuestSnackBar(navigatorKey.currentContext!);
     }
 
     _requestName = null;
@@ -355,16 +357,17 @@ class NetworkServiceImpl implements NetworkService {
     _logResponse(requestName, response);
 
     if ([401, 403].contains(response.statusCode) && refreshTokenIfNeeded) {
-      response = (await _refreshToken((_) async {
-        _requestName = requestName!;
-        return _post(
-          apiBaseUrl,
-          queryParameters: queryParameters,
-          data: _regenerateDataIfFormData(data),
-          headers: await _updateHeaderWithNewToken(headers),
-          responseType: responseType,
-        );
-      }))!;
+      // response = (await _refreshToken((_) async {
+      //   _requestName = requestName!;
+      //   return _post(
+      //     apiBaseUrl,
+      //     queryParameters: queryParameters,
+      //     data: _regenerateDataIfFormData(data),
+      //     headers: await _updateHeaderWithNewToken(headers),
+      //     responseType: responseType,
+      //   );
+      // }))!;
+      showGuestSnackBar(navigatorKey.currentContext!);
     }
 
     _requestName = null;
@@ -390,16 +393,17 @@ class NetworkServiceImpl implements NetworkService {
     _logResponse(requestName, response);
 
     if ([401, 403].contains(response.statusCode) && refreshTokenIfNeeded) {
-      response = (await _refreshToken((_) async {
-        _requestName = requestName!;
-        return _patch(
-          apiBaseUrl,
-          queryParameters: queryParameters,
-          data: _regenerateDataIfFormData(data),
-          headers: await _updateHeaderWithNewToken(headers),
-          responseType: responseType,
-        );
-      }))!;
+      // response = (await _refreshToken((_) async {
+      //   _requestName = requestName!;
+      //   return _patch(
+      //     apiBaseUrl,
+      //     queryParameters: queryParameters,
+      //     data: _regenerateDataIfFormData(data),
+      //     headers: await _updateHeaderWithNewToken(headers),
+      //     responseType: responseType,
+      //   );
+      // }))!;
+      showGuestSnackBar(navigatorKey.currentContext!);
     }
 
     _requestName = null;
@@ -425,16 +429,17 @@ class NetworkServiceImpl implements NetworkService {
     _logResponse(requestName, response);
 
     if ([401, 403].contains(response.statusCode) && refreshTokenIfNeeded) {
-      response = (await _refreshToken((_) async {
-        _requestName = requestName!;
-        return _put(
-          apiBaseUrl,
-          queryParameters: queryParameters,
-          data: _regenerateDataIfFormData(data),
-          headers: await _updateHeaderWithNewToken(headers),
-          responseType: responseType,
-        );
-      }))!;
+      // response = (await _refreshToken((_) async {
+      //   _requestName = requestName!;
+      //   return _put(
+      //     apiBaseUrl,
+      //     queryParameters: queryParameters,
+      //     data: _regenerateDataIfFormData(data),
+      //     headers: await _updateHeaderWithNewToken(headers),
+      //     responseType: responseType,
+      //   );
+      // }))!;
+      showGuestSnackBar(navigatorKey.currentContext!);
     }
 
     _requestName = null;
@@ -460,16 +465,17 @@ class NetworkServiceImpl implements NetworkService {
     _logResponse(requestName, response);
 
     if ([401, 403].contains(response.statusCode) && refreshTokenIfNeeded) {
-      response = (await _refreshToken((_) async {
-        _requestName = requestName!;
-        return _delete(
-          apiBaseUrl,
-          queryParameters: queryParameters,
-          data: _regenerateDataIfFormData(data),
-          headers: await _updateHeaderWithNewToken(headers),
-          responseType: responseType,
-        );
-      }))!;
+      // response = (await _refreshToken((_) async {
+      //   _requestName = requestName!;
+      //   return _delete(
+      //     apiBaseUrl,
+      //     queryParameters: queryParameters,
+      //     data: _regenerateDataIfFormData(data),
+      //     headers: await _updateHeaderWithNewToken(headers),
+      //     responseType: responseType,
+      //   );
+      // }))!;
+      showGuestSnackBar(navigatorKey.currentContext!);
     }
 
     _requestName = null;

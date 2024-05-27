@@ -32,6 +32,8 @@
 			<dict>
 				<key>CFBundleTypeRole</key>
 				<string>Editor</string>
+				 <key>CFBundleURLName</key>
+    			<string>com.masajapp</string>
 				<key>CFBundleURLSchemes</key>
 				<array>
 					<string>com.googleusercontent.apps.115887106741-3mrp1nltv1b8r39t2gr1umrfqt2260gi</string>

@@ -39,7 +39,7 @@ dependencies:
   flutter_form_builder: 9.1.1
   form_builder_validators: ^9.1.0
   flutter_typeahead: ^5.0.1
-
+  restart_app: ^1.2.1
   flutter_rating_bar: ^4.0.1
   carousel_slider: ^4.2.1
   connectivity_plus: ^5.0.2

@@ -77,7 +77,7 @@ class _AddReviewScreenState extends State<AddReviewScreen> {
     return BlocProvider(
       create: (context) => Injector().paymentCubit..getPaymentMethods(),
       child: Scaffold(
-        appBar: CustomAppBar(
+        appBar: const CustomAppBar(
           title: 'add_review',
         ),
         body: SingleChildScrollView(
@@ -106,29 +106,29 @@ class _AddReviewScreenState extends State<AddReviewScreen> {
               SizedBox(height: 20.h),
               Row(
                 children: [
-                  CustomText(
+                  const CustomText(
                     text: 'tips',
                     fontSize: 16,
                     fontWeight: FontWeight.w700,
-                    color: const Color(0xff19223C),
+                    color: Color(0xff19223C),
                   ),
                   SizedBox(width: 4.w),
-                  CustomText(
+                  const CustomText(
                     text: 'optional',
                     fontSize: 14,
                     fontWeight: FontWeight.w500,
-                    color: const Color(0xff8C8C8C),
+                    color: Color(0xff8C8C8C),
                   )
                 ],
               ),
               SizedBox(height: 16.h),
-              Row(
+              const Row(
                 children: [
                   CustomText(
                     text: 'tip_amount',
                     fontSize: 14,
                     fontWeight: FontWeight.w500,
-                    color: const Color(0xff1D212C),
+                    color: Color(0xff1D212C),
                   )
                 ],
               ),
@@ -180,7 +180,7 @@ class _AddReviewScreenState extends State<AddReviewScreen> {
               if (_selectedTipAmount == TipsAmountEnumn.other)
                 DefaultTextFormField(
                     fillColor: Colors.white,
-                    borderColor: Color(0xffD9D9D9),
+                    borderColor: const Color(0xffD9D9D9),
                     currentFocusNode: FocusNode(),
                     currentController: _walletController,
                     hint: 'enter_amount'.tr()),
@@ -196,7 +196,7 @@ class _AddReviewScreenState extends State<AddReviewScreen> {
     return Container(
       height: 6.h,
       width: double.infinity,
-      decoration: BoxDecoration(
+      decoration: const BoxDecoration(
         color: AppColors.ExtraLight,
       ),
     );
@@ -218,13 +218,13 @@ class _AddReviewScreenState extends State<AddReviewScreen> {
             ],
           ),
           SizedBox(height: 16.h),
-          Row(
+          const Row(
             children: [
               CustomText(
                 text: 'what_is_you_rate',
                 fontSize: 14,
                 fontWeight: FontWeight.w500,
-                color: const Color(0xff1D212C),
+                color: Color(0xff1D212C),
               )
             ],
           ),
@@ -236,22 +236,22 @@ class _AddReviewScreenState extends State<AddReviewScreen> {
                 minRating: 1,
                 direction: Axis.horizontal,
                 ratingWidget: RatingWidget(
-                  full: Icon(
+                  full: const Icon(
                     Icons.star,
                     color: Colors.amber,
                   ),
-                  half: Icon(
+                  half: const Icon(
                     Icons.star_half,
                     color: Colors.amber,
                   ),
-                  empty: Icon(
+                  empty: const Icon(
                     Icons.star,
                     color: Color(0xffD9D9D9),
                   ),
                 ),
                 allowHalfRating: true,
                 itemCount: 5,
-                itemPadding: EdgeInsets.symmetric(horizontal: 4.0),
+                itemPadding: const EdgeInsets.symmetric(horizontal: 4.0),
                 onRatingUpdate: (rating) {
                   print(rating);
                 },
@@ -259,23 +259,23 @@ class _AddReviewScreenState extends State<AddReviewScreen> {
             ],
           ),
           SizedBox(height: 16.h),
-          Row(
+          const Row(
             children: [
               CustomText(
                 text: 'please_share_your_opinion',
                 fontSize: 14,
                 fontWeight: FontWeight.w500,
-                color: const Color(0xff1D212C),
+                color: Color(0xff1D212C),
               )
             ],
           ),
-          Row(
+          const Row(
             children: [
               CustomText(
                 text: 'optional',
                 fontSize: 14,
                 fontWeight: FontWeight.w500,
-                color: const Color(0xff8C8C8C),
+                color: Color(0xff8C8C8C),
               )
             ],
           ),
@@ -288,18 +288,18 @@ class _AddReviewScreenState extends State<AddReviewScreen> {
           SizedBox(height: 16.h),
           Row(
             children: [
-              CustomText(
+              const CustomText(
                 text: 'how_can_we_improve_our_services',
                 fontSize: 14,
                 fontWeight: FontWeight.w500,
-                color: const Color(0xff1D212C),
+                color: Color(0xff1D212C),
               ),
               SizedBox(width: 8.w),
-              CustomText(
+              const CustomText(
                 text: 'optional',
                 fontSize: 14,
                 fontWeight: FontWeight.w500,
-                color: const Color(0xff8C8C8C),
+                color: Color(0xff8C8C8C),
               )
             ],
           ),

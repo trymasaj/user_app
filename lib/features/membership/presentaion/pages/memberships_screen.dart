@@ -209,7 +209,7 @@ class _MembershipPlansScreenState extends State<MembershipPlansScreen> {
               child: ListView.builder(
                 physics: const NeverScrollableScrollPhysics(),
                 itemBuilder: (context, index) =>
-                    _buildBenefitItem(plan.benefits?[index].benefitEn ?? ''),
+                    _buildBenefitItem(plan.benefits?[index].benefit ?? ''),
                 itemCount: plan.benefits?.length ?? 0,
               ),
             ),
