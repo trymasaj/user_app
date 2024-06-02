@@ -328,7 +328,7 @@ class _CheckoutScreenState extends State<CheckoutScreen> {
   }
 
   Widget _buildPaymentMethodItem(PaymentMethodModel paymentMethod) {
-    if (paymentMethod.id == 2) {
+    if (paymentMethod.id == 3) {
       final bookingModel = context.read<BookingCubit>().state.bookingModel;
       final useWallet = context.read<WalletBloc>().state.useWallet;
       final num discount = bookingModel?.discountedAmount ?? 0;
