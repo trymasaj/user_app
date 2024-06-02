@@ -34,6 +34,7 @@ void main() async {
       options: DefaultFirebaseOptions.currentPlatform,
     );
     _initCrashLytics();
+    await Injector().notificationService.init();
 
     FlutterNativeSplash.preserve(widgetsBinding: widgetsBinding);
 
