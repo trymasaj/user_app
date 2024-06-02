@@ -47,6 +47,23 @@ class BookingCubit extends BaseCubit<BookingState> {
     }
   }
 
+  Future<void> getBookingStreaks() async {
+    try {
+      emit(state.copyWith(status: BookServiceStatus.loading));
+
+      final bookingStreaks = await _bookingRepository.getBookingStreaks();
+      emit(state.copyWith(
+        status: BookServiceStatus.loaded,
+        bookingStreaks: bookingStreaks,
+      ));
+    } on RedundantRequestException catch (e) {
+      log(e.toString());
+    } catch (e) {
+      emit(state.copyWith(
+          status: BookServiceStatus.error, errorMessage: e.toString()));
+    }
+  }
+
   Future<void> addBookingMembers(List<int>? members) async {
     if (members == null) return;
 

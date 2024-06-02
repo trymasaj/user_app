@@ -16,6 +16,8 @@ abstract class BookingRepository {
   Future<BookingModel> deleteBookingVoucher(String voucherId);
   Future<void> confirmBooking(int paymentId);
   Future<BookingModel> getBookingDetails(int bookingId);
+  Future<int> getBookingStreaks();
+
   Future<PaginationResponse<SessionModel>> getBookingList(
       BookingQueryModel bookingQueryModel);
 }
@@ -46,6 +48,9 @@ class BookingRepositoryImpl implements BookingRepository {
   @override
   Future<BookingModel> addBookingVoucher(String voucherId) =>
       _remoteDataSource.addBookingVoucher(voucherId);
+
+  @override
+  Future<int> getBookingStreaks() => _remoteDataSource.getBookingStreaks();
 
   @override
   Future<void> confirmBooking(int paymentId) =>

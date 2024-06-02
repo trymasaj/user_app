@@ -21,6 +21,8 @@ abstract class BookingRemoteDataSource {
   Future<BookingModel> deleteBookingVoucher(String voucherId);
   Future<void> confirmBooking(int paymentId);
   Future<BookingModel> getBookingDetails(int bookingId);
+  Future<int> getBookingStreaks();
+
   Future<PaginationResponse<SessionModel>> getBookingList(
       BookingQueryModel bookingQueryModel);
 }
@@ -39,6 +41,19 @@ class BookingRemoteDataSourceImpl implements BookingRemoteDataSource {
       if (response.statusCode != 200) {
         throw RequestException(message: response.data['detail']);
       }
+    });
+  }
+
+  @override
+  Future<int> getBookingStreaks() {
+    const url = ApiEndPoint.GET_BOOKING_STREAKS;
+
+    return _networkService.get(url).then((response) {
+      if (response.statusCode != 200) {
+        throw RequestException(message: response.data['detail']);
+      }
+      final result = response.data;
+      return result['bookingStreakCount'];
     });
   }
 

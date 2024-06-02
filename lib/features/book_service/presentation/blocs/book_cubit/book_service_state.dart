@@ -132,6 +132,7 @@ class BookingState {
   final List<Therapist> therapists;
   final Therapist? selectedTherapist;
   final TherapistTabsEnum selectedTab;
+  final int? bookingStreaks;
   final int? page;
   final int? pageSize;
   final BookingModel? bookingModel;
@@ -144,6 +145,7 @@ class BookingState {
   const BookingState({
     this.status = BookServiceStatus.initial,
     this.errorMessage,
+    this.bookingStreaks,
     this.therapists = const [],
     this.selectedTab = TherapistTabsEnum.all,
     this.page,
@@ -164,6 +166,7 @@ class BookingState {
         other.selectedTab == selectedTab &&
         other.page == page &&
         other.pageSize == pageSize &&
+        other.bookingStreaks == bookingStreaks &&
         other.bookingModel == bookingModel;
   }
 
@@ -176,6 +179,7 @@ class BookingState {
       page.hashCode ^
       selectedTherapist.hashCode ^
       pageSize.hashCode ^
+      bookingStreaks.hashCode ^
       bookingModel.hashCode;
 
   BookingState copyWith({
@@ -188,6 +192,7 @@ class BookingState {
     bool clearSeach = false,
     Therapist? selectedTherapist,
     BookingModel? bookingModel,
+    int? bookingStreaks,
     bool clearTherapist = false,
   }) {
     return BookingState(
@@ -199,6 +204,7 @@ class BookingState {
         selectedTherapist:
             clearTherapist ? null : selectedTherapist ?? this.selectedTherapist,
         pageSize: pageSize ?? this.pageSize,
+        bookingStreaks: bookingStreaks ?? this.bookingStreaks,
         bookingModel: bookingModel ?? this.bookingModel);
   }
 }

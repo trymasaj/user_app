@@ -16,7 +16,7 @@ abstract class ApiEndPoint {
   //Auth
   static const SIGN_UP = '$BASE_URL/Identity/register';
   static const UPDATE_PROFILE_INFORMATION = '$BASE_URL/Identity/update-profile';
-  // home 
+  // home
   static const HOME = '$BASE_URL/home';
 
   static const VERIFY_OTP = '$BASE_URL/Identity/verify-otp';
@@ -129,12 +129,14 @@ abstract class ApiEndPoint {
   static const BOOKING_MEMBERS = '$BASE_URL/bookings/members';
   static const BOOKING_THERAPIST = '$BASE_URL/bookings/therapist';
   static const BOOKING_DETAILS = '$BASE_URL/bookings/';
+  static const GET_BOOKING_STREAKS = '$BASE_URL/bookings/booking-streak';
 
   static const BOOKING_ADD_VOUCHER = '$BASE_URL/bookings/voucher';
   static const BOOKING_REMOVE_VOUCHER = '$BASE_URL/bookings/remove-voucher';
   //Payment
   static const BOOKING_CONFIRM = '$BASE_URL/bookings/confirm';
   static const GET_PAYMENT_METHODS = '$BASE_URL/payments/methods';
+
   //giftCards
   static const GET_GIFT_CARDS = '$BASE_URL/gift-cards';
   static const GET_PURCHASED_GIFT_CARDS = '$BASE_URL/gift-cards/purchased';

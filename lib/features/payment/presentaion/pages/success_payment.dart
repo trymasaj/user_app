@@ -30,6 +30,7 @@ class _SummaryPaymentPageState extends State<SummaryPaymentPage> {
   void getBooking() async {
     final bookingCubit = context.read<BookingCubit>();
     await bookingCubit.getBookingDetails(oldBookingId: widget.bookingId);
+    await bookingCubit.getBookingStreaks();
   }
 
   @override
@@ -44,8 +45,10 @@ class _SummaryPaymentPageState extends State<SummaryPaymentPage> {
 
   void _modalBottomSheetMenu() {
     WidgetsBinding.instance.addPostFrameCallback((_) async {
+      final bookingCubit = context.read<BookingCubit>();
+
       int total = 10;
-      int remaining = 5;
+      int remaining = bookingCubit.state.bookingStreaks ?? 0;
       await showModalBottomSheet(
           context: context,
           builder: (builder) {
