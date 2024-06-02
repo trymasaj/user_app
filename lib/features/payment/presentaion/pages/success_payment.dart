@@ -35,37 +35,71 @@ class _SummaryPaymentPageState extends State<SummaryPaymentPage> {
   @override
   void initState() {
     getBooking();
-    int total = 10;
-    int remaining = 5;
-    showModalBottomSheet(
-        context: context,
-        builder: (context) {
-          return Column(
-            children: [
-              SvgPicture.asset('assets/images/header.svg'),
-              ListView.builder(
-                  itemCount: total,
-                  scrollDirection: Axis.horizontal,
-                  itemBuilder: (context, index) {
-                    if (remaining > index + 1)
-                      return SvgPicture.asset(
-                          'assets/images/success_session.svg');
-                    return SvgPicture.asset(
-                        'assets/images/remained_session.svg');
-                  }),
-              CustomText(
-                text: 'remaining_sessions',
-                subtractedSize: -2,
-              ),
-              CustomText(
-                text: 'left_sessions'.tr(args: [remaining.toString()]),
-                subtractedSize: -2,
-              ),
-            ],
-          );
-        });
+    final bookingCubit = context.read<BookingCubit>();
+    if (bookingCubit.state.bookingModel?.payment?.paymentStatus ==
+        PaymentStatus.Captured) _modalBottomSheetMenu();
 
     super.initState();
+  }
+
+  void _modalBottomSheetMenu() {
+    WidgetsBinding.instance.addPostFrameCallback((_) async {
+      int total = 10;
+      int remaining = 5;
+      await showModalBottomSheet(
+          context: context,
+          builder: (builder) {
+            return Container(
+                decoration: const BoxDecoration(
+                  color: Colors.white,
+                  borderRadius: BorderRadius.only(
+                    topLeft: Radius.circular(10.0),
+                    topRight: Radius.circular(10.0),
+                  ),
+                ),
+                child: Column(
+                  children: [
+                    SvgPicture.asset(
+                      'assets/images/header.svg',
+                      width: 520,
+                    ),
+                    const SizedBox(height: 24.0),
+                    SizedBox(
+                      height: 90.0,
+                      child: GridView.builder(
+                        shrinkWrap: true,
+                        itemCount: total,
+                        scrollDirection: Axis.horizontal,
+                        itemBuilder: (context, index) {
+                          if (remaining > index + 1)
+                            return SvgPicture.asset(
+                              'assets/images/success_session.svg',
+                            );
+                          return SvgPicture.asset(
+                            'assets/images/remained_session.svg',
+                          );
+                        },
+                        gridDelegate:
+                            const SliverGridDelegateWithFixedCrossAxisCount(
+                                crossAxisCount: 2),
+                      ),
+                    ),
+                    const SizedBox(height: 24.0),
+                    const CustomText(
+                      text: 'remaining_sessions',
+                      textAlign: TextAlign.center,
+                      subtractedSize: -2,
+                    ),
+                    const SizedBox(height: 24.0),
+                    CustomText(
+                      text: 'left_sessions'.tr(args: [remaining.toString()]),
+                      subtractedSize: -2,
+                      textAlign: TextAlign.center,
+                    ),
+                  ],
+                ));
+          });
+    });
   }
 
   @override

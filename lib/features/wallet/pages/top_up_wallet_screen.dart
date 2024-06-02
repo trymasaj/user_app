@@ -4,6 +4,7 @@ import 'package:masaj/core/app_export.dart';
 import 'package:masaj/core/data/di/injector.dart';
 import 'package:masaj/core/presentation/overlay/show_snack_bar.dart';
 import 'package:masaj/core/presentation/widgets/stateless/custom_app_bar.dart';
+import 'package:masaj/core/presentation/widgets/stateless/custom_text.dart';
 import 'package:masaj/core/presentation/widgets/stateless/text_fields/default_text_form_field.dart';
 import 'package:masaj/features/gifts/presentaion/bloc/gifts_cubit.dart';
 import 'package:masaj/features/wallet/bloc/wallet_bloc/wallet_bloc.dart';
@@ -37,6 +38,8 @@ class _TopUpWalletScreenState extends State<TopUpWalletScreen> {
   int? _selectedIndex;
   final TextEditingController _giftController = TextEditingController();
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
+
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
