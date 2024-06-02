@@ -9,6 +9,7 @@ import 'package:masaj/core/presentation/navigation/navigator_helper.dart';
 import 'package:masaj/core/presentation/widgets/stateless/custom_app_bar.dart';
 import 'package:masaj/core/presentation/widgets/stateless/custom_app_page.dart';
 import 'package:masaj/core/presentation/widgets/stateless/custom_loading.dart';
+import 'package:masaj/core/presentation/widgets/stateless/custom_text.dart';
 import 'package:masaj/core/presentation/widgets/stateless/default_button.dart';
 import 'package:masaj/core/presentation/widgets/stateless/subtitle_text.dart';
 import 'package:masaj/features/book_service/enums/payment_status.dart';
@@ -34,6 +35,36 @@ class _SummaryPaymentPageState extends State<SummaryPaymentPage> {
   @override
   void initState() {
     getBooking();
+    int total = 10;
+    int remaining = 5;
+    showModalBottomSheet(
+        context: context,
+        builder: (context) {
+          return Column(
+            children: [
+              SvgPicture.asset('assets/images/header.svg'),
+              ListView.builder(
+                  itemCount: total,
+                  scrollDirection: Axis.horizontal,
+                  itemBuilder: (context, index) {
+                    if (remaining > index + 1)
+                      return SvgPicture.asset(
+                          'assets/images/success_session.svg');
+                    return SvgPicture.asset(
+                        'assets/images/remained_session.svg');
+                  }),
+              CustomText(
+                text: 'remaining_sessions',
+                subtractedSize: -2,
+              ),
+              CustomText(
+                text: 'left_sessions'.tr(args: [remaining.toString()]),
+                subtractedSize: -2,
+              ),
+            ],
+          );
+        });
+
     super.initState();
   }
 

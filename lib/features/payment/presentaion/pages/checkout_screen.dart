@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:masaj/core/app_export.dart';
+import 'package:masaj/core/data/configs/payment_configration.dart';
 import 'package:masaj/core/data/di/injector.dart';
 import 'package:masaj/core/date_format_helper.dart';
 import 'package:masaj/core/presentation/colors/app_colors.dart';
@@ -19,6 +20,7 @@ import 'package:masaj/features/book_service/presentation/blocs/book_cubit/book_s
 import 'package:masaj/features/payment/data/model/payment_method_model.dart';
 import 'package:masaj/features/payment/presentaion/bloc/payment_cubit.dart';
 import 'package:masaj/features/wallet/bloc/wallet_bloc/wallet_bloc.dart';
+import 'package:pay/pay.dart';
 
 class CheckoutScreen extends StatefulWidget {
   const CheckoutScreen({super.key});
@@ -321,7 +323,42 @@ class _CheckoutScreenState extends State<CheckoutScreen> {
     );
   }
 
+  void onApplePayResult(paymentResult) {
+    debugPrint(paymentResult.toString());
+  }
+
   Widget _buildPaymentMethodItem(PaymentMethodModel paymentMethod) {
+    if (paymentMethod.id == 3) {
+      final bookingModel = context.read<BookingCubit>().state.bookingModel;
+      final useWallet = context.read<WalletBloc>().state.useWallet;
+      final num discount = bookingModel?.discountedAmount ?? 0;
+
+      final double wallet =
+          useWallet ? double.tryParse(_walletController.text) ?? 0.0 : 0.0;
+      final num totalWithDiscounts =
+          (bookingModel?.grandTotal ?? 0) - wallet - discount;
+      final num total = totalWithDiscounts < 0 ? 0 : totalWithDiscounts;
+      final _paymentItems = [
+        PaymentItem(
+          label: 'Total',
+          amount: total.toString(),
+          status: PaymentItemStatus.final_price,
+        )
+      ];
+
+      return ApplePayButton(
+        paymentConfiguration: PaymentConfiguration.fromJsonString(
+            defaultApplePay(currency: 'KWD', countryCode: 'Kw')),
+        paymentItems: _paymentItems,
+        style: ApplePayButtonStyle.black,
+        type: ApplePayButtonType.buy,
+        margin: const EdgeInsets.only(top: 15.0),
+        onPaymentResult: onApplePayResult,
+        loadingIndicator: const Center(
+          child: CircularProgressIndicator(),
+        ),
+      );
+    }
     return GestureDetector(
       onTap: () {
         setState(() {
