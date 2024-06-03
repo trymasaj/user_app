@@ -2,6 +2,7 @@ import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 import 'package:masaj/core/app_export.dart';
+import 'package:masaj/core/data/configs/payment_configration.dart';
 import 'package:masaj/core/data/di/injector.dart';
 import 'package:masaj/core/presentation/colors/app_colors.dart';
 import 'package:masaj/core/presentation/widgets/stateless/custom_app_bar.dart';
@@ -17,6 +18,8 @@ import 'package:masaj/features/book_service/data/models/booking_model/booking_mo
 import 'package:masaj/features/payment/data/model/payment_method_model.dart';
 import 'package:masaj/features/payment/presentaion/bloc/payment_cubit.dart';
 import 'package:masaj/features/payment/presentaion/pages/checkout_screen.dart';
+import 'package:masaj/features/wallet/bloc/wallet_bloc/wallet_bloc.dart';
+import 'package:pay/pay.dart';
 
 enum TipsAmountEnumn {
   one('1_kwd', 1),
@@ -187,7 +190,7 @@ class _AddReviewScreenState extends State<AddReviewScreen> {
             ],
           ),
         ),
-        _buildPaymentSection(context),
+        _buildPaymentSection(context, 0.0),
       ],
     );
   }
@@ -315,7 +318,88 @@ class _AddReviewScreenState extends State<AddReviewScreen> {
     );
   }
 
-  Widget _buildPaymentSection(BuildContext context) {
+  // Widget _buildPaymentSection(BuildContext context) {
+  //   return Padding(
+  //     padding: const EdgeInsets.all(_KSectionPadding),
+  //     child: Column(
+  //       crossAxisAlignment: CrossAxisAlignment.start,
+  //       children: [
+  //         const TitleText(
+  //           text: 'payment_method',
+  //         ),
+  //         WalletSection(
+  //           controller: _walletController,
+  //           totalPrice: 0,
+  //         ),
+  //         _buildPaymentMethods()
+  //       ],
+  //     ),
+  //   );
+  // }
+
+  // Widget _buildPaymentMethods() {
+  //   return BlocBuilder<PaymentCubit, PaymentState>(
+  //     builder: (context, state) {
+  //       if (state.isLoading) {
+  //         return const CustomLoading();
+  //       }
+  //       final methods = state.methods ?? [];
+
+  //       if ((methods == [] || methods.isEmpty)) {
+  //         return const EmptyPageMessage();
+  //       }
+  //       return ListView.builder(
+  //           shrinkWrap: true,
+  //           itemCount: methods.length,
+  //           physics: const NeverScrollableScrollPhysics(),
+  //           itemBuilder: (context, index) {
+  //             return _buildPaymentMethodItem(methods[index]);
+  //           });
+  //     },
+  //   );
+  // }
+
+  // Widget _buildPaymentMethodItem(PaymentMethodModel paymentMethod) {
+  //   return GestureDetector(
+  //     onTap: () {
+  //       setState(() {
+  //         _selectedPayment = paymentMethod;
+  //       });
+  //     },
+  //     child: Padding(
+  //       padding: const EdgeInsets.symmetric(vertical: 6.0),
+  //       child: DecoratedBox(
+  //         decoration: BoxDecoration(
+  //           color: paymentMethod == _selectedPayment
+  //               ? AppColors.PRIMARY_COLOR.withOpacity(0.09)
+  //               : AppColors.BACKGROUND_COLOR.withOpacity(0.09),
+  //           borderRadius: BorderRadius.circular(20),
+  //           border: Border.all(color: AppColors.PRIMARY_COLOR, width: 1.5),
+  //         ),
+  //         child: Padding(
+  //           padding: const EdgeInsets.all(24.0),
+  //           child: Row(children: [
+  //             SubtitleText(
+  //               text: paymentMethod.title ?? '',
+  //               isBold: true,
+  //             ),
+  //             const Spacer(),
+  //             Radio.adaptive(
+  //                 activeColor: AppColors.PRIMARY_COLOR,
+  //                 value: paymentMethod,
+  //                 groupValue: _selectedPayment,
+  //                 onChanged: (value) {
+  //                   setState(() {
+  //                     _selectedPayment = value;
+  //                   });
+  //                 })
+  //           ]),
+  //         ),
+  //       ),
+  //     ),
+  //   );
+  // }
+  Widget _buildPaymentSection(BuildContext context, double totalPrice) {
     return Padding(
       padding: const EdgeInsets.all(_KSectionPadding),
       child: Column(
@@ -326,7 +410,7 @@ class _AddReviewScreenState extends State<AddReviewScreen> {
           ),
           WalletSection(
             controller: _walletController,
-            totalPrice: 0,
+            totalPrice: totalPrice,
           ),
           _buildPaymentMethods()
         ],
@@ -345,18 +429,51 @@ class _AddReviewScreenState extends State<AddReviewScreen> {
         if ((methods == [] || methods.isEmpty)) {
           return const EmptyPageMessage();
         }
+
         return ListView.builder(
             shrinkWrap: true,
             itemCount: methods.length,
             physics: const NeverScrollableScrollPhysics(),
             itemBuilder: (context, index) {
-              return _buildPaymentMethodItem(methods[index]);
+              return _buildPaymentMethodItem(methods[index], 0.0);
             });
       },
     );
   }
 
-  Widget _buildPaymentMethodItem(PaymentMethodModel paymentMethod) {
+  void onApplePayResult(paymentResult) {
+    debugPrint(paymentResult.toString());
+  }
+
+  Widget _buildPaymentMethodItem(
+      PaymentMethodModel paymentMethod, double totalPrice) {
+    if (paymentMethod.id == 3) {
+      final useWallet = context.read<WalletBloc>().state.useWallet;
+
+      final double wallet =
+          useWallet ? double.tryParse(_walletController.text) ?? 0.0 : 0.0;
+
+      final _paymentItems = [
+        PaymentItem(
+          label: 'Total',
+          amount: totalPrice.toString(),
+          status: PaymentItemStatus.final_price,
+        )
+      ];
+
+      return ApplePayButton(
+        paymentConfiguration: PaymentConfiguration.fromJsonString(
+            defaultApplePay(currency: 'KWD', countryCode: 'Kw')),
+        paymentItems: _paymentItems,
+        style: ApplePayButtonStyle.black,
+        type: ApplePayButtonType.buy,
+        margin: const EdgeInsets.only(top: 15.0),
+        onPaymentResult: onApplePayResult,
+        loadingIndicator: const Center(
+          child: CircularProgressIndicator(),
+        ),
+      );
+    }
     return GestureDetector(
       onTap: () {
         setState(() {
