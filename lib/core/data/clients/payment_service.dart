@@ -114,6 +114,7 @@ class PaymentServiceImpl implements PaymentService {
     }
   }
 
+  @override
   Future<void> buyWithApple({
     required PaymentParam paymentType,
   }) async {

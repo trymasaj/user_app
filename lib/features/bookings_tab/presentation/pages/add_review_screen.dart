@@ -5,7 +5,9 @@ import 'package:masaj/core/app_export.dart';
 import 'package:masaj/core/data/configs/payment_configration.dart';
 import 'package:masaj/core/data/di/injector.dart';
 import 'package:masaj/core/presentation/colors/app_colors.dart';
+import 'package:masaj/core/presentation/navigation/navigator_helper.dart';
 import 'package:masaj/core/presentation/overlay/show_snack_bar.dart';
+import 'package:masaj/core/presentation/widgets/stateless/apple_pay_button.dart';
 import 'package:masaj/core/presentation/widgets/stateless/custom_app_bar.dart';
 import 'package:masaj/core/presentation/widgets/stateless/custom_loading.dart';
 import 'package:masaj/core/presentation/widgets/stateless/custom_text.dart';
@@ -385,87 +387,6 @@ class _AddReviewScreenState extends State<AddReviewScreen> {
     );
   }
 
-  // Widget _buildPaymentSection(BuildContext context) {
-  //   return Padding(
-  //     padding: const EdgeInsets.all(_KSectionPadding),
-  //     child: Column(
-  //       crossAxisAlignment: CrossAxisAlignment.start,
-  //       children: [
-  //         const TitleText(
-  //           text: 'payment_method',
-  //         ),
-  //         WalletSection(
-  //           controller: _walletController,
-  //           totalPrice: 0,
-  //         ),
-  //         _buildPaymentMethods()
-  //       ],
-  //     ),
-  //   );
-  // }
-
-  // Widget _buildPaymentMethods() {
-  //   return BlocBuilder<PaymentCubit, PaymentState>(
-  //     builder: (context, state) {
-  //       if (state.isLoading) {
-  //         return const CustomLoading();
-  //       }
-  //       final methods = state.methods ?? [];
-
-  //       if ((methods == [] || methods.isEmpty)) {
-  //         return const EmptyPageMessage();
-  //       }
-  //       return ListView.builder(
-  //           shrinkWrap: true,
-  //           itemCount: methods.length,
-  //           physics: const NeverScrollableScrollPhysics(),
-  //           itemBuilder: (context, index) {
-  //             return _buildPaymentMethodItem(methods[index]);
-  //           });
-  //     },
-  //   );
-  // }
-
-  // Widget _buildPaymentMethodItem(PaymentMethodModel paymentMethod) {
-  //   return GestureDetector(
-  //     onTap: () {
-  //       setState(() {
-  //         _selectedPayment = paymentMethod;
-  //       });
-  //     },
-  //     child: Padding(
-  //       padding: const EdgeInsets.symmetric(vertical: 6.0),
-  //       child: DecoratedBox(
-  //         decoration: BoxDecoration(
-  //           color: paymentMethod == _selectedPayment
-  //               ? AppColors.PRIMARY_COLOR.withOpacity(0.09)
-  //               : AppColors.BACKGROUND_COLOR.withOpacity(0.09),
-  //           borderRadius: BorderRadius.circular(20),
-  //           border: Border.all(color: AppColors.PRIMARY_COLOR, width: 1.5),
-  //         ),
-  //         child: Padding(
-  //           padding: const EdgeInsets.all(24.0),
-  //           child: Row(children: [
-  //             SubtitleText(
-  //               text: paymentMethod.title ?? '',
-  //               isBold: true,
-  //             ),
-  //             const Spacer(),
-  //             Radio.adaptive(
-  //                 activeColor: AppColors.PRIMARY_COLOR,
-  //                 value: paymentMethod,
-  //                 groupValue: _selectedPayment,
-  //                 onChanged: (value) {
-  //                   setState(() {
-  //                     _selectedPayment = value;
-  //                   });
-  //                 })
-  //           ]),
-  //         ),
-  //       ),
-  //     ),
-  //   );
-  // }
   Widget _buildPaymentSection(BuildContext context, double totalPrice) {
     return Padding(
       padding: const EdgeInsets.all(_KSectionPadding),
@@ -502,43 +423,28 @@ class _AddReviewScreenState extends State<AddReviewScreen> {
             itemCount: methods.length,
             physics: const NeverScrollableScrollPhysics(),
             itemBuilder: (context, index) {
-              return _buildPaymentMethodItem(methods[index], 0.0);
+              return _buildPaymentMethodItem(context, methods[index], 0.0);
             });
       },
     );
   }
 
-  void onApplePayResult(paymentResult) {
-    debugPrint(paymentResult.toString());
-  }
-
-  Widget _buildPaymentMethodItem(
+  Widget _buildPaymentMethodItem(BuildContext context,
       PaymentMethodModel paymentMethod, double totalPrice) {
     if (paymentMethod.id == 3) {
-      final useWallet = context.read<WalletBloc>().state.useWallet;
-
-      final double wallet =
-          useWallet ? double.tryParse(_walletController.text) ?? 0.0 : 0.0;
-
-      final _paymentItems = [
-        PaymentItem(
-          label: 'Total',
-          amount: totalPrice.toString(),
-          status: PaymentItemStatus.final_price,
-        )
-      ];
-
-      return ApplePayButton(
-        paymentConfiguration: PaymentConfiguration.fromJsonString(
-            defaultApplePay(currency: 'KWD', countryCode: 'Kw')),
-        paymentItems: _paymentItems,
-        style: ApplePayButtonStyle.black,
-        type: ApplePayButtonType.buy,
-        margin: const EdgeInsets.only(top: 15.0),
-        onPaymentResult: onApplePayResult,
-        loadingIndicator: const Center(
-          child: CircularProgressIndicator(),
-        ),
+      return ApplePayCustomButton(
+        onPressed: () async {
+          final cubit = context.read<PaymentCubit>();
+          final countryCubit = context.read<CountryCubit>();
+          final currentCountry = countryCubit.state.currentAddress?.country;
+          await cubit.tipTherapist(
+            context,
+            3,
+            countryCode: currentCountry?.isoCode,
+            currencyCode: currentCountry?.currencyIso,
+            total: _totalPrice,
+          );
+        },
       );
     }
     return GestureDetector(
