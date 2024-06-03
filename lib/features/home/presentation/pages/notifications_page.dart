@@ -10,6 +10,8 @@ import 'package:masaj/core/presentation/widgets/stateless/custom_loading.dart';
 import 'package:masaj/core/presentation/widgets/stateless/empty_page_message.dart';
 import 'package:masaj/core/presentation/widgets/stateless/subtitle_text.dart';
 import 'package:masaj/core/presentation/widgets/stateless/title_text.dart';
+import 'package:masaj/features/bookings_tab/presentation/pages/booking_details.dart';
+import 'package:masaj/features/home/data/models/message_model.dart';
 import 'package:masaj/features/home/data/models/notification.dart';
 import 'package:masaj/features/home/presentation/bloc/notificaions_cubit/notifications_cubit.dart';
 import 'package:masaj/features/home/presentation/bloc/notificaions_cubit/notifications_state.dart';
@@ -56,30 +58,35 @@ class NotificationsPage extends StatelessWidget {
             loadingStyle: LoadingStyle.ShimmerList,
           );
         }
-        if (state.allNotification?.notifications?.isNotEmpty != true) {
+        if (state?.notifications?.isNotEmpty != true) {
           return EmptyPageMessage(
             message: 'no_notifications',
             textColor: Colors.black,
-            onRefresh: cubit.refresh,
+            onRefresh: () async {},
+
+            // onRefresh: cubit.refresh,
             heightRatio: 0.8,
           );
         }
 
         return LazyLoadScrollView(
-          onEndOfPage: cubit.loadMoreNotifications,
+          // onEndOfPage: cubit.loadMoreNotifications,
+          onEndOfPage: () {},
           isLoading: state.isLoadingMore,
           child: RefreshIndicator(
             color: Colors.black,
-            onRefresh: cubit.refresh,
+            // onRefresh: cubit.refresh,
+            onRefresh: () async {
+              cubit.refresh();
+            },
             child: ListView.separated(
               separatorBuilder: (context, index) => const SizedBox(height: 5),
-              itemCount: state.allNotification!.notifications!.length + 1,
+              itemCount: state!.notifications!.length + 1,
               itemBuilder: (context, index) {
-                if (index == state.allNotification!.notifications!.length) {
+                if (index == state!.notifications!.length) {
                   return _buildPaginationLoading();
                 }
-                final notificationItem =
-                    state.allNotification!.notifications![index];
+                final notificationItem = state!.notifications![index];
                 return _NotificationCard(notificationItem: notificationItem);
               },
             ),
@@ -130,38 +137,52 @@ class _NotificationCard extends StatelessWidget {
     required this.notificationItem,
   });
 
-  final Notification notificationItem;
+  final MessagesModel notificationItem;
 
   @override
   Widget build(BuildContext context) {
-    return Padding(
-      padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
-      child: Material(
-        elevation: 1.4,
-        shadowColor: Colors.black,
-        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
-        color: Colors.white,
-        child: ListTile(
-          horizontalTitleGap: 0,
-          leading: notificationItem.seen != true
-              ? const Column(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  crossAxisAlignment: CrossAxisAlignment.center,
-                  children: [
-                    CircleAvatar(
-                      radius: 5,
-                      backgroundColor: Colors.redAccent,
-                    )
-                  ],
-                )
-              : null,
-          title: TitleText.medium(
-            text: notificationItem.title!,
-            color: Colors.black,
-          ),
-          subtitle: SubtitleText.small(
-            text: notificationItem.message!,
-            color: Colors.black,
+    return GestureDetector(
+      onTap: () async {
+        if (notificationItem.id != null && notificationItem.seen != true)
+          await context
+              .read<NotificationsCubit>()
+              .markAsRead(notificationItem.id ?? 0);
+        final int? bookingId =
+            int.tryParse(notificationItem.additionalData?['bookingId'] ?? '');
+        if (bookingId != null)
+          Navigator.of(context)
+              .pushNamed(BookingDetialsScreen.routeName, arguments: bookingId);
+      },
+      child: Padding(
+        padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
+        child: Material(
+          elevation: 1.4,
+          shadowColor: Colors.black,
+          shape:
+              RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
+          color: Colors.white,
+          child: ListTile(
+            horizontalTitleGap: 0,
+            leading: notificationItem.seen != true
+                ? const Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    children: [
+                      CircleAvatar(
+                        radius: 5,
+                        backgroundColor: Colors.redAccent,
+                      )
+                    ],
+                  )
+                : null,
+            title: TitleText.medium(
+              text: notificationItem.title ?? '',
+              color: Colors.black,
+            ),
+            subtitle: SubtitleText.small(
+              text: notificationItem.body ?? '',
+              color: Colors.black,
+            ),
           ),
         ),
       ),

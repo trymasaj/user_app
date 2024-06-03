@@ -34,6 +34,9 @@ import 'package:masaj/features/book_service/data/repositories/booking_repository
 
 import 'package:masaj/features/book_service/presentation/blocs/available_therapist_cubit/available_therapist_cubit.dart';
 import 'package:masaj/features/book_service/presentation/blocs/book_cubit/book_service_cubit.dart';
+import 'package:masaj/features/bookings_tab/data/datasources/review_remote_data_source.dart';
+import 'package:masaj/features/bookings_tab/data/repositories/review_repository.dart';
+import 'package:masaj/features/bookings_tab/presentation/cubits/review_tips_cubit/review_tips_cubit.dart';
 import 'package:masaj/features/gifts/data/datasource/gifts_datasource.dart';
 import 'package:masaj/features/gifts/data/repo/gifts_repo.dart';
 import 'package:masaj/features/gifts/presentaion/bloc/gifts_cubit.dart';
@@ -41,7 +44,9 @@ import 'package:masaj/features/bookings_tab/presentation/cubits/booking_details_
 import 'package:masaj/features/bookings_tab/presentation/cubits/bookings_tab_cubit/bookings_tab_cubit.dart';
 import 'package:masaj/features/home/data/datasources/home_local_data_source.dart';
 import 'package:masaj/features/home/data/datasources/home_remote_data_source.dart';
+import 'package:masaj/features/home/data/datasources/notifications_remote_datasource.dart';
 import 'package:masaj/features/home/data/repositories/home_repository.dart';
+import 'package:masaj/features/home/data/repositories/notifications_repository.dart';
 import 'package:masaj/features/home/presentation/bloc/home_cubit/home_cubit.dart';
 import 'package:masaj/features/home/presentation/bloc/home_page_cubit/home_page_cubit.dart';
 import 'package:masaj/features/home/presentation/bloc/home_search_cubit/home_search_cubit.dart';
@@ -105,6 +110,17 @@ class Injector {
   SplashRepository get splashRepository =>
       _flyweightMap['splashRepository'] ??
       SplashRepositoryImpl(splashLocalDataSource);
+  NotificationsRemoteDataSource get notificationsRemoteDataSource =>
+      _flyweightMap['notificationsRemoteDataSource'] ??=
+          NotificationsRemoteDataSourceImpl(networkService);
+  NotificationsRepository get notificationsRepository =>
+      _flyweightMap['notificationsRepository'] ??=
+          NotificationsRepositoryImpl(notificationsRemoteDataSource);
+  ReviewRemoteDataSource get reviewRemoteDataSource =>
+      _flyweightMap['reviewRemoteDataSource'] ??=
+          ReviewRemoteDataSourceImpl(networkService);
+  ReviewRepository get reviewRepository => _flyweightMap['reviewRepository'] ??=
+      ReviewRepositoryImpl(reviewRemoteDataSource);
 
   SplashLocalDataSource get splashLocalDataSource =>
       _flyweightMap['splashLocalDataSource'] ??
@@ -325,7 +341,7 @@ class Injector {
 
   //===================[NOTIFICATIONS_CUBIT]===================
   NotificationsCubit get notificationsCubit =>
-      NotificationsCubit(homeRepository);
+      NotificationsCubit(homeRepository, notificationsRepository);
 
   //===================[SEARCH_BLOC]===================
 
@@ -401,5 +417,10 @@ class Injector {
         homeRepository,
         serviceRepository,
         bookingRepository,
+      );
+  //===================[REVIEW_TIPS_CUBIT]===================
+  ReviewTipsCubit get reviewTipsCubit => ReviewTipsCubit(
+        reviewRepository,
+        paymentService,
       );
 }

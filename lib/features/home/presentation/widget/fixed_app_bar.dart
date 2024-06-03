@@ -1,5 +1,6 @@
 import 'dart:math';
 import 'package:flutter/material.dart';
+import 'package:flutter/widgets.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:masaj/core/app_export.dart';
 import 'package:masaj/core/presentation/colors/app_colors.dart';
@@ -14,6 +15,7 @@ import 'package:masaj/features/auth/application/country_cubit/country_cubit.dart
 import 'package:masaj/features/auth/application/country_cubit/country_state.dart';
 import 'package:masaj/features/book_service/presentation/blocs/book_cubit/book_service_cubit.dart';
 import 'package:masaj/features/home/presentation/bloc/home_page_cubit/home_page_cubit.dart';
+import 'package:masaj/features/home/presentation/pages/notifications_page.dart';
 import 'package:masaj/gen/assets.gen.dart';
 
 class FixedAppBar extends StatelessWidget {
@@ -99,22 +101,33 @@ class FixedAppBar extends StatelessWidget {
                           Assets.images.fluentPeopleCommunity20Regular,
                         ),
                       ),
-                      Container(
-                        margin: const EdgeInsets.only(left: 10),
-                        height: 40,
-                        padding: const EdgeInsets.all(8),
-                        decoration: BoxDecoration(
-                          // circle shape
-                          shape: BoxShape.circle,
-                          // border color
-                          border: Border.all(
-                            color: AppColors.GREY_LIGHT_COLOR_2,
-                            width: 1,
+                      GestureDetector(
+                        onTap: () {
+                          // NavigatorHelper.of(context).pushNamed(
+                          //   UpdateAddressScreen.routeName,
+                          // );
+                          Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                  builder: (context) => NotificationsPage()));
+                        },
+                        child: Container(
+                          margin: const EdgeInsets.only(left: 10),
+                          height: 40,
+                          padding: const EdgeInsets.all(8),
+                          decoration: BoxDecoration(
+                            // circle shape
+                            shape: BoxShape.circle,
+                            // border color
+                            border: Border.all(
+                              color: AppColors.GREY_LIGHT_COLOR_2,
+                              width: 1,
+                            ),
                           ),
-                        ),
-                        child: SvgPicture.asset(
-                          Assets.images.bell,
-                          color: AppColors.ACCENT_COLOR,
+                          child: SvgPicture.asset(
+                            Assets.images.bell,
+                            color: AppColors.ACCENT_COLOR,
+                          ),
                         ),
                       ),
                     ],

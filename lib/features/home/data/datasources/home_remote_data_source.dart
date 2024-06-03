@@ -9,6 +9,7 @@ import 'package:masaj/features/home/data/models/event.dart';
 import 'package:masaj/features/home/data/models/home_data.dart';
 import 'package:masaj/features/home/data/models/home_search_reponse.dart';
 import 'package:masaj/features/home/data/models/home_section.dart';
+import 'package:masaj/features/home/data/models/message_model.dart';
 import 'package:masaj/features/home/data/models/notification.dart';
 
 abstract class HomeRemoteDataSource {
@@ -16,7 +17,8 @@ abstract class HomeRemoteDataSource {
   Future<List<HomeSectionModel>> getHomeSections();
   Future<List<BannerModel>> getBanners();
   Future<HomeSearchResponse> search({required String keyWord});
-
+ Future<List<MessagesModel>> getNotifications(
+      MessageReadType messageReadType);
   Future<Events> getHomeSearch({
     required String text,
     int? cursor,
@@ -138,6 +140,22 @@ class HomeRemoteDataSourceImpl implements HomeRemoteDataSource {
       }
       final result = response.data;
       return List<HomeSectionModel>.from(result.map((x) => HomeSectionModel.fromMap(x)));
+    });
+  }
+  
+  @override
+  Future<List<MessagesModel>> getNotifications(MessageReadType messageReadType) {
+    const url = ApiEndPoint.MESSAGES;
+    final params = {
+      'messageReadType': messageReadType.name,
+    };
+    return _networkService.get(url, queryParameters: params).then((response) {
+      if (response.statusCode != 200) {
+        throw RequestException.fromStatusCode(
+            statusCode: response.statusCode!, response: response.data);
+      }
+      final result = response.data;
+      return List<MessagesModel>.from(result.map((x) => MessagesModel.fromJson(x)));
     });
   }
 }

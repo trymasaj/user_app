@@ -1,3 +1,5 @@
+enum MessageReadType { All, Read, Unread }
+
 class MessagesModel {
   int? id;
   int? messageCategoryId;
@@ -78,4 +80,40 @@ class MessagesModel {
       seen.hashCode ^
       seenDate.hashCode;
   }
+
+  // copyWith method
+  MessagesModel copyWith({
+    int? id,
+    int? messageCategoryId,
+    String
+    ? categoryKey,  
+    String  
+    ? title,  
+    String  
+    ? body,
+    Map<String, String>
+    ? additionalData,
+    DateTime
+    ? expiryDate,
+    DateTime
+    ? deleteDate,
+    bool
+    ? seen,
+    DateTime
+    ? seenDate,
+  }) {
+    return MessagesModel(
+      id: id ?? this.id,
+      messageCategoryId: messageCategoryId ?? this.messageCategoryId,
+      categoryKey: categoryKey ?? this.categoryKey,
+      title: title ?? this.title,
+      body: body ?? this.body,
+      additionalData: additionalData ?? this.additionalData,
+      expiryDate: expiryDate ?? this.expiryDate,
+      deleteDate: deleteDate ?? this.deleteDate,
+      seen: seen ?? this.seen,
+      seenDate: seenDate ?? this.seenDate,
+    );
+  }
+  
 }

@@ -152,4 +152,5 @@ abstract class ApiEndPoint {
   // membership
   static const MEMBERSHIP = '$BASE_URL/subscription';
   static const MEMBERSHIP_PLANS = '$BASE_URL/plan';
+  static const MESSAGES = '$BASE_URL/messages';
 }

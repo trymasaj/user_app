@@ -24,6 +24,7 @@ import 'package:masaj/features/bookings_tab/presentation/pages/add_review_screen
 import 'package:masaj/features/bookings_tab/presentation/pages/booking_details.dart';
 import 'package:masaj/features/gifts/presentaion/pages/gift_cards.dart';
 import 'package:masaj/features/home/presentation/pages/home_page.dart';
+import 'package:masaj/features/home/presentation/pages/notifications_page.dart';
 import 'package:masaj/features/intro/presentation/pages/choose_language_page.dart';
 import 'package:masaj/features/intro/presentation/pages/guide_page.dart';
 import 'package:masaj/features/legal/pages/cancellation_policy_screen.dart';
@@ -124,6 +125,9 @@ Route<dynamic>? onGenerateRoute(RouteSettings settings) {
     case AddAddressScreen.routeName:
       return MaterialPageRoute(
           builder: (context) => AddAddressScreen.builder());
+    case NotificationsPage.routeName:
+      return MaterialPageRoute(builder: (context) => NotificationsPage());
+
     case EditAddressScreen.routeName:
       return MaterialPageRoute(
           builder: (context) =>

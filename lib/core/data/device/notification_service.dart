@@ -4,8 +4,11 @@ import 'dart:io';
 import 'dart:math' as math;
 
 import 'package:firebase_messaging/firebase_messaging.dart';
+import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'package:masaj/core/data/io/url_helper.dart';
+import 'package:masaj/features/home/presentation/pages/notifications_page.dart';
+import 'package:masaj/main.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 
@@ -19,10 +22,13 @@ class NotificationService {
   Future<void> init() async {
     await _FlutterLocalNotificationHelper.init();
 
-    await _init();
+    await _init(() async {
+      await navigateToNotificationPage();
+    });
 
     try {
       final deviceTokenId = await getDeviceTokenId();
+      print('Device Token Id: $deviceTokenId');
       await cancelAll();
     } on Exception catch (e) {
       log(e.toString());
@@ -173,7 +179,12 @@ class _FlutterLocalNotificationHelper {
 }
 
 Future<void> navigateToNotificationPage([int? notificationId]) async {
-  if (notificationId == null) return Future.value();
+  // if (notificationId == null) return Future.value();
+  navigatorKey.currentState!.push(
+    MaterialPageRoute(
+      builder: (context) => NotificationsPage(),
+    ),
+  );
   // return navigatorKey.currentState!.push(
   //   MaterialPageRoute(
   //     builder: (context) =>
