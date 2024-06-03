@@ -912,5 +912,7 @@
   "lbl_5_kwd": "5 د.ك",
   "paid": "مدفوع",
   "notPaid": "غير مدفوع",
-  "error_adding_therapist": "حدث خطأ أثناء إضافة المعالج"
+  "error_adding_therapist": "حدث خطأ أثناء إضافة المعالج",
+  "no_notifications": "لا توجد إشعارات",
+  "my_notifications": "إشعاراتي"
 }

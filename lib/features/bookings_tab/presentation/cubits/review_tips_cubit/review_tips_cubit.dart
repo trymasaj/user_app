@@ -1,51 +1,61 @@
+import 'package:masaj/core/app_export.dart';
+import 'package:masaj/core/data/clients/payment_service.dart';
+import 'package:masaj/core/data/constants/api_end_point.dart';
+import 'package:masaj/features/bookings_tab/data/models/review_request.dart';
+import 'package:masaj/features/bookings_tab/data/repositories/review_repository.dart';
+import 'package:masaj/main.dart';
+part 'review_tips_cubit_state.dart';
 
-part of 'review_tips_cubit_state.dart';
-enum ReviewTipsStatus { initial, loading, loaded, error, tipsSuccess }
-extension ReviewTipsStatusX on ReviewTipsStatus {
-  bool get isInitial => this == ReviewTipsStatus.initial;
-  bool get isLoading => this == ReviewTipsStatus.loading;
-  bool get isLoaded => this == ReviewTipsStatus.loaded;
-  bool get isError => this == ReviewTipsStatus.error;
-  bool get isTipsSuccess => this == ReviewTipsStatus.tipsSuccess;
-}
+class ReviewTipsCubit extends Cubit<ReviewTipsCubitState> {
+  final ReviewRepository _reviewRepository;
+  final PaymentService _paymentService;
 
+  ReviewTipsCubit(
+    this._reviewRepository,
+    this._paymentService,
+  ) : super(ReviewTipsCubitState());
 
-class ReviewTipsCubitState{
-  final ReviewTipsStatus status;
-  final String? errorMessage;
-  final bool? tipsSuccess;
+  // add review
+  Future<void> addReview(
+      {required ReviewRequest reviewRequest,
+      required int paymentMethodId,
+      bool walletPayment = false,
+      double? tipAmount,
+      String? applePayToken}) async {
+    emit(state.copyWith(status: ReviewTipsStatus.loading));
+    try {
+      if (tipAmount != null)
+        await _paymentService.buy(PaymentParam(
+          urlPath: '${ApiEndPoint.BOOKING}/${reviewRequest.bookingId}/tip',
+          params: {
+            'paymentMethod': paymentMethodId,
+            if (applePayToken != null) 'applePayToken': applePayToken,
+            'walletPayment': walletPayment,
+            'amount': tipAmount ?? 0
+          },
+          paymentMethodId: paymentMethodId,
+          onSuccess: () {
+            emit(state.copyWith(status: ReviewTipsStatus.loaded));
+            navigatorKey.currentState!.pop();
+          },
+          onFailure: () {
+            emit(state.copyWith(
+                status: ReviewTipsStatus.error,
+                errorMessage: 'Payment failed'));
+          },
+        ));
+      await _reviewRepository.addReview(reviewRequest);
 
-  const ReviewTipsCubitState({
-    this.status = ReviewTipsStatus.initial,
-    this.errorMessage,
-    this.tipsSuccess,
-  });
-
-  @override
-  bool operator ==(Object other) {
-    if (identical(this, other)) return true;
-
-    return other.runtimeType == runtimeType &&
-        (other as ReviewTipsCubitState).status == status &&
-        other.errorMessage == errorMessage &&
-        other.tipsSuccess == tipsSuccess;
+      emit(state.copyWith(status: ReviewTipsStatus.loaded, tipsSuccess: true));
+    } catch (e, s) {
+      print(e);
+      print(s);
+      emit(state.copyWith(
+          status: ReviewTipsStatus.error, errorMessage: e.toString()));
+    }
   }
 
-  @override
-  int get hashCode =>
-      status.hashCode ^
-      errorMessage.hashCode ^
-      tipsSuccess.hashCode;
-
-  ReviewTipsCubitState copyWith({
-    ReviewTipsStatus? status,
-    String? errorMessage,
-    bool? tipsSuccess,
-  }) {
-    return ReviewTipsCubitState(
-      status: status ?? this.status,
-      errorMessage: errorMessage ?? this.errorMessage,
-      tipsSuccess: tipsSuccess ?? this.tipsSuccess,
-    );
+  Future<void> refresh() async {
+    emit(state.copyWith(status: ReviewTipsStatus.initial));
   }
 }

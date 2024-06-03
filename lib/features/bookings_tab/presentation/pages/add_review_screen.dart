@@ -5,6 +5,7 @@ import 'package:masaj/core/app_export.dart';
 import 'package:masaj/core/data/configs/payment_configration.dart';
 import 'package:masaj/core/data/di/injector.dart';
 import 'package:masaj/core/presentation/colors/app_colors.dart';
+import 'package:masaj/core/presentation/overlay/show_snack_bar.dart';
 import 'package:masaj/core/presentation/widgets/stateless/custom_app_bar.dart';
 import 'package:masaj/core/presentation/widgets/stateless/custom_loading.dart';
 import 'package:masaj/core/presentation/widgets/stateless/custom_text.dart';
@@ -15,6 +16,8 @@ import 'package:masaj/core/presentation/widgets/stateless/text_fields/default_te
 import 'package:masaj/core/presentation/widgets/stateless/text_with_gradiant.dart';
 import 'package:masaj/core/presentation/widgets/stateless/title_text.dart';
 import 'package:masaj/features/book_service/data/models/booking_model/booking_model.dart';
+import 'package:masaj/features/bookings_tab/data/models/review_request.dart';
+import 'package:masaj/features/bookings_tab/presentation/cubits/review_tips_cubit/review_tips_cubit.dart';
 import 'package:masaj/features/payment/data/model/payment_method_model.dart';
 import 'package:masaj/features/payment/presentaion/bloc/payment_cubit.dart';
 import 'package:masaj/features/payment/presentaion/pages/checkout_screen.dart';
@@ -35,8 +38,11 @@ class AddReviewScreen extends StatefulWidget {
   const AddReviewScreen({super.key, required this.bookingModel});
   static const routeName = '/add-review';
   static Widget builder(BuildContext context, BookingModel bookingModel) =>
-      AddReviewScreen(
-        bookingModel: bookingModel,
+      BlocProvider(
+        create: (context) => Injector().reviewTipsCubit,
+        child: AddReviewScreen(
+          bookingModel: bookingModel,
+        ),
       );
   static Route route(
     BookingModel bookingModel,
@@ -54,22 +60,59 @@ class _AddReviewScreenState extends State<AddReviewScreen> {
   static const double _KSubVerticalSpace = 12;
   static const double _KSectionPadding = 24;
   late TextEditingController _walletController;
+  late FocusNode _walletFocusNode;
+
+  late TextEditingController _customerOpinionController;
+  late FocusNode _customerOpinionFocusNode;
+  late TextEditingController _improveServicesController;
+  late FocusNode _improveServicesFocusNode;
+
   Widget _buildWriteReviwButton() {
-    return Container(
-      margin: EdgeInsets.only(top: 24.h),
-      padding: EdgeInsets.symmetric(horizontal: 24.w, vertical: 20.h),
-      child: DefaultButton(
-        label: 'write_review'.tr(),
-        isExpanded: true,
-        onPressed: () {},
+    return BlocListener<ReviewTipsCubit, ReviewTipsCubitState>(
+      listener: (context, state) {
+        if (state.isLoaded) {
+          Navigator.of(context).pop();
+        }
+        if (state.isError) {
+          showSnackBar(
+            context,
+            message: state.errorMessage,
+          );
+        }
+      },
+      child: Container(
+        margin: EdgeInsets.only(top: 24.h),
+        padding: EdgeInsets.symmetric(horizontal: 24.w, vertical: 20.h),
+        child: DefaultButton(
+          label: 'write_review'.tr(),
+          isExpanded: true,
+          onPressed: () async {
+            await context.read<ReviewTipsCubit>().addReview(
+                tipAmount: _selectedTipAmount == null ? null : _totalPrice,
+                reviewRequest: ReviewRequest(
+                    bookingId: widget.bookingModel.bookingId ?? 0,
+                    rating: _rating,
+                    customerOpinion: _customerOpinionController.text,
+                    improveServicesHint: _improveServicesController.text),
+                paymentMethodId: _selectedPayment?.id ?? 0,
+                walletPayment: false,
+                applePayToken: '');
+          },
+        ),
       ),
     );
   }
 
-  TipsAmountEnumn _selectedTipAmount = TipsAmountEnumn.one;
+  TipsAmountEnumn? _selectedTipAmount;
   @override
   void initState() {
     _walletController = TextEditingController();
+    _customerOpinionController = TextEditingController();
+    _improveServicesController = TextEditingController();
+    _walletFocusNode = FocusNode();
+    _customerOpinionFocusNode = FocusNode();
+    _improveServicesFocusNode = FocusNode();
+
     super.initState();
   }
 
@@ -142,6 +185,15 @@ class _AddReviewScreenState extends State<AddReviewScreen> {
                   for (var tipAmount in TipsAmountEnumn.values)
                     GestureDetector(
                       onTap: () {
+                        if (_selectedTipAmount == tipAmount) {
+                          setState(() {
+                            _selectedTipAmount = null;
+                            print(
+                                ' Selected amount tip + ${_selectedTipAmount}');
+                          });
+                          return;
+                        }
+
                         if (tipAmount == TipsAmountEnumn.other) {
                           setState(() {
                             _selectedTipAmount = tipAmount;
@@ -184,7 +236,7 @@ class _AddReviewScreenState extends State<AddReviewScreen> {
                 DefaultTextFormField(
                     fillColor: Colors.white,
                     borderColor: const Color(0xffD9D9D9),
-                    currentFocusNode: FocusNode(),
+                    currentFocusNode: _walletFocusNode,
                     currentController: _walletController,
                     hint: 'enter_amount'.tr()),
             ],
@@ -203,6 +255,22 @@ class _AddReviewScreenState extends State<AddReviewScreen> {
         color: AppColors.ExtraLight,
       ),
     );
+  }
+
+  double get _totalPrice {
+    final useWallet = context.read<WalletBloc>().state.useWallet;
+    final double wallet =
+        useWallet ? double.tryParse(_walletController.text) ?? 0.0 : 0.0;
+    if (_selectedTipAmount == TipsAmountEnumn.other) {
+      return double.tryParse(_walletController.text) ?? 0;
+    }
+    // return ((_selectedTipAmount?.value) as num?) ?? 0;
+    return (_selectedTipAmount?.value ?? 0)?.toDouble() ?? 0;
+  }
+
+  int _rating = 3;
+  void _onRatingUpdate(double rating) {
+    _rating = rating.toInt();
   }
 
   Widget _buildReviewForm() {
@@ -252,12 +320,10 @@ class _AddReviewScreenState extends State<AddReviewScreen> {
                     color: Color(0xffD9D9D9),
                   ),
                 ),
-                allowHalfRating: true,
+                allowHalfRating: false,
                 itemCount: 5,
                 itemPadding: const EdgeInsets.symmetric(horizontal: 4.0),
-                onRatingUpdate: (rating) {
-                  print(rating);
-                },
+                onRatingUpdate: _onRatingUpdate,
               )
             ],
           ),
@@ -285,8 +351,8 @@ class _AddReviewScreenState extends State<AddReviewScreen> {
           SizedBox(height: 8.h),
           DefaultTextFormField(
               maxLines: 4,
-              currentFocusNode: FocusNode(),
-              currentController: TextEditingController(),
+              currentFocusNode: _customerOpinionFocusNode,
+              currentController: _customerOpinionController,
               hint: ''),
           SizedBox(height: 16.h),
           Row(
@@ -309,8 +375,8 @@ class _AddReviewScreenState extends State<AddReviewScreen> {
           SizedBox(height: 8.h),
           DefaultTextFormField(
               maxLines: 4,
-              currentFocusNode: FocusNode(),
-              currentController: TextEditingController(),
+              currentFocusNode: _improveServicesFocusNode,
+              currentController: _improveServicesController,
               hint: ''),
           SizedBox(height: 20.h),
         ],

@@ -1,3 +1,5 @@
+import 'package:flutter_local_notifications/flutter_local_notifications.dart';
+import 'package:masaj/features/home/data/models/message_model.dart';
 import 'package:masaj/features/home/data/models/notification.dart';
 
 enum NotificationsStateStatus {
@@ -27,11 +29,13 @@ class NotificationsState {
   final NotificationsStateStatus status;
   final String? message;
   final NotificationsModel? allNotification;
+  final List<MessagesModel> notifications ;
 
   const NotificationsState({
     this.status = NotificationsStateStatus.initial,
     this.message,
     this.allNotification,
+    this.notifications = const [],
   });
 
   @override
@@ -41,22 +45,26 @@ class NotificationsState {
     return other is NotificationsState &&
         other.status == status &&
         other.message == message &&
-        other.allNotification == allNotification;
+        other.allNotification == allNotification
+        && other.notifications == notifications;
   }
 
   @override
   int get hashCode =>
-      status.hashCode ^ message.hashCode ^ allNotification.hashCode;
+      status.hashCode ^ message.hashCode ^ allNotification.hashCode
+      ^ notifications.hashCode;
 
   NotificationsState copyWith({
     NotificationsStateStatus? status,
     String? message,
     NotificationsModel? allNotification,
+    List<MessagesModel>? notifications,
   }) {
     return NotificationsState(
       status: status ?? this.status,
       message: message ?? this.message,
       allNotification: allNotification ?? this.allNotification,
+      notifications: notifications ?? this.notifications,
     );
   }
 }

@@ -77,9 +77,8 @@ class ReviewResponse {
       rating: map['rating']?.toInt(),
       customerOpinion: map['customerOpinion'],
       improveServicesHint: map['improveServicesHint'],
-      reviewDate: map['reviewDate'] != null
-          ? DateTime.fromMillisecondsSinceEpoch(map['reviewDate'])
-          : null,
+      reviewDate:
+          map['reviewDate'] != null ? DateTime.parse(map['reviewDate']) : null,
       isPublished: map['isPublished'],
       sortKey: map['sortKey']?.toInt(),
       bookingId: map['bookingId']?.toInt(),

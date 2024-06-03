@@ -17,9 +17,11 @@ class ReviewRemoteDataSourceImpl implements ReviewRemoteDataSource {
   @override
   Future<ReviewResponse> addReview(ReviewRequest reviewRequest) {
     return _networkService
-        .post('${ApiEndPoint.BOOKING}${reviewRequest.bookingId}/review',
+        .post('${ApiEndPoint.BOOKING}/${reviewRequest.bookingId}/review',
             data: reviewRequest.toMap())
         .then((response) {
+      print('errpr');
+      print(response.data);
       if (response.statusCode != 200)
         throw RequestException(message: response.data['detail']);
       final result = response.data;

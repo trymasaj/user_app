@@ -944,5 +944,7 @@
   "status": "Status",
   "paid": "Paid",
   "notPaid": "Not Paid",
-  "error_adding_therapist": "Error adding therapist"
+  "error_adding_therapist": "Error adding therapist",
+  "no_notifications": "No notifications",
+  "my_notifications": "My notifications"
 }

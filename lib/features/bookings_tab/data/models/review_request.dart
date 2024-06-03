@@ -8,20 +8,19 @@ import 'dart:convert';
 
 class ReviewRequest {
   final int bookingId;
-  final double? rating;
+  final int? rating;
   final String? customerOpinion;
   final String? improveServicesHint;
 
   ReviewRequest({
     this.rating,
-    
     this.customerOpinion,
     this.improveServicesHint,
     required this.bookingId,
   });
 
   ReviewRequest copyWith({
-    double? rating,
+    int? rating,
     String? customerOpinion,
     String? improveServicesHint,
     int? bookinId,
@@ -36,7 +35,7 @@ class ReviewRequest {
 
   Map<String, dynamic> toMap() {
     final map = {
-      'rating': rating,
+      'rating': rating?.toInt(),
       'customerOpinion': customerOpinion,
       'improveServicesHint': improveServicesHint,
     }..removeWhere((key, value) => value == null);

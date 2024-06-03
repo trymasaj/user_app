@@ -16,7 +16,7 @@ abstract class ApiEndPoint {
   //Auth
   static const SIGN_UP = '$BASE_URL/Identity/register';
   static const UPDATE_PROFILE_INFORMATION = '$BASE_URL/Identity/update-profile';
-  // home 
+  // home
   static const HOME = '$BASE_URL/home';
 
   static const VERIFY_OTP = '$BASE_URL/Identity/verify-otp';
@@ -150,4 +150,5 @@ abstract class ApiEndPoint {
   // membership
   static const MEMBERSHIP = '$BASE_URL/subscription';
   static const MEMBERSHIP_PLANS = '$BASE_URL/plan';
+  static const MESSAGES = '$BASE_URL/messages';
 }

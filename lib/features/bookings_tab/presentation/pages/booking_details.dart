@@ -217,7 +217,10 @@ class _BookingDetialsScreenState extends State<BookingDetialsScreen> {
             state.booking?.bookingDate == null) {
           return SizedBox.shrink();
         }
-        if (!isCompleted(state.booking!)) {
+        // if (!isCompleted(state.booking!)) {
+        //   return const SizedBox.shrink();
+        // }
+        if (state.booking!.bookingStatus != BookingStatus.Completed) {
           return const SizedBox.shrink();
         }
         return Container(
