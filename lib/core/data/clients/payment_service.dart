@@ -2,16 +2,22 @@
 import 'dart:developer';
 import 'package:flutter/material.dart';
 import 'package:flutter_inappwebview/flutter_inappwebview.dart';
+import 'package:loader_overlay/loader_overlay.dart';
+import 'package:masaj/core/data/configs/payment_configration.dart';
 import 'package:masaj/core/data/constants/api_end_point.dart';
 import 'package:masaj/core/domain/enums/request_result_enum.dart';
 import 'package:masaj/core/domain/exceptions/request_exception.dart';
 import 'package:masaj/core/presentation/widgets/stateless/custom_app_bar.dart';
 import 'package:masaj/core/presentation/widgets/stateless/custom_app_page.dart';
 import 'package:masaj/main.dart';
+import 'package:pay/pay.dart';
 import 'network_service.dart';
 
 abstract class PaymentService {
   Future<void> buy(PaymentParam paymentParam);
+  Future<void> buyWithApple({
+    required PaymentParam paymentType,
+  });
 }
 
 class PaymentServiceImpl implements PaymentService {
@@ -21,6 +27,9 @@ class PaymentServiceImpl implements PaymentService {
   Future<void> buy(PaymentParam paymentParm) async {
     if (paymentParm.paymentMethodId == null)
       throw Exception('paymentMethod is null');
+
+    if (paymentParm.paymentMethodId == 3)
+      return buyWithApple(paymentType: paymentParm);
     final url = await getPaymentSessionUrl(paymentParm.paymentMethodId!,
         params: paymentParm.params, urlPath: paymentParm.urlPath);
     if (url == '') {
@@ -60,6 +69,27 @@ class PaymentServiceImpl implements PaymentService {
     );
   }
 
+  Future<bool> getApplePaymentConfirm(int paymentMethodId,
+      {Map<String, dynamic>? params, String? urlPath}) {
+    final url = urlPath ?? ApiEndPoint.BOOKING_CONFIRM;
+
+    final data = params ??
+        {
+          'paymentMethod': paymentMethodId,
+        };
+
+    return _networkService.post(url, data: data).then(
+      (response) {
+        if (response.statusCode != 200) return false;
+        final result = response.data;
+        final resultStatus = result['result'];
+        if (resultStatus == RequestResult.Failed.name) return false;
+
+        return true;
+      },
+    );
+  }
+
   Future<bool?> _goToPaymentPage(
     String url,
     Widget? customAppBar,
@@ -83,7 +113,61 @@ class PaymentServiceImpl implements PaymentService {
       return widget;
     }
   }
+
+  Future<void> buyWithApple({
+    required PaymentParam paymentType,
+  }) async {
+    String? token;
+    if (paymentType.price == null) throw Exception('please add a price');
+    final paymentConfiguration = getUpdatedApplePayConfig(
+      currencyCode: paymentType.currency,
+      countryCode: paymentType.countryCode,
+    );
+    final applePayClient = Pay({
+      PayProvider.apple_pay: PaymentConfiguration.fromJsonString(
+        paymentConfiguration,
+      ),
+    });
+    final priceAfterWallet = paymentType.fromWallet == true
+        ? paymentType.price! - (paymentType.walletBalance ?? 0)
+        : paymentType.price!;
+    if (priceAfterWallet > 0) {
+      final paymentItems = _paymentItems(priceAfterWallet);
+      final result = await applePayClient.showPaymentSelector(
+        PayProvider.apple_pay,
+        paymentItems,
+      );
+      token = result['token'];
+    }
+    navigatorKey.currentState!.context.loaderOverlay.show();
+
+    final isSuccesses = await getApplePaymentConfirm(
+      paymentType.paymentMethodId ?? 3,
+      urlPath: paymentType.urlPath,
+      params: paymentType.params?..putIfAbsent('applePayToken', () => token),
+    );
+    try {
+      if (isSuccesses) {
+        paymentType.onSuccess.call();
+      } else {
+        paymentType.onFailure.call();
+      }
+    } catch (e) {
+      log(e.toString());
+      paymentType.onFailure.call();
+    } finally {
+      navigatorKey.currentState!.context.loaderOverlay.hide();
+    }
+  }
 }
+
+_paymentItems(total) => [
+      PaymentItem(
+        label: 'Total',
+        amount: total.toString(),
+        status: PaymentItemStatus.final_price,
+      )
+    ];
 
 class _PaymentPage extends StatefulWidget {
   const _PaymentPage({
@@ -162,6 +246,12 @@ class PaymentParam {
     required this.onSuccess,
     required this.onFailure,
     this.customAppBar,
+    this.price,
+    this.countryCode,
+    this.currency,
+    this.walletAmount,
+    this.fromWallet,
+    this.walletBalance,
   });
   final int? paymentMethodId;
   final int? orderId;
@@ -170,6 +260,12 @@ class PaymentParam {
   final Widget? customAppBar;
   final Map<String, dynamic>? params;
   final String? urlPath;
+  final num? price;
+  final String? currency;
+  final String? countryCode;
+  final bool? fromWallet;
+  final double? walletAmount;
+  final double? walletBalance;
 
   @override
   bool operator ==(covariant PaymentParam other) {
@@ -179,7 +275,13 @@ class PaymentParam {
         other.onSuccess == onSuccess &&
         other.onFailure == onFailure &&
         other.customAppBar == customAppBar &&
-        other.orderId == orderId;
+        other.orderId == orderId &&
+        other.urlPath == urlPath &&
+        other.price == price &&
+        other.currency == currency &&
+        other.walletAmount == walletAmount &&
+        other.walletBalance == walletBalance &&
+        other.params == params;
   }
 
   @override
@@ -188,6 +290,11 @@ class PaymentParam {
         onSuccess.hashCode ^
         onFailure.hashCode ^
         orderId.hashCode ^
-        customAppBar.hashCode;
+        params.hashCode ^
+        walletBalance.hashCode ^
+        walletAmount.hashCode ^
+        currency.hashCode ^
+        price.hashCode ^
+        urlPath.hashCode;
   }
 }

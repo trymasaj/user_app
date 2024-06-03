@@ -106,6 +106,7 @@ dependencies:
   flutter_datetime_picker_plus: ^2.1.0
   bottom_picker: ^2.4.0
   pay: ^2.0.0
+  loader_overlay: ^4.0.0
   # flutter_datetime_picker: ^1.5.1
   # fluttertoast: ^8.2.4
 

@@ -44,8 +44,14 @@ class GiftsCubit extends BaseCubit<GiftsState> {
     }
   }
 
-  Future<void> purchaseGiftCard(BuildContext context,
-      {int? paymentMethodId, int? giftId}) async {
+  Future<void> purchaseGiftCard(
+    BuildContext context, {
+    int? paymentMethodId,
+    int? giftId,
+    double? total,
+    String? currencyCode,
+    String? countryCode,
+  }) async {
     if (paymentMethodId == null || giftId == null) return;
     emit(state.copyWith(status: GiftsStateStatus.loading));
     try {
@@ -55,6 +61,9 @@ class GiftsCubit extends BaseCubit<GiftsState> {
           'paymentMethod': paymentMethodId,
         },
         paymentMethodId: paymentMethodId,
+        countryCode: countryCode,
+        currency: currencyCode,
+        price: total,
         onSuccess: () {
           emit(state.copyWith(status: GiftsStateStatus.loaded));
           navigatorKey.currentState!.pop();

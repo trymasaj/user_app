@@ -1,5 +1,5 @@
 import 'package:equatable/equatable.dart';
-import 'package:flutter/material.dart';
+
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:masaj/features/address/domain/entities/city.dart';
 import 'package:masaj/features/address/domain/entities/country.dart';

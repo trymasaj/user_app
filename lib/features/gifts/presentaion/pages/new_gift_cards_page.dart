@@ -48,12 +48,15 @@ class _NewGiftCardsPageState extends State<NewGiftCardsPage> {
   void onTapPurchaseButton(BuildContext context) {
     if (_selectIndex != null) {
       final id = context.read<GiftsCubit>().state.giftCards?[_selectIndex!].id;
+      final totalPrice =
+          context.read<GiftsCubit>().state.giftCards?[_selectIndex!].amount;
       showModalBottomSheet(
           context: context,
           shape:
               RoundedRectangleBorder(borderRadius: BorderRadius.circular(20.0)),
-          builder: (_) =>
-              GiftsPaymentMethodBottomSheet(giftId: id!).builder(context, id),
+          builder: (_) => GiftsPaymentMethodBottomSheet(
+                  giftId: id!, totalPrice: totalPrice!)
+              .builder(context, id, totalPrice),
           isScrollControlled: true);
     } else
       showSnackBar(context, message: 'select at least one');

@@ -39,7 +39,6 @@ class _TopUpWalletScreenState extends State<TopUpWalletScreen> {
   final TextEditingController _giftController = TextEditingController();
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
 
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -234,18 +233,18 @@ class _TopUpWalletScreenState extends State<TopUpWalletScreen> {
 
   void onTapPurchaseButton(BuildContext context) {
     if (_selectedIndex != null) {
-      final id = context
-          .read<WalletBloc>()
-          .state
-          .predefinedAmounts![_selectedIndex!]
-          .id;
+      final selectedPredefinedAMount =
+          context.read<WalletBloc>().state.predefinedAmounts![_selectedIndex!];
+      final total = (selectedPredefinedAMount.totalAmount ?? 0) -
+          (selectedPredefinedAMount.bonusAmount ?? 0);
       showModalBottomSheet(
           context: context,
           shape:
               RoundedRectangleBorder(borderRadius: BorderRadius.circular(20.0)),
-          builder: (_) =>
-              TopUpWalletPaymentMethodBottomsheet(walletPredefinedAmountId: id!)
-                  .builder(context, id),
+          builder: (_) => TopUpWalletPaymentMethodBottomsheet(
+                walletPredefinedAmountId: selectedPredefinedAMount.id!,
+                totalAmount: total,
+              ).builder(context, selectedPredefinedAMount.id!, total),
           isScrollControlled: true);
     } else
       showSnackBar(context, message: 'select at least one');

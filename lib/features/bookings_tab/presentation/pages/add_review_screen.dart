@@ -4,6 +4,8 @@ import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 import 'package:masaj/core/app_export.dart';
 import 'package:masaj/core/data/di/injector.dart';
 import 'package:masaj/core/presentation/colors/app_colors.dart';
+import 'package:masaj/core/presentation/navigation/navigator_helper.dart';
+import 'package:masaj/core/presentation/widgets/stateless/apple_pay_button.dart';
 import 'package:masaj/core/presentation/widgets/stateless/custom_app_bar.dart';
 import 'package:masaj/core/presentation/widgets/stateless/custom_loading.dart';
 import 'package:masaj/core/presentation/widgets/stateless/custom_text.dart';
@@ -13,6 +15,7 @@ import 'package:masaj/core/presentation/widgets/stateless/subtitle_text.dart';
 import 'package:masaj/core/presentation/widgets/stateless/text_fields/default_text_form_field.dart';
 import 'package:masaj/core/presentation/widgets/stateless/text_with_gradiant.dart';
 import 'package:masaj/core/presentation/widgets/stateless/title_text.dart';
+import 'package:masaj/features/auth/application/country_cubit/country_cubit.dart';
 import 'package:masaj/features/book_service/data/models/booking_model/booking_model.dart';
 import 'package:masaj/features/payment/data/model/payment_method_model.dart';
 import 'package:masaj/features/payment/presentaion/bloc/payment_cubit.dart';
@@ -350,6 +353,24 @@ class _AddReviewScreenState extends State<AddReviewScreen> {
             itemCount: methods.length,
             physics: const NeverScrollableScrollPhysics(),
             itemBuilder: (context, index) {
+              if (methods[index].id == 3) {
+                return ApplePayCustomButton(
+                  onPressed: () async {
+                    // final cubit = context.read<Tips>();
+                    final countryCubit = context.read<CountryCubit>();
+                    final currentCountry =
+                        countryCubit.state.currentAddress?.country;
+                    NavigatorHelper.of(context).pop();
+                    Future.delayed(Duration(milliseconds: 100));
+                    // await cubit.purchaseGiftCard(context,
+                    //     paymentMethodId: 3,
+                    //     countryCode: currentCountry?.isoCode,
+                    //     currencyCode: currentCountry?.currencyIso,
+                    //     total: widget.totalPrice.toDouble(),
+                    //     giftId: widget.giftId);
+                  },
+                );
+              }
               return _buildPaymentMethodItem(methods[index]);
             });
       },

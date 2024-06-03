@@ -51,12 +51,18 @@ class WalletBloc extends BaseCubit<WalletState> {
     BuildContext context, {
     int? paymentMethodId,
     int? walletPredefinedAmountId,
+    double? total,
+    String? currencyCode,
+    String? countryCode,
   }) async {
     if (paymentMethodId == null || walletPredefinedAmountId == null) return;
     emit(state.copyWith(status: WalletStateStatus.loading));
     try {
       await _paymentService.buy(PaymentParam(
         urlPath: ApiEndPoint.CHARGE_WALLET,
+        price: total,
+        countryCode: countryCode,
+        currency: currencyCode,
         params: {
           'paymentMethod': paymentMethodId,
           'walletPredefinedAmountId': walletPredefinedAmountId,
@@ -67,7 +73,6 @@ class WalletBloc extends BaseCubit<WalletState> {
           showSnackBar(context, message: 'msg_wallet_success'.tr());
         },
         onFailure: () {
-          navigatorKey.currentState!.pop();
           showSnackBar(context, message: 'msg_something_went_wrong'.tr());
         },
       ));

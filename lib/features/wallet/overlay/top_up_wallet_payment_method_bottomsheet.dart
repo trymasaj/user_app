@@ -4,12 +4,14 @@ import 'package:masaj/core/data/di/injector.dart';
 import 'package:masaj/core/presentation/colors/app_colors.dart';
 import 'package:masaj/core/presentation/navigation/navigator_helper.dart';
 import 'package:masaj/core/presentation/overlay/show_snack_bar.dart';
+import 'package:masaj/core/presentation/widgets/stateless/apple_pay_button.dart';
 import 'package:masaj/core/presentation/widgets/stateless/custom_loading.dart';
 import 'package:masaj/core/presentation/widgets/stateless/default_button.dart';
 import 'package:masaj/core/presentation/widgets/stateless/empty_page_message.dart';
 import 'package:masaj/core/presentation/widgets/stateless/subtitle_text.dart';
 import 'package:masaj/core/presentation/widgets/stateless/text_fields/default_text_form_field.dart';
 import 'package:masaj/core/presentation/widgets/stateless/title_text.dart';
+import 'package:masaj/features/auth/application/country_cubit/country_cubit.dart';
 import 'package:masaj/features/payment/data/model/payment_method_model.dart';
 import 'package:masaj/features/payment/presentaion/bloc/payment_cubit.dart';
 import 'package:masaj/features/wallet/bloc/wallet_bloc/wallet_bloc.dart';
@@ -17,9 +19,13 @@ import 'package:masaj/features/wallet/bloc/wallet_bloc/wallet_bloc.dart';
 // ignore_for_file: must_be_immutable
 class TopUpWalletPaymentMethodBottomsheet extends StatefulWidget {
   const TopUpWalletPaymentMethodBottomsheet(
-      {super.key, required this.walletPredefinedAmountId});
+      {super.key,
+      required this.walletPredefinedAmountId,
+      required this.totalAmount});
   final int walletPredefinedAmountId;
-  Widget builder(BuildContext context, int walletPredefinedAmountId) {
+  final int totalAmount;
+  Widget builder(
+      BuildContext context, int walletPredefinedAmountId, int totalAmount) {
     return MultiBlocProvider(
       providers: [
         BlocProvider(
@@ -30,7 +36,9 @@ class TopUpWalletPaymentMethodBottomsheet extends StatefulWidget {
         )
       ],
       child: TopUpWalletPaymentMethodBottomsheet(
-          walletPredefinedAmountId: walletPredefinedAmountId),
+        walletPredefinedAmountId: walletPredefinedAmountId,
+        totalAmount: totalAmount,
+      ),
     );
   }
 
@@ -52,7 +60,7 @@ class _TopUpWalletPaymentMethodBottomsheetState
         if (state.isError) showSnackBar(context, message: state.errorMessage);
         if (state.isCharged) context.read<WalletBloc>().getWalletBalance();
       },
-      builder: (context, state) {
+      builder: (mainContext, state) {
         return Padding(
           padding: const EdgeInsets.symmetric(horizontal: 22.0, vertical: 40.0),
           child: SizedBox(
@@ -73,6 +81,28 @@ class _TopUpWalletPaymentMethodBottomsheetState
                       return ListView.builder(
                         itemCount: paymentMethods.length,
                         itemBuilder: (context, index) {
+                          if (paymentMethods[index].id == 3) {
+                            return ApplePayCustomButton(
+                              onPressed: () async {
+                                final walletCubit = context.read<WalletBloc>();
+                                final countryCubit =
+                                    context.read<CountryCubit>();
+                                final currentCountry =
+                                    countryCubit.state.currentAddress?.country;
+                                NavigatorHelper.of(context).pop();
+                                Future.delayed(Duration(milliseconds: 100));
+                                await walletCubit.chargeWallet(
+                                  mainContext,
+                                  paymentMethodId: 3,
+                                  walletPredefinedAmountId:
+                                      widget.walletPredefinedAmountId,
+                                  countryCode: currentCountry?.isoCode,
+                                  currencyCode: currentCountry?.currencyIso,
+                                  total: widget.totalAmount.toDouble(),
+                                );
+                              },
+                            );
+                          }
                           return _buildPaymentMethodItem(paymentMethods[index]);
                         },
                       );

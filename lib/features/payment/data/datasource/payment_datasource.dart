@@ -30,13 +30,15 @@ class PaymentDataSourceImpl extends PaymentDataSource {
     });
   }
 
- 
-
   @override
   Future<void> purchasePayment(
-      {required int paymentId, required bool fromWallet}) {
+      {required int paymentId, required bool fromWallet, String? token}) {
     const url = ApiEndPoint.BOOKING_CONFIRM;
-    final data = {"paymentMethod": paymentId, "walletPayment": fromWallet};
+    final data = {
+      "paymentMethod": paymentId,
+      "walletPayment": fromWallet,
+      "token": token,
+    };
     return _networkService
         .post(
       url,

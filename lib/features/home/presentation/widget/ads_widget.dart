@@ -1,18 +1,13 @@
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
-import 'package:http/http.dart';
-import 'package:masaj/core/app_export.dart';
-import 'package:masaj/core/data/di/injector.dart';
 import 'package:masaj/core/data/extensions/extensions.dart';
 import 'package:masaj/core/presentation/colors/app_colors.dart';
 import 'package:masaj/core/presentation/widgets/stateless/custom_cached_network_image.dart';
-import 'package:masaj/core/presentation/widgets/stateless/custom_loading.dart';
 import 'package:masaj/features/home/data/models/banner.dart';
 import 'package:masaj/features/providers_tab/data/models/therapist.dart';
 import 'package:masaj/features/providers_tab/presentation/pages/provider_details_screen.dart';
 import 'package:masaj/features/services/presentation/screens/serice_details_screen.dart';
-import 'package:masaj/gen/assets.gen.dart';
 
 class Ads extends StatefulWidget {
   const Ads({

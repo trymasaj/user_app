@@ -25,23 +25,24 @@ library;
 
 /// Sample configuration for Apple Pay. Contains the same content as the file
 /// under `assets/default_payment_profile_apple_pay.json`.
-String defaultApplePay({
-  required String currency,
-  required String countryCode,
-}) =>
-    '''{
-  "provider": "apple_pay",
+String getUpdatedApplePayConfig(
+    {String? countryCode = "KW", String? currencyCode = "KWD"}) {
+  return '''{
+"provider": "apple_pay",
   "data": {
-    "merchantIdentifier": "merchant.com.sams.fish",
-    "displayName": "masaj session",
-    "merchantCapabilities": ["3DS", "debit", "credit"],
-    "supportedNetworks": ["amex", "visa", "discover", "masterCard"],
+    "merchantIdentifier": "merchant.com.masajapp", 
+    "displayName": "Masaj App",
+    "merchantCapabilities": [
+      "3DS"
+    ],
+    "supportedNetworks": [
+      "visa",
+      "masterCard"
+    ],
     "countryCode": "$countryCode",
-    "currencyCode": "$currency",
-    "requiredBillingContactFields": ["emailAddress", "name", "phoneNumber", "postalAddress"],
-    "requiredShippingContactFields": [],
-    "shippingMethods": [
-     
-    ]
+    "currencyCode": "$currencyCode",
+    "requiredBillingContactFields": [ "name", "phoneNumber"], 
+    "requiredShippingContactFields": []
   }
 }''';
+}

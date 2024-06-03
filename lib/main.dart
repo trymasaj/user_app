@@ -9,6 +9,7 @@ import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_native_splash/flutter_native_splash.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:loader_overlay/loader_overlay.dart';
 import 'package:masaj/core/data/di/injection_setup.dart';
 import 'package:masaj/core/data/di/injector.dart';
 import 'package:masaj/core/presentation/routes/routes.dart';
@@ -142,7 +143,7 @@ class _MyAppState extends State<MyApp> with WidgetsBindingObserver {
               ],
               child: MaterialApp(
                 onGenerateRoute: onGenerateRoute,
-                home: const SplashPage(),
+                home: const LoaderOverlay(child: SplashPage()),
                 localizationsDelegates: context.localizationDelegates,
                 supportedLocales: context.supportedLocales,
                 locale: context.locale,

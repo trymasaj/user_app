@@ -35,13 +35,22 @@ class PaymentCubit extends BaseCubit<PaymentState> {
     }
   }
 
-  Future<void> confirmOrder(int? paymentMethodId, int? bookingId,
-      {bool fromWallet = false}) async {
+  Future<void> confirmOrder(
+    int? paymentMethodId,
+    int? bookingId, {
+    bool fromWallet = false,
+    double? total,
+    String? currencyCode,
+    String? countryCode,
+  }) async {
     if (paymentMethodId == null || bookingId == null) return;
     emit(state.copyWith(status: PaymentStateStatus.loading));
     try {
       await _paymentService.buy(PaymentParam(
         paymentMethodId: paymentMethodId,
+        countryCode: countryCode,
+        currency: currencyCode,
+        price: total,
         params: {
           'paymentMethod': paymentMethodId,
           'walletPayment': fromWallet,

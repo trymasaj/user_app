@@ -5,7 +5,9 @@ import 'package:masaj/core/data/configs/payment_configration.dart';
 import 'package:masaj/core/data/di/injector.dart';
 import 'package:masaj/core/date_format_helper.dart';
 import 'package:masaj/core/presentation/colors/app_colors.dart';
+import 'package:masaj/core/presentation/navigation/navigator_helper.dart';
 import 'package:masaj/core/presentation/overlay/show_snack_bar.dart';
+import 'package:masaj/core/presentation/widgets/stateless/apple_pay_button.dart';
 import 'package:masaj/core/presentation/widgets/stateless/custom_app_bar.dart';
 import 'package:masaj/core/presentation/widgets/stateless/custom_app_page.dart';
 import 'package:masaj/core/presentation/widgets/stateless/custom_cached_network_image.dart';
@@ -16,9 +18,13 @@ import 'package:masaj/core/presentation/widgets/stateless/subtitle_text.dart';
 import 'package:masaj/core/presentation/widgets/stateless/text_fields/default_text_form_field.dart';
 import 'package:masaj/core/presentation/widgets/stateless/title_text.dart';
 import 'package:masaj/core/presentation/widgets/stateless/warning_container.dart';
+import 'package:masaj/features/auth/application/country_cubit/country_cubit.dart';
+import 'package:masaj/features/book_service/data/models/booking_model/address.dart';
+import 'package:masaj/features/book_service/data/models/booking_model/booking_model.dart';
 import 'package:masaj/features/book_service/presentation/blocs/book_cubit/book_service_cubit.dart';
 import 'package:masaj/features/payment/data/model/payment_method_model.dart';
 import 'package:masaj/features/payment/presentaion/bloc/payment_cubit.dart';
+import 'package:masaj/features/payment/presentaion/pages/success_payment.dart';
 import 'package:masaj/features/wallet/bloc/wallet_bloc/wallet_bloc.dart';
 import 'package:pay/pay.dart';
 
@@ -317,7 +323,7 @@ class _CheckoutScreenState extends State<CheckoutScreen> {
             itemCount: methods.length,
             physics: const NeverScrollableScrollPhysics(),
             itemBuilder: (context, index) {
-              return _buildPaymentMethodItem(methods[index]);
+              return _buildPaymentMethodItem(context, methods[index]);
             });
       },
     );
@@ -327,7 +333,8 @@ class _CheckoutScreenState extends State<CheckoutScreen> {
     debugPrint(paymentResult.toString());
   }
 
-  Widget _buildPaymentMethodItem(PaymentMethodModel paymentMethod) {
+  Widget _buildPaymentMethodItem(
+      BuildContext context, PaymentMethodModel paymentMethod) {
     if (paymentMethod.id == 3) {
       final bookingModel = context.read<BookingCubit>().state.bookingModel;
       final useWallet = context.read<WalletBloc>().state.useWallet;
@@ -338,25 +345,23 @@ class _CheckoutScreenState extends State<CheckoutScreen> {
       final num totalWithDiscounts =
           (bookingModel?.grandTotal ?? 0) - wallet - discount;
       final num total = totalWithDiscounts < 0 ? 0 : totalWithDiscounts;
-      final _paymentItems = [
-        PaymentItem(
-          label: 'Total',
-          amount: total.toString(),
-          status: PaymentItemStatus.final_price,
-        )
-      ];
 
-      return ApplePayButton(
-        paymentConfiguration: PaymentConfiguration.fromJsonString(
-            defaultApplePay(currency: 'KWD', countryCode: 'Kw')),
-        paymentItems: _paymentItems,
-        style: ApplePayButtonStyle.black,
-        type: ApplePayButtonType.buy,
-        margin: const EdgeInsets.only(top: 15.0),
-        onPaymentResult: onApplePayResult,
-        loadingIndicator: const Center(
-          child: CircularProgressIndicator(),
-        ),
+      return ApplePayCustomButton(
+        onPressed: () async {
+          final cubit = context.read<PaymentCubit>();
+          final walletCubit = context.read<WalletBloc>();
+          final countryCubit = context.read<CountryCubit>();
+          final currentCountry = countryCubit.state.currentAddress?.country;
+
+          await cubit.confirmOrder(
+            3,
+            bookingModel?.bookingId,
+            countryCode: currentCountry?.isoCode,
+            currencyCode: currentCountry?.currencyIso,
+            total: total.toDouble(),
+            fromWallet: walletCubit.state.useWallet,
+          );
+        },
       );
     }
     return GestureDetector(
