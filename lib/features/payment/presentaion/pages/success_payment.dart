@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:masaj/core/app_export.dart';
-import 'package:masaj/core/data/di/injector.dart';
 import 'package:masaj/core/data/extensions/extensions.dart';
 import 'package:masaj/core/presentation/colors/app_colors.dart';
 import 'package:masaj/core/presentation/navigation/navigator_helper.dart';
@@ -31,14 +30,13 @@ class _SummaryPaymentPageState extends State<SummaryPaymentPage> {
     final bookingCubit = context.read<BookingCubit>();
     await bookingCubit.getBookingDetails(oldBookingId: widget.bookingId);
     await bookingCubit.getBookingStreaks();
+    if (bookingCubit.state.bookingModel?.payment?.paymentStatus ==
+        PaymentStatus.Captured) _modalBottomSheetMenu();
   }
 
   @override
   void initState() {
     getBooking();
-    final bookingCubit = context.read<BookingCubit>();
-    if (bookingCubit.state.bookingModel?.payment?.paymentStatus ==
-        PaymentStatus.Captured) _modalBottomSheetMenu();
 
     super.initState();
   }
@@ -48,7 +46,7 @@ class _SummaryPaymentPageState extends State<SummaryPaymentPage> {
       final bookingCubit = context.read<BookingCubit>();
 
       int total = 10;
-      int remaining = bookingCubit.state.bookingStreaks ?? 0;
+      int streak = bookingCubit.state.bookingStreaks ?? 0;
       await showModalBottomSheet(
           context: context,
           builder: (builder) {
@@ -74,7 +72,7 @@ class _SummaryPaymentPageState extends State<SummaryPaymentPage> {
                         itemCount: total,
                         scrollDirection: Axis.horizontal,
                         itemBuilder: (context, index) {
-                          if (remaining > index + 1)
+                          if (streak > index)
                             return SvgPicture.asset(
                               'assets/images/success_session.svg',
                             );
@@ -95,7 +93,7 @@ class _SummaryPaymentPageState extends State<SummaryPaymentPage> {
                     ),
                     const SizedBox(height: 24.0),
                     CustomText(
-                      text: 'left_sessions'.tr(args: [remaining.toString()]),
+                      text: 'left_sessions'.tr(args: [streak.toString()]),
                       subtractedSize: -2,
                       textAlign: TextAlign.center,
                     ),
@@ -111,8 +109,8 @@ class _SummaryPaymentPageState extends State<SummaryPaymentPage> {
       builder: (context, state) {
         final bookingModel = context.read<BookingCubit>().state.bookingModel;
         final isSucceeded =
-            bookingModel?.paymentStatus == PaymentStatus.Captured ||
-                bookingModel?.paymentStatus == PaymentStatus.Pending;
+            bookingModel?.payment?.paymentStatus == PaymentStatus.Captured ||
+                bookingModel?.payment?.paymentStatus == PaymentStatus.Pending;
         if (state.isLoading) return const CustomLoading();
 
         return CustomAppPage(
@@ -130,20 +128,10 @@ class _SummaryPaymentPageState extends State<SummaryPaymentPage> {
                 isExpanded: true,
               ),
             ),
-            appBar: CustomAppBar(
+            appBar: const CustomAppBar(
               title: 'lbl_payment_details',
               centerTitle: true,
               showBackButton: false,
-              actions: [
-                IconButton(
-                  onPressed: () {},
-                  icon: SvgPicture.asset(
-                    'assets/images/share.svg',
-                    height: 25,
-                    color: AppColors.ACCENT_COLOR,
-                  ),
-                )
-              ],
             ),
             body: SingleChildScrollView(
               child: Padding(
