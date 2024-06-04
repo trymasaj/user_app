@@ -20,6 +20,7 @@ import 'package:masaj/features/book_service/data/models/booking_model/booking_mo
 import 'package:masaj/features/book_service/presentation/blocs/available_therapist_cubit/available_therapist_cubit.dart';
 import 'package:masaj/features/book_service/presentation/screens/book_servcie_screen.dart';
 import 'package:masaj/features/book_service/presentation/screens/select_therapist_screen.dart';
+import 'package:masaj/features/bookings_tab/presentation/cubits/review_tips_cubit/review_tips_cubit.dart';
 import 'package:masaj/features/bookings_tab/presentation/pages/add_review_screen.dart';
 import 'package:masaj/features/bookings_tab/presentation/pages/booking_details.dart';
 import 'package:masaj/features/gifts/presentaion/pages/gift_cards.dart';
@@ -65,7 +66,7 @@ Route<dynamic>? onGenerateRoute(RouteSettings settings) {
     case QuizStartPage.routeName:
       return MaterialPageRoute(builder: (context) => const QuizStartPage());
     case BookingDetialsScreen.routeName:
-      return MaterialPageRoute(
+      return MaterialPageRoute<ReviewTipsCubitState?>(
           builder: (context) =>
               BookingDetialsScreen.builder(context, arguments as int));
     case AddReviewScreen.routeName:

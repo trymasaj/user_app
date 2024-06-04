@@ -71,7 +71,7 @@ class _AddReviewScreenState extends State<AddReviewScreen> {
     return BlocListener<ReviewTipsCubit, ReviewTipsCubitState>(
       listener: (context, state) {
         if (state.isLoaded) {
-          Navigator.of(context).pop();
+          Navigator.of(context).pop(state);
         }
         if (state.isError) {
           showSnackBar(
