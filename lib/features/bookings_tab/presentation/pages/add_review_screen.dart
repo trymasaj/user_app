@@ -74,7 +74,7 @@ class _AddReviewScreenState extends State<AddReviewScreen> {
     return BlocListener<ReviewTipsCubit, ReviewTipsCubitState>(
       listener: (context, state) {
         if (state.isLoaded) {
-          Navigator.of(context).pop();
+          Navigator.of(context).pop(state);
         }
         if (state.isError) {
           showSnackBar(
@@ -90,6 +90,11 @@ class _AddReviewScreenState extends State<AddReviewScreen> {
           label: 'write_review'.tr(),
           isExpanded: true,
           onPressed: () async {
+            if (_selectedTipAmount != null && _selectedPayment == null) {
+              showSnackBar(context,
+                  message: 'please_select_payment_method'.tr());
+              return;
+            }
             await context.read<ReviewTipsCubit>().addReview(
                 tipAmount: _selectedTipAmount == null ? null : _totalPrice,
                 reviewRequest: ReviewRequest(

@@ -914,5 +914,8 @@
   "notPaid": "غير مدفوع",
   "error_adding_therapist": "حدث خطأ أثناء إضافة المعالج",
   "no_notifications": "لا توجد إشعارات",
-  "my_notifications": "إشعاراتي"
+  "my_notifications": "إشعاراتي",
+  "review_added_successfully": "تمت إضافة المراجعة بنجاح",
+  "tip_added_successfully": "تمت إضافة البقشيش بنجاح",
+  "please_select_payment_method": "الرجاء اختيار طريقة الدفع"
 }

@@ -946,5 +946,8 @@
   "notPaid": "Not Paid",
   "error_adding_therapist": "Error adding therapist",
   "no_notifications": "No notifications",
-  "my_notifications": "My notifications"
+  "my_notifications": "My notifications",
+  "review_added_successfully": "Review added successfully",
+  "tip_added_successfully": "Tip added successfully",
+  "please_select_payment_method": "Please select payment method"
 }
