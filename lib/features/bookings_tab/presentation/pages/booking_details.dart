@@ -6,6 +6,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:masaj/core/data/di/injector.dart';
 import 'package:masaj/core/presentation/colors/app_colors.dart';
+import 'package:masaj/core/presentation/overlay/show_snack_bar.dart';
 import 'package:masaj/core/presentation/widgets/stateless/custom_app_bar.dart';
 import 'package:masaj/core/presentation/widgets/stateless/custom_app_page.dart';
 import 'package:masaj/core/presentation/widgets/stateless/custom_loading.dart';
@@ -14,6 +15,7 @@ import 'package:masaj/core/presentation/widgets/stateless/default_button.dart';
 import 'package:masaj/features/book_service/data/models/booking_model/booking_model.dart';
 import 'package:masaj/features/book_service/enums/booking_status.dart';
 import 'package:masaj/features/bookings_tab/presentation/cubits/booking_details_cubit/booking_details_cubit.dart';
+import 'package:masaj/features/bookings_tab/presentation/cubits/review_tips_cubit/review_tips_cubit.dart';
 import 'package:masaj/features/bookings_tab/presentation/pages/add_review_screen.dart';
 import 'package:masaj/features/bookings_tab/presentation/widgets/booking_card.dart';
 import 'package:masaj/features/bookings_tab/presentation/widgets/payment_info_card.dart';
@@ -238,14 +240,27 @@ class _BookingDetialsScreenState extends State<BookingDetialsScreen> {
             Expanded(
               child: DefaultButton(
                 label: 'add_review'.tr(),
-                onPressed: () {
+                onPressed: () async {
                   if (context.read<BookingDetailsCubit>().state.booking !=
                       null) {
-                    Navigator.of(context).pushNamed(
+                    Navigator.of(context)
+                        .pushNamed(
                       AddReviewScreen.routeName,
                       arguments:
                           context.read<BookingDetailsCubit>().state.booking,
-                    );
+                    )
+                        .then((value) {
+                      if (value != null && value is ReviewTipsCubitState) {
+                        if (value.isLoaded && value.tipsSuccess == false) {
+                          showSnackBar(context,
+                              message: 'review_added_successfully'.tr());
+                        }
+                        if (value.isLoaded && value.tipsSuccess == true) {
+                          showSnackBar(context,
+                              message: 'tip_added_successfully'.tr());
+                        }
+                      }
+                    });
                   }
                 },
               ),

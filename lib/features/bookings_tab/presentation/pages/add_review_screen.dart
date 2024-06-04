@@ -87,6 +87,11 @@ class _AddReviewScreenState extends State<AddReviewScreen> {
           label: 'write_review'.tr(),
           isExpanded: true,
           onPressed: () async {
+            if (_selectedTipAmount != null && _selectedPayment == null) {
+              showSnackBar(context,
+                  message: 'please_select_payment_method'.tr());
+              return;
+            }
             await context.read<ReviewTipsCubit>().addReview(
                 tipAmount: _selectedTipAmount == null ? null : _totalPrice,
                 reviewRequest: ReviewRequest(
@@ -513,33 +518,6 @@ class _AddReviewScreenState extends State<AddReviewScreen> {
 
   Widget _buildPaymentMethodItem(
       PaymentMethodModel paymentMethod, double totalPrice) {
-    if (paymentMethod.id == 3) {
-      final useWallet = context.read<WalletBloc>().state.useWallet;
-
-      final double wallet =
-          useWallet ? double.tryParse(_walletController.text) ?? 0.0 : 0.0;
-
-      final _paymentItems = [
-        PaymentItem(
-          label: 'Total',
-          amount: totalPrice.toString(),
-          status: PaymentItemStatus.final_price,
-        )
-      ];
-
-      return ApplePayButton(
-        paymentConfiguration: PaymentConfiguration.fromJsonString(
-            defaultApplePay(currency: 'KWD', countryCode: 'Kw')),
-        paymentItems: _paymentItems,
-        style: ApplePayButtonStyle.black,
-        type: ApplePayButtonType.buy,
-        margin: const EdgeInsets.only(top: 15.0),
-        onPaymentResult: onApplePayResult,
-        loadingIndicator: const Center(
-          child: CircularProgressIndicator(),
-        ),
-      );
-    }
     return GestureDetector(
       onTap: () {
         setState(() {
