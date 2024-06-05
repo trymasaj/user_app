@@ -142,19 +142,22 @@ class _MyAppState extends State<MyApp> with WidgetsBindingObserver {
                 BlocProvider(
                     lazy: false, create: (context) => Injector().bookingCubit),
               ],
-              child: MaterialApp(
-                onGenerateRoute: onGenerateRoute,
-                home: const LoaderOverlay(child: SplashPage()),
-                localizationsDelegates: context.localizationDelegates,
-                supportedLocales: context.supportedLocales,
-                locale: context.locale,
-                debugShowCheckedModeBanner: false,
-                theme: theme,
-                scrollBehavior: const MaterialScrollBehavior().copyWith(
-                  physics: const ClampingScrollPhysics(),
+              child: LoaderOverlay(
+                closeOnBackButton: true,
+                child: MaterialApp(
+                  onGenerateRoute: onGenerateRoute,
+                  home: const SplashPage(),
+                  localizationsDelegates: context.localizationDelegates,
+                  supportedLocales: context.supportedLocales,
+                  locale: context.locale,
+                  debugShowCheckedModeBanner: false,
+                  theme: theme,
+                  scrollBehavior: const MaterialScrollBehavior().copyWith(
+                    physics: const ClampingScrollPhysics(),
+                  ),
+                  title: 'Masaj',
+                  navigatorKey: navigatorKey,
                 ),
-                title: 'Masaj',
-                navigatorKey: navigatorKey,
               ),
             );
           }),

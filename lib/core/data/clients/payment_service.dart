@@ -140,8 +140,10 @@ class PaymentServiceImpl implements PaymentService {
       );
       token = result['token'];
     }
-    navigatorKey.currentState!.context.loaderOverlay.show();
+    //Delay 1 second till the bottom sheet is closed to avoid any UI exception
+    await Future.delayed(const Duration(seconds: 1));
 
+    navigatorKey.currentState!.context.loaderOverlay.show();
     final isSuccesses = await getApplePaymentConfirm(
       paymentType.paymentMethodId ?? 3,
       urlPath: paymentType.urlPath,
