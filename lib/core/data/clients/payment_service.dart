@@ -133,7 +133,7 @@ class PaymentServiceImpl implements PaymentService {
         ? paymentType.price! - (paymentType.walletBalance ?? 0)
         : paymentType.price!;
     if (priceAfterWallet > 0) {
-      final paymentItems = _paymentItems(priceAfterWallet);
+      final paymentItems = _getPaymentItems(priceAfterWallet);
       final result = await applePayClient.showPaymentSelector(
         PayProvider.apple_pay,
         paymentItems,
@@ -160,15 +160,17 @@ class PaymentServiceImpl implements PaymentService {
       navigatorKey.currentState!.context.loaderOverlay.hide();
     }
   }
-}
 
-_paymentItems(total) => [
+  List<PaymentItem> _getPaymentItems(num price) {
+    return [
       PaymentItem(
         label: 'Total',
-        amount: total.toString(),
+        amount: price.toString(),
         status: PaymentItemStatus.final_price,
-      )
+      ),
     ];
+  }
+}
 
 class _PaymentPage extends StatefulWidget {
   const _PaymentPage({
