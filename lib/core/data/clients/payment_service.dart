@@ -3,10 +3,12 @@ import 'dart:developer';
 import 'package:flutter/material.dart';
 import 'package:flutter_inappwebview/flutter_inappwebview.dart';
 import 'package:loader_overlay/loader_overlay.dart';
+import 'package:masaj/core/app_export.dart';
 import 'package:masaj/core/data/configs/payment_configration.dart';
 import 'package:masaj/core/data/constants/api_end_point.dart';
 import 'package:masaj/core/domain/enums/request_result_enum.dart';
 import 'package:masaj/core/domain/exceptions/request_exception.dart';
+import 'package:masaj/core/presentation/overlay/show_snack_bar.dart';
 import 'package:masaj/core/presentation/widgets/stateless/custom_app_bar.dart';
 import 'package:masaj/core/presentation/widgets/stateless/custom_app_page.dart';
 import 'package:masaj/main.dart';
@@ -132,8 +134,15 @@ class PaymentServiceImpl implements PaymentService {
     final priceAfterWallet = paymentType.fromWallet == true
         ? paymentType.price! - (paymentType.walletBalance ?? 0)
         : paymentType.price!;
-    if (priceAfterWallet > 0) {
+    if (priceAfterWallet >= 0) {
       final paymentItems = _getPaymentItems(priceAfterWallet);
+      final userCanPay = await applePayClient.userCanPay(PayProvider.apple_pay);
+      if (!userCanPay) {
+        final context = navigatorKey.currentState!.context;
+        showSnackBar(context,
+            message: 'Apple pay not supported on this device');
+        return;
+      }
       final result = await applePayClient.showPaymentSelector(
         PayProvider.apple_pay,
         paymentItems,

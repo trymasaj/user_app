@@ -11,6 +11,7 @@ class ApplePayCustomButton extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    //check if can pay with apple pay
     return SizedBox(
       height: 60.0,
       child: Padding(
