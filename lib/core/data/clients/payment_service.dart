@@ -147,7 +147,7 @@ class PaymentServiceImpl implements PaymentService {
         PayProvider.apple_pay,
         paymentItems,
       );
-      token = result['token'];
+      token = result.toString();
     }
     //Delay 1 second till the bottom sheet is closed to avoid any UI exception
     await Future.delayed(const Duration(seconds: 1));
