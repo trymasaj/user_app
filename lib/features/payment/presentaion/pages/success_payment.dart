@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:masaj/core/app_export.dart';
 import 'package:masaj/core/data/extensions/extensions.dart';
@@ -29,9 +28,15 @@ class _SummaryPaymentPageState extends State<SummaryPaymentPage> {
   void getBooking() async {
     final bookingCubit = context.read<BookingCubit>();
     await bookingCubit.getBookingDetails(oldBookingId: widget.bookingId);
-    await bookingCubit.getBookingStreaks();
-    if (bookingCubit.state.bookingModel?.payment?.paymentStatus ==
-        PaymentStatus.Captured) _modalBottomSheetMenu();
+    final isSuccess = bookingCubit.state.bookingModel?.payment?.paymentStatus ==
+        PaymentStatus.Captured;
+    if (isSuccess) {
+      await bookingCubit.getBookingStreaks();
+      if (bookingCubit.state.bookingStreaks == 10) {
+        return _showCompleteStreaksBottomSheet();
+      }
+      _modalBottomSheetMenu();
+    }
   }
 
   @override
@@ -39,6 +44,67 @@ class _SummaryPaymentPageState extends State<SummaryPaymentPage> {
     getBooking();
 
     super.initState();
+  }
+
+  void _showCompleteStreaksBottomSheet() {
+    WidgetsBinding.instance.addPostFrameCallback((_) async {
+      int total = 10;
+      await showModalBottomSheet(
+          context: context,
+          builder: (builder) {
+            return Container(
+                decoration: const BoxDecoration(
+                  color: Colors.white,
+                  borderRadius: BorderRadius.only(
+                    topLeft: Radius.circular(10.0),
+                    topRight: Radius.circular(10.0),
+                  ),
+                ),
+                child: Column(
+                  children: [
+                    SvgPicture.asset(
+                      'assets/images/congrats_celeb.svg',
+                      width: 520,
+                    ),
+                    const SizedBox(height: 24.0),
+                    SvgPicture.asset(
+                      'assets/images/congrats.svg',
+                    ),
+                    const SizedBox(height: 24.0),
+                    SizedBox(
+                      height: 90.0,
+                      child: GridView.builder(
+                        shrinkWrap: true,
+                        itemCount: total,
+                        scrollDirection: Axis.horizontal,
+                        itemBuilder: (context, index) {
+                          return SvgPicture.asset(
+                            'assets/images/success_session.svg',
+                          );
+                        },
+                        gridDelegate:
+                            const SliverGridDelegateWithFixedCrossAxisCount(
+                                crossAxisCount: 2),
+                      ),
+                    ),
+                    const SizedBox(height: 24.0),
+                    const CustomText(
+                      text: 'msg_congratulations',
+                      textAlign: TextAlign.center,
+                      subtractedSize: -2,
+                      fontWeight: FontWeight.bold,
+                    ),
+                    const SizedBox(height: 24.0),
+                    const CustomText(
+                      text: 'msg_you_hit_a_10_sessions',
+                      textAlign: TextAlign.center,
+                      subtractedSize: -2,
+                    ),
+                    const SizedBox(height: 24.0),
+                  ],
+                ));
+          });
+    });
   }
 
   void _modalBottomSheetMenu() {
