@@ -96,9 +96,8 @@ class PaymentServiceImpl implements PaymentService {
     String url,
     Widget? customAppBar,
   ) {
-    return navigatorKey.currentState!.pushReplacement<bool?, bool?>(
-        MaterialPageRoute(
-            builder: (_) => createPaymentPage(url, customAppBar)));
+    return navigatorKey.currentState!.push<bool?>(MaterialPageRoute(
+        builder: (_) => createPaymentPage(url, customAppBar)));
   }
 
   static final Map<String, _PaymentPage> _cache = {};
