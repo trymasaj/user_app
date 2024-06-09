@@ -90,13 +90,17 @@ class _AddReviewScreenState extends State<AddReviewScreen> {
           label: 'write_review'.tr(),
           isExpanded: true,
           onPressed: () async {
-            if (_selectedTipAmount != null && _selectedPayment == null) {
+            if (_selectedTipAmount != null &&
+                _selectedPayment == null &&
+                enableTips == true) {
               showSnackBar(context,
                   message: 'please_select_payment_method'.tr());
               return;
             }
             await context.read<ReviewTipsCubit>().addReview(
-                tipAmount: _selectedTipAmount == null ? null : _totalPrice,
+                tipAmount: (_selectedTipAmount == null || enableTips == false)
+                    ? null
+                    : _totalPrice,
                 reviewRequest: ReviewRequest(
                     bookingId: widget.bookingModel.bookingId ?? 0,
                     rating: _rating,
@@ -148,6 +152,13 @@ class _AddReviewScreenState extends State<AddReviewScreen> {
     );
   }
 
+  bool enableTips = true;
+  void _onSwitchChange(bool value) {
+    setState(() {
+      enableTips = value;
+    });
+  }
+
   Column _buildTipsSection(BuildContext context) {
     return Column(
       children: [
@@ -159,98 +170,109 @@ class _AddReviewScreenState extends State<AddReviewScreen> {
             children: [
               SizedBox(height: 20.h),
               Row(
-                children: [
-                  const CustomText(
-                    text: 'tips',
-                    fontSize: 16,
-                    fontWeight: FontWeight.w700,
-                    color: Color(0xff19223C),
-                  ),
-                  SizedBox(width: 4.w),
-                  const CustomText(
-                    text: 'optional',
-                    fontSize: 14,
-                    fontWeight: FontWeight.w500,
-                    color: Color(0xff8C8C8C),
-                  )
-                ],
-              ),
-              SizedBox(height: 16.h),
-              const Row(
-                children: [
-                  CustomText(
-                    text: 'tip_amount',
-                    fontSize: 14,
-                    fontWeight: FontWeight.w500,
-                    color: Color(0xff1D212C),
-                  )
-                ],
-              ),
-              SizedBox(height: 16.h),
-              Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
-                  for (var tipAmount in TipsAmountEnumn.values)
-                    GestureDetector(
-                      onTap: () {
-                        if (_selectedTipAmount == tipAmount) {
-                          setState(() {
-                            _selectedTipAmount = null;
-                            print(
-                                ' Selected amount tip + ${_selectedTipAmount}');
-                          });
-                          return;
-                        }
-
-                        if (tipAmount == TipsAmountEnumn.other) {
-                          setState(() {
-                            _selectedTipAmount = tipAmount;
-                          });
-                          // show dialog
-                        } else {
-                          _walletController.text = tipAmount.value.toString();
-                          setState(() {
-                            _selectedTipAmount = tipAmount;
-                          });
-                        }
-                      },
-                      child: Container(
-                        height: 50.h,
-                        width: 103.w,
-                        padding: EdgeInsets.symmetric(
-                            horizontal: 16.w, vertical: 8.h),
-                        decoration: BoxDecoration(
-                          color: tipAmount == _selectedTipAmount
-                              ? AppColors.PRIMARY_COLOR.withOpacity(0.09)
-                              : AppColors.BACKGROUND_COLOR.withOpacity(0.09),
-                          borderRadius: BorderRadius.circular(12),
-                          border: Border.all(
-                              color: AppColors.PRIMARY_COLOR, width: 1.5),
-                        ),
-                        alignment: Alignment.center,
-                        child: TextWithGradiant(
-                          disableGradiant: tipAmount != _selectedTipAmount,
-                          text: tipAmount.name.tr(),
-                          fontSize: 14,
-                          fontWeight: FontWeight.w500,
-                          color: AppColors.FONT_LIGHT_COLOR,
-                        ),
+                  Row(
+                    children: [
+                      const CustomText(
+                        text: 'tips',
+                        fontSize: 16,
+                        fontWeight: FontWeight.w700,
+                        color: Color(0xff19223C),
                       ),
-                    )
+                      SizedBox(width: 4.w),
+                      const CustomText(
+                        text: 'optional',
+                        fontSize: 14,
+                        fontWeight: FontWeight.w500,
+                        color: Color(0xff8C8C8C),
+                      )
+                    ],
+                  ),
+                  CustomSwitch(
+                    onChange: _onSwitchChange,
+                    value: enableTips,
+                  ),
                 ],
               ),
-              SizedBox(height: 16.h),
-              if (_selectedTipAmount == TipsAmountEnumn.other)
-                DefaultTextFormField(
-                    fillColor: Colors.white,
-                    borderColor: const Color(0xffD9D9D9),
-                    currentFocusNode: _walletFocusNode,
-                    currentController: _walletController,
-                    hint: 'enter_amount'.tr()),
+              if (enableTips) ...[
+                SizedBox(height: 16.h),
+                const Row(
+                  children: [
+                    CustomText(
+                      text: 'tip_amount',
+                      fontSize: 14,
+                      fontWeight: FontWeight.w500,
+                      color: Color(0xff1D212C),
+                    )
+                  ],
+                ),
+                SizedBox(height: 16.h),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    for (var tipAmount in TipsAmountEnumn.values)
+                      GestureDetector(
+                        onTap: () {
+                          if (_selectedTipAmount == tipAmount) {
+                            setState(() {
+                              _selectedTipAmount = null;
+                              print(
+                                  ' Selected amount tip + ${_selectedTipAmount}');
+                            });
+                            return;
+                          }
+
+                          if (tipAmount == TipsAmountEnumn.other) {
+                            setState(() {
+                              _selectedTipAmount = tipAmount;
+                            });
+                            // show dialog
+                          } else {
+                            _walletController.text = tipAmount.value.toString();
+                            setState(() {
+                              _selectedTipAmount = tipAmount;
+                            });
+                          }
+                        },
+                        child: Container(
+                          height: 50.h,
+                          width: 103.w,
+                          padding: EdgeInsets.symmetric(
+                              horizontal: 16.w, vertical: 8.h),
+                          decoration: BoxDecoration(
+                            color: tipAmount == _selectedTipAmount
+                                ? AppColors.PRIMARY_COLOR.withOpacity(0.09)
+                                : AppColors.BACKGROUND_COLOR.withOpacity(0.09),
+                            borderRadius: BorderRadius.circular(12),
+                            border: Border.all(
+                                color: AppColors.PRIMARY_COLOR, width: 1.5),
+                          ),
+                          alignment: Alignment.center,
+                          child: TextWithGradiant(
+                            disableGradiant: tipAmount != _selectedTipAmount,
+                            text: tipAmount.name.tr(),
+                            fontSize: 14,
+                            fontWeight: FontWeight.w500,
+                            color: AppColors.FONT_LIGHT_COLOR,
+                          ),
+                        ),
+                      )
+                  ],
+                ),
+                SizedBox(height: 16.h),
+                if (_selectedTipAmount == TipsAmountEnumn.other)
+                  DefaultTextFormField(
+                      fillColor: Colors.white,
+                      borderColor: const Color(0xffD9D9D9),
+                      currentFocusNode: _walletFocusNode,
+                      currentController: _walletController,
+                      hint: 'enter_amount'.tr()),
+              ]
             ],
           ),
         ),
-        _buildPaymentSection(context, 0.0),
+        if (enableTips) _buildPaymentSection(context, 0.0),
       ],
     );
   }

@@ -8,6 +8,7 @@ import 'package:masaj/features/book_service/data/models/booking_model/payment.da
 import 'package:masaj/features/book_service/data/models/booking_model/session_model.dart';
 import 'package:masaj/features/book_service/enums/booking_status.dart';
 import 'package:masaj/features/book_service/enums/payment_status.dart';
+import 'package:masaj/features/bookings_tab/data/models/review_reponse.dart';
 import 'package:masaj/features/providers_tab/data/models/therapist.dart';
 
 import 'address.dart';
@@ -48,6 +49,7 @@ class BookingModel {
   BookingModel({
     this.bookingId,
     this.countryId,
+    this.review,
     this.addons,
     this.therapistId,
     this.serviceId,
@@ -75,6 +77,7 @@ class BookingModel {
     this.address,
     this.payment,
   });
+  final ReviewModel? review;
 
   BookingModel copyWith({
     ValueGetter<int?>? bookingId,
@@ -84,6 +87,7 @@ class BookingModel {
     ValueGetter<int?>? serviceId,
     ValueGetter<int?>? customerId,
     ValueGetter<int?>? servicePrice,
+    ValueGetter<ReviewModel?>? review,
     ValueGetter<int?>? serviceDurationId,
     ValueGetter<String?>? serviceTotalDuration,
     ValueGetter<List<int>?>? focusAreas,
@@ -108,6 +112,7 @@ class BookingModel {
   }) {
     return BookingModel(
       bookingId: bookingId != null ? bookingId() : this.bookingId,
+      review: review != null ? review() : this.review,
       addons: addons != null ? addons() : this.addons,
       countryId: countryId != null ? countryId() : this.countryId,
       therapistId: therapistId != null ? therapistId() : this.therapistId,
@@ -169,6 +174,7 @@ class BookingModel {
       'therapistId': therapistId,
       'serviceId': serviceId,
       'customerId': customerId,
+      "bookingReview": review?.toMap(),
       'addons': addons?.map((x) => x.toMap()).toList(),
       'servicePrice': servicePrice,
       'serviceDurationId': serviceDurationId,
@@ -209,6 +215,9 @@ _______________________
           : List<AddonModel>.from(
               map['addons']?.map((x) => AddonModel.fromMap(x))),
       countryId: map['countryId']?.toInt(),
+      review: map['bookingReview'] != null
+          ? ReviewModel.fromMap(map['bookingReview'])
+          : null,
       therapistId: map['therapistId']?.toInt(),
       serviceId: map['serviceId']?.toInt(),
       customerId: map['customerId']?.toInt(),

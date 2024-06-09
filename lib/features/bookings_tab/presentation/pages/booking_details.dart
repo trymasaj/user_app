@@ -225,6 +225,9 @@ class _BookingDetialsScreenState extends State<BookingDetialsScreen> {
         if (state.booking!.bookingStatus != BookingStatus.Completed) {
           return const SizedBox.shrink();
         }
+        if (state.booking!.review != null) {
+          return const SizedBox.shrink();
+        }
         return Container(
           // top elevation
           decoration: BoxDecoration(color: Colors.white, boxShadow: [

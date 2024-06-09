@@ -1,4 +1,4 @@
-class ReviewResponse {
+class ReviewModel {
   int? id;
   int? rating;
   String? customerOpinion;
@@ -9,9 +9,22 @@ class ReviewResponse {
   int? bookingId;
   int? therapistId;
   int? customerId;
+  // bookingReview": {
+  //   "id": 5,
+  //   "rating": 3,
+  //   "customerOpinion": "",
+  //   "improveServicesHint": "",
+  //   "reviewDate": "0001-01-01T00:00:00",
+  //   "isPublished": false,
+  //   "sortKey": 0,
+  //   "bookingId": 70,
+  //   "therapistId": 133,
+  //   "customerId": 93,
+  //   "tiPaymentRequest": null
+  // }
   TiPaymentRequest? tiPaymentRequest;
 
-  ReviewResponse({
+  ReviewModel({
     this.id,
     this.rating,
     this.customerOpinion,
@@ -25,7 +38,7 @@ class ReviewResponse {
     this.tiPaymentRequest,
   });
   // copy with method
-  ReviewResponse copyWith({
+  ReviewModel copyWith({
     int? id,
     int? rating,
     String? customerOpinion,
@@ -38,7 +51,7 @@ class ReviewResponse {
     int? customerId,
     TiPaymentRequest? tiPaymentRequest,
   }) {
-    return ReviewResponse(
+    return ReviewModel(
       id: id ?? this.id,
       rating: rating ?? this.rating,
       customerOpinion: customerOpinion ?? this.customerOpinion,
@@ -71,8 +84,8 @@ class ReviewResponse {
   }
 
   // fromMap method
-  factory ReviewResponse.fromMap(Map<String, dynamic> map) {
-    return ReviewResponse(
+  factory ReviewModel.fromMap(Map<String, dynamic> map) {
+    return ReviewModel(
       id: map['id']?.toInt() ?? 0,
       rating: map['rating']?.toInt(),
       customerOpinion: map['customerOpinion'],
@@ -99,7 +112,7 @@ class ReviewResponse {
   bool operator ==(Object other) {
     if (identical(this, other)) return true;
 
-    return other is ReviewResponse &&
+    return other is ReviewModel &&
         other.id == id &&
         other.rating == rating &&
         other.customerOpinion == customerOpinion &&
