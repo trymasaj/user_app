@@ -6,7 +6,7 @@ import 'package:masaj/features/bookings_tab/data/models/review_reponse.dart';
 import 'package:masaj/features/bookings_tab/data/models/review_request.dart';
 
 abstract class ReviewRemoteDataSource {
-  Future<ReviewResponse> addReview(ReviewRequest reviewRequest);
+  Future<ReviewModel> addReview(ReviewRequest reviewRequest);
 }
 
 class ReviewRemoteDataSourceImpl implements ReviewRemoteDataSource {
@@ -15,7 +15,7 @@ class ReviewRemoteDataSourceImpl implements ReviewRemoteDataSource {
   ReviewRemoteDataSourceImpl(this._networkService);
 
   @override
-  Future<ReviewResponse> addReview(ReviewRequest reviewRequest) {
+  Future<ReviewModel> addReview(ReviewRequest reviewRequest) {
     return _networkService
         .post('${ApiEndPoint.BOOKING}/${reviewRequest.bookingId}/review',
             data: reviewRequest.toMap())
@@ -28,7 +28,7 @@ class ReviewRemoteDataSourceImpl implements ReviewRemoteDataSource {
       final resultStatus = result['result'];
       if (resultStatus == RequestResult.Failed.name)
         throw RequestException(message: result['msg']);
-      return ReviewResponse.fromMap(result);
+      return ReviewModel.fromMap(result);
     });
   }
 }
