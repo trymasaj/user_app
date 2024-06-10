@@ -119,7 +119,7 @@ class PaymentServiceImpl implements PaymentService {
   Future<void> buyWithApple({
     required PaymentParam paymentType,
   }) async {
-    String? token;
+    Map? token;
     if (paymentType.price == null) throw Exception('please add a price');
     final paymentConfiguration = getUpdatedApplePayConfig(
       currencyCode: paymentType.currency,
@@ -146,7 +146,7 @@ class PaymentServiceImpl implements PaymentService {
         PayProvider.apple_pay,
         paymentItems,
       );
-      token = result.toString();
+      token = result;
     }
     //Delay 1 second till the bottom sheet is closed to avoid any UI exception
     await Future.delayed(const Duration(seconds: 1));
