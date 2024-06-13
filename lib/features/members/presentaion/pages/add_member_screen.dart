@@ -200,6 +200,19 @@ class _AddMemberScreenState extends State<AddMemberScreen> {
                   isSelected: _selectedGender == Gender.female,
                   title: 'Female'.tr()),
             )),
+            SizedBox(width: 10.w),
+            Expanded(
+                child: InkWell(
+              onTap: () {
+                setState(() {
+                  _selectedGender = Gender.other;
+                  showGenderError = false;
+                });
+              },
+              child: DefaultTab(
+                  isSelected: _selectedGender == Gender.other,
+                  title: 'other'.tr()),
+            )),
           ],
         ),
         const SizedBox(height: 10),

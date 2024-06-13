@@ -458,6 +458,16 @@ class _SignUpPageState extends State<SignUpPage> {
             setState(() => selectedGender = selectedValue);
           },
         ),
+        CustomChip(
+          height: 56.h,
+          label: 'lbl_other'.tr(),
+          value: Gender.other,
+          groupValue: selectedGender,
+          isExpanded: true,
+          onValueSelected: (selectedValue) {
+            setState(() => selectedGender = selectedValue);
+          },
+        ),
       ],
     );
   }
