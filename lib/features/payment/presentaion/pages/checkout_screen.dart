@@ -166,16 +166,22 @@ class _CheckoutScreenState extends State<CheckoutScreen> {
           borderRadius: BorderRadius.circular(12.0),
         ),
         const SizedBox(width: _KSubVerticalSpace),
-        Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            SubtitleText(
-              text: bookingModel?.service?.title ?? '',
-              isBold: true,
-            ),
-            const SizedBox(height: 5.0),
-            SubtitleText(text: bookingModel?.service?.description ?? ''),
-          ],
+        SizedBox(
+          width: 280.0,
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              SubtitleText(
+                text: bookingModel?.service?.title ?? '',
+                isBold: true,
+              ),
+              const SizedBox(height: 5.0),
+              SubtitleText.small(
+                text: bookingModel?.service?.description ?? '',
+                maxLines: 4,
+              ),
+            ],
+          ),
         )
       ],
     );
