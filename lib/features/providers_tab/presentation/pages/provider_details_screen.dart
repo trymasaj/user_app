@@ -146,30 +146,6 @@ class _ProviderDetailsScreenState extends State<ProviderDetailsScreen> {
             SizedBox(
               height: 6.h,
             ),
-            Container(
-              padding: EdgeInsets.symmetric(horizontal: 10.w, vertical: 3.h),
-              decoration: BoxDecoration(
-                color: const Color(0xffF6F6F6),
-                borderRadius: BorderRadius.circular(50),
-              ),
-              child: Row(
-                mainAxisSize: MainAxisSize.min,
-                children: [
-                  SvgPicture.asset(
-                    'assets/images/share.svg',
-                  ),
-                  SizedBox(
-                    width: 3.w,
-                  ),
-                  CustomText(
-                    text: 'Share',
-                    fontSize: 12,
-                    fontWeight: FontWeight.w500,
-                    color: AppColors.FONT_LIGHT.withOpacity(.7),
-                  ),
-                ],
-              ),
-            ),
           ],
         ),
       ),

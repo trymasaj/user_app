@@ -68,7 +68,7 @@ class WalletBloc extends BaseCubit<WalletState> {
           'walletPredefinedAmountId': walletPredefinedAmountId,
         },
         paymentMethodId: paymentMethodId,
-        onSuccess: () {
+        onSuccess: () async {
           navigatorKey.currentState!.pop();
           showSnackBar(context, message: 'msg_wallet_success'.tr());
         },
@@ -102,33 +102,7 @@ class WalletBloc extends BaseCubit<WalletState> {
     }
   }
 
-  Future<void> getTransactionHistory() async {
-    emit(state.copyWith(status: WalletStateStatus.loading));
-    await Future.delayed(const Duration(seconds: 2));
-    emit(state.copyWith(
-        status: WalletStateStatus.loaded, wallet: fillTransactions()));
-  }
-
-  List<WalletTransactionHistory> fillTransactions() {
-    return [
-      WalletTransactionHistory(
-        balance: 12,
-        credit: 400,
-        transactionReason: 'Booking',
-        transactionDate: '12 march 2023 - 2:00 pm',
-      ),
-      WalletTransactionHistory(
-        balance: 12,
-        credit: 400,
-        transactionReason: 'Booking',
-        transactionDate: '12 march 2023 - 2:00 pm',
-      ),
-      WalletTransactionHistory(
-        balance: 12,
-        credit: 400,
-        transactionReason: 'Booking',
-        transactionDate: '12 march 2023 - 2:00 pm',
-      )
-    ];
+  Future<void> refresh() async {
+    getWalletBalance();
   }
 }

@@ -64,7 +64,7 @@ class _AddReviewScreenState extends State<AddReviewScreen> {
   static const double _KSectionPadding = 24;
   late TextEditingController _walletController;
   late FocusNode _walletFocusNode;
-  
+
   late TextEditingController _customerOpinionController;
   late FocusNode _customerOpinionFocusNode;
   late TextEditingController _improveServicesController;
@@ -424,7 +424,6 @@ class _AddReviewScreenState extends State<AddReviewScreen> {
             text: 'payment_method',
           ),
           WalletSection(
-            controller: _walletController,
             totalPrice: totalPrice,
           ),
           _buildPaymentMethods()

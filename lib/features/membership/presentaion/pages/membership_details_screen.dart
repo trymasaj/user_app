@@ -30,13 +30,11 @@ class _MembershipCheckoutScreenState extends State<MembershipCheckoutScreen> {
   PaymentMethodModel? _selectedPayment;
 
   late final TextEditingController _couponEditingController;
-  late final TextEditingController _walletController;
   late final FocusNode _couponFocusNode;
 
   @override
   void initState() {
     _couponEditingController = TextEditingController();
-    _walletController = TextEditingController();
     _couponFocusNode = FocusNode();
     super.initState();
   }
@@ -44,7 +42,6 @@ class _MembershipCheckoutScreenState extends State<MembershipCheckoutScreen> {
   @override
   void dispose() {
     _couponEditingController.dispose();
-    _walletController.dispose();
     _couponFocusNode.dispose();
     super.dispose();
   }
@@ -157,7 +154,6 @@ class _MembershipCheckoutScreenState extends State<MembershipCheckoutScreen> {
             text: 'payment_method',
           ),
           WalletSection(
-            controller: _walletController,
             totalPrice: total.toDouble(),
           ),
           _buildPaymentMethods()

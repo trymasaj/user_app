@@ -16,35 +16,36 @@ class WalletScreen extends StatelessWidget {
   static Widget builder(BuildContext context) {
     return BlocProvider<WalletBloc>.value(
         child: const WalletScreen(),
-        value: context.read<WalletBloc>()
-          ..getWalletBalance()
-          ..getTransactionHistory());
+        value: context.read<WalletBloc>()..getWalletBalance());
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
         appBar: _buildAppBar(context),
-        body: Padding(
-          padding: EdgeInsets.symmetric(horizontal: 24.w, vertical: 23.h),
-          child: Column(children: [
-            _buildTopUp(context),
-            SizedBox(height: 24.h),
-            Row(children: [
-              CustomImageView(
-                  imagePath: ImageConstant.imgIcSharpHistory,
-                  height: 22.adaptSize,
-                  width: 22.adaptSize,
-                  margin: EdgeInsets.symmetric(vertical: 2.h)),
-              Padding(
-                  padding: EdgeInsets.only(left: 4.w),
-                  child: Text('msg_transactions_history'.tr(),
-                      style: CustomTextStyles.titleMediumGray90003SemiBold))
+        body: RefreshIndicator(
+          onRefresh: context.read<WalletBloc>().refresh,
+          child: Padding(
+            padding: EdgeInsets.symmetric(horizontal: 24.w, vertical: 23.h),
+            child: Column(children: [
+              _buildTopUp(context),
+              SizedBox(height: 24.h),
+              Row(children: [
+                CustomImageView(
+                    imagePath: ImageConstant.imgIcSharpHistory,
+                    height: 22.adaptSize,
+                    width: 22.adaptSize,
+                    margin: EdgeInsets.symmetric(vertical: 2.h)),
+                Padding(
+                    padding: EdgeInsets.only(left: 4.w),
+                    child: Text('msg_transactions_history'.tr(),
+                        style: CustomTextStyles.titleMediumGray90003SemiBold))
+              ]),
+              SizedBox(height: 12.h),
+              Expanded(child: _buildTransactionHistory(context)),
+              SizedBox(height: 5.h)
             ]),
-            SizedBox(height: 12.h),
-            Expanded(child: _buildTransactionHistory(context)),
-            SizedBox(height: 5.h)
-          ]),
+          ),
         ));
   }
 
@@ -111,7 +112,9 @@ class WalletScreen extends StatelessWidget {
                       CustomTextStyles.titleSmallOnPrimaryContainer,
                   onPressed: () {
                     NavigatorHelper.of(context)
-                        .pushNamed(TopUpWalletScreen.routeName);
+                        .pushNamed(TopUpWalletScreen.routeName)
+                        .then((_) =>
+                            context.read<WalletBloc>().getWalletBalance());
                   })
             ]));
   }

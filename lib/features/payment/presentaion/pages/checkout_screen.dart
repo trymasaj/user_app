@@ -43,13 +43,11 @@ class _CheckoutScreenState extends State<CheckoutScreen> {
   PaymentMethodModel? _selectedPayment;
 
   late final TextEditingController _couponEditingController;
-  late final TextEditingController _walletController;
   late final FocusNode _couponFocusNode;
 
   @override
   void initState() {
     _couponEditingController = TextEditingController();
-    _walletController = TextEditingController();
     _couponFocusNode = FocusNode();
 
     getBooking();
@@ -64,7 +62,6 @@ class _CheckoutScreenState extends State<CheckoutScreen> {
   @override
   void dispose() {
     _couponEditingController.dispose();
-    _walletController.dispose();
     _couponFocusNode.dispose();
     super.dispose();
   }
@@ -303,7 +300,6 @@ class _CheckoutScreenState extends State<CheckoutScreen> {
             text: 'payment_method',
           ),
           WalletSection(
-            controller: _walletController,
             totalPrice: bookingModel?.grandTotal?.toDouble() ?? 0,
           ),
           _buildPaymentMethods()
@@ -342,12 +338,15 @@ class _CheckoutScreenState extends State<CheckoutScreen> {
   Widget _buildPaymentMethodItem(
       BuildContext context, PaymentMethodModel paymentMethod) {
     if (paymentMethod.id == 3) {
+      final walletCubit = context.read<WalletBloc>();
+
       final bookingModel = context.read<BookingCubit>().state.bookingModel;
       final useWallet = context.read<WalletBloc>().state.useWallet;
       final num discount = bookingModel?.discountedAmount ?? 0;
 
-      final double wallet =
-          useWallet ? double.tryParse(_walletController.text) ?? 0.0 : 0.0;
+      final double wallet = useWallet
+          ? walletCubit.state.walletBalance?.balance?.toDouble() ?? 0.0
+          : 0.0;
       final num totalWithDiscounts =
           (bookingModel?.grandTotal ?? 0) - wallet - discount;
       final num total = totalWithDiscounts < 0 ? 0 : totalWithDiscounts;
@@ -413,16 +412,19 @@ class _CheckoutScreenState extends State<CheckoutScreen> {
   Widget _buildSummarySection(BuildContext context) {
     return BlocBuilder<WalletBloc, WalletState>(
       builder: (context, state) {
+        final walletCubit = context.read<WalletBloc>();
+
         final bookingModel = context.read<BookingCubit>().state.bookingModel;
-        final useWallet = context.read<WalletBloc>().state.useWallet;
+        final useWallet = walletCubit.state.useWallet;
         final num subTotal = bookingModel?.subtotal ?? 0;
         final num tax = bookingModel?.vatAmount ?? 0;
         final num discount = bookingModel?.discountedAmount ?? 0;
 
-        final double wallet =
-            useWallet ? double.tryParse(_walletController.text) ?? 0.0 : 0.0;
+        final double wallet = useWallet
+            ? walletCubit.state.walletBalance?.balance?.toDouble() ?? 0.0
+            : 0.0;
         final num totalWithDiscounts =
-            (bookingModel?.grandTotal ?? 0) - wallet - discount;
+            (bookingModel?.grandTotal ?? 0 + tax) - wallet - discount;
         final num total = totalWithDiscounts < 0 ? 0 : totalWithDiscounts;
         return Padding(
           padding: const EdgeInsets.all(_KSectionPadding),
@@ -566,9 +568,7 @@ class WalletSection extends StatefulWidget {
   const WalletSection({
     super.key,
     required this.totalPrice,
-    required this.controller,
   });
-  final TextEditingController controller;
   final double totalPrice;
 
   @override
@@ -579,7 +579,6 @@ class _WalletSectionState extends State<WalletSection> {
   @override
   void initState() {
     super.initState();
-    widget.controller.text = widget.totalPrice.toString();
     final cubit = context.read<WalletBloc>();
     cubit.getWalletBalance();
   }

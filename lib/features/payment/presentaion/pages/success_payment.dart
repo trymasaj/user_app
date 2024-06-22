@@ -10,6 +10,8 @@ import 'package:masaj/core/presentation/widgets/stateless/custom_loading.dart';
 import 'package:masaj/core/presentation/widgets/stateless/custom_text.dart';
 import 'package:masaj/core/presentation/widgets/stateless/default_button.dart';
 import 'package:masaj/core/presentation/widgets/stateless/subtitle_text.dart';
+import 'package:masaj/features/book_service/data/models/booking_model/booking_model.dart';
+import 'package:masaj/features/book_service/enums/booking_status.dart';
 import 'package:masaj/features/book_service/enums/payment_status.dart';
 import 'package:masaj/features/book_service/presentation/blocs/book_cubit/book_service_cubit.dart';
 import 'package:masaj/features/home/presentation/pages/home_page.dart';
@@ -28,8 +30,11 @@ class _SummaryPaymentPageState extends State<SummaryPaymentPage> {
   void getBooking() async {
     final bookingCubit = context.read<BookingCubit>();
     await bookingCubit.getBookingDetails(oldBookingId: widget.bookingId);
-    final isSuccess = bookingCubit.state.bookingModel?.payment?.paymentStatus ==
-        PaymentStatus.Captured;
+    final bookingModel = bookingCubit.state.bookingModel;
+    final isSuccess =
+        bookingModel?.payment?.paymentStatus == PaymentStatus.Captured ||
+            bookingModel?.paymentStatus == PaymentStatusPaidOrNotPaid.paid ||
+            bookingModel?.payment?.paymentStatus == PaymentStatus.Pending;
     if (isSuccess) {
       await bookingCubit.getBookingStreaks();
       if (bookingCubit.state.bookingStreaks == 10) {
@@ -174,9 +179,10 @@ class _SummaryPaymentPageState extends State<SummaryPaymentPage> {
     return BlocBuilder<BookingCubit, BookingState>(
       builder: (context, state) {
         final bookingModel = context.read<BookingCubit>().state.bookingModel;
-        final isSucceeded =
-            bookingModel?.payment?.paymentStatus == PaymentStatus.Captured ||
-                bookingModel?.payment?.paymentStatus == PaymentStatus.Pending;
+        final isSucceeded = bookingModel?.payment?.paymentStatus ==
+                PaymentStatus.Captured ||
+            bookingModel?.paymentStatus == PaymentStatusPaidOrNotPaid.paid ||
+            bookingModel?.payment?.paymentStatus == PaymentStatus.Pending;
         if (state.isLoading) return const CustomLoading();
 
         return CustomAppPage(
