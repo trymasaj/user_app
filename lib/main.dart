@@ -29,9 +29,6 @@ const inspectorEnabled = true;
 
 void main() async {
   runZonedGuarded<Future<void>>(() async {
-    AdjustConfig config =
-        new AdjustConfig('{YourAppToken}', AdjustEnvironment.production);
-    Adjust.start(config);
     final widgetsBinding = WidgetsFlutterBinding.ensureInitialized();
 
     await EasyLocalization.ensureInitialized();
@@ -43,7 +40,9 @@ void main() async {
     await Injector().notificationService.init();
 
     FlutterNativeSplash.preserve(widgetsBinding: widgetsBinding);
-
+    AdjustConfig config =
+        new AdjustConfig('{YourAppToken}', AdjustEnvironment.production);
+    Adjust.start(config);
     runApp(
       EasyLocalization(
         supportedLocales: const [Locale('en'), Locale('ar')],
