@@ -17,6 +17,10 @@
 		97C146FC1CF9000F007C117D /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 97C146FA1CF9000F007C117D /* Main.storyboard */; };
 		97C146FE1CF9000F007C117D /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 97C146FD1CF9000F007C117D /* Assets.xcassets */; };
 		97C147011CF9000F007C117D /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 97C146FF1CF9000F007C117D /* LaunchScreen.storyboard */; };
+		A88ECDD02C2A1B2C0020BDD2 /* AdSupport.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A88ECDCF2C2A1B2C0020BDD2 /* AdSupport.framework */; };
+		A88ECDD22C2A1B340020BDD2 /* AdServices.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A88ECDD12C2A1B340020BDD2 /* AdServices.framework */; };
+		A88ECDD42C2A1B4F0020BDD2 /* StoreKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A88ECDD32C2A1B4F0020BDD2 /* StoreKit.framework */; };
+		A88ECDD62C2A1B5B0020BDD2 /* AppTrackingTransparency.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A88ECDD52C2A1B5B0020BDD2 /* AppTrackingTransparency.framework */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -68,6 +72,10 @@
 		97C146FD1CF9000F007C117D /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		97C147001CF9000F007C117D /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		97C147021CF9000F007C117D /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		A88ECDCF2C2A1B2C0020BDD2 /* AdSupport.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AdSupport.framework; path = System/Library/Frameworks/AdSupport.framework; sourceTree = SDKROOT; };
+		A88ECDD12C2A1B340020BDD2 /* AdServices.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AdServices.framework; path = System/Library/Frameworks/AdServices.framework; sourceTree = SDKROOT; };
+		A88ECDD32C2A1B4F0020BDD2 /* StoreKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = StoreKit.framework; path = System/Library/Frameworks/StoreKit.framework; sourceTree = SDKROOT; };
+		A88ECDD52C2A1B5B0020BDD2 /* AppTrackingTransparency.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AppTrackingTransparency.framework; path = System/Library/Frameworks/AppTrackingTransparency.framework; sourceTree = SDKROOT; };
 		B3976D834B5B0552FF47DDEC /* Pods_RunnerTests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_RunnerTests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		F93843E96D111EC5207719DF /* Pods-Runner.profile.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Runner.profile.xcconfig"; path = "Target Support Files/Pods-Runner/Pods-Runner.profile.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -85,6 +93,10 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				A88ECDD62C2A1B5B0020BDD2 /* AppTrackingTransparency.framework in Frameworks */,
+				A88ECDD42C2A1B4F0020BDD2 /* StoreKit.framework in Frameworks */,
+				A88ECDD22C2A1B340020BDD2 /* AdServices.framework in Frameworks */,
+				A88ECDD02C2A1B2C0020BDD2 /* AdSupport.framework in Frameworks */,
 				392314FEA87A9F60C1EE0F03 /* Pods_Runner.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -167,6 +179,10 @@
 		F7CFECEF8529B0A15AC721EC /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				A88ECDD52C2A1B5B0020BDD2 /* AppTrackingTransparency.framework */,
+				A88ECDD32C2A1B4F0020BDD2 /* StoreKit.framework */,
+				A88ECDD12C2A1B340020BDD2 /* AdServices.framework */,
+				A88ECDCF2C2A1B2C0020BDD2 /* AdSupport.framework */,
 				87762591F597E689F60C93AF /* Pods_Runner.framework */,
 				B3976D834B5B0552FF47DDEC /* Pods_RunnerTests.framework */,
 			);

@@ -1,5 +1,7 @@
 import 'dart:async';
 import 'dart:isolate';
+import 'package:adjust_sdk/adjust.dart';
+import 'package:adjust_sdk/adjust_config.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_crashlytics/firebase_crashlytics.dart';
@@ -19,7 +21,7 @@ import 'package:masaj/features/address/application/blocs/my_addresses_bloc/my_ad
 import 'package:masaj/features/splash/presentation/pages/splash_page.dart';
 import 'package:requests_inspector/requests_inspector.dart';
 import 'package:masaj/firebase_options.dart';
-import 'package:shared_preferences/shared_preferences.dart';
+import 'package:upgrader/upgrader.dart';
 
 ///Don't forget to change it in release!!
 const isRelease = false;
@@ -27,6 +29,9 @@ const inspectorEnabled = true;
 
 void main() async {
   runZonedGuarded<Future<void>>(() async {
+    AdjustConfig config =
+        new AdjustConfig('{YourAppToken}', AdjustEnvironment.production);
+    Adjust.start(config);
     final widgetsBinding = WidgetsFlutterBinding.ensureInitialized();
 
     await EasyLocalization.ensureInitialized();
@@ -142,21 +147,31 @@ class _MyAppState extends State<MyApp> with WidgetsBindingObserver {
                 BlocProvider(
                     lazy: false, create: (context) => Injector().bookingCubit),
               ],
-              child: LoaderOverlay(
-                closeOnBackButton: true,
-                child: MaterialApp(
-                  onGenerateRoute: onGenerateRoute,
-                  home: const SplashPage(),
-                  localizationsDelegates: context.localizationDelegates,
-                  supportedLocales: context.supportedLocales,
-                  locale: context.locale,
-                  debugShowCheckedModeBanner: false,
-                  theme: theme,
-                  scrollBehavior: const MaterialScrollBehavior().copyWith(
-                    physics: const ClampingScrollPhysics(),
+              child: UpgradeAlert(
+                barrierDismissible: true,
+                shouldPopScope: () => true,
+                upgrader: Upgrader(
+                  storeController: UpgraderStoreController(
+                    onAndroid: () => UpgraderPlayStore(),
+                    oniOS: () => UpgraderAppStore(),
                   ),
-                  title: 'Masaj',
-                  navigatorKey: navigatorKey,
+                ),
+                child: LoaderOverlay(
+                  closeOnBackButton: true,
+                  child: MaterialApp(
+                    onGenerateRoute: onGenerateRoute,
+                    home: const SplashPage(),
+                    localizationsDelegates: context.localizationDelegates,
+                    supportedLocales: context.supportedLocales,
+                    locale: context.locale,
+                    debugShowCheckedModeBanner: false,
+                    theme: theme,
+                    scrollBehavior: const MaterialScrollBehavior().copyWith(
+                      physics: const ClampingScrollPhysics(),
+                    ),
+                    title: 'Masaj',
+                    navigatorKey: navigatorKey,
+                  ),
                 ),
               ),
             );

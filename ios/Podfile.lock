@@ -1,4 +1,10 @@
 PODS:
+  - Adjust (4.38.2):
+    - Adjust/Core (= 4.38.2)
+  - Adjust/Core (4.38.2)
+  - adjust_sdk (4.38.1):
+    - Adjust (= 4.38.2)
+    - Flutter
   - AppAuth (1.7.5):
     - AppAuth/Core (= 1.7.5)
     - AppAuth/ExternalUserAgent (= 1.7.5)
@@ -8,6 +14,8 @@ PODS:
   - connectivity_plus (0.0.1):
     - Flutter
     - ReachabilitySwift
+  - device_info_plus (0.0.1):
+    - Flutter
   - Firebase/Analytics (10.25.0):
     - Firebase/Core
   - Firebase/Core (10.25.0):
@@ -248,7 +256,9 @@ PODS:
     - FlutterMacOS
 
 DEPENDENCIES:
+  - adjust_sdk (from `.symlinks/plugins/adjust_sdk/ios`)
   - connectivity_plus (from `.symlinks/plugins/connectivity_plus/ios`)
+  - device_info_plus (from `.symlinks/plugins/device_info_plus/ios`)
   - firebase_analytics (from `.symlinks/plugins/firebase_analytics/ios`)
   - firebase_core (from `.symlinks/plugins/firebase_core/ios`)
   - firebase_crashlytics (from `.symlinks/plugins/firebase_crashlytics/ios`)
@@ -282,6 +292,7 @@ DEPENDENCIES:
 
 SPEC REPOS:
   trunk:
+    - Adjust
     - AppAuth
     - Firebase
     - FirebaseAnalytics
@@ -308,8 +319,12 @@ SPEC REPOS:
     - ReachabilitySwift
 
 EXTERNAL SOURCES:
+  adjust_sdk:
+    :path: ".symlinks/plugins/adjust_sdk/ios"
   connectivity_plus:
     :path: ".symlinks/plugins/connectivity_plus/ios"
+  device_info_plus:
+    :path: ".symlinks/plugins/device_info_plus/ios"
   firebase_analytics:
     :path: ".symlinks/plugins/firebase_analytics/ios"
   firebase_core:
@@ -372,8 +387,11 @@ EXTERNAL SOURCES:
     :path: ".symlinks/plugins/video_player_avfoundation/darwin"
 
 SPEC CHECKSUMS:
+  Adjust: 5a0f813fe079212bed61404d1f635cc330068b4a
+  adjust_sdk: e2b8a3f4115b4bb61594a2941dea942c51afa0d6
   AppAuth: 501c04eda8a8d11f179dbe8637b7a91bb7e5d2fa
   connectivity_plus: bf0076dd84a130856aa636df1c71ccaff908fa1d
+  device_info_plus: 97af1d7e84681a90d0693e63169a5d50e0839a0d
   Firebase: 0312a2352584f782ea56f66d91606891d4607f06
   firebase_analytics: 0b2b459312872129295c3f9c44225eda552fd8f3
   firebase_core: 0b39f4f424e02eecabb2356ddf331fa07b772af8

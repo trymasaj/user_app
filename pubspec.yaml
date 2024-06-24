@@ -107,6 +107,9 @@ dependencies:
   bottom_picker: ^2.4.0
   pay: ^2.0.0
   loader_overlay: ^4.0.0
+  upgrader: ^10.3.0
+  adjust_sdk: ^4.38.0
+
   # flutter_datetime_picker: ^1.5.1
   # fluttertoast: ^8.2.4
 
