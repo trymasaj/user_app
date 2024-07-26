@@ -41,7 +41,7 @@ void main() async {
 
     FlutterNativeSplash.preserve(widgetsBinding: widgetsBinding);
     AdjustConfig config =
-        new AdjustConfig('{YourAppToken}', AdjustEnvironment.production);
+        new AdjustConfig('H_KKW6jVtGv1B9s-BLph', AdjustEnvironment.production);
     Adjust.start(config);
     runApp(
       EasyLocalization(
