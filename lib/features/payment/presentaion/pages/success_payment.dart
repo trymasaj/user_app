@@ -44,6 +44,7 @@ class _SummaryPaymentPageState extends State<SummaryPaymentPage> {
       _modalBottomSheetMenu();
       AdjustTracker.trackCheckoutSuccess(
           bookingModel?.grandTotal?.toDouble() ?? 0);
+      AdjustTracker.trackFirstSale();
     }
   }
 
