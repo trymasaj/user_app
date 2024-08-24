@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:intl_phone_field/phone_number.dart';
 import 'package:masaj/core/app_export.dart';
+import 'package:masaj/core/data/services/adjsut.dart';
 import 'package:masaj/core/data/validator/validator.dart';
 import 'package:masaj/core/presentation/colors/app_colors.dart';
 import 'package:masaj/core/presentation/navigation/navigator_helper.dart';
@@ -375,6 +376,7 @@ class _LoginPageState extends State<LoginPage> {
       child: GestureDetector(
         onTap: () async {
           await authCubit.continueAsGuest();
+          AdjustTracker.trackGuestRegistration();
           _goToHomePage(context);
         },
         child: CustomText(
@@ -432,8 +434,10 @@ class _LoginPageState extends State<LoginPage> {
     }
   }
 
-  void _goToSignUpPage(BuildContext context) =>
-      NavigatorHelper.of(context).pushNamed(SignUpPage.routeName);
+  void _goToSignUpPage(BuildContext context) {
+    AdjustTracker.trackRegistrationInitiated();
+    NavigatorHelper.of(context).pushNamed(SignUpPage.routeName);
+  }
 
   void _goToEmailVerificationPage(BuildContext context) =>
       NavigatorHelper.of(context).pushNamed(EmailVerificationPage.routeName);

@@ -6,6 +6,7 @@ import 'package:firebase_crashlytics/firebase_crashlytics.dart';
 import 'package:flutter/foundation.dart';
 import 'package:intl_phone_field/phone_number.dart';
 import 'package:masaj/core/application/controllers/base_cubit.dart';
+import 'package:masaj/core/data/services/adjsut.dart';
 import 'package:masaj/core/data/show_case_helper.dart';
 import 'package:masaj/core/domain/enums/gender.dart';
 import 'package:masaj/core/domain/exceptions/redundant_request_exception.dart';
@@ -62,6 +63,7 @@ class AuthCubit extends BaseCubit<AuthState> {
       final userFirebaseId = (user.id ?? '') + (user.fullName ?? '');
       FirebaseCrashlytics.instance.setUserIdentifier(userFirebaseId);
       FirebaseAnalytics.instance.setUserId(id: userFirebaseId);
+      AdjustTracker.trackLogin();
     } on RedundantRequestException catch (e) {
       log(e.toString());
     } catch (e) {
@@ -85,6 +87,11 @@ class AuthCubit extends BaseCubit<AuthState> {
       final userFirebaseId = (user.id ?? '') + (user.fullName ?? '');
       FirebaseCrashlytics.instance.setUserIdentifier(userFirebaseId);
       FirebaseAnalytics.instance.setUserId(id: userFirebaseId);
+      if (user.isProfileCompleted ?? false) {
+        AdjustTracker.trackLogin();
+      } else {
+        AdjustTracker.trackGuestRegistration();
+      }
     } on SocialLoginCanceledException catch (e) {
       log(e.toString());
     } on RedundantRequestException catch (e) {
@@ -110,6 +117,11 @@ class AuthCubit extends BaseCubit<AuthState> {
       final userFirebaseId = (user.id ?? '') + (user.fullName ?? '');
       FirebaseCrashlytics.instance.setUserIdentifier(userFirebaseId);
       FirebaseAnalytics.instance.setUserId(id: userFirebaseId);
+      if (user.isProfileCompleted ?? false) {
+        AdjustTracker.trackLogin();
+      } else {
+        AdjustTracker.trackGuestRegistration();
+      }
     } on SocialLoginCanceledException catch (e) {
       log(e.toString());
     } on RedundantRequestException catch (e) {
@@ -223,6 +235,7 @@ class AuthCubit extends BaseCubit<AuthState> {
       final userFirebaseId = (user.id ?? '') + (user.fullName ?? '');
       FirebaseCrashlytics.instance.setUserIdentifier(userFirebaseId);
       FirebaseAnalytics.instance.setUserId(id: userFirebaseId);
+      AdjustTracker.trackRegistrationCompleted(userAfterSignUp.toMap());
     } on RedundantRequestException catch (e) {
       log(e.toString());
     } catch (e) {

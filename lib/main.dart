@@ -14,6 +14,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:loader_overlay/loader_overlay.dart';
 import 'package:masaj/core/data/di/injection_setup.dart';
 import 'package:masaj/core/data/di/injector.dart';
+import 'package:masaj/core/data/services/adjsut.dart';
 import 'package:masaj/core/presentation/routes/routes.dart';
 import 'package:masaj/core/presentation/size/size_utils.dart';
 import 'package:masaj/core/presentation/theme/theme_helper.dart';
@@ -40,9 +41,11 @@ void main() async {
     await Injector().notificationService.init();
 
     FlutterNativeSplash.preserve(widgetsBinding: widgetsBinding);
-    AdjustConfig config =
-        new AdjustConfig('H_KKW6jVtGv1B9s-BLph', AdjustEnvironment.production);
-    Adjust.start(config);
+    // AdjustConfig config =
+    //     new AdjustConfig('H_KKW6jVtGv1B9s-BLph', AdjustEnvironment.production);
+    // Adjust.start(config);
+    AdjustTracker.initialize('H_KKW6jVtGv1B9s-BLph');
+
     runApp(
       EasyLocalization(
         supportedLocales: const [Locale('en'), Locale('ar')],

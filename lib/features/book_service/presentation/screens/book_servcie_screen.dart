@@ -5,6 +5,7 @@ import 'package:flutter/widgets.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:masaj/core/app_export.dart';
 import 'package:masaj/core/data/di/injector.dart';
+import 'package:masaj/core/data/services/adjsut.dart';
 import 'package:masaj/core/presentation/colors/app_colors.dart';
 import 'package:masaj/core/presentation/navigation/navigator_helper.dart';
 import 'package:masaj/core/presentation/overlay/custom_bottom_sheet.dart';
@@ -83,6 +84,11 @@ class _BookServiceScreenState extends State<BookServiceScreen> {
   @override
   void initState() {
     checkTherapistInBooking();
+    AdjustTracker.trackAddToBasket(
+      context.read<BookingCubit>().state.bookingModel?.service?.title ?? '',
+      context.read<BookingCubit>().state.bookingModel?.service?.duration ?? '',
+    );
+    print(context.read<BookingCubit>().state.bookingModel?.service?.duration);
     super.initState();
   }
 

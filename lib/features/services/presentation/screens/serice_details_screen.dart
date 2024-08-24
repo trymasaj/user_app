@@ -4,6 +4,7 @@ import 'package:flutter/widgets.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:masaj/core/app_export.dart';
 import 'package:masaj/core/data/di/injector.dart';
+import 'package:masaj/core/data/services/adjsut.dart';
 import 'package:masaj/core/domain/enums/focus_area_enum.dart';
 import 'package:masaj/core/presentation/colors/app_colors.dart';
 import 'package:masaj/core/presentation/navigation/navigator_helper.dart';
@@ -554,6 +555,11 @@ class ServiceDetailsScreenState extends State<ServiceDetailsScreen> {
     await bookingCubit.addBookingService(serviceBookModel);
     Navigator.push(context,
         MaterialPageRoute(builder: (context) => SelectMembersScreen()));
+    AdjustTracker.trackDurationSelected(
+        serviceName: _serviceDetailsCubit.state.service!.title ?? '',
+        duration:
+            selectedDurationNotifier.value?.durationInMinutesInt?.toString() ??
+                '');
   }
 
   ServiceBookModel createServiceBookingModel() {

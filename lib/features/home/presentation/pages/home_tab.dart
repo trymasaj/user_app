@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:masaj/core/data/services/adjsut.dart';
 import 'package:masaj/core/presentation/colors/app_colors.dart';
 import 'package:masaj/core/presentation/size/size_utils.dart';
 import 'package:masaj/core/presentation/widgets/stateless/custom_app_page.dart';
@@ -27,6 +28,7 @@ class _HomeTabState extends State<HomeTab> {
   void initState() {
     final cubit = context.read<AuthCubit>();
     final isGuest = cubit.state.isGuest;
+    AdjustTracker.trackRegistrationInitiated();
 
     context.read<HomePageCubit>().init(isGuest: isGuest);
     super.initState();
