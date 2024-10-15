@@ -964,10 +964,10 @@ class ServiceImagesViewWidget extends StatefulWidget {
 }
 
 class _ServiceImagesViewWidgetState extends State<ServiceImagesViewWidget> {
-  late final CarouselController _carouselController;
+  late final CarouselSliderController _carouselController;
   @override
   void initState() {
-    _carouselController = CarouselController();
+    _carouselController = CarouselSliderController();
     super.initState();
   }
 

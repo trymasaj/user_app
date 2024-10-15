@@ -51,3 +51,4 @@ ios/Runner.app.dSYM.zip
 .gitignore
 mason-lock.json
 mason.yaml
+pubspec.lock

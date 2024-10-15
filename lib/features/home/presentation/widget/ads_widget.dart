@@ -20,12 +20,12 @@ class Ads extends StatefulWidget {
 }
 
 class _AdsState extends State<Ads> {
-  late CarouselController _carouselController;
+  late CarouselSliderController _carouselController;
   int current = 0;
 
   @override
   void initState() {
-    _carouselController = CarouselController();
+    _carouselController = CarouselSliderController();
     super.initState();
   }
 
