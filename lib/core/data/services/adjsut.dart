@@ -7,7 +7,7 @@ import 'package:masaj/features/book_service/data/models/booking_query_model.dart
 class AdjustTracker {
   static void initialize(String appToken) {
     AdjustConfig config = AdjustConfig(appToken, AdjustEnvironment.production);
-    Adjust.start(config);
+    Adjust.initSdk(config);
   }
 
   static void trackRegistrationInitiated() {

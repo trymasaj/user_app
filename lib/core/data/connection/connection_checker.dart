@@ -28,7 +28,7 @@ class ConnectionChecker {
     _checkConnection(await _connectivity.checkConnectivity());
   }
 
-  Future<void> _checkConnection(ConnectivityResult result) async {
+  void _checkConnection(List<ConnectivityResult> result) async {
     final previousConnection = _hasConnection;
 
     try {

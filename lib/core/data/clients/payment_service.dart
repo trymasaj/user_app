@@ -220,7 +220,7 @@ class _PaymentPageState extends State<_PaymentPage> {
           child: Stack(
             children: [
               InAppWebView(
-                initialUrlRequest: URLRequest(url: Uri.parse(widget.url)),
+                initialUrlRequest: URLRequest(url: WebUri.uri(Uri.parse(widget.url))),
                 onUpdateVisitedHistory: (_, url, __) =>
                     _handleUrl(context, url),
                 onLoadStop: (finish, _) {
