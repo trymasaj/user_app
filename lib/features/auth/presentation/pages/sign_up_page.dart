@@ -458,6 +458,7 @@ class _SignUpPageState extends State<SignUpPage> {
             setState(() => selectedGender = selectedValue);
           },
         ),
+        const SizedBox(width: 8.0),
         CustomChip(
           height: 56.h,
           label: 'lbl_other'.tr(),

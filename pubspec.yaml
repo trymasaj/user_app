@@ -68,7 +68,10 @@ dependencies:
   flutter_screenutil: ^5.9.0
   gradient_borders: ^1.0.0
   map_location_picker: ^1.2.8+3
-  intl_phone_field: ^3.2.0
+  intl_phone_field:
+    git:
+      url: https://github.com/hani-hj1908619/intl_phone_field.git
+      ref: master
   flutter_svg_provider: ^1.0.7
   outline_gradient_button: ^2.0.1+1
   pin_code_fields: ^8.0.1
