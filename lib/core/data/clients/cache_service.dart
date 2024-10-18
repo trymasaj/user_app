@@ -2,7 +2,6 @@ import 'dart:async';
 import 'dart:convert';
 
 import 'package:collection/collection.dart';
-import 'package:injectable/injectable.dart';
 import 'package:masaj/core/domain/enums/show_case_displayed_page.dart';
 import 'package:masaj/features/services/data/models/service_model.dart';
 import 'package:masaj/features/address/domain/entities/address.dart';
@@ -91,7 +90,7 @@ abstract class CacheService {
   Future<bool> removeSearchKeyWord(String keyWord);
 }
 
-@LazySingleton(as: CacheService)
+
 class CacheServiceImplV2 implements CacheService {
   static const _USERDATA = 'USER_DATA';
   static const _APPLE_USER_DATA = 'APPLE_USER_DATA';

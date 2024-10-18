@@ -2,7 +2,6 @@ import 'package:bloc/bloc.dart';
 import 'package:dartz/dartz.dart';
 import 'package:equatable/equatable.dart';
 import 'package:google_maps_flutter_platform_interface/src/types/location.dart';
-import 'package:injectable/injectable.dart';
 import 'package:masaj/core/application/controllers/base_cubit.dart';
 import 'package:masaj/features/address/domain/entities/geo_coded_address.dart';
 import 'package:masaj/features/address/domain/entities/suggestion_address.dart';

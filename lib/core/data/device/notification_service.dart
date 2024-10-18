@@ -12,7 +12,6 @@ import 'package:masaj/main.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 
-import 'package:injectable/injectable.dart';
 
 typedef FutureCallback<T> = FutureOr<T> Function();
 typedef FutureCallbackWithData<T, V> = FutureOr<T> Function(V data);

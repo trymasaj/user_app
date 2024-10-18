@@ -2,7 +2,6 @@ import 'dart:developer';
 
 import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
-import 'package:injectable/injectable.dart';
 import 'package:masaj/core/application/controllers/base_cubit.dart';
 import 'package:masaj/core/application/states/app_state.dart';
 import 'package:masaj/core/domain/exceptions/app_exception.dart';
@@ -13,7 +12,7 @@ import 'package:masaj/features/address/infrastructure/repos/address_repo.dart';
 import 'package:meta/meta.dart';
 part 'my_addresses_state.dart';
 
-@LazySingleton()
+
 class MyAddressesCubit extends BaseCubit<MyAddressesState> {
   MyAddressesCubit(this._repo) : super(MyAddressesState.initial());
   final AddressRepo _repo;

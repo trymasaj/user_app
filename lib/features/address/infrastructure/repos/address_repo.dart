@@ -3,7 +3,6 @@ import 'dart:developer';
 
 import 'package:geocoding/geocoding.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
-import 'package:injectable/injectable.dart';
 import 'package:masaj/core/data/clients/cache_service.dart';
 import 'package:masaj/core/data/clients/network_service.dart';
 import 'package:masaj/core/data/constants/api_end_point.dart';
@@ -15,7 +14,7 @@ import 'package:masaj/features/address/domain/entities/geo_coded_address.dart';
 import 'package:masaj/features/address/domain/entities/suggestion_address.dart';
 import 'package:masaj/features/auth/data/datasources/auth_local_datasource.dart';
 
-@LazySingleton()
+
 class AddressRepo {
   final NetworkService networkService;
   final CacheService cacheService;

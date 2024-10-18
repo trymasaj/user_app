@@ -4,7 +4,6 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_form_builder/flutter_form_builder.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
-import 'package:injectable/injectable.dart';
 import 'package:masaj/core/app_export.dart';
 import 'package:masaj/core/application/controllers/base_cubit.dart';
 import 'package:masaj/features/address/domain/entities/address.dart';
@@ -47,7 +46,7 @@ class EditAddressCubit extends UpdateAddressCubit {
   }
 }
 
-@Injectable()
+
 class AddAddressCubit extends UpdateAddressCubit {
   AddAddressCubit(super.repo);
   @override

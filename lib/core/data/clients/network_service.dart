@@ -4,7 +4,6 @@ import 'dart:typed_data';
 
 import 'package:dio/dio.dart';
 import 'package:http/http.dart' as http;
-import 'package:injectable/injectable.dart';
 import 'package:masaj/core/app_export.dart';
 import 'package:masaj/core/data/clients/cache_service.dart';
 import 'package:masaj/core/data/constants/api_end_point.dart';
@@ -87,7 +86,7 @@ abstract class NetworkService {
   Future<void> logout();
 }
 
-@LazySingleton(as: NetworkService)
+
 class NetworkServiceImpl implements NetworkService {
   NetworkServiceImpl(
     this._networkServiceUtil,
@@ -723,7 +722,6 @@ abstract class NetworkServiceUtil {
 
 ///Used only as a helper inside NetworkService to handle tokens and language code.
 ///DONT: use it outside the NetworkService.
-@LazySingleton(as: NetworkServiceUtil)
 class NetworkServiceUtilImpl implements NetworkServiceUtil {
   NetworkServiceUtilImpl(this._cacheService);
 

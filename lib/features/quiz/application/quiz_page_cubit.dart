@@ -1,13 +1,12 @@
 import 'package:dartz/dartz.dart';
 import 'package:flutter/foundation.dart';
-import 'package:injectable/injectable.dart';
 import 'package:masaj/core/application/controllers/base_cubit.dart';
 import 'package:masaj/features/quiz/domain/entities/question.dart';
 import 'package:masaj/features/quiz/domain/repositories/quiz_repo.dart';
 
 part 'quiz_page_state.dart';
 
-@Injectable()
+
 class QuizPageCubit extends BaseCubit<QuizPageState> {
   QuizPageCubit(this._repo) : super(QuizPageState.initial());
 

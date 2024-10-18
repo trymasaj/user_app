@@ -1,6 +1,5 @@
 import 'package:dartz/dartz.dart';
 import 'package:equatable/equatable.dart';
-import 'package:injectable/injectable.dart';
 import 'package:masaj/core/application/states/app_state.dart';
 import 'package:masaj/features/address/domain/entities/city.dart';
 import 'package:masaj/features/address/domain/entities/country.dart';
