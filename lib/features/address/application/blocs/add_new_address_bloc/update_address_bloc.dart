@@ -27,10 +27,14 @@ abstract class UpdateAddressCubit extends BaseCubit<UpdateAddressState> {
   }
 }
 
-@Injectable()
+
 class EditAddressCubit extends UpdateAddressCubit {
-  EditAddressCubit(super.repo, @factoryParam this.oldAddress);
-  final Address oldAddress;
+  EditAddressCubit(super.repo, );
+  late Address oldAddress;
+
+  void init(Address oldAddress){
+    this.oldAddress = oldAddress;
+  }
 
   @override
   Future<void> save(Address address) async {

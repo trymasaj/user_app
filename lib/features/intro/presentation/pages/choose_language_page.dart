@@ -3,7 +3,7 @@ import 'dart:io';
 import 'package:country_flags/country_flags.dart';
 import 'package:flutter/material.dart';
 import 'package:masaj/core/app_export.dart';
-import 'package:masaj/core/data/di/injector.dart';
+import 'package:masaj/core/data/di/di_wrapper.dart';
 import 'package:masaj/core/presentation/overlay/show_snack_bar.dart';
 import 'package:masaj/core/presentation/widgets/stateless/custom_app_bar.dart';
 import 'package:masaj/core/presentation/widgets/stateless/custom_app_page.dart';
@@ -47,7 +47,7 @@ class _ChooseLanguagePageState extends State<ChooseLanguagePage> {
       safeTop: true,
       safeBottom: false,
       child: BlocProvider(
-        create: (context) => Injector().chooseLanguageCubit,
+        create: (context) => DI.find<ChooseLanguageCubit>(),
         child: Builder(
           builder: (context) {
             return BlocListener<ChooseLanguageCubit, ChooseLanguageState>(

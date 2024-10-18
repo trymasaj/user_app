@@ -4,8 +4,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:map_location_picker/map_location_picker.dart';
 import 'package:masaj/core/app_export.dart';
+import 'package:masaj/core/data/di/di_wrapper.dart';
 import 'package:masaj/core/data/di/injection_setup.dart';
-import 'package:masaj/core/data/di/injector.dart';
 import 'package:masaj/core/extenstions/context_extensions.dart';
 import 'package:masaj/features/address/application/blocs/map_location_picker_cubit/map_location_picker_cubit.dart';
 import 'package:masaj/features/address/presentation/overlay/location_bottom_sheet.dart';
@@ -32,7 +32,7 @@ class MapLocationPicker extends StatefulWidget {
   static Widget builder(MapLocationPickerArguments arguments) {
     return BlocProvider<MapLocationPickerCubit>(
       create: (context) =>
-          getIt(param1: arguments)..navigateToCurrentLocation(),
+          DI.find<MapLocationPickerCubit>()..init(arguments)..navigateToCurrentLocation(),
       child: MapLocationPicker(
         arguments: arguments,
       ),

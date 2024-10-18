@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:masaj/core/app_export.dart';
+import 'package:masaj/core/data/di/di_wrapper.dart';
 import 'package:masaj/core/data/di/injection_setup.dart';
 import 'package:masaj/core/presentation/colors/app_colors.dart';
 import 'package:masaj/core/presentation/navigation/navigator_helper.dart';
@@ -19,7 +20,7 @@ class QuizStartPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return BlocProvider(
-      create: (context) => getIt<QuizPageCubit>(),
+      create: (context) => DI.find<QuizPageCubit>(),
       child: Builder(builder: (context) {
         return MultiBlocListener(
           listeners: [

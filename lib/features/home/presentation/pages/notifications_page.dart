@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart' hide Notification;
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:lazy_load_scrollview/lazy_load_scrollview.dart';
-import 'package:masaj/core/data/di/injector.dart';
+import 'package:masaj/core/data/di/di_wrapper.dart';
 import 'package:masaj/core/presentation/colors/app_colors.dart';
 import 'package:masaj/core/presentation/navigation/navigator_helper.dart';
 import 'package:masaj/core/presentation/overlay/show_snack_bar.dart';
@@ -26,7 +26,7 @@ class NotificationsPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return BlocProvider<NotificationsCubit>(
-      create: (context) => Injector().notificationsCubit..loadNotifications(),
+      create: (context) => DI.find<NotificationsCubit>()..loadNotifications(),
       child: Builder(
         builder: (context) => CustomAppPage(
           safeTop: true,

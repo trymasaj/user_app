@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:gradient_borders/box_borders/gradient_box_border.dart';
 import 'package:masaj/core/app_export.dart';
-import 'package:masaj/core/data/di/injector.dart';
+import 'package:masaj/core/data/di/di_wrapper.dart';
 import 'package:masaj/core/presentation/colors/app_colors.dart';
 import 'package:masaj/core/presentation/navigation/navigator_helper.dart';
 import 'package:masaj/core/presentation/widgets/stateless/custom_app_bar.dart';
@@ -48,7 +48,7 @@ class _ServicesScreenState extends State<ServicesScreen> {
     _searchFocusNode = FocusNode();
 
     _scrollController = ScrollController();
-    serviceCubit = Injector().serviceCubit
+    serviceCubit = DI.find<ServiceCubit>()
       ..setServiceCategory(
           selectedServiceCategory:
               widget.screenArguments.selectedServiceCategory,

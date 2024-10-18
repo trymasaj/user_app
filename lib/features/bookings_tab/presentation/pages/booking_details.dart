@@ -4,7 +4,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_inappwebview/flutter_inappwebview.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/flutter_svg.dart';
-import 'package:masaj/core/data/di/injector.dart';
+import 'package:masaj/core/data/di/di_wrapper.dart';
 import 'package:masaj/core/presentation/colors/app_colors.dart';
 import 'package:masaj/core/presentation/overlay/show_snack_bar.dart';
 import 'package:masaj/core/presentation/widgets/stateless/custom_app_bar.dart';
@@ -20,13 +20,14 @@ import 'package:masaj/features/bookings_tab/presentation/pages/add_review_screen
 import 'package:masaj/features/bookings_tab/presentation/widgets/booking_card.dart';
 import 'package:masaj/features/bookings_tab/presentation/widgets/payment_info_card.dart';
 import 'package:masaj/features/bookings_tab/presentation/widgets/therapist_info_card.dart';
+import 'package:masaj/features/payment/presentaion/bloc/payment_cubit.dart';
 
 class BookingDetialsScreen extends StatefulWidget {
   const BookingDetialsScreen({super.key, required this.id});
   final int id;
   static const routeName = '/BookingDetialsScreen';
   static Widget builder(BuildContext context, int id) => BlocProvider(
-      create: (c) => Injector().bookingDetailsCubit,
+      create: (c) => DI.find<BookingDetailsCubit>(),
       child: BookingDetialsScreen(
         id: id,
       ));
@@ -51,7 +52,7 @@ class _BookingDetialsScreenState extends State<BookingDetialsScreen> {
   @override
   Widget build(BuildContext context) {
     return BlocProvider(
-      create: (context) => Injector().paymentCubit..getPaymentMethods(),
+      create: (context) => DI.find<PaymentCubit>()..getPaymentMethods(),
       child: CustomAppPage(
         child: Scaffold(
           bottomNavigationBar: _buildCompletedActionButton(),

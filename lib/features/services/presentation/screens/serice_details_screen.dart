@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:masaj/core/app_export.dart';
-import 'package:masaj/core/data/di/injector.dart';
+import 'package:masaj/core/data/di/di_wrapper.dart';
 import 'package:masaj/core/data/services/adjsut.dart';
 import 'package:masaj/core/domain/enums/focus_area_enum.dart';
 import 'package:masaj/core/presentation/colors/app_colors.dart';
@@ -54,7 +54,7 @@ class ServiceDetailsScreen extends StatefulWidget {
 
   static Widget builder(ServiceDetailsScreenArguments arguments) {
     return BlocProvider(
-      create: (context) => Injector().serviceDetailsCubit,
+      create: (context) => DI.find<ServiceDetailsCubit>(),
       child: ServiceDetailsScreen(
         arguments: arguments,
       ),

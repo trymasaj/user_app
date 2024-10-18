@@ -1,16 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:masaj/core/app_export.dart';
-import 'package:masaj/core/data/di/injector.dart';
+import 'package:masaj/core/data/di/di_wrapper.dart';
 import 'package:masaj/core/presentation/colors/app_colors.dart';
 import 'package:masaj/core/presentation/navigation/navigator_helper.dart';
 import 'package:masaj/core/presentation/overlay/show_snack_bar.dart';
 import 'package:masaj/core/presentation/widgets/stateless/custom_app_page.dart';
 import 'package:masaj/core/presentation/widgets/stateless/custom_loading.dart';
 import 'package:masaj/core/presentation/widgets/stateless/default_button.dart';
-
 import 'package:masaj/core/presentation/widgets/stateless/empty_page_message.dart';
 import 'package:masaj/core/presentation/widgets/stateless/subtitle_text.dart';
-
 import 'package:masaj/core/presentation/widgets/stateless/custom_app_bar.dart';
 import 'package:masaj/features/members/data/model/member_model.dart';
 import 'package:masaj/features/members/presentaion/bloc/members_cubit.dart';
@@ -31,7 +29,7 @@ class _MembershipPlansScreenState extends State<MembershipPlansScreen> {
   @override
   Widget build(BuildContext context) {
     return BlocProvider(
-        create: (context) => Injector().membershipCubit..init(),
+        create: (context) => DI.find<MembershipCubit>()..init(),
         child: BlocBuilder<MembershipCubit, MembershipState>(
           builder: (context, state) {
             return CustomAppPage(
@@ -97,7 +95,7 @@ class _MembershipPlansScreenState extends State<MembershipPlansScreen> {
                             context: context,
                             builder: (BuildContext context) {
                               return BlocProvider(
-                                create: (context) => Injector().membershipCubit,
+                                create: (context) => DI.find<MembershipCubit>(),
                                 child: BlocBuilder<MembershipCubit,
                                     MembershipState>(
                                   builder: (context, state) {

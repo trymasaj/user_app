@@ -1,12 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:masaj/core/app_export.dart';
-import 'package:masaj/core/data/di/injector.dart';
+import 'package:masaj/core/data/di/di_wrapper.dart';
 import 'package:masaj/core/presentation/overlay/show_snack_bar.dart';
 import 'package:masaj/core/presentation/widgets/stateless/custom_app_bar.dart';
 import 'package:masaj/core/presentation/widgets/stateless/custom_text.dart';
 import 'package:masaj/core/presentation/widgets/stateless/text_fields/default_text_form_field.dart';
 import 'package:masaj/features/gifts/presentaion/bloc/gifts_cubit.dart';
+import 'package:masaj/features/payment/presentaion/bloc/payment_cubit.dart';
 import 'package:masaj/features/wallet/bloc/wallet_bloc/wallet_bloc.dart';
 import 'package:masaj/features/wallet/models/wallet_amounts.dart';
 import 'package:masaj/features/wallet/overlay/top_up_wallet_payment_method_bottomsheet.dart';
@@ -22,10 +23,10 @@ class TopUpWalletScreen extends StatefulWidget {
         value: context.read<WalletBloc>()..getPredefinedAmounts(),
       ),
       BlocProvider(
-        create: (context) => Injector().paymentCubit..getPaymentMethods(),
+        create: (context) => DI.find<PaymentCubit>()..getPaymentMethods(),
       ),
       BlocProvider(
-        create: (context) => Injector().giftsCubit,
+        create: (context) => DI.find<GiftsCubit>(),
       )
     ], child: const TopUpWalletScreen());
   }

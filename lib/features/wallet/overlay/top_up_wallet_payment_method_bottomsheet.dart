@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:masaj/core/app_export.dart';
-import 'package:masaj/core/data/di/injector.dart';
+import 'package:masaj/core/data/di/di_wrapper.dart';
 import 'package:masaj/core/presentation/colors/app_colors.dart';
 import 'package:masaj/core/presentation/navigation/navigator_helper.dart';
 import 'package:masaj/core/presentation/overlay/show_snack_bar.dart';
@@ -29,10 +29,10 @@ class TopUpWalletPaymentMethodBottomsheet extends StatefulWidget {
     return MultiBlocProvider(
       providers: [
         BlocProvider(
-          create: (context) => Injector().walletCubit,
+          create: (context) => DI.find<WalletBloc>(),
         ),
         BlocProvider(
-          create: (context) => Injector().paymentCubit..getPaymentMethods(),
+          create: (context) => DI.find<PaymentCubit>()..getPaymentMethods(),
         )
       ],
       child: TopUpWalletPaymentMethodBottomsheet(

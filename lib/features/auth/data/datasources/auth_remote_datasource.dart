@@ -1,7 +1,8 @@
 import 'package:dio/dio.dart';
 import 'package:masaj/core/data/clients/network_service.dart';
 import 'package:masaj/core/data/constants/api_end_point.dart';
-import 'package:masaj/core/data/di/injector.dart';
+import 'package:masaj/core/data/device/notification_service.dart';
+import 'package:masaj/core/data/di/di_wrapper.dart';
 import 'package:masaj/core/domain/enums/age_group.dart';
 import 'package:masaj/core/domain/enums/gender.dart';
 import 'package:masaj/core/domain/enums/request_result_enum.dart';
@@ -86,7 +87,7 @@ class AuthRemoteDataSourceImpl implements AuthRemoteDataSource {
     const url = ApiEndPoint.SIGN_UP;
 
     // final formData = await _createFormData(user.toMap());
-    final deviceToken = await Injector().notificationService.getDeviceTokenId();
+    final deviceToken = await DI.find<NotificationService>().getDeviceTokenId();
 
     return _networkService
         .post(url, data: user.toMap()..addAll({'deviceToken': deviceToken}))
@@ -122,7 +123,7 @@ class AuthRemoteDataSourceImpl implements AuthRemoteDataSource {
     String? mobileAppId,
     int? deviceType,
   ) async {
-    final deviceToken = await Injector().notificationService.getDeviceTokenId();
+    final deviceToken = await DI.find<NotificationService>().getDeviceTokenId();
     const url = ApiEndPoint.LOGIN;
 
     final data = {

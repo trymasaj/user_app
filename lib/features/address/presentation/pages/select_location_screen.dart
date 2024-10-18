@@ -1,5 +1,6 @@
 import 'dart:developer';
 import 'package:flutter_form_builder/flutter_form_builder.dart';
+import 'package:masaj/core/data/di/di_wrapper.dart';
 import 'package:masaj/core/presentation/colors/app_colors.dart';
 import 'package:masaj/core/presentation/widgets/stateless/custom_app_bar.dart';
 import 'package:masaj/core/presentation/widgets/stateless/default_button.dart';
@@ -7,7 +8,6 @@ import 'package:masaj/core/presentation/widgets/stateless/subtitle_text.dart';
 import 'package:masaj/features/address/presentation/widgets/country_and_region_selector.dart';
 import 'package:flutter/material.dart';
 import 'package:masaj/core/app_export.dart';
-import 'package:masaj/core/data/di/injection_setup.dart';
 import 'package:masaj/core/presentation/navigation/navigator_helper.dart';
 import 'package:masaj/features/address/application/blocs/select_location_bloc/select_location_bloc.dart';
 import 'package:masaj/features/auth/application/country_cubit/country_cubit.dart';
@@ -46,7 +46,7 @@ class _SelectLocationScreenState extends State<SelectLocationScreen> {
 
   Widget _buildBody(BuildContext context) {
     return BlocProvider<SelectAreaCubit>(
-      create: (context) => getIt<NotInitiallySelectAreaCubit>()..getCountries(),
+      create: (context) => DI.find<NotInitiallySelectAreaCubit>()..init()..getCountries(),
       child: BlocBuilder<SelectAreaCubit, SelectAreaState>(
         builder: (context, state) {
           return Container(

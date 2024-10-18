@@ -11,12 +11,16 @@ import 'package:masaj/features/address/presentation/pages/map_location_picker.da
 
 part 'map_location_picker_state.dart';
 
-@Injectable()
+
 class MapLocationPickerCubit extends BaseCubit<MapLocationPickerState> {
-  MapLocationPickerCubit(this._repo, @factoryParam this.arguments)
+  MapLocationPickerCubit(this._repo)
       : super(MapLocationPickerState.initial());
   final AddressRepo _repo;
-  final MapLocationPickerArguments arguments;
+  late MapLocationPickerArguments arguments;
+
+  void init(MapLocationPickerArguments args){
+    this.arguments = args;
+  }
 
   Future<void> onCameraIdle(LatLng latLng) async {
     print('onCameraIdle $latLng');

@@ -1,8 +1,9 @@
 import 'package:adjust_sdk/adjust.dart';
 import 'package:adjust_sdk/adjust_config.dart';
 import 'package:adjust_sdk/adjust_event.dart';
-import 'package:masaj/core/data/di/injector.dart';
+import 'package:masaj/core/data/di/di_wrapper.dart';
 import 'package:masaj/features/book_service/data/models/booking_query_model.dart';
+import 'package:masaj/features/book_service/data/repositories/booking_repository.dart';
 
 class AdjustTracker {
   static void initialize(String appToken) {
@@ -118,7 +119,7 @@ class AdjustTracker {
 
   static Future<void> trackFirstSale() async {
     try {
-      final bookingsRpository = Injector().bookingRepository;
+      final bookingsRpository = DI.find<BookingRepository>();
       final bookingStreaks =
           await bookingsRpository.getBookingList(BookingQueryModel(
         status: BookingQueryStatus.completed,

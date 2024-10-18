@@ -6,7 +6,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:masaj/core/app_export.dart';
 import 'package:masaj/core/data/clients/cache_service.dart';
-import 'package:masaj/core/data/di/injector.dart';
+import 'package:masaj/core/data/di/di_wrapper.dart';
 import 'package:masaj/core/data/extensions/extensions.dart';
 import 'package:masaj/core/data/services/adjsut.dart';
 import 'package:masaj/core/presentation/colors/app_colors.dart';
@@ -28,7 +28,7 @@ class SearchScreen extends StatefulWidget {
   // builder
   static Widget builder() {
     return BlocProvider<HomeSearchCubit>(
-      create: (context) => Injector().homeSearchCubit,
+      create: (context) => DI.find<HomeSearchCubit>(),
       child: const SearchScreen(),
     );
   }

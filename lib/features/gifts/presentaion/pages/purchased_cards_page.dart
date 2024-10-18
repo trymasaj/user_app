@@ -7,7 +7,7 @@ class PurchasedGiftsPage extends StatelessWidget {
   Widget build(BuildContext context) {
     return BlocProvider(
       create: (context) =>
-          Injector().giftsCubit..getPurchasedGiftCards(GiftCardStatus.Redeemed),
+          DI.find<GiftsCubit>()..getPurchasedGiftCards(GiftCardStatus.Redeemed),
       child: _buildBody(),
     );
   }

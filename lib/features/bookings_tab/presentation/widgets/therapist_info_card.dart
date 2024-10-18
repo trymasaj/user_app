@@ -5,7 +5,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/flutter_svg.dart';
-import 'package:masaj/core/data/di/injector.dart';
+import 'package:masaj/core/data/device/launcher_service.dart';
+import 'package:masaj/core/data/di/di_wrapper.dart';
 import 'package:masaj/core/data/extensions/extensions.dart';
 import 'package:masaj/core/presentation/colors/app_colors.dart';
 import 'package:masaj/core/presentation/widgets/stateless/custom_cached_network_image.dart';
@@ -95,7 +96,7 @@ class TherapistInfoCard extends StatelessWidget {
                       final completedPhoneNumber =
                           '${bookingModel.therapist?.countryCode}${bookingModel.therapist?.phone}';
                       print('completedPhoneNumber ' + completedPhoneNumber);
-                      Injector().launcherService.openWhatsappChat(
+                      DI.find<LauncherService>()..openWhatsappChat(
                           phoneNumber: completedPhoneNumber, message: '');
                     },
                     child: CircleAvatar(
@@ -114,8 +115,7 @@ class TherapistInfoCard extends StatelessWidget {
                           '${bookingModel.therapist?.countryCode}${bookingModel.therapist?.phone}';
                       print('completedPhoneNumber ' + completedPhoneNumber);
 
-                      Injector()
-                          .launcherService
+                      DI.find<LauncherService>()
                           .callPhone(completedPhoneNumber);
                     },
                     child: CircleAvatar(

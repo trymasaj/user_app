@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:masaj/core/app_export.dart';
-import 'package:masaj/core/data/di/injector.dart';
+import 'package:masaj/core/data/di/di_wrapper.dart';
 import 'package:masaj/core/presentation/colors/app_colors.dart';
 import 'package:masaj/core/presentation/overlay/show_snack_bar.dart';
 import 'package:masaj/core/presentation/widgets/stateless/custom_app_bar.dart';
@@ -52,7 +52,7 @@ class _MembershipCheckoutScreenState extends State<MembershipCheckoutScreen> {
       return MultiBlocProvider(
         providers: [
           BlocProvider(
-            create: (context) => Injector().paymentCubit..getPaymentMethods(),
+            create: (context) => DI.find<PaymentCubit>()..getPaymentMethods(),
           ),
           BlocProvider.value(
             value: widget.membershipCubit,

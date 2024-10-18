@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 import 'package:masaj/core/app_export.dart';
 import 'package:masaj/core/data/configs/payment_configration.dart';
-import 'package:masaj/core/data/di/injector.dart';
+import 'package:masaj/core/data/di/di_wrapper.dart';
 import 'package:masaj/core/presentation/colors/app_colors.dart';
 import 'package:masaj/core/presentation/navigation/navigator_helper.dart';
 import 'package:masaj/core/presentation/overlay/show_snack_bar.dart';
@@ -42,7 +42,7 @@ class AddReviewScreen extends StatefulWidget {
   static const routeName = '/add-review';
   static Widget builder(BuildContext context, BookingModel bookingModel) =>
       BlocProvider(
-        create: (context) => Injector().reviewTipsCubit,
+        create: (context) => DI.find<ReviewTipsCubit>(),
         child: AddReviewScreen(
           bookingModel: bookingModel,
         ),
@@ -133,7 +133,7 @@ class _AddReviewScreenState extends State<AddReviewScreen> {
   @override
   Widget build(BuildContext context) {
     return BlocProvider(
-      create: (context) => Injector().paymentCubit..getPaymentMethods(),
+      create: (context) => DI.find<PaymentCubit>()..getPaymentMethods(),
       child: Scaffold(
         appBar: const CustomAppBar(
           title: 'add_review',

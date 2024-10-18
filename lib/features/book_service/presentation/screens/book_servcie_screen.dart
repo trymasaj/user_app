@@ -4,7 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:masaj/core/app_export.dart';
-import 'package:masaj/core/data/di/injector.dart';
+import 'package:masaj/core/data/di/di_wrapper.dart';
 import 'package:masaj/core/data/services/adjsut.dart';
 import 'package:masaj/core/presentation/colors/app_colors.dart';
 import 'package:masaj/core/presentation/navigation/navigator_helper.dart';
@@ -32,7 +32,7 @@ class BookServiceScreen extends StatefulWidget {
   static const String routeName = '/bookServiceScreen';
   static Widget builder() => MultiBlocProvider(providers: [
         BlocProvider<AvialbleTherapistCubit>(
-          create: (context) => Injector().avialbleTherapistCubit,
+          create: (context) => DI.find<AvialbleTherapistCubit>(),
         ),
       ], child: const BookServiceScreen());
   static MaterialPageRoute router() {

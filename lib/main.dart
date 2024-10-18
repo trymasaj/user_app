@@ -12,14 +12,25 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_native_splash/flutter_native_splash.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:loader_overlay/loader_overlay.dart';
+import 'package:masaj/core/data/device/notification_service.dart';
+import 'package:masaj/core/data/di/di_wrapper.dart';
 import 'package:masaj/core/data/di/injection_setup.dart';
-import 'package:masaj/core/data/di/injector.dart';
 import 'package:masaj/core/data/services/adjsut.dart';
 import 'package:masaj/core/presentation/routes/routes.dart';
 import 'package:masaj/core/presentation/size/size_utils.dart';
 import 'package:masaj/core/presentation/theme/theme_helper.dart';
+import 'package:masaj/features/account/presentation/blocs/favorites_cubit/favorites_cubit.dart';
 import 'package:masaj/features/address/application/blocs/my_addresses_bloc/my_addresses_cubit.dart';
+import 'package:masaj/features/auth/application/auth_cubit/auth_cubit.dart';
+import 'package:masaj/features/auth/application/country_cubit/country_cubit.dart';
+import 'package:masaj/features/book_service/presentation/blocs/book_cubit/book_service_cubit.dart';
+import 'package:masaj/features/home/presentation/bloc/home_cubit/home_cubit.dart';
+import 'package:masaj/features/home/presentation/bloc/home_page_cubit/home_page_cubit.dart';
+import 'package:masaj/features/medical_form/presentation/bloc/medical_form_bloc/medical_form_bloc.dart';
+import 'package:masaj/features/members/presentaion/bloc/members_cubit.dart';
 import 'package:masaj/features/splash/presentation/pages/splash_page.dart';
+import 'package:masaj/features/splash/presentation/splash_cubit/splash_cubit.dart';
+import 'package:masaj/features/wallet/bloc/wallet_bloc/wallet_bloc.dart';
 import 'package:requests_inspector/requests_inspector.dart';
 import 'package:masaj/firebase_options.dart';
 import 'package:upgrader/upgrader.dart';
@@ -33,12 +44,12 @@ void main() async {
     final widgetsBinding = WidgetsFlutterBinding.ensureInitialized();
 
     await EasyLocalization.ensureInitialized();
-    configureDependencies();
+    setup();
     await Firebase.initializeApp(
       options: DefaultFirebaseOptions.currentPlatform,
     );
     _initCrashLytics();
-    await Injector().notificationService.init();
+    await DI.find<NotificationService>().init();
 
     FlutterNativeSplash.preserve(widgetsBinding: widgetsBinding);
     // AdjustConfig config =
@@ -57,16 +68,16 @@ void main() async {
           showInspectorOn: ShowInspectorOn.LongPress,
           child: MultiBlocProvider(
             providers: [
-              BlocProvider(create: (context) => Injector().splashCubit..init()),
-              BlocProvider(create: (context) => Injector().authCubit..init()),
-              BlocProvider(create: (context) => Injector().favoritesCubit),
-              BlocProvider(create: (context) => Injector().countryCubit),
-              BlocProvider(create: (context) => Injector().membersCubit),
-              BlocProvider(create: (context) => Injector().medicalFormBloc),
+              BlocProvider(create: (context) => DI.find<SplashCubit>()..init()),
+              BlocProvider(create: (context) => DI.find<AuthCubit>()..init()),
+              BlocProvider(create: (context) => DI.find<FavoritesCubit>()),
+              BlocProvider(create: (context) => DI.find<CountryCubit>()),
+              BlocProvider(create: (context) => DI.find<MembersCubit>()),
+              BlocProvider(create: (context) => DI.find<MedicalFormBloc>()),
               BlocProvider(
-                  create: (context) => Injector().homeCubit..loadHome()),
-              BlocProvider(create: (context) => Injector().homePageCubit),
-              BlocProvider(create: (context) => Injector().walletCubit),
+                  create: (context) => DI.find<HomeCubit>()..loadHome()),
+              BlocProvider(create: (context) => DI.find<HomePageCubit>()),
+              BlocProvider(create: (context) => DI.find<WalletBloc>()),
             ],
             child: const MyApp(),
           ),
@@ -111,7 +122,7 @@ class _MyAppState extends State<MyApp> with WidgetsBindingObserver {
   @override
   void didChangeAppLifecycleState(AppLifecycleState state) async {
     if (state == AppLifecycleState.resumed) {
-      final notificationService = Injector().notificationService;
+      final notificationService = DI.find<NotificationService>();
       await Future.wait([
         notificationService.cancelAll(),
         notificationService.getDeviceTokenId(),
@@ -145,9 +156,9 @@ class _MyAppState extends State<MyApp> with WidgetsBindingObserver {
               providers: [
                 BlocProvider(
                     create: (context) =>
-                        getIt<MyAddressesCubit>()..getAddresses()),
+                        DI.find<MyAddressesCubit>()..getAddresses()),
                 BlocProvider(
-                    lazy: false, create: (context) => Injector().bookingCubit),
+                    lazy: false, create: (context) => DI.find<BookingCubit>()),
               ],
               child: UpgradeAlert(
                 barrierDismissible: true,

@@ -2,7 +2,7 @@ import 'package:country_flags/country_flags.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:masaj/core/app_export.dart';
-import 'package:masaj/core/data/di/injector.dart';
+import 'package:masaj/core/data/di/di_wrapper.dart';
 import 'package:masaj/core/presentation/colors/app_colors.dart';
 import 'package:masaj/core/presentation/overlay/show_snack_bar.dart';
 import 'package:masaj/core/presentation/widgets/stateless/custom_app_bar.dart';
@@ -22,6 +22,7 @@ import 'package:masaj/features/providers_tab/presentation/cubits/therapist_detai
 import 'package:masaj/features/providers_tab/presentation/pages/book_with_provider_sreen.dart';
 import 'package:masaj/features/providers_tab/presentation/widgets/fav_icon_widget.dart';
 import 'package:masaj/features/services/application/service_catgory_cubit/service_category_cubit.dart';
+import 'package:masaj/features/services/application/service_cubit/service_cubit.dart';
 
 class ProviderDetailsScreenNavArguements {
   final Therapist therapist;
@@ -81,7 +82,7 @@ class ProviderDetailsScreen extends StatefulWidget {
           value: homeTherapistsCubit,
         ),
       BlocProvider(
-        create: (context) => Injector().therapistDetailsCubit
+        create: (context) => DI.find<TherapistDetailsCubit>()
           ..setTherapist(therapist)
           ..getTherapistDetails(therapist.therapistId ?? 0),
         child: ProviderDetailsScreen(
@@ -248,7 +249,7 @@ class _ProviderDetailsScreenState extends State<ProviderDetailsScreen> {
   late ServiceCategoryCubit serviceCategoryCubit;
   @override
   void initState() {
-    serviceCategoryCubit = Injector().serviceCategoryCubit;
+    serviceCategoryCubit = DI.find<ServiceCategoryCubit>();
     serviceCategoryCubit.getServiceCategories();
     _scrollController = ScrollController();
     super.initState();
@@ -282,7 +283,7 @@ class _ProviderDetailsScreenState extends State<ProviderDetailsScreen> {
                     context,
                     MaterialPageRoute(
                         builder: (context) => BlocProvider(
-                              create: (context) => Injector().serviceCubit,
+                              create: (context) => DI.find<ServiceCubit>(),
                               child: BookWithTherapistScreen(
                                   arguments: BookWithTherapistScreenArguments(
                                 therapist: widget.therapist,
@@ -427,7 +428,7 @@ class _ProviderDetailsScreenState extends State<ProviderDetailsScreen> {
                           MaterialPageRoute(
                               builder: (context) => BlocProvider(
                                     create: (context) =>
-                                        Injector().serviceCubit,
+                                        DI.find<ServiceCubit>(),
                                     child: BookWithTherapistScreen(
                                         arguments:
                                             BookWithTherapistScreenArguments(

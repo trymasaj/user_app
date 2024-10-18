@@ -63,11 +63,15 @@ abstract class SelectAreaCubit extends Cubit<SelectAreaState> {
   }
 }
 
-@Injectable()
-class InitiallySelectAreaCubit extends SelectAreaCubit {
-  final SelectAreaArguments arguments;
 
-  InitiallySelectAreaCubit(super.repo, @factoryParam this.arguments);
+class InitiallySelectAreaCubit extends SelectAreaCubit {
+  late SelectAreaArguments arguments;
+
+  InitiallySelectAreaCubit(super.repo);
+
+  void initArgs(SelectAreaArguments args){
+    this.arguments = args;
+  }
 
   Future<void> getData() async {
     print('arguments: ${arguments.countryId} ${arguments.areaId}');
@@ -92,7 +96,7 @@ class InitiallySelectAreaCubit extends SelectAreaCubit {
   }
 }
 
-@Injectable()
+
 class NotInitiallySelectAreaCubit extends SelectAreaCubit {
   NotInitiallySelectAreaCubit(super.repo);
 

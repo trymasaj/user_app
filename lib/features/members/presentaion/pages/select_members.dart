@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:masaj/core/app_export.dart';
-import 'package:masaj/core/data/di/injector.dart';
+import 'package:masaj/core/data/di/di_wrapper.dart';
 import 'package:masaj/core/presentation/colors/app_colors.dart';
 import 'package:masaj/core/presentation/overlay/show_snack_bar.dart';
 import 'package:masaj/core/presentation/widgets/stateless/custom_app_page.dart';
@@ -29,7 +29,7 @@ class _SelectMembersScreenState extends State<SelectMembersScreen> {
   @override
   Widget build(BuildContext context) {
     return BlocProvider(
-        create: (context) => Injector().membersCubit..getMembers(),
+        create: (context) => DI.find<MembersCubit>()..getMembers(),
         child: BlocBuilder<MembersCubit, MembersState>(
           builder: (context, state) {
             return CustomAppPage(

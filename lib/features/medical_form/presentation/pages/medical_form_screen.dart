@@ -14,8 +14,6 @@ import 'package:masaj/features/medical_form/presentation/bloc/medical_form_bloc/
 import 'package:masaj/features/medical_form/presentation/pages/medical_conditions_screen.dart';
 import 'package:permission_handler/permission_handler.dart';
 
-import '../../../../core/data/di/injector.dart';
-
 class MedicalFormScreen extends StatefulWidget {
   static const routeName = '/medical-form';
 

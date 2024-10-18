@@ -2,7 +2,7 @@ import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/svg.dart';
-import 'package:masaj/core/data/di/injector.dart';
+import 'package:masaj/core/data/di/di_wrapper.dart';
 import 'package:masaj/core/presentation/colors/app_colors.dart';
 import 'package:masaj/core/presentation/overlay/show_snack_bar.dart';
 import 'package:masaj/core/presentation/theme/theme_helper.dart';
@@ -10,6 +10,8 @@ import 'package:masaj/core/presentation/widgets/stateless/custom_app_page.dart';
 import 'package:masaj/features/auth/application/auth_cubit/auth_cubit.dart';
 import 'package:masaj/features/auth/application/country_cubit/country_cubit.dart';
 import 'package:masaj/features/home/presentation/bloc/home_cubit/home_cubit.dart';
+import 'package:masaj/features/medical_form/presentation/bloc/medical_form_bloc/medical_form_bloc.dart';
+import 'package:masaj/features/membership/presentaion/bloc/membership_cubit.dart';
 import 'package:masaj/features/providers_tab/presentation/pages/providers_tab.dart';
 import 'package:masaj/features/services/application/service_catgory_cubit/service_category_cubit.dart';
 import 'package:masaj/features/services/presentation/screens/services_screen.dart';
@@ -65,15 +67,15 @@ class _HomePageState extends State<HomePage> {
         // BlocProvider(create: (context) => Injector().homeCubit..loadHome()),
         BlocProvider<ServiceCategoryCubit>(
             create: (context) =>
-                Injector().serviceCategoryCubit..getServiceCategories()),
+                DI.find<ServiceCategoryCubit>()..getServiceCategories()),
         BlocProvider(
-          create: (context) => Injector().membershipCubit..getSubscription(),
+          create: (context) => DI.find<MembershipCubit>()..getSubscription(),
           lazy: isGuest,
         ),
 
         BlocProvider(
             lazy: isGuest,
-            create: (context) => Injector().medicalFormBloc..getConditions())
+            create: (context) => DI.find<MedicalFormBloc>()..getConditions())
       ],
       child: BlocListener<AuthCubit, AuthState>(
         listenWhen: (previous, current) =>

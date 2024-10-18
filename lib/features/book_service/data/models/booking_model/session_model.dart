@@ -17,7 +17,6 @@
 import 'dart:convert';
 
 import 'package:masaj/core/app_export.dart';
-import 'package:masaj/core/data/di/injector.dart';
 import 'package:masaj/features/book_service/data/models/booking_model/address.dart';
 import 'package:masaj/features/book_service/data/models/booking_model/member.dart';
 import 'package:masaj/main.dart';

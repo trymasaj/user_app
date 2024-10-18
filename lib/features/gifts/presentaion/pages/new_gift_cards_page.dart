@@ -12,7 +12,7 @@ class _NewGiftCardsPageState extends State<NewGiftCardsPage> {
   @override
   Widget build(BuildContext context) {
     return BlocProvider(
-      create: (context) => Injector().giftsCubit..getGiftCards(),
+      create: (context) => DI.find<GiftsCubit>()..getGiftCards(),
       child: _buildBody(),
     );
   }

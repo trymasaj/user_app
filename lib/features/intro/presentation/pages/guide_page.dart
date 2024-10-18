@@ -3,7 +3,7 @@ import 'dart:ui';
 import 'package:collection/collection.dart';
 import 'package:flutter/material.dart';
 import 'package:masaj/core/app_export.dart';
-import 'package:masaj/core/data/di/injector.dart';
+import 'package:masaj/core/data/di/di_wrapper.dart';
 import 'package:masaj/core/presentation/colors/app_colors.dart';
 import 'package:masaj/core/presentation/navigation/navigator_helper.dart';
 import 'package:masaj/core/presentation/overlay/show_snack_bar.dart';
@@ -44,7 +44,7 @@ class _GuidePageState extends State<GuidePage> {
   @override
   Widget build(BuildContext context) {
     return BlocProvider(
-      create: (context) => Injector().guidePageCubit..loadGuidePage(),
+      create: (context) => DI.find<GuidePageCubit>()..loadGuidePage(),
       child: Builder(builder: (context) {
         return Scaffold(
           backgroundColor: AppColors.ACCENT_COLOR,

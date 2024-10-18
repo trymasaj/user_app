@@ -4,8 +4,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_form_builder/flutter_form_builder.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:masaj/core/app_export.dart';
+import 'package:masaj/core/data/di/di_wrapper.dart';
 import 'package:masaj/core/data/di/injection_setup.dart';
-import 'package:masaj/core/data/di/injector.dart';
 import 'package:masaj/core/presentation/colors/app_colors.dart';
 import 'package:masaj/core/presentation/widgets/stateless/custom_app_bar.dart';
 import 'package:masaj/core/presentation/widgets/stateless/custom_outlined_button.dart';
@@ -38,18 +38,18 @@ class EditAddressScreen extends StatefulWidget {
         providers: [
           BlocProvider(
             create: (context) =>
-                getIt<EditAddressCubit>(param1: arguments.oldAddress),
+                DI.find<EditAddressCubit>()..init(arguments.oldAddress),
           ),
           BlocProvider(
-            create: (context) => getIt<InitiallySelectAreaCubit>(
-                param1: SelectAreaArguments(
+            create: (context) => DI.find<InitiallySelectAreaCubit>()..initArgs(
+                SelectAreaArguments(
               countryId: arguments.oldAddress.country!.id!,
               areaId: arguments.oldAddress.area.id,
             ))
               ..init(),
           ),
           BlocProvider(
-            create: (context) => Injector().countryCubit,
+            create: (context) => DI.find<CountryCubit>(),
           ),
         ],
         child: EditAddressScreen(arguments: arguments),
@@ -90,13 +90,13 @@ class AddAddressScreen extends StatefulWidget {
   static Widget builder() => MultiBlocProvider(
         providers: [
           BlocProvider(
-            create: (context) => getIt<AddAddressCubit>(),
+            create: (context) => DI.find<AddAddressCubit>(),
           ),
           BlocProvider(
-            create: (context) => getIt<NotInitiallySelectAreaCubit>()..init(),
+            create: (context) => DI.find<NotInitiallySelectAreaCubit>()..init(),
           ),
           BlocProvider(
-            create: (context) => Injector().countryCubit,
+            create: (context) => DI.find<CountryCubit>(),
           ),
         ],
         child: const AddAddressScreen(),
