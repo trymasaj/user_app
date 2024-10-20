@@ -194,3 +194,6 @@ class _MyAppState extends State<MyApp> with WidgetsBindingObserver {
     );
   }
 }
+
+enum BuildType {debug, test, release}
+const BuildType BUILD_TYPE = BuildType.release;

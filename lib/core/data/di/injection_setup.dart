@@ -10,6 +10,7 @@ import 'package:masaj/core/data/device/launcher_service.dart';
 import 'package:masaj/core/data/device/location_helper.dart';
 import 'package:masaj/core/data/device/notification_service.dart';
 import 'package:masaj/core/data/device/share_service.dart';
+import 'package:masaj/core/data/logger/logger_lib.dart';
 import 'package:masaj/core/data/repositories/countries_repo_impl.dart';
 import 'package:masaj/core/data/repositories/favorites_repository.dart';
 import 'package:masaj/core/data/services/add_to_apple_wallet_service.dart';
@@ -91,6 +92,7 @@ import 'package:masaj/features/splash/presentation/splash_cubit/splash_cubit.dar
 import 'package:masaj/features/wallet/bloc/wallet_bloc/wallet_bloc.dart';
 import 'package:masaj/features/wallet/data/data_source/wallet_data_source.dart';
 import 'package:masaj/features/wallet/data/repos/wallet_repo_impl.dart';
+import 'package:masaj/main.dart';
 
 import 'di_wrapper.dart';
 
@@ -356,4 +358,23 @@ void setup() {
         DI.find(),
         DI.find(),
       ));
+
+  //=========================[Logger]============================
+
+  if(BUILD_TYPE == BuildType.debug){
+    DI.setSingleton<AbsLogger>(() => DebugLogger()
+      ..setLogLevel(LogLevel.debug)
+      ..enableLongLogs = true
+      ..splitLog = false
+      ..normalPrint = false
+      ..enableAnsiColors(false));
+  } else if (BUILD_TYPE == BuildType.test) {
+    DI.setSingleton<AbsLogger>(() => MemoryLogger()
+      ..setLogLevel(LogLevel.debug)
+      ..maxLength = 10);
+  } else {
+    //release
+    DI.setSingleton<AbsLogger>(() => FakeLogger());
+  }
+
 }
