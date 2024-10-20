@@ -1,4 +1,3 @@
-
 import 'package:masaj/core/data/clients/cache_service.dart';
 import 'package:masaj/core/data/clients/network_service.dart';
 import 'package:masaj/core/data/clients/payment_service.dart';
@@ -100,7 +99,6 @@ void setup() {
   DI.setSingleton<DeviceLocation>(() => DeviceLocationImpl());
   DI.setSingleton<DeviceTypeDataSource>(() => DeviceTypeDataSourceImpl());
   DI.setSingleton<NetworkServiceUtil>(() => NetworkServiceUtilImpl(DI.find()));
-  // DI.singleton<_i7.NotificationService>(_i7.NotificationService());
   DI.setSingleton<AuthLocalDataSource>(() => AuthLocalDataSourceImpl(DI.find()));
   DI.setSingleton<NetworkService>(() => NetworkServiceImpl(
         DI.find(),
@@ -121,35 +119,25 @@ void setup() {
   DI.setFactory<EditAddressCubit>(() => EditAddressCubit(DI.find()));
   DI.setFactory<InitiallySelectAreaCubit>(() => InitiallySelectAreaCubit(DI.find()));
   DI.setFactory<MapLocationPickerCubit>(() => MapLocationPickerCubit(DI.find()));
-  DI.setSingleton<MyAddressesCubit>(() => MyAddressesCubit(DI.find()));
+  DI.setFactory<MyAddressesCubit>(() => MyAddressesCubit(DI.find()));
   DI.setFactory<NotInitiallySelectAreaCubit>(() => NotInitiallySelectAreaCubit(DI.find()));
   DI.setFactory<QuizPageCubit>(() => QuizPageCubit(DI.find()));
   DI.setFactory<AddAddressCubit>(() => AddAddressCubit(DI.find()));
 
-
-
   //===================[SPLASH_CUBIT]===================
-  DI.setFactory<SplashCubit>(()=> SplashCubit(deviceSecurityService: DI.find(), notificationService: DI.find(), splashRepository: DI.find()));
-  
+  DI.setFactory<SplashCubit>(() => SplashCubit(deviceSecurityService: DI.find(), notificationService: DI.find(), splashRepository: DI.find()));
 
-  DI.setSingleton<SplashRepository> (() => 
-      SplashRepositoryImpl(DI.find()));
+  DI.setSingleton<SplashRepository>(() => SplashRepositoryImpl(DI.find()));
 
-  DI.setSingleton<NotificationsRemoteDataSource>(() =>
-          NotificationsRemoteDataSourceImpl(DI.find()));
+  DI.setSingleton<NotificationsRemoteDataSource>(() => NotificationsRemoteDataSourceImpl(DI.find()));
 
-  DI.setSingleton<NotificationsRepository>(() =>
-          NotificationsRepositoryImpl(DI.find()));
+  DI.setSingleton<NotificationsRepository>(() => NotificationsRepositoryImpl(DI.find()));
 
-  DI.setSingleton<ReviewRemoteDataSource>(()=> 
-          ReviewRemoteDataSourceImpl(DI.find()));
+  DI.setSingleton<ReviewRemoteDataSource>(() => ReviewRemoteDataSourceImpl(DI.find()));
 
-  DI.setSingleton<ReviewRepository>(() =>
-      ReviewRepositoryImpl(DI.find()));
+  DI.setSingleton<ReviewRepository>(() => ReviewRepositoryImpl(DI.find()));
 
-  DI.setSingleton<SplashLocalDataSource>(()=>
-      SplashLocalDataSourceImpl(DI.find()));
-
+  DI.setSingleton<SplashLocalDataSource>(() => SplashLocalDataSourceImpl(DI.find()));
 
   //===================[AUTH_CUBIT]===================
   DI.setFactory<AuthCubit>(() => AuthCubit(
@@ -157,265 +145,215 @@ void setup() {
         showCaseHelper: DI.find(),
       ));
 
+  DI.setSingleton<AuthRepository>(() => AuthRepositoryImpl(
+        DI.find(),
+        DI.find(),
+        DI.find(),
+        DI.find(),
+        DI.find(label: 'apple'),
+        DI.find(label: 'google'),
+      ));
 
-  DI.setSingleton<AuthRepository>(()=> AuthRepositoryImpl(
-        DI.find(),DI.find(),DI.find(),DI.find(),DI.find(),DI.find(),
-      )
-  );
+  DI.setSingleton<AuthRemoteDataSource>(() => AuthRemoteDataSourceImpl(DI.find()));
 
-  DI.setSingleton<AuthRemoteDataSource>( ()=>
-          AuthRemoteDataSourceImpl(DI.find()));
+  DI.setSingleton<ServiceRemoteDataSource>(() => ServiceRemoteDataSourceImpl(DI.find()));
 
-  DI.setSingleton<ServiceRemoteDataSource>( ()=>
-          ServiceRemoteDataSourceImpl(DI.find()));
+  DI.setSingleton<ServiceRepository>(() => ServiceRepositoryImpl(DI.find()));
 
-  DI.setSingleton<ServiceRepository>(()=>
-          ServiceRepositoryImpl(DI.find()));
+  DI.setFactory<ServiceCategoryCubit>(() => ServiceCategoryCubit(DI.find()));
 
-  DI.setFactory<ServiceCategoryCubit>(() => 
-      ServiceCategoryCubit(DI.find()));
-      
-  DI.setFactory< ServiceCubit>(()=> ServiceCubit(DI.find()));
+  DI.setFactory<ServiceCubit>(() => ServiceCubit(DI.find()));
 
-  DI.setFactory< ServiceDetailsCubit>(()=> 
-      ServiceDetailsCubit(DI.find()));
+  DI.setFactory<ServiceDetailsCubit>(() => ServiceDetailsCubit(DI.find()));
 
+  DI.setSingleton<TherapistsDataSource>(() => TherapistsDataSourceImpl(DI.find()));
 
+  DI.setSingleton<TherapistsRepository>(() => TherapistsRepositoryImpl(providers_tabRemoteDataSource: DI.find()));
 
-  DI.setSingleton< TherapistsDataSource>( ()=> 
-          TherapistsDataSourceImpl(DI.find()));
-          
-  DI.setSingleton< TherapistsRepository>( ()=> TherapistsRepositoryImpl(
-          providers_tabRemoteDataSource: DI.find()));
-
-
-    //===================[COUNTRY_CUBIT]===================
-  DI.setFactory<CountryCubit>(()=> CountryCubit(
+  //===================[COUNTRY_CUBIT]===================
+  DI.setFactory<CountryCubit>(() => CountryCubit(
         DI.find(),
         DI.find(),
       ));
-
 
   //===================[GUIDE_PAGE_CUBIT]===================
-  DI.setFactory< GuidePageCubit>(()=> GuidePageCubit(DI.find()));
+  DI.setFactory<GuidePageCubit>(() => GuidePageCubit(DI.find()));
 
-  DI.setSingleton< IntroRepository>( ()=> 
-      IntroRepositoryImpl(DI.find()));
+  DI.setSingleton<IntroRepository>(() => IntroRepositoryImpl(DI.find()));
 
-  DI.setSingleton( ()=> 
-      IntroLocalDataSourceImpl(DI.find()));
-
+  DI.setSingleton<IntroLocalDataSource>(() => IntroLocalDataSourceImpl(DI.find()));
 
   //===================[CHOOSE_LANGUAGE_CUBIT]===================
-  DI.setFactory< ChooseLanguageCubit>(() => 
-      ChooseLanguageCubit(DI.find()));
+  DI.setFactory<ChooseLanguageCubit>(() => ChooseLanguageCubit(DI.find()));
 
   //===================[HOME_CUBIT]===================
-  DI.setFactory< HomeCubit>(() => HomeCubit(
+  DI.setFactory<HomeCubit>(() => HomeCubit(
         DI.find(),
         DI.find(),
       ));
 
-  DI.setSingleton< HomeRepository>(() =>  HomeRepositoryImpl(
+  DI.setSingleton<HomeRepository>(() => HomeRepositoryImpl(
         homeLocalDatasource: DI.find(),
         homeRemoteDataSource: DI.find(),
       ));
 
-  DI.setSingleton< HomeRemoteDataSource>(() => 
-          HomeRemoteDataSourceImpl(DI.find()));
+  DI.setSingleton<HomeRemoteDataSource>(() => HomeRemoteDataSourceImpl(DI.find()));
 
-  DI.setSingleton< HomeLocalDatasource>(() => 
-          HomeLocalDatasourceImpl(DI.find()));
+  DI.setSingleton<HomeLocalDatasource>(() => HomeLocalDatasourceImpl(DI.find()));
 
   //===================[ABOUT_US_CUBIT]===================
-  DI.setFactory< AboutUsCubit>(() => AboutUsCubit(DI.find()));
+  DI.setFactory<AboutUsCubit>(() => AboutUsCubit(DI.find()));
 
-  DI.setSingleton< AccountRepository>(() =>  AccountRepositoryImpl(
-          accountRemoteDataSource: DI.find()));
+  DI.setSingleton<AccountRepository>(() => AccountRepositoryImpl(accountRemoteDataSource: DI.find()));
 
-  DI.setSingleton< AccountRemoteDataSource>(() => 
-          AccountRemoteDataSourceImpl(DI.find()));
+  DI.setSingleton<AccountRemoteDataSource>(() => AccountRemoteDataSourceImpl(DI.find()));
 
   //===================[TOPICS_CUBIT]===================
-  DI.setFactory< TopicsCubit>(() =>  TopicsCubit(DI.find()));
+  DI.setFactory<TopicsCubit>(() => TopicsCubit(DI.find()));
 
   //===================[CONTACT_US_CUBIT]===================
-  DI.setFactory< ContactUsCubit>(() => ContactUsCubit(DI.find()));
+  DI.setFactory<ContactUsCubit>(() => ContactUsCubit(DI.find()));
 
   //===================[MORE_TAB_CUBIT]===================
-  DI.setFactory< MoreTabCubit>(() => MoreTabCubit(
+  DI.setFactory<MoreTabCubit>(() => MoreTabCubit(
         accountRepository: DI.find(),
         launcherService: DI.find(),
         appInfoService: DI.find(),
         showCaseHelper: DI.find(),
       ));
 
-   //===================[FAVORITES_CUBIT]===================
+  //===================[FAVORITES_CUBIT]===================
 
-  DI.setFactory< FavoritesCubit>(() => FavoritesCubit(DI.find()));
+  DI.setFactory<FavoritesCubit>(() => FavoritesCubit(DI.find()));
 
-  DI.setSingleton< FavoritesRepository>(() => FavoritesRepositoryImpl(
-          favoritesRemoteDataSource: DI.find()));
+  DI.setSingleton<FavoritesRepository>(() => FavoritesRepositoryImpl(favoritesRemoteDataSource: DI.find()));
 
-  DI.setSingleton< FavoritesRemoteDataSource>(() =>
-          FavoritesRemoteDataSourceImpl(DI.find()));
+  DI.setSingleton<FavoritesRemoteDataSource>(() => FavoritesRemoteDataSourceImpl(DI.find()));
   //===================[Payment_CUBIT]===================
 
-  DI.setSingleton< PaymentService>(() =>  PaymentServiceImpl(DI.find()));
+  DI.setSingleton<PaymentService>(() => PaymentServiceImpl(DI.find()));
 
-  DI.setFactory< PaymentCubit>(() => PaymentCubit(
-      paymentRepository: DI.find(), paymentService: DI.find()));
+  DI.setFactory<PaymentCubit>(() => PaymentCubit(paymentRepository: DI.find(), paymentService: DI.find()));
 
-  DI.setSingleton< PaymentRepository>(() => 
-          PaymentRepositoryImp(paymentDataSource: DI.find()));
+  DI.setSingleton<PaymentRepository>(() => PaymentRepositoryImp(paymentDataSource: DI.find()));
 
-  DI.setSingleton< PaymentDataSource>(() => 
-          PaymentDataSourceImpl(networkService: DI.find()));
-
+  DI.setSingleton<PaymentDataSource>(() => PaymentDataSourceImpl(networkService: DI.find()));
 
   //===================[COUPON_DETAILS_CUBIT]===================
 
-  DI.setFactory< CouponDetailsCubit>(() => 
-      CouponDetailsCubit(DI.find()));
+  DI.setFactory<CouponDetailsCubit>(() => CouponDetailsCubit(DI.find()));
 
   //===================[POINTS_CUBIT]===================
 
-  DI.setFactory< PointsCubit>(() => PointsCubit(DI.find()));
+  DI.setFactory<PointsCubit>(() => PointsCubit(DI.find()));
 
   //===================[MEMBERS_CUBIT]===================
 
-  DI.setFactory< MembersCubit>(() => 
-      MembersCubit(membersRepository: DI.find()));
+  DI.setFactory<MembersCubit>(() => MembersCubit(membersRepository: DI.find()));
 
-  DI.setSingleton< MembersRepository>(() => 
-          MembersRepositoryImp(membersDataSource: DI.find()));
+  DI.setSingleton<MembersRepository>(() => MembersRepositoryImp(membersDataSource: DI.find()));
 
-  DI.setSingleton< MembersDataSource>(() => 
-          MembersDataSourceImpl(networkService: DI.find()));
+  DI.setSingleton<MembersDataSource>(() => MembersDataSourceImpl(networkService: DI.find()));
 
   //===================[BOOKING_CUBIT]===================
 
-  DI.setFactory< BookingCubit>(() =>  BookingCubit(DI.find()));
+  DI.setFactory<BookingCubit>(() => BookingCubit(DI.find()));
 
-  DI.setSingleton< BookingRepository>(() =>
-          BookingRepositoryImpl(DI.find()));
-          
-  DI.setSingleton< BookingRemoteDataSource>(() => 
-          BookingRemoteDataSourceImpl(DI.find()));
+  DI.setSingleton<BookingRepository>(() => BookingRepositoryImpl(DI.find()));
+
+  DI.setSingleton<BookingRemoteDataSource>(() => BookingRemoteDataSourceImpl(DI.find()));
 
   //===================[COUPONS_CUBIT]===================
 
-  DI.setFactory< CouponCubit>(() =>  CouponCubit(DI.find()));
+  DI.setFactory<CouponCubit>(() => CouponCubit(DI.find()));
 
-  
   //===================[WALLET_CUBIT]===================
 
-  DI.setFactory< WalletBloc>( () =>  WalletBloc(DI.find(), DI.find()));
-  
-  DI.setSingleton< WalletRepository>(() => 
-      WalletRepositoryImpl(DI.find()));
+  DI.setFactory<WalletBloc>(() => WalletBloc(DI.find(), DI.find()));
 
-  DI.setSingleton< WalletDataSource>(() =>  WalletDataSourceImpl(DI.find()));
+  DI.setSingleton<WalletRepository>(() => WalletRepositoryImpl(DI.find()));
+
+  DI.setSingleton<WalletDataSource>(() => WalletDataSourceImpl(DI.find()));
 
   //===================[GIFTS_CUBIT]===================
 
-  DI.setFactory< GiftsCubit>(() =>  GiftsCubit(
-      giftsRepository: DI.find(), paymentService: DI.find()));
+  DI.setFactory<GiftsCubit>(() => GiftsCubit(giftsRepository: DI.find(), paymentService: DI.find()));
 
-  DI.setSingleton< GiftsRepository>(() =>  GiftsRepositoryImp(giftsDataSource: DI.find()));
-      
-  DI.setSingleton< GiftsDataSource>(() => 
-      GiftsDataSourceImpl(networkService: DI.find()));
+  DI.setSingleton<GiftsRepository>(() => GiftsRepositoryImp(giftsDataSource: DI.find()));
 
+  DI.setSingleton<GiftsDataSource>(() => GiftsDataSourceImpl(networkService: DI.find()));
 
   //===================[Medical_Form_Bloc]===================
 
-  DI.setFactory< MedicalFormBloc>(() =>  MedicalFormBloc(DI.find()));
+  DI.setFactory<MedicalFormBloc>(() => MedicalFormBloc(DI.find()));
 
-  DI.setSingleton< MedicalFormRepository>(() => 
-          MedicalFormRepositoryImp(DI.find()));
+  DI.setSingleton<MedicalFormRepository>(() => MedicalFormRepositoryImp(DI.find()));
 
-  DI.setSingleton< MedicalFormDataSource>(() => 
-          MedicalFormDataSourceImpl(networkService: DI.find()));
+  DI.setSingleton<MedicalFormDataSource>(() => MedicalFormDataSourceImpl(networkService: DI.find()));
 
   //===================[Membership_Bloc]===================
 
-  DI.setFactory< MembershipCubit>(() => MembershipCubit(
-      membershipRepository: DI.find(),
-      paymentService: DI.find()));
+  DI.setFactory<MembershipCubit>(() => MembershipCubit(membershipRepository: DI.find(), paymentService: DI.find()));
 
-  DI.setSingleton< MembershipRepository>(() => 
-          MembershipRepositoryImp(membershipDataSource: DI.find()));
-          
-  DI.setSingleton< MembershipDataSource>(() => 
-          MembershipDataSourceImpl(networkService: DI.find()));
+  DI.setSingleton<MembershipRepository>(() => MembershipRepositoryImp(membershipDataSource: DI.find()));
+
+  DI.setSingleton<MembershipDataSource>(() => MembershipDataSourceImpl(networkService: DI.find()));
 
   //===================[NOTIFICATIONS_CUBIT]===================
-  DI.setFactory< NotificationsCubit>(() => 
-      NotificationsCubit(DI.find(), DI.find()));
+  DI.setFactory<NotificationsCubit>(() => NotificationsCubit(DI.find(), DI.find()));
 
   //===================[CORE_DATA]===================
 
+  DI.setSingleton<DeviceSecurityService>(() => DeviceSecurityServiceImpl());
 
-  DI.setSingleton< DeviceSecurityService>(() =>  DeviceSecurityServiceImpl());
+  DI.setSingleton<AppInfoService>(() => AppInfoServiceImpl());
 
-  DI.setSingleton< AppInfoService>(() =>  AppInfoServiceImpl());
+  DI.setSingleton<NotificationService>(() => NotificationService());
 
-  DI.setSingleton< NotificationService>(() =>  NotificationService());
+  DI.setSingleton<ExternalLoginDataSource>(() => AppleExternalLoginDataSourceImpl(), label: 'apple');
 
-  DI.setSingleton< ExternalLoginDataSource>(() => 
-          AppleExternalLoginDataSourceImpl());
+  DI.setSingleton<ExternalLoginDataSource>(() => GoogleExternalLoginDataSourceImpl(), label: 'google');
 
-  DI.setSingleton< ExternalLoginDataSource>(() => 
-          GoogleExternalLoginDataSourceImpl());
+  DI.setSingleton<LauncherService>(() => LauncherServiceImpl());
 
-  DI.setSingleton< LauncherService>(() =>  LauncherServiceImpl());
+  DI.setSingleton<ShareService>(() => ShareServiceImpl());
 
-  DI.setSingleton< ShareService>(() =>  ShareServiceImpl());
+  DI.setSingleton<ShowCaseHelper>(() => ShowCaseHelper(DI.find()));
 
+  DI.setSingleton<AddToAppleWalletService>(() => AddToAppleWalletServiceImpl());
 
-  DI.setSingleton< ShowCaseHelper>(() =>  ShowCaseHelper(DI.find()));
-
-
-  DI.setSingleton< AddToAppleWalletService>(() => 
-          AddToAppleWalletServiceImpl());
-          
-  DI.setFactory< ProvidersTabCubit>(() => ProvidersTabCubit(
+  DI.setFactory<ProvidersTabCubit>(() => ProvidersTabCubit(
         providersTabRepository: DI.find(),
       ));
 
-  DI.setFactory< BookingsTabCubit>(() => BookingsTabCubit(
+  DI.setFactory<BookingsTabCubit>(() => BookingsTabCubit(
         bookingsTabRepository: DI.find(),
       ));
 
-  DI.setFactory< BookingDetailsCubit>(() => 
-      BookingDetailsCubit(DI.find()));
-      
-  DI.setFactory< AvialbleTherapistCubit>(() => AvialbleTherapistCubit(
+  DI.setFactory<BookingDetailsCubit>(() => BookingDetailsCubit(DI.find()));
+
+  DI.setFactory<AvialbleTherapistCubit>(() => AvialbleTherapistCubit(
         providersTabRepository: DI.find(),
       ));
 
-  DI.setFactory< HomeTherapistsCubit>(() =>  HomeTherapistsCubit(
-        DI.find()
-  ));
+  DI.setFactory<HomeTherapistsCubit>(() => HomeTherapistsCubit(DI.find()));
 
-  DI.setFactory< TherapistDetailsCubit>(() => TherapistDetailsCubit(
+  DI.setFactory<TherapistDetailsCubit>(() => TherapistDetailsCubit(
         DI.find(),
       ));
 
-  DI.setFactory< HomeSearchCubit>(() =>  HomeSearchCubit(
+  DI.setFactory<HomeSearchCubit>(() => HomeSearchCubit(
         homeRepository: DI.find(),
       ));
-  
-  DI.setFactory< HomePageCubit>(() =>  HomePageCubit(
+
+  DI.setFactory<HomePageCubit>(() => HomePageCubit(
         DI.find(),
         DI.find(),
         DI.find(),
       ));
   //===================[REVIEW_TIPS_CUBIT]===================
-  DI.setFactory< ReviewTipsCubit>(() =>  ReviewTipsCubit(
+  DI.setFactory<ReviewTipsCubit>(() => ReviewTipsCubit(
         DI.find(),
         DI.find(),
       ));
-
 }
