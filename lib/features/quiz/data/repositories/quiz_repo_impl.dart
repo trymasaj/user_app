@@ -19,7 +19,7 @@ class QuizRepoImpl implements QuizRepo {
   ) async {
     final result = await _networkService.post(ApiEndPoint.SUBMIT_QUIZ,
         data: {'userId': userId, ...questions.toMap()});
-    print('result.data ${result.data}');
+    //print('result.data ${result.data}');
   }
 
   @override

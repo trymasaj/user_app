@@ -1,5 +1,6 @@
 
 import 'package:masaj/core/data/clients/cache_service.dart';
+import 'package:masaj/core/data/logger/abs_logger.dart';
 import 'package:masaj/features/address/domain/entities/address.dart';
 import 'package:masaj/features/auth/domain/entities/user.dart';
 
@@ -36,8 +37,9 @@ abstract class AuthLocalDataSource {
 
 class AuthLocalDataSourceImpl implements AuthLocalDataSource {
   final CacheService _cacheService;
+  final AbsLogger _logger;
 
-  AuthLocalDataSourceImpl(this._cacheService);
+  AuthLocalDataSourceImpl(this._cacheService, this._logger);
 
   @override
   Future<bool> checkUserDataExist() async {
@@ -91,7 +93,7 @@ class AuthLocalDataSourceImpl implements AuthLocalDataSource {
   Future<User?> getUserData() async {
     final userString = await _cacheService.getUserData();
     if (userString == null) return null;
-    print('userString: $userString');
+    _logger.info('userString: $userString');
     return User.fromJson(userString);
   }
 

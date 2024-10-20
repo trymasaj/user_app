@@ -9,6 +9,7 @@ import 'package:masaj/core/data/clients/cache_service.dart';
 import 'package:masaj/core/data/constants/api_end_point.dart';
 import 'package:masaj/core/data/datasources/device_type_data_source.dart';
 import 'package:masaj/core/data/debug/custom_printer.dart';
+import 'package:masaj/core/data/logger/abs_logger.dart';
 import 'package:masaj/core/domain/enums/request_result_enum.dart';
 import 'package:masaj/core/domain/exceptions/connection_exception.dart';
 import 'package:masaj/core/domain/exceptions/redundant_request_exception.dart';
@@ -20,6 +21,10 @@ import 'package:masaj/main.dart';
 import 'package:requests_inspector/requests_inspector.dart';
 
 abstract class NetworkService {
+
+
+  NetworkService();
+
   Future<Response> get(
     String url, {
     Map<String, dynamic>? queryParameters,
@@ -91,10 +96,12 @@ class NetworkServiceImpl implements NetworkService {
   NetworkServiceImpl(
     this._networkServiceUtil,
     this._deviceTypeDataSource,
+    this._logger
   );
 
   final NetworkServiceUtil _networkServiceUtil;
   final DeviceTypeDataSource _deviceTypeDataSource;
+  final AbsLogger _logger;
 
   final _dio = Dio(BaseOptions(validateStatus: (_) => true))
     ..interceptors.add(inspectorEnabled
@@ -490,14 +497,14 @@ class NetworkServiceImpl implements NetworkService {
   ]) {
     if (requestName == null) return;
 
-    CustomPrinter.logRequestPretty(
+    _logger.debug(CustomPrinter.logRequestPretty(
       header: headers,
       params: params,
       url: apiBaseUrl,
       title: requestName,
-    );
+    ));
     if (data != null) {
-      log('[$requestName] body: ${data is FormData ? Map.fromEntries([
+      _logger.debug('[$requestName] body: ${data is FormData ? Map.fromEntries([
               ...data.fields,
               ...data.files
             ]) : data}');
@@ -507,7 +514,7 @@ class NetworkServiceImpl implements NetworkService {
   void _logResponse(String? requestName, Response<dynamic> response) {
     if (requestName == null) return;
 
-    CustomPrinter.logJsonResponsePretty(title: requestName, response: response);
+    _logger.debug(CustomPrinter.logJsonResponsePretty(title: requestName, response: response));
   }
 
   Future<Response> _downloadFile(

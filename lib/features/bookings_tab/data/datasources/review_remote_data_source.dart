@@ -20,8 +20,7 @@ class ReviewRemoteDataSourceImpl implements ReviewRemoteDataSource {
         .post('${ApiEndPoint.BOOKING}/${reviewRequest.bookingId}/review',
             data: reviewRequest.toMap())
         .then((response) {
-      print('errpr');
-      print(response.data);
+
       if (response.statusCode != 200)
         throw RequestException(message: response.data['detail']);
       final result = response.data;

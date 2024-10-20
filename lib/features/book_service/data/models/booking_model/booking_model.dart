@@ -202,12 +202,7 @@ class BookingModel {
   }
 
   factory BookingModel.fromMap(Map<String, dynamic> map) {
-    print('''
-_______________________
-addons  ${map['addons']}
-_______________________
 
-''');
     return BookingModel(
       bookingId: map['bookingId']?.toInt(),
       addons: map['addons'] == null

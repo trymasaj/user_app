@@ -113,7 +113,7 @@ class TherapistInfoCard extends StatelessWidget {
                       // phone number
                       final completedPhoneNumber =
                           '${bookingModel.therapist?.countryCode}${bookingModel.therapist?.phone}';
-                      print('completedPhoneNumber ' + completedPhoneNumber);
+                      //print('completedPhoneNumber ' + completedPhoneNumber);
 
                       DI.find<LauncherService>()
                           .callPhone(completedPhoneNumber);

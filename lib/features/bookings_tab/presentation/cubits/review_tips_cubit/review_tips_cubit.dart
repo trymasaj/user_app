@@ -1,6 +1,8 @@
 import 'package:masaj/core/app_export.dart';
 import 'package:masaj/core/data/clients/payment_service.dart';
 import 'package:masaj/core/data/constants/api_end_point.dart';
+import 'package:masaj/core/data/di/di_wrapper.dart';
+import 'package:masaj/core/data/logger/abs_logger.dart';
 import 'package:masaj/features/bookings_tab/data/models/review_request.dart';
 import 'package:masaj/features/bookings_tab/data/repositories/review_repository.dart';
 import 'package:masaj/main.dart';
@@ -48,8 +50,7 @@ class ReviewTipsCubit extends Cubit<ReviewTipsCubitState> {
 
       emit(state.copyWith(status: ReviewTipsStatus.loaded, tipsSuccess: true));
     } catch (e, s) {
-      print(e);
-      print(s);
+      DI.find<AbsLogger>().error('[$runtimeType].addReview()' ,e);
       emit(state.copyWith(
           status: ReviewTipsStatus.error, errorMessage: e.toString()));
     }

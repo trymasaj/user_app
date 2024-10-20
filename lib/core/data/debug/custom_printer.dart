@@ -6,36 +6,37 @@ import 'package:dio/dio.dart';
 class CustomPrinter {
   static JsonEncoder encoder = const JsonEncoder.withIndent('  ');
 
-  static void logJsonResponsePretty(
-      {String? title, required dynamic response}) {
+  static String logJsonResponsePretty({String? title, required dynamic response}) {
+    var sb = StringBuffer();
     if (response.runtimeType == Response<dynamic>) {
       String prettyResponse = encoder.convert(response.data);
 
-      log('[$title] StatusCode: ${response.statusCode}');
-      log('[$title] response:');
-      log(prettyResponse);
+      sb.writeln('[$title] StatusCode: ${response.statusCode}');
+      sb.writeln('[$title] response:');
+      sb.writeln(prettyResponse);
     } else {
-      log(response.toString());
+      sb.writeln(response.toString());
     }
+    return sb.toString();
   }
 
-  static void logRequestPretty(
-      {String? title,
-      String? url,
-      Map<String, dynamic>? params,
-      required Map<String, dynamic> header}) {
+  static String logRequestPretty({String? title, String? url, Map<String, dynamic>? params, required Map<String, dynamic> header}) {
+    var sb = StringBuffer();
+
     String prettyHeader = encoder.convert(header);
 
-    log('[$title] url: $url');
+    sb.writeln('[$title] url: $url');
 
     if (params != null) {
       String prettyParams = encoder.convert(params);
 
-      log('[$title] params:');
-      log(prettyParams);
+      sb.writeln('[$title] params:');
+      sb.writeln(prettyParams);
     }
 
-    log('[$title] headers:');
-    log(prettyHeader);
+    sb.writeln('[$title] headers:');
+    sb.writeln(prettyHeader);
+    //
+    return sb.toString();
   }
 }

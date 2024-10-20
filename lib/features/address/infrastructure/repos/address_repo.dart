@@ -94,8 +94,8 @@ class AddressRepo {
   Future<Address?> addAddress(Address address) async {
     final user = await localDataSource.getUserData();
 
-    log(jsonEncode({...address.toMap(), 'customerId': user!.id}));
-    print('address to map');
+    //log(jsonEncode({...address.toMap(), 'customerId': user!.id}));
+    //print('address to map');
     final result = await networkService.post(ApiEndPoint.ADDRESS,
         data: {...address.toMap(), 'customerId': user!.id});
     return Address.fromMap(result.data);

@@ -3,6 +3,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_native_splash/flutter_native_splash.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:masaj/core/data/debug/debug_overlay_view.dart';
 import 'package:masaj/core/presentation/navigation/navigator_helper.dart';
 import 'package:masaj/core/presentation/overlay/show_snack_bar.dart';
 import 'package:masaj/core/presentation/widgets/stateless/app_logo.dart';
@@ -64,6 +65,9 @@ class _SplashPageState extends State<SplashPage> {
           final isNotVerified = user?.verified != true;
           final countryNotSet = state.isCountrySet != true;
           final quicIsNotAnswered = user?.quizAnswered != true;
+
+          // debugging log overlay
+          DebugUtils.showLoggerOverlay(context);
 
           if (languageNotSet) return _goToChooseLanguagePage(context);
           if (countryNotSet) return _goToSelectLocationPage(context);

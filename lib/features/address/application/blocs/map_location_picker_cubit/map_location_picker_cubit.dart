@@ -22,7 +22,7 @@ class MapLocationPickerCubit extends BaseCubit<MapLocationPickerState> {
   }
 
   Future<void> onCameraIdle(LatLng latLng) async {
-    print('onCameraIdle $latLng');
+    logger.debug('MapLocationPickerCubit.onCameraIdle' ,latLng);
     final address = await _repo.getAddressFromLatLng(latLng);
     emit(state.copyWith(address: address, latLng: some(latLng)));
   }
@@ -37,7 +37,7 @@ class MapLocationPickerCubit extends BaseCubit<MapLocationPickerState> {
       if (latLng == null) return;
       emit(state.copyWith(selectedLatlng: some(latLng)));
     } else {
-      print('args ${arguments.initialLatlng}');
+      logger.debug('MapLocationPickerCubit.navigateToCurrentLocation',  arguments.initialLatlng);
       emit(state.copyWith(selectedLatlng: some(arguments.initialLatlng!)));
     }
   }

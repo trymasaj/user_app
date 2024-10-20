@@ -107,8 +107,7 @@ class ServiceModel extends Equatable {
         discountedPrice: (json['discountedPrice'] as num).toDouble(),
       );
     } catch (e, s) {
-      print(e);
-      print(s);
+
     }
     return ServiceModel(
       mainImage: json['mainImage'],

@@ -1,9 +1,14 @@
 import 'package:bloc/bloc.dart';
 import 'package:flutter/foundation.dart';
+import 'package:masaj/core/data/di/di_wrapper.dart';
+import 'package:masaj/core/data/logger/abs_logger.dart';
 
 abstract class BaseCubit<T> extends Cubit<T> {
+
+  final AbsLogger logger = DI.find();
+
   BaseCubit(super.initialState) {
-    debugPrint('init $runtimeType');
+    logger.debug('init Type= [$runtimeType]');
   }
 
   @override
@@ -14,7 +19,7 @@ abstract class BaseCubit<T> extends Cubit<T> {
 
   @override
   Future<void> close() {
-    debugPrint('close $runtimeType');
+    logger.debug('close Type= [$runtimeType]');
     return super.close();
   }
 }

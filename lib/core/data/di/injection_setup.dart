@@ -101,11 +101,8 @@ void setup() {
   DI.setSingleton<DeviceLocation>(() => DeviceLocationImpl());
   DI.setSingleton<DeviceTypeDataSource>(() => DeviceTypeDataSourceImpl());
   DI.setSingleton<NetworkServiceUtil>(() => NetworkServiceUtilImpl(DI.find()));
-  DI.setSingleton<AuthLocalDataSource>(() => AuthLocalDataSourceImpl(DI.find()));
-  DI.setSingleton<NetworkService>(() => NetworkServiceImpl(
-        DI.find(),
-        DI.find(),
-      ));
+  DI.setSingleton<AuthLocalDataSource>(() => AuthLocalDataSourceImpl(DI.find(), DI.find()));
+  DI.setSingleton<NetworkService>(() => NetworkServiceImpl(DI.find(), DI.find(), DI.find()));
   DI.setSingleton<QuizRepo>(() => QuizRepoImpl(
         DI.find(),
         DI.find(),
@@ -233,7 +230,7 @@ void setup() {
   DI.setSingleton<FavoritesRemoteDataSource>(() => FavoritesRemoteDataSourceImpl(DI.find()));
   //===================[Payment_CUBIT]===================
 
-  DI.setSingleton<PaymentService>(() => PaymentServiceImpl(DI.find()));
+  DI.setSingleton<PaymentService>(() => PaymentServiceImpl(DI.find(), DI.find()));
 
   DI.setFactory<PaymentCubit>(() => PaymentCubit(paymentRepository: DI.find(), paymentService: DI.find()));
 
@@ -310,7 +307,7 @@ void setup() {
 
   DI.setSingleton<AppInfoService>(() => AppInfoServiceImpl());
 
-  DI.setSingleton<NotificationService>(() => NotificationService());
+  DI.setSingleton<NotificationService>(() => NotificationService(DI.find()));
 
   DI.setSingleton<ExternalLoginDataSource>(() => AppleExternalLoginDataSourceImpl(), label: 'apple');
 
@@ -361,7 +358,7 @@ void setup() {
 
   //=========================[Logger]============================
 
-  if(BUILD_TYPE == BuildType.debug){
+  if (BUILD_TYPE == BuildType.debug) {
     DI.setSingleton<AbsLogger>(() => DebugLogger()
       ..setLogLevel(LogLevel.debug)
       ..enableLongLogs = true
@@ -376,5 +373,4 @@ void setup() {
     //release
     DI.setSingleton<AbsLogger>(() => FakeLogger());
   }
-
 }

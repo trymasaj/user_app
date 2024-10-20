@@ -20,7 +20,7 @@ class SelectLanguageBloc extends Cubit<SelectLanguageState> {
     emit(state.copyWith(
       chooseYourPreferredLanguage: value,
     ));
-    print('value $value');
+    // print('value $value');
   }
 
   _onInitialize() async {}

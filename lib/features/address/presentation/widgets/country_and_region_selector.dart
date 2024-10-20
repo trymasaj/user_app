@@ -35,7 +35,7 @@ class CountryAndRegionSelector<T extends SelectAreaCubit>
         BlocSelector<T, SelectAreaState, DataLoadState<List<Country>>>(
             selector: (state) => state.countries,
             builder: (context, state) {
-              print('heloo ${controller.state.selectedCountry.toNullable()}');
+              //print('heloo ${controller.state.selectedCountry.toNullable()}');
               return LoadStateHandler(
                 customState: state,
                 onTapRetry: controller.getCountries,
@@ -90,7 +90,7 @@ class CountryAndRegionSelector<T extends SelectAreaCubit>
         BlocSelector<T, SelectAreaState, DataLoadState<List<Area>>>(
             selector: (state) => state.cities,
             builder: (context, state) {
-              log(state.toString());
+              //log(state.toString());
               return Column(
                 children: [
                   SizedBox(

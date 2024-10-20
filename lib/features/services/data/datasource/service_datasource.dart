@@ -43,7 +43,7 @@ class ServiceRemoteDataSourceImpl implements ServiceRemoteDataSource {
   Future<ServicesResponse> getServices(
       ServiceQueryModel serviceQueryModel) async {
     const url = ApiEndPoint.SERVICES;
-    print(serviceQueryModel.toMap());
+    // print(serviceQueryModel.toMap());
     final response = await _networkService.get(
       url,
       queryParameters: serviceQueryModel.toMap(),

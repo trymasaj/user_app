@@ -5,6 +5,7 @@ import 'package:flutter/widgets.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:masaj/core/app_export.dart';
 import 'package:masaj/core/data/di/di_wrapper.dart';
+import 'package:masaj/core/data/logger/abs_logger.dart';
 import 'package:masaj/core/data/services/adjsut.dart';
 import 'package:masaj/core/presentation/colors/app_colors.dart';
 import 'package:masaj/core/presentation/navigation/navigator_helper.dart';
@@ -88,7 +89,7 @@ class _BookServiceScreenState extends State<BookServiceScreen> {
       context.read<BookingCubit>().state.bookingModel?.service?.title ?? '',
       context.read<BookingCubit>().state.bookingModel?.service?.duration ?? '',
     );
-    print(context.read<BookingCubit>().state.bookingModel?.service?.duration);
+    //print(context.read<BookingCubit>().state.bookingModel?.service?.duration);
     super.initState();
   }
 
@@ -739,7 +740,7 @@ class _BookServiceScreenState extends State<BookServiceScreen> {
                                               30 - DateTime.now().minute % 30),
                                     ),
                               onDateTimeChanged: (DateTime dateTime) {
-                                print(dateTime);
+                                //print(dateTime);
                                 updatedDate = dateTime;
                               },
                             ),
@@ -836,7 +837,7 @@ class _BookServiceScreenState extends State<BookServiceScreen> {
             NavigatorHelper.of(context).pushNamedAndRemoveUntil(
                 CheckoutScreen.routeName, (route) => route.isFirst);
           } catch (e) {
-            print(e);
+            DI.find<AbsLogger>().error('$runtimeType', e);
           }
         },
         label: 'continue',

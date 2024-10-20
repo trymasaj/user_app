@@ -53,8 +53,7 @@ class ProviderDetailsScreen extends StatefulWidget {
       ProvidersTabCubit? providersTabCubit,
       HomeTherapistsCubit? homeTherapistsCubit,
       AvialbleTherapistCubit? avialbleTherapistCubit}) {
-    print('router');
-    print(avialbleTherapistCubit);
+
     return MaterialPageRoute(
         builder: (context) => builder(
             therapist: therapist,
@@ -474,8 +473,8 @@ class _ProviderDetailsScreenState extends State<ProviderDetailsScreen> {
                 context.read<ProvidersTabCubit?>()?.updateTherapist(
                       state.therapist!,
                     );
-                print(
-                    'updateTherapist in ${context.read<HomeTherapistsCubit?>()}');
+                // print(
+                //     'updateTherapist in ${context.read<HomeTherapistsCubit?>()}');
                 context.read<HomeTherapistsCubit?>()?.updateTherapist(
                       state.therapist!,
                     );

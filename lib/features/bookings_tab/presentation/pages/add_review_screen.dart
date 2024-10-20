@@ -217,8 +217,6 @@ class _AddReviewScreenState extends State<AddReviewScreen> {
                           if (_selectedTipAmount == tipAmount) {
                             setState(() {
                               _selectedTipAmount = null;
-                              print(
-                                  ' Selected amount tip + ${_selectedTipAmount}');
                             });
                             return;
                           }

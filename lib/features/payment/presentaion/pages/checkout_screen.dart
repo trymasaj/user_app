@@ -3,7 +3,8 @@ import 'package:flutter_svg/flutter_svg.dart';
 import 'package:masaj/core/app_export.dart';
 import 'package:masaj/core/data/configs/payment_configration.dart';
 import 'package:masaj/core/data/di/di_wrapper.dart';
-import 'package:masaj/core/date_format_helper.dart';
+import 'package:masaj/core/data/logger/abs_logger.dart';
+import 'package:masaj/core/helpers/date_format_helper.dart';
 import 'package:masaj/core/presentation/colors/app_colors.dart';
 import 'package:masaj/core/presentation/navigation/navigator_helper.dart';
 import 'package:masaj/core/presentation/overlay/show_snack_bar.dart';
@@ -332,7 +333,7 @@ class _CheckoutScreenState extends State<CheckoutScreen> {
   }
 
   void onApplePayResult(paymentResult) {
-    debugPrint(paymentResult.toString());
+    DI.find<AbsLogger>().error('[$runtimeType].onApplePayResult()' ,paymentResult);
   }
 
   Widget _buildPaymentMethodItem(

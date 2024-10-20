@@ -248,7 +248,7 @@ class _FilterWidgetSheetState extends State<FilterWidgetSheet> {
                                   final i =
                                       (double.tryParse(newValue.text) ?? 0)
                                           .toInt();
-                                  print('i_________: $i');
+                                  // print('i_________: $i');
                                   if (i > 1000) {
                                     return TextEditingValue(
                                         text: '1000',

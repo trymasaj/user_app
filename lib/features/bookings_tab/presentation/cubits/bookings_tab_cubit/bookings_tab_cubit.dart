@@ -46,7 +46,7 @@ class BookingsTabCubit extends BaseCubit<BookingsTabState> {
   }
 
   Future<void> loadMoreServices() async {
-    print('Hello');
+
     if (state.isLoadingMore) return;
     if (state.sessions.isEmpty) return;
     emit(state.copyWith(status: BookingsTabStateStatus.loadingMore));

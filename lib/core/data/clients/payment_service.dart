@@ -6,6 +6,7 @@ import 'package:loader_overlay/loader_overlay.dart';
 import 'package:masaj/core/app_export.dart';
 import 'package:masaj/core/data/configs/payment_configration.dart';
 import 'package:masaj/core/data/constants/api_end_point.dart';
+import 'package:masaj/core/data/logger/abs_logger.dart';
 import 'package:masaj/core/domain/enums/request_result_enum.dart';
 import 'package:masaj/core/domain/exceptions/request_exception.dart';
 import 'package:masaj/core/presentation/overlay/show_snack_bar.dart';
@@ -23,8 +24,9 @@ abstract class PaymentService {
 }
 
 class PaymentServiceImpl implements PaymentService {
-  const PaymentServiceImpl(this._networkService);
+  const PaymentServiceImpl(this._networkService, this._logger);
   final NetworkService _networkService;
+  final AbsLogger _logger;
   @override
   Future<void> buy(PaymentParam paymentParm) async {
     if (paymentParm.paymentMethodId == null)
@@ -164,7 +166,7 @@ class PaymentServiceImpl implements PaymentService {
         paymentType.onFailure.call();
       }
     } catch (e) {
-      log(e.toString());
+      _logger.error('[$runtimeType].buyWithApple($paymentType)' ,e);
       paymentType.onFailure.call();
     } finally {
       navigatorKey.currentState!.context.loaderOverlay.hide();
@@ -242,7 +244,7 @@ class _PaymentPageState extends State<_PaymentPage> {
   }
 
   void _handleUrl(BuildContext context, Uri? url) {
-    log('url hist: $url');
+
     final urlString = url.toString();
     final isSuccess = urlString.contains('success=true');
     final isFailed = urlString.contains('success=false');

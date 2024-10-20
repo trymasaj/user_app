@@ -7,6 +7,7 @@ import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'package:masaj/core/data/io/url_helper.dart';
+import 'package:masaj/core/data/logger/abs_logger.dart';
 import 'package:masaj/features/home/presentation/pages/notifications_page.dart';
 import 'package:masaj/main.dart';
 import 'package:path_provider/path_provider.dart';
@@ -18,6 +19,10 @@ typedef FutureCallbackWithData<T, V> = FutureOr<T> Function(V data);
 typedef FutureValueChanged<T> = FutureOr<void> Function(T);
 
 class NotificationService {
+
+  AbsLogger _logger;
+  NotificationService(this._logger);
+
   Future<void> init() async {
     await _FlutterLocalNotificationHelper.init();
 
@@ -27,10 +32,10 @@ class NotificationService {
 
     try {
       final deviceTokenId = await getDeviceTokenId();
-      print('Device Token Id: $deviceTokenId');
+      _logger.info('[NotificationService] Device Token Id: $deviceTokenId');
       await cancelAll();
     } on Exception catch (e) {
-      log(e.toString());
+      _logger.error('[$runtimeType].init()' ,e);
     }
   }
 
@@ -91,7 +96,7 @@ class NotificationService {
 
     if (notificationSettings.authorizationStatus ==
         AuthorizationStatus.denied) {
-      log('User denied permission');
+      _logger.debug('User denied permission');
     }
   }
 

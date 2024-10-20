@@ -2,10 +2,15 @@ import 'package:adjust_sdk/adjust.dart';
 import 'package:adjust_sdk/adjust_config.dart';
 import 'package:adjust_sdk/adjust_event.dart';
 import 'package:masaj/core/data/di/di_wrapper.dart';
+import 'package:masaj/core/data/logger/abs_logger.dart';
 import 'package:masaj/features/book_service/data/models/booking_query_model.dart';
 import 'package:masaj/features/book_service/data/repositories/booking_repository.dart';
 
 class AdjustTracker {
+
+  // AbsLogger _logger;
+  // AdjustTracker(this._logger);
+
   static void initialize(String appToken) {
     AdjustConfig config = AdjustConfig(appToken, AdjustEnvironment.production);
     Adjust.initSdk(config);
@@ -16,7 +21,7 @@ class AdjustTracker {
       final AdjustEvent event = AdjustEvent('registration_initiated');
       Adjust.trackEvent(event);
     } catch (e) {
-      print('Error: $e');
+      DI.find<AbsLogger>().error('Adjust.trackRegistrationInitiated()' ,e);
     }
   }
 
@@ -28,7 +33,7 @@ class AdjustTracker {
       });
       Adjust.trackEvent(event);
     } catch (e) {
-      print(e);
+      DI.find<AbsLogger>().error('Adjust.trackRegistrationCompleted($userDetails)' ,e);
     }
   }
 
@@ -37,7 +42,7 @@ class AdjustTracker {
       final AdjustEvent event = AdjustEvent('guest_registration');
       Adjust.trackEvent(event);
     } catch (e) {
-      print(e);
+      DI.find<AbsLogger>().error('Adjust.trackGuestRegistration()' ,e);
     }
   }
 
@@ -46,7 +51,7 @@ class AdjustTracker {
       final AdjustEvent event = AdjustEvent('login');
       Adjust.trackEvent(event);
     } catch (e) {
-      print(e);
+      DI.find<AbsLogger>().error('Adjust.trackLogin()' ,e);
     }
   }
 
@@ -56,7 +61,7 @@ class AdjustTracker {
       event.addCallbackParameter('query', query);
       Adjust.trackEvent(event);
     } catch (e) {
-      print(e);
+      DI.find<AbsLogger>().error('Adjust.trackSearchService($query)' ,e);
     }
   }
 
@@ -66,7 +71,7 @@ class AdjustTracker {
       event.addCallbackParameter('service_type', serviceType);
       Adjust.trackEvent(event);
     } catch (e) {
-      print(e);
+      DI.find<AbsLogger>().error('Adjust.trackViewListing($serviceType)' ,e);
     }
   }
 
@@ -76,7 +81,7 @@ class AdjustTracker {
       event.addCallbackParameter('service_name', serviceName);
       Adjust.trackEvent(event);
     } catch (e) {
-      print(e);
+      DI.find<AbsLogger>().error('Adjust.trackViewProduct($serviceName)' ,e);
     }
   }
 
@@ -86,7 +91,7 @@ class AdjustTracker {
       event.addCallbackParameter('service_name', serviceName);
       Adjust.trackEvent(event);
     } catch (e) {
-      print(e);
+      DI.find<AbsLogger>().error('Adjust.trackAddToWishlist($serviceName)' ,e);
     }
   }
 
@@ -101,7 +106,7 @@ class AdjustTracker {
       event.addCallbackParameter('service_name', serviceName);
       Adjust.trackEvent(event);
     } catch (e) {
-      print(e);
+      DI.find<AbsLogger>().error('Adjust.trackDurationSelected($serviceName, $duration)' ,e);
     }
   }
 
@@ -113,7 +118,7 @@ class AdjustTracker {
       // event.addCallbackParameter('duration', duration);
       Adjust.trackEvent(event);
     } catch (e) {
-      print(e);
+      DI.find<AbsLogger>().error('Adjust.trackAddToBasket($serviceName, $duration)' ,e);
     }
   }
 
@@ -130,7 +135,7 @@ class AdjustTracker {
       final AdjustEvent event = AdjustEvent('first_sale');
       Adjust.trackEvent(event);
     } catch (e) {
-      print(e);
+      DI.find<AbsLogger>().error('Adjust.trackFirstSale()' ,e);
     }
   }
 
@@ -142,7 +147,7 @@ class AdjustTracker {
       event.setRevenue(revenue, 'KWD');
       Adjust.trackEvent(event);
     } catch (e) {
-      print(e);
+      DI.find<AbsLogger>().error('Adjust.trackCheckoutSuccess($revenue)' ,e);
     }
   }
 }

@@ -1,6 +1,10 @@
+import 'dart:math';
+
 import 'package:dartz/dartz.dart';
 import 'package:equatable/equatable.dart';
 import 'package:masaj/core/application/states/app_state.dart';
+import 'package:masaj/core/data/di/di_wrapper.dart';
+import 'package:masaj/core/data/logger/abs_logger.dart';
 import 'package:masaj/features/address/domain/entities/city.dart';
 import 'package:masaj/features/address/domain/entities/country.dart';
 import 'package:masaj/features/address/infrastructure/repos/address_repo.dart';
@@ -14,6 +18,9 @@ class SelectAreaArguments {
 }
 
 abstract class SelectAreaCubit extends Cubit<SelectAreaState> {
+
+  AbsLogger logger = DI.find();
+
   static const routeName = '/select-location';
   SelectAreaCubit(
     this._repo,
@@ -73,12 +80,12 @@ class InitiallySelectAreaCubit extends SelectAreaCubit {
   }
 
   Future<void> getData() async {
-    print('arguments: ${arguments.countryId} ${arguments.areaId}');
+    logger.debug( '[$runtimeType].getData():arguments: ${arguments.countryId} ${arguments.areaId}');
     final result = await getCountries();
-    print(result.map((e) => e.id));
+    logger.debug('result', result.map((e) => e.id));
     final selectedId =
         result.singleWhere((element) => element.id == arguments.countryId);
-    print('selectedId $selectedId');
+    logger.debug('selectedId', selectedId);
     emit(state.copyWith(selectedCountry: some(selectedId)));
     if (result.isEmpty) {
       return;

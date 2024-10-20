@@ -80,11 +80,12 @@ class ServiceCubit extends BaseCubit<ServiceState> {
         therapistId: state.therapistId,
       ));
     } on RedundantRequestException {
-      log('RedundantRequestException occurred');
+      logger.error('[$runtimeType].loadServices()' ,'RedundantRequestException');
       // TODO MOATODO: CHECK THEIS
       emit(state.copyWith(status: ServiceStateStatus.loaded));
     } catch (e) {
-      print(e);
+      logger.error('[$runtimeType].loadServices()' ,e);
+      // print(e);
       emit(state.copyWith(
           status: ServiceStateStatus.error, errorMessage: e.toString()));
     }

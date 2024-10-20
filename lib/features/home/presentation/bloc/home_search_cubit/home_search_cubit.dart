@@ -139,7 +139,7 @@ class HomeSearchCubit extends BaseCubit<HomeSearchCubitState> {
         status: HomeSearchStateStatus.loaded,
         recentSearchKeywords: recentSearchKeywords,
       ));
-      print('recentSearchKeywords: $recentSearchKeywords');
+      //print('recentSearchKeywords: $recentSearchKeywords');
     } catch (e) {
       emit(state.copyWith(
         status: HomeSearchStateStatus.error,
