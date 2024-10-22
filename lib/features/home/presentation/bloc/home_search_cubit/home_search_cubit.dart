@@ -1,7 +1,7 @@
 import 'dart:developer';
 
 import 'package:masaj/core/application/controllers/base_cubit.dart';
-import 'package:masaj/core/data/clients/cache_service.dart';
+import 'package:masaj/core/data/clients/cache_manager.dart';
 import 'package:masaj/core/domain/exceptions/redundant_request_exception.dart';
 import 'package:masaj/features/home/data/models/home_search_reponse.dart';
 import 'package:masaj/features/home/data/repositories/home_repository.dart';

@@ -1,5 +1,5 @@
 
-import 'package:masaj/core/data/clients/cache_service.dart';
+import 'package:masaj/core/data/clients/cache_manager.dart';
 import 'package:masaj/core/data/logger/abs_logger.dart';
 import 'package:masaj/features/address/domain/entities/address.dart';
 import 'package:masaj/features/auth/domain/entities/user.dart';
@@ -36,7 +36,7 @@ abstract class AuthLocalDataSource {
 
 
 class AuthLocalDataSourceImpl implements AuthLocalDataSource {
-  final CacheService _cacheService;
+  final CacheManager _cacheService;
   final AbsLogger _logger;
 
   AuthLocalDataSourceImpl(this._cacheService, this._logger);

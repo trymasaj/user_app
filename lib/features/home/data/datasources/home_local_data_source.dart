@@ -1,4 +1,4 @@
-import 'package:masaj/core/data/clients/cache_service.dart';
+import 'package:masaj/core/data/clients/cache_manager.dart';
 import 'package:masaj/features/services/data/models/service_model.dart';
 
 abstract class HomeLocalDatasource {
@@ -20,7 +20,7 @@ abstract class HomeLocalDatasource {
 }
 
 class HomeLocalDatasourceImpl implements HomeLocalDatasource {
-  final CacheService _cacheService;
+  final CacheManager _cacheService;
 
   HomeLocalDatasourceImpl(this._cacheService);
 

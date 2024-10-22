@@ -5,7 +5,7 @@ import 'dart:typed_data';
 import 'package:dio/dio.dart';
 import 'package:http/http.dart' as http;
 import 'package:masaj/core/app_export.dart';
-import 'package:masaj/core/data/clients/cache_service.dart';
+import 'package:masaj/core/data/clients/cache_manager.dart';
 import 'package:masaj/core/data/constants/api_end_point.dart';
 import 'package:masaj/core/data/datasources/device_type_data_source.dart';
 import 'package:masaj/core/data/debug/custom_printer.dart';
@@ -730,13 +730,13 @@ abstract class NetworkServiceUtil {
 ///Used only as a helper inside NetworkService to handle tokens and language code.
 ///DONT: use it outside the NetworkService.
 class NetworkServiceUtilImpl implements NetworkServiceUtil {
-  NetworkServiceUtilImpl(this._cacheService);
+  NetworkServiceUtilImpl(this._cacheManager);
 
-  final CacheService _cacheService;
+  final CacheManager _cacheManager;
 
   @override
   Future<String?> getCurrentAccessToken() async {
-    final userJson = await _cacheService.getUserData();
+    final userJson = await _cacheManager.getUserData();
     if (userJson == null) return null;
     final user = User.fromJson(userJson);
     return user.token;
@@ -744,7 +744,7 @@ class NetworkServiceUtilImpl implements NetworkServiceUtil {
 
   @override
   Future<String?> getCurrentRefreshToken() async {
-    final userJson = await _cacheService.getUserData();
+    final userJson = await _cacheManager.getUserData();
     if (userJson == null) return null;
     final user = User.fromJson(userJson);
     return user.refreshToken;
@@ -752,7 +752,7 @@ class NetworkServiceUtilImpl implements NetworkServiceUtil {
 
   @override
   Future<String?> getLanguageCode() async {
-    final languageString = await _cacheService.getLanguageCode();
+    final languageString = await _cacheManager.getLanguageCode();
     if (languageString == null) return null;
     final languageCode = languageString.split('_').first;
     return languageCode;
@@ -764,22 +764,22 @@ class NetworkServiceUtilImpl implements NetworkServiceUtil {
     String? refreshToken,
     String? ticketMXAccessToken,
   }) async {
-    final userJson = await _cacheService.getUserData();
+    final userJson = await _cacheManager.getUserData();
     if (userJson == null) return;
     final user = User.fromJson(userJson);
     final newUser = user.copyWith(
       token: accessToken ?? user.token,
       refreshToken: refreshToken ?? user.refreshToken,
     );
-    await _cacheService.saveUserData(newUser.toJson());
+    await _cacheManager.saveUserData(newUser.toJson());
   }
 
   @override
-  Future<void> clearCurrentUserData() => _cacheService.clearUserData();
+  Future<void> clearCurrentUserData() => _cacheManager.clearUserData();
 
   @override
   Future<int?> getCurrentCountryId() async {
-    final country = await _cacheService.getCurrentCountry();
+    final country = await _cacheManager.getCurrentCountry();
     return country?.id;
   }
 }

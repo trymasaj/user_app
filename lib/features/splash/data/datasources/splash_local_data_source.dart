@@ -1,4 +1,4 @@
-import 'package:masaj/core/data/clients/cache_service.dart';
+import 'package:masaj/core/data/clients/cache_manager.dart';
 
 abstract class SplashLocalDataSource {
   Future<bool> isFirstLaunch();
@@ -9,7 +9,7 @@ abstract class SplashLocalDataSource {
 }
 
 class SplashLocalDataSourceImpl implements SplashLocalDataSource {
-  final CacheService _cacheService;
+  final CacheManager _cacheService;
 
   SplashLocalDataSourceImpl(this._cacheService);
 

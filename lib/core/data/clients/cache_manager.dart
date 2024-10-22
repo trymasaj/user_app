@@ -36,7 +36,7 @@ class SearchResultModel {
   }
 }
 
-abstract class CacheService {
+abstract class CacheManager {
   Future<bool> saveUserData(String userData);
 
   Future<String?> getUserData();
@@ -91,7 +91,7 @@ abstract class CacheService {
 }
 
 
-class CacheServiceImplV2 implements CacheService {
+class CacheManagerImpl implements CacheManager {
   static const _USERDATA = 'USER_DATA';
   static const _APPLE_USER_DATA = 'APPLE_USER_DATA';
   static const _LOCALE = 'locale';

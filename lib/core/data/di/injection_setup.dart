@@ -1,4 +1,4 @@
-import 'package:masaj/core/data/clients/cache_service.dart';
+import 'package:masaj/core/data/clients/cache_manager.dart';
 import 'package:masaj/core/data/clients/network_service.dart';
 import 'package:masaj/core/data/clients/payment_service.dart';
 import 'package:masaj/core/data/datasources/device_type_data_source.dart';
@@ -57,8 +57,6 @@ import 'package:masaj/features/home/presentation/bloc/home_cubit/home_cubit.dart
 import 'package:masaj/features/home/presentation/bloc/home_page_cubit/home_page_cubit.dart';
 import 'package:masaj/features/home/presentation/bloc/home_search_cubit/home_search_cubit.dart';
 import 'package:masaj/features/home/presentation/bloc/notificaions_cubit/notifications_cubit.dart';
-import 'package:masaj/features/intro/data/datasources/intro_local_data_source.dart';
-import 'package:masaj/features/intro/data/repositories/intro_repository.dart';
 import 'package:masaj/features/intro/presentation/blocs/choose_language_cubit/choose_language_cubit.dart';
 import 'package:masaj/features/intro/presentation/blocs/guide_page_cubit/guide_page_cubit.dart';
 import 'package:masaj/features/medical_form/data/datasource/medical_form_datasource.dart';
@@ -97,7 +95,7 @@ import 'package:masaj/main.dart';
 import 'di_wrapper.dart';
 
 void setup() {
-  DI.setSingleton<CacheService>(() => CacheServiceImplV2());
+  DI.setSingleton<CacheManager>(() => CacheManagerImpl());
   DI.setSingleton<DeviceLocation>(() => DeviceLocationImpl());
   DI.setSingleton<DeviceTypeDataSource>(() => DeviceTypeDataSourceImpl());
   DI.setSingleton<NetworkServiceUtil>(() => NetworkServiceUtilImpl(DI.find()));
@@ -177,10 +175,6 @@ void setup() {
 
   //===================[GUIDE_PAGE_CUBIT]===================
   DI.setFactory<GuidePageCubit>(() => GuidePageCubit(DI.find()));
-
-  DI.setSingleton<IntroRepository>(() => IntroRepositoryImpl(DI.find()));
-
-  DI.setSingleton<IntroLocalDataSource>(() => IntroLocalDataSourceImpl(DI.find()));
 
   //===================[CHOOSE_LANGUAGE_CUBIT]===================
   DI.setFactory<ChooseLanguageCubit>(() => ChooseLanguageCubit(DI.find()));

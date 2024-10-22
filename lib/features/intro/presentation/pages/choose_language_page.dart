@@ -29,7 +29,7 @@ class ChooseLanguagePage extends StatefulWidget {
 
 class _ChooseLanguagePageState extends State<ChooseLanguagePage> {
   Locale _selectedLocal = const Locale('en');
-  String getTheDveiceLocal() {
+  String getTheDeviceLocale() {
     final localName = Platform.localeName;
     // return the first two characters of the local name
     return localName.substring(0, 2);
@@ -141,7 +141,7 @@ class _ChooseLanguagePageState extends State<ChooseLanguagePage> {
             value: const Locale('en'),
             groupValue: _selectedLocal,
             onValueSelected: (value) =>
-                setState(() => _selectedLocal = const Locale('en')),
+                setState( () => _selectedLocal = const Locale('en')),
           ),
           SizedBox(height: 24.h),
           _buildNextButton(context),
@@ -166,15 +166,10 @@ class _ChooseLanguagePageState extends State<ChooseLanguagePage> {
     return DefaultButton(
       label: 'lbl_continue'.tr(),
       onPressed: () {
-        if (widget.fromSetting) {
           setState(() {
             context.setLocale(_selectedLocal);
           });
           cubit.saveLanguageCode(_selectedLocal.languageCode);
-          // Navigator.pop(context);
-        } else {
-          cubit.saveLanguageCode(_selectedLocal.languageCode);
-        }
       },
       isExpanded: true,
     );

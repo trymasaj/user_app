@@ -3,7 +3,7 @@ import 'dart:developer';
 
 import 'package:geocoding/geocoding.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
-import 'package:masaj/core/data/clients/cache_service.dart';
+import 'package:masaj/core/data/clients/cache_manager.dart';
 import 'package:masaj/core/data/clients/network_service.dart';
 import 'package:masaj/core/data/constants/api_end_point.dart';
 import 'package:masaj/core/data/device/location_helper.dart';
@@ -17,7 +17,7 @@ import 'package:masaj/features/auth/data/datasources/auth_local_datasource.dart'
 
 class AddressRepo {
   final NetworkService networkService;
-  final CacheService cacheService;
+  final CacheManager cacheService;
   final DeviceLocation deviceLocation;
   final AuthLocalDataSource localDataSource;
 

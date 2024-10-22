@@ -2,16 +2,16 @@ import 'dart:developer';
 
 import 'package:flutter/foundation.dart';
 import 'package:masaj/core/application/controllers/base_cubit.dart';
+import 'package:masaj/core/data/clients/cache_manager.dart';
 import 'package:masaj/core/domain/exceptions/redundant_request_exception.dart';
 import 'package:masaj/features/intro/data/models/guide_page_tab_model.dart';
-import 'package:masaj/features/intro/data/repositories/intro_repository.dart';
 
 part 'guide_page_state.dart';
 
 class GuidePageCubit extends BaseCubit<GuidePageState> {
-  GuidePageCubit(this._guidePageRepository) : super(const GuidePageState());
+  GuidePageCubit(this._cacheService) : super(const GuidePageState());
 
-  final IntroRepository _guidePageRepository;
+  final CacheManager _cacheService;
 
   Future<void> loadGuidePage() async {
     try {
@@ -29,7 +29,7 @@ class GuidePageCubit extends BaseCubit<GuidePageState> {
 
   Future<void> setFirstLaunchToFalse({required VoidCallback onDone}) async {
     try {
-      await _guidePageRepository.setFirstLaunchToFalse();
+      await _cacheService.setIsFirstLaunch(false);
       onDone();
     } catch (e) {
       log(e.toString());
