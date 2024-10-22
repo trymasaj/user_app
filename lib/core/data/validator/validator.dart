@@ -1,6 +1,7 @@
 // ignore_for_file: curly_braces_in_flow_control_structures
 
 import 'package:easy_localization/easy_localization.dart';
+import 'package:masaj/core/extenstions/string_extensions.dart';
 
 class Validator {
   static final Validator _instance = Validator._();
@@ -79,8 +80,8 @@ class Validator {
   String? validateUserName(String? userName) {
     if (userName == null || userName.isEmpty) {
       return tr('empty_field_not_valid');
-    } else if (userName.length < 2)
-      return tr('must_be_at_least_2');
+    } else if (userName.length < 2 || userName.length > 50 || !userName.onlyLetters())
+      return tr('invalid_user_name');
     else
       return null;
   }

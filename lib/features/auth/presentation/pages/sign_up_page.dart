@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:flutter_html/flutter_html.dart';
 import 'package:intl_phone_field/phone_number.dart';
 import 'package:masaj/core/app_export.dart';
 import 'package:masaj/core/data/extensions/extensions.dart';
@@ -18,7 +17,6 @@ import 'package:masaj/core/presentation/widgets/stateless/text_fields/password_t
 import 'package:masaj/core/presentation/widgets/stateless/text_fields/phone_number_text_field.dart';
 import 'package:masaj/features/auth/presentation/pages/login_page.dart';
 import 'package:masaj/features/auth/presentation/pages/otp_verification_page.dart';
-
 import 'package:masaj/features/home/presentation/pages/home_page.dart';
 import 'package:masaj/features/auth/domain/entities/user.dart';
 import 'package:masaj/features/auth/application/auth_cubit/auth_cubit.dart';
@@ -197,6 +195,7 @@ class _SignUpPageState extends State<SignUpPage> {
             inputFormatters: [LengthLimitingTextInputFormatter(40)],
             hint: 'lbl_name',
             prefixIcon: buildImage(ImageConstant.imgLock),
+            validator: Validator().validateUserName,
           ),
           SizedBox(height: 18.h),
           if (!widget.isFromSocial) ...[
