@@ -918,5 +918,6 @@
   "review_added_successfully": "تمت إضافة المراجعة بنجاح",
   "tip_added_successfully": "تمت إضافة البقشيش بنجاح",
   "please_select_payment_method": "الرجاء اختيار طريقة الدفع",
-  "invalid_user_name": "الإسم غير صالح"
+  "invalid_user_name": "الإسم غير صالح",
+  "not_allowed_for_users_under_years_old": "غير مسموح للأشخاص الأقل من ١٦ عاماً"
 }

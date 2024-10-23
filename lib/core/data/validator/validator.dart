@@ -1,5 +1,7 @@
 // ignore_for_file: curly_braces_in_flow_control_structures
 
+import 'dart:ffi';
+
 import 'package:easy_localization/easy_localization.dart';
 import 'package:masaj/core/data/device/system_service.dart';
 import 'package:masaj/core/data/di/di_wrapper.dart';
@@ -101,7 +103,8 @@ class Validator {
 
   bool _isNotAllowedAge(String? birthdate, int allowedAge) {
     if (birthdate == null) return true;
-    final userBirthDate = DateTime.parse(birthdate);
+    var parts = birthdate.split('/');
+    final userBirthDate = DateTime(num.parse(parts[2]).toInt(),num.parse(parts[1]).toInt(), num.parse(parts[0]).toInt());
     final currentDate = DI.find<SystemService>().now;
     final userAge = (currentDate.difference(userBirthDate).inDays) ~/ 365;
 

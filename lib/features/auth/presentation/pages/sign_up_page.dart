@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:intl_phone_field/phone_number.dart';
 import 'package:masaj/core/app_export.dart';
+import 'package:masaj/core/data/device/system_service.dart';
+import 'package:masaj/core/data/di/di_wrapper.dart';
 import 'package:masaj/core/data/extensions/extensions.dart';
 import 'package:masaj/core/data/validator/validator.dart';
 import 'package:masaj/core/domain/enums/gender.dart';
@@ -39,6 +41,8 @@ class SignUpPage extends StatefulWidget {
 class _SignUpPageState extends State<SignUpPage> {
   Gender selectedGender = Gender.male;
   late final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
+  // di
+  final SystemService system = DI.find();
 
   final TextEditingController _fullNameTextController = TextEditingController(),
       _emailTextController = TextEditingController(),
@@ -224,6 +228,7 @@ class _SignUpPageState extends State<SignUpPage> {
             hint: 'lbl_birth_date',
             prefixIcon: buildImage(ImageConstant.imgCalendar),
             suffixIcon: buildImage(ImageConstant.imgCalendar),
+            validator: (input)=> Validator().validateEmptyField(input) ?? Validator().validateBirthDate(input, 16),
             onTap: () async {
               final initialDate = _birthDateTextController.text.isNotEmpty
                   ? _birthDateTextController.text.parseDate()

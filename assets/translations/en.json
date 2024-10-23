@@ -950,5 +950,6 @@
   "review_added_successfully": "Review added successfully",
   "tip_added_successfully": "Tip added successfully",
   "please_select_payment_method": "Please select payment method",
-  "invalid_user_name": "Invalid user name"
+  "invalid_user_name": "Invalid user name",
+  "not_allowed_for_users_under_years_old": "Not allowed for users under 16 years old"
 }
