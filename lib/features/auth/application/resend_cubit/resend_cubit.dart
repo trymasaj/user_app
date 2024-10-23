@@ -2,20 +2,18 @@
 
 import 'dart:async';
 import 'dart:developer';
-
 import 'package:equatable/equatable.dart';
-
 import 'package:masaj/core/app_export.dart';
 import 'package:masaj/core/domain/exceptions/redundant_request_exception.dart';
 import 'package:masaj/core/domain/exceptions/request_exception.dart';
-import 'package:masaj/features/auth/data/repositories/auth_repository.dart';
+import 'package:masaj/features/auth/data/managers/auth_manager.dart';
 import 'package:masaj/features/auth/domain/entities/user.dart';
 
 part 'resend_state.dart';
 
 class ResendCubit extends Cubit<ResendState> {
   ResendCubit({
-    required AuthRepository authRepository,
+    required AuthManager authRepository,
   })  : _authRepository = authRepository,
         super(const ResendState()) {
     startTimer();
@@ -23,7 +21,7 @@ class ResendCubit extends Cubit<ResendState> {
 
   late Timer timer;
 
-  final AuthRepository _authRepository;
+  final AuthManager _authRepository;
   startTimer() {
     emit(
       state.copyWith(isTimerRunning: true, remainingTime: state.start),

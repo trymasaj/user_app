@@ -403,8 +403,8 @@ class _SignUpPageState extends State<SignUpPage> {
   }
 
   _goToOtpVerify(BuildContext context) {
-    NavigatorHelper.of(context).pushNamedAndRemoveUntil(
-        OTPVerificationPage.routeName, (route) => false);
+    NavigatorHelper.of(context).pushNamed(
+        OTPVerificationPage.routeName);
   }
 
   void _goToSignInPage(BuildContext context) {

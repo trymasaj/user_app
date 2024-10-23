@@ -35,7 +35,7 @@ import 'package:masaj/features/auth/application/auth_cubit/auth_cubit.dart';
 import 'package:masaj/features/auth/application/country_cubit/country_cubit.dart';
 import 'package:masaj/features/auth/data/datasources/auth_local_datasource.dart';
 import 'package:masaj/features/auth/data/datasources/auth_remote_datasource.dart';
-import 'package:masaj/features/auth/data/repositories/auth_repository.dart';
+import 'package:masaj/features/auth/data/managers/auth_manager.dart';
 import 'package:masaj/features/book_service/data/datasources/booking_remote_data_source.dart';
 import 'package:masaj/features/book_service/data/repositories/booking_repository.dart';
 import 'package:masaj/features/book_service/presentation/blocs/available_therapist_cubit/available_therapist_cubit.dart';
@@ -137,12 +137,9 @@ void setup() {
   DI.setSingleton<SplashLocalDataSource>(() => SplashLocalDataSourceImpl(DI.find()));
 
   //===================[AUTH_CUBIT]===================
-  DI.setFactory<AuthCubit>(() => AuthCubit(
-        authRepository: DI.find(),
-        showCaseHelper: DI.find(),
-      ));
+  DI.setFactory<AuthCubit>(() => AuthCubit( DI.find(), DI.find() ));
 
-  DI.setSingleton<AuthRepository>(() => AuthRepositoryImpl(
+  DI.setSingleton<AuthManager>(() => AuthManagerImpl(
         DI.find(),
         DI.find(),
         DI.find(),

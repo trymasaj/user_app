@@ -1,7 +1,6 @@
 import 'package:masaj/core/data/device/notification_service.dart';
 import 'package:masaj/core/data/models/response_model.dart';
 import 'package:masaj/core/domain/exceptions/request_exception.dart';
-
 import 'package:masaj/core/data/datasources/device_type_data_source.dart';
 import 'package:masaj/core/data/datasources/external_login_data_source.dart';
 import 'package:masaj/core/data/models/interest_model.dart';
@@ -12,7 +11,7 @@ import 'package:masaj/features/auth/data/datasources/auth_local_datasource.dart'
 import 'package:masaj/features/auth/data/datasources/auth_remote_datasource.dart';
 import 'package:masaj/features/auth/domain/entities/user.dart';
 
-abstract class AuthRepository {
+abstract class AuthManager {
   Future<bool> isLoggedIn();
 
   Future<User> login(
@@ -78,7 +77,7 @@ abstract class AuthRepository {
       required String otp});
 }
 
-class AuthRepositoryImpl implements AuthRepository {
+class AuthManagerImpl implements AuthManager {
   final AuthRemoteDataSource _remoteDataSource;
   final AuthLocalDataSource _localDataSource;
   final NotificationService _notificationService;
@@ -86,7 +85,7 @@ class AuthRepositoryImpl implements AuthRepository {
   final ExternalLoginDataSource _appleExternalDataSource;
   final ExternalLoginDataSource _googleExternalDataSource;
 
-  AuthRepositoryImpl(
+  AuthManagerImpl(
     this._remoteDataSource,
     this._localDataSource,
     this._deviceTypeDataSource,

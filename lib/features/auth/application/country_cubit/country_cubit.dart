@@ -3,7 +3,7 @@ import 'package:masaj/features/address/domain/entities/address.dart';
 import 'package:masaj/features/address/domain/entities/country.dart';
 import 'package:masaj/features/address/infrastructure/repos/address_repo.dart';
 import 'package:masaj/features/auth/application/country_cubit/country_state.dart';
-import 'package:masaj/features/auth/data/repositories/auth_repository.dart';
+import 'package:masaj/features/auth/data/managers/auth_manager.dart';
 import 'package:collection/collection.dart';
 
 class CountryCubit extends BaseCubit<CountryState> {
@@ -12,7 +12,7 @@ class CountryCubit extends BaseCubit<CountryState> {
     this._addressRepo,
   ) : super(const CountryState());
 
-  final AuthRepository _authRepository;
+  final AuthManager _authRepository;
   final AddressRepo _addressRepo;
 
   Future<void> init(bool isGuest) async {

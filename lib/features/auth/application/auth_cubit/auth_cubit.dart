@@ -6,12 +6,13 @@ import 'package:firebase_crashlytics/firebase_crashlytics.dart';
 import 'package:flutter/foundation.dart';
 import 'package:intl_phone_field/phone_number.dart';
 import 'package:masaj/core/application/controllers/base_cubit.dart';
+import 'package:masaj/core/data/logger/abs_logger.dart';
 import 'package:masaj/core/data/services/adjsut.dart';
 import 'package:masaj/core/data/show_case_helper.dart';
 import 'package:masaj/core/domain/enums/gender.dart';
 import 'package:masaj/core/domain/exceptions/redundant_request_exception.dart';
 import 'package:masaj/core/domain/exceptions/social_media_login_canceled_exception.dart';
-import 'package:masaj/features/auth/data/repositories/auth_repository.dart';
+import 'package:masaj/features/auth/data/managers/auth_manager.dart';
 
 import 'package:masaj/core/data/models/interest_model.dart';
 import 'package:masaj/features/account/data/models/contact_us_message_model.dart';
@@ -20,20 +21,20 @@ import 'package:masaj/features/auth/domain/entities/user.dart';
 part 'auth_state.dart';
 
 class AuthCubit extends BaseCubit<AuthState> {
-  AuthCubit({
-    required AuthRepository authRepository,
-    required ShowCaseHelper showCaseHelper,
-  })  : _authRepository = authRepository,
-        _showCaseHelper = showCaseHelper,
-        super(const AuthState());
 
-  final AuthRepository _authRepository;
+  final AuthManager _authManager;
   final ShowCaseHelper _showCaseHelper;
+
+  AuthCubit(
+    this._authManager,
+    this._showCaseHelper
+  ):super(const AuthState());
+
 
   Future<void> init() async {
     try {
       emit(state.copyWith(status: AuthStateStatus.loading));
-      final user = await _authRepository.getUserData();
+      final user = await _authManager.getUserData();
       //TODO this is need refactoring by puting status in cubit and when user press continure as guest we will change the status to guest
       emit(user?.token == null ||
               user?.verified == false ||
@@ -45,8 +46,9 @@ class AuthCubit extends BaseCubit<AuthState> {
       FirebaseCrashlytics.instance.setUserIdentifier(userFirebaseId);
       FirebaseAnalytics.instance.setUserId(id: userFirebaseId);
     } on RedundantRequestException catch (e) {
-      log(e.toString());
+      logger.error('[$runtimeType].init()' ,e);
     } catch (e) {
+      logger.error('[$runtimeType].init()' ,e);
       emit(state.copyWith(
           status: AuthStateStatus.error, errorMessage: e.toString()));
     }
@@ -57,7 +59,7 @@ class AuthCubit extends BaseCubit<AuthState> {
     emit(state.copyWith(status: AuthStateStatus.loading));
     try {
       final user =
-          await _authRepository.login(phoneNumber, countryCode, password);
+          await _authManager.login(phoneNumber, countryCode, password);
       emit(state.copyWith(status: AuthStateStatus.loggedIn, user: user));
 
       final userFirebaseId = (user.id ?? '') + (user.fullName ?? '');
@@ -65,8 +67,9 @@ class AuthCubit extends BaseCubit<AuthState> {
       FirebaseAnalytics.instance.setUserId(id: userFirebaseId);
       AdjustTracker.trackLogin();
     } on RedundantRequestException catch (e) {
-      log(e.toString());
+      logger.error('[$runtimeType].login($phoneNumber,$password, $countryCode)' ,e);
     } catch (e) {
+      logger.error('[$runtimeType].login($phoneNumber,$password, $countryCode)' ,e);
       emit(state.copyWith(
           status: AuthStateStatus.error, errorMessage: e.toString()));
     }
@@ -76,7 +79,7 @@ class AuthCubit extends BaseCubit<AuthState> {
       Future<String?> Function() onEmailRequiredError) async {
     emit(state.copyWith(status: AuthStateStatus.loading));
     try {
-      final user = await _authRepository.loginWithGoogle(onEmailRequiredError);
+      final user = await _authManager.loginWithGoogle(onEmailRequiredError);
       final isLoggedIn =
           (user.isProfileCompleted ?? false) && (user.verified ?? false);
 
@@ -93,10 +96,11 @@ class AuthCubit extends BaseCubit<AuthState> {
         AdjustTracker.trackGuestRegistration();
       }
     } on SocialLoginCanceledException catch (e) {
-      log(e.toString());
+      logger.error('[$runtimeType].loginWithGoogle()' ,e);
     } on RedundantRequestException catch (e) {
-      log(e.toString());
+      logger.error('[$runtimeType].loginWithGoogle()' ,e);
     } catch (e) {
+      logger.error('[$runtimeType].loginWithGoogle()' ,e);
       emit(state.copyWith(
           status: AuthStateStatus.error, errorMessage: e.toString()));
       rethrow;
@@ -107,7 +111,7 @@ class AuthCubit extends BaseCubit<AuthState> {
       Future<String?> Function() onEmailRequiredError) async {
     emit(state.copyWith(status: AuthStateStatus.loading));
     try {
-      final user = await _authRepository.loginWithApple(onEmailRequiredError);
+      final user = await _authManager.loginWithApple(onEmailRequiredError);
       final isLoggedIn =
           (user.isProfileCompleted ?? false) && (user.verified ?? false);
       isLoggedIn
@@ -123,10 +127,11 @@ class AuthCubit extends BaseCubit<AuthState> {
         AdjustTracker.trackGuestRegistration();
       }
     } on SocialLoginCanceledException catch (e) {
-      log(e.toString());
+      logger.error('[$runtimeType].loginWithApple()' ,e);
     } on RedundantRequestException catch (e) {
-      log(e.toString());
+      logger.error('[$runtimeType].loginWithApple()' ,e);
     } catch (e) {
+      logger.error('[$runtimeType].loginWithApple()' ,e);
       emit(state.copyWith(
           status: AuthStateStatus.error, errorMessage: e.toString()));
     }
@@ -138,16 +143,17 @@ class AuthCubit extends BaseCubit<AuthState> {
 
     emit(state.copyWith(status: AuthStateStatus.loading));
     try {
-      final user = await _authRepository.verifyOtp(state.user!, otp,
+      final user = await _authManager.verifyOtp(state.user!, otp,
           afterLogin: afterLogin);
       emit(state.copyWith(
           status: afterLogin ? AuthStateStatus.loggedIn : AuthStateStatus.guest,
           user: user));
     } on SocialLoginCanceledException catch (e) {
-      log(e.toString());
+      logger.error('[$runtimeType].verifyUser($otp)' ,e);
     } on RedundantRequestException catch (e) {
-      log(e.toString());
+      logger.error('[$runtimeType].verifyUser($otp)' ,e);
     } catch (e) {
+      logger.error('[$runtimeType].verifyUser($otp)' ,e);
       emit(state.copyWith(
           status: AuthStateStatus.error, errorMessage: e.toString()));
     }
@@ -161,7 +167,7 @@ class AuthCubit extends BaseCubit<AuthState> {
 
     emit(state.copyWith(accountStatus: AccountStateStatus.loading));
     try {
-      final response = await _authRepository.changePhone(
+      final response = await _authManager.changePhone(
         phone: phone,
         countryCode: countryCode,
       );
@@ -169,10 +175,11 @@ class AuthCubit extends BaseCubit<AuthState> {
         accountStatus: AccountStateStatus.changePhone,
       ));
     } on SocialLoginCanceledException catch (e) {
-      log(e.toString());
+      logger.error('[$runtimeType].changePhone($phone, $countryCode)' ,e);
     } on RedundantRequestException catch (e) {
-      log(e.toString());
+      logger.error('[$runtimeType].changePhone($phone, $countryCode)' ,e);
     } catch (e) {
+      logger.error('[$runtimeType].changePhone($phone, $countryCode)' ,e);
       emit(state.copyWith(
           accountStatus: AccountStateStatus.error, errorMessage: e.toString()));
     }
@@ -187,15 +194,16 @@ class AuthCubit extends BaseCubit<AuthState> {
 
     emit(state.copyWith(accountStatus: AccountStateStatus.loading));
     try {
-      final user = await _authRepository.verifyChangePhone(
+      final user = await _authManager.verifyChangePhone(
           phone: phone, countryCode: countryCode, otp: otp);
       emit(state.copyWith(
           accountStatus: AccountStateStatus.verifyingChangePhone, user: user));
     } on SocialLoginCanceledException catch (e) {
-      log(e.toString());
+      logger.error('[$runtimeType].verifyChangePhone($phone, $countryCode, $otp)' ,e);
     } on RedundantRequestException catch (e) {
-      log(e.toString());
+      logger.error('[$runtimeType].verifyChangePhone($phone, $countryCode, $otp)' ,e);
     } catch (e) {
+      logger.error('[$runtimeType].verifyChangePhone($phone, $countryCode, $otp)' ,e);
       emit(state.copyWith(
           accountStatus: AccountStateStatus.error, errorMessage: e.toString()));
     }
@@ -208,7 +216,7 @@ class AuthCubit extends BaseCubit<AuthState> {
 
     emit(state.copyWith(status: AuthStateStatus.loading));
     try {
-      await _authRepository.resendOtp(
+      await _authManager.resendOtp(
         state.user!,
       );
 
@@ -217,10 +225,11 @@ class AuthCubit extends BaseCubit<AuthState> {
         status: afterLogin ? AuthStateStatus.loggedIn : AuthStateStatus.guest,
       ));
     } on SocialLoginCanceledException catch (e) {
-      log(e.toString());
+      logger.error('[$runtimeType].resendOTP()' ,e);
     } on RedundantRequestException catch (e) {
-      log(e.toString());
+      logger.error('[$runtimeType].resendOTP()' ,e);
     } catch (e) {
+      logger.error('[$runtimeType].resendOTP()' ,e);
       emit(state.copyWith(
           status: AuthStateStatus.error, errorMessage: e.toString()));
     }
@@ -229,7 +238,7 @@ class AuthCubit extends BaseCubit<AuthState> {
   Future<void> signUp(User user) async {
     emit(state.copyWith(status: AuthStateStatus.loading));
     try {
-      final userAfterSignUp = await _authRepository.signUp(user);
+      final userAfterSignUp = await _authManager.signUp(user);
       emit(state.copyWith(
           status: AuthStateStatus.loggedIn, user: userAfterSignUp));
       final userFirebaseId = (user.id ?? '') + (user.fullName ?? '');
@@ -237,8 +246,9 @@ class AuthCubit extends BaseCubit<AuthState> {
       FirebaseAnalytics.instance.setUserId(id: userFirebaseId);
       AdjustTracker.trackRegistrationCompleted(userAfterSignUp.toMap());
     } on RedundantRequestException catch (e) {
-      log(e.toString());
+      logger.error('[$runtimeType].signup($user)' ,e);
     } catch (e) {
+      logger.error('[$runtimeType].signup($user)' ,e);
       emit(state.copyWith(
           status: AuthStateStatus.error, errorMessage: e.toString()));
     }
@@ -248,14 +258,14 @@ class AuthCubit extends BaseCubit<AuthState> {
     emit(state.copyWith(status: AuthStateStatus.loading));
     try {
       final userAfterSignUp =
-          await _authRepository.updateProfileInformation(user);
+          await _authManager.updateProfileInformation(user);
       emit(state.copyWith(
           status: AuthStateStatus.loggedIn, user: userAfterSignUp));
       final userFirebaseId = (user.id ?? '') + (user.fullName ?? '');
       FirebaseCrashlytics.instance.setUserIdentifier(userFirebaseId);
       FirebaseAnalytics.instance.setUserId(id: userFirebaseId);
     } on RedundantRequestException catch (e) {
-      log(e.toString());
+      logger.error('[$runtimeType].updateProfileInfo($user)' ,e);
     } catch (e) {
       logger.error('[$runtimeType].updateProfileInfo($user)' ,e);
       emit(state.copyWith(
@@ -266,7 +276,7 @@ class AuthCubit extends BaseCubit<AuthState> {
   Future<void> forgetPassword(String email) async {
     emit(state.copyWith(status: AuthStateStatus.loading));
     try {
-      await _authRepository.forgetPassword(email);
+      await _authManager.forgetPassword(email);
       emit(state.copyWith(status: AuthStateStatus.initial, user: null));
     } on RedundantRequestException catch (e) {
       logger.error('[$runtimeType].forgetPassword($email)' ,e);
@@ -280,7 +290,7 @@ class AuthCubit extends BaseCubit<AuthState> {
   Future<void> verifyForgetPassword(String otp, String email) async {
     emit(state.copyWith(status: AuthStateStatus.loading));
     try {
-      final user = await _authRepository.verifyForgetPassword(otp, email);
+      final user = await _authManager.verifyForgetPassword(otp, email);
       emit(state.copyWith(status: AuthStateStatus.initial, user: user));
     } on RedundantRequestException catch (e) {
       logger.error('[$runtimeType].verifyForgetPassword($email)' ,e);
@@ -295,7 +305,7 @@ class AuthCubit extends BaseCubit<AuthState> {
       String password, String passwordConfirm, int userId, String token) async {
     emit(state.copyWith(status: AuthStateStatus.loading));
     try {
-      final user = await _authRepository.resetPassword(
+      final user = await _authManager.resetPassword(
           password, password, userId, token);
       emit(state.copyWith(status: AuthStateStatus.guest, user: user));
     } on RedundantRequestException catch (e) {
@@ -311,7 +321,7 @@ class AuthCubit extends BaseCubit<AuthState> {
       String oldPassword, String newPassword, String confirmPassword) async {
     try {
       emit(state.copyWith(accountStatus: AccountStateStatus.loading));
-      await _authRepository.changePassword(
+      await _authManager.changePassword(
           oldPassword, newPassword, confirmPassword);
       emit(state.copyWith(accountStatus: AccountStateStatus.changePassword));
     } on RedundantRequestException catch (e) {
@@ -326,7 +336,7 @@ class AuthCubit extends BaseCubit<AuthState> {
   Future<void> getUserData([bool fromRemote = false]) async {
     try {
       emit(state.copyWith(status: AuthStateStatus.loading));
-      final user = await _authRepository.getUserData(fromRemote);
+      final user = await _authManager.getUserData(fromRemote);
       var oldUser = state.user;
       emit(state.copyWith(
           status: AuthStateStatus.loggedIn,
@@ -353,7 +363,7 @@ class AuthCubit extends BaseCubit<AuthState> {
     final oldUser = state.user;
     emit(state.copyWith(accountStatus: AccountStateStatus.loading));
     try {
-      final user = await _authRepository.editAccountData(newUser.copyWith(
+      final user = await _authManager.editAccountData(newUser.copyWith(
           id: oldUser!.id,
           phone: oldUser.phone,
           countryCode: oldUser.countryCode));
@@ -375,8 +385,9 @@ class AuthCubit extends BaseCubit<AuthState> {
   Future<void> logout() async {
     emit(state.copyWith(status: AuthStateStatus.loading));
     try {
-      await _authRepository.logout();
+      await _authManager.logout();
     } catch (e) {
+      logger.error('[$runtimeType].logout()' ,e);
       emit(state.copyWith(
           status: AuthStateStatus.error, errorMessage: e.toString()));
     }
@@ -392,7 +403,7 @@ class AuthCubit extends BaseCubit<AuthState> {
       message: 'Request account deletion\n User ID: ${user?.id ?? ''}',
     );
     try {
-      await _authRepository.deleteAccount(message);
+      await _authManager.deleteAccount(message);
       emit(state.copyWith(status: AuthStateStatus.loggedIn));
     } on RedundantRequestException catch (e) {
       logger.error('[$runtimeType].deleteAccount()' ,e);
@@ -405,7 +416,7 @@ class AuthCubit extends BaseCubit<AuthState> {
 
   Future<void> informBackendAboutLanguageChanges(String languageCode) async {
     try {
-      await _authRepository.informBackendAboutLanguageChanges(languageCode);
+      await _authManager.informBackendAboutLanguageChanges(languageCode);
     } on RedundantRequestException catch (e) {
       logger.error('[$runtimeType].informBackendAboutLanguageChanges($languageCode)' ,e);
     } catch (e) {
@@ -420,7 +431,7 @@ class AuthCubit extends BaseCubit<AuthState> {
   Future<void> updateUserNotificationStatus(bool isEnabled) async {
     try {
       emit(state.copyWith(status: AuthStateStatus.loading));
-      await _authRepository.updateUserNotificationStatus(isEnabled);
+      await _authManager.updateUserNotificationStatus(isEnabled);
       emit(state.copyWith(
           status: AuthStateStatus.loggedIn,
           user: state.user?.copyWith(notificationEnabled: isEnabled)));
@@ -436,7 +447,7 @@ class AuthCubit extends BaseCubit<AuthState> {
   Future<void> updateUserPoints(int points) async {
     try {
       emit(state.copyWith(status: AuthStateStatus.loading));
-      await _authRepository.updateUserPoints(points);
+      await _authManager.updateUserPoints(points);
       emit(state.copyWith(
           status: AuthStateStatus.loggedIn,
           user: state.user?.copyWith(points: points)));
@@ -453,7 +464,7 @@ class AuthCubit extends BaseCubit<AuthState> {
     try {
       emit(state.copyWith(status: AuthStateStatus.loading));
 
-      final interests = await _authRepository.getInterestData();
+      final interests = await _authManager.getInterestData();
 
       List<int?>? selectedInterests = List.filled(interests.length, null);
 
@@ -487,7 +498,7 @@ class AuthCubit extends BaseCubit<AuthState> {
 
   Future<void> resendVerificationEmail(VoidCallback onSuccess) async {
     try {
-      await _authRepository.resendVerificationEmail();
+      await _authManager.resendVerificationEmail();
       onSuccess();
     } on RedundantRequestException catch (e) {
       logger.error('[$runtimeType].resendVerificationEmail($onSuccess)' ,e);
@@ -502,7 +513,7 @@ class AuthCubit extends BaseCubit<AuthState> {
     try {
       emit(state.copyWith(status: AuthStateStatus.loading));
 
-      final emailVerified = await _authRepository.checkEmailVerified();
+      final emailVerified = await _authManager.checkEmailVerified();
       emit(state.copyWith(
         status: AuthStateStatus.loggedIn,
         user: state.user!.copyWith(emailVerified: emailVerified),
@@ -518,7 +529,7 @@ class AuthCubit extends BaseCubit<AuthState> {
 
   Future<void> continueAsGuest() async {
     try {
-      final user = await _authRepository.loginAsGuest();
+      final user = await _authManager.loginAsGuest();
       emit(state.copyWith(status: AuthStateStatus.guest, user: user));
     } on RedundantRequestException catch (e) {
       logger.error('[$runtimeType].continueAsGuest()' ,e);
@@ -543,7 +554,7 @@ class AuthCubit extends BaseCubit<AuthState> {
 
   Future<void> submitQuizAnsewerd() async {
     try {
-      final user = await _authRepository.updateUser(
+      final user = await _authManager.updateUser(
         state.user!.copyWith(quizAnswered: true),
       );
       emit(state.copyWith(status: AuthStateStatus.loggedIn, user: user));

@@ -7,11 +7,12 @@ import 'package:masaj/core/presentation/colors/app_colors.dart';
 import 'package:masaj/core/presentation/navigation/navigator_helper.dart';
 import 'package:masaj/core/presentation/overlay/show_snack_bar.dart';
 import 'package:masaj/core/presentation/widgets/stateless/back_button.dart';
+import 'package:masaj/core/presentation/widgets/stateless/custom_app_bar.dart';
 import 'package:masaj/core/presentation/widgets/stateless/custom_app_page.dart';
 import 'package:masaj/core/presentation/widgets/stateless/custom_text.dart';
 import 'package:masaj/core/presentation/widgets/stateless/default_button.dart';
 import 'package:masaj/features/auth/application/resend_cubit/resend_cubit.dart';
-import 'package:masaj/features/auth/data/repositories/auth_repository.dart';
+import 'package:masaj/features/auth/data/managers/auth_manager.dart';
 import 'package:masaj/features/auth/presentation/pages/login_page.dart';
 import 'package:masaj/features/home/presentation/pages/home_page.dart';
 import 'package:masaj/features/quiz/presentation/pages/quiz_start_page.dart';
@@ -59,7 +60,7 @@ class _OTPVerificationPageState extends State<OTPVerificationPage> {
   Widget build(BuildContext context) {
     return BlocProvider(
       create: (context) => ResendCubit(
-        authRepository: DI.find<AuthRepository>(),
+        authRepository: DI.find<AuthManager>(),
       ),
       child: BlocListener<AuthCubit, AuthState>(
         listener: (context, state) {
@@ -111,14 +112,15 @@ class _OTPVerificationPageState extends State<OTPVerificationPage> {
             safeTop: true,
             safeBottom: true,
             child: Scaffold(
+              appBar: CustomAppBar(title: '', showBackButton: true, elevation: 0),
               body: Form(
                 key: _formKey,
                 child: ListView(
                   padding: const EdgeInsets.all(16.0),
                   children: [
-                    const CustomBackButton(
-                      color: Colors.black,
-                    ),
+                    // const CustomBackButton(
+                    //   color: Colors.black,
+                    // ),
                     const SizedBox(height: 16.0),
                     _buildMainText(context),
                     const SizedBox(height: 8.0),
