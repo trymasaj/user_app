@@ -227,13 +227,13 @@ class _SignUpPageState extends State<SignUpPage> {
             onTap: () async {
               final initialDate = _birthDateTextController.text.isNotEmpty
                   ? _birthDateTextController.text.parseDate()
-                  : DateTime.now();
+                  : system.now;
               final pickedDate = await showDatePicker(
                   context: context,
                   initialDate: initialDate,
                   firstDate:
-                      DateTime.now().subtract(const Duration(days: 43800)),
-                  lastDate: DateTime.now(),
+                      system.now.subtract(const Duration(days: 43800)),
+                  lastDate: system.now,
                   builder: (context, child) {
                     return Theme(
                       data: ThemeData.light().copyWith(

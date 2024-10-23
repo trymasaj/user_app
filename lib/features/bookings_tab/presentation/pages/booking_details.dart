@@ -4,6 +4,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_inappwebview/flutter_inappwebview.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:masaj/core/data/device/system_service.dart';
 import 'package:masaj/core/data/di/di_wrapper.dart';
 import 'package:masaj/core/presentation/colors/app_colors.dart';
 import 'package:masaj/core/presentation/overlay/show_snack_bar.dart';
@@ -37,6 +38,10 @@ class BookingDetialsScreen extends StatefulWidget {
 }
 
 class _BookingDetialsScreenState extends State<BookingDetialsScreen> {
+
+  // di
+  SystemService system = DI.find();
+
   @override
   void initState() {
     context.read<BookingDetailsCubit>().getBookingDetails(
@@ -46,7 +51,7 @@ class _BookingDetialsScreenState extends State<BookingDetialsScreen> {
   }
 
   bool isCompleted(BookingModel bookingModel) {
-    return bookingModel.bookingDate?.isBefore(DateTime.now()) ?? false;
+    return bookingModel.bookingDate?.isBefore(system.now) ?? false;
   }
 
   @override
@@ -98,7 +103,7 @@ class _BookingDetialsScreenState extends State<BookingDetialsScreen> {
                             _buildCancelledAlert(),
                           BookingCard(
                             isCompleted: state.booking?.bookingDate
-                                    ?.isBefore(DateTime.now()) ??
+                                    ?.isBefore(system.now) ??
                                 false,
                             sessionModel: state.booking?.toSessionModel(),
                             enable: false,

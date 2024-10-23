@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_form_builder/flutter_form_builder.dart';
 import 'package:masaj/core/app_export.dart';
+import 'package:masaj/core/data/device/system_service.dart';
+import 'package:masaj/core/data/di/di_wrapper.dart';
 import 'package:masaj/core/data/extensions/extensions.dart';
 
 import 'package:masaj/core/presentation/colors/app_colors.dart';
@@ -24,6 +26,10 @@ class MedicalFormScreen extends StatefulWidget {
 }
 
 class _MedicalFormScreenState extends State<MedicalFormScreen> {
+
+  // di
+  SystemService system = DI.find();
+
   late final TextEditingController _conditionsController;
   final _birthDateTextController = TextEditingController(),
       _treatmentGoalsController = TextEditingController(),
@@ -232,12 +238,12 @@ class _MedicalFormScreenState extends State<MedicalFormScreen> {
           onTap: () async {
             final initialDate = _birthDateTextController.text.isNotEmpty
                 ? _birthDateTextController.text.parseDate()
-                : DateTime.now();
+                : system.now;
             final pickedDate = await showDatePicker(
                 context: context,
                 initialDate: initialDate,
-                firstDate: DateTime.now().subtract(const Duration(days: 43800)),
-                lastDate: DateTime.now(),
+                firstDate: system.now.subtract(const Duration(days: 43800)),
+                lastDate: system.now,
                 builder: (context, child) {
                   return Theme(
                     data: ThemeData.light().copyWith(

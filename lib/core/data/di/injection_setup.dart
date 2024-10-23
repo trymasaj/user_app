@@ -10,6 +10,7 @@ import 'package:masaj/core/data/device/launcher_service.dart';
 import 'package:masaj/core/data/device/location_helper.dart';
 import 'package:masaj/core/data/device/notification_service.dart';
 import 'package:masaj/core/data/device/share_service.dart';
+import 'package:masaj/core/data/device/system_service.dart';
 import 'package:masaj/core/data/logger/logger_lib.dart';
 import 'package:masaj/core/data/repositories/countries_repo_impl.dart';
 import 'package:masaj/core/data/repositories/favorites_repository.dart';
@@ -95,6 +96,7 @@ import 'package:masaj/main.dart';
 import 'di_wrapper.dart';
 
 void setup() {
+  DI.setSingleton<SystemService>(() => SystemServiceImpl());
   DI.setSingleton<CacheManager>(() => CacheManagerImpl());
   DI.setSingleton<DeviceLocation>(() => DeviceLocationImpl());
   DI.setSingleton<DeviceTypeDataSource>(() => DeviceTypeDataSourceImpl());
@@ -137,7 +139,7 @@ void setup() {
   DI.setSingleton<SplashLocalDataSource>(() => SplashLocalDataSourceImpl(DI.find()));
 
   //===================[AUTH_CUBIT]===================
-  DI.setFactory<AuthCubit>(() => AuthCubit( DI.find(), DI.find() ));
+  DI.setFactory<AuthCubit>(() => AuthCubit( DI.find(), DI.find(), DI.find()));
 
   DI.setSingleton<AuthManager>(() => AuthManagerImpl(
         DI.find(),

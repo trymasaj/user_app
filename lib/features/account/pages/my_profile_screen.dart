@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:masaj/core/app_export.dart';
+import 'package:masaj/core/data/device/system_service.dart';
+import 'package:masaj/core/data/di/di_wrapper.dart';
 import 'package:masaj/core/data/extensions/extensions.dart';
 import 'package:masaj/core/domain/enums/gender.dart';
 import 'package:masaj/core/presentation/colors/app_colors.dart';
@@ -39,6 +41,9 @@ class _MyProfileScreenState extends State<MyProfileScreen> {
   Gender? _selectedGender;
   bool showGenderError = false;
   String? _image;
+
+  SystemService system = DI.find();
+
   @override
   void initState() {
     super.initState();
@@ -157,12 +162,12 @@ class _MyProfileScreenState extends State<MyProfileScreen> {
       onTap: () async {
         final initialDate = _birthDateController.text.isNotEmpty
             ? _birthDateController.text.parseDate()
-            : DateTime.now();
+            : system.now;
         final pickedDate = await showDatePicker(
             context: context,
             initialDate: initialDate,
-            firstDate: DateTime.now().subtract(const Duration(days: 43800)),
-            lastDate: DateTime.now(),
+            firstDate: system.now.subtract(const Duration(days: 43800)),
+            lastDate: system.now,
             builder: (context, child) {
               return Theme(
                 data: ThemeData.light().copyWith(

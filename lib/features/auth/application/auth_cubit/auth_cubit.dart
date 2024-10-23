@@ -6,6 +6,7 @@ import 'package:firebase_crashlytics/firebase_crashlytics.dart';
 import 'package:flutter/foundation.dart';
 import 'package:intl_phone_field/phone_number.dart';
 import 'package:masaj/core/application/controllers/base_cubit.dart';
+import 'package:masaj/core/data/device/system_service.dart';
 import 'package:masaj/core/data/logger/abs_logger.dart';
 import 'package:masaj/core/data/services/adjsut.dart';
 import 'package:masaj/core/data/show_case_helper.dart';
@@ -24,10 +25,12 @@ class AuthCubit extends BaseCubit<AuthState> {
 
   final AuthManager _authManager;
   final ShowCaseHelper _showCaseHelper;
+  final SystemService _system;
 
   AuthCubit(
     this._authManager,
-    this._showCaseHelper
+    this._showCaseHelper,
+    this._system
   ):super(const AuthState());
 
 
@@ -221,7 +224,7 @@ class AuthCubit extends BaseCubit<AuthState> {
       );
 
       emit(state.copyWith(
-        beginResendTimer: DateTime.now(),
+        beginResendTimer: _system.now,
         status: afterLogin ? AuthStateStatus.loggedIn : AuthStateStatus.guest,
       ));
     } on SocialLoginCanceledException catch (e) {

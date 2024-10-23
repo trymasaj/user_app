@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:masaj/core/app_export.dart';
+import 'package:masaj/core/data/device/system_service.dart';
 import 'package:masaj/core/data/di/di_wrapper.dart';
 import 'package:masaj/core/data/logger/abs_logger.dart';
 import 'package:masaj/core/data/services/adjsut.dart';
@@ -52,6 +53,10 @@ class _BookServiceScreenState extends State<BookServiceScreen> {
   final TextEditingController _dateController = TextEditingController();
   final TextEditingController _timeController = TextEditingController();
   DateTime? selectedDate;
+
+  // di
+  SystemService system = DI.find();
+
   void setSelectedTimeSlot(AvailableTimeSlot timeSlot) {
     setState(() {
       selectedTimeSlot = timeSlot;
@@ -690,10 +695,10 @@ class _BookServiceScreenState extends State<BookServiceScreen> {
                 builder: (context) {
                   DateTime updatedDate = (selectedDate != null &&
                           // date is in the past
-                          selectedDate!.isAfter(DateTime.now()))
+                          selectedDate!.isAfter(system.now))
                       ? selectedDate!
-                      : DateTime.now().add(
-                          Duration(minutes: 30 - DateTime.now().minute % 30),
+                      : system.now.add(
+                          Duration(minutes: 30 - system.now.minute % 30),
                         );
                   return CustomBottomSheet(
                     padding: EdgeInsets.symmetric(horizontal: 24.w),
@@ -718,9 +723,9 @@ class _BookServiceScreenState extends State<BookServiceScreen> {
                             child: CupertinoDatePicker(
                               minuteInterval: 30,
 
-                              minimumDate: DateTime.now().add(
+                              minimumDate: system.now.add(
                                 Duration(
-                                    minutes: 30 - DateTime.now().minute % 30),
+                                    minutes: 30 - system.now.minute % 30),
                               ),
                               mode: fromTherapistFow
                                   ? CupertinoDatePickerMode.date
@@ -728,16 +733,16 @@ class _BookServiceScreenState extends State<BookServiceScreen> {
                               // mode: CupertinoDatePickerMode.date,
                               initialDateTime: (selectedDate != null &&
                                       // date is in the past
-                                      selectedDate!.isAfter(DateTime.now().add(
+                                      selectedDate!.isAfter(system.now.add(
                                         Duration(
                                             minutes: 30 -
-                                                DateTime.now().minute % 30),
+                                                system.now.minute % 30),
                                       )))
                                   ? selectedDate!
-                                  : DateTime.now().add(
+                                  : system.now.add(
                                       Duration(
                                           minutes:
-                                              30 - DateTime.now().minute % 30),
+                                              30 - system.now.minute % 30),
                                     ),
                               onDateTimeChanged: (DateTime dateTime) {
                                 //print(dateTime);
