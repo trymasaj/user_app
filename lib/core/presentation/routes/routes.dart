@@ -29,7 +29,6 @@ import 'package:masaj/features/home/presentation/pages/notifications_page.dart';
 import 'package:masaj/features/intro/presentation/pages/choose_language_page.dart';
 import 'package:masaj/features/intro/presentation/pages/guide_page.dart';
 import 'package:masaj/features/legal/pages/cancellation_policy_screen.dart';
-import 'package:masaj/features/legal/pages/conditions_screen.dart';
 import 'package:masaj/features/legal/pages/legal_screen.dart';
 import 'package:masaj/features/legal/pages/privacy_policy_screen.dart';
 import 'package:masaj/features/legal/pages/reschedule_policy_screen.dart';
@@ -132,9 +131,7 @@ Route<dynamic>? onGenerateRoute(RouteSettings settings) {
           builder: (context) =>
               EditAddressScreen.builder(arguments as EditAddressArguments));
 
-    case ConditionsScreen.routeName:
-      return MaterialPageRoute(
-          builder: (context) => ConditionsScreen.builder(context));
+
     case TopUpWalletScreen.routeName:
       return MaterialPageRoute(
           builder: (context) => TopUpWalletScreen.builder(context));
