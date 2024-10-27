@@ -8,7 +8,7 @@ class ProvideQueryModel extends QueryModel {
     required this.tabFilter,
     super.page,
     super.pageSize,
-    super.searchKeyword,
+    super.searchKey,
   });
   @override
   Map<String, dynamic> toMap() {

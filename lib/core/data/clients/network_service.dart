@@ -104,7 +104,7 @@ class NetworkServiceImpl implements NetworkService {
   final AbsLogger _logger;
 
   final _dio = Dio(BaseOptions(validateStatus: (_) => true))
-    ..interceptors.add(inspectorEnabled
+    ..interceptors.add(BUILD_TYPE != BuildType.release
         ? RequestsInspectorInterceptor()
         : const Interceptor());
 

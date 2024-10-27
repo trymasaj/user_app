@@ -17,7 +17,7 @@ class BookingQueryModel extends QueryModel {
     required this.status,
     super.page,
     super.pageSize,
-    super.searchKeyword,
+    super.searchKey,
   });
   @override
   Map<String, dynamic> toMap() {

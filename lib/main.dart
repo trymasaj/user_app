@@ -35,10 +35,6 @@ import 'package:requests_inspector/requests_inspector.dart';
 import 'package:masaj/firebase_options.dart';
 import 'package:upgrader/upgrader.dart';
 
-///Don't forget to change it in release!!
-const isRelease = false;
-const inspectorEnabled = true;
-
 void main() async {
   runZonedGuarded<Future<void>>(() async {
     final widgetsBinding = WidgetsFlutterBinding.ensureInitialized();
@@ -64,7 +60,7 @@ void main() async {
         fallbackLocale: const Locale('en'),
         child: RequestsInspector(
           navigatorKey: navigatorKey,
-          enabled: inspectorEnabled,
+          enabled: BUILD_TYPE != BuildType.release,
           showInspectorOn: ShowInspectorOn.LongPress,
           child: MultiBlocProvider(
             providers: [

@@ -1,17 +1,17 @@
 import 'package:masaj/main.dart';
 
 abstract class ApiEndPoint {
-  static const BASE_URL = isRelease
+  static const BASE_URL = BUILD_TYPE == BuildType.release
       ? 'https://stagingapi.trymasaj.com/masaj'
       : 'https://stagingapi.trymasaj.com/masaj';
 
   static const _REQUEST_URL = '$BASE_URL/api/v1';
 
   static const _TICKETMX_API_URL =
-      isRelease ? 'https://api.ticketmx.com' : 'https://devapi.ticketmx.com';
+  BUILD_TYPE == BuildType.release ? 'https://api.ticketmx.com' : 'https://devapi.ticketmx.com';
 
   static const TICKETMX_WEB_URL =
-      isRelease ? 'https://ticketmx.com' : 'https://dev.ticketmx.com';
+  BUILD_TYPE == BuildType.release ? 'https://ticketmx.com' : 'https://dev.ticketmx.com';
 
   //Auth
   static const SIGN_UP = '$BASE_URL/Identity/register';

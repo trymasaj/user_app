@@ -44,7 +44,7 @@ class ProvidersTabCubit extends BaseCubit<ProvidersTabState> {
           tabFilter: state.selectedTab,
           page: 1,
           pageSize: state.pageSize,
-          searchKeyword: state.searchKeyword,
+          searchKey: state.searchKeyword,
         ),
       );
       emit(state.copyWith(

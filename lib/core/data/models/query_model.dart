@@ -1,20 +1,20 @@
 import 'package:equatable/equatable.dart';
 
 class QueryModel extends Equatable {
-  final String? searchKeyword;
+  final String? searchKey;
 
   final int? page;
   final int? pageSize;
 
   const QueryModel({
-    this.searchKeyword,
+    this.searchKey,
     this.page,
     this.pageSize,
   });
 
   Map<String, dynamic> toMap() {
     return {
-      'SearchKeyword': searchKeyword,
+      'SearchKey': searchKey,
       'Page': page,
       'PageSize': pageSize,
     }..removeWhere((key, value) => value == null);
@@ -23,7 +23,7 @@ class QueryModel extends Equatable {
   // from map
   factory QueryModel.fromMap(Map<String, dynamic> json) {
     return QueryModel(
-      searchKeyword: json['SearchKeyword'],
+      searchKey: json['SearchKey'],
       page: json['Page'],
       pageSize: json['PageSize'],
     );
@@ -38,7 +38,7 @@ class QueryModel extends Equatable {
     int? pageSize,
   }) {
     return QueryModel(
-      searchKeyword: searchKeyword ?? this.searchKeyword,
+      searchKey: searchKeyword ?? this.searchKey,
       page: page ?? this.page,
       pageSize: pageSize ?? this.pageSize,
     );
@@ -46,7 +46,7 @@ class QueryModel extends Equatable {
 
   @override
   List<Object?> get props => [
-        searchKeyword,
+        searchKey,
         page,
         pageSize,
       ];
