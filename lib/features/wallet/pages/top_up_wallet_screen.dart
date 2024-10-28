@@ -98,7 +98,7 @@ class _TopUpWalletScreenState extends State<TopUpWalletScreen> {
                           if (_formKey.currentState!.validate()) {
                             await context
                                 .read<GiftsCubit>()
-                                .redeemGiftCard(_giftController.text);
+                                .redeemGiftCard(context, _giftController.text);
                           } else {
                             showSnackBar(context,
                                 message: 'lbl_gift_voucher_validation'.tr());

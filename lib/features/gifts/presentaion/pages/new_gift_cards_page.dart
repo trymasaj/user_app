@@ -12,7 +12,7 @@ class _NewGiftCardsPageState extends State<NewGiftCardsPage> {
   @override
   Widget build(BuildContext context) {
     return BlocProvider(
-      create: (context) => DI.find<GiftsCubit>()..getGiftCards(),
+      create: (context) => DI.find<GiftsCubit>()..getGiftCards(context),
       child: _buildBody(),
     );
   }
@@ -75,7 +75,7 @@ class _NewGiftCardsPageState extends State<NewGiftCardsPage> {
 
         if ((gifts == [] || gifts.isEmpty)) {
           return RefreshIndicator(
-              onRefresh: cubit.refresh,
+              onRefresh:()=> cubit.refresh(context),
               child: const EmptyPageMessage(
                 heightRatio: 0.6,
               ));
@@ -87,7 +87,7 @@ class _NewGiftCardsPageState extends State<NewGiftCardsPage> {
 
   Widget _buildGiftsList(GiftsCubit cubit) {
     return RefreshIndicator(
-      onRefresh: cubit.refresh,
+      onRefresh:()=> cubit.refresh(context),
       child: ListView.builder(
         itemCount: cubit.state.giftCards?.length,
         itemBuilder: (context, index) => GestureDetector(

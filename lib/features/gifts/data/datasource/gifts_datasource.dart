@@ -74,10 +74,9 @@ class GiftsDataSourceImpl extends GiftsDataSource {
     var param = {'code': code};
     return _networkService.post(url, data: param).then((response) {
       if (response.statusCode != 200) {
-        throw RequestException(message: response.data);
+        throw RequestException(message: response.data['detail']);
       }
       final result = response.data;
-      log(response.data.toString());
       return RedeemGiftCard.fromMap(result);
     });
   }

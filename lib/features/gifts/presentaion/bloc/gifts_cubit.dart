@@ -26,11 +26,11 @@ class GiftsCubit extends BaseCubit<GiftsState> {
   final PaymentService _paymentService;
   final GiftsRepository _giftsRepository;
 
-  Future<void> refresh() async {
-    await getGiftCards();
+  Future<void> refresh(BuildContext context) async {
+    await getGiftCards(context);
   }
 
-  Future<void> getGiftCards() async {
+  Future<void> getGiftCards(BuildContext context) async {
     emit(state.copyWith(status: GiftsStateStatus.loading));
     try {
       final giftCards = await _giftsRepository.getGitsCards();
@@ -39,8 +39,7 @@ class GiftsCubit extends BaseCubit<GiftsState> {
     } on RedundantRequestException catch (e) {
       log(e.toString());
     } catch (e) {
-      emit(state.copyWith(
-          status: GiftsStateStatus.error, errorMessage: e.toString()));
+      showSnackBar(context, message: e.toString());
     }
   }
 
@@ -101,7 +100,7 @@ class GiftsCubit extends BaseCubit<GiftsState> {
     }
   }
 
-  Future<void> redeemGiftCard(String? code) async {
+  Future<void> redeemGiftCard(BuildContext context, String? code) async {
     if (code == null) return;
     emit(state.copyWith(status: GiftsStateStatus.loading));
     try {
@@ -109,10 +108,10 @@ class GiftsCubit extends BaseCubit<GiftsState> {
       emit(state.copyWith(
           status: GiftsStateStatus.loaded, redeemGiftCard: redeemGiftCard));
     } on RedundantRequestException catch (e) {
-      log(e.toString());
+      logger.error(e.toString());
     } catch (e) {
-      emit(state.copyWith(
-          status: GiftsStateStatus.error, errorMessage: e.toString()));
+      logger.error(e.toString());
+      showSnackBar(context, message: e.toString());
     }
   }
 }

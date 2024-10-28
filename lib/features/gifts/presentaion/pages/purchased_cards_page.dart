@@ -30,21 +30,21 @@ class PurchasedGiftsPage extends StatelessWidget {
 
         if ((gifts == [] || gifts.isEmpty)) {
           return RefreshIndicator(
-              onRefresh: cubit.refresh,
+              onRefresh:()=> cubit.refresh(context),
               child: const EmptyPageMessage(
                 heightRatio: 0.6,
               ));
         }
-        return _buildGiftsList(cubit);
+        return _buildGiftsList(cubit, context);
       },
     );
   }
 
-  Widget _buildGiftsList(GiftsCubit cubit) {
+  Widget _buildGiftsList(GiftsCubit cubit, BuildContext context) {
     final gifts = cubit.state.purchasedGiftCards ?? [];
 
     return RefreshIndicator(
-      onRefresh: cubit.refresh,
+      onRefresh:()=> cubit.refresh(context),
       child: ListView.builder(
         itemCount: gifts.length,
         itemBuilder: (context, index) => GiftCardItem(
