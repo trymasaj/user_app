@@ -35,7 +35,7 @@ class _MedicalConditionScreenState extends State<MedicalConditionScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: const CustomAppBar(title: 'lbl_conditions'),
+      appBar: CustomAppBar(title: AppText.lbl_conditions),
       body: BlocBuilder<MedicalFormBloc, MedicalFormState>(
         builder: (context, state) {
           if (state.status == MedicalFormStateStatus.loading)
@@ -66,7 +66,7 @@ class _MedicalConditionScreenState extends State<MedicalConditionScreen> {
                           _selectedConditions.values.toList());
                       NavigatorHelper.of(context).pop();
                     },
-                    label: 'lbl_save',
+                    label: AppText.lbl_save,
                   )
                 ],
               ),

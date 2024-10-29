@@ -68,7 +68,7 @@ class _PhoneScreenState extends State<PhoneScreen> {
                       }),
                       SizedBox(height: 32.h),
                       DefaultButton(
-                          label: 'lbl_save'.tr(),
+                          label: AppText.lbl_save,
                           isExpanded: true,
                           onPressed: () async {
                             await onTapSave(context);
@@ -78,7 +78,7 @@ class _PhoneScreenState extends State<PhoneScreen> {
       },
       listener: (BuildContext context, AuthState state) {
         if (state.isChangePhone) {
-          // showSnackBar(context, message: 'lbl_success'.tr());
+          // showSnackBar(context, message: 'lbl_success);
           NavigatorHelper.of(context).push(MaterialPageRoute(
               builder: (context) => const OTPVerificationPage()));
         }
@@ -91,7 +91,7 @@ class _PhoneScreenState extends State<PhoneScreen> {
   /// Section Widget
   PreferredSizeWidget _buildAppBar(BuildContext context) {
     return CustomAppBar(
-      title: 'lbl_phone_number'.tr(),
+      title: AppText.lbl_phone_number,
       centerTitle: true,
     );
   }
@@ -100,7 +100,7 @@ class _PhoneScreenState extends State<PhoneScreen> {
   Future<void> onTapSave(BuildContext context) async {
     if (_phoneNumber == null)
       showSnackBar(context,
-          message: 'err_msg_please_enter_valid_phone_number'.tr());
+          message: AppText.err_msg_please_enter_valid_phone_number);
     final cubit = context.read<AuthCubit>();
     await cubit.changePhone(
       phone: _phoneNumber?.number,

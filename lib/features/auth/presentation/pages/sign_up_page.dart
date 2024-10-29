@@ -130,7 +130,7 @@ class _SignUpPageState extends State<SignUpPage> {
         children: [
           SizedBox(height: 20.h),
           CustomText(
-            text: widget.isFromSocial ? 'one_more_step' : 'create_an_account',
+            text: widget.isFromSocial ? AppText.one_more_step : AppText.create_an_account,
             fontSize: 20.0,
             fontWeight: FontWeight.w600,
           ),
@@ -155,8 +155,8 @@ class _SignUpPageState extends State<SignUpPage> {
   Widget _buildHaveAccountRow(BuildContext context) {
     return Row(
       children: [
-        const CustomText(
-          text: 'already_have_account',
+        CustomText(
+          text: AppText.already_have_account,
           fontSize: 14,
           fontWeight: FontWeight.w400,
           color: AppColors.FONT_LIGHT_COLOR,
@@ -164,8 +164,8 @@ class _SignUpPageState extends State<SignUpPage> {
         const SizedBox(width: 8.0),
         GestureDetector(
           onTap: () => _goToSignInPage(context),
-          child: const CustomText(
-            text: 'sign_in',
+          child: CustomText(
+            text: AppText.sign_in,
             fontSize: 14,
             fontWeight: FontWeight.w500,
             decoration: TextDecoration.underline,
@@ -197,7 +197,7 @@ class _SignUpPageState extends State<SignUpPage> {
             currentController: _fullNameTextController,
             nextFocusNode: _emailFocusNode,
             inputFormatters: [LengthLimitingTextInputFormatter(40)],
-            hint: 'lbl_name',
+            hint: AppText.lbl_name,
             prefixIcon: buildImage(ImageConstant.imgLock),
             validator: Validator().validateUserName,
           ),
@@ -225,7 +225,7 @@ class _SignUpPageState extends State<SignUpPage> {
             currentFocusNode: _birthDateFocusNode,
             currentController: _birthDateTextController,
             nextFocusNode: _passwordFocusNode,
-            hint: 'lbl_birth_date',
+            hint: AppText.lbl_birth_date,
             prefixIcon: buildImage(ImageConstant.imgCalendar),
             suffixIcon: buildImage(ImageConstant.imgCalendar),
             validator: (input)=> Validator().validateEmptyField(input) ?? Validator().validateBirthDate(input, 16),
@@ -260,7 +260,7 @@ class _SignUpPageState extends State<SignUpPage> {
                 currentController: _passwordTextController,
                 currentFocusNode: _passwordFocusNode,
                 nextFocusNode: _passwordConfirmFocusNode,
-                hint: 'password'.tr(),
+                hint: AppText.password,
                 validator: widget.isFromSocial
                     ? (value) {
                         return null;
@@ -270,7 +270,7 @@ class _SignUpPageState extends State<SignUpPage> {
             PasswordTextFormField(
               currentFocusNode: _passwordConfirmFocusNode,
               currentController: _passwordConfirmTextController,
-              hint: 'confirm_password'.tr(),
+              hint: AppText.confirm_password,
               validator: widget.isFromSocial
                   ? (value) {
                       return null;
@@ -326,7 +326,7 @@ class _SignUpPageState extends State<SignUpPage> {
     }
 
     return DefaultButton(
-      label: 'sign_up'.tr(),
+      label: AppText.sign_up,
       isExpanded: true,
       iconLocation: DefaultButtonIconLocation.End,
       onPressed: signUpCallBack,
@@ -337,7 +337,7 @@ class _SignUpPageState extends State<SignUpPage> {
     _fullNameTextController.text = _fullNameTextController.text.trim();
     _emailTextController.text = _emailTextController.text.trim();
     if (!_acceptTerms) {
-      showSnackBar(context, message: 'terms_validation');
+      showSnackBar(context, message: AppText.terms_validation);
       return true;
     }
     if (!_formKey.currentState!.validate()) {
@@ -363,8 +363,8 @@ class _SignUpPageState extends State<SignUpPage> {
           ),
           side: const BorderSide(color: AppColors.PRIMARY_DARK_COLOR),
         ),
-        const CustomText(
-          text: 'i_agree',
+        CustomText(
+          text: AppText.i_agree,
           fontSize: 14,
           fontWeight: FontWeight.w400,
         ),
@@ -374,8 +374,8 @@ class _SignUpPageState extends State<SignUpPage> {
             NavigatorHelper.of(context)
                 .pushNamed(TermsAndCondititonsScreen.routeName);
           },
-          child: const CustomText(
-            text: 'terms_and_conditions',
+          child: CustomText(
+            text: AppText.terms_and_conditions,
             decoration: TextDecoration.underline,
             fontSize: 14,
             fontWeight: FontWeight.w500,
@@ -401,7 +401,7 @@ class _SignUpPageState extends State<SignUpPage> {
     if (userFullName != null) {
       showSnackBar(
         context,
-        message: 'welcome'.tr(args: [userFullName]),
+        message: AppText.welcome(args: [userFullName]),
         margin: const EdgeInsets.fromLTRB(16.0, 4.0, 16.0, 0.0),
       );
     }
@@ -429,7 +429,7 @@ class _SignUpPageState extends State<SignUpPage> {
           _goToHomePage(context);
         },
         child: CustomText(
-          text: 'continue_guest'.tr(),
+          text: AppText.continue_guest,
           decoration: TextDecoration.underline,
           fontSize: 14,
           fontWeight: FontWeight.w400,
@@ -444,7 +444,7 @@ class _SignUpPageState extends State<SignUpPage> {
       children: [
         CustomChip(
             height: 56.h,
-            label: 'lbl_male'.tr(),
+            label: AppText.lbl_male,
             value: Gender.male,
             groupValue: selectedGender,
             isExpanded: true,
@@ -454,7 +454,7 @@ class _SignUpPageState extends State<SignUpPage> {
         const SizedBox(width: 8.0),
         CustomChip(
           height: 56.h,
-          label: 'lbl_female'.tr(),
+          label: AppText.lbl_female,
           value: Gender.female,
           groupValue: selectedGender,
           isExpanded: true,
@@ -465,7 +465,7 @@ class _SignUpPageState extends State<SignUpPage> {
         const SizedBox(width: 8.0),
         CustomChip(
           height: 56.h,
-          label: 'lbl_other'.tr(),
+          label: AppText.lbl_other,
           value: Gender.other,
           groupValue: selectedGender,
           isExpanded: true,

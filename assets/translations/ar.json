@@ -1,4 +1,13 @@
 {
+  "service_name":"اسم الخدمة",
+  "select_at_least_one":"حدد واحدًا على الأقل",
+  "home_page_is_empty":"الصفحة الرئيسية فارغة",
+  "available":"متاح",
+  "please_select_a_duration":"الرجاء تحديد مدة",
+  "KWD":"د.ك",
+  "empty":"فارغ",
+  "enter_amount":"أدخل المبلغ",
+
   "login": "تسجيل الدخول",
   "logout": "تسجيل الخروج",
   "sign_up": "إنشاء حساب",

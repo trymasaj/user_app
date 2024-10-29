@@ -23,7 +23,7 @@ class MemberTile extends StatelessWidget {
               radius: BorderRadius.circular(8.w)),
           SizedBox(width: 8.h),
           Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
-            Text(index == 0 ? 'lbl_me'.tr() : member.name ?? '',
+            Text(index == 0 ? AppText.lbl_me : member.name ?? '',
                 style: CustomTextStyles.titleMediumOnPrimary_1),
             SizedBox(height: 2.h),
             Text((member.countryCode ?? '') + (member.phone ?? ''),

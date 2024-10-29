@@ -156,10 +156,10 @@ class _LoginPageState extends State<LoginPage> {
         ),
         child: ListView(
           children: [
-            const CustomText(
-              text: 'welcome_back',
+            CustomText(
+              text: AppText.welcome_back,
               textAlign: TextAlign.start,
-              margin: EdgeInsets.only(bottom: 4.0),
+              margin: const EdgeInsets.only(bottom: 4.0),
               fontSize: 20,
               fontWeight: FontWeight.w600,
             ),
@@ -200,20 +200,20 @@ class _LoginPageState extends State<LoginPage> {
               mainAxisSize: MainAxisSize.min,
               children: [
                 // TitleText.small(
-                //   text: 'email_required'.tr(),
+                //   text: 'email_required,
                 //   margin: const EdgeInsets.all(12.0),
                 // ),
                 EmailTextFormField(
                   currentController: emailController,
                   currentFocusNode: emailFocusNode,
-                  //hint: 'email'.tr(),
+                  //hint: 'email,
                   margin: const EdgeInsets.all(8.0),
                   prefixIcon:
                       buildImage(ImageConstant.imgCheckmarkBlueGray40001),
                 ),
 
                 DefaultButton(
-                  label: 'confirm'.tr(),
+                  label: AppText.confirmed,
                   isExpanded: true,
                   borderColor: AppColors.GREY_DARK_COLOR,
                   margin: const EdgeInsets.all(8.0),
@@ -254,7 +254,7 @@ class _LoginPageState extends State<LoginPage> {
       contentAlignment: MainAxisAlignment.center,
       backgroundColor: Colors.transparent,
       margin: const EdgeInsets.symmetric(vertical: 4.0),
-      label: 'lbl_sign_with_google'.tr(),
+      label: AppText.lbl_sign_with_google,
       labelStyle: labelStyle,
       color: const Color(0xFFF6F6F6),
       icon: SvgPicture.asset(
@@ -281,7 +281,7 @@ class _LoginPageState extends State<LoginPage> {
       contentAlignment: MainAxisAlignment.center,
       backgroundColor: Colors.transparent,
       margin: const EdgeInsets.symmetric(vertical: 4.0),
-      label: 'lbl_sign_with_apple'.tr(),
+      label: AppText.lbl_sign_with_apple,
       labelStyle: labelStyle,
       color: const Color(0xFFF6F6F6),
       icon: SvgPicture.asset(
@@ -327,8 +327,8 @@ class _LoginPageState extends State<LoginPage> {
     return Align(
       alignment: AlignmentDirectional.centerEnd,
       child: TextButton(
-          child: const CustomText(
-            text: 'msg_forgot_password',
+          child: CustomText(
+            text: AppText.msg_forgot_password,
             fontSize: 14,
             fontWeight: FontWeight.w500,
           ),
@@ -340,7 +340,7 @@ class _LoginPageState extends State<LoginPage> {
     final authCubit = context.read<AuthCubit>();
 
     return DefaultButton(
-      label: 'sign_in',
+      label: AppText.sign_in,
       padding: const EdgeInsets.symmetric(vertical: 8.0),
       isExpanded: true,
       onPressed: () async {
@@ -380,7 +380,7 @@ class _LoginPageState extends State<LoginPage> {
           _goToHomePage(context);
         },
         child: CustomText(
-          text: 'continue_guest'.tr(),
+          text: AppText.continue_guest,
           decoration: TextDecoration.underline,
           fontSize: 14,
           fontWeight: FontWeight.w400,
@@ -399,15 +399,15 @@ class _LoginPageState extends State<LoginPage> {
       (_) => false,
     );
     if (userFullName != null) {
-      showSnackBar(context, message: 'welcome'.tr(args: [userFullName]));
+      showSnackBar(context, message: AppText.welcome(args: [userFullName]));
     }
   }
 
   Widget _buildDoNotHaveAccountButton(BuildContext context) {
     return Row(
       children: [
-        const CustomText(
-          text: 'dont_have_account_message',
+        CustomText(
+          text: AppText.dont_have_account_message,
           fontSize: 14,
           fontWeight: FontWeight.w400,
           color: AppColors.FONT_LIGHT_COLOR,
@@ -415,8 +415,8 @@ class _LoginPageState extends State<LoginPage> {
         const SizedBox(width: 8.0),
         GestureDetector(
           onTap: () => _goToSignUpPage(context),
-          child: const CustomText(
-            text: 'sign_up',
+          child: CustomText(
+            text: AppText.sign_up,
             fontSize: 14,
             fontWeight: FontWeight.w500,
             decoration: TextDecoration.underline,
@@ -430,7 +430,7 @@ class _LoginPageState extends State<LoginPage> {
     final success = await NavigatorHelper.of(context)
         .pushNamed(ForgetPasswordPage.routeName);
     if (success == true) {
-      showSnackBar(context, message: 'forget_password_success');
+      showSnackBar(context, message: AppText.forget_password_success);
     }
   }
 
@@ -451,12 +451,12 @@ class _LoginPageState extends State<LoginPage> {
             color: AppColors.FONT_LIGHT_COLOR,
           ),
         ),
-        const CustomText(
-          text: 'or',
+        CustomText(
+          text: AppText.or,
           fontSize: 14,
           fontWeight: FontWeight.w500,
           color: AppColors.FONT_LIGHT_COLOR,
-          margin: EdgeInsets.symmetric(horizontal: 8.0),
+          margin: const EdgeInsets.symmetric(horizontal: 8.0),
         ),
         Expanded(
           child: Container(

@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart' hide Notification;
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:lazy_load_scrollview/lazy_load_scrollview.dart';
+import 'package:masaj/core/app_text.dart';
 import 'package:masaj/core/data/di/di_wrapper.dart';
 import 'package:masaj/core/presentation/colors/app_colors.dart';
 import 'package:masaj/core/presentation/navigation/navigator_helper.dart';
@@ -60,7 +61,7 @@ class NotificationsPage extends StatelessWidget {
         }
         if (state?.notifications?.isNotEmpty != true) {
           return EmptyPageMessage(
-            message: 'no_notifications',
+            message: AppText.no_notifications,
             textColor: Colors.black,
             onRefresh: () async {},
 
@@ -106,8 +107,8 @@ class NotificationsPage extends StatelessWidget {
         onPressed: NavigatorHelper.of(context).pop,
       ),
       const Spacer(),
-      const TitleText(
-        text: 'my_notifications',
+      TitleText(
+        text: AppText.my_notifications,
         color: Colors.black,
       ),
       const Spacer(),

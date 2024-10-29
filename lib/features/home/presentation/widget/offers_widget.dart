@@ -1,6 +1,7 @@
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:masaj/core/app_text.dart';
 import 'package:masaj/core/presentation/colors/app_colors.dart';
 import 'package:masaj/core/presentation/widgets/stateless/custom_cached_network_image.dart';
 import 'package:masaj/core/presentation/widgets/stateless/custom_loading.dart';
@@ -35,7 +36,7 @@ class _OffersSectionState extends State<OffersSection> {
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
-              SectionTitle(title: 'enjoy_offers'.tr()),
+              SectionTitle(title: AppText.enjoy_offers),
             ],
           ),
           const SizedBox(
@@ -105,7 +106,7 @@ class _OffersSectionState extends State<OffersSection> {
                                     borderRadius: BorderRadius.circular(4),
                                   ),
                                   child: Text(
-                                    'percentage_off'.tr(args: [
+                                    AppText.percentage_off(args: [
                                       '${discountPercentage.toStringAsFixed(0)}'
                                     ]),
                                     // '${discountPercentage}% OFF',
@@ -140,7 +141,7 @@ class _OffersSectionState extends State<OffersSection> {
                           children: [
                             // start from
                             Text(
-                              'start_from'.tr(),
+                              AppText.start_from,
                               style: TextStyle(
                                   fontSize: 10,
                                   fontWeight: FontWeight.w400,
@@ -152,7 +153,7 @@ class _OffersSectionState extends State<OffersSection> {
                             Row(
                               children: [
                                 Text(
-                                  'price_in_kd'.tr(
+                                  AppText.price_in_kd(
                                       args: ['${offer.originalPrice ?? 0.0}']),
                                   // 'KD ${offer.originalPrice ?? 0.0}',
                                   style: TextStyle(
@@ -165,7 +166,7 @@ class _OffersSectionState extends State<OffersSection> {
                                   width: 5,
                                 ),
                                 Text(
-                                  'price_in_kd'.tr(args: [
+                                  AppText.price_in_kd(args: [
                                     '${offer.discountedPrice ?? 0.0}'
                                   ]),
                                   // 'KD ${offer.discountedPrice ?? 0.0}',

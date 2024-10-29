@@ -199,7 +199,7 @@ class _EditUserInfoPageState extends State<EditUserInfoPage> {
   Widget _buildSaveChangesButton(BuildContext context) {
     final authCubit = context.read<AuthCubit>();
     return DefaultButton(
-      label: 'save_changes'.tr(),
+      label: AppText.save_changes,
       backgroundColor: AppColors.PRIMARY_COLOR,
       isExpanded: true,
       icon: const Icon(Icons.arrow_forward),
@@ -222,9 +222,9 @@ class _EditUserInfoPageState extends State<EditUserInfoPage> {
 
         if (isSuccess) {
           NavigatorHelper.of(context).pop();
-          showSnackBar(context, message: 'edit_profile_success'.tr());
+          showSnackBar(context, message: AppText.edit_profile_success);
         } else {
-          showSnackBar(context, message: 'nothing_changed');
+          showSnackBar(context, message: AppText.nothing_changed);
         }
       },
     );

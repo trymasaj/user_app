@@ -86,7 +86,7 @@ class _SelectLocationBottomSheetState extends State<SelectLocationBottomSheet> {
                                   context.read<MyAddressesCubit>().add(result);
                                 }
                               },
-                              title: 'lbl_new_address'.tr(),
+                              title: AppText.lbl_new_address,
                               isPrimary: false,
                               subTitle: 'Add new Address',
                               imagePath: ImageConstant.imgPlus,

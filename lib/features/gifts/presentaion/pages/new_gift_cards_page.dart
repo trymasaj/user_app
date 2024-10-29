@@ -31,7 +31,7 @@ class _NewGiftCardsPageState extends State<NewGiftCardsPage> {
                 onPressed: () async {
                   onTapPurchaseButton(context);
                 },
-                label: 'lbl_purchase'.tr(),
+                label: AppText.lbl_purchase,
               ),
             ],
           ),
@@ -59,7 +59,7 @@ class _NewGiftCardsPageState extends State<NewGiftCardsPage> {
               .builder(context, id, totalPrice),
           isScrollControlled: true);
     } else
-      showSnackBar(context, message: 'select at least one');
+      showSnackBar(context, message: AppText.select_at_least_one);
   }
 
   Widget _buildGiftCardsList() {

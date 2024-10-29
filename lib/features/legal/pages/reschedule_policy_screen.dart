@@ -29,7 +29,7 @@ class ReschedulePolicyScreen extends StatelessWidget {
               padding: const EdgeInsets.all(20),
               child: SingleChildScrollView(
                 child: HtmlWidget(
-                  'reschedule_policy_content'.tr(),
+                  AppText.reschedule_policy_content,
                   textStyle: theme.textTheme.bodyMedium!.copyWith(
                     height: 1.57,
                   ),
@@ -42,8 +42,8 @@ class ReschedulePolicyScreen extends StatelessWidget {
 
   /// Section Widget
   PreferredSizeWidget _buildAppBar(BuildContext context) {
-    return const CustomAppBar(
-      title: 'msg_reschedule_policy',
+    return CustomAppBar(
+      title: AppText.msg_reschedule_policy,
       centerTitle: true,
     );
   }

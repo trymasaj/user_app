@@ -146,7 +146,7 @@ class FixedAppBar extends StatelessWidget {
       builder: (context, state) {
         if (!state.isLoaded) {
           return Text(
-            'no_address_selected'.tr(),
+            AppText.no_address_selected,
             style: const TextStyle(
               fontSize: 14,
               fontWeight: FontWeight.w400,
@@ -161,7 +161,7 @@ class FixedAppBar extends StatelessWidget {
           child: Row(
             children: [
               Text(
-                currentCountry?.nameEn ?? 'no_address_selected'.tr(),
+                currentCountry?.nameEn ?? AppText.no_address_selected,
                 style: const TextStyle(
                   fontSize: 14,
                   fontWeight: FontWeight.w400,
@@ -210,7 +210,7 @@ class FixedAppBar extends StatelessWidget {
         final currentAddress = state.currentAddress;
         if (state.currentAddress == null) {
           return Text(
-            'no_address_selected'.tr(),
+            AppText.no_address_selected,
             style: const TextStyle(
               fontSize: 14,
               fontWeight: FontWeight.w400,

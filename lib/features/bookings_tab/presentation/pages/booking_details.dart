@@ -4,6 +4,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_inappwebview/flutter_inappwebview.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:masaj/core/app_text.dart';
 import 'package:masaj/core/data/device/system_service.dart';
 import 'package:masaj/core/data/di/di_wrapper.dart';
 import 'package:masaj/core/presentation/colors/app_colors.dart';
@@ -202,14 +203,14 @@ class _BookingDetialsScreenState extends State<BookingDetialsScreen> {
             borderColor: AppColors.ERROR_COLOR,
             textColor: AppColors.ERROR_COLOR,
             color: Colors.white,
-            label: 'cancel'.tr(),
+            label: AppText.cancel,
             onPressed: () {},
           ),
         ),
         SizedBox(width: 8.w),
         Expanded(
           child: DefaultButton(
-            label: 'reschedule'.tr(),
+            label: AppText.reschedule,
             onPressed: () {},
           ),
         ),
@@ -248,7 +249,7 @@ class _BookingDetialsScreenState extends State<BookingDetialsScreen> {
           child: Row(children: [
             Expanded(
               child: DefaultButton(
-                label: 'add_review'.tr(),
+                label: AppText.add_review,
                 onPressed: () async {
                   if (context.read<BookingDetailsCubit>().state.booking !=
                       null) {
@@ -262,11 +263,11 @@ class _BookingDetialsScreenState extends State<BookingDetialsScreen> {
                       if (value != null && value is ReviewTipsCubitState) {
                         if (value.isLoaded && value.tipsSuccess == false) {
                           showSnackBar(context,
-                              message: 'review_added_successfully'.tr());
+                              message: AppText.review_added_successfully);
                         }
                         if (value.isLoaded && value.tipsSuccess == true) {
                           showSnackBar(context,
-                              message: 'tip_added_successfully'.tr());
+                              message: AppText.tip_added_successfully);
                         }
                       }
                     });
@@ -297,7 +298,7 @@ class _BookingDetialsScreenState extends State<BookingDetialsScreen> {
               ),
               SizedBox(width: 10.w),
               CustomText(
-                text: 'your_booking_has_been_cancelled',
+                text: AppText.your_booking_has_been_cancelled,
                 fontSize: 14.sp,
                 fontWeight: FontWeight.w400,
               )
@@ -333,6 +334,7 @@ class DateModel {
   }
 }
 
+// TODO: translate
 String getWeekDay(int weekDay) {
   switch (weekDay) {
     case 1:

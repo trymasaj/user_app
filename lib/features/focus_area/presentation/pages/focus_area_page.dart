@@ -1,6 +1,7 @@
 import 'package:easy_localization/easy_localization.dart' hide TextDirection;
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:masaj/core/app_text.dart';
 import 'package:masaj/core/domain/enums/focus_area_enum.dart';
 import 'package:masaj/core/presentation/colors/app_colors.dart';
 import 'package:masaj/core/presentation/navigation/navigator_helper.dart';
@@ -52,7 +53,7 @@ class _FocusAreaPageState extends State<FocusAreaPage>
     return CustomAppPage(
       child: Scaffold(
         appBar: CustomAppBar(
-          title: 'focus_area'.tr(),
+          title: AppText.focus_area,
           centerTitle: true,
           actions: [
             IconButton(
@@ -82,7 +83,7 @@ class _FocusAreaPageState extends State<FocusAreaPage>
                 selectedFocusPoints.length;
                 NavigatorHelper.of(context).pop(selectedFocusPoints);
               },
-              label: 'lbl_save',
+              label: AppText.lbl_save,
             ),
           ]),
         ),
@@ -107,11 +108,11 @@ class _FocusAreaPageState extends State<FocusAreaPage>
         tabs: [
           DefaultTab(
             isSelected: selectedBodySide == BodySideEnum.Front,
-            title: 'front'.tr(),
+            title: AppText.front,
           ),
           DefaultTab(
             isSelected: selectedBodySide == BodySideEnum.Back,
-            title: 'back'.tr(),
+            title: AppText.back,
           ),
         ]);
   }
@@ -298,7 +299,7 @@ class _FocusAreaPageState extends State<FocusAreaPage>
             child: Checkbox(
               checkColor: Colors.white,
               side: const BorderSide(color: AppColors.PRIMARY_COLOR),
-              fillColor: MaterialStatePropertyAll(
+              fillColor: WidgetStatePropertyAll(
                   value ? AppColors.PRIMARY_COLOR : AppColors.BACKGROUND_COLOR),
               value: value,
               shape: const CircleBorder(),
@@ -310,7 +311,7 @@ class _FocusAreaPageState extends State<FocusAreaPage>
             ),
           ),
           CustomText(
-            text: focusArea.name,
+            text: focusArea.name.tr(),
             fontSize: 12,
             fontWeight: FontWeight.w400,
           )

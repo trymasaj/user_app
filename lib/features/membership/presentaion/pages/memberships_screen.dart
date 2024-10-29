@@ -35,7 +35,7 @@ class _MembershipPlansScreenState extends State<MembershipPlansScreen> {
             return CustomAppPage(
               child: Scaffold(
                 appBar: CustomAppBar(
-                  title: 'lbl_membership_plan'.tr(),
+                  title: AppText.lbl_membership_plan,
                 ),
                 body: _buildBody(context),
               ),
@@ -69,7 +69,7 @@ class _MembershipPlansScreenState extends State<MembershipPlansScreen> {
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    const SubtitleText.medium(text: 'lbl_current_plan'),
+                    SubtitleText.medium(text: AppText.lbl_current_plan),
                     SubtitleText.large(
                       text: selectedSubscription?.plan?.nameEn ?? '',
                       isBold: true,
@@ -77,7 +77,7 @@ class _MembershipPlansScreenState extends State<MembershipPlansScreen> {
                     Row(
                       children: [
                         SubtitleText.small(
-                            text: 'lbl_kwd'.tr(args: [
+                            text: AppText.lbl_kwd(args: [
                           selectedSubscription?.plan?.price.toString() ?? ''
                         ])),
                         const Spacer(),
@@ -87,7 +87,7 @@ class _MembershipPlansScreenState extends State<MembershipPlansScreen> {
                     ),
                     const SubtitleText.small(text: '/month'),
                     DefaultButton(
-                      label: 'lbl_cancel',
+                      label: AppText.lbl_cancel,
                       onPressed: () {
                         showAdaptiveDialog(
                             useRootNavigator: true,
@@ -102,18 +102,18 @@ class _MembershipPlansScreenState extends State<MembershipPlansScreen> {
                                     return AlertDialog.adaptive(
                                       iconPadding: const EdgeInsets.all(20),
                                       alignment: Alignment.center,
-                                      title: const SubtitleText.large(
+                                      title: SubtitleText.large(
                                           isBold: true,
-                                          text: 'msg_cancel_subscription'),
-                                      content: const SubtitleText.medium(
-                                          text: 'msg_are_you_sure_you2'),
+                                          text: AppText.msg_cancel_subscription),
+                                      content: SubtitleText.medium(
+                                          text: AppText.msg_are_you_sure_you2),
                                       actions: [
                                         TextButton(
                                           onPressed: () {
                                             NavigatorHelper.of(context).pop();
                                           },
-                                          child: const SubtitleText(
-                                              text: 'lbl_cancel'),
+                                          child: SubtitleText(
+                                              text: AppText.lbl_cancel),
                                         ),
                                         TextButton(
                                           onPressed: () async {
@@ -123,9 +123,9 @@ class _MembershipPlansScreenState extends State<MembershipPlansScreen> {
                                             NavigatorHelper.of(context).pop();
                                             NavigatorHelper.of(context).pop();
                                           },
-                                          child: const Center(
+                                          child: Center(
                                             child: SubtitleText.small(
-                                              text: 'msg_cancel_subscription',
+                                              text: AppText.msg_cancel_subscription,
                                               color: AppColors.ERROR_COLOR,
                                             ),
                                           ),
@@ -165,7 +165,7 @@ class _MembershipPlansScreenState extends State<MembershipPlansScreen> {
           showSnackBar(context, message: state.errorMessage);
         }
         if (state.isDeleted) {
-          showSnackBar(context, message: 'success_cancel');
+          showSnackBar(context, message: AppText.success);
         }
       },
     );
@@ -189,12 +189,12 @@ class _MembershipPlansScreenState extends State<MembershipPlansScreen> {
             ),
             SizedBox(height: 12.h),
             SubtitleText.medium(
-              text: 'lbl_kwd'.tr(args: [plan!.price.toString()]),
+              text: AppText.lbl_kwd(args: [plan!.price.toString()]),
               isBold: true,
               color: AppColors.ExtraLight,
             ),
-            const SubtitleText(
-              text: 'lbl_month',
+            SubtitleText(
+              text: AppText.lbl_month,
               color: AppColors.ExtraLight,
             ),
             SizedBox(height: 12.h),
@@ -223,7 +223,7 @@ class _MembershipPlansScreenState extends State<MembershipPlansScreen> {
                 textColor: AppColors.PRIMARY_COLOR,
                 color: AppColors.ExtraLight,
                 isExpanded: true,
-                label: 'lbl_upgrade',
+                label: AppText.lbl_upgrade,
               )
           ]),
     );

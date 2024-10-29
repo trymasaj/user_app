@@ -29,7 +29,7 @@ class TermsAndCondititonsScreen extends StatelessWidget {
               padding: const EdgeInsets.all(20),
               child: SingleChildScrollView(
                 child: HtmlWidget(
-                  'terms_and_conditions_content'.tr(),
+                  AppText.terms_and_conditions_content,
                   textStyle: theme.textTheme.bodyMedium!.copyWith(
                     height: 1.57,
                   ),
@@ -42,8 +42,8 @@ class TermsAndCondititonsScreen extends StatelessWidget {
 
   /// Section Widget
   PreferredSizeWidget _buildAppBar(BuildContext context) {
-    return const CustomAppBar(
-      title: 'msg_terms_conditions',
+    return CustomAppBar(
+      title: AppText.msg_terms_conditions,
       centerTitle: true,
     );
   }

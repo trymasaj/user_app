@@ -1,4 +1,13 @@
 {
+  "service_name":"Service Name",
+  "select_at_least_one":"Select at least one",
+  "home_page_is_empty":"Home page is empty",
+  "available":"Available",
+  "please_select_a_duration":"Please select a duration",
+  "KWD":"KWD",
+  "empty":"Empty",
+  "enter_amount":"Enter amount",
+
   "login": "Login",
   "logout": "LOGOUT",
   "sign_up": "Sign Up",

@@ -54,8 +54,8 @@ class _AddMemberScreenState extends State<AddMemberScreen> {
         child: Scaffold(
           appBar: CustomAppBar(
             title: widget._id == null
-                ? 'lbl_add_member'.tr()
-                : 'lbl_edit_member'.tr(),
+                ? AppText.lbl_add_member
+                : AppText.lbl_edit_member,
             centerTitle: true,
           ),
           body: BlocListener<MembersCubit, MembersState>(
@@ -107,13 +107,13 @@ class _AddMemberScreenState extends State<AddMemberScreen> {
                             currentFocusNode: memberNameFocusNode,
                             currentController: memberNameController,
                             isRequired: true,
-                            hint: 'name'.tr(),
+                            hint: AppText.name,
                           ),
                           const SizedBox(height: 16),
                           PhoneTextFormField(
                             currentFocusNode: phoneNumberFocusNode,
                             currentController: phoneNumberController,
-                            hint: 'phone_number'.tr(),
+                            hint: AppText.phone_number,
                             initialValue: _selectedPhoneNumber,
                             nextFocusNode: memberNameFocusNode,
                             onInputChanged: (PhoneNumber? value) {
@@ -151,7 +151,7 @@ class _AddMemberScreenState extends State<AddMemberScreen> {
                                 }
                               }
                             },
-                            label: 'save'.tr(),
+                            label: AppText.save,
                             isExpanded: true,
                           )
                         ]),
@@ -184,7 +184,7 @@ class _AddMemberScreenState extends State<AddMemberScreen> {
               },
               child: DefaultTab(
                 isSelected: _selectedGender == Gender.male,
-                title: 'Male'.tr(),
+                title: AppText.Male,
               ),
             )),
             SizedBox(width: 10.w),
@@ -198,7 +198,7 @@ class _AddMemberScreenState extends State<AddMemberScreen> {
               },
               child: DefaultTab(
                   isSelected: _selectedGender == Gender.female,
-                  title: 'Female'.tr()),
+                  title: AppText.Female),
             )),
             SizedBox(width: 10.w),
             Expanded(
@@ -211,14 +211,14 @@ class _AddMemberScreenState extends State<AddMemberScreen> {
               },
               child: DefaultTab(
                   isSelected: _selectedGender == Gender.other,
-                  title: 'other'.tr()),
+                  title: AppText.other),
             )),
           ],
         ),
         const SizedBox(height: 10),
         if (showGenderError)
-          const SubtitleText.small(
-            text: 'empty_field_not_valid',
+          SubtitleText.small(
+            text: AppText.empty_field_not_valid,
             color: AppColors.ERROR_COLOR,
           )
       ],
@@ -237,7 +237,7 @@ class _AddMemberScreenState extends State<AddMemberScreen> {
     }
     // if (_selectedPhoneNumber == null) {
     //   showSnackBar(context,
-    //       message: 'err_msg_please_enter_valid_phone_number'.tr());
+    //       message: 'err_msg_please_enter_valid_phone_number);
     //   return true;
     // }
     setState(() {

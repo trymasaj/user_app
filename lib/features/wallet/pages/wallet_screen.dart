@@ -37,7 +37,7 @@ class WalletScreen extends StatelessWidget {
                     margin: EdgeInsets.symmetric(vertical: 2.h)),
                 Padding(
                     padding: EdgeInsets.only(left: 4.w),
-                    child: Text('msg_transactions_history'.tr(),
+                    child: Text(AppText.msg_transactions_history,
                         style: CustomTextStyles.titleMediumGray90003SemiBold))
               ]),
               SizedBox(height: 12.h),
@@ -51,7 +51,7 @@ class WalletScreen extends StatelessWidget {
   /// Section Widget
   PreferredSizeWidget _buildAppBar(BuildContext context) {
     return CustomAppBar(
-      title: 'lbl_wallet'.tr(),
+      title: AppText.lbl_wallet,
     );
   }
 
@@ -80,7 +80,7 @@ class WalletScreen extends StatelessWidget {
                                   padding: EdgeInsets.only(
                                       left: 4.w, top: 8.h, bottom: 6.h),
                                   child: Text(
-                                      'lbl_kwd'.tr(args: [
+                                      AppText.lbl_kwd(args: [
                                         (state?.balance ?? '').toString()
                                       ]),
                                       style: CustomTextStyles
@@ -89,13 +89,13 @@ class WalletScreen extends StatelessWidget {
                           ),
                         ]),
                         SizedBox(height: 1.h),
-                        Text('lbl_current_balance'.tr(),
+                        Text(AppText.lbl_current_balance,
                             style: theme.textTheme.bodyMedium)
                       ])),
               CustomElevatedButton(
                   height: 36.h,
                   width: 109.w,
-                  text: 'lbl_top_up'.tr(),
+                  text: AppText.lbl_top_up,
                   margin: EdgeInsets.only(top: 16.h, bottom: 7.h),
                   leftIcon: Container(
                       margin: EdgeInsets.only(right: 5.w),
@@ -137,7 +137,7 @@ class WalletScreen extends StatelessWidget {
               });
         }
         if (status == WalletStateStatus.error) {
-          return Center(child: Text('msg_error'.tr()));
+          return Center(child: Text(AppText.msg_something_went_wrong));
         } else {
           return const Center(child: CircularProgressIndicator());
         }

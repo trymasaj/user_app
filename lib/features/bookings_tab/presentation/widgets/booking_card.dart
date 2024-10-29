@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:masaj/core/app_text.dart';
 import 'package:masaj/core/presentation/colors/app_colors.dart';
 import 'package:masaj/core/presentation/widgets/stateless/custom_text.dart';
 import 'package:masaj/core/presentation/widgets/stateless/text_with_gradiant.dart';
@@ -165,14 +166,14 @@ class BookingCard extends StatelessWidget {
                     SvgPicture.asset(Assets.images.imgMaterialSymbolOnprimary),
                     SizedBox(width: 5.w),
                     CustomText(
-                      text: sessionModel?.serviceName ?? 'Service Name',
+                      text: sessionModel?.serviceName ?? AppText.service_name,
                       fontSize: 14.sp,
                       fontWeight: FontWeight.w400,
                       color: const Color(0xff19223C),
                     ),
                     CustomText(
                       text:
-                          ' (${sessionModel?.durationInMinutes} ${'min'.tr()})',
+                          ' (${sessionModel?.durationInMinutes} ${AppText.min})',
                       fontSize: 14.sp,
                       fontWeight: FontWeight.w400,
                       color: const Color(0xff19223C).withOpacity(.64),
@@ -194,7 +195,7 @@ class BookingCard extends StatelessWidget {
                       width: 250.w,
                       child: CustomText(
                         text: sessionModel?.address?.formattedAddress ??
-                            'Service Name',
+                            AppText.service_name,
                         maxLines: 1,
                         fontSize: 14.sp,
                         fontWeight: FontWeight.w400,

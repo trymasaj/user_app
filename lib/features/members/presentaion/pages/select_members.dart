@@ -35,7 +35,7 @@ class _SelectMembersScreenState extends State<SelectMembersScreen> {
             return CustomAppPage(
               child: Scaffold(
                   appBar: CustomAppBar(
-                    title: 'lbl_select_member'.tr(),
+                    title: AppText.lbl_select_member,
                     actions: [
                       buildAddMemberButton(context, onPop: () {
                         final cubit = context.read<MembersCubit>();
@@ -58,7 +58,7 @@ class _SelectMembersScreenState extends State<SelectMembersScreen> {
       child: Column(
         children: [
           SizedBox(height: 25.h),
-          const WarningContainer(title: 'msg_you_undertake_to'),
+          WarningContainer(title: AppText.msg_you_undertake_to),
           SizedBox(height: 25.h),
           _buildMemberList(),
           DefaultButton(
@@ -66,7 +66,7 @@ class _SelectMembersScreenState extends State<SelectMembersScreen> {
             isExpanded: true,
             onPressed: () async {
               if (selectedMembers!.isEmpty) {
-                return showSnackBar(context, message: 'select_member');
+                return showSnackBar(context, message: AppText.select_member);
               }
               final bookingCubit = context.read<BookingCubit>();
               final selectedMembersIds =
@@ -76,7 +76,7 @@ class _SelectMembersScreenState extends State<SelectMembersScreen> {
                   .pushNamed(BookServiceScreen.routeName)
                   .then((value) async => await cubit.refresh());
             },
-            label: 'continue',
+            label: AppText.continue_,
           ),
           SizedBox(height: bottomPadding)
         ],
@@ -155,10 +155,10 @@ class _SelectMembersScreenState extends State<SelectMembersScreen> {
 
     if (selectedMembers.isNotEmpty && !(member.isSelected ?? false)) {
       if (selectedMembers.length >= 2) {
-        return showSnackBar(context, message: 'members_number_limit');
+        return showSnackBar(context, message: AppText.members_number_limit);
       }
       if (selectedMembers[0].gender != member.gender) {
-        return showSnackBar(context, message: 'members_number_gender_limit');
+        return showSnackBar(context, message: AppText.members_number_gender_limit);
       }
     }
     cubit.updateSelectedMembers(value, member);

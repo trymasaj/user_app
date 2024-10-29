@@ -29,7 +29,7 @@ class CancellationPolicyScreen extends StatelessWidget {
               padding: const EdgeInsets.all(20),
               child: SingleChildScrollView(
                 child: HtmlWidget(
-                  'cancellation_policy_content'.tr(),
+                  AppText.cancellation_policy_content,
                   textStyle: theme.textTheme.bodyMedium!.copyWith(
                     height: 1.57,
                   ),
@@ -43,7 +43,7 @@ class CancellationPolicyScreen extends StatelessWidget {
   /// Section Widget
   PreferredSizeWidget _buildAppBar(BuildContext context) {
     return CustomAppBar(
-      title: 'msg_cancellation_policy'.tr(),
+      title: AppText.msg_cancellation_policy,
       centerTitle: true,
     );
   }

@@ -3,6 +3,7 @@ import 'package:flutter/widgets.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:gradient_borders/box_borders/gradient_box_border.dart';
+import 'package:masaj/core/app_text.dart';
 import 'package:masaj/core/data/di/di_wrapper.dart';
 import 'package:masaj/core/presentation/colors/app_colors.dart';
 import 'package:masaj/core/presentation/widgets/stateless/custom_app_bar.dart';
@@ -49,8 +50,8 @@ class _BookingsTabState extends State<BookingsTab> {
       create: (c) => cubit,
       child: CustomAppPage(
         child: Scaffold(
-          appBar: const CustomAppBar(
-            title: 'bookings',
+          appBar: CustomAppBar(
+            title: AppText.bookings,
           ),
           body: BlocBuilder<BookingsTabCubit, BookingsTabState>(
             builder: (context, state) {
@@ -92,7 +93,7 @@ class _BookingsTabState extends State<BookingsTab> {
                               refresh: true,
                             );
                           },
-                          svgImage: 'empty',
+                          svgImage: AppText.empty,
                         ),
                       )
                     else
@@ -192,6 +193,7 @@ class DateModel {
   }
 }
 
+// TODO: remove redundant methods
 String getWeekDay(int weekDay) {
   switch (weekDay) {
     case 1:

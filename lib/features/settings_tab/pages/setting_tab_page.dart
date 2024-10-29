@@ -78,8 +78,8 @@ class _SettingsTabPageState extends State<SettingsTabPage> {
                           },
                           height: 48.h,
                           text: context.read<AuthCubit>().state.isLoggedIn
-                              ? 'lbl_logout'.tr()
-                              : 'login'.tr(context: context),
+                              ? AppText.lbl_logout
+                              : AppText.login,
                           buttonStyle: ElevatedButton.styleFrom(
                               backgroundColor: const Color(0xffF9ECEE)),
                           buttonTextStyle: CustomTextStyles.titleSmallPink700)
@@ -94,7 +94,7 @@ class _SettingsTabPageState extends State<SettingsTabPage> {
     final authState = context.read<AuthCubit>().state;
     final String? fullName = context.read<AuthCubit>().state.isLoggedIn
         ? user?.fullName
-        : 'lbl_guest'.tr(context: context);
+        : AppText.lbl_guest;
     return Container(
         padding: EdgeInsets.symmetric(vertical: 12.h),
         decoration: BoxDecoration(
@@ -108,7 +108,7 @@ class _SettingsTabPageState extends State<SettingsTabPage> {
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
                 Text(
-                  'lbl_settings'.tr(),
+                  AppText.lbl_settings,
                   style:
                       CustomTextStyles.titleLargeOnPrimaryContainer_1.copyWith(
                     color: theme.colorScheme.onPrimaryContainer.withOpacity(1),
@@ -117,7 +117,7 @@ class _SettingsTabPageState extends State<SettingsTabPage> {
                 // TextButton.icon(
                 //   onPressed: () {},
                 //   icon: SvgPicture.asset(ImageConstant.imgFluentChat24Regular),
-                //   label: Text('lbl_support'.tr()),
+                //   label: Text('lbl_support),
                 // ),
               ],
             ),
@@ -160,14 +160,14 @@ class _SettingsTabPageState extends State<SettingsTabPage> {
                                                   borderRadius:
                                                       BorderRadiusStyle
                                                           .roundedBorder8),
-                                          child: Text('lbl_plus'.tr(),
+                                          child: Text(AppText.lbl_plus,
                                               style: CustomTextStyles
                                                   .labelLargeOnPrimaryContainer_1));
                                     return const SizedBox.shrink();
                                   },
                                 ),
                               SizedBox(height: 1.h),
-                              Text(fullName!.isNotEmpty ? fullName : ''.tr(),
+                              Text(fullName!.isNotEmpty ? fullName : '',
                                   style: CustomTextStyles.titleMediumGray90003),
                               SizedBox(height: 2.h),
                               SubtitleText.medium(
@@ -193,7 +193,7 @@ class _SettingsTabPageState extends State<SettingsTabPage> {
             crossAxisAlignment: CrossAxisAlignment.start,
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
-              Text('lbl_general'.tr(),
+              Text(AppText.lbl_general,
                   style: CustomTextStyles.titleSmallOnPrimary_3),
               SizedBox(height: 5.h),
               isLoggedIn
@@ -204,28 +204,28 @@ class _SettingsTabPageState extends State<SettingsTabPage> {
                               NavigatorHelper.of(context)
                                   .pushNamed(AccountScreen.routeName);
                             },
-                            text: 'lbl_account',
+                            text: AppText.lbl_account,
                             imagePath: ImageConstant.imgLockGray90003),
                         SettingTile(
                             onTap: () {
                               NavigatorHelper.of(context)
                                   .pushNamed(AddressPage.routeName);
                             },
-                            text: 'lbl_addresses',
+                            text: AppText.lbl_addresses,
                             imagePath: ImageConstant.imgGroup1000003168),
                         SettingTile(
                             onTap: () {
                               NavigatorHelper.of(context)
                                   .pushNamed(MedicalFormScreen.routeName);
                             },
-                            text: 'lbl_medical_form',
+                            text: AppText.lbl_medical_form,
                             imagePath: ImageConstant.imgGroup1000003169),
                         SettingTile(
                             onTap: () {
                               NavigatorHelper.of(context)
                                   .pushNamed(ManageMembersScreen.routeName);
                             },
-                            text: 'lbl_manage_members',
+                            text: AppText.lbl_manage_members,
                             imagePath: ImageConstant.imgGroup1000003180),
                       ],
                     )
@@ -238,10 +238,10 @@ class _SettingsTabPageState extends State<SettingsTabPage> {
                           builder: (context) => const MembershipPlansScreen()));
                     } else {
                       showSnackBar(context,
-                          message: 'msg_in_order_to_accessing'.tr());
+                          message: AppText.msg_in_order_to_accessing);
                     }
                   },
-                  text: 'lbl_membership_plan',
+                  text: AppText.lbl_membership_plan,
                   imagePath: ImageConstant.imgCreditCard),
             ]));
   }
@@ -263,7 +263,7 @@ class _SettingsTabPageState extends State<SettingsTabPage> {
                 mainAxisSize: MainAxisSize.min,
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  Text('lbl_refer_credit'.tr(),
+                  Text(AppText.lbl_refer_credit,
                       style: CustomTextStyles.titleSmallOnPrimary_3),
                   SizedBox(height: 17.h),
                   BlocSelector<WalletBloc, WalletState, WalletModel>(
@@ -273,9 +273,9 @@ class _SettingsTabPageState extends State<SettingsTabPage> {
                     builder: (context, state) {
                       return SettingTile(
                         imagePath: ImageConstant.imgGroup1000003167,
-                        text: 'lbl_my_wallet'.tr(),
+                        text: AppText.lbl_my_wallet,
                         trailing: Text(
-                            'lbl_kwd'.tr(args: [state.balance.toString()]),
+                            AppText.lbl_kwd(args: [state.balance.toString()]),
                             style: theme.textTheme.bodyMedium!.copyWith(
                                 color: theme.colorScheme.onPrimary
                                     .withOpacity(0.7))),
@@ -287,7 +287,7 @@ class _SettingsTabPageState extends State<SettingsTabPage> {
                     },
                   ),
                   SettingTile(
-                    text: 'lbl_gift_voucher',
+                    text: AppText.lbl_gift_voucher,
                     imagePath: ImageConstant.imgGroup1000003170,
                     onTap: _goToGiftCardsPage,
                   ),
@@ -317,11 +317,11 @@ class _SettingsTabPageState extends State<SettingsTabPage> {
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
               SizedBox(height: 3.h),
-              Text('lbl_app'.tr(),
+              Text(AppText.lbl_app,
                   style: CustomTextStyles.titleSmallOnPrimary_3),
               SizedBox(height: 14.h),
               SettingTile(
-                text: 'lbl_notifications',
+                text: AppText.lbl_notifications,
                 imagePath: ImageConstant.imgGroup1000003171,
                 onTap: () {},
                 trailing: BlocSelector<SettingsBloc, SettingsState, bool?>(
@@ -335,7 +335,7 @@ class _SettingsTabPageState extends State<SettingsTabPage> {
                     }),
               ),
               SettingTile(
-                text: 'lbl_language',
+                text: AppText.lbl_language,
                 imagePath: ImageConstant.imgGroup1000003172,
                 onTap: () {
                   // we did the set state to update the ui after language change
@@ -345,7 +345,7 @@ class _SettingsTabPageState extends State<SettingsTabPage> {
                 },
               ),
               SettingTile(
-                text: 'lbl_legal',
+                text: AppText.lbl_legal,
                 imagePath: ImageConstant.imgGroup1000003173,
                 onTap: () {
                   NavigatorHelper.of(context).pushNamed(LegalScreen.routeName);

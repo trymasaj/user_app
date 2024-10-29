@@ -61,7 +61,7 @@ class PurchasedGiftsPage extends StatelessWidget {
               color: Colors.white,
             ),
             label: SubtitleText.medium(
-              text: 'share'.tr(),
+              text: AppText.lbl_share,
               color: Colors.white,
               isBold: true,
             ),

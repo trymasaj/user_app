@@ -43,7 +43,7 @@ class AccountScreen extends StatelessWidget {
                   padding: EdgeInsets.only(right: 7.w),
                   child: _buildTile(
                     image: ImageConstant.imgLockGray90003,
-                    text: 'lbl_profile'.tr(),
+                    text: AppText.lbl_profile,
                     onTap: () {
                       NavigatorHelper.of(context).pushNamed(
                         MyProfileScreen.routeName,
@@ -56,7 +56,7 @@ class AccountScreen extends StatelessWidget {
                   padding: EdgeInsets.only(right: 7.w),
                   child: _buildTile(
                     image: ImageConstant.imgPhPhoneThin,
-                    text: 'lbl_phone_number'.tr(),
+                    text: AppText.lbl_phone_number,
                     onTap: () {
                       NavigatorHelper.of(context).pushNamed(
                         PhoneScreen.routeName,
@@ -69,7 +69,7 @@ class AccountScreen extends StatelessWidget {
                   padding: EdgeInsets.only(right: 7.w),
                   child: _buildTile(
                     image: ImageConstant.imgLockGray9000320x20,
-                    text: 'lbl_change_password'.tr(),
+                    text: AppText.lbl_change_password,
                     onTap: () {
                       NavigatorHelper.of(context).pushNamed(
                         CreateNewPasswordScreen.routeName,
@@ -82,7 +82,7 @@ class AccountScreen extends StatelessWidget {
                   padding: EdgeInsets.only(right: 7.w),
                   child: _buildTile(
                     image: ImageConstant.imgTrash,
-                    text: 'lbl_delete_account'.tr(),
+                    text: AppText.lbl_delete_account,
                     color: AppColors.ERROR_COLOR,
                     onTap: () async {
                       final cubit = context.read<AuthCubit>();
@@ -109,7 +109,7 @@ class AccountScreen extends StatelessWidget {
   /// Section Widget
   PreferredSizeWidget _buildAppBar(BuildContext context) {
     return CustomAppBar(
-      title: 'lbl_account'.tr(),
+      title: AppText.lbl_account,
       centerTitle: true,
     );
   }

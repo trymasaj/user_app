@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:masaj/core/app_text.dart';
 import 'package:masaj/core/presentation/colors/app_colors.dart';
 import 'package:masaj/core/presentation/widgets/stateless/custom_text.dart';
 import 'package:masaj/core/presentation/widgets/stateless/subtitle_text.dart';
@@ -81,13 +82,13 @@ class PaymentInfoCard extends StatelessWidget {
       ),
       child: Column(
         children: [
-          const Row(
+          Row(
             children: [
               CustomText(
-                text: 'payment_summary',
+                text: AppText.payment_summary,
                 fontSize: 16,
                 fontWeight: FontWeight.w700,
-                color: Color(0xff19223C),
+                color: const Color(0xff19223C),
               ),
             ],
           ),

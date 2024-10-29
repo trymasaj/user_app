@@ -48,7 +48,7 @@ class _GiftCardsScreenState extends State<GiftCardsScreen>
     return CustomAppPage(
       child: Scaffold(
           appBar: CustomAppBar(
-            title: 'lbl_gift_cards'.tr(),
+            title: AppText.lbl_gift_cards,
           ),
           body: _buildBody(context)),
     );
@@ -89,13 +89,13 @@ class _GiftCardsScreenState extends State<GiftCardsScreen>
         ),
         tabs: [
           Tab(
-            text: 'lbl_new'.tr(),
+            text: AppText.lbl_new,
           ),
           Tab(
-            text: 'lbl_purchased'.tr(),
+            text: AppText.lbl_purchased,
           ),
           Tab(
-            text: 'my_gifts'.tr(),
+            text: AppText.my_gifts,
           ),
         ],
       ),

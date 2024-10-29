@@ -34,7 +34,7 @@ class _RecommendedState extends State<Recommended> {
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
-              SectionTitle(title: 'recommended'.tr()),
+              SectionTitle(title: AppText.recommended),
             ],
           ),
           SizedBox(

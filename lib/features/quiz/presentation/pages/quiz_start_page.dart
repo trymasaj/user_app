@@ -82,19 +82,19 @@ class QuizStartPage extends StatelessWidget {
   }
 
   CustomText _buildQuizStartPageTitle() {
-    return const CustomText(
-      text: 'quiz_start_page_title',
+    return CustomText(
+      text: AppText.quiz_start_page_title,
       fontSize: 24,
       fontWeight: FontWeight.w600,
       color: Colors.white,
       textAlign: TextAlign.center,
-      margin: EdgeInsets.symmetric(horizontal: 44),
+      margin: const EdgeInsets.symmetric(horizontal: 44),
     );
   }
 
   Widget _buildGetStartButton(BuildContext context) {
     return DefaultButton(
-      label: 'get_started',
+      label: AppText.get_started,
       isExpanded: true,
       color: Colors.white,
       textColor: AppColors.FONT_COLOR,
@@ -113,7 +113,7 @@ class QuizStartPage extends StatelessWidget {
     final cubit = context.read<QuizPageCubit>();
 
     return DefaultButton(
-      label: 'skip',
+      label: AppText.skip,
       backgroundColor: Colors.transparent,
       color: Colors.transparent,
       onPressed: () {

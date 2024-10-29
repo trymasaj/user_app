@@ -35,7 +35,7 @@ class LegalScreen extends StatelessWidget {
                     padding: EdgeInsets.only(right: 7.w),
                     child: _buildLegalTile(
                         image: ImageConstant.imgGroup1000003173,
-                        text: 'lbl_privacy_policy'.tr(),
+                        text: AppText.lbl_privacy_policy,
                         onTap: () {
                           NavigatorHelper.of(context)
                               .pushNamed(PrivacyPolicyScreen.routeName);
@@ -45,7 +45,7 @@ class LegalScreen extends StatelessWidget {
                     padding: EdgeInsets.only(right: 7.w),
                     child: _buildLegalTile(
                         image: ImageConstant.imgGroup1000003174,
-                        text: 'msg_terms_conditions2'.tr(),
+                        text: AppText.msg_terms_conditions2,
                         onTap: () {
                           NavigatorHelper.of(context)
                               .pushNamed(TermsAndCondititonsScreen.routeName);
@@ -55,7 +55,7 @@ class LegalScreen extends StatelessWidget {
                     padding: EdgeInsets.only(right: 7.w),
                     child: _buildLegalTile(
                         image: ImageConstant.imgGroup1000003173,
-                        text: 'msg_cancellation_policy'.tr(),
+                        text: AppText.msg_cancellation_policy,
                         onTap: () {
                           NavigatorHelper.of(context)
                               .pushNamed(CancellationPolicyScreen.routeName);
@@ -65,7 +65,7 @@ class LegalScreen extends StatelessWidget {
                     padding: EdgeInsets.only(right: 7.w),
                     child: _buildLegalTile(
                         image: ImageConstant.imgGroup1000003176,
-                        text: 'msg_reschedule_policy'.tr(),
+                        text: AppText.msg_reschedule_policy,
                         onTap: () {
                           NavigatorHelper.of(context)
                               .pushNamed(ReschedulePolicyScreen.routeName);
@@ -77,8 +77,8 @@ class LegalScreen extends StatelessWidget {
 
   /// Section Widget
   PreferredSizeWidget _buildAppBar(BuildContext context) {
-    return const CustomAppBar(
-      title: 'lbl_legal',
+    return CustomAppBar(
+      title: AppText.lbl_legal,
       centerTitle: true,
     );
   }

@@ -66,7 +66,7 @@ class _GiftsPaymentMethodBottomSheetState
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                const TitleText(text: 'lbl_payment_method'),
+                TitleText(text: AppText.lbl_payment_method),
                 const SizedBox(height: 18.0),
                 Expanded(
                   child: BlocConsumer<PaymentCubit, PaymentState>(
@@ -119,7 +119,7 @@ class _GiftsPaymentMethodBottomSheetState
                         onPressed: () {
                           NavigatorHelper.of(context).pop();
                         },
-                        label: 'cancel',
+                        label: AppText.cancel,
                         color: AppColors.ExtraLight,
                         borderColor: AppColors.ACCENT_COLOR,
                         textColor: AppColors.ACCENT_COLOR,
@@ -135,7 +135,7 @@ class _GiftsPaymentMethodBottomSheetState
                                 paymentMethodId: _selectedPayment?.id,
                                 giftId: widget.giftId);
                           },
-                          label: 'lbl_purchase'),
+                          label: AppText.lbl_purchase),
                     )
                   ],
                 )

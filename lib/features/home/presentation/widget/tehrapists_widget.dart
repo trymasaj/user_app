@@ -53,7 +53,7 @@ class _TherapistsState extends State<Therapists> {
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
-                  SectionTitle(title: 'book_with_therapists'.tr()),
+                  SectionTitle(title: AppText.book_with_therapists),
                 ],
               ),
               const SizedBox(
@@ -315,7 +315,7 @@ class AvailableTherapistWidget extends StatelessWidget {
                             SizedBox(
                               width: 5.w,
                             ),
-                            Text('Available',
+                            Text(AppText.available,
                                 style: TextStyle(
                                   color: AppColors.SUCCESS_COLOR,
                                   fontSize: 10,
@@ -348,7 +348,7 @@ class AvailableTherapistWidget extends StatelessWidget {
                           fontSize: 10,
                           fontWeight: FontWeight.w500,
                         ),
-                        label: 'view_profile',
+                        label: AppText.view_profile,
                         onPressed: () {
                           if (therapist != null)
                             NavigatorHelper.of(context).pushNamed(
@@ -378,7 +378,7 @@ class AvailableTherapistWidget extends StatelessWidget {
                           color: Colors.white,
                           fontWeight: FontWeight.w500,
                         ),
-                        label: 'lbl_select',
+                        label: AppText.lbl_select,
                         onPressed: () {
                           Navigator.pop(context, availableTherapistModel);
                         }))

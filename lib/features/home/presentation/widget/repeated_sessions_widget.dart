@@ -1,5 +1,6 @@
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
+import 'package:masaj/core/app_text.dart';
 import 'package:masaj/core/presentation/colors/app_colors.dart';
 import 'package:masaj/core/presentation/widgets/stateless/custom_cached_network_image.dart';
 import 'package:masaj/features/book_service/data/models/booking_model/session_model.dart';
@@ -31,7 +32,7 @@ class _RepeatedSessionsState extends State<RepeatedSessions> {
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
-              SectionTitle(title: 'repeated_sessions'.tr()),
+              SectionTitle(title: AppText.repeated_sessions),
             ],
           ),
           const SizedBox(
@@ -102,14 +103,14 @@ class _RepeatedSessionsState extends State<RepeatedSessions> {
                             ),
                             // start from
                             Text(
-                              'start_from'.tr(),
+                              AppText.start_from,
                               style: const TextStyle(
                                   fontSize: 10,
                                   fontWeight: FontWeight.w400,
                                   color: AppColors.PlaceholderColor),
                             ),
                             Text(
-                              "price_in_kd".tr(args: [
+                              AppText.price_in_kd(args: [
                                 repeatedSession?.servicePrice?.toString() ?? ''
                               ]),
                               // 'KD ${repeatedSession?.servicePrice ?? ''}',

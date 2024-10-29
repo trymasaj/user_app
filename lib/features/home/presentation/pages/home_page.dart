@@ -2,6 +2,7 @@ import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/svg.dart';
+import 'package:masaj/core/app_text.dart';
 import 'package:masaj/core/data/di/di_wrapper.dart';
 import 'package:masaj/core/presentation/colors/app_colors.dart';
 import 'package:masaj/core/presentation/overlay/show_snack_bar.dart';
@@ -168,7 +169,7 @@ class __CustomNavBarState extends State<_CustomNavBar> {
                   height: 24,
                   width: 24,
                 ),
-                label: 'home'.tr(),
+                label: AppText.home,
               ),
               BottomNavigationBarItem(
                 icon: SvgPicture.asset(
@@ -183,7 +184,7 @@ class __CustomNavBarState extends State<_CustomNavBar> {
                   height: 24,
                   width: 24,
                 ),
-                label: 'bookings'.tr(),
+                label: AppText.bookings,
               ),
               const BottomNavigationBarItem(
                 icon: Icon(
@@ -204,7 +205,7 @@ class __CustomNavBarState extends State<_CustomNavBar> {
                   height: 24,
                   width: 24,
                 ),
-                label: 'providers'.tr(),
+                label: AppText.providers,
               ),
               BottomNavigationBarItem(
                 icon: SvgPicture.asset(
@@ -219,7 +220,7 @@ class __CustomNavBarState extends State<_CustomNavBar> {
                   width: 24,
                   color: AppColors.FONT_COLOR,
                 ),
-                label: 'settings'.tr(),
+                label: AppText.settings,
               ),
             ],
             selectedFontSize: 12,

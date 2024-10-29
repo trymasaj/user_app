@@ -73,7 +73,7 @@ class _CheckoutScreenState extends State<CheckoutScreen> {
       create: (context) => DI.find<PaymentCubit>()..getPaymentMethods(),
       child: Scaffold(
         appBar: CustomAppBar(
-          title: 'checkout_title'.tr(),
+          title: AppText.checkout_title,
         ),
         body: _buildBody(),
       ),
@@ -145,7 +145,7 @@ class _CheckoutScreenState extends State<CheckoutScreen> {
         children: [
           _buildServiceTitle(context),
           const SizedBox(height: _KSubVerticalSpace),
-          const WarningContainer(title: 'checkout_warning'),
+          WarningContainer(title: AppText.checkout_warning),
         ],
       ),
     );
@@ -193,24 +193,24 @@ class _CheckoutScreenState extends State<CheckoutScreen> {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          const TitleText(text: 'details'),
+          TitleText(text: AppText.details),
           const SizedBox(height: _KSubVerticalSpace),
           _buildDetailsRow(
-              title: '${'date'.tr()}:',
+              title: '${AppText.date}:',
               content:
                   DateFormatHelper.formatDate(bookingModel?.bookingDate) ?? ''),
           _buildDetailsRow(
-              title: '${'time'.tr()}:',
+              title: '${AppText.time}:',
               content:
                   DateFormatHelper.formatDateTime(bookingModel?.bookingDate) ??
                       ''),
           _buildDetailsRow(
-            title: '${'name'.tr()}:',
+            title: '${AppText.name}:',
             content:
                 (bookingModel?.members ?? []).map((e) => e.name).join(', '),
           ),
           _buildDetailsRow(
-              title: '${'phone'.tr()}:',
+              title: '${AppText.phone}:',
               content: (bookingModel?.members?.first.countryCode ?? '') +
                   (bookingModel?.members?.first.phone ?? '')),
         ],
@@ -236,8 +236,8 @@ class _CheckoutScreenState extends State<CheckoutScreen> {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          const TitleText(
-            text: 'therapist',
+          TitleText(
+            text: AppText.therapist,
             color: AppColors.ACCENT_COLOR,
           ),
           const SizedBox(height: _KSubVerticalSpace),
@@ -276,7 +276,7 @@ class _CheckoutScreenState extends State<CheckoutScreen> {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          const TitleText(text: 'location'),
+          TitleText(text: AppText.location),
           const SizedBox(height: _KSubVerticalSpace),
           TitleText(
             text: bookingModel?.address?.addressTitle ?? '',
@@ -297,8 +297,8 @@ class _CheckoutScreenState extends State<CheckoutScreen> {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          const TitleText(
-            text: 'payment_method',
+          TitleText(
+            text: AppText.payment_method,
           ),
           WalletSection(
             totalPrice: bookingModel?.grandTotal?.toDouble() ?? 0,
@@ -432,22 +432,22 @@ class _CheckoutScreenState extends State<CheckoutScreen> {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              const TitleText(text: 'booking_summary'),
+              TitleText(text: AppText.booking_summary),
               const SizedBox(height: 12.0),
               _buildCoupon(),
               const SizedBox(height: 12.0),
-              _buildSummaryItem(title: 'lbl_sub_total2', amount: subTotal),
-              _buildSummaryItem(title: 'lbl_tax', amount: tax),
+              _buildSummaryItem(title: AppText.lbl_sub_total2, amount: subTotal),
+              _buildSummaryItem(title: AppText.lbl_tax, amount: tax),
               _buildSummaryItem(
-                  isDiscount: true, title: 'lbl_discount', amount: discount),
-              _buildSummaryItem(title: 'lbl_wallet', amount: wallet),
+                  isDiscount: true, title: AppText.lbl_discount, amount: discount),
+              _buildSummaryItem(title: AppText.lbl_wallet, amount: wallet),
               const SizedBox(height: 12.0),
               const Divider(
                 thickness: 3,
                 color: AppColors.ExtraLight,
               ),
               const SizedBox(height: 12.0),
-              _buildSummaryItem(title: 'total', amount: total),
+              _buildSummaryItem(title: AppText.total, amount: total),
             ],
           ),
         );
@@ -499,7 +499,7 @@ class _CheckoutScreenState extends State<CheckoutScreen> {
             fromWallet: walletCubit.state.useWallet,
           );
         },
-        label: 'lbl_book_now',
+        label: AppText.lbl_book_now,
       ),
     );
   }
@@ -538,7 +538,7 @@ class _CouponWidgetState extends State<CouponWidget> {
                 'assets/images/dicount_icon.svg',
               ),
             ),
-            hint: 'lbl_coupon_code',
+            hint: AppText.lbl_coupon_code,
             suffixIcon: SizedBox(
               width: 80,
               child: DefaultButton(
@@ -555,7 +555,7 @@ class _CouponWidgetState extends State<CouponWidget> {
                     }
                   }
                 },
-                label: state.isCouponApplied ? 'cancel' : 'lbl_apply',
+                label: state.isCouponApplied ? AppText.cancel : AppText.lbl_apply,
               ),
             ),
           );
@@ -592,7 +592,7 @@ class _WalletSectionState extends State<WalletSection> {
       builder: (context, state) {
         return Row(
           children: [
-            SubtitleText(text: 'use_wallet'.tr()),
+            SubtitleText(text: AppText.use_wallet),
             SizedBox(width: 4.w),
             SubtitleText(
                 text: 'lbl_kwd'.tr(args: [
@@ -603,7 +603,7 @@ class _WalletSectionState extends State<WalletSection> {
               onChange: (value) {
                 if ((walletCubit.state.walletBalance?.balance ?? 0) == 0)
                   return showSnackBar(context,
-                      message: 'msg_wallet_balance'.tr());
+                      message: AppText.msg_wallet_balance);
                 setState(() {
                   walletCubit.onChooseWallet(value);
                 });

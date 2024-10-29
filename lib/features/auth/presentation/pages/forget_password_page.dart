@@ -166,7 +166,7 @@ class _ForgetPasswordPageState extends State<ForgetPasswordPage> {
             currentFocusNode: _emailFocusNode,
             currentController: _emailTextController,
             prefixIcon: buildImage(ImageConstant.imgCheckmarkBlueGray40001),
-            hint: 'email_address'.tr(),
+            hint: AppText.email_address,
             validator: Validator().validateEmailWithoutRequired,
           ),
         ),
@@ -191,7 +191,7 @@ class _ForgetPasswordPageState extends State<ForgetPasswordPage> {
     bool isPhoneEmpty = _phoneNumberController.text.trim().isEmpty;
 
     if (isEmailEmpty && isPhoneEmpty) {
-      showSnackBar(context, message: 'email_or_phone_number_required'.tr());
+      showSnackBar(context, message: AppText.email_or_phone_number_required);
       return true;
     }
     if (!isEmailEmpty) {

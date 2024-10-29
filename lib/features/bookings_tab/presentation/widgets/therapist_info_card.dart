@@ -5,6 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:masaj/core/app_text.dart';
 import 'package:masaj/core/data/device/launcher_service.dart';
 import 'package:masaj/core/data/di/di_wrapper.dart';
 import 'package:masaj/core/data/extensions/extensions.dart';
@@ -38,7 +39,7 @@ class TherapistInfoCard extends StatelessWidget {
           Row(
             children: [
               CustomText(
-                text: 'therapist_info',
+                text: AppText.therapist_info,
                 fontSize: 16.sp,
                 fontWeight: FontWeight.w700,
                 color: const Color(0xff19223C),
@@ -95,7 +96,7 @@ class TherapistInfoCard extends StatelessWidget {
                       // phone number
                       final completedPhoneNumber =
                           '${bookingModel.therapist?.countryCode}${bookingModel.therapist?.phone}';
-                      print('completedPhoneNumber ' + completedPhoneNumber);
+                      //print('completedPhoneNumber ' + completedPhoneNumber);
                       DI.find<LauncherService>()..openWhatsappChat(
                           phoneNumber: completedPhoneNumber, message: '');
                     },
@@ -148,13 +149,13 @@ class TherapistInfoCard extends StatelessWidget {
               SvgPicture.asset(Assets.images.imgMaterialSymbolOnprimary),
               SizedBox(width: 5.w),
               CustomText(
-                text: bookingModel?.service?.title ?? 'Service Name',
+                text: bookingModel?.service?.title ?? AppText.service_name,
                 fontSize: 14.sp,
                 fontWeight: FontWeight.w400,
                 color: const Color(0xff19223C),
               ),
               CustomText(
-                text: ' (${bookingModel?.durationInMinutes} ${'min'.tr()})',
+                text: ' (${bookingModel?.durationInMinutes} ${AppText.min})',
                 fontSize: 14.sp,
                 fontWeight: FontWeight.w400,
                 color: const Color(0xff19223C).withOpacity(.64),
@@ -210,7 +211,7 @@ class TherapistInfoCard extends StatelessWidget {
               SizedBox(width: 5.w),
               Expanded(
                 child: CustomText(
-                    text: 'allow_up_to_1_hour',
+                    text: AppText.allow_up_to_1_hour,
                     fontSize: 11.5,
                     height: 2,
                     fontWeight: FontWeight.w400,

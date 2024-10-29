@@ -89,10 +89,10 @@ class MyGiftsPage extends StatelessWidget {
             mainAxisSize: MainAxisSize.max,
             children: [
               SubtitleText(
-                  text: 'lbl_gift_card_off'.tr(args: [gift.amount.toString()])),
+                  text: AppText.lbl_gift_card_off(args: [gift.amount.toString()])),
               const SizedBox(height: 8.0),
               SubtitleText(
-                text: 'lbl_kwd'.tr(args: [gift.amount.toString()]),
+                text: AppText.lbl_kwd(args: [gift.amount.toString()]),
                 isBold: true,
               )
             ],
@@ -103,7 +103,7 @@ class MyGiftsPage extends StatelessWidget {
             onPressed: () async {
               await Clipboard.setData(
                   ClipboardData(text: gift.redemptionCode ?? ''));
-              showSnackBar(context, message: 'msg_copy_code'.tr());
+              showSnackBar(context, message: AppText.msg_copy_code);
             },
           )
         ]),

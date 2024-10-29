@@ -209,14 +209,14 @@ class _BookServiceScreenState extends State<BookServiceScreen> {
                   Row(
                     children: [
                       Text(
-                        'duration'.tr(),
+                        AppText.duration,
                         style: const TextStyle(
                             fontSize: 12,
                             fontWeight: FontWeight.w400,
                             color: AppColors.PlaceholderColor),
                       ),
                       Text(
-                        ': '.tr(),
+                        ': ',
                         style: const TextStyle(
                             fontSize: 12,
                             fontWeight: FontWeight.w400,
@@ -227,7 +227,7 @@ class _BookServiceScreenState extends State<BookServiceScreen> {
                           fontWeight: FontWeight.w400,
                           color: AppColors.FONT_LIGHT,
                           text:
-                              "${bookingModel?.durationInMinutes}  ${'min'.tr()}")
+                              "${bookingModel?.durationInMinutes}  ${AppText.min}")
                     ],
                   ),
                   const SizedBox(
@@ -236,14 +236,14 @@ class _BookServiceScreenState extends State<BookServiceScreen> {
                   // Row(
                   //   children: [
                   //     Text(
-                  //       'addons'.tr(),
+                  //       'addons,
                   //       style: TextStyle(
                   //           fontSize: 12,
                   //           fontWeight: FontWeight.w400,
                   //           color: AppColors.PlaceholderColor),
                   //     ),
                   //     Text(
-                  //       ': '.tr(),
+                  //       ': ,
                   //       style: TextStyle(
                   //           fontSize: 12,
                   //           fontWeight: FontWeight.w400,
@@ -262,14 +262,14 @@ class _BookServiceScreenState extends State<BookServiceScreen> {
                   // Row(
                   //   children: [
                   //     Text(
-                  //       'addons'.tr(),
+                  //       'addons,
                   //       style: TextStyle(
                   //           fontSize: 12,
                   //           fontWeight: FontWeight.w400,
                   //           color: AppColors.PlaceholderColor),
                   //     ),
                   //     Text(
-                  //       ': '.tr(),
+                  //       ': ,
                   //       style: TextStyle(
                   //           fontSize: 12,
                   //           fontWeight: FontWeight.w400,
@@ -331,7 +331,7 @@ class _BookServiceScreenState extends State<BookServiceScreen> {
               Row(
                 children: [
                   CustomText(
-                    text: 'therapist'.tr(),
+                    text: AppText.therapist,
                     fontSize: 14,
                     fontWeight: FontWeight.w500,
                     color: AppColors.FONT_COLOR,
@@ -463,7 +463,7 @@ class _BookServiceScreenState extends State<BookServiceScreen> {
         Row(
           children: [
             CustomText(
-              text: 'time'.tr(),
+              text: AppText.time,
               fontSize: 14,
               fontWeight: FontWeight.w500,
               color: AppColors.FONT_COLOR,
@@ -489,7 +489,7 @@ class _BookServiceScreenState extends State<BookServiceScreen> {
               currentController: _timeController,
               isRequired: true,
               readOnly: true,
-              hint: 'lbl_select_date'.tr(),
+              hint: AppText.lbl_select_date,
               onTap: () async {
                 final cubit = context.read<AvialbleTherapistCubit>();
                 await cubit.getAvailableTimeSlots(selectedDate!);
@@ -667,7 +667,7 @@ class _BookServiceScreenState extends State<BookServiceScreen> {
         Row(
           children: [
             CustomText(
-              text: fromTherapistFow ? 'date'.tr() : 'date_and_time'.tr(),
+              text: fromTherapistFow ? AppText.date : AppText.date_and_time,
               fontSize: 14,
               fontWeight: FontWeight.w500,
               color: AppColors.FONT_COLOR,
@@ -682,7 +682,7 @@ class _BookServiceScreenState extends State<BookServiceScreen> {
           currentController: _dateController,
           isRequired: true,
           readOnly: true,
-          hint: 'lbl_select_date'.tr(),
+          hint: AppText.lbl_select_date,
           onTap: () {
             showModalBottomSheet(
                 context: context,
@@ -801,7 +801,7 @@ class _BookServiceScreenState extends State<BookServiceScreen> {
           try {
             if (selectedDate == null) {
               ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-                content: Text('please_select_date'.tr()),
+                content: Text(AppText.please_select_date),
               ));
               return;
             }
@@ -809,7 +809,7 @@ class _BookServiceScreenState extends State<BookServiceScreen> {
                 context.read<AvialbleTherapistCubit>().state.selectedTherapist;
             if (therapist == null) {
               ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-                content: Text('please_select_therapist'.tr()),
+                content: Text(AppText.please_select_therapist),
               ));
               return;
             }
@@ -829,7 +829,7 @@ class _BookServiceScreenState extends State<BookServiceScreen> {
               final errorMsg =
                   context.read<BookingCubit>().state.errorMessage?.isEmpty ==
                           true
-                      ? 'error_adding_therapist'.tr()
+                      ? AppText.error_adding_therapist
                       : context.read<BookingCubit>().state.errorMessage;
               ScaffoldMessenger.of(context).showSnackBar(SnackBar(
                 content: Text(errorMsg ?? ''),

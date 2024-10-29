@@ -134,8 +134,8 @@ class _ProviderDetailsScreenState extends State<ProviderDetailsScreen> {
                 SizedBox(
                   width: 5.w,
                 ),
-                const CustomText(
-                  text: 'Kuwaiti',
+                CustomText(
+                  text: AppText.lbl_kuwaiti,
                   fontSize: 12,
                   fontWeight: FontWeight.w400,
                   color: AppColors.PlaceholderColor,
@@ -218,14 +218,14 @@ class _ProviderDetailsScreenState extends State<ProviderDetailsScreen> {
       sliver: SliverToBoxAdapter(
         child: Column(
           children: [
-            const Row(
+            Row(
               children: [
                 CustomText(
-                  text: 'lbl_about',
+                  text: AppText.lbl_about,
                   fontFamily: 'DM Sans',
                   fontSize: 16,
                   fontWeight: FontWeight.w700,
-                  color: Color(0xff1D212C),
+                  color: const Color(0xff1D212C),
                 ),
               ],
             ),
@@ -260,14 +260,14 @@ class _ProviderDetailsScreenState extends State<ProviderDetailsScreen> {
       sliver: SliverToBoxAdapter(
         child: Column(
           children: [
-            const Row(
+            Row(
               children: [
                 CustomText(
-                  text: 'lbl_services',
+                  text: AppText.lbl_services,
                   fontFamily: 'DM Sans',
                   fontSize: 16,
                   fontWeight: FontWeight.w700,
-                  color: Color(0xff1D212C),
+                  color: const Color(0xff1D212C),
                 ),
               ],
             ),
@@ -313,7 +313,7 @@ class _ProviderDetailsScreenState extends State<ProviderDetailsScreen> {
               children: [
                 RichText(
                   text: TextSpan(
-                      text: '${'reviews'.tr()} ',
+                      text: '${AppText.reviews} ',
                       style: const TextStyle(
                         fontSize: 16,
                         fontWeight: FontWeight.w500,
@@ -414,7 +414,7 @@ class _ProviderDetailsScreenState extends State<ProviderDetailsScreen> {
               color: Colors.white,
               child: DefaultButton(
                 // label: 'Book with ${state.therapist?.fullName ?? ''}',
-                label: 'book_with'.tr(args: [state.therapist?.fullName ?? '']),
+                label: AppText.book_with(args: [state.therapist?.fullName ?? '']),
                 onPressed: () {
                   final isGuest = context.read<AuthCubit>().state.isGuest;
                   if (!isGuest) {

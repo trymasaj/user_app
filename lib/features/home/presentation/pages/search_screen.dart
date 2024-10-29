@@ -71,7 +71,8 @@ class _SearchScreenState extends State<SearchScreen> {
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
               Text(
-                'Services',
+                // TODO: translate
+                "Services",//AppText.services,
                 style: TextStyle(
                   fontSize: 14,
                   fontWeight: FontWeight.w400,
@@ -107,11 +108,11 @@ class _SearchScreenState extends State<SearchScreen> {
       SliverToBoxAdapter(
         child: Container(
           margin: const EdgeInsets.symmetric(horizontal: 20),
-          child: const Row(
+          child: Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
               CustomText(
-                text: 'Providers',
+                text: AppText.providers,
                 fontSize: 14,
                 fontWeight: FontWeight.w400,
                 color: AppColors.FONT_COLOR,
@@ -163,11 +164,11 @@ class _SearchScreenState extends State<SearchScreen> {
       SliverToBoxAdapter(
         child: Container(
           margin: const EdgeInsets.symmetric(horizontal: 20),
-          child: const Row(
+          child: Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
               CustomText(
-                text: 'recent_searches',
+                text: AppText.recent_searches,
                 fontSize: 14,
                 fontWeight: FontWeight.w400,
                 color: AppColors.FONT_COLOR,
@@ -667,7 +668,7 @@ class SearchBarWidget extends StatelessWidget {
                 left: context.isAr ? 24.w : 5.w,
                 right: context.isAr ? 5.w : 24.w),
             isSearch: true,
-            hintText: 'search'.tr(),
+            hintText: AppText.search,
             currentFocusNode: _searchFocusNode,
             currentController: _searchController,
             onChanged: (value) {
@@ -682,7 +683,7 @@ class SearchBarWidget extends StatelessWidget {
             fillColor: AppColors.ExtraLight,
             borderColor: Colors.transparent,
             decoration: InputDecoration(
-              hintText: 'search'.tr(),
+              hintText: AppText.search,
               hintStyle: const TextStyle(
                 fontSize: 14,
                 fontWeight: FontWeight.w400,
@@ -780,7 +781,7 @@ class SearchBarWidget extends StatelessWidget {
         // alignment: Alignment.center,
         child: BasicTextFiled(
           isSearch: true,
-          hintText: 'search'.tr(),
+          hintText: AppText.search,
           currentFocusNode: _searchFocusNode,
           currentController: _searchController,
           onChanged: (value) {
@@ -795,7 +796,7 @@ class SearchBarWidget extends StatelessWidget {
           fillColor: AppColors.ExtraLight,
           borderColor: Colors.transparent,
           decoration: InputDecoration(
-            hintText: 'search'.tr(),
+            hintText: AppText.search,
             hintStyle: const TextStyle(
               fontSize: 14,
               fontWeight: FontWeight.w400,

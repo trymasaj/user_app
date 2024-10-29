@@ -27,10 +27,10 @@ class DurationsSection extends StatelessWidget {
                 height: 24.h,
               ),
               // title then the description
-              const Row(
+              Row(
                 children: [
                   CustomText(
-                    text: 'durations',
+                    text: AppText.durations,
                     fontSize: 14,
                     fontWeight: FontWeight.w500,
                   ),
@@ -132,12 +132,12 @@ class DurationContainer extends StatelessWidget {
                   fontWeight: FontWeight.w500,
                 ),
                 buildText(
-                  'minutes'.tr(),
+                  AppText.minutes,
                   fontSize: 10,
                   fontWeight: FontWeight.w400,
                 ),
                 buildText(
-                  '(${"price_in_kd".tr(args: [
+                  '(${AppText.price_in_kd(args: [
                         (duration.hasDiscount
                                 ? duration.discountedPrice
                                 : duration.price)
@@ -171,7 +171,7 @@ class DurationContainer extends StatelessWidget {
                   fontWeight: FontWeight.w500,
                 ),
                 buildText(
-                  'minutes'.tr(),
+                  AppText.minutes,
                   fontSize: 10,
                   fontWeight: FontWeight.w400,
                 ),
@@ -209,8 +209,8 @@ class DurationContainer extends StatelessWidget {
                   borderRadius: BorderRadius.all(Radius.circular(12)),
                 ),
                 alignment: Alignment.center,
-                child: const CustomText(
-                  text: 'popular',
+                child: CustomText(
+                  text: AppText.popular,
                   fontSize: 9,
                   fontWeight: FontWeight.w500,
                   color: Colors.white,

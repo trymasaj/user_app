@@ -206,16 +206,16 @@ class ServiceDetailsScreenState extends State<ServiceDetailsScreen> {
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
                             CustomText(
-                              text: '${'lbl_kwd'.tr(args: [
+                              text: '${AppText.lbl_kwd(args: [
                                     totalPrice().toString()
-                                  ])} ${'lbl_nonmember'.tr()}',
+                                  ])} ${AppText.lbl_nonmember}',
                               fontSize: 14,
                               color: const Color(0xff1D212C),
                             ),
                             RichText(
                               text: TextSpan(children: [
                                 TextSpan(
-                                    text: 'percentage_off'.tr(args: [
+                                    text: AppText.percentage_off(args: [
                                       (discountPercentage * 100).toString()
                                     ]),
                                     style: const TextStyle(
@@ -224,10 +224,10 @@ class ServiceDetailsScreenState extends State<ServiceDetailsScreen> {
                                       color: AppColors.ERROR_COLOR,
                                     )),
                                 TextSpan(
-                                    text: ' ${'lbl_kwd'.tr(args: [
+                                    text: ' ${AppText.lbl_kwd(args: [
                                           getPriceAfterDiscount()
                                               .toStringAsFixed(2)
-                                        ])} ${'lbl_member'.tr()}',
+                                        ])} ${AppText.lbl_member}',
                                     style: TextStyle(
                                       fontSize: 12,
                                       color:
@@ -246,7 +246,7 @@ class ServiceDetailsScreenState extends State<ServiceDetailsScreen> {
                                             const MembershipPlansScreen()));
                               },
                               child: CustomText(
-                                text: 'msg_how_to_become_a'.tr(),
+                                text: AppText.msg_how_to_become_a,
                                 color: AppColors.PlaceholderColor,
                                 fontSize: 11,
                               ),
@@ -324,10 +324,10 @@ class ServiceDetailsScreenState extends State<ServiceDetailsScreen> {
                                       height: 24.h,
                                     ),
                                     // Benefits
-                                    const Row(
+                                    Row(
                                       children: [
                                         CustomText(
-                                          text: 'benefits',
+                                          text: AppText.benefits,
                                           fontSize: 14,
                                           fontWeight: FontWeight.w500,
                                         ),
@@ -374,10 +374,10 @@ class ServiceDetailsScreenState extends State<ServiceDetailsScreen> {
                                         false)
                                       Column(
                                         children: [
-                                          const Row(
+                                          Row(
                                             children: [
                                               CustomText(
-                                                text: 'Videos',
+                                                text: AppText.lbl_videos,
                                                 fontSize: 14,
                                                 fontWeight: FontWeight.w500,
                                               ),
@@ -544,7 +544,7 @@ class ServiceDetailsScreenState extends State<ServiceDetailsScreen> {
         closeIconColor: Colors.white,
         showCloseIcon: true,
         content: Text(
-          'Please select a duration',
+          AppText.please_select_a_duration,
         ),
       ));
       return;
@@ -610,10 +610,10 @@ class TotalSection extends StatelessWidget {
                 height: 24.h,
               ),
               // title then the description
-              const Row(
+              Row(
                 children: [
                   CustomText(
-                    text: 'total_duration_service',
+                    text: AppText.total_duration_service,
                     fontSize: 14,
                     fontWeight: FontWeight.w500,
                   ),
@@ -635,7 +635,7 @@ class TotalSection extends StatelessWidget {
                       ),
                       const Spacer(),
                       CustomText(
-                        text: 'min_count'.tr(args: [
+                        text: AppText.min_count(args: [
                           selectedDuration?.durationInMinutes?.toString() ?? ''
                         ]),
                         // '${selectedDuration!.formattedString} ${selectedDuration?.unit}',
@@ -661,9 +661,9 @@ class TotalSection extends StatelessWidget {
                           ),
                           const Spacer(),
                           CustomText(
-                            text: '(${"price_in_kd".tr(args: [
+                            text: '(${AppText.price_in_kd(args: [
                                   addon.price.toString()
-                                ])}, ${'min_count'.tr(args: [
+                                ])}, ${AppText.min_count(args: [
                                   addon.durationInMinutes
                                 ])})',
                             fontSize: 14,
@@ -677,14 +677,14 @@ class TotalSection extends StatelessWidget {
                 Row(
                   children: [
                     CustomText(
-                      text: 'no_duration_selected',
+                      text: AppText.no_duration_selected,
                       fontSize: 14,
                       fontWeight: FontWeight.w400,
                       color: AppColors.FONT_LIGHT.withOpacity(.7),
                     ),
                     const Spacer(),
                     CustomText(
-                      text: 'min_count'.tr(args: ['0']),
+                      text: AppText.min_count(args: ['0']),
                       fontSize: 14,
                       fontWeight: FontWeight.w400,
                       color: AppColors.PlaceholderColor,
@@ -728,14 +728,14 @@ class TotalSection extends StatelessWidget {
               ),
               Row(
                 children: [
-                  const CustomText(
-                    text: 'total_duration',
+                  CustomText(
+                    text: AppText.total_duration,
                     fontSize: 14,
                     fontWeight: FontWeight.w500,
                   ),
                   const Spacer(),
                   CustomText(
-                    text: "min_count".tr(args: [totalDuration ?? '0']),
+                    text: AppText.min_count(args: [totalDuration ?? '0']),
                     fontSize: 14,
                     fontWeight: FontWeight.w500,
                     color: AppColors.FONT_LIGHT.withOpacity(.7),
@@ -770,10 +770,10 @@ class AddonsSection extends StatelessWidget {
                 height: 24.h,
               ),
               // title then the description
-              const Row(
+              Row(
                 children: [
                   CustomText(
-                    text: 'add_on_s',
+                    text: AppText.add_on_s,
                     fontSize: 14,
                     fontWeight: FontWeight.w500,
                   ),
@@ -797,9 +797,9 @@ class AddonsSection extends StatelessWidget {
                       Row(
                         children: [
                           CustomText(
-                            text: '(${"price_in_kd".tr(args: [
+                            text: '(${AppText.price_in_kd(args: [
                                   addon.price.toString()
-                                ])}, ${'min_count'.tr(args: [
+                                ])}, ${AppText.min_count(args: [
                                   addon.durationInMinutes
                                 ])})',
                             fontSize: 14,
@@ -867,10 +867,10 @@ class _FocusAreaSectionState extends State<FocusAreaSection> {
                 height: 24.h,
               ),
               // title then the description
-              const Row(
+              Row(
                 children: [
                   CustomText(
-                    text: 'focus_area',
+                    text: AppText.focus_area,
                     fontSize: 14,
                     fontWeight: FontWeight.w500,
                   ),
@@ -879,11 +879,11 @@ class _FocusAreaSectionState extends State<FocusAreaSection> {
               SizedBox(
                 height: 4.h,
               ),
-              const Row(
+              Row(
                 children: [
                   Expanded(
                     child: CustomText(
-                      text: 'focus_area_msg',
+                      text: AppText.focus_area_msg,
                       fontSize: 12,
                       fontWeight: FontWeight.w400,
                       color: AppColors.FONT_LIGHT,
@@ -898,8 +898,8 @@ class _FocusAreaSectionState extends State<FocusAreaSection> {
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
-                  const CustomText(
-                    text: 'any_focus_area_today',
+                  CustomText(
+                    text: AppText.any_focus_area_today,
                     fontSize: 14,
                     fontWeight: FontWeight.w500,
                   ),
@@ -921,9 +921,9 @@ class _FocusAreaSectionState extends State<FocusAreaSection> {
                             .join(', ');
                       }
                     },
-                    child: const TextWithGradiant(
+                    child: TextWithGradiant(
                         fontWeight: FontWeight.w500,
-                        text: 'select_area',
+                        text: AppText.select_area,
                         fontSize: 14),
                   )
                 ],
@@ -937,7 +937,7 @@ class _FocusAreaSectionState extends State<FocusAreaSection> {
                 currentController: widget.controller,
                 readOnly: true,
                 currentFocusNode: null,
-                hint: 'select_focus_area',
+                hint: AppText.select_focus_area,
               ),
               SizedBox(
                 height: 18.h,

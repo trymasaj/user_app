@@ -17,7 +17,7 @@ class LocationBottomSheet extends StatelessWidget {
       children: [
         Padding(
           padding: const EdgeInsets.symmetric(vertical: 20),
-          child: Text('selected_address'.tr()),
+          child: Text(AppText.selected_address),
         ),
         Row(
           mainAxisAlignment: MainAxisAlignment.start,
@@ -48,7 +48,7 @@ class LocationBottomSheet extends StatelessWidget {
         SizedBox(height: 10.h),
         CustomElevatedButton(
           onPressed: onTapContinue,
-          text: 'lbl_continue'.tr(),
+          text: AppText.lbl_continue,
           buttonStyle: CustomButtonStyles.none,
           decoration:
               CustomButtonStyles.gradientSecondaryContainerToPrimaryDecoration,

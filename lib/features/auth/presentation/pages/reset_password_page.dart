@@ -1,6 +1,7 @@
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:masaj/core/app_text.dart';
 import 'package:masaj/core/data/validator/validator.dart';
 import 'package:masaj/core/presentation/colors/app_colors.dart';
 import 'package:masaj/core/presentation/navigation/navigator_helper.dart';
@@ -134,14 +135,14 @@ class _ResetPasswordPageState extends State<ResetPasswordPage> {
             currentFocusNode: _passwordFocusNode,
             currentController: _passwordTextController,
             nextFocusNode: _confirmPasswordFocusNode,
-            hint: 'new_password'.tr(),
+            hint: AppText.new_password,
           ),
           const SizedBox(height: 16.0),
           PasswordTextFormField(
             currentFocusNode: _confirmPasswordFocusNode,
             currentController: _confirmPasswordTextController,
             nextFocusNode: _confirmPasswordFocusNode,
-            hint: 'confirm_new_password'.tr(),
+            hint: AppText.confirm_new_password,
             validator: (value) {
               return Validator()
                   .validateConfPassword(_passwordTextController.text, value);

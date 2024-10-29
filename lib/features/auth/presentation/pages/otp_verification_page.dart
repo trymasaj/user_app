@@ -2,6 +2,7 @@ import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:masaj/core/app_text.dart';
 import 'package:masaj/core/data/di/di_wrapper.dart';
 import 'package:masaj/core/presentation/colors/app_colors.dart';
 import 'package:masaj/core/presentation/navigation/navigator_helper.dart';
@@ -245,7 +246,7 @@ class _OTPVerificationPageState extends State<OTPVerificationPage> {
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
             Text(
-              'do_not_receive_code'.tr(),
+              AppText.do_not_receive_code,
               style: const TextStyle(
                 fontSize: 14,
                 fontWeight: FontWeight.w400,
@@ -264,7 +265,7 @@ class _OTPVerificationPageState extends State<OTPVerificationPage> {
             else
               RichText(
                 text: TextSpan(
-                  text: 'resend'.tr(),
+                  text: AppText.resend,
                   style: const TextStyle(
                     decoration: TextDecoration.underline,
                     fontSize: 14,

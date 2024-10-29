@@ -1,6 +1,7 @@
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
+import 'package:masaj/core/app_text.dart';
 import 'package:masaj/core/data/connection/connection_checker.dart';
 import 'package:masaj/core/presentation/colors/app_colors.dart';
 import 'package:masaj/core/presentation/widgets/stateless/default_button.dart';
@@ -63,7 +64,7 @@ class EmptyPageMessage extends StatelessWidget {
             ? normalEmptyMessage
             : _buildEmptyMessageContent(
                 height,
-                message: 'connection_error'.tr(),
+                message: AppText.connection_error,
                 showTryAgainButton: true,
               );
       },
@@ -78,7 +79,7 @@ class EmptyPageMessage extends StatelessWidget {
     const assetsPath = 'assets/images/';
 
     Widget child = SubtitleText(
-      text: message ?? 'Empty',
+      text: message ?? AppText.empty,
       textAlign: TextAlign.center,
       color: _textColor,
     );
@@ -124,7 +125,7 @@ class EmptyPageMessage extends StatelessWidget {
       padding: const EdgeInsets.all(8.0),
       backgroundColor: Colors.transparent,
       borderColor: AppColors.PRIMARY_COLOR,
-      label: 'try_again'.tr(),
+      label: AppText.lbl_try_again,
       labelStyle: const TextStyle(
         fontSize: 16.0,
         fontWeight: FontWeight.bold,

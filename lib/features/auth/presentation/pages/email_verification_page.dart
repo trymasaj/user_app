@@ -3,6 +3,7 @@ import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:masaj/core/app_text.dart';
 import 'package:masaj/core/presentation/colors/app_colors.dart';
 import 'package:masaj/core/presentation/navigation/navigator_helper.dart';
 import 'package:masaj/core/presentation/overlay/show_snack_bar.dart';
@@ -101,7 +102,7 @@ class _EmailVerificationPageState extends State<EmailVerificationPage> {
         );
 
     return DefaultButton(
-      label: 'back_to_login'.tr(),
+      label: AppText.back_to_login,
       isExpanded: true,
       contentAlignment: MainAxisAlignment.start,
       backgroundColor: AppColors.SECONDARY_COLOR,
@@ -131,7 +132,7 @@ class _EmailVerificationPageState extends State<EmailVerificationPage> {
         );
 
     return DefaultButton(
-      label: 'refresh'.tr(),
+      label: AppText.refresh,
       isExpanded: true,
       contentAlignment: MainAxisAlignment.start,
       backgroundColor: AppColors.SECONDARY_COLOR,
@@ -178,7 +179,7 @@ class _EmailVerificationPageState extends State<EmailVerificationPage> {
     return SizedBox(
       width: screenWidth * 0.6,
       child: DefaultButton(
-        label: 'continue_guest'.tr(),
+        label: AppText.continue_guest,
         labelStyle: textStyle,
         padding: const EdgeInsets.symmetric(vertical: 12.0),
         backgroundColor: Colors.transparent,
@@ -200,12 +201,12 @@ class _EmailVerificationPageState extends State<EmailVerificationPage> {
       text: TextSpan(
         children: [
           TextSpan(
-            text: 'did_not_receive_email'.tr(),
+            text: AppText.did_not_receive_email,
             style:
                 Theme.of(context).textTheme.bodyLarge!.copyWith(fontSize: 14.0),
           ),
           TextSpan(
-            text: 'resend'.tr(),
+            text: AppText.resend,
             style: const TextStyle(
               fontSize: 14.0,
               fontWeight: FontWeight.bold,
@@ -227,5 +228,5 @@ class _EmailVerificationPageState extends State<EmailVerificationPage> {
       );
 
   VoidCallback _showResendSuccessSnackBar(BuildContext context) =>
-      () => showSnackBar(context, message: 'email_sent_successfully'.tr());
+      () => showSnackBar(context, message: AppText.email_sent_successfully);
 }

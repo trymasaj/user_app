@@ -70,7 +70,7 @@ class _ServicesScreenState extends State<ServicesScreen> {
     return BlocProvider<ServiceCubit>(
       create: (context) => serviceCubit,
       child: Scaffold(
-        appBar: CustomAppBar(title: 'services'.tr()),
+        appBar: CustomAppBar(title: AppText.lbl_services),
         body: Column(
           children: [
             SizedBox(height: 24.h),
@@ -272,7 +272,7 @@ class SevicesGridView extends StatelessWidget {
         if (state.isError) {
           ScaffoldMessenger.of(context).showSnackBar(
             SnackBar(
-              content: Text(state.errorMessage ?? 'Error'),
+              content: Text(state.errorMessage ?? AppText.msg_something_went_wrong),
             ),
           );
         }
@@ -371,13 +371,13 @@ class SevicesGridView extends StatelessWidget {
 
                               //Start from
                               CustomText(
-                                text: 'start_from'.tr(),
+                                text: AppText.start_from,
                                 fontSize: 9,
                                 color: AppColors.PlaceholderColor,
                                 fontWeight: FontWeight.w400,
                               ),
                               CustomText(
-                                text: '${service.startingPrice} ${'KWD'.tr()}',
+                                text: '${service.startingPrice} ${AppText.KWD}',
                                 fontSize: 12,
                                 color: const Color(0xff1D212C),
                                 fontWeight: FontWeight.w500,

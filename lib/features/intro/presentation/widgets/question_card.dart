@@ -48,7 +48,7 @@ class _QuestionCardState extends State<QuestionCard> {
                         // color: Color(0xff181B28B2),
                       ),
                       Text(
-                        'lbl_back'.tr(),
+                        AppText.lbl_back,
                         style: const TextStyle(
                             // color: Color(0xff181B28B2),
                             ),
@@ -57,7 +57,7 @@ class _QuestionCardState extends State<QuestionCard> {
                   ),
                 ),
               ),
-            Text('msg_select_an_answer'.tr(),
+            Text(AppText.msg_select_an_answer,
                 style: CustomTextStyles.bodyMediumBluegray40001_1),
             SizedBox(height: 2.h),
             Text(widget.question.content.tr(),
@@ -78,7 +78,7 @@ class _QuestionCardState extends State<QuestionCard> {
                       style: const TextStyle(color: Colors.black),
                       decoration: InputDecoration(
                         hintStyle: CustomTextStyles.bodyMediumBluegray40001_1,
-                        hintText: 'msg_please_share_your3'.tr(),
+                        hintText: AppText.msg_please_share_your3,
                       )),
                   const SizedBox(
                     height: 20,
@@ -89,7 +89,7 @@ class _QuestionCardState extends State<QuestionCard> {
             CustomElevatedButton(
                 height: 48.h,
                 text:
-                    widget.isLastQuestion ? 'lbl_finish'.tr() : 'lbl_next'.tr(),
+                    widget.isLastQuestion ? AppText.lbl_finish : AppText.lbl_next,
                 buttonStyle: CustomButtonStyles.none,
                 decoration: CustomButtonStyles
                     .gradientSecondaryContainerToPrimaryTL25Decoration,

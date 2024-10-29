@@ -134,7 +134,7 @@ class _FilterWidgetSheetState extends State<FilterWidgetSheet> {
                       Row(
                         children: [
                           Text(
-                            'filter'.tr(),
+                            AppText.filter,
                             style: const TextStyle(
                               fontSize: 20,
                               fontWeight: FontWeight.w600,
@@ -149,7 +149,7 @@ class _FilterWidgetSheetState extends State<FilterWidgetSheet> {
                               Navigator.pop(context);
                             },
                             child: Text(
-                              'clear'.tr(),
+                              AppText.clear,
                               style: const TextStyle(
                                 fontSize: 14,
                                 fontWeight: FontWeight.w500,
@@ -170,7 +170,7 @@ class _FilterWidgetSheetState extends State<FilterWidgetSheet> {
                       Row(
                         children: [
                           Text(
-                            'lbl_price'.tr(),
+                            AppText.lbl_price,
                             style: const TextStyle(
                               fontSize: 14,
                               fontWeight: FontWeight.w500,
@@ -220,7 +220,7 @@ class _FilterWidgetSheetState extends State<FilterWidgetSheet> {
                               focusNode: _fromFocusNode,
                               controller: _fromController,
                               textInputType: TextInputType.number,
-                              hintText: 'from'.tr(),
+                              hintText: AppText.lbl_from,
                             ),
                           ),
                           SizedBox(width: 12.w),
@@ -235,7 +235,7 @@ class _FilterWidgetSheetState extends State<FilterWidgetSheet> {
                               focusNode: _toFocusNode,
                               controller: _toController,
                               textInputType: TextInputType.number,
-                              hintText: 'to'.tr(),
+                              hintText: AppText.lbl_to,
                               inputFormatters: [
                                 // filtering the input to not allow inpuut more than the _endValue
                                 FilteringTextInputFormatter.allow(
@@ -288,8 +288,8 @@ class _FilterWidgetSheetState extends State<FilterWidgetSheet> {
                                 color: AppColors.PRIMARY_COLOR)),
                         child: RangeSlider(
                           labels: RangeLabels(
-                            'lbl_kwd'.tr(args: [_fromController.text]),
-                            'lbl_kwd'.tr(
+                            AppText.lbl_kwd(args: [_fromController.text]),
+                            AppText.lbl_kwd(
                               args: [_toController.text],
                             ),
                           ),
@@ -312,7 +312,7 @@ class _FilterWidgetSheetState extends State<FilterWidgetSheet> {
                         widget.serviceCubit.setPriceRange(
                             values.start, values.end, _starterValue, _endValue);
                       },
-                      label: 'apply'.tr()),
+                      label: AppText.apply),
                 ),
               ],
             );

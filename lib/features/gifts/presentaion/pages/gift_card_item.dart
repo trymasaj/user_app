@@ -38,13 +38,13 @@ class GiftCardItem extends StatelessWidget {
           const Spacer(),
           Row(
             children: [
-              const SubtitleText.medium(
-                text: 'lbl_gift_card',
+              SubtitleText.medium(
+                text: AppText.lbl_gift_card,
                 color: Colors.white,
               ),
               const Spacer(),
               SubtitleText.medium(
-                text: 'lbl_kwd'.tr(args: [amount.toString()]),
+                text: AppText.lbl_kwd(args: [amount.toString()]),
                 color: Colors.white,
                 isBold: true,
               )

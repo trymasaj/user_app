@@ -75,7 +75,7 @@ class _EditAddressScreenState extends State<EditAddressScreen> {
     return UpdateAddressScreen<EditAddressCubit, InitiallySelectAreaCubit>(
       formKey: formKey,
       isPrimary: widget.arguments.isPrimary,
-      title: 'lbl_edit_address'.tr(),
+      title: AppText.lbl_edit_address,
     );
   }
 }
@@ -135,7 +135,7 @@ class _AddAddressScreenState extends State<AddAddressScreen> {
     return UpdateAddressScreen<AddAddressCubit, NotInitiallySelectAreaCubit>(
       formKey: formKey,
       isPrimary: false,
-      title: 'lbl_add_new_address'.tr(),
+      title: AppText.lbl_add_new_address,
     );
   }
 }
@@ -258,7 +258,7 @@ class UpdateAddressScreen<T extends UpdateAddressCubit,
     return CustomOutlinedButton(
       height: 36.h,
       width: 137.w,
-      text: 'lbl_change_location'.tr(),
+      text: AppText.lbl_change_location,
       buttonStyle: CustomButtonStyles.outlineGray,
       alignment: Alignment.center,
       onPressed: () async {
@@ -308,7 +308,7 @@ class UpdateAddressScreen<T extends UpdateAddressCubit,
     return FormBuilderTextField(
       style: CustomTextStyles.bodyMediumGray90003,
       decoration: InputDecoration(
-        hintText: 'msg_address_nickname'.tr(),
+        hintText: AppText.msg_address_nickname,
         errorStyle: const TextStyle(fontSize: 12, color: AppColors.ERROR_COLOR),
         hintStyle: const TextStyle(fontSize: 14),
       ),
@@ -320,11 +320,11 @@ class UpdateAddressScreen<T extends UpdateAddressCubit,
   Widget _buildBlockEditText(BuildContext context) {
     return FormBuilderTextField(
       validator: FormBuilderValidators.compose([
-        FormBuilderValidators.required(errorText: 'empty_field_not_valid'.tr()),
+        FormBuilderValidators.required(errorText: AppText.empty_field_not_valid),
       ]),
       style: CustomTextStyles.bodyMediumGray90003,
       decoration: InputDecoration(
-        hintText: 'lbl_block'.tr(),
+        hintText: AppText.lbl_block,
         errorStyle: const TextStyle(fontSize: 12, color: AppColors.ERROR_COLOR),
         hintStyle: const TextStyle(fontSize: 14),
       ),
@@ -336,11 +336,11 @@ class UpdateAddressScreen<T extends UpdateAddressCubit,
   Widget _buildStreetEditText(BuildContext context) {
     return FormBuilderTextField(
       validator: FormBuilderValidators.compose([
-        FormBuilderValidators.required(errorText: 'empty_field_not_valid'.tr()),
+        FormBuilderValidators.required(errorText: AppText.empty_field_not_valid),
       ]),
       style: CustomTextStyles.bodyMediumGray90003,
       decoration: InputDecoration(
-        hintText: 'lbl_street'.tr(),
+        hintText: AppText.lbl_street,
         errorStyle: const TextStyle(fontSize: 12, color: AppColors.ERROR_COLOR),
         hintStyle: const TextStyle(fontSize: 14),
       ),
@@ -355,7 +355,7 @@ class UpdateAddressScreen<T extends UpdateAddressCubit,
       style: CustomTextStyles.bodyMediumGray90003,
       validator: FormBuilderValidators.compose([]),
       decoration: InputDecoration(
-        hintText: 'lbl_address'.tr(),
+        hintText: AppText.lbl_address,
         errorStyle: const TextStyle(fontSize: 12, color: AppColors.ERROR_COLOR),
         hintStyle: const TextStyle(fontSize: 14),
       ),
@@ -367,12 +367,12 @@ class UpdateAddressScreen<T extends UpdateAddressCubit,
   Widget _buildAvenueEditText(BuildContext context) {
     return FormBuilderTextField(
       validator: FormBuilderValidators.compose([
-        FormBuilderValidators.required(errorText: 'empty_field_not_valid'.tr()),
+        FormBuilderValidators.required(errorText: AppText.empty_field_not_valid),
       ]),
       style: CustomTextStyles.bodyMediumGray90003,
       decoration: InputDecoration(
         helperText: '',
-        hintText: 'lbl_avenue'.tr(),
+        hintText: AppText.lbl_avenue,
         errorStyle: const TextStyle(fontSize: 12, color: AppColors.ERROR_COLOR),
         hintStyle: const TextStyle(fontSize: 14),
       ),
@@ -384,13 +384,13 @@ class UpdateAddressScreen<T extends UpdateAddressCubit,
   Widget _buildHouseBuildingNoEditText(BuildContext context) {
     return FormBuilderTextField(
       validator: FormBuilderValidators.compose([
-        FormBuilderValidators.required(errorText: 'empty_field_not_valid'.tr()),
+        FormBuilderValidators.required(errorText: AppText.empty_field_not_valid),
       ]),
       name: Address.buildingKey,
       style: CustomTextStyles.bodyMediumGray90003,
       decoration: InputDecoration(
         helperText: '',
-        hintText: 'msg_house_building_no'.tr(),
+        hintText: AppText.msg_house_building_no,
         errorStyle: const TextStyle(fontSize: 12, color: AppColors.ERROR_COLOR),
         hintStyle: const TextStyle(fontSize: 13),
       ),
@@ -403,7 +403,7 @@ class UpdateAddressScreen<T extends UpdateAddressCubit,
       style: CustomTextStyles.bodyMediumGray90003,
       decoration: InputDecoration(
         helperText: '',
-        hintText: 'lbl_floor'.tr(),
+        hintText: AppText.lbl_floor,
         hintMaxLines: 1,
         errorStyle: const TextStyle(fontSize: 12, color: AppColors.ERROR_COLOR),
         hintStyle: const TextStyle(fontSize: 14),
@@ -419,7 +419,7 @@ class UpdateAddressScreen<T extends UpdateAddressCubit,
       style: CustomTextStyles.bodyMediumGray90003,
       decoration: InputDecoration(
         helperText: '',
-        hintText: 'lbl_apartment_no'.tr(),
+        hintText: AppText.lbl_apartment_no,
         errorStyle: const TextStyle(fontSize: 12, color: AppColors.ERROR_COLOR),
         hintStyle: const TextStyle(fontSize: 14),
       ),
@@ -433,7 +433,7 @@ class UpdateAddressScreen<T extends UpdateAddressCubit,
       validator: FormBuilderValidators.compose([]),
       style: CustomTextStyles.bodyMediumGray90003,
       decoration: InputDecoration(
-        hintText: 'msg_additional_direction'.tr(),
+        hintText: AppText.msg_additional_direction,
         hintStyle: CustomTextStyles.bodyMediumBluegray40001_1,
       ),
       textInputAction: TextInputAction.done,
@@ -453,7 +453,7 @@ class UpdateAddressScreen<T extends UpdateAddressCubit,
       activeColor: AppColors.PRIMARY_COLOR,
       enabled: !isPrimary,
       title: Text(
-        'msg_set_as_primary_address'.tr(),
+        AppText.msg_set_as_primary_address,
         style: CustomTextStyles.bodyMediumGray90003,
       ),
     );
@@ -462,7 +462,7 @@ class UpdateAddressScreen<T extends UpdateAddressCubit,
   /// Section Widget
   Widget _buildSaveButton(BuildContext context) {
     return DefaultButton(
-      label: 'lbl_save'.tr(),
+      label: AppText.lbl_save,
       padding: EdgeInsets.symmetric(horizontal: 150.w),
       onPressed: () async {
         final countryCubit = context.read<CountryCubit>();

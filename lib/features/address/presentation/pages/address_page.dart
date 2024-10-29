@@ -46,7 +46,7 @@ class _AddressPageState extends State<AddressPage> {
                   color: AppColors.PRIMARY_COLOR,
                 ))
           ],
-          title: 'lbl_addresses'.tr(),
+          title: AppText.lbl_addresses,
         ),
         body: BlocBuilder<MyAddressesCubit, MyAddressesState>(
           builder: (context, state) {

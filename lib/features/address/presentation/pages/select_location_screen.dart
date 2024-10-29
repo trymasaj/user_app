@@ -42,7 +42,7 @@ class _SelectLocationScreenState extends State<SelectLocationScreen> {
   }
 
   CustomAppBar? _buildAppBar() =>
-      widget.isFromHomePage ? CustomAppBar(title: 'location'.tr()) : null;
+      widget.isFromHomePage ? CustomAppBar(title: AppText.location) : null;
 
   Widget _buildBody(BuildContext context) {
     return BlocProvider<SelectAreaCubit>(
@@ -59,7 +59,7 @@ class _SelectLocationScreenState extends State<SelectLocationScreen> {
                 Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
               Align(
                   alignment: Alignment.centerLeft,
-                  child: Text('msg_select_your_location'.tr(),
+                  child: Text(AppText.msg_select_your_location,
                       style: CustomTextStyles.titleMediumGray9000318)),
               SizedBox(height: 2.h),
               Align(

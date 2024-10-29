@@ -1,6 +1,7 @@
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:masaj/core/app_text.dart';
 import 'package:masaj/core/presentation/colors/app_colors.dart';
 import 'package:masaj/core/presentation/navigation/navigator_helper.dart';
 import 'package:masaj/core/presentation/overlay/show_snack_bar.dart';
@@ -178,7 +179,7 @@ class _ChangePasswordPageState extends State<ChangePasswordPage> {
   Widget _buildSavePasswordButton(BuildContext context) {
     final authCubit = context.read<AuthCubit>();
     return DefaultButton(
-      label: 'save_new_password'.tr(),
+      label: AppText.save_new_password,
       backgroundColor: AppColors.PRIMARY_COLOR,
       borderColor: Colors.white,
       margin: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 24.0),

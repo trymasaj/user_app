@@ -49,7 +49,7 @@ class _MedicalFormScreenState extends State<MedicalFormScreen> {
 
   @override
   void initState() {
-    _conditionsController = TextEditingController(text: 'lbl_conditions'.tr());
+    _conditionsController = TextEditingController(text: AppText.lbl_conditions);
     context.read<MedicalFormBloc>().getConditions();
     context.read<MedicalFormBloc>().clear();
 
@@ -107,7 +107,7 @@ class _MedicalFormScreenState extends State<MedicalFormScreen> {
                                 _buildFrame(context),
                                 SizedBox(height: 18.h),
                                 Text(
-                                  'msg_health_condititons'.tr(),
+                                  AppText.msg_health_condititons,
                                   style:
                                       CustomTextStyles.titleMediumOnPrimary_1,
                                 ),
@@ -115,7 +115,7 @@ class _MedicalFormScreenState extends State<MedicalFormScreen> {
                                 SizedBox(
                                   width: 325.w,
                                   child: Text(
-                                    'msg_select_all_the_conditions'.tr(),
+                                    AppText.msg_select_all_the_conditions,
                                     maxLines: 2,
                                     overflow: TextOverflow.ellipsis,
                                     style: theme.textTheme.bodyMedium!.copyWith(
@@ -128,7 +128,7 @@ class _MedicalFormScreenState extends State<MedicalFormScreen> {
                                   crossAxisAlignment: CrossAxisAlignment.start,
                                   children: [
                                     Text(
-                                      'lbl_conditions'.tr(),
+                                      AppText.lbl_conditions,
                                       style: theme.textTheme.bodyMedium,
                                     ),
                                     SizedBox(height: 7.h),
@@ -155,7 +155,7 @@ class _MedicalFormScreenState extends State<MedicalFormScreen> {
                                   width: 290.w,
                                   margin: EdgeInsets.only(right: 36.w),
                                   child: Text(
-                                    'msg_are_you_presently'.tr(),
+                                    AppText.msg_are_you_presently,
                                     maxLines: 3,
                                     overflow: TextOverflow.ellipsis,
                                   ),
@@ -193,7 +193,7 @@ class _MedicalFormScreenState extends State<MedicalFormScreen> {
                     }
                   }
                   if (state.isLoaded) {
-                    showSnackBar(context, message: 'msg_medical_form'.tr());
+                    showSnackBar(context, message: AppText.msg_medical_form);
 
                     NavigatorHelper.of(context).pop();
                   }
@@ -213,7 +213,7 @@ class _MedicalFormScreenState extends State<MedicalFormScreen> {
   /// Section Widget
   PreferredSizeWidget _buildAppBar(BuildContext context) {
     return CustomAppBar(
-      title: 'lbl_medical_form'.tr(),
+      title: AppText.lbl_medical_form,
     );
   }
 
@@ -223,7 +223,7 @@ class _MedicalFormScreenState extends State<MedicalFormScreen> {
       crossAxisAlignment: CrossAxisAlignment.stretch,
       children: [
         Text(
-          'lbl_birth_date'.tr(),
+          AppText.lbl_birth_date,
           style: CustomTextStyles.titleMediumOnPrimary_1,
         ),
         SizedBox(height: 7.h),
@@ -232,7 +232,7 @@ class _MedicalFormScreenState extends State<MedicalFormScreen> {
           readOnly: true,
           currentFocusNode: _birthDateFocusNode,
           currentController: _birthDateTextController,
-          hint: 'lbl_birth_date',
+          hint: AppText.lbl_birth_date,
           prefixIcon: buildImage(ImageConstant.imgCalendar),
           suffixIcon: buildImage(ImageConstant.imgCalendar),
           onTap: () async {
@@ -281,7 +281,7 @@ class _MedicalFormScreenState extends State<MedicalFormScreen> {
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         Text(
-          'msg_do_you_have_any'.tr(),
+          AppText.msg_do_you_have_any,
           style: theme.textTheme.bodyMedium,
         ),
         SizedBox(height: 7.h),
@@ -302,12 +302,12 @@ class _MedicalFormScreenState extends State<MedicalFormScreen> {
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         Text(
-          'msg_personalize_you'.tr(),
+          AppText.msg_personalize_you,
           style: CustomTextStyles.titleMediumOnPrimary_1,
         ),
         SizedBox(height: 6.h),
         Text(
-          'msg_what_are_your_treatment'.tr(),
+          AppText.msg_what_are_your_treatment,
           style: theme.textTheme.bodyMedium,
         ),
         SizedBox(height: 7.h),
@@ -331,7 +331,7 @@ class _MedicalFormScreenState extends State<MedicalFormScreen> {
           width: 294.w,
           margin: EdgeInsets.only(right: 32.w),
           child: Text(
-            'msg_during_your_massage'.tr(),
+            AppText.msg_during_your_massage,
             maxLines: 2,
             overflow: TextOverflow.ellipsis,
             style: theme.textTheme.bodyMedium!.copyWith(
@@ -357,7 +357,7 @@ class _MedicalFormScreenState extends State<MedicalFormScreen> {
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         Text(
-          'msg_do_you_have_any2'.tr(),
+          AppText.msg_do_you_have_any2,
           style: theme.textTheme.bodyMedium,
         ),
         SizedBox(height: 8.h),
@@ -378,18 +378,18 @@ class _MedicalFormScreenState extends State<MedicalFormScreen> {
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         Text(
-          'lbl_guardian_name'.tr(),
+          AppText.lbl_guardian_name,
           style: CustomTextStyles.titleMediumOnPrimary_1,
         ),
         SizedBox(height: 6.h),
         Text(
-          'msg_required_for_quests'.tr(),
+          AppText.msg_required_for_quests,
           style: theme.textTheme.bodyMedium,
         ),
         SizedBox(height: 9.h),
         DefaultTextFormField(
           currentController: _guardianNameController,
-          hint: ''.tr(),
+          hint: '',
           maxLines: 3,
           isRequired: true,
           currentFocusNode: _guardianNameFocusNode,
@@ -402,7 +402,7 @@ class _MedicalFormScreenState extends State<MedicalFormScreen> {
   Widget _buildSave(BuildContext context) {
     final cubit = context.read<MedicalFormBloc>();
     return DefaultButton(
-      label: 'lbl_save'.tr(),
+      label: AppText.lbl_save,
       margin: EdgeInsets.only(
         left: 24.w,
         right: 24.w,

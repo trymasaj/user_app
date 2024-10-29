@@ -102,10 +102,10 @@ class _ChooseLanguagePageState extends State<ChooseLanguagePage> {
                   height: 19.h,
                   width: 121.w),
           SizedBox(height: 18.h),
-          Text('msg_choose_app_language'.tr(),
+          Text(AppText.msg_choose_app_language,
               style: CustomTextStyles.titleMediumGray90002),
           SizedBox(height: 4.h),
-          Text('msg_please_select_your'.tr(),
+          Text(AppText.msg_please_select_your,
               style: CustomTextStyles.bodyMediumGray60002),
           SizedBox(height: 19.h),
           CustomRadioListTile(
@@ -113,8 +113,8 @@ class _ChooseLanguagePageState extends State<ChooseLanguagePage> {
               children: [
                 CountryFlag.fromCountryCode('KW', width: 20.0, height: 20.0),
                 const SizedBox(width: 8.0),
-                const CustomText(
-                  text: 'arabic',
+                CustomText(
+                  text: AppText.arabic,
                   fontSize: 14.0,
                   fontWeight: FontWeight.w500,
                 ),
@@ -131,8 +131,8 @@ class _ChooseLanguagePageState extends State<ChooseLanguagePage> {
               children: [
                 CountryFlag.fromCountryCode('US', width: 20.0, height: 20.0),
                 const SizedBox(width: 8.0),
-                const CustomText(
-                  text: 'english',
+                CustomText(
+                  text: AppText.english,
                   fontSize: 14.0,
                   fontWeight: FontWeight.w500,
                 ),
@@ -152,9 +152,9 @@ class _ChooseLanguagePageState extends State<ChooseLanguagePage> {
 
   Widget _buildAppBar() {
     return widget.fromSetting
-        ? const CustomAppBar(
+        ? CustomAppBar(
             leadingPadding: const EdgeInsets.only(right: 32),
-            title: 'lbl_language',
+            title: AppText.lbl_language,
             elevation: 0.0,
           )
         : SizedBox(height: 62.h);
@@ -164,7 +164,7 @@ class _ChooseLanguagePageState extends State<ChooseLanguagePage> {
     final cubit = context.read<ChooseLanguageCubit>();
 
     return DefaultButton(
-      label: 'lbl_continue'.tr(),
+      label: AppText.lbl_continue,
       onPressed: () {
           setState(() {
             context.setLocale(_selectedLocal);

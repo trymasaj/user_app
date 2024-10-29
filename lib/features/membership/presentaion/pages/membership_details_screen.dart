@@ -60,7 +60,7 @@ class _MembershipCheckoutScreenState extends State<MembershipCheckoutScreen> {
         ],
         child: Scaffold(
           appBar: CustomAppBar(
-            title: 'lbl_membership_plan'.tr(),
+            title: AppText.lbl_membership_plan,
           ),
           body: _buildBody(),
         ),
@@ -150,8 +150,8 @@ class _MembershipCheckoutScreenState extends State<MembershipCheckoutScreen> {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          const TitleText(
-            text: 'payment_method',
+          TitleText(
+            text: AppText.payment_method,
           ),
           WalletSection(
             totalPrice: total.toDouble(),
@@ -235,16 +235,16 @@ class _MembershipCheckoutScreenState extends State<MembershipCheckoutScreen> {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          TitleText(text: 'lbl_summary'),
+          TitleText(text: AppText.lbl_summary),
           const SizedBox(height: 12.0),
-          _buildSummaryItem(title: 'lbl_sub_total2', amount: subTotal),
+          _buildSummaryItem(title: AppText.lbl_sub_total2, amount: subTotal),
           const SizedBox(height: 12.0),
           const Divider(
             thickness: 3,
             color: AppColors.ExtraLight,
           ),
           const SizedBox(height: 12.0),
-          _buildSummaryItem(title: 'total', amount: total),
+          _buildSummaryItem(title: AppText.total, amount: total),
         ],
       ),
     );
@@ -284,7 +284,7 @@ class _MembershipCheckoutScreenState extends State<MembershipCheckoutScreen> {
               planId: cubit.state.plans?.id,
               fromWallet: false);
         },
-        label: 'lbl_upgrade_now',
+        label: AppText.lbl_upgrade_now,
       ),
     );
   }

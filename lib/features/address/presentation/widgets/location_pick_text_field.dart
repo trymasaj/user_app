@@ -51,7 +51,7 @@ class LocationPickTextField extends StatelessWidget {
               disabledBorder: border,
               errorBorder: border,
               focusedErrorBorder: border,
-              hintText: 'search_location'.tr(),
+              hintText: AppText.search_location,
             ));
       },
       debounceDuration: const Duration(milliseconds: 700),

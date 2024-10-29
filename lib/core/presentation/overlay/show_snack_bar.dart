@@ -1,6 +1,7 @@
 import 'dart:developer';
 import 'package:easy_localization/easy_localization.dart' hide TextDirection;
 import 'package:flutter/material.dart';
+import 'package:masaj/core/app_text.dart';
 import 'package:masaj/core/domain/exceptions/redundant_request_exception.dart';
 import 'package:masaj/core/presentation/colors/app_colors.dart';
 import 'package:masaj/core/presentation/navigation/navigator_helper.dart';
@@ -56,10 +57,10 @@ void showGuestSnackBar(
   BuildContext context,
 ) {
   showSnackBar(context,
-      message: 'msg_in_order_to_accessing'.tr(),
+      message: AppText.msg_in_order_to_accessing,
       action: TextButton(
         child: SubtitleText(
-          text: 'login'.tr(),
+          text: AppText.login,
           color: AppColors.PRIMARY_COLOR,
         ),
         onPressed: () {

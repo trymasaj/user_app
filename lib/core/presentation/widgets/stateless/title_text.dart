@@ -139,7 +139,7 @@ class TitleText extends StatelessWidget {
     final textStyleAfter = textStyleBefore.copyWith(
         fontSize: textStyleBefore.fontSize! - subtractedSize);
     Widget child = Text(
-      text.tr(),
+      text,
       softWrap: true,
       maxLines: maxLines,
       overflow: TextOverflow.ellipsis,

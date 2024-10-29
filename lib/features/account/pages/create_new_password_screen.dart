@@ -37,7 +37,7 @@ class CreateNewPasswordScreen extends StatelessWidget {
           showSnackBar(context, message: state.errorMessage);
         if (state.isChangePassword) {
           NavigatorHelper.of(context).pop();
-          showSnackBar(context, message: 'password_changed'.tr());
+          showSnackBar(context, message: AppText.password_changed);
         }
       },
       child: Scaffold(
@@ -73,7 +73,7 @@ class CreateNewPasswordScreen extends StatelessWidget {
                 ),
                 SizedBox(height: 20.h),
                 DefaultButton(
-                    label: 'lbl_continue'.tr(),
+                    label: AppText.lbl_continue,
                     isExpanded: true,
                     onPressed: () async {
                       final cubit = context.read<AuthCubit>();
@@ -105,7 +105,7 @@ class CreateNewPasswordScreen extends StatelessWidget {
   /// Section Widget
   PreferredSizeWidget _buildAppBar(BuildContext context) {
     return CustomAppBar(
-      title: 'lbl_change_password'.tr(),
+      title: AppText.lbl_change_password,
       centerTitle: true,
     );
   }

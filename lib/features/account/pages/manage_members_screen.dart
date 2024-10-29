@@ -34,7 +34,7 @@ class _ManageMembersScreenState extends State<ManageMembersScreen> {
     return CustomAppPage(
       child: Scaffold(
           appBar: CustomAppBar(
-            title: 'lbl_manage_members'.tr(),
+            title: AppText.lbl_manage_members,
             actions: [buildAddMemberButton(context)],
             centerTitle: true,
           ),
@@ -147,7 +147,7 @@ Widget buildAddMemberButton(BuildContext context, {VoidCallback? onPop}) {
       child: Padding(
         padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 14.0),
         child: Text(
-          'lbl_add'.tr(),
+          AppText.lbl_add,
           style: CustomTextStyles.titleMediumSecondaryContainer.copyWith(
             color: theme.colorScheme.secondaryContainer,
           ),

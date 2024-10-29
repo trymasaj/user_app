@@ -97,15 +97,15 @@ class _SummaryPaymentPageState extends State<SummaryPaymentPage> {
                       ),
                     ),
                     const SizedBox(height: 24.0),
-                    const CustomText(
-                      text: 'msg_congratulations',
+                    CustomText(
+                      text: AppText.msg_congratulations,
                       textAlign: TextAlign.center,
                       subtractedSize: -2,
                       fontWeight: FontWeight.bold,
                     ),
                     const SizedBox(height: 24.0),
-                    const CustomText(
-                      text: 'msg_you_hit_a_10_sessions',
+                    CustomText(
+                      text: AppText.msg_you_hit_a_10_sessions,
                       textAlign: TextAlign.center,
                       subtractedSize: -2,
                     ),
@@ -161,14 +161,14 @@ class _SummaryPaymentPageState extends State<SummaryPaymentPage> {
                       ),
                     ),
                     const SizedBox(height: 24.0),
-                    const CustomText(
-                      text: 'remaining_sessions',
+                    CustomText(
+                      text: AppText.remaining_sessions,
                       textAlign: TextAlign.center,
                       subtractedSize: -2,
                     ),
                     const SizedBox(height: 24.0),
                     CustomText(
-                      text: 'left_sessions'.tr(args: [streak.toString()]),
+                      text: AppText.left_sessions(args: [streak.toString()]),
                       subtractedSize: -2,
                       textAlign: TextAlign.center,
                     ),
@@ -200,12 +200,12 @@ class _SummaryPaymentPageState extends State<SummaryPaymentPage> {
                   NavigatorHelper.of(context).pushNamedAndRemoveUntil(
                       HomePage.routeName, (route) => false);
                 },
-                label: 'lbl_back_to_home',
+                label: AppText.lbl_back_to_home,
                 isExpanded: true,
               ),
             ),
-            appBar: const CustomAppBar(
-              title: 'lbl_payment_details',
+            appBar: CustomAppBar(
+              title: AppText.lbl_payment_details,
               centerTitle: true,
               showBackButton: false,
             ),
@@ -219,19 +219,18 @@ class _SummaryPaymentPageState extends State<SummaryPaymentPage> {
                       : 'assets/images/failed_payment.svg'),
                   SubtitleText(
                       text: isSucceeded
-                          ? 'msg_payment_successful'
-                          : 'msg_payment_failed',
+                          ? AppText.msg_payment_successful
+                          : AppText.msg_payment_failed,
                       subtractedSize: -1,
                       isBold: true),
-                  const SubtitleText(text: 'lbl_wallet_balance'),
+                  SubtitleText(text: AppText.lbl_wallet_balance),
                   BlocSelector<WalletBloc, WalletState, WalletModel?>(
                     selector: (state) {
                       return state.walletBalance;
                     },
                     builder: (context, state) {
                       return SubtitleText(
-                          text: 'lbl_kwd'
-                              .tr(args: [(state?.balance ?? 0).toString()]));
+                          text: AppText.lbl_kwd(args: [(state?.balance ?? 0).toString()]));
                     },
                   ),
                   const SizedBox(height: 20),
@@ -259,34 +258,34 @@ class _SummaryPaymentPageState extends State<SummaryPaymentPage> {
         padding: const EdgeInsets.all(16.0),
         child: Column(mainAxisSize: MainAxisSize.min, children: [
           _buildSummaryPriceItem(
-              amount: bookingModel?.subtotal, title: 'lbl_sub_total2'),
+              amount: bookingModel?.subtotal, title: AppText.lbl_sub_total2),
           _buildSummaryPriceItem(
               amount: bookingModel?.discountedAmount,
-              title: 'lbl_coupon_discount'),
+              title: AppText.lbl_coupon_discount),
           _buildSummaryPriceItem(
-              amount: bookingModel?.grandTotal, title: 'lbl_total_amount2'),
+              amount: bookingModel?.grandTotal, title: AppText.lbl_total_amount2),
           if (bookingModel?.payment != null)
             _buildSummaryItem(
                 amount: bookingModel?.payment?.paymentMethod?.name,
-                title: 'payment_method'),
+                title: AppText.payment_method),
           if (bookingModel?.payment != null)
             _buildSummaryItem(
-                amount: bookingModel?.payment?.paymentId, title: 'payment_id'),
+                amount: bookingModel?.payment?.paymentId, title: AppText.payment_id),
           if (bookingModel?.payment != null)
             _buildSummaryItem(
                 amount: bookingModel?.payment?.referenceId,
-                title: 'reference_id'),
+                title: AppText.reference_id),
           if (bookingModel?.payment != null)
             _buildSummaryItem(
                 amount: DateTime.parse(bookingModel!.payment!.paymentDate!)
                     .formatDate(),
-                title: 'payment_date'),
+                title: AppText.payment_date),
           if (bookingModel?.payment != null)
             _buildSummaryItem(
                 amount: bookingModel?.payment?.paymentStatus?.name,
                 isStatus: bookingModel?.payment?.paymentStatus ==
                     PaymentStatus.Captured,
-                title: 'payment_status')
+                title: AppText.payment_status)
         ]),
       ), //Education2016
     );
@@ -341,7 +340,7 @@ class _SummaryPaymentPageState extends State<SummaryPaymentPage> {
           Expanded(
             flex: 6,
             child: SubtitleText(
-              text: 'lbl_kwd'.tr(args: [amount.toString()]),
+              text: AppText.lbl_kwd(args: [amount.toString()]),
               textAlign: TextAlign.end,
               isBold: false,
               color:

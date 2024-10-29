@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:masaj/core/app_text.dart';
 import 'package:masaj/core/data/services/adjsut.dart';
 import 'package:masaj/core/presentation/colors/app_colors.dart';
 import 'package:masaj/core/presentation/size/size_utils.dart';
@@ -303,7 +304,7 @@ class _HomeTabState extends State<HomeTab> {
         if (state.isLoading) return const CustomLoading();
         if (state.homeData == null) {
           return EmptyPageMessage(
-            message: 'home_page_is_empty',
+            message: AppText.home_page_is_empty,
             heightRatio: .9,
             onRefresh: cubit.refresh,
           );
@@ -313,7 +314,7 @@ class _HomeTabState extends State<HomeTab> {
 
         if (homeData != null) {
           return EmptyPageMessage(
-            message: 'home_page_is_empty',
+            message: AppText.home_page_is_empty,
             heightRatio: .9,
             onRefresh: cubit.refresh,
           );
@@ -324,8 +325,8 @@ class _HomeTabState extends State<HomeTab> {
           color: AppColors.ACCENT_COLOR,
           child: ListView(
             padding: EdgeInsets.zero,
-            children: const [
-              Text('home tab'),
+            children: [
+              Text(AppText.home),
             ],
           ),
         );

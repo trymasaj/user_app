@@ -12,3 +12,4 @@ export 'package:masaj/core/presentation/widgets/stateless/custom_elevated_button
 export 'package:masaj/core/presentation/widgets/stateless/custom_icon_button.dart';
 export 'package:masaj/core/presentation/widgets/stateless/custom_image_view.dart';
 export 'package:masaj/core/presentation/widgets/stateless/custom_switch.dart';
+export 'app_text.dart';

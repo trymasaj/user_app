@@ -67,7 +67,7 @@ class _TopUpWalletScreenState extends State<TopUpWalletScreen> {
   /// Section Widget
   PreferredSizeWidget _buildAppBar(BuildContext context) {
     return CustomAppBar(
-      title: 'lbl_wallet_top_up'.tr(),
+      title: AppText.lbl_wallet_top_up,
     );
   }
 
@@ -75,7 +75,7 @@ class _TopUpWalletScreenState extends State<TopUpWalletScreen> {
   Widget _buildFrameColumn(BuildContext context) {
     final walletCubit = context.read<WalletBloc>();
     return Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
-      Text('msg_have_a_gift_voucher'.tr(), style: theme.textTheme.titleSmall),
+      Text(AppText.msg_have_a_gift_voucher, style: theme.textTheme.titleSmall),
       SizedBox(height: 8.h),
       BlocConsumer<GiftsCubit, GiftsState>(
         builder: (context, state) {
@@ -84,7 +84,7 @@ class _TopUpWalletScreenState extends State<TopUpWalletScreen> {
             child: DefaultTextFormField(
               validator: (value) {
                 if (value == null || value.isEmpty)
-                  return 'lbl_gift_voucher_validation'.tr();
+                  return AppText.lbl_gift_voucher_validation;
               },
               currentController: _giftController,
               decoration: InputDecoration(
@@ -101,10 +101,10 @@ class _TopUpWalletScreenState extends State<TopUpWalletScreen> {
                                 .redeemGiftCard(context, _giftController.text);
                           } else {
                             showSnackBar(context,
-                                message: 'lbl_gift_voucher_validation'.tr());
+                                message: AppText.lbl_gift_voucher_validation);
                           }
                         },
-                        text: 'lbl_apply'.tr(),
+                        text: AppText.lbl_apply,
                         buttonStyle: CustomButtonStyles.none,
                         decoration: CustomButtonStyles
                             .gradientSecondaryContainerToPrimaryTL6Decoration,
@@ -123,7 +123,7 @@ class _TopUpWalletScreenState extends State<TopUpWalletScreen> {
                       borderRadius: BorderRadiusStyle.roundedBorder8,
                       borderSide: BorderSide.none)),
               currentFocusNode: null,
-              hint: 'msg_enter_redeem_code'.tr(),
+              hint: AppText.msg_enter_redeem_code,
             ),
           );
         },
@@ -137,7 +137,7 @@ class _TopUpWalletScreenState extends State<TopUpWalletScreen> {
   /// Section Widget
   Widget _buildPackages(BuildContext context) {
     return Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
-      Text('msg_top_up_your_wallet'.tr(), style: theme.textTheme.titleSmall),
+      Text(AppText.msg_top_up_your_wallet, style: theme.textTheme.titleSmall),
       SizedBox(height: 8.h),
       BlocSelector<WalletBloc, WalletState, List<WalletAmountsModel>?>(
           selector: (state) => state.predefinedAmounts,
@@ -195,14 +195,14 @@ class _TopUpWalletScreenState extends State<TopUpWalletScreen> {
                                     padding: EdgeInsets.only(
                                         left: 4.w, top: 3.h, bottom: 2.h),
                                     child: Text(
-                                        'lbl_kwd'.tr(args: [
+                                        AppText.lbl_kwd(args: [
                                           walletAmountsModel.amount.toString()
                                         ]),
                                         style: CustomTextStyles
                                             .titleLargeOnPrimary))
                               ]),
                           Text(
-                              'lbl_free_kwd'.tr(args: [
+                              AppText.lbl_free_kwd(args: [
                                 walletAmountsModel.bonusAmount.toString()
                               ]),
                               style: CustomTextStyles.bodyMediumLightgreen900)
@@ -221,7 +221,7 @@ class _TopUpWalletScreenState extends State<TopUpWalletScreen> {
   /// Section Widget
   Widget _buildPurchaseButton(BuildContext context) {
     return CustomElevatedButton(
-        text: 'lbl_purchase'.tr(),
+        text: AppText.lbl_purchase,
         margin: EdgeInsets.only(left: 24.w, right: 24.w, bottom: 31.h),
         buttonStyle: CustomButtonStyles.none,
         decoration: CustomButtonStyles
@@ -248,6 +248,6 @@ class _TopUpWalletScreenState extends State<TopUpWalletScreen> {
               ).builder(context, selectedPredefinedAMount.id!, total),
           isScrollControlled: true);
     } else
-      showSnackBar(context, message: 'select at least one');
+      showSnackBar(context, message: AppText.select_at_least_one);
   }
 }

@@ -56,8 +56,8 @@ class _ProvidersTabState extends State<ProvidersTab>
             initialIndex: state.selectedTab.index,
             length: TherapistTabsEnum.values.length,
             child: Scaffold(
-              appBar: const CustomAppBar(
-                title: 'providers',
+              appBar: CustomAppBar(
+                title: AppText.providers,
               ),
               body: SafeArea(
                 child: Padding(

@@ -86,7 +86,7 @@ class _MyProfileScreenState extends State<MyProfileScreen> {
                   SizedBox(height: 8.h),
                   DefaultTextFormField(
                     decoration: InputDecoration(
-                      labelText: 'lbl_name'.tr(),
+                      labelText: AppText.lbl_name,
                       labelStyle: CustomTextStyles.bodyMediumOnPrimary_2,
                     ),
                     currentFocusNode: _nameNode,
@@ -98,7 +98,7 @@ class _MyProfileScreenState extends State<MyProfileScreen> {
                   SizedBox(height: 16.h),
                   DefaultTextFormField(
                     decoration: InputDecoration(
-                      labelText: 'lbl_email'.tr(),
+                      labelText: AppText.lbl_email,
                       labelStyle: CustomTextStyles.bodyMediumOnPrimary_2,
                     ),
                     currentFocusNode: _emailNode,
@@ -122,7 +122,7 @@ class _MyProfileScreenState extends State<MyProfileScreen> {
       listener: (BuildContext context, AuthState state) {
         if (state.isUpdateUser) {
           NavigatorHelper.of(context).pop();
-          showSnackBar(context, message: 'account_updated'.tr());
+          showSnackBar(context, message: AppText.account_updated);
         }
         if (state.isAccountError)
           showSnackBar(context, message: state.errorMessage);
@@ -133,7 +133,7 @@ class _MyProfileScreenState extends State<MyProfileScreen> {
   /// Section Widget
   PreferredSizeWidget _buildAppBar(BuildContext context) {
     return CustomAppBar(
-      title: 'lbl_my_profile'.tr(),
+      title: AppText.lbl_my_profile,
       centerTitle: true,
     );
   }
@@ -202,7 +202,7 @@ class _MyProfileScreenState extends State<MyProfileScreen> {
               },
               child: DefaultTab(
                 isSelected: _selectedGender == Gender.male,
-                title: 'Male'.tr(),
+                title: AppText.Male,
               ),
             )),
             SizedBox(width: 10.w),
@@ -216,7 +216,7 @@ class _MyProfileScreenState extends State<MyProfileScreen> {
               },
               child: DefaultTab(
                   isSelected: _selectedGender == Gender.female,
-                  title: 'Female'.tr()),
+                  title: AppText.Female),
             )),
             SizedBox(width: 10.w),
             Expanded(
@@ -229,7 +229,7 @@ class _MyProfileScreenState extends State<MyProfileScreen> {
               },
               child: DefaultTab(
                   isSelected: _selectedGender == Gender.other,
-                  title: 'other'.tr()),
+                  title: AppText.other),
             )),
           ],
         ),
@@ -247,7 +247,7 @@ class _MyProfileScreenState extends State<MyProfileScreen> {
   Widget _buildSaveButton(BuildContext context) {
     final cubit = context.read<AuthCubit>();
     return DefaultButton(
-      label: 'lbl_save'.tr(),
+      label: AppText.lbl_save,
       onPressed: () async {
         if (_isValid()) {
           final newUser = cubit.state.user?.copyWith(
@@ -268,7 +268,7 @@ class _MyProfileScreenState extends State<MyProfileScreen> {
       return false;
     }
     if (_selectedGender == null) {
-      showSnackBar(context, message: 'msg_choose_your_gender'.tr());
+      showSnackBar(context, message: AppText.msg_choose_your_gender);
       return false;
     }
     return true;

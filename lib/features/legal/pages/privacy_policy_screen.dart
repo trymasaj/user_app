@@ -30,7 +30,7 @@ class PrivacyPolicyScreen extends StatelessWidget {
               padding: const EdgeInsets.all(20),
               child: SingleChildScrollView(
                 child: HtmlWidget(
-                  'privacy_policy_content'.tr(),
+                  AppText.privacy_policy_content,
                   textStyle: theme.textTheme.bodyMedium!.copyWith(
                     height: 1.57,
                   ),
@@ -42,8 +42,8 @@ class PrivacyPolicyScreen extends StatelessWidget {
   }
 
   PreferredSizeWidget _buildAppBar(BuildContext context) {
-    return const CustomAppBar(
-      title: 'lbl_privacy_policy',
+    return CustomAppBar(
+      title: AppText.lbl_privacy_policy,
       centerTitle: true,
     );
   }

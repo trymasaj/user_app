@@ -50,7 +50,7 @@ class CustomText extends StatelessWidget {
       decoration: decoration,
     );
     Widget child = Text(
-      text.tr(context: context),
+      text,
       softWrap: true,
       maxLines: maxLines,
       overflow: TextOverflow.ellipsis,
