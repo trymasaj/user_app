@@ -37,7 +37,7 @@ void showSnackBar(BuildContext context,
           children: [
             Flexible(
               child: Text(
-                (message as String).tr(),
+                message,
                 style: Theme.of(context)
                     .textTheme
                     .bodyLarge!

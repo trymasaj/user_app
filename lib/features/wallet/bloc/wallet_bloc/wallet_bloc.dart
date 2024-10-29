@@ -73,6 +73,7 @@ class WalletBloc extends BaseCubit<WalletState> {
           showSnackBar(context, message: 'msg_wallet_success'.tr());
         },
         onFailure: () {
+          logger.error('$runtimeType', 'Payment failed');
           showSnackBar(context, message: 'msg_something_went_wrong'.tr());
         },
       ));
@@ -80,6 +81,8 @@ class WalletBloc extends BaseCubit<WalletState> {
     } on RedundantRequestException catch (e) {
       log(e.toString());
     } catch (e) {
+      logger.error('$runtimeType', e);
+      showSnackBar(context, message: 'msg_something_went_wrong'.tr());
       emit(state.copyWith(
           status: WalletStateStatus.error, errorMessage: e.toString()));
     }
