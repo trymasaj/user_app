@@ -34,11 +34,13 @@ class GiftsCubit extends BaseCubit<GiftsState> {
     emit(state.copyWith(status: GiftsStateStatus.loading));
     try {
       final giftCards = await _giftsRepository.getGitsCards();
+      giftCards.sort((g1,g2)=> (g1.amount??0)-(g2.amount??0));
       emit(state.copyWith(
           status: GiftsStateStatus.loaded, giftCards: giftCards));
     } on RedundantRequestException catch (e) {
       log(e.toString());
     } catch (e) {
+      logger.error('$runtimeType', e);
       showSnackBar(context, message: e.toString());
     }
   }
@@ -70,6 +72,7 @@ class GiftsCubit extends BaseCubit<GiftsState> {
               message: 'gift card has been redeemed successfully');
         },
         onFailure: () {
+          logger.error('$runtimeType', 'purchase gift card failure');
           emit(state.copyWith(
               status: GiftsStateStatus.error,
               errorMessage: 'msg_something_went_wrong'));
@@ -80,6 +83,7 @@ class GiftsCubit extends BaseCubit<GiftsState> {
     } on RedundantRequestException catch (e) {
       log(e.toString());
     } catch (e) {
+      logger.error('$runtimeType', e);
       emit(state.copyWith(
           status: GiftsStateStatus.error, errorMessage: e.toString()));
     }
@@ -95,6 +99,7 @@ class GiftsCubit extends BaseCubit<GiftsState> {
     } on RedundantRequestException catch (e) {
       log(e.toString());
     } catch (e) {
+      logger.error('$runtimeType', e);
       emit(state.copyWith(
           status: GiftsStateStatus.error, errorMessage: e.toString()));
     }
