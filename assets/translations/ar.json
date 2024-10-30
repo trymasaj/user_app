@@ -1,4 +1,12 @@
 {
+  "upper_back":"الظهر العلوي",
+  "lower_back":"الظهر السفلي",
+  "spine":"العمود الفقري",
+  "hips":"الأرداف",
+  "buttocks":"المؤخرة",
+  "thighs":"الفخذين",
+  "calves":"الساقين",
+
   "service_name":"اسم الخدمة",
   "select_at_least_one":"حدد واحدًا على الأقل",
   "home_page_is_empty":"الصفحة الرئيسية فارغة",

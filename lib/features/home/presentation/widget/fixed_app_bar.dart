@@ -50,11 +50,11 @@ class FixedAppBar extends StatelessWidget {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     mainAxisAlignment: MainAxisAlignment.end,
                     children: [
-                      const CustomText(
-                        text: 'location',
+                      CustomText(
+                        text: AppText.location,
                         fontSize: 14,
                         fontWeight: FontWeight.w400,
-                        color: Color.fromRGBO(24, 27, 40, .7),
+                        color: const Color.fromRGBO(24, 27, 40, .7),
                       ),
                       const SizedBox(
                         height: 5,

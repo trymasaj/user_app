@@ -4,7 +4,7 @@ import 'package:masaj/core/app_export.dart';
 import 'package:masaj/core/data/configs/payment_configration.dart';
 import 'package:masaj/core/data/di/di_wrapper.dart';
 import 'package:masaj/core/data/logger/abs_logger.dart';
-import 'package:masaj/core/helpers/date_format_helper.dart';
+import 'package:masaj/core/helpers/date_helper.dart';
 import 'package:masaj/core/presentation/colors/app_colors.dart';
 import 'package:masaj/core/presentation/navigation/navigator_helper.dart';
 import 'package:masaj/core/presentation/overlay/show_snack_bar.dart';
@@ -198,11 +198,11 @@ class _CheckoutScreenState extends State<CheckoutScreen> {
           _buildDetailsRow(
               title: '${AppText.date}:',
               content:
-                  DateFormatHelper.formatDate(bookingModel?.bookingDate) ?? ''),
+                  DateHelper.formatDate(bookingModel?.bookingDate) ?? ''),
           _buildDetailsRow(
               title: '${AppText.time}:',
               content:
-                  DateFormatHelper.formatDateTime(bookingModel?.bookingDate) ??
+                  DateHelper.formatDateTime(bookingModel?.bookingDate) ??
                       ''),
           _buildDetailsRow(
             title: '${AppText.name}:',

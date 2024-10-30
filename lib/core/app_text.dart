@@ -1,10 +1,16 @@
 import 'package:easy_localization/easy_localization.dart';
 
 abstract class AppText {
-  
-
 
   AppText._();
+
+  static String get upper_back => 'upper_back'.tr();
+  static String get lower_back => 'lower_back'.tr();
+  static String get spine => 'spine'.tr();
+  static String get hips => 'hips'.tr();
+  static String get buttocks => 'buttocks'.tr();
+  static String get thighs => 'thighs'.tr();
+  static String get calves => 'calves'.tr();
 
   static String get service_name => 'service_name'.tr();
   static String get select_at_least_one => 'select_at_least_one'.tr();

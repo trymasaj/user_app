@@ -66,13 +66,12 @@ class _SearchScreenState extends State<SearchScreen> {
     return [
       SliverToBoxAdapter(
         child: Container(
-          margin: const EdgeInsets.symmetric(horizontal: 20),
-          child: const Row(
+          margin: EdgeInsets.symmetric(horizontal: 20),
+          child: Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
               Text(
-                // TODO: translate
-                "Services",//AppText.services,
+                AppText.lbl_services,
                 style: TextStyle(
                   fontSize: 14,
                   fontWeight: FontWeight.w400,

@@ -311,7 +311,7 @@ class _FocusAreaPageState extends State<FocusAreaPage>
             ),
           ),
           CustomText(
-            text: focusArea.name.tr(),
+            text: focusArea.name,
             fontSize: 12,
             fontWeight: FontWeight.w400,
           )
