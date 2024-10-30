@@ -639,7 +639,7 @@ class _BookServiceScreenState extends State<BookServiceScreen> {
                                             }
                                             Navigator.of(context).pop();
                                           },
-                                          label: 'save',
+                                          label: AppText.save,
                                         );
                                       })
                                     ],
@@ -767,7 +767,7 @@ class _BookServiceScreenState extends State<BookServiceScreen> {
                               Navigator.of(context).pop();
                               getAvailable();
                             },
-                            label: 'save',
+                            label: AppText.save,
                           )
                         ],
                       ),
@@ -845,7 +845,7 @@ class _BookServiceScreenState extends State<BookServiceScreen> {
             DI.find<AbsLogger>().error('$runtimeType', e);
           }
         },
-        label: 'continue',
+        label: AppText.lbl_continue,
         isExpanded: true,
       ),
     );

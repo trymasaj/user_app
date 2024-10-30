@@ -121,7 +121,7 @@ class _TopUpWalletPaymentMethodBottomsheetState
                         onPressed: () {
                           NavigatorHelper.of(context).pop();
                         },
-                        label: 'cancel',
+                        label: AppText.cancel,
                         color: AppColors.ExtraLight,
                         borderColor: AppColors.ACCENT_COLOR,
                         textColor: AppColors.ACCENT_COLOR,
@@ -138,7 +138,7 @@ class _TopUpWalletPaymentMethodBottomsheetState
                                 walletPredefinedAmountId:
                                     widget.walletPredefinedAmountId);
                           },
-                          label: 'lbl_purchase'),
+                          label: AppText.lbl_purchase),
                     )
                   ],
                 )

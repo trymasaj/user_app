@@ -107,7 +107,7 @@ class _ResetPasswordPageState extends State<ResetPasswordPage> {
     final authCubit = context.read<AuthCubit>();
 
     return DefaultButton(
-      label: 'send',
+      label: AppText.send,
       backgroundColor: Colors.transparent,
       onPressed: () async {
         if (_isNotValid()) return;

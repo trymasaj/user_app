@@ -1,6 +1,8 @@
 import 'package:easy_localization/easy_localization.dart';
 
 abstract class AppText {
+  static var refresh_page;
+
 
   AppText._();
 

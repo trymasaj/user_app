@@ -120,7 +120,7 @@ class _ForgetPasswordPageState extends State<ForgetPasswordPage> {
     final authCubit = context.read<AuthCubit>();
 
     return DefaultButton(
-      label: 'continue',
+      label: AppText.lbl_continue,
       backgroundColor: AppColors.PRIMARY_COLOR,
       onPressed: () async {
         if (_isNotValid()) return;

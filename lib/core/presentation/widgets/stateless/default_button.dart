@@ -89,7 +89,7 @@ class _DefaultButtonState extends State<DefaultButton>
               ? const EdgeInsets.only(top: 3.0)
               : EdgeInsets.zero,
           child: Text(
-            widget.label!.tr(),
+            widget.label ?? '',
             style: widget.labelStyle.copyWith(
               color: widget.textColor,
             ),

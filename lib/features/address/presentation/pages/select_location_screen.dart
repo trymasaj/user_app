@@ -87,7 +87,7 @@ class _SelectLocationScreenState extends State<SelectLocationScreen> {
               SizedBox(
                 width: double.maxFinite,
                 child: DefaultButton(
-                    label: 'lbl_continue',
+                    label: AppText.lbl_continue,
                     onPressed: () async {
                       await onTapContinue(context);
                     }),

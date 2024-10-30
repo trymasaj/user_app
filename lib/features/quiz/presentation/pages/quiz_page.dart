@@ -138,7 +138,7 @@ class _QuizPageState extends State<QuizPage> {
   Widget _buildSkipButton(BuildContext context) {
     final cubit = context.read<QuizPageCubit>();
     return DefaultButton(
-      label: 'skip',
+      label: AppText.skip,
       backgroundColor: Colors.transparent,
       color: Colors.transparent,
       onPressed: () {

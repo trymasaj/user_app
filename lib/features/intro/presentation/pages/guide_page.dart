@@ -218,7 +218,7 @@ class _GuidePageState extends State<GuidePage> {
     final cubit = context.read<GuidePageCubit>();
 
     return DefaultButton(
-      label: 'skip',
+      label: AppText.skip,
       textColor: AppColors.PRIMARY_COLOR,
       backgroundColor: Colors.transparent,
       color: Colors.transparent,

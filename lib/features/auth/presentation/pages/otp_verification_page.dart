@@ -164,7 +164,7 @@ class _OTPVerificationPageState extends State<OTPVerificationPage> {
     final authCubit = context.read<AuthCubit>();
 
     return DefaultButton(
-      label: 'send',
+      label: AppText.send,
       backgroundColor: Colors.transparent,
       onPressed: () async {
         // _goToResetPasswordPage(context);

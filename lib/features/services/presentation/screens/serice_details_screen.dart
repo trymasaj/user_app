@@ -255,7 +255,7 @@ class ServiceDetailsScreenState extends State<ServiceDetailsScreen> {
                         );
                       }),
                   DefaultButton(
-                    label: 'continue',
+                    label: AppText.continue_,
                     onPressed: () async {
                       final isGuest = context.read<AuthCubit>().state.isGuest;
                       if (!isGuest)
@@ -1137,5 +1137,3 @@ class _ServiceImagesViewWidgetState extends State<ServiceImagesViewWidget> {
     );
   }
 }
-
-final str = ''.codeUnits;

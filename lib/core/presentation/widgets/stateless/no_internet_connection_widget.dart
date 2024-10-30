@@ -1,6 +1,7 @@
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
+import 'package:masaj/core/app_text.dart';
 import 'package:masaj/core/data/typedefs/type_defs.dart';
 import 'package:masaj/core/presentation/widgets/stateless/back_button.dart';
 import 'package:masaj/core/presentation/widgets/stateless/default_button.dart';
@@ -48,7 +49,7 @@ class NoInternetConnectionWidget extends StatelessWidget {
 
   Widget _buildRefreshButton(BuildContext context) {
     return DefaultButton(
-      label: 'refresh_page'.tr(),
+      label: AppText.refresh_page,
       isExpanded: true,
       padding: const EdgeInsets.all(12.0),
       onPressed: _onRefreshPage,
