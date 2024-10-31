@@ -247,42 +247,25 @@ class ServiceDurationModel {
   final double? discountedPrice;
 
   //  duration like 00:30:00
-  String get durationInMinutes => duration.split(':').length > 2
-      ? (int.parse(duration.split(':')[0]) * 60 +
-              int.parse(duration.split(':')[1]))
+  String get durationInMinutes {
+    var split = duration.split(':');
+    return split.length > 2
+      ? (int.parse(split[0]) * 60 +
+              int.parse(split[1]))
           .toString()
-      : duration.split(':')[1];
-  String get durationInHours => duration.split(':').length > 2
-      ? (int.parse(duration.split(':')[0]) * 60 +
-              int.parse(duration.split(':')[1]))
-          .toString()
-      : duration.split(':')[0];
+      : split[1];}
+
+  // String get durationInHours {
+  //   var split = duration.split(':');
+  //   return split.length > 2
+  //     ? (int.parse(split[0]) * 60 +
+  //             int.parse(split[1]))
+  //         .toString()
+  //     : split[0];
+  //     }
+
   int get durationInMinutesInt => int.parse(durationInMinutes);
 
-  String get formattedString {
-    // if duration hourse is 0 return minutes if not return hours and minutes if minutes is not 0 if not return hours
-    final hourse = int.parse(duration.split(':')[0]);
-    final minutes = int.parse(duration.split(':')[1]);
-    if (hourse == 0) {
-      return '$minutes';
-    }
-    if (minutes == 0) {
-      return '$hourse';
-    }
-    return '$hourse:$minutes';
-  }
-
-  String get unit {
-    final hourse = int.parse(duration.split(':')[0]);
-    final minutes = int.parse(duration.split(':')[1]);
-    if (hourse == 0) {
-      return 'Minutes';
-    }
-    if (minutes == 0) {
-      return 'Hours';
-    }
-    return 'Hours';
-  }
 
   const ServiceDurationModel({
     required this.serviceDurationId,

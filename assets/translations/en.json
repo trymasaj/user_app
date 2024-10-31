@@ -1,4 +1,9 @@
 {
+  "refresh_page": "Refresh page",
+  "no_time_slots_available":"No time slots available",
+  "no_therapist_available":"No therapist available",
+  "please_select_date_and_time":"Please select date and time",
+
   "upper_back":"Upper Back",
   "lower_back":"Lower Back",
   "spine":"Spine",

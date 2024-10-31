@@ -32,18 +32,22 @@ class BookingCubit extends BaseCubit<BookingState> {
     }
   }
 
-  Future<void> addBookingService(ServiceBookModel? serviceBookModel) async {
-    if (serviceBookModel == null) return;
+  /// returns true if successful
+  Future<bool> addBookingService(ServiceBookModel? serviceBookModel) async {
+    if (serviceBookModel == null) return false;
     try {
       emit(state.copyWith(status: BookServiceStatus.loading));
 
       await _bookingRepository.addBookingService(serviceBookModel);
       emit(state.copyWith(status: BookServiceStatus.loaded));
+      return true;
     } on RedundantRequestException catch (e) {
       log(e.toString());
+      return false;
     } catch (e) {
       emit(state.copyWith(
           status: BookServiceStatus.error, errorMessage: e.toString()));
+          return false;
     }
   }
 

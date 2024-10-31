@@ -176,7 +176,7 @@ class DurationContainer extends StatelessWidget {
                   fontWeight: FontWeight.w400,
                 ),
                 buildText(
-                  '(${'price_in_kd'.tr(args: [duration.price.toString()])})',
+                  '(${AppText.price_in_kd(args: [duration.price.toString()])})',
                   fontSize: 10,
                   fontWeight: FontWeight.w500,
                 )

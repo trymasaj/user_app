@@ -56,7 +56,7 @@ class _SelectTherapistState extends State<SelectTherapist> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: CustomAppBar(
-        title: 'msg_select_therapist',
+        title: AppText.msg_select_therapist,
       ),
       body: Container(
         child: BlocBuilder<AvialbleTherapistCubit, AvialbleTherapistState>(
@@ -69,7 +69,7 @@ class _SelectTherapistState extends State<SelectTherapist> {
                   Row(
                     children: [
                       CustomText(
-                          text: 'msg_available_therapist',
+                          text: AppText.msg_available_therapist,
                           color: AppColors.FONT_COLOR,
                           fontWeight: FontWeight.w400,
                           fontFamily: 'Poppins',

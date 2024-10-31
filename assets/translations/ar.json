@@ -1,4 +1,9 @@
 {
+  "refresh_page": "تحديث الصفحة",
+  "no_time_slots_available":"لا توجد فترات زمنية متاحة",
+  "no_therapist_available":"لا يوجد معالج متاح",
+  "please_select_date_and_time":"الرجاء تحديد التاريخ والوقت",
+
   "upper_back":"الظهر العلوي",
   "lower_back":"الظهر السفلي",
   "spine":"العمود الفقري",

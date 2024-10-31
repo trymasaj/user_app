@@ -66,8 +66,8 @@ class _BookServiceScreenState extends State<BookServiceScreen> {
 
   void setSelectedTab(AvailableTherapistTabEnum tab, BuildContext context) {
     if (selectedDate == null) {
-      ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
-        content: Text('Please select date and time'),
+      ScaffoldMessenger.of(context).showSnackBar( SnackBar(
+        content: Text(AppText.please_select_date_and_time),
       ));
     }
     setState(() {
@@ -129,7 +129,7 @@ class _BookServiceScreenState extends State<BookServiceScreen> {
           ],
         ),
       ),
-      appBar: const CustomAppBar(title: 'book_service'),
+      appBar: CustomAppBar(title: AppText.book_service),
       body: BlocListener<AvialbleTherapistCubit, AvialbleTherapistState>(
         listener: (context, state) {
           if (state.isError) {
@@ -233,63 +233,7 @@ class _BookServiceScreenState extends State<BookServiceScreen> {
                   const SizedBox(
                     height: 3,
                   ),
-                  // Row(
-                  //   children: [
-                  //     Text(
-                  //       'addons,
-                  //       style: TextStyle(
-                  //           fontSize: 12,
-                  //           fontWeight: FontWeight.w400,
-                  //           color: AppColors.PlaceholderColor),
-                  //     ),
-                  //     Text(
-                  //       ': ,
-                  //       style: TextStyle(
-                  //           fontSize: 12,
-                  //           fontWeight: FontWeight.w400,
-                  //           color: AppColors.PlaceholderColor),
-                  //     ),
-                  //     CustomText(
-                  //         fontSize: 12,
-                  //         fontWeight: FontWeight.w400,
-                  //         color: AppColors.FONT_LIGHT,
-                  //         text: bookingModel?.service?.addons
-                  //                 ?.map((e) => e.titleAr)
-                  //                 .join(',') ??
-                  //             '')
-                  //   ],
-                  // )
-                  // Row(
-                  //   children: [
-                  //     Text(
-                  //       'addons,
-                  //       style: TextStyle(
-                  //           fontSize: 12,
-                  //           fontWeight: FontWeight.w400,
-                  //           color: AppColors.PlaceholderColor),
-                  //     ),
-                  //     Text(
-                  //       ': ,
-                  //       style: TextStyle(
-                  //           fontSize: 12,
-                  //           fontWeight: FontWeight.w400,
-                  //           color: AppColors.PlaceholderColor),
-                  //     ),
-                  //     CustomText(
-                  //         fontSize: 12,
-                  //         fontWeight: FontWeight.w400,
-                  //         color: AppColors.FONT_LIGHT,
-                  //         text:
-                  //             )
-                  //   ],
-                  // )
-                  // Text(
-                  //   'KD ${service?.price ?? ''}',
-                  //   style: TextStyle(
-                  //       fontSize: 12,
-                  //       fontWeight: FontWeight.w500,
-                  //       color: AppColors.FONT_COLOR),
-                  // ),
+
                 ],
               ),
             ],
@@ -307,10 +251,10 @@ class _BookServiceScreenState extends State<BookServiceScreen> {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           SizedBox(height: 20.h),
-          const Row(
+          Row(
             children: [
               CustomText(
-                text: 'booking_details',
+                text: AppText.booking_details,
                 fontSize: 16,
                 fontWeight: FontWeight.w500,
                 color: AppColors.FONT_COLOR,
@@ -354,9 +298,9 @@ class _BookServiceScreenState extends State<BookServiceScreen> {
                 ),
               if (state.isLoading) const CustomLoading(),
               if (state.isLoaded && state.availableTherapists.isEmpty)
-                const SizedBox(
+                SizedBox(
                   child: EmptyPageMessage(
-                    message: 'No therapist available',
+                    message: AppText.no_therapist_available,
                     heightRatio: .4,
                     svgImage: 'empty',
                   ),
@@ -370,8 +314,8 @@ class _BookServiceScreenState extends State<BookServiceScreen> {
                       Row(
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
-                          const CustomText(
-                            text: 'msg_selected_therapist',
+                          CustomText(
+                            text: AppText.msg_selected_therapist,
                             fontFamily: 'Poppins',
                             fontSize: 14,
                             fontWeight: FontWeight.w400,
@@ -379,8 +323,8 @@ class _BookServiceScreenState extends State<BookServiceScreen> {
                           ),
                           GestureDetector(
                             onTap: _onChangeTherapist,
-                            child: const TextWithGradiant(
-                              text: 'change',
+                            child: TextWithGradiant(
+                              text: AppText.change,
                               fontSize: 14,
                               fontWeight: FontWeight.w500,
                             ),
@@ -527,12 +471,12 @@ class _BookServiceScreenState extends State<BookServiceScreen> {
                                   child: Column(
                                     children: [
                                       SizedBox(height: 20.h),
-                                      const Row(
+                                      Row(
                                         mainAxisAlignment:
                                             MainAxisAlignment.spaceBetween,
                                         children: [
                                           CustomText(
-                                            text: 'select_date_and_time',
+                                            text: AppText.select_date_and_time,
                                             fontSize: 16,
                                             fontWeight: FontWeight.w500,
                                             color: AppColors.FONT_COLOR,
@@ -609,9 +553,9 @@ class _BookServiceScreenState extends State<BookServiceScreen> {
                                                       TimeSlotsStatus.loaded &&
                                                   state.availableTimeSlots!
                                                       .isEmpty)
-                                                return const EmptyPageMessage(
+                                                return EmptyPageMessage(
                                                   message:
-                                                      'No time slots available',
+                                                      AppText.no_time_slots_available,
                                                   heightRatio: .4,
                                                 );
                                               return Container();
@@ -706,11 +650,11 @@ class _BookServiceScreenState extends State<BookServiceScreen> {
                       child: Column(
                         children: [
                           SizedBox(height: 20.h),
-                          const Row(
+                          Row(
                             mainAxisAlignment: MainAxisAlignment.spaceBetween,
                             children: [
                               CustomText(
-                                text: 'select_date_and_time',
+                                text: AppText.select_date_and_time,
                                 fontSize: 16,
                                 fontWeight: FontWeight.w500,
                                 color: AppColors.FONT_COLOR,

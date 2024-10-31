@@ -1,10 +1,13 @@
 import 'package:easy_localization/easy_localization.dart';
 
 abstract class AppText {
-  static var refresh_page;
-
 
   AppText._();
+
+  static String get refresh_page => 'refresh_page'.tr();
+  static String get no_time_slots_available => 'no_time_slots_available'.tr();
+  static String get no_therapist_available => 'no_therapist_available'.tr();
+  static String get please_select_date_and_time => 'please_select_date_and_time'.tr();
 
   static String get upper_back => 'upper_back'.tr();
   static String get lower_back => 'lower_back'.tr();

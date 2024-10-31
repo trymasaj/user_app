@@ -552,7 +552,11 @@ class ServiceDetailsScreenState extends State<ServiceDetailsScreen> {
     var bookingCubit = context.read<BookingCubit>();
     final serviceBookModel = createServiceBookingModel();
 
-    await bookingCubit.addBookingService(serviceBookModel);
+    var success = await bookingCubit.addBookingService(serviceBookModel);
+    if(!success){
+      showSnackBar(context, message: AppText.msg_something_went_wrong);
+      return;
+    }
     Navigator.push(context,
         MaterialPageRoute(builder: (context) => SelectMembersScreen()));
     AdjustTracker.trackDurationSelected(
@@ -691,29 +695,6 @@ class TotalSection extends StatelessWidget {
                     ),
                   ],
                 )
-
-              // ...List.generate(state.service?.serviceDurations
-              // !.length ?? 0,
-              //     (index) {
-              //   final duration = state.service?.serviceDurations![index];
-              //   return Row(
-              //     children: [
-              //       CustomText(
-              //         text: state.service!.title ?? '',
-              //         fontSize: 14,
-              //         fontWeight: FontWeight.w400,
-              //         color: AppColors.FONT_LIGHT.withOpacity(.7),
-              //       ),
-              //       const Spacer(),
-              //       CustomText(
-              //         text: '${duration!.formattedString} ${duration.unit}',
-              //         fontSize: 14,
-              //         fontWeight: FontWeight.w400,
-              //         color: AppColors.PlaceholderColor,
-              //       ),
-              //     ],
-              //   );
-              // }),
               ,
               SizedBox(
                 height: 12.h,

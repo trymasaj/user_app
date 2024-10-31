@@ -65,7 +65,7 @@ class _SelectMembersScreenState extends State<SelectMembersScreen> {
             margin: const EdgeInsets.symmetric(vertical: 20),
             isExpanded: true,
             onPressed: () async {
-              if (selectedMembers!.isEmpty) {
+              if (selectedMembers == null || selectedMembers!.isEmpty) {
                 return showSnackBar(context, message: AppText.select_member);
               }
               final bookingCubit = context.read<BookingCubit>();
