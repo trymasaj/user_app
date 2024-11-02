@@ -1,12 +1,4 @@
 PODS:
-  - Adjust (5.0.1):
-    - Adjust/Adjust (= 5.0.1)
-  - Adjust/Adjust (5.0.1):
-    - AdjustSignature (~> 3.18)
-  - adjust_sdk (5.0.2):
-    - Adjust (= 5.0.1)
-    - Flutter
-  - AdjustSignature (3.32.0)
   - AppAuth (1.7.5):
     - AppAuth/Core (= 1.7.5)
     - AppAuth/ExternalUserAgent (= 1.7.5)
@@ -267,7 +259,6 @@ PODS:
     - FlutterMacOS
 
 DEPENDENCIES:
-  - adjust_sdk (from `.symlinks/plugins/adjust_sdk/ios`)
   - audio_session (from `.symlinks/plugins/audio_session/ios`)
   - connectivity_plus (from `.symlinks/plugins/connectivity_plus/darwin`)
   - device_info_plus (from `.symlinks/plugins/device_info_plus/ios`)
@@ -307,8 +298,6 @@ DEPENDENCIES:
 
 SPEC REPOS:
   trunk:
-    - Adjust
-    - AdjustSignature
     - AppAuth
     - Firebase
     - FirebaseAnalytics
@@ -335,8 +324,6 @@ SPEC REPOS:
     - PromisesSwift
 
 EXTERNAL SOURCES:
-  adjust_sdk:
-    :path: ".symlinks/plugins/adjust_sdk/ios"
   audio_session:
     :path: ".symlinks/plugins/audio_session/ios"
   connectivity_plus:
@@ -411,9 +398,6 @@ EXTERNAL SOURCES:
     :path: ".symlinks/plugins/webview_flutter_wkwebview/darwin"
 
 SPEC CHECKSUMS:
-  Adjust: f27daaa40d0df5550b89dd428cd8545d812e1f6d
-  adjust_sdk: 229b9e59a81371ad3248475ad6daa6cb7e4c8349
-  AdjustSignature: f3d8bf04ba051bf14b95cddf33409c70f1ba57b9
   AppAuth: 501c04eda8a8d11f179dbe8637b7a91bb7e5d2fa
   audio_session: 088d2483ebd1dc43f51d253d4a1c517d9a2e7207
   connectivity_plus: 4c41c08fc6d7c91f63bc7aec70ffe3730b04f563
