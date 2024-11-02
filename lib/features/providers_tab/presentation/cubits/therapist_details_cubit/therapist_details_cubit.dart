@@ -1,6 +1,6 @@
 import 'package:equatable/equatable.dart';
 import 'package:masaj/core/application/controllers/base_cubit.dart';
-import 'package:masaj/core/data/services/adjsut.dart';
+// import 'package:masaj/core/data/services/adjsut.dart';
 import 'package:masaj/features/providers_tab/data/models/therapist.dart';
 import 'package:masaj/features/providers_tab/data/repositories/providers_tab_repository.dart';
 
@@ -32,8 +32,8 @@ class TherapistDetailsCubit extends BaseCubit<TherapistDetailsState> {
           !(oldTherapist.isFavourite ?? false),
         );
       }
-      if (newTherapist != null && (newTherapist.isFavourite ?? false))
-        AdjustTracker.trackAddToWishlist(newTherapist?.title ?? '');
+      // if (newTherapist != null && (newTherapist.isFavourite ?? false))
+      //    AdjustTracker.trackAddToWishlist(newTherapist?.title ?? '');
     } catch (e) {
       emit(state.copyWith(
         status: TherapistDetailsStateStatus.error,

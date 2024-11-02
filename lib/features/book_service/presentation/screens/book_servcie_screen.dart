@@ -7,7 +7,7 @@ import 'package:masaj/core/app_export.dart';
 import 'package:masaj/core/data/device/system_service.dart';
 import 'package:masaj/core/data/di/di_wrapper.dart';
 import 'package:masaj/core/data/logger/abs_logger.dart';
-import 'package:masaj/core/data/services/adjsut.dart';
+// import 'package:masaj/core/data/services/adjsut.dart';
 import 'package:masaj/core/presentation/colors/app_colors.dart';
 import 'package:masaj/core/presentation/navigation/navigator_helper.dart';
 import 'package:masaj/core/presentation/overlay/custom_bottom_sheet.dart';
@@ -90,10 +90,10 @@ class _BookServiceScreenState extends State<BookServiceScreen> {
   @override
   void initState() {
     checkTherapistInBooking();
-    AdjustTracker.trackAddToBasket(
-      context.read<BookingCubit>().state.bookingModel?.service?.title ?? '',
-      context.read<BookingCubit>().state.bookingModel?.service?.duration ?? '',
-    );
+    // AdjustTracker.trackAddToBasket(
+    //   context.read<BookingCubit>().state.bookingModel?.service?.title ?? '',
+    //   context.read<BookingCubit>().state.bookingModel?.service?.duration ?? '',
+    // );
     //print(context.read<BookingCubit>().state.bookingModel?.service?.duration);
     super.initState();
   }

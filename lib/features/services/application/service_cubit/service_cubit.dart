@@ -4,7 +4,7 @@ import 'dart:developer';
 
 import 'package:equatable/equatable.dart';
 import 'package:masaj/core/application/controllers/base_cubit.dart';
-import 'package:masaj/core/data/services/adjsut.dart';
+// import 'package:masaj/core/data/services/adjsut.dart';
 import 'package:masaj/core/domain/exceptions/redundant_request_exception.dart';
 import 'package:masaj/features/services/data/models/service_category_model.dart';
 import 'package:masaj/features/services/data/models/service_model.dart';
@@ -30,7 +30,7 @@ class ServiceCubit extends BaseCubit<ServiceState> {
           return 0;
         }
       });
-      AdjustTracker.trackViewListing(selectedServiceCategory.name ?? '');
+      // AdjustTracker.trackViewListing(selectedServiceCategory.name ?? '');
     }
     emit(state.copyWith(
         selectedServiceCategory: selectedServiceCategory,
@@ -41,7 +41,7 @@ class ServiceCubit extends BaseCubit<ServiceState> {
       ServiceCategory selectedServiceCategory) async {
     emit(state.copyWith(selectedServiceCategory: selectedServiceCategory));
     await loadServices();
-    AdjustTracker.trackViewListing(selectedServiceCategory.name ?? '');
+    // AdjustTracker.trackViewListing(selectedServiceCategory.name ?? '');
   }
 
 // set search keyword

@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:masaj/core/app_export.dart';
 import 'package:masaj/core/data/extensions/extensions.dart';
-import 'package:masaj/core/data/services/adjsut.dart';
+// import 'package:masaj/core/data/services/adjsut.dart';
 import 'package:masaj/core/presentation/colors/app_colors.dart';
 import 'package:masaj/core/presentation/navigation/navigator_helper.dart';
 import 'package:masaj/core/presentation/widgets/stateless/custom_app_bar.dart';
@@ -42,9 +42,9 @@ class _SummaryPaymentPageState extends State<SummaryPaymentPage> {
         return _showCompleteStreaksBottomSheet();
       }
       _modalBottomSheetMenu();
-      AdjustTracker.trackCheckoutSuccess(
-          bookingModel?.grandTotal?.toDouble() ?? 0);
-      AdjustTracker.trackFirstSale();
+      // AdjustTracker.trackCheckoutSuccess(
+      //     bookingModel?.grandTotal?.toDouble() ?? 0);
+      // AdjustTracker.trackFirstSale();
     }
   }
 

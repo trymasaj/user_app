@@ -8,7 +8,7 @@ import 'package:intl_phone_field/phone_number.dart';
 import 'package:masaj/core/application/controllers/base_cubit.dart';
 import 'package:masaj/core/data/device/system_service.dart';
 import 'package:masaj/core/data/logger/abs_logger.dart';
-import 'package:masaj/core/data/services/adjsut.dart';
+// import 'package:masaj/core/data/services/adjsut.dart';
 import 'package:masaj/core/data/show_case_helper.dart';
 import 'package:masaj/core/domain/enums/gender.dart';
 import 'package:masaj/core/domain/exceptions/redundant_request_exception.dart';
@@ -68,7 +68,7 @@ class AuthCubit extends BaseCubit<AuthState> {
       final userFirebaseId = (user.id ?? '') + (user.fullName ?? '');
       FirebaseCrashlytics.instance.setUserIdentifier(userFirebaseId);
       FirebaseAnalytics.instance.setUserId(id: userFirebaseId);
-      AdjustTracker.trackLogin();
+      //AdjustTracker.trackLogin();
     } on RedundantRequestException catch (e) {
       logger.error('[$runtimeType].login($phoneNumber,$password, $countryCode)' ,e);
     } catch (e) {
@@ -94,9 +94,9 @@ class AuthCubit extends BaseCubit<AuthState> {
       FirebaseCrashlytics.instance.setUserIdentifier(userFirebaseId);
       FirebaseAnalytics.instance.setUserId(id: userFirebaseId);
       if (user.isProfileCompleted ?? false) {
-        AdjustTracker.trackLogin();
+        //AdjustTracker.trackLogin();
       } else {
-        AdjustTracker.trackGuestRegistration();
+        //AdjustTracker.trackGuestRegistration();
       }
     } on SocialLoginCanceledException catch (e) {
       logger.error('[$runtimeType].loginWithGoogle()' ,e);
@@ -124,11 +124,11 @@ class AuthCubit extends BaseCubit<AuthState> {
       final userFirebaseId = (user.id ?? '') + (user.fullName ?? '');
       FirebaseCrashlytics.instance.setUserIdentifier(userFirebaseId);
       FirebaseAnalytics.instance.setUserId(id: userFirebaseId);
-      if (user.isProfileCompleted ?? false) {
-        AdjustTracker.trackLogin();
-      } else {
-        AdjustTracker.trackGuestRegistration();
-      }
+      // if (user.isProfileCompleted ?? false) {
+      //   AdjustTracker.trackLogin();
+      // } else {
+      //   AdjustTracker.trackGuestRegistration();
+      // }
     } on SocialLoginCanceledException catch (e) {
       logger.error('[$runtimeType].loginWithApple()' ,e);
     } on RedundantRequestException catch (e) {
@@ -247,7 +247,7 @@ class AuthCubit extends BaseCubit<AuthState> {
       final userFirebaseId = (user.id ?? '') + (user.fullName ?? '');
       FirebaseCrashlytics.instance.setUserIdentifier(userFirebaseId);
       FirebaseAnalytics.instance.setUserId(id: userFirebaseId);
-      AdjustTracker.trackRegistrationCompleted(userAfterSignUp.toMap());
+      // AdjustTracker.trackRegistrationCompleted(userAfterSignUp.toMap());
     } on RedundantRequestException catch (e) {
       logger.error('[$runtimeType].signup($user)' ,e);
     } catch (e) {
