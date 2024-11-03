@@ -1,5 +1,6 @@
 import 'dart:convert';
 
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/widgets.dart';
 
 class MedicalCondition {
@@ -61,4 +62,8 @@ class MedicalCondition {
 
   @override
   int get hashCode => id.hashCode ^ nameEn.hashCode ^ nameAr.hashCode;
+
+  String localizedName(BuildContext context) {
+    return context.locale.languageCode == 'ar'? this.nameAr??'' : this.nameEn ?? '';
+  }
 }

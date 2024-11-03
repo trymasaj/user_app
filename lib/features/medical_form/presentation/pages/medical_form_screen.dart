@@ -4,6 +4,8 @@ import 'package:masaj/core/app_export.dart';
 import 'package:masaj/core/data/device/system_service.dart';
 import 'package:masaj/core/data/di/di_wrapper.dart';
 import 'package:masaj/core/data/extensions/extensions.dart';
+import 'package:masaj/core/data/logger/abs_logger.dart';
+import 'package:masaj/core/domain/exceptions/redundant_request_exception.dart';
 
 import 'package:masaj/core/presentation/colors/app_colors.dart';
 import 'package:masaj/core/presentation/navigation/navigator_helper.dart';
@@ -12,9 +14,11 @@ import 'package:masaj/core/presentation/widgets/stateless/custom_app_bar.dart';
 import 'package:masaj/core/presentation/widgets/stateless/default_button.dart';
 import 'package:masaj/core/presentation/widgets/stateless/text_fields/default_text_form_field.dart';
 import 'package:masaj/features/medical_form/data/model/medical_form_model.dart';
-import 'package:masaj/features/medical_form/presentation/bloc/medical_form_bloc/medical_form_bloc.dart';
+import 'package:masaj/features/medical_form/data/repo/medical_form_repo.dart';
+import 'package:masaj/features/medical_form/presentation/bloc/medical_form_bloc/medical_form_state.dart';
 import 'package:masaj/features/medical_form/presentation/pages/medical_conditions_screen.dart';
-import 'package:permission_handler/permission_handler.dart';
+import 'package:masaj/features/medical_form/data/model/condition_model.dart';
+import 'package:masaj/features/medical_form/data/model/medical_form_model.dart';
 
 class MedicalFormScreen extends StatefulWidget {
   static const routeName = '/medical-form';
@@ -26,9 +30,12 @@ class MedicalFormScreen extends StatefulWidget {
 }
 
 class _MedicalFormScreenState extends State<MedicalFormScreen> {
-
   // di
-  SystemService system = DI.find();
+  final SystemService system = DI.find();
+  final MedicalFormRepository _medicalFormRepo = DI.find();
+  final AbsLogger logger = DI.find();
+
+  MedicalFormState state = MedicalFormState();
 
   late final TextEditingController _conditionsController;
   final _birthDateTextController = TextEditingController(),
@@ -50,8 +57,8 @@ class _MedicalFormScreenState extends State<MedicalFormScreen> {
   @override
   void initState() {
     _conditionsController = TextEditingController(text: AppText.lbl_conditions);
-    context.read<MedicalFormBloc>().getConditions();
-    context.read<MedicalFormBloc>().clear();
+    getConditions();
+    clear();
 
     loadData();
 
@@ -59,13 +66,10 @@ class _MedicalFormScreenState extends State<MedicalFormScreen> {
   }
 
   void loadData() async {
-    final cubit = context.read<MedicalFormBloc>();
-    await cubit.getMedicalForm();
-    final medicalForm = cubit.state.medicalForm;
-    String conditions = '';
-    medicalForm?.conditions?.forEach((e) => conditions += '${e.nameEn} , ');
-    _conditionsController.text = conditions;
+    await getMedicalForm();
+    final medicalForm = state.medicalForm;
 
+    _conditionsController.text = medicalForm?.conditions?.map((e)=> e.localizedName(context)).join(',') ?? '';
     _birthDateTextController.text = medicalForm?.birthDate?.formatDate() ?? '';
     _treatmentGoalsController.text = medicalForm?.treatmentGoals ?? '';
     _allergiesStatementController.text = medicalForm?.allergiesStatement ?? '';
@@ -77,136 +81,102 @@ class _MedicalFormScreenState extends State<MedicalFormScreen> {
 
   @override
   Widget build(BuildContext context) {
-    return BlocConsumer<MedicalFormBloc, MedicalFormState>(
-      listener: (context, state) {},
-      builder: (context, state) {
-        return Form(
-          key: _formKey,
-          child: Scaffold(
-            resizeToAvoidBottomInset: false,
-            appBar: _buildAppBar(context),
-            body: Container(
-              width: double.maxFinite,
-              padding: EdgeInsets.symmetric(vertical: 8.h),
-              child: BlocConsumer<MedicalFormBloc, MedicalFormState>(
-                builder: (context, state) {
-                  return Column(
-                    children: [
-                      SizedBox(height: 22.h),
-                      Expanded(
-                        child: SingleChildScrollView(
-                          child: Padding(
-                            padding: EdgeInsets.only(
-                              left: 24.w,
-                              right: 24.w,
-                              bottom: 5.h,
-                            ),
-                            child: Column(
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: [
-                                _buildFrame(context),
-                                SizedBox(height: 18.h),
-                                Text(
-                                  AppText.msg_health_condititons,
-                                  style:
-                                      CustomTextStyles.titleMediumOnPrimary_1,
-                                ),
-                                SizedBox(height: 7.h),
-                                SizedBox(
-                                  width: 325.w,
-                                  child: Text(
-                                    AppText.msg_select_all_the_conditions,
-                                    maxLines: 2,
-                                    overflow: TextOverflow.ellipsis,
-                                    style: theme.textTheme.bodyMedium!.copyWith(
-                                      height: 1.57,
-                                    ),
-                                  ),
-                                ),
-                                SizedBox(height: 7.h),
-                                Column(
-                                  crossAxisAlignment: CrossAxisAlignment.start,
-                                  children: [
-                                    Text(
-                                      AppText.lbl_conditions,
-                                      style: theme.textTheme.bodyMedium,
-                                    ),
-                                    SizedBox(height: 7.h),
-                                    FormBuilderTextField(
-                                      style: TextStyle(
-                                          color: AppColors.GREY_NORMAL_COLOR),
-                                      readOnly: true,
-                                      controller: _conditionsController,
-                                      name: 'conditions',
-                                      onTap: () async {
-                                        await NavigatorHelper.of(context)
-                                            .push(MaterialPageRoute(
-                                          builder: (context) =>
-                                              const MedicalConditionScreen(),
-                                        ));
-                                      },
-                                    ),
-                                  ],
-                                ),
-                                SizedBox(height: 17.h),
-                                _buildFrame1(context),
-                                SizedBox(height: 16.h),
-                                Container(
-                                  width: 290.w,
-                                  margin: EdgeInsets.only(right: 36.w),
-                                  child: Text(
-                                    AppText.msg_are_you_presently,
-                                    maxLines: 3,
-                                    overflow: TextOverflow.ellipsis,
-                                  ),
-                                ),
-                                SizedBox(height: 7.h),
-                                DefaultTextFormField(
-                                  currentController: _medicationsController,
-                                  hint: '',
-                                  maxLines: 3,
-                                  currentFocusNode: _medicationsFocusNode,
-                                  isRequired: true,
-                                ),
-                                SizedBox(height: 20.h),
-                                _buildEditText(context),
-                                SizedBox(height: 16.h),
-                                _buildFrame2(context),
-                                SizedBox(height: 16.h),
-                                _buildFrame3(context),
-                                SizedBox(height: 18.h),
-                                _buildFrame4(context),
-                              ],
+    return Form(
+      key: _formKey,
+      child: Scaffold(
+        resizeToAvoidBottomInset: false,
+        appBar: _buildAppBar(context),
+        body: Container(
+            width: double.maxFinite,
+            padding: EdgeInsets.symmetric(vertical: 8.h),
+            child: Column(
+              children: [
+                SizedBox(height: 22.h),
+                Expanded(
+                  child: SingleChildScrollView(
+                    child: Padding(
+                      padding: EdgeInsets.only(
+                        left: 24.w,
+                        right: 24.w,
+                        bottom: 5.h,
+                      ),
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          _buildFrame(context),
+                          SizedBox(height: 18.h),
+                          Text(
+                            AppText.msg_health_condititons,
+                            style: CustomTextStyles.titleMediumOnPrimary_1,
+                          ),
+                          SizedBox(height: 7.h),
+                          SizedBox(
+                            width: 325.w,
+                            child: Text(
+                              AppText.msg_select_all_the_conditions,
+                              maxLines: 2,
+                              overflow: TextOverflow.ellipsis,
+                              style: theme.textTheme.bodyMedium!.copyWith(
+                                height: 1.57,
+                              ),
                             ),
                           ),
-                        ),
+                          SizedBox(height: 7.h),
+                          Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Text(
+                                AppText.lbl_conditions,
+                                style: theme.textTheme.bodyMedium,
+                              ),
+                              SizedBox(height: 7.h),
+                              FormBuilderTextField(
+                                style: TextStyle(
+                                    color: AppColors.GREY_NORMAL_COLOR),
+                                readOnly: true,
+                                controller: _conditionsController,
+                                name: 'conditions',
+                                onTap: () => openMedicalConditionsPage(context),
+                              ),
+                            ],
+                          ),
+                          SizedBox(height: 17.h),
+                          _buildFrame1(context),
+                          SizedBox(height: 16.h),
+                          Container(
+                            width: 290.w,
+                            margin: EdgeInsets.only(right: 36.w),
+                            child: Text(
+                              AppText.msg_are_you_presently,
+                              maxLines: 3,
+                              overflow: TextOverflow.ellipsis,
+                            ),
+                          ),
+                          SizedBox(height: 7.h),
+                          DefaultTextFormField(
+                            currentController: _medicationsController,
+                            hint: '',
+                            maxLines: 3,
+                            currentFocusNode: _medicationsFocusNode,
+                            isRequired: true,
+                          ),
+                          SizedBox(height: 20.h),
+                          _buildEditText(context),
+                          SizedBox(height: 16.h),
+                          _buildFrame2(context),
+                          SizedBox(height: 16.h),
+                          _buildFrame3(context),
+                          SizedBox(height: 18.h),
+                          _buildFrame4(context),
+                        ],
                       ),
-                    ],
-                  );
-                },
-                listener: (BuildContext context, MedicalFormState state) {
-                  if (state.isConditionSaved) {
-                    _conditionsController.clear();
-                    for (var condition in state.selectedConditions ?? []) {
-                      _conditionsController.text =
-                          (condition.nameEn ?? '') + ',';
-                    }
-                  }
-                  if (state.isLoaded) {
-                    showSnackBar(context, message: AppText.msg_medical_form);
-
-                    NavigatorHelper.of(context).pop();
-                  }
-                  if (state.isError) {
-                    showSnackBar(context, message: state.errorMessage);
-                  }
-                },
-              ),
-            ),
-            bottomNavigationBar: _buildSave(context),
-          ),
-        );
-      },
+                    ),
+                  ),
+                ),
+              ],
+            )),
+        bottomNavigationBar: _buildSave(context),
+      ),
     );
   }
 
@@ -400,7 +370,6 @@ class _MedicalFormScreenState extends State<MedicalFormScreen> {
 
   /// Section Widget
   Widget _buildSave(BuildContext context) {
-    final cubit = context.read<MedicalFormBloc>();
     return DefaultButton(
       label: AppText.lbl_save,
       margin: EdgeInsets.only(
@@ -409,10 +378,10 @@ class _MedicalFormScreenState extends State<MedicalFormScreen> {
         bottom: 32.h,
       ),
       onPressed: () async {
-        if (_isValid())
-          await cubit.addMedicalForm(MedicalForm(
+        if (_isFormValid())
+          await addMedicalForm(MedicalForm(
             birthDate: _birthDateTextController.text.parseDate(),
-            conditions: cubit.state.selectedConditions,
+            conditions: state.selectedConditions,
             treatmentGoals: _treatmentGoalsController.text,
             medicationsStatement: _medicationsController.text,
             allergiesStatement: _allergiesStatementController.text,
@@ -424,10 +393,110 @@ class _MedicalFormScreenState extends State<MedicalFormScreen> {
     );
   }
 
-  bool _isValid() {
+  bool _isFormValid() {
     if (_formKey.currentState!.validate()) {
       return true;
     } else
       return false;
+  }
+
+  void saveSelectedConditions(List<MedicalCondition>? conditions) {
+    if (conditions == null) return;
+
+    setState(() {
+      state = state.copyWith(
+          selectedConditions: conditions,
+          status: MedicalFormStateStatus.conditionSaved);
+          _conditionsController.text = state.selectedConditions?.map((e)=> e.localizedName(context)).join(',') ?? '';
+    });
+  }
+
+  Future<void> getConditions() async {
+    setState(() {
+      state = state.copyWith(status: MedicalFormStateStatus.loading);
+    });
+
+    try {
+      final conditions = await _medicalFormRepo.getConditions();
+      setState(() {
+        state = state.copyWith(
+            status: MedicalFormStateStatus.loadedCondition,
+            conditions: conditions);
+      });
+    } on RedundantRequestException catch (e) {
+      logger.error(e.toString());
+    } catch (e) {
+      logger.error('$runtimeType', e);
+      setState(() {
+        state = state.copyWith(
+            status: MedicalFormStateStatus.error, errorMessage: e.toString());
+      });
+      showSnackBar(context, message: state.errorMessage);
+    }
+  }
+
+  Future<void> getMedicalForm() async {
+    setState(() {
+      state = state.copyWith(status: MedicalFormStateStatus.loading);
+    });
+    try {
+      final medicalForm = await _medicalFormRepo.getMedicalForm();
+      setState(() {
+        state = state.copyWith(
+            status: MedicalFormStateStatus.getMedicalForm,
+            medicalForm: medicalForm);
+      });
+    } on RedundantRequestException catch (e) {
+      logger.error(e.toString());
+    } catch (e) {
+      logger.error('$runtimeType', e);
+      setState(() {
+        state = state.copyWith(
+            status: MedicalFormStateStatus.error, errorMessage: e.toString());
+      });
+      showSnackBar(context, message: state.errorMessage);
+    }
+  }
+
+  Future<void> addMedicalForm(MedicalForm? medicalForm) async {
+    if (medicalForm == null) return;
+
+    setState(() {
+      state = state.copyWith(status: MedicalFormStateStatus.loading);
+    });
+    try {
+      final addMedicalForm = await _medicalFormRepo.addMedicalForm(medicalForm);
+      setState(() {
+        state = state.copyWith(
+            status: MedicalFormStateStatus.loaded, medicalForm: addMedicalForm);
+      });
+      showSnackBar(context, message: AppText.msg_medical_form);
+      NavigatorHelper.of(context).pop();
+    } on RedundantRequestException catch (e) {
+      logger.error(e.toString());
+    } catch (e) {
+      logger.error('[$runtimeType]', e);
+      setState(() {
+        state = state.copyWith(
+            status: MedicalFormStateStatus.error, errorMessage: e.toString());
+      });
+      showSnackBar(context, message: state.errorMessage);
+    }
+  }
+
+  void clear() {
+    setState(() {
+      state = state.copyWith(selectedConditions: []);
+    });
+  }
+
+  Future<void> openMedicalConditionsPage(BuildContext context) async {
+    List<MedicalCondition>? result = await NavigatorHelper.of(context).push(MaterialPageRoute(
+      builder: (context) => MedicalConditionScreen(state),
+    ));
+    //
+    if(result == null) return;
+
+    saveSelectedConditions(result);
   }
 }

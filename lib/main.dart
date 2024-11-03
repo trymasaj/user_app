@@ -26,7 +26,6 @@ import 'package:masaj/features/auth/application/country_cubit/country_cubit.dart
 import 'package:masaj/features/book_service/presentation/blocs/book_cubit/book_service_cubit.dart';
 import 'package:masaj/features/home/presentation/bloc/home_cubit/home_cubit.dart';
 import 'package:masaj/features/home/presentation/bloc/home_page_cubit/home_page_cubit.dart';
-import 'package:masaj/features/medical_form/presentation/bloc/medical_form_bloc/medical_form_bloc.dart';
 import 'package:masaj/features/members/presentaion/bloc/members_cubit.dart';
 import 'package:masaj/features/splash/presentation/pages/splash_page.dart';
 import 'package:masaj/features/splash/presentation/splash_cubit/splash_cubit.dart';
@@ -69,7 +68,6 @@ void main() async {
               BlocProvider(create: (context) => DI.find<FavoritesCubit>()),
               BlocProvider(create: (context) => DI.find<CountryCubit>()),
               BlocProvider(create: (context) => DI.find<MembersCubit>()),
-              BlocProvider(create: (context) => DI.find<MedicalFormBloc>()),
               BlocProvider(
                   create: (context) => DI.find<HomeCubit>()..loadHome()),
               BlocProvider(create: (context) => DI.find<HomePageCubit>()),

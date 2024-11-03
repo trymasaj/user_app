@@ -9,11 +9,13 @@ import 'package:masaj/core/presentation/widgets/stateless/default_button.dart';
 import 'package:masaj/core/presentation/widgets/stateless/empty_page_message.dart';
 import 'package:masaj/core/presentation/widgets/stateless/subtitle_text.dart';
 import 'package:masaj/features/medical_form/data/model/condition_model.dart';
-
-import '../bloc/medical_form_bloc/medical_form_bloc.dart';
+import 'package:masaj/features/medical_form/data/model/medical_form_model.dart';
+import 'package:masaj/features/medical_form/presentation/bloc/medical_form_bloc/medical_form_state.dart';
 
 class MedicalConditionScreen extends StatefulWidget {
-  const MedicalConditionScreen({super.key});
+  MedicalFormState state;
+
+  MedicalConditionScreen(this.state, {super.key});
 
   @override
   State<MedicalConditionScreen> createState() => _MedicalConditionScreenState();
@@ -24,10 +26,9 @@ class _MedicalConditionScreenState extends State<MedicalConditionScreen> {
 
   @override
   void initState() {
-    final selectedConditions =
-        context.read<MedicalFormBloc>().state.selectedConditions;
+    final selectedConditions = widget.state.selectedConditions;
     final Map<int, MedicalCondition> map = {};
-    selectedConditions?.map((e) => map.putIfAbsent(e.id!, () => e)).toList();
+    selectedConditions?.forEach((e) => map.putIfAbsent(e.id!, () => e));
     _selectedConditions.addAll(map);
     super.initState();
   }
@@ -36,13 +37,13 @@ class _MedicalConditionScreenState extends State<MedicalConditionScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: CustomAppBar(title: AppText.lbl_conditions),
-      body: BlocBuilder<MedicalFormBloc, MedicalFormState>(
-        builder: (context, state) {
-          if (state.status == MedicalFormStateStatus.loading)
+      body: Builder(
+        builder: (context) {
+          if (widget.state.status == MedicalFormStateStatus.loading)
             return const CustomLoading();
-          final conditions = state.conditions ?? [];
+          final conditions = widget.state.conditions ?? [];
           if (conditions.isEmpty &&
-              state.status != MedicalFormStateStatus.loading)
+              widget.state.status != MedicalFormStateStatus.loading)
             return const EmptyPageMessage(
               heightRatio: 0.65,
             );
@@ -54,19 +55,18 @@ class _MedicalConditionScreenState extends State<MedicalConditionScreen> {
                   Expanded(
                     child: ListView.builder(
                       itemBuilder: (context, index) {
-                        return _buildConditionItem(conditions[index]);
+                        return _buildConditionItem(context, conditions[index]);
                       },
-                      itemCount: state.conditions?.length,
+                      itemCount: widget.state.conditions?.length,
                     ),
                   ),
                   DefaultButton(
+                    label: AppText.lbl_save,
                     isExpanded: true,
                     onPressed: () {
-                      context.read<MedicalFormBloc>().saveSelectedConditions(
-                          _selectedConditions.values.toList());
-                      NavigatorHelper.of(context).pop();
+                      NavigatorHelper.of(context)
+                          .pop(_selectedConditions.values.toList());
                     },
-                    label: AppText.lbl_save,
                   )
                 ],
               ),
@@ -77,12 +77,12 @@ class _MedicalConditionScreenState extends State<MedicalConditionScreen> {
     );
   }
 
-  Widget _buildConditionItem(MedicalCondition medicalCondition) {
+  Widget _buildConditionItem(BuildContext context, MedicalCondition medicalCondition) {
     return Padding(
       padding: const EdgeInsets.all(8.0),
       child: Row(
         children: [
-          SubtitleText(text: medicalCondition.nameEn ?? ''),
+          SubtitleText(text: medicalCondition.localizedName(context)),
           const Spacer(),
           Checkbox.adaptive(
               activeColor: AppColors.PRIMARY_COLOR,

@@ -62,7 +62,7 @@ import 'package:masaj/features/intro/presentation/blocs/choose_language_cubit/ch
 import 'package:masaj/features/intro/presentation/blocs/guide_page_cubit/guide_page_cubit.dart';
 import 'package:masaj/features/medical_form/data/datasource/medical_form_datasource.dart';
 import 'package:masaj/features/medical_form/data/repo/medical_form_repo.dart';
-import 'package:masaj/features/medical_form/presentation/bloc/medical_form_bloc/medical_form_bloc.dart';
+//import 'package:masaj/features/medical_form/presentation/bloc/medical_form_bloc/medical_form_bloc.dart';
 import 'package:masaj/features/members/data/datasource/members_datasource.dart';
 import 'package:masaj/features/members/data/repo/members_repo.dart';
 import 'package:masaj/features/members/presentaion/bloc/members_cubit.dart';
@@ -277,7 +277,7 @@ void setup() {
 
   //===================[Medical_Form_Bloc]===================
 
-  DI.setFactory<MedicalFormBloc>(() => MedicalFormBloc(DI.find()));
+  //DI.setFactory<MedicalFormBloc>(() => MedicalFormBloc(DI.find()));
 
   DI.setSingleton<MedicalFormRepository>(() => MedicalFormRepositoryImp(DI.find()));
 

@@ -11,7 +11,6 @@ import 'package:masaj/core/presentation/widgets/stateless/custom_app_page.dart';
 import 'package:masaj/features/auth/application/auth_cubit/auth_cubit.dart';
 import 'package:masaj/features/auth/application/country_cubit/country_cubit.dart';
 import 'package:masaj/features/home/presentation/bloc/home_cubit/home_cubit.dart';
-import 'package:masaj/features/medical_form/presentation/bloc/medical_form_bloc/medical_form_bloc.dart';
 import 'package:masaj/features/membership/presentaion/bloc/membership_cubit.dart';
 import 'package:masaj/features/providers_tab/presentation/pages/providers_tab.dart';
 import 'package:masaj/features/services/application/service_catgory_cubit/service_category_cubit.dart';
@@ -74,9 +73,7 @@ class _HomePageState extends State<HomePage> {
           lazy: isGuest,
         ),
 
-        BlocProvider(
-            lazy: isGuest,
-            create: (context) => DI.find<MedicalFormBloc>()..getConditions())
+
       ],
       child: BlocListener<AuthCubit, AuthState>(
         listenWhen: (previous, current) =>

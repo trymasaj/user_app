@@ -1,4 +1,6 @@
-part of 'medical_form_bloc.dart';
+import 'package:flutter/foundation.dart';
+import 'package:masaj/features/medical_form/data/model/condition_model.dart';
+import 'package:masaj/features/medical_form/data/model/medical_form_model.dart';
 
 enum MedicalFormStateStatus {
   initial,
