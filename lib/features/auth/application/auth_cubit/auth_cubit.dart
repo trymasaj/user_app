@@ -362,7 +362,7 @@ class AuthCubit extends BaseCubit<AuthState> {
     if (newUser.fullName == state.user?.fullName &&
         newUser.email == state.user?.email &&
         newUser.gender == state.user?.gender &&
-        newUser.ageGroup == state.user?.ageGroup &&
+        newUser.birthDate == state.user?.birthDate &&
         newUser.profileImage == state.user?.profileImage
         ) {
         logger.debug('no changes to save');
