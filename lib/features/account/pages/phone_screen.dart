@@ -18,10 +18,7 @@ class PhoneScreen extends StatefulWidget {
   PhoneScreen({super.key});
 
   static Widget builder(BuildContext context) {
-    return BlocProvider<PhoneBloc>(
-        create: (context) =>
-            PhoneBloc(PhoneState(phoneModelObj: const PhoneModel())),
-        child: PhoneScreen());
+    return BlocProvider<PhoneBloc>(create: (context) => PhoneBloc(PhoneState(phoneModelObj: const PhoneModel())), child: PhoneScreen());
   }
 
   @override
@@ -56,8 +53,7 @@ class _PhoneScreenState extends State<PhoneScreen> {
                     width: double.maxFinite,
                     padding: EdgeInsets.all(23.w),
                     child: Column(children: [
-                      BlocBuilder<PhoneBloc, PhoneState>(
-                          builder: (context, state) {
+                      BlocBuilder<PhoneBloc, PhoneState>(builder: (context, state) {
                         return PhoneTextFormField(
                           currentController: _phoneNumberController,
                           currentFocusNode: _phoneFocusNode,
@@ -79,11 +75,9 @@ class _PhoneScreenState extends State<PhoneScreen> {
       listener: (BuildContext context, AuthState state) {
         if (state.isChangePhone) {
           // showSnackBar(context, message: 'lbl_success);
-          NavigatorHelper.of(context).push(MaterialPageRoute(
-              builder: (context) => const OTPVerificationPage()));
+          NavigatorHelper.of(context).push(MaterialPageRoute(builder: (context) => const OTPVerificationPage()));
         }
-        if (state.isAccountError)
-          showSnackBar(context, message: state.errorMessage);
+        if (state.isAccountError) showSnackBar(context, message: state.errorMessage);
       },
     );
   }
@@ -98,13 +92,16 @@ class _PhoneScreenState extends State<PhoneScreen> {
 
   /// Navigates to the verificationCodeForEditPhoneScreen when the action is triggered.
   Future<void> onTapSave(BuildContext context) async {
-    if (_phoneNumber == null)
-      showSnackBar(context,
-          message: AppText.err_msg_please_enter_valid_phone_number);
-    final cubit = context.read<AuthCubit>();
-    await cubit.changePhone(
-      phone: _phoneNumber?.number,
-      countryCode: _phoneNumber?.countryCode,
-    );
+    if (_phoneNumber == null || !(_formKey.currentState?.validate()??false)) {
+      showSnackBar(context, message: AppText.err_msg_please_enter_valid_phone_number);
+      return;
+    }
+      //
+      final cubit = context.read<AuthCubit>();
+      await cubit.changePhone(
+        phone: _phoneNumber?.number,
+        countryCode: _phoneNumber?.countryCode,
+      );
+
   }
 }
