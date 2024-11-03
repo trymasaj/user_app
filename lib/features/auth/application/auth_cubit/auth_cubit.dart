@@ -362,7 +362,12 @@ class AuthCubit extends BaseCubit<AuthState> {
     if (newUser.fullName == state.user?.fullName &&
         newUser.email == state.user?.email &&
         newUser.gender == state.user?.gender &&
-        newUser.ageGroup == state.user?.ageGroup) return false;
+        newUser.ageGroup == state.user?.ageGroup &&
+        newUser.profileImage == state.user?.profileImage
+        ) {
+        logger.debug('no changes to save');
+        return false;
+        }
     final oldUser = state.user;
     emit(state.copyWith(accountStatus: AccountStateStatus.loading));
     try {
