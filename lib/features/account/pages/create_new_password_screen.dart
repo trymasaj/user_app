@@ -19,8 +19,7 @@ class CreateNewPasswordScreen extends StatelessWidget {
 
   static Widget builder(BuildContext context) {
     return BlocProvider<CreateNewPasswordOneBloc>(
-      create: (context) =>
-          CreateNewPasswordOneBloc(CreateNewPasswordState.initial()),
+      create: (context) => CreateNewPasswordOneBloc(CreateNewPasswordState.initial()),
       child: CreateNewPasswordScreen(),
     );
   }
@@ -33,8 +32,7 @@ class CreateNewPasswordScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return BlocListener<AuthCubit, AuthState>(
       listener: (context, state) {
-        if (state.isAccountError)
-          showSnackBar(context, message: state.errorMessage);
+        if (state.isAccountError) showSnackBar(context, message: state.errorMessage);
         if (state.isChangePassword) {
           NavigatorHelper.of(context).pop();
           showSnackBar(context, message: AppText.password_changed);
@@ -55,35 +53,23 @@ class CreateNewPasswordScreen extends StatelessWidget {
               children: [
                 PasswordTextField(
                   controller: _passwordController,
-                  hint: 'msg_current_password',
+                  hint: AppText.msg_current_password,
                   validator: (value) => Validator().validatePassword(value),
                 ),
                 SizedBox(height: 20.h),
                 PasswordTextField(
                   controller: _newPasswordController,
                   validator: (value) => Validator().validatePassword(value),
-                  hint: 'lbl_new_password',
+                  hint: AppText.lbl_new_password,
                 ),
                 SizedBox(height: 20.h),
                 PasswordTextField(
                   controller: _newPasswordConfirmController,
-                  validator: (value) => Validator()
-                      .validateConfPassword(_newPasswordController.text, value),
-                  hint: 'msg_confirm_new_password',
+                  validator: (value) => Validator().validateConfPassword(_newPasswordController.text, value),
+                  hint: AppText.msg_confirm_new_password,
                 ),
                 SizedBox(height: 20.h),
-                DefaultButton(
-                    label: AppText.lbl_continue,
-                    isExpanded: true,
-                    onPressed: () async {
-                      final cubit = context.read<AuthCubit>();
-                      if (_isValid())
-                        await cubit.changePassword(
-                          _passwordController.text.trim(),
-                          _newPasswordController.text.trim(),
-                          _newPasswordConfirmController.text.trim(),
-                        );
-                    }),
+                DefaultButton(label: AppText.lbl_continue, isExpanded: true, onPressed: () => onSaveBtnTap(context)),
               ],
             ),
           ),
@@ -108,5 +94,24 @@ class CreateNewPasswordScreen extends StatelessWidget {
       title: AppText.lbl_change_password,
       centerTitle: true,
     );
+  }
+
+  Future<void> onSaveBtnTap(BuildContext context) async {
+    final cubit = context.read<AuthCubit>();
+    if (!_isValid()) return;
+    //
+    var success =  await cubit.changePassword(
+        _passwordController.text.trim(),
+        _newPasswordController.text.trim(),
+        _newPasswordConfirmController.text.trim(),
+      );
+
+    if(success==true){
+      showSnackBar(context, message: AppText.password_changed);
+    }
+    else if(success == false){
+      showSnackBar(context, message: AppText.msg_something_went_wrong);
+    }
+    // ignore null (redundant request error)
   }
 }

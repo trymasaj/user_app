@@ -47,7 +47,7 @@ class _PasswordTextFieldState extends State<PasswordTextField> {
         prefixIconConstraints: BoxConstraints(
           maxHeight: 56.h,
         ),
-        hintText: widget.hint.tr(),
+        hintText: widget.hint,
         hintStyle: CustomTextStyles.bodyMediumBluegray40001_1,
         suffixIcon: Padding(
           padding: const EdgeInsets.all(8.0),

@@ -9,7 +9,7 @@ import 'package:masaj/features/address/presentation/pages/address_page.dart';
 import 'package:masaj/features/address/presentation/pages/update_address_screen.dart';
 import 'package:masaj/features/address/presentation/pages/map_location_picker.dart';
 import 'package:masaj/features/address/presentation/pages/select_location_screen.dart';
-import 'package:masaj/features/auth/presentation/pages/change_password_page.dart';
+// import 'package:masaj/features/auth/presentation/pages/change_password_page.dart';
 import 'package:masaj/features/auth/presentation/pages/edit_user_info_page.dart';
 import 'package:masaj/features/auth/presentation/pages/email_verification_page.dart';
 import 'package:masaj/features/auth/presentation/pages/forget_password_page.dart';
@@ -77,9 +77,9 @@ Route<dynamic>? onGenerateRoute(RouteSettings settings) {
     case ForgetPasswordPage.routeName:
       return MaterialPageRoute(
           builder: (context) => const ForgetPasswordPage());
-    case ChangePasswordPage.routeName:
-      return MaterialPageRoute(
-          builder: (context) => const ChangePasswordPage());
+    // case ChangePasswordPage.routeName:
+    //   return MaterialPageRoute(
+    //       builder: (context) => const ChangePasswordPage());
     case SelectLocationScreen.routeName:
       return MaterialPageRoute(
           builder: (context) => const SelectLocationScreen());

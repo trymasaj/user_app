@@ -320,19 +320,24 @@ class AuthCubit extends BaseCubit<AuthState> {
     }
   }
 
-  Future<void> changePassword(
+  Future<bool?> changePassword(
       String oldPassword, String newPassword, String confirmPassword) async {
     try {
       emit(state.copyWith(accountStatus: AccountStateStatus.loading));
       await _authManager.changePassword(
           oldPassword, newPassword, confirmPassword);
       emit(state.copyWith(accountStatus: AccountStateStatus.changePassword));
+      //
+      return true;
     } on RedundantRequestException catch (e) {
       logger.error('[$runtimeType].changePassword($oldPassword, $newPassword, $confirmPassword)' ,e);
+      return null;
     } catch (e) {
       logger.error('[$runtimeType].changePassword($oldPassword, $newPassword, $confirmPassword)' ,e);
       emit(state.copyWith(
           accountStatus: AccountStateStatus.error, errorMessage: e.toString()));
+      //
+      return false;
     }
   }
 
