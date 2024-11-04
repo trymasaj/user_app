@@ -62,8 +62,8 @@ class _BookingDetialsScreenState extends State<BookingDetialsScreen> {
       child: CustomAppPage(
         child: Scaffold(
           bottomNavigationBar: _buildCompletedActionButton(),
-          appBar: const CustomAppBar(
-            title: 'booking_details',
+          appBar: CustomAppBar(
+            title: AppText.booking_details,
           ),
           body: RefreshIndicator(
             onRefresh: () async {

@@ -48,7 +48,7 @@ class BookServiceScreen extends StatefulWidget {
 }
 
 class _BookServiceScreenState extends State<BookServiceScreen> {
-  AvailableTherapistTabEnum? selectedTab;
+  AvailableTherapistTabItem? selectedTab;
   AvailableTimeSlot? selectedTimeSlot;
   final TextEditingController _dateController = TextEditingController();
   final TextEditingController _timeController = TextEditingController();
@@ -64,7 +64,7 @@ class _BookServiceScreenState extends State<BookServiceScreen> {
     });
   }
 
-  void setSelectedTab(AvailableTherapistTabEnum tab, BuildContext context) {
+  void setSelectedTab(AvailableTherapistTabItem tab, BuildContext context) {
     if (selectedDate == null) {
       ScaffoldMessenger.of(context).showSnackBar( SnackBar(
         content: Text(AppText.please_select_date_and_time),
@@ -289,7 +289,7 @@ class _BookServiceScreenState extends State<BookServiceScreen> {
                     Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
-                        for (var tab in AvailableTherapistTabEnum.values)
+                        for (var tab in availableTherapistsTabItems)
                           _buildFilterTap(tab, selectedTab == tab, context)
                       ],
                     ),
@@ -357,7 +357,7 @@ class _BookServiceScreenState extends State<BookServiceScreen> {
   }
 
   Widget _buildFilterTap(
-      AvailableTherapistTabEnum tab, bool isSelected, BuildContext context) {
+      AvailableTherapistTabItem tab, bool isSelected, BuildContext context) {
     return GestureDetector(
       onTap: () {
         setSelectedTab(tab, context);

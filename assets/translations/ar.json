@@ -870,6 +870,7 @@
   "booking_summary": "ملخص الحجز",
   "checkout_title": "عنوان الدفع",
   "checkout_warning": "تحذير الدفع",
+  "left_sessions": "{}/10 باقي",
   "lbl": "العلامة",
   "lbl_09_55_pm": "09:55 مساءً",
   "lbl_0_kwd": "0 د.ك",

@@ -17,7 +17,7 @@ import 'package:masaj/features/account/pages/phone_screen.dart';
 import 'package:masaj/features/auth/application/auth_cubit/auth_cubit.dart';
 import 'package:masaj/features/auth/data/managers/auth_manager.dart';
 import 'package:masaj/features/auth/presentation/pages/login_page.dart';
-import 'package:panara_dialogs/panara_dialogs.dart';
+
 
 class AccountScreen extends StatelessWidget {
   static const routeName = '/account';

@@ -45,7 +45,7 @@ class AvialbleTherapistCubit extends BaseCubit<AvialbleTherapistState> {
 
   Future<void> getAvailableTherapists(
       {required DateTime bookingDate,
-      required AvailableTherapistTabEnum pickTherapistType}) async {
+      required AvailableTherapistTabItem pickTherapistType}) async {
     emit(state.copyWith(status: AvialbleTherapistStatus.loading));
     try {
       final therapists = await _providersTabRepository.getAvailableTherapists(

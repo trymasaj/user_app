@@ -986,6 +986,5 @@ abstract class AppText {
   static String get privacy_policy_content => 'privacy_policy_content'.tr();
   static String get reschedule_policy_content => 'reschedule_policy_content'.tr();
   static String get cancellation_policy_content => 'cancellation_policy_content'.tr();
-
-  static left_sessions({required List<String> args}) {}
+  static left_sessions({required List<String> args}) => 'left_sessions'.tr(args: args);
 }
