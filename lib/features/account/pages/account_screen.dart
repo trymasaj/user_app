@@ -1,16 +1,23 @@
 import 'package:flutter/material.dart';
 import 'package:masaj/core/app_export.dart';
+import 'package:masaj/core/data/di/di_wrapper.dart';
+import 'package:masaj/core/data/logger/abs_logger.dart';
+import 'package:masaj/core/domain/exceptions/redundant_request_exception.dart';
 import 'package:masaj/core/presentation/colors/app_colors.dart';
 import 'package:masaj/core/presentation/navigation/navigator_helper.dart';
+import 'package:masaj/core/presentation/overlay/show_snack_bar.dart';
 import 'package:masaj/core/presentation/widgets/stateless/border_tile.dart';
 import 'package:masaj/core/presentation/widgets/stateless/custom_app_bar.dart';
 import 'package:masaj/features/account/bloc/account_bloc/account_bloc.dart';
+import 'package:masaj/features/account/data/models/contact_us_message_model.dart';
 import 'package:masaj/features/account/models/account_model.dart';
 import 'package:masaj/features/account/pages/create_new_password_screen.dart';
 import 'package:masaj/features/account/pages/my_profile_screen.dart';
 import 'package:masaj/features/account/pages/phone_screen.dart';
 import 'package:masaj/features/auth/application/auth_cubit/auth_cubit.dart';
+import 'package:masaj/features/auth/data/managers/auth_manager.dart';
 import 'package:masaj/features/auth/presentation/pages/login_page.dart';
+import 'package:panara_dialogs/panara_dialogs.dart';
 
 class AccountScreen extends StatelessWidget {
   static const routeName = '/account';
@@ -28,7 +35,7 @@ class AccountScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return BlocConsumer<AuthCubit, AuthState>(
+    return BlocBuilder<AuthCubit, AuthState>(
       builder: (context, state) {
         return Scaffold(
           appBar: _buildAppBar(context),
@@ -85,8 +92,7 @@ class AccountScreen extends StatelessWidget {
                     text: AppText.lbl_delete_account,
                     color: AppColors.ERROR_COLOR,
                     onTap: () async {
-                      final cubit = context.read<AuthCubit>();
-                      cubit.deleteAccount();
+                      deleteAccount(context);
                     },
                   ),
                 ),
@@ -95,14 +101,7 @@ class AccountScreen extends StatelessWidget {
             ),
           ),
         );
-      },
-      listener: (BuildContext context, AuthState state) {
-        if (state.accountStatus == AccountStateStatus.accountDeleted) {
-          NavigatorHelper.of(context).pushAndRemoveUntil(
-              MaterialPageRoute(builder: (context) => const LoginPage()),
-              (_) => false);
-        }
-      },
+      }
     );
   }
 
@@ -128,4 +127,52 @@ class AccountScreen extends StatelessWidget {
       color: color,
     );
   }
+
+
+  Future<void> deleteAccount(BuildContext context) async {
+
+    // TODO: use a good dialog
+    // var yes = await PanaraConfirmDialog.show(
+    //   context,
+    //   title: AppText.are_you_sure,
+    //   message: AppText.confirm_delete_account,
+    //   confirmButtonText: AppText.ok,
+    //   cancelButtonText: AppText.cancel,
+    //   onTapCancel: () {
+    //     Navigator.pop(context, false);
+    //   },
+    //   onTapConfirm: () {
+    //     Navigator.pop(context, true);
+    //   },
+    //   panaraDialogType: PanaraDialogType.normal,
+    //   barrierDismissible: false, // optional parameter (default is true)
+    // );
+
+    // if(!yes) return;
+
+    final user = context.read<AuthCubit>().state.user;
+
+    final message = ContactUsMessage(
+      name: user?.fullName ?? '',
+      email: user?.email ?? '',
+      message: 'Request account deletion\n User ID: ${user?.id ?? ''}',
+    );
+    try {
+      var success = await DI.find<AuthManager>().deleteAccount(message);
+      if(success){
+        showSnackBar(context, message: AppText.msg_order_has_been_sent);
+        //
+        NavigatorHelper.of(context).pushAndRemoveUntil(
+            MaterialPageRoute(builder: (context) => const LoginPage()),
+                (_) => false);
+      }
+    } on RedundantRequestException catch (e) {
+      DI.find<AbsLogger>().error('[$runtimeType].deleteAccount()' ,e);
+    } catch (e) {
+      DI.find<AbsLogger>().error('[$runtimeType].deleteAccount()' ,e);
+      showSnackBar(context, message: AppText.msg_something_went_wrong);
+    }
+  }
+
+
 }

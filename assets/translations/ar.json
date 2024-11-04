@@ -1,4 +1,11 @@
 {
+
+  "are_you_sure":"هل أنت متأكد؟",
+  "confirm_delete_account":"سيتم حذف حسابك وبياناتك بشكل دائم، لا يمكن التراجع عن ذلك",
+  "yes":"نعم",
+  "no":"لا",
+  "ok":"حسناً",
+
   "refresh_page": "تحديث الصفحة",
   "no_time_slots_available":"لا توجد فترات زمنية متاحة",
   "no_therapist_available":"لا يوجد معالج متاح",

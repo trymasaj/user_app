@@ -1,4 +1,10 @@
 {
+  "are_you_sure":"",
+  "confirm_delete_account":"Your account and data will be permanently deleted, This can't be undone",
+  "yes":"Yes",
+  "no":"No",
+  "ok":"Ok",  
+
   "refresh_page": "Refresh page",
   "no_time_slots_available":"No time slots available",
   "no_therapist_available":"No therapist available",

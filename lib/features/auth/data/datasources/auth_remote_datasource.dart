@@ -43,7 +43,7 @@ abstract class AuthRemoteDataSource {
 
   Future<void> logout(String userId);
 
-  Future<void> deleteAccount(ContactUsMessage message);
+  Future<bool> deleteAccount(ContactUsMessage message);
 
   Future<void> informBackendAboutLanguageChanges(String languageCode);
 
@@ -272,7 +272,7 @@ class AuthRemoteDataSourceImpl implements AuthRemoteDataSource {
   }
 
   @override
-  Future<void> deleteAccount(ContactUsMessage message) {
+  Future<bool> deleteAccount(ContactUsMessage message) {
     const url = ApiEndPoint.DELETE_ACCOUNT;
 
     return _networkService.post(url, data: message.toMap()).then((response) {
@@ -285,6 +285,7 @@ class AuthRemoteDataSourceImpl implements AuthRemoteDataSource {
       if (resultStatus == RequestResult.Failed.name) {
         throw RequestException(message: result['msg']);
       }
+      return true;
     });
   }
 

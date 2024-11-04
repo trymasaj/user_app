@@ -2,7 +2,14 @@ import 'package:easy_localization/easy_localization.dart';
 
 abstract class AppText {
 
+
   AppText._();
+
+  static String get are_you_sure => 'are_you_sure'.tr();
+  static String get confirm_delete_account => 'confirm_delete_account'.tr();
+  static String get yes => 'yes'.tr();
+  static String get no => 'no'.tr();
+  static String get ok => 'ok'.tr();
 
   static String get refresh_page => 'refresh_page'.tr();
   static String get no_time_slots_available => 'no_time_slots_available'.tr();

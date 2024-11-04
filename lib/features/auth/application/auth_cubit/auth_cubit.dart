@@ -407,26 +407,6 @@ class AuthCubit extends BaseCubit<AuthState> {
     emit(const AuthState(status: AuthStateStatus.guest));
   }
 
-  Future<void> deleteAccount() async {
-    final user = state.user;
-
-    final message = ContactUsMessage(
-      name: user?.fullName ?? '',
-      email: user?.email ?? '',
-      message: 'Request account deletion\n User ID: ${user?.id ?? ''}',
-    );
-    try {
-      await _authManager.deleteAccount(message);
-      emit(state.copyWith(status: AuthStateStatus.loggedIn));
-    } on RedundantRequestException catch (e) {
-      logger.error('[$runtimeType].deleteAccount()' ,e);
-    } catch (e) {
-      logger.error('[$runtimeType].deleteAccount()' ,e);
-      emit(state.copyWith(
-          status: AuthStateStatus.error, errorMessage: e.toString()));
-    }
-  }
-
   Future<void> informBackendAboutLanguageChanges(String languageCode) async {
     try {
       await _authManager.informBackendAboutLanguageChanges(languageCode);
