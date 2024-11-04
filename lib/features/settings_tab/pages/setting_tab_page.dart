@@ -319,21 +319,21 @@ class _SettingsTabPageState extends State<SettingsTabPage> {
               SizedBox(height: 3.h),
               Text(AppText.lbl_app,
                   style: CustomTextStyles.titleSmallOnPrimary_3),
-              SizedBox(height: 14.h),
-              SettingTile(
-                text: AppText.lbl_notifications,
-                imagePath: ImageConstant.imgGroup1000003171,
-                onTap: () {},
-                trailing: BlocSelector<SettingsBloc, SettingsState, bool?>(
-                    selector: (state) => state.isSelectedSwitch,
-                    builder: (context, isSelectedSwitch) {
-                      return CustomSwitch(
-                          value: isSelectedSwitch,
-                          onChange: (value) {
-                            context.read<SettingsBloc>().changeSwitch(value);
-                          });
-                    }),
-              ),
+              // SizedBox(height: 14.h),
+              // SettingTile(
+              //   text: AppText.lbl_notifications,
+              //   imagePath: ImageConstant.imgGroup1000003171,
+              //   onTap: () {},
+              //   trailing: BlocSelector<SettingsBloc, SettingsState, bool?>(
+              //       selector: (state) => state.isSelectedSwitch,
+              //       builder: (context, isSelectedSwitch) {
+              //         return CustomSwitch(
+              //             value: isSelectedSwitch,
+              //             onChange: (value) {
+              //               context.read<SettingsBloc>().changeSwitch(value);
+              //             });
+              //       }),
+              // ),
               SettingTile(
                 text: AppText.lbl_language,
                 imagePath: ImageConstant.imgGroup1000003172,

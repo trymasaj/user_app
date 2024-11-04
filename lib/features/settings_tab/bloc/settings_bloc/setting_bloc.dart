@@ -8,9 +8,9 @@ import 'package:masaj/features/settings_tab/bloc/settings_bloc/setting_state.dar
 class SettingsBloc extends BaseCubit<SettingsState> {
   SettingsBloc(super.initialState);
 
-  Future<void> changeSwitch(bool value) async {
-    emit(state.copyWith(isSelectedSwitch: value));
-  }
+  // Future<void> changeSwitch(bool value) async {
+  //   emit(state.copyWith(isSelectedSwitch: value));
+  // }
 
   Future<void> _onInitialize(
     SettingsEvent event,
