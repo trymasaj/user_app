@@ -84,22 +84,33 @@ class FixedAppBar extends StatelessWidget {
                   Row(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      Container(
-                        height: 40,
-                        margin: const EdgeInsets.only(left: 10),
-                        padding: const EdgeInsets.all(8),
-                        decoration: BoxDecoration(
-                          // circle shape
-                          shape: BoxShape.circle,
-                          // border color
-                          border: Border.all(
-                            color: AppColors.GREY_LIGHT_COLOR_2,
-                            width: 1,
+                      Visibility(
+                        visible: false,
+                        child: GestureDetector(
+                        onTap: () {
+                          Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                  builder: (context) => NotificationsPage()));
+                        },
+                        child: Container(
+                          height: 40,
+                          margin: const EdgeInsets.only(left: 10),
+                          padding: const EdgeInsets.all(8),
+                          decoration: BoxDecoration(
+                            // circle shape
+                            shape: BoxShape.circle,
+                            // border color
+                            border: Border.all(
+                              color: AppColors.GREY_LIGHT_COLOR_2,
+                              width: 1,
+                            ),
+                          ),
+                          child: SvgPicture.asset(
+                            Assets.images.fluentPeopleCommunity20Regular,
                           ),
                         ),
-                        child: SvgPicture.asset(
-                          Assets.images.fluentPeopleCommunity20Regular,
-                        ),
+                      ),
                       ),
                       GestureDetector(
                         onTap: () {
