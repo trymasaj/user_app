@@ -104,6 +104,12 @@ class MyApp extends StatefulWidget {
 
   @override
   State<MyApp> createState() => _MyAppState();
+
+  static void setLocale(BuildContext context, Locale newLocale) async {
+    _MyAppState state = context.findAncestorStateOfType<_MyAppState>()!;
+    state.changeLanguage(newLocale);
+  }
+
 }
 
 class _MyAppState extends State<MyApp> with WidgetsBindingObserver {
@@ -130,6 +136,13 @@ class _MyAppState extends State<MyApp> with WidgetsBindingObserver {
     WidgetsBinding.instance.removeObserver(this);
     super.dispose();
   }
+
+  Locale? _locale;
+  void changeLanguage(Locale locale) {
+     setState(() {
+      _locale = locale;
+     });
+    }
 
   @override
   Widget build(BuildContext context) {
@@ -170,7 +183,7 @@ class _MyAppState extends State<MyApp> with WidgetsBindingObserver {
                     home: const SplashPage(),
                     localizationsDelegates: context.localizationDelegates,
                     supportedLocales: context.supportedLocales,
-                    locale: context.locale,
+                    locale: _locale ?? context.locale,
                     debugShowCheckedModeBanner: false,
                     theme: theme,
                     scrollBehavior: const MaterialScrollBehavior().copyWith(

@@ -15,6 +15,7 @@ import 'package:masaj/features/home/presentation/pages/home_page.dart';
 import 'package:masaj/features/intro/presentation/blocs/choose_language_cubit/choose_language_cubit.dart';
 import 'package:masaj/features/intro/presentation/pages/guide_page.dart';
 import 'package:masaj/features/splash/presentation/splash_cubit/splash_cubit.dart';
+import 'package:masaj/main.dart';
 
 class ChooseLanguagePage extends StatefulWidget {
   static const routeName = '/ChooseLanguagePage';
@@ -166,10 +167,9 @@ class _ChooseLanguagePageState extends State<ChooseLanguagePage> {
     return DefaultButton(
       label: AppText.lbl_continue,
       onPressed: () {
-          setState(() {
-            context.setLocale(_selectedLocal);
-          });
-          cubit.saveLanguageCode(_selectedLocal.languageCode);
+        context.setLocale(_selectedLocal);
+        MyApp.setLocale(context, _selectedLocal);
+        cubit.saveLanguageCode(_selectedLocal.languageCode);
       },
       isExpanded: true,
     );
