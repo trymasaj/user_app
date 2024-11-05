@@ -357,7 +357,7 @@ class ServiceDetailsScreenState extends State<ServiceDetailsScreen> {
                                             ),
                                             // benefit text
                                             CustomText(
-                                              text: benefit.benefit,
+                                              text: " ${benefit.benefit}",
                                               fontSize: 12,
                                               fontWeight: FontWeight.w400,
                                               color: AppColors.FONT_LIGHT

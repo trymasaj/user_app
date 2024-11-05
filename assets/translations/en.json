@@ -893,7 +893,7 @@
   "benefits": "Benefits",
   "select_area": "Select area",
   "any_focus_area_today": "Any focus area today?",
-  "focus_area_msg": "To define a specific area of focus, you can write the name of the focus area and visually select it",
+  "focus_area_msg": "To define a specific area of focus, you can visually select it",
   "duration": "Duration",
   "total_duration_service": "Total service duration",
   "total_duration": "Total duration",
