@@ -4,7 +4,7 @@ abstract class AppText {
 
 
   AppText._();
-
+  static String get voucher_applied => 'voucher_applied'.tr();
   static String get are_you_sure => 'are_you_sure'.tr();
   static String get confirm_delete_account => 'confirm_delete_account'.tr();
   static String get yes => 'yes'.tr();

@@ -1,6 +1,7 @@
 import 'dart:developer';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
+import 'package:masaj/core/app_text.dart';
 import 'package:masaj/core/application/controllers/base_cubit.dart';
 import 'package:masaj/core/data/clients/payment_service.dart';
 import 'package:masaj/core/data/constants/api_end_point.dart';
@@ -112,6 +113,7 @@ class GiftsCubit extends BaseCubit<GiftsState> {
       final redeemGiftCard = await _giftsRepository.redeemGiftCard(code);
       emit(state.copyWith(
           status: GiftsStateStatus.loaded, redeemGiftCard: redeemGiftCard));
+      showSnackBar(context, message: AppText.voucher_applied);
     } on RedundantRequestException catch (e) {
       logger.error(e.toString());
     } catch (e) {

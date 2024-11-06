@@ -69,7 +69,7 @@ class _TopUpWalletPaymentMethodBottomsheetState
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                const TitleText(text: 'lbl_payment_method'),
+                TitleText(text: AppText.lbl_payment_method),
                 const SizedBox(height: 18.0),
                 Expanded(
                   child: BlocConsumer<PaymentCubit, PaymentState>(
