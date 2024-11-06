@@ -1,7 +1,7 @@
 import 'dart:async';
 import 'dart:isolate';
-import 'package:adjust_sdk/adjust.dart';
-import 'package:adjust_sdk/adjust_config.dart';
+// import 'package:adjust_sdk/adjust.dart';
+// import 'package:adjust_sdk/adjust_config.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_crashlytics/firebase_crashlytics.dart';
@@ -15,7 +15,7 @@ import 'package:loader_overlay/loader_overlay.dart';
 import 'package:masaj/core/data/device/notification_service.dart';
 import 'package:masaj/core/data/di/di_wrapper.dart';
 import 'package:masaj/core/data/di/injection_setup.dart';
-import 'package:masaj/core/data/services/adjsut.dart';
+// import 'package:masaj/core/data/services/adjsut.dart';
 import 'package:masaj/core/presentation/routes/routes.dart';
 import 'package:masaj/core/presentation/size/size_utils.dart';
 import 'package:masaj/core/presentation/theme/theme_helper.dart';
@@ -50,7 +50,7 @@ void main() async {
     // AdjustConfig config =
     //     new AdjustConfig('H_KKW6jVtGv1B9s-BLph', AdjustEnvironment.production);
     // Adjust.start(config);
-    AdjustTracker.initialize('H_KKW6jVtGv1B9s-BLph');
+    // AdjustTracker.initialize('H_KKW6jVtGv1B9s-BLph');
 
     runApp(
       EasyLocalization(

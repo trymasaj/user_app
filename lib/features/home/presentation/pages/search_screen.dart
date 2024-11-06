@@ -8,7 +8,7 @@ import 'package:masaj/core/app_export.dart';
 import 'package:masaj/core/data/clients/cache_manager.dart';
 import 'package:masaj/core/data/di/di_wrapper.dart';
 import 'package:masaj/core/data/extensions/extensions.dart';
-import 'package:masaj/core/data/services/adjsut.dart';
+// import 'package:masaj/core/data/services/adjsut.dart';
 import 'package:masaj/core/presentation/colors/app_colors.dart';
 import 'package:masaj/core/presentation/navigation/navigator_helper.dart';
 import 'package:masaj/core/presentation/widgets/stateless/custom_cached_network_image.dart';
@@ -94,7 +94,7 @@ class _SearchScreenState extends State<SearchScreen> {
           await context
               .read<HomeSearchCubit>()
               .saveSearchKeyWord(_searchController.text);
-          AdjustTracker.trackSearchService(_searchController.text);
+          // AdjustTracker.trackSearchService(_searchController.text);
         },
       )
     ];
