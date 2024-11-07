@@ -20,7 +20,7 @@ import 'package:masaj/core/presentation/widgets/stateless/text_with_gradiant.dar
 import 'package:masaj/features/auth/application/auth_cubit/auth_cubit.dart';
 import 'package:masaj/features/auth/presentation/pages/login_page.dart';
 import 'package:masaj/features/book_service/presentation/blocs/book_cubit/book_service_cubit.dart';
-import 'package:masaj/features/focus_area/presentation/pages/focus_area_page.dart';
+import 'package:masaj/features/book_service/presentation/screens/focus_area_page.dart';
 import 'package:masaj/features/members/presentaion/pages/select_members.dart';
 import 'package:masaj/features/membership/presentaion/pages/memberships_screen.dart';
 import 'package:masaj/features/providers_tab/data/models/therapist.dart';
@@ -553,7 +553,7 @@ class ServiceDetailsScreenState extends State<ServiceDetailsScreen> {
     final serviceBookModel = createServiceBookingModel();
 
     var success = await bookingCubit.addBookingService(serviceBookModel);
-    if(!success){
+    if (!success) {
       showSnackBar(context, message: AppText.msg_something_went_wrong);
       return;
     }
@@ -574,7 +574,7 @@ class ServiceDetailsScreenState extends State<ServiceDetailsScreen> {
         durationId: selectedDurationNotifier.value?.serviceDurationId,
         addonIds: selectedAddons.map((e) => e.addonId).toList(),
         focusAreas:
-            selectedFocusPoints.value?.keys.map((e) => e.index).toList() ?? []);
+            selectedFocusPoints.value?.entries.where((e)=> e.value).map((e) => e.key.index).toList() ?? []);
   }
 
   Future<void> checkIfGuest(BuildContext context) async {
@@ -694,8 +694,7 @@ class TotalSection extends StatelessWidget {
                       color: AppColors.PlaceholderColor,
                     ),
                   ],
-                )
-              ,
+                ),
               SizedBox(
                 height: 12.h,
               ),
@@ -896,9 +895,9 @@ class _FocusAreaSectionState extends State<FocusAreaSection> {
                       );
                       if (selectedFocusPoints != null) {
                         widget.selectedFocusPoints.value = selectedFocusPoints;
-                        widget.controller.text = selectedFocusPoints.keys
-                            .where((element) => selectedFocusPoints[element]!)
-                            .map((e) => e.name)
+                        widget.controller.text = selectedFocusPoints.entries
+                            .where((e) => e.value)
+                            .map((e) => e.key.name)
                             .join(', ');
                       }
                     },

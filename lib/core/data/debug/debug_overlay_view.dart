@@ -1,4 +1,3 @@
-
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
@@ -27,7 +26,7 @@ class DebugLogDialog extends StatefulWidget {
 class _DebugLogDialogState extends State<DebugLogDialog> {
   int expandedIndex = -1;
 
-  void initState(){
+  void initState() {
     super.initState();
   }
 
@@ -51,7 +50,6 @@ class _DebugLogDialogState extends State<DebugLogDialog> {
                   constraints: const BoxConstraints(maxHeight: 500),
                   padding: const EdgeInsets.all(10),
                   child: ListView.separated(
-
                     separatorBuilder: (context, i) => Container(
                       height: 1,
                       color: Colors.black26,
@@ -144,6 +142,7 @@ class LogsBtnOverlay extends StatelessWidget {
       child: Opacity(
           opacity: 0.5,
           child: TextButton(
+            style: ButtonStyle(backgroundColor: WidgetStatePropertyAll(Colors.grey), foregroundColor: WidgetStatePropertyAll(Colors.white)),
             child: const Text('Show\n Log '),
             onPressed: () {
               var logList = DI.find<AbsLogger>().getSavedLogs();

@@ -56,6 +56,7 @@ class _FocusAreaPageState extends State<FocusAreaPage>
           title: AppText.focus_area,
           centerTitle: true,
           actions: [
+            // clear btn
             IconButton(
                 onPressed: () {
                   setState(() {
@@ -79,8 +80,6 @@ class _FocusAreaPageState extends State<FocusAreaPage>
             DefaultButton(
               isExpanded: true,
               onPressed: () {
-                final selectedFocusPoints = this.selectedFocusPoints;
-                selectedFocusPoints.length;
                 NavigatorHelper.of(context).pop(selectedFocusPoints);
               },
               label: AppText.lbl_save,
