@@ -49,7 +49,7 @@ class MedicalFormDataSourceImpl extends MedicalFormDataSource {
       }
       final result = response.data;
 
-      return MedicalForm.fromMap(result);
+      return result==""? MedicalForm(): MedicalForm.fromMap(result);
     });
   }
 

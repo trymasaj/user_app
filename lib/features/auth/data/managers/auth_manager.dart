@@ -41,7 +41,7 @@ abstract class AuthManager {
 
   Future<User> editAccountData(User newUser);
 
-  Future<bool> deleteAccount(ContactUsMessage message);
+  Future<bool> deleteAccount();
 
   Future<void> updateUserNotificationStatus(bool isEnabled);
 
@@ -233,8 +233,8 @@ class AuthManagerImpl implements AuthManager {
   }
 
   @override
-  Future<bool> deleteAccount(ContactUsMessage message) async {
-    var success = await _remoteDataSource.deleteAccount(message);
+  Future<bool> deleteAccount() async {
+    var success = await _remoteDataSource.deleteAccount();
     if(!success) return false;
     await _localDataSource.clearUserData();
     return true;

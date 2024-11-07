@@ -17,6 +17,7 @@ import 'package:masaj/features/account/pages/phone_screen.dart';
 import 'package:masaj/features/auth/application/auth_cubit/auth_cubit.dart';
 import 'package:masaj/features/auth/data/managers/auth_manager.dart';
 import 'package:masaj/features/auth/presentation/pages/login_page.dart';
+import 'package:pretty_dialog/pretty_dialog.dart';
 
 
 class AccountScreen extends StatelessWidget {
@@ -131,34 +132,23 @@ class AccountScreen extends StatelessWidget {
 
   Future<void> deleteAccount(BuildContext context) async {
 
-    // TODO: use a good dialog
-    // var yes = await PanaraConfirmDialog.show(
-    //   context,
-    //   title: AppText.are_you_sure,
-    //   message: AppText.confirm_delete_account,
-    //   confirmButtonText: AppText.ok,
-    //   cancelButtonText: AppText.cancel,
-    //   onTapCancel: () {
-    //     Navigator.pop(context, false);
-    //   },
-    //   onTapConfirm: () {
-    //     Navigator.pop(context, true);
-    //   },
-    //   panaraDialogType: PanaraDialogType.normal,
-    //   barrierDismissible: false, // optional parameter (default is true)
-    // );
+    
+    var yes = await PrettyDialog.showActionDialog(
+      context,
+      title: AppText.are_you_sure,
+      subTitle: AppText.confirm_delete_account,
+      yesText: AppText.ok,
+      cancelText: AppText.cancel,
+      
+    );
 
-    // if(!yes) return;
+    if(yes != true) return;
 
     final user = context.read<AuthCubit>().state.user;
 
-    final message = ContactUsMessage(
-      name: user?.fullName ?? '',
-      email: user?.email ?? '',
-      message: 'Request account deletion\n User ID: ${user?.id ?? ''}',
-    );
+    
     try {
-      var success = await DI.find<AuthManager>().deleteAccount(message);
+      var success = await DI.find<AuthManager>().deleteAccount();
       if(success){
         showSnackBar(context, message: AppText.msg_order_has_been_sent);
         //

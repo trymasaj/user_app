@@ -361,7 +361,7 @@ class _MedicalFormScreenState extends State<MedicalFormScreen> {
           currentController: _guardianNameController,
           hint: '',
           maxLines: 3,
-          isRequired: true,
+          isRequired: false,
           currentFocusNode: _guardianNameFocusNode,
         ),
       ],
