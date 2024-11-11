@@ -138,6 +138,7 @@ class AccountScreen extends StatelessWidget {
       title: AppText.are_you_sure,
       subTitle: AppText.confirm_delete_account,
       yesText: AppText.ok,
+      yesColor: AppColors.ERROR_COLOR.withOpacity(0.8),
       cancelText: AppText.cancel,
       
     );

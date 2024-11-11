@@ -1,4 +1,7 @@
 {
+  "last_name":"Last Name",
+  "coming_soon": "Coming Soon",
+  "edit_profile": "Edit Profile",
   "voucher_applied":"Voucher applied successfully",
   "are_you_sure":"Are you sure?",
   "confirm_delete_account":"Your account and data will be permanently deleted, This can't be undone",

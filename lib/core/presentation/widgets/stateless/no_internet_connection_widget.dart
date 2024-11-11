@@ -37,7 +37,7 @@ class NoInternetConnectionWidget extends StatelessWidget {
           SvgPicture.asset('assets/images/no_internet_connection_icon.svg'),
           const SizedBox(height: 16.0),
           Text(
-            'sorry_no_result_found'.tr(),
+            AppText.sorry_no_result_found,
             style: Theme.of(context).textTheme.displayMedium,
           ),
           const Spacer(),

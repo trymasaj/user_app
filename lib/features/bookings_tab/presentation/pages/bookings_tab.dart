@@ -93,7 +93,7 @@ class _BookingsTabState extends State<BookingsTab> {
                               refresh: true,
                             );
                           },
-                          svgImage: AppText.empty,
+                          svgImage: 'empty',
                         ),
                       )
                     else

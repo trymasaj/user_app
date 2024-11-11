@@ -102,28 +102,27 @@ class PaymentInfoCard extends StatelessWidget {
 
           SizedBox(height: 12.h),
           buildInfoItem(
-              title: 'amount',
-              data: "price_in_kd".tr(args: [bookingModel.grandTotal.toString()])
+              title: AppText.amount,
+              data: AppText.price_in_kd(args: [bookingModel.grandTotal.toString()])
               //  '${bookingModel.grandTotal} KD'
               ),
           SizedBox(height: 16.h),
           buildInfoItem(
-              title: 'cupon_discount',
-              data: "price_in_kd"
-                  .tr(args: [bookingModel.discountedAmount.toString()])
+              title: AppText.cupon_discount,
+              data: AppText.price_in_kd(args: [bookingModel.discountedAmount.toString()])
               // '${bookingModel.discountedAmount} KD'
               ),
           SizedBox(height: 16.h),
           buildInfoItem(
-              title: 'paid_amount',
-              data: "price_in_kd".tr(args: [bookingModel.grandTotal.toString()])
+              title: AppText.paid_amount,
+              data: AppText.price_in_kd(args: [bookingModel.grandTotal.toString()])
               //  '${bookingModel.grandTotal} KD'
               ),
           SizedBox(height: 16.h),
           BlocBuilder<PaymentCubit, PaymentState>(
             builder: (context, state) {
               return buildInfoItem(
-                  title: 'payment_method',
+                  title: AppText.payment_method,
                   data: state.methods
                           ?.where((element) =>
                               element.id == bookingModel.payment?.paymentMethod)
@@ -137,20 +136,20 @@ class PaymentInfoCard extends StatelessWidget {
           //     title: 'status', data: bookingModel?.bookingStatus?.name ?? ''),
           // SizedBox(height: 16.h),
           buildInfoItem(
-              title: 'payment_id',
+              title: AppText.payment_id,
               data: bookingModel?.payment?.paymentId.toString() ?? ''),
           SizedBox(height: 16.h),
           buildInfoItem(
-              title: 'reference_id',
+              title: AppText.reference_id,
               data: bookingModel?.payment?.referenceId.toString() ?? ''),
 
           SizedBox(height: 16.h),
           buildInfoItem(
-              title: 'payment_date',
+              title: AppText.payment_date,
               data: bookingModel?.payment?.formattedDate ?? ''),
           SizedBox(height: 16.h),
           buildInfoItem(
-              title: 'payment_status',
+              title: AppText.payment_status,
               data: bookingModel.paymentStatus?.name ?? '',
               isSuccess: true),
         ],

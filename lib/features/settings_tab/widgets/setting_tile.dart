@@ -32,7 +32,7 @@ class SettingTile extends StatelessWidget {
                     width: 20.adaptSize),
                 Padding(
                     padding: EdgeInsetsDirectional.only(start: 18.w),
-                    child: Text(text.tr(), style: theme.textTheme.titleSmall)),
+                    child: Text(text, style: theme.textTheme.titleSmall)),
                 const Spacer(),
                 trailing,
               ]),

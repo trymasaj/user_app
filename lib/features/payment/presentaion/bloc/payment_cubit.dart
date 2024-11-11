@@ -109,10 +109,10 @@ class PaymentCubit extends BaseCubit<PaymentState> {
         },
         onSuccess: () {
           navigatorKey.currentState!.pop();
-          showSnackBar(context, message: 'msg_wallet_success'.tr());
+          showSnackBar(context, message: AppText.msg_wallet_success);
         },
         onFailure: () {
-          showSnackBar(context, message: 'msg_something_went_wrong'.tr());
+          showSnackBar(context, message: AppText.msg_something_went_wrong);
         },
       ));
       emit(state.copyWith(status: PaymentStateStatus.loaded));

@@ -9,7 +9,7 @@ class RequestException extends AppException {
     dynamic response,
   }) {
     // Construct a detailed error message
-    String message = _parseErrorMessage(response) ?? 'error_occurred'.tr();
+    String message = _parseErrorMessage(response) ?? AppText.error_occurred;
 
     // Map status codes to specific exceptions
     switch (statusCode) {

@@ -156,7 +156,7 @@ class _GuidePageState extends State<GuidePage> {
         crossAxisAlignment: CrossAxisAlignment.center,
         children: [
           Text(
-            (isLastTab ? AppText.get_started : AppText.lbl_next).tr(),
+            isLastTab ? AppText.get_started : AppText.lbl_next,
             style: theme.textTheme.titleMedium,
           ),
           SizedBox(width: 7.0.w),

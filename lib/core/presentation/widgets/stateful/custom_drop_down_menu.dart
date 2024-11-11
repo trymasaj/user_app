@@ -3,6 +3,7 @@ import 'dart:ui';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:masaj/core/app_text.dart';
 import 'package:masaj/core/data/models/id_name_model.dart';
 import 'package:masaj/core/data/typedefs/type_defs.dart';
 import 'package:masaj/core/data/validator/validator.dart';
@@ -251,7 +252,7 @@ class _CustomDropDownMenuState<T> extends State<CustomDropDownMenu<T>> {
               ),
               if (isComingSoon)
                 Text(
-                  'coming_soon'.tr(),
+                  AppText.coming_soon,
                   style: Theme.of(context)
                       .textTheme
                       .bodyMedium!
@@ -411,7 +412,7 @@ class _CupertinoModalPopupWidgetState<T>
                   children: [
                     CupertinoButton(
                       child: Text(
-                        'cancel'.tr(),
+                        AppText.cancel,
                         style: Theme.of(context).textTheme.bodyMedium!.copyWith(
                               color: AppColors.PRIMARY_COLOR,
                             ),
@@ -420,7 +421,7 @@ class _CupertinoModalPopupWidgetState<T>
                     ),
                     CupertinoButton(
                       child: Text(
-                        'done'.tr(),
+                        AppText.done,
                         style: Theme.of(context).textTheme.bodyMedium!.copyWith(
                               color: AppColors.PRIMARY_COLOR,
                             ),

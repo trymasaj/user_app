@@ -4,6 +4,7 @@ import 'package:flutter/services.dart';
 import 'package:intl_phone_field/country_picker_dialog.dart';
 import 'package:intl_phone_field/intl_phone_field.dart';
 import 'package:intl_phone_field/phone_number.dart';
+import 'package:masaj/core/app_text.dart';
 import 'package:masaj/core/data/validator/validator.dart';
 import 'package:masaj/core/presentation/colors/app_colors.dart';
 
@@ -77,7 +78,7 @@ class PhoneTextFormField extends StatelessWidget {
               countryNameStyle: textStyle,
               countryCodeStyle: textStyle,
               searchFieldInputDecoration: InputDecoration(
-                hintText: 'search'.tr(),
+                hintText: AppText.search,
                 hintStyle: textStyle.copyWith(
                   fontSize: 14.0,
                   fontFamily: 'Poppins',
@@ -114,7 +115,7 @@ class PhoneTextFormField extends StatelessWidget {
                   : AppColors.GREY_NORMAL_COLOR,
               filled: true,
               contentPadding: const EdgeInsets.fromLTRB(20, 20, 20, 20),
-              hintText: hint ?? 'phone_number'.tr(),
+              hintText: hint ?? AppText.phone_number,
               hintStyle: textStyle.copyWith(
                 color: const Color(0xFF8C8C8C),
               ),

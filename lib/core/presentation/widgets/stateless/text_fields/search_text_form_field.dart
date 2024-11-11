@@ -3,6 +3,7 @@
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:masaj/core/app_text.dart';
 import 'package:masaj/core/presentation/colors/app_colors.dart';
 import 'package:masaj/core/presentation/widgets/stateless/text_fields/main_text_form_field.dart';
 import 'package:masaj/gen/assets.gen.dart';
@@ -20,7 +21,7 @@ class SearchTextFormField extends MainTextFormField {
       super.onTap,
       super.onChanged})
       : super(
-          hintText: 'search'.tr(),
+          hintText: AppText.search,
           keyboardType: TextInputType.emailAddress,
           validator: null,
           fillColor: AppColors.ExtraLight,
@@ -55,7 +56,7 @@ class SearchTextFormField extends MainTextFormField {
       super.onTap,
       super.onChanged})
       : super(
-          hintText: 'search'.tr(),
+          hintText: AppText.search,
           keyboardType: TextInputType.emailAddress,
           validator: null,
           fillColor: Colors.white,

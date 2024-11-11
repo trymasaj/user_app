@@ -2,8 +2,10 @@ import 'package:easy_localization/easy_localization.dart';
 
 abstract class AppText {
 
-
   AppText._();
+  static String get coming_soon => 'coming_soon'.tr();
+  static String get last_name => 'last_name'.tr();
+  static String get edit_profile => 'edit_profile'.tr();
   static String get voucher_applied => 'voucher_applied'.tr();
   static String get are_you_sure => 'are_you_sure'.tr();
   static String get confirm_delete_account => 'confirm_delete_account'.tr();
@@ -214,7 +216,7 @@ abstract class AppText {
   static String get confirm_new_password => 'confirm_new_password'.tr();
   static String get passwords_not_match => 'passwords_not_match'.tr();
   static String get do_not_receive_code => 'do_not_receive_code'.tr();
-  static String get resend_in => 'resend_in'.tr();
+  static String resend_in(List<String> args) => 'resend_in'.tr(args: args);
   static String get lbl_icons => 'lbl_icons'.tr();
   static String get lbl_menu_icons => 'lbl_menu_icons'.tr();
   static String get lbl_correct_input => 'lbl_correct_input'.tr();

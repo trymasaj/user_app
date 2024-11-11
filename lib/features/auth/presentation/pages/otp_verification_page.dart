@@ -18,7 +18,6 @@ import 'package:masaj/features/auth/presentation/pages/login_page.dart';
 import 'package:masaj/features/home/presentation/pages/home_page.dart';
 import 'package:masaj/features/quiz/presentation/pages/quiz_start_page.dart';
 import 'package:pin_code_fields/pin_code_fields.dart';
-
 import 'package:masaj/features/auth/application/auth_cubit/auth_cubit.dart';
 import 'package:masaj/features/auth/presentation/pages/reset_password_page.dart';
 
@@ -144,16 +143,16 @@ class _OTPVerificationPageState extends State<OTPVerificationPage> {
   }
 
   Widget _buildMainText(BuildContext context) {
-    return const CustomText(
-      text: 'verification_code',
+    return CustomText(
+      text: AppText.verification_code,
       fontSize: 20,
       fontWeight: FontWeight.w600,
     );
   }
 
   Widget _buildSubText(BuildContext context) {
-    return const CustomText(
-      text: 'verification_code_sub',
+    return CustomText(
+      text: AppText.verification_code_sub,
       fontSize: 14,
       fontWeight: FontWeight.w400,
       color: AppColors.FONT_LIGHT_COLOR,
@@ -255,7 +254,7 @@ class _OTPVerificationPageState extends State<OTPVerificationPage> {
             ),
             if (state.isTimerRunning)
               Text(
-                'resend_in'.tr(args: ['${state.remainingTime}']),
+                AppText.resend_in(['${state.remainingTime}']),
                 style: const TextStyle(
                   fontSize: 14,
                   fontWeight: FontWeight.w400,

@@ -4,7 +4,9 @@ import 'dart:developer';
 import 'package:firebase_analytics/firebase_analytics.dart';
 import 'package:firebase_crashlytics/firebase_crashlytics.dart';
 import 'package:flutter/foundation.dart';
+import 'package:flutter/widgets.dart';
 import 'package:intl_phone_field/phone_number.dart';
+import 'package:masaj/core/app_export.dart';
 import 'package:masaj/core/application/controllers/base_cubit.dart';
 import 'package:masaj/core/data/device/system_service.dart';
 import 'package:masaj/core/data/logger/abs_logger.dart';
@@ -13,11 +15,14 @@ import 'package:masaj/core/data/show_case_helper.dart';
 import 'package:masaj/core/domain/enums/gender.dart';
 import 'package:masaj/core/domain/exceptions/redundant_request_exception.dart';
 import 'package:masaj/core/domain/exceptions/social_media_login_canceled_exception.dart';
+import 'package:masaj/core/presentation/colors/app_colors.dart';
 import 'package:masaj/features/auth/data/managers/auth_manager.dart';
 
 import 'package:masaj/core/data/models/interest_model.dart';
 import 'package:masaj/features/account/data/models/contact_us_message_model.dart';
 import 'package:masaj/features/auth/domain/entities/user.dart';
+import 'package:masaj/features/auth/presentation/pages/login_page.dart';
+import 'package:pretty_dialog/pretty_dialog.dart';
 
 part 'auth_state.dart';
 
@@ -395,7 +400,20 @@ class AuthCubit extends BaseCubit<AuthState> {
     }
   }
 
-  Future<void> logout() async {
+  Future<void> logout(BuildContext context) async {
+
+    // confirmation dialog
+    var yes = await PrettyDialog.showActionDialog(
+      context,
+      title: AppText.are_you_sure,
+      yesText: AppText.ok,
+      yesColor: AppColors.ERROR_COLOR.withOpacity(0.8),
+      cancelText: AppText.cancel,
+
+    );
+
+    if(yes != true) return;
+
     emit(state.copyWith(status: AuthStateStatus.loading));
     try {
       await _authManager.logout();
@@ -403,7 +421,10 @@ class AuthCubit extends BaseCubit<AuthState> {
       logger.error('[$runtimeType].logout()' ,e);
       emit(state.copyWith(
           status: AuthStateStatus.error, errorMessage: e.toString()));
+      return;
     }
+    Navigator.pushNamedAndRemoveUntil(
+        context, LoginPage.routeName, (route) => false);
     emit(const AuthState(status: AuthStateStatus.guest));
   }
 

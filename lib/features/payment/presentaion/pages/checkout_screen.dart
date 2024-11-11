@@ -595,7 +595,7 @@ class _WalletSectionState extends State<WalletSection> {
             SubtitleText(text: AppText.use_wallet),
             SizedBox(width: 4.w),
             SubtitleText(
-                text: 'lbl_kwd'.tr(args: [
+                text: AppText.lbl_kwd(args: [
               (walletCubit.state.walletBalance?.balance ?? 0).toString()
             ])),
             const Spacer(),

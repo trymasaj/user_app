@@ -115,16 +115,16 @@ class _AddAddressScreenState extends State<AddAddressScreen> {
     WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
       formKey.currentState!.patchValue(kDebugMode
           ? {
-              Address.buildingKey: 'test building',
-              Address.apartmentKey: 'test apartment',
-              Address.floorKey: 'test floor',
-              Address.avenueKey: 'test avenue',
-              Address.streetKey: 'test street',
-              Address.blockKey: 'test block',
-              Address.regionKey: 'test region',
-              Address.countryKey: 'test country',
-              Address.additionalDetailsKey: 'test additional direction',
-              Address.nickNameKey: 'test nick name',
+              Address.buildingKey: '',
+              Address.apartmentKey: '',
+              Address.floorKey: '',
+              Address.avenueKey: '',
+              Address.streetKey: '',
+              Address.blockKey: '',
+              Address.regionKey: '',
+              Address.countryKey: '',
+              Address.additionalDetailsKey: '',
+              Address.nickNameKey: '',
             }
           : {});
     });
@@ -229,14 +229,12 @@ class UpdateAddressScreen<T extends UpdateAddressCubit,
         return state.showCountryError;
       },
       builder: (context, state) {
-        log(state.toString());
-        log('state');
 
         return state
             ? Padding(
                 padding: EdgeInsets.symmetric(horizontal: 14.w),
-                child: const SubtitleText(
-                  text: 'msg_please_select_your2',
+                child: SubtitleText(
+                  text: AppText.msg_please_select_your2,
                   color: AppColors.ERROR_COLOR,
                   subtractedSize: 4,
                 ),

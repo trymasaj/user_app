@@ -70,11 +70,11 @@ class WalletBloc extends BaseCubit<WalletState> {
         paymentMethodId: paymentMethodId,
         onSuccess: () async {
           navigatorKey.currentState!.pop();
-          showSnackBar(context, message: 'msg_wallet_success'.tr());
+          showSnackBar(context, message: AppText.msg_wallet_success);
         },
         onFailure: () {
           logger.error('$runtimeType', 'Payment failed');
-          showSnackBar(context, message: 'msg_something_went_wrong'.tr());
+          showSnackBar(context, message: AppText.msg_something_went_wrong);
         },
       ));
       emit(state.copyWith(status: WalletStateStatus.charged));
@@ -82,7 +82,7 @@ class WalletBloc extends BaseCubit<WalletState> {
       log(e.toString());
     } catch (e) {
       logger.error('$runtimeType', e);
-      showSnackBar(context, message: 'msg_something_went_wrong'.tr());
+      showSnackBar(context, message: AppText.msg_something_went_wrong);
       emit(state.copyWith(
           status: WalletStateStatus.error, errorMessage: e.toString()));
     }

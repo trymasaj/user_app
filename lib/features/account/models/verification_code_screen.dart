@@ -42,13 +42,13 @@ class _VerificationCodeScreenState extends State<VerificationCodeScreen> {
                 child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      Text('msg_verification_code'.tr(),
+                      Text(AppText.msg_verification_code,
                           style: theme.textTheme.titleLarge),
                       SizedBox(height: 5.h),
                       Container(
                           width: 284.w,
                           margin: EdgeInsets.only(right: 42.w),
-                          child: Text('msg_you_will_receive'.tr(),
+                          child: Text(AppText.msg_you_will_receive,
                               maxLines: 2,
                               overflow: TextOverflow.ellipsis,
                               style: theme.textTheme.bodyMedium!
@@ -69,7 +69,7 @@ class _VerificationCodeScreenState extends State<VerificationCodeScreen> {
                               })),
                       SizedBox(height: 34.h),
                       CustomElevatedButton(
-                          text: 'lbl_send'.tr(),
+                          text: AppText.lbl_send,
                           buttonStyle: CustomButtonStyles.none,
                           decoration: CustomButtonStyles
                               .gradientSecondaryContainerToPrimaryDecoration,
@@ -84,12 +84,12 @@ class _VerificationCodeScreenState extends State<VerificationCodeScreen> {
                               child: Row(
                                   mainAxisAlignment: MainAxisAlignment.center,
                                   children: [
-                                    Text('msg_didn_t_receive_a'.tr(),
+                                    Text(AppText.msg_didn_t_receive_a,
                                         style: CustomTextStyles
                                             .bodyMediumGray90003),
                                     Padding(
                                         padding: EdgeInsets.only(left: 4.w),
-                                        child: Text('lbl_resend_in_39_00'.tr(),
+                                        child: Text(AppText.lbl_resend_in_39_00,
                                             style: theme.textTheme.titleSmall))
                                   ]))),
                       SizedBox(height: 5.h)

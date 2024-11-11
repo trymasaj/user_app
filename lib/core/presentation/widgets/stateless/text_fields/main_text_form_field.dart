@@ -152,7 +152,7 @@ class _MainTextFormFieldState extends State<MainTextFormField> {
               isDense: true,
               contentPadding: widget.contentPadding ??
                   const EdgeInsets.fromLTRB(20, 20, 20, 20),
-              hintText: widget.hintText.tr(),
+              hintText: widget.hintText,
               hintStyle: widget.hintStyle ??
                   TextStyle(
                       fontFamily: 'Poppins',

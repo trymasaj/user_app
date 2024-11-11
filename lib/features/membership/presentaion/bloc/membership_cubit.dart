@@ -70,7 +70,7 @@ class MembershipCubit extends BaseCubit<MembershipState> {
         },
         onFailure: () {
           navigatorKey.currentState!.pop();
-          showSnackBar(context, message: 'error_occurred'.tr());
+          showSnackBar(context, message: AppText.error_occurred);
         },
       ));
       emit(state.copyWith(status: MembershipStateStatus.loaded));

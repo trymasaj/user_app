@@ -71,10 +71,7 @@ class _SettingsTabPageState extends State<SettingsTabPage> {
                             final isGuest =
                                 context.read<AuthCubit>().state.isGuest;
                             if (!isGuest)
-                              await context.read<AuthCubit>().logout();
-
-                            Navigator.pushNamedAndRemoveUntil(
-                                context, LoginPage.routeName, (route) => false);
+                              await context.read<AuthCubit>().logout(context);
                           },
                           height: 48.h,
                           text: context.read<AuthCubit>().state.isLoggedIn

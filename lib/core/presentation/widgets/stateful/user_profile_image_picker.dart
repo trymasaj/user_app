@@ -5,6 +5,7 @@ import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
+import 'package:masaj/core/app_text.dart';
 import 'package:masaj/core/data/device/file_picker_helper.dart';
 import 'package:masaj/core/domain/exceptions/exceed_file_size_limit_exception.dart';
 import 'package:masaj/core/presentation/colors/app_colors.dart';
@@ -185,12 +186,12 @@ class _UserProfileImagePickerState extends State<UserProfileImagePicker> {
       builder: (BuildContext context) => CupertinoActionSheet(
         actions: [
           CupertinoActionSheetAction(
-            child: Text('gallery'.tr()),
+            child: Text(AppText.gallery),
             onPressed: () =>
                 NavigatorHelper.of(context).pop(FilePickerHelper.gallery()),
           ),
           CupertinoActionSheetAction(
-            child: Text('camera'.tr()),
+            child: Text(AppText.camera),
             onPressed: () =>
                 NavigatorHelper.of(context).pop(FilePickerHelper.camera()),
           )
@@ -198,7 +199,7 @@ class _UserProfileImagePickerState extends State<UserProfileImagePicker> {
         cancelButton: CupertinoActionSheetAction(
           isDestructiveAction: true,
           onPressed: NavigatorHelper.of(context).pop,
-          child: Text('cancel'.tr()),
+          child: Text(AppText.cancel),
         ),
       ),
     );

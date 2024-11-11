@@ -68,7 +68,7 @@ class _EditUserInfoPageState extends State<EditUserInfoPage> {
               AppBar(
                 backgroundColor: Colors.transparent,
                 elevation: 0,
-                title: const TitleText(text: 'edit_profile'),
+                title: TitleText(text: AppText.edit_profile),
                 leading: IconButton(
                   icon: const Icon(
                     Icons.chevron_left,
@@ -131,7 +131,7 @@ class _EditUserInfoPageState extends State<EditUserInfoPage> {
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.stretch,
                 children: [
-                  const TitleText(text: 'full_name'),
+                  TitleText(text: AppText.full_name),
                   const SizedBox(height: 8.0),
                   FirstNameTextFormField(
                     currentController: _fullNameTextController,
@@ -139,7 +139,7 @@ class _EditUserInfoPageState extends State<EditUserInfoPage> {
                     nextFocusNode: _emailFocusNode,
                   ),
                   const SizedBox(height: 16.0),
-                  const TitleText(text: 'your_email'),
+                  TitleText(text: AppText.your_email),
                   const SizedBox(height: 8.0),
                   EmailTextFormField(
                     currentController: _emailTextController,
@@ -149,7 +149,7 @@ class _EditUserInfoPageState extends State<EditUserInfoPage> {
                         buildImage(ImageConstant.imgCheckmarkBlueGray40001),
                   ),
                   const SizedBox(height: 16.0),
-                  const TitleText(text: 'choose_your_gender'),
+                  TitleText(text: AppText.choose_your_gender),
                   const SizedBox(height: 8.0),
                   BlocBuilder<AuthCubit, AuthState>(
                     builder: (context, state) {
@@ -157,7 +157,7 @@ class _EditUserInfoPageState extends State<EditUserInfoPage> {
                         key: ValueKey(state.selectedGender?.id.toString()),
                         currentItem: state.selectedGender ?? _userGender,
                         items: Gender.values,
-                        hint: 'gender',
+                        hint: AppText.gender,
                         onChanged: (value) {
                           _userGender = value;
                           authCubit.selectGender(value!);
@@ -167,12 +167,12 @@ class _EditUserInfoPageState extends State<EditUserInfoPage> {
                     },
                   ),
                   const SizedBox(height: 16.0),
-                  const TitleText(text: 'how_old_are_you'),
+                  TitleText(text: AppText.how_old_are_you),
                   const SizedBox(height: 8.0),
                   CustomDropDownMenu<AgeGroup>.adaptive(
                     currentItem: _userAgeGroup,
                     items: AgeGroup.values,
-                    hint: 'age_group',
+                    hint: AppText.age_group,
                     onChanged: (value) => _userAgeGroup = value,
                     getStringFromItem: (item) => item.name.tr(),
                   ),

@@ -39,7 +39,7 @@ class _SelectLocationBottomSheetState extends State<SelectLocationBottomSheet> {
             Align(
               alignment: AlignmentDirectional.centerStart,
               child: Text(
-                "lbl_location".tr(),
+                AppText.lbl_location,
                 style: CustomTextStyles.titleMediumGray90003,
               ),
             ),

@@ -64,7 +64,7 @@ class _SelectLocationScreenState extends State<SelectLocationScreen> {
               SizedBox(height: 2.h),
               Align(
                   alignment: Alignment.centerLeft,
-                  child: Text("msg_please_select_your2".tr(),
+                  child: Text(AppText.msg_please_select_your2,
                       style: CustomTextStyles.bodyMediumGray60002)),
               SizedBox(height: 19.h),
               CountryAndRegionSelector(
@@ -72,7 +72,7 @@ class _SelectLocationScreenState extends State<SelectLocationScreen> {
                   decoration: InputDecoration(
                       contentPadding: EdgeInsets.symmetric(
                           horizontal: 18.w, vertical: 18.h),
-                      hintText: "lbl_country".tr(),
+                      hintText: AppText.lbl_country,
                       hintStyle: CustomTextStyles.bodyMediumBluegray40001_1,
                       filled: true,
                       fillColor: appTheme.gray5001,
@@ -106,14 +106,12 @@ class _SelectLocationScreenState extends State<SelectLocationScreen> {
         return state.showCountryError;
       },
       builder: (context, state) {
-        log(state.toString());
-        log('state');
 
         return state
             ? Padding(
                 padding: EdgeInsets.symmetric(horizontal: 14.w),
-                child: const SubtitleText(
-                  text: 'msg_please_select_your2',
+                child: SubtitleText(
+                  text: AppText.msg_please_select_your2,
                   color: AppColors.ERROR_COLOR,
                   subtractedSize: 4,
                 ),

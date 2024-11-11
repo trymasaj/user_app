@@ -53,7 +53,7 @@ class CountryAndRegionSelector<T extends SelectAreaCubit>
                             'assets/images/globe.svg',
                           ),
                         ),
-                        hintText: "lbl_country".tr(),
+                        hintText: AppText.lbl_country,
                         hintStyle: CustomTextStyles.bodyMediumBluegray90003),
                     initialValue: controller.state.selectedCountry.toNullable(),
                     // value: state.selectedCountry.toNullable()?.id,
@@ -110,7 +110,7 @@ class CountryAndRegionSelector<T extends SelectAreaCubit>
                             controller.state.selectedArea.toNullable(),
                         isExpanded: true,
                         decoration: decoration.copyWith(
-                          hintText: "lbl_region_area".tr(),
+                          hintText: AppText.lbl_region_area,
                           hintStyle: CustomTextStyles.bodyMediumBluegray90003,
                           prefixIcon: Padding(
                             padding: const EdgeInsets.all(10.0),

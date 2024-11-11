@@ -41,8 +41,8 @@ class _AddressPageState extends State<AddressPage> {
                     await controller.getAddresses();
                   }
                 },
-                child: const SubtitleText(
-                  text: 'lbl_add',
+                child: SubtitleText(
+                  text: AppText.lbl_add,
                   color: AppColors.PRIMARY_COLOR,
                 ))
           ],

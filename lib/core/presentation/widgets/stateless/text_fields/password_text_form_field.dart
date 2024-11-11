@@ -46,7 +46,7 @@ class _PasswordTextFormFieldState extends State<PasswordTextFormField> {
         margin: widget.margin,
         inputFormatters: [LengthLimitingTextInputFormatter(20)],
         prefixIcon: widget.prefixIcon ?? buildImage(ImageConstant.imgLocation),
-        hint: widget.hint ?? 'enter_your_password'.tr(),
+        hint: widget.hint ?? AppText.enter_your_password,
         obscureText: _obscureTextLogin,
         maxLines: 1,
         suffixIcon: GestureDetector(

@@ -1,4 +1,3 @@
-import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:masaj/core/app_text.dart';
@@ -11,7 +10,7 @@ class EmptyPageMessage extends StatelessWidget {
   ///`heightRatio` from `0.0` to `1.0`
   const EmptyPageMessage({
     super.key,
-    String? message = 'Empty',
+    String? message,
     String? svgImage = 'no_points',
     double heightRatio = 0.8,
     Color? textColor,
@@ -38,7 +37,7 @@ class EmptyPageMessage extends StatelessWidget {
   Widget build(BuildContext context) {
     final height = MediaQuery.of(context).size.height;
     final emptyMessageWidget =
-        _buildEmptyMessageContent(height, message: _message);
+        _buildEmptyMessageContent(height, message: _message ?? AppText.empty);
 
     final normalEmptyMessage = _onRefresh == null
         ? emptyMessageWidget
