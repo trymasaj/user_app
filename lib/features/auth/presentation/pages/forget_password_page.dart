@@ -100,16 +100,16 @@ class _ForgetPasswordPageState extends State<ForgetPasswordPage> {
   }
 
   Widget _buildForgetPasswordMainText(BuildContext context) {
-    return const CustomText(
-      text: 'msg_forgot_password',
+    return CustomText(
+      text: AppText.msg_forgot_password,
       fontSize: 20,
       fontWeight: FontWeight.w600,
     );
   }
 
   Widget _buildForgetPasswordSubText(BuildContext context) {
-    return const CustomText(
-      text: 'forget_password_sub',
+    return CustomText(
+      text: AppText.forget_password_sub,
       fontSize: 14,
       fontWeight: FontWeight.w400,
       color: AppColors.FONT_LIGHT_COLOR,

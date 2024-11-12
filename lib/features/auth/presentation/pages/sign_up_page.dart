@@ -297,34 +297,33 @@ class _SignUpPageState extends State<SignUpPage> {
       ),
     );
   }
+  Future<void> signUpCallBack() async {
+    final authCubit = context.read<AuthCubit>();
+    if (_isNotValid()) return;
+    final oldUser = authCubit.state.user;
+    final user = User(
+      id: oldUser?.id,
+      fullName: _fullNameTextController.text.trim(),
+      email: _emailTextController.text.trim(),
+      password: _passwordTextController.text,
+      confirmPassword: _passwordConfirmTextController.text,
+      phone: _phoneNumber?.number,
+      countryCode: _phoneNumber?.countryCode,
+      birthDate: _birthDateTextController.text.parseDate(),
+      gender: selectedGender,
+      countryId: 1,
+      token: oldUser?.token,
+    );
+    if (widget.isFromSocial) {
+      await authCubit.updateProfileInformation(user);
+      return;
+    }
+    await authCubit.signUp(
+      user,
+    );
+  }
 
   Widget _buildSignUpButton(BuildContext context) {
-    final authCubit = context.read<AuthCubit>();
-    Future<void> signUpCallBack() async {
-      if (_isNotValid()) return;
-      final oldUser = authCubit.state.user;
-      final user = User(
-        id: oldUser?.id,
-        fullName: _fullNameTextController.text.trim(),
-        email: _emailTextController.text.trim(),
-        password: _passwordTextController.text,
-        confirmPassword: _passwordConfirmTextController.text,
-        phone: _phoneNumber?.number,
-        countryCode: _phoneNumber?.countryCode,
-        birthDate: _birthDateTextController.text.parseDate(),
-        gender: selectedGender,
-        countryId: 1,
-        token: oldUser?.token,
-      );
-      if (widget.isFromSocial) {
-        await authCubit.updateProfileInformation(user);
-        return;
-      }
-      await authCubit.signUp(
-        user,
-      );
-    }
-
     return DefaultButton(
       label: AppText.sign_up,
       isExpanded: true,

@@ -38,9 +38,10 @@ class RequestException extends AppException {
   // Private method to parse error message from the response
   static String? _parseErrorMessage(dynamic response) {
     if (response is Map<String, dynamic>) {
-      String message =
-          response['detail'] ?? 'An error occurred, please try again later.';
-      message = _parseFieldErrors(response['errors']) ?? message;
+
+      String message = (response['errors'] as Map<String,dynamic>?)?.values.map((e)=> e?.join('\n')).join('\n') ??
+          response['detail'] ?? AppText.msg_something_went_wrong;
+      // message = _parseFieldErrors(response['errors']) ?? message;
       return message;
     } else if (response is String) {
       return response;

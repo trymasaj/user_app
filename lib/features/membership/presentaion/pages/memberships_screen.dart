@@ -104,7 +104,8 @@ class _MembershipPlansScreenState extends State<MembershipPlansScreen> {
                                       alignment: Alignment.center,
                                       title: SubtitleText.large(
                                           isBold: true,
-                                          text: AppText.msg_cancel_subscription),
+                                          text:
+                                              AppText.msg_cancel_subscription),
                                       content: SubtitleText.medium(
                                           text: AppText.msg_are_you_sure_you2),
                                       actions: [
@@ -125,7 +126,8 @@ class _MembershipPlansScreenState extends State<MembershipPlansScreen> {
                                           },
                                           child: Center(
                                             child: SubtitleText.small(
-                                              text: AppText.msg_cancel_subscription,
+                                              text: AppText
+                                                  .msg_cancel_subscription,
                                               color: AppColors.ERROR_COLOR,
                                             ),
                                           ),
@@ -173,45 +175,48 @@ class _MembershipPlansScreenState extends State<MembershipPlansScreen> {
 
   Container _buildPlanItem(BuildContext mainContext, Plan? plan,
       {bool showUpgrade = true}) {
-    return Container(
-      decoration: BoxDecoration(
-          gradient: AppColors.GRADIENT_COLOR,
-          borderRadius: BorderRadius.circular(10)),
-      padding: EdgeInsets.all(24.w),
-      child: Column(
-          mainAxisSize: MainAxisSize.min,
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            SubtitleText.large(
-              text: plan?.name ?? '',
-              color: AppColors.ExtraLight,
-              isBold: true,
-            ),
-            SizedBox(height: 12.h),
-            SubtitleText.medium(
-              text: AppText.lbl_kwd(args: [plan!.price.toString()]),
-              isBold: true,
-              color: AppColors.ExtraLight,
-            ),
-            SubtitleText(
-              text: AppText.lbl_month,
-              color: AppColors.ExtraLight,
-            ),
-            SizedBox(height: 12.h),
-            SubtitleText(
-              text: plan.description ?? '',
-              color: AppColors.ExtraLight,
-            ),
-            SizedBox(height: 24.h),
-            Flexible(
-              child: ListView.builder(
-                physics: const NeverScrollableScrollPhysics(),
-                itemBuilder: (context, index) =>
-                    _buildBenefitItem(plan.benefits?[index].benefit ?? ''),
-                itemCount: plan.benefits?.length ?? 0,
+    if (!showUpgrade)
+      return Container();
+    else
+      return Container(
+        decoration: BoxDecoration(
+            gradient: AppColors.GRADIENT_COLOR,
+            borderRadius: BorderRadius.circular(10)),
+        padding: EdgeInsets.all(24.w),
+        child: Column(
+            mainAxisSize: MainAxisSize.min,
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              SubtitleText.large(
+                text: plan?.name ?? '',
+                color: AppColors.ExtraLight,
+                isBold: true,
               ),
-            ),
-            if (showUpgrade)
+              SizedBox(height: 12.h),
+              SubtitleText.medium(
+                text: AppText.lbl_kwd(args: [plan!.price.toString()]),
+                isBold: true,
+                color: AppColors.ExtraLight,
+              ),
+              SubtitleText(
+                text: AppText.lbl_month,
+                color: AppColors.ExtraLight,
+              ),
+              SizedBox(height: 12.h),
+              SubtitleText(
+                text: plan.description ?? '',
+                color: AppColors.ExtraLight,
+              ),
+              SizedBox(height: 24.h),
+              Flexible(
+                child: ListView.builder(
+                  physics: const NeverScrollableScrollPhysics(),
+                  itemBuilder: (context, index) =>
+                      _buildBenefitItem(plan.benefits?[index].benefit ?? ''),
+                  itemCount: plan.benefits?.length ?? 0,
+                ),
+              ),
+              // if (showUpgrade)
               DefaultButton(
                 onPressed: () {
                   NavigatorHelper.of(context).push(MaterialPageRoute(
@@ -225,8 +230,8 @@ class _MembershipPlansScreenState extends State<MembershipPlansScreen> {
                 isExpanded: true,
                 label: AppText.lbl_upgrade,
               )
-          ]),
-    );
+            ]),
+      );
   }
 
   Row _buildBenefitItem(String title) {
