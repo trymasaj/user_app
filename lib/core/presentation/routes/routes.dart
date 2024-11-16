@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:masaj/core/data/di/di_wrapper.dart';
 import 'package:masaj/features/account/models/verification_code_screen.dart';
 import 'package:masaj/features/account/pages/account_screen.dart';
 import 'package:masaj/features/account/pages/create_new_password_screen.dart';
@@ -34,6 +36,8 @@ import 'package:masaj/features/legal/pages/privacy_policy_screen.dart';
 import 'package:masaj/features/legal/pages/reschedule_policy_screen.dart';
 import 'package:masaj/features/legal/pages/terms_and_condititons_screen.dart';
 import 'package:masaj/features/medical_form/presentation/pages/medical_form_screen.dart';
+import 'package:masaj/features/payment/presentaion/bloc/checkout_cubit.dart';
+import 'package:masaj/features/payment/presentaion/bloc/payment_cubit.dart';
 import 'package:masaj/features/payment/presentaion/pages/checkout_screen.dart';
 import 'package:masaj/features/providers_tab/presentation/pages/provider_details_screen.dart';
 import 'package:masaj/features/members/presentaion/pages/add_member_screen.dart';
@@ -50,8 +54,7 @@ Route<dynamic>? onGenerateRoute(RouteSettings settings) {
     case SplashPage.routeName:
       return MaterialPageRoute(builder: (context) => const SplashPage());
     case OTPVerificationPage.routeName:
-      return MaterialPageRoute(
-          builder: (context) => const OTPVerificationPage());
+      return MaterialPageRoute(builder: (context) => const OTPVerificationPage());
     case MapLocationPicker.routeName:
       return MaterialPageRoute(
           builder: (context) => MapLocationPicker.builder(
@@ -63,9 +66,7 @@ Route<dynamic>? onGenerateRoute(RouteSettings settings) {
     case QuizStartPage.routeName:
       return MaterialPageRoute(builder: (context) => const QuizStartPage());
     case BookingDetialsScreen.routeName:
-      return MaterialPageRoute<ReviewTipsCubitState?>(
-          builder: (context) =>
-              BookingDetialsScreen.builder(context, arguments as int));
+      return MaterialPageRoute<ReviewTipsCubitState?>(builder: (context) => BookingDetialsScreen.builder(context, arguments as int));
     case AddReviewScreen.routeName:
       return AddReviewScreen.route(arguments as BookingModel);
     case GuidePage.routeName:
@@ -75,90 +76,66 @@ Route<dynamic>? onGenerateRoute(RouteSettings settings) {
     case SignUpPage.routeName:
       return MaterialPageRoute(builder: (context) => const SignUpPage());
     case ForgetPasswordPage.routeName:
-      return MaterialPageRoute(
-          builder: (context) => const ForgetPasswordPage());
+      return MaterialPageRoute(builder: (context) => const ForgetPasswordPage());
     // case ChangePasswordPage.routeName:
     //   return MaterialPageRoute(
     //       builder: (context) => const ChangePasswordPage());
     case SelectLocationScreen.routeName:
-      return MaterialPageRoute(
-          builder: (context) => const SelectLocationScreen());
+      return MaterialPageRoute(builder: (context) => const SelectLocationScreen());
     case EditUserInfoPage.routeName:
       return MaterialPageRoute(builder: (context) => const EditUserInfoPage());
     case ChooseLanguagePage.routeName:
       final bool? fromSetting = arguments as bool?;
-      return MaterialPageRoute(
-          builder: (context) =>
-              ChooseLanguagePage(fromSetting: fromSetting ?? false));
+      return MaterialPageRoute(builder: (context) => ChooseLanguagePage(fromSetting: fromSetting ?? false));
     case EmailVerificationPage.routeName:
-      return MaterialPageRoute(
-          builder: (context) => const EmailVerificationPage());
+      return MaterialPageRoute(builder: (context) => const EmailVerificationPage());
     case HomePage.routeName:
       return MaterialPageRoute(builder: (context) => const HomePage());
     case LegalScreen.routeName:
-      return MaterialPageRoute(
-          builder: (context) => LegalScreen.builder(context));
+      return MaterialPageRoute(builder: (context) => LegalScreen.builder(context));
     case PrivacyPolicyScreen.routeName:
-      return MaterialPageRoute(
-          builder: (context) => PrivacyPolicyScreen.builder(context));
+      return MaterialPageRoute(builder: (context) => PrivacyPolicyScreen.builder(context));
     case TermsAndCondititonsScreen.routeName:
-      return MaterialPageRoute(
-          builder: (context) => TermsAndCondititonsScreen.builder(context));
+      return MaterialPageRoute(builder: (context) => TermsAndCondititonsScreen.builder(context));
     case ReschedulePolicyScreen.routeName:
-      return MaterialPageRoute(
-          builder: (context) => ReschedulePolicyScreen.builder(context));
+      return MaterialPageRoute(builder: (context) => ReschedulePolicyScreen.builder(context));
     case CancellationPolicyScreen.routeName:
-      return MaterialPageRoute(
-          builder: (context) => CancellationPolicyScreen.builder(context));
+      return MaterialPageRoute(builder: (context) => CancellationPolicyScreen.builder(context));
     case WalletScreen.routeName:
-      return MaterialPageRoute(
-          builder: (context) => WalletScreen.builder(context));
+      return MaterialPageRoute(builder: (context) => WalletScreen.builder(context));
     case MedicalFormScreen.routeName:
       return MaterialPageRoute(builder: (context) => const MedicalFormScreen());
     case ManageMembersScreen.routeName:
-      return MaterialPageRoute(
-          builder: (context) => const ManageMembersScreen());
+      return MaterialPageRoute(builder: (context) => const ManageMembersScreen());
     // case AddMemberScreen.routeName:
     //   return MaterialPageRoute(builder: (context) => AddMemberScreen.builder(context));
     case AddAddressScreen.routeName:
-      return MaterialPageRoute(
-          builder: (context) => AddAddressScreen.builder());
+      return MaterialPageRoute(builder: (context) => AddAddressScreen.builder());
     case NotificationsPage.routeName:
       return MaterialPageRoute(builder: (context) => NotificationsPage());
 
     case EditAddressScreen.routeName:
-      return MaterialPageRoute(
-          builder: (context) =>
-              EditAddressScreen.builder(arguments as EditAddressArguments));
-
+      return MaterialPageRoute(builder: (context) => EditAddressScreen.builder(arguments as EditAddressArguments));
 
     case TopUpWalletScreen.routeName:
-      return MaterialPageRoute(
-          builder: (context) => TopUpWalletScreen.builder(context));
+      return MaterialPageRoute(builder: (context) => TopUpWalletScreen.builder(context));
     case VerificationCodeScreen.routeName:
-      return MaterialPageRoute(
-          builder: (context) => VerificationCodeScreen.builder(context));
+      return MaterialPageRoute(builder: (context) => VerificationCodeScreen.builder(context));
     case PhoneScreen.routeName:
-      return MaterialPageRoute(
-          builder: (context) => PhoneScreen.builder(context));
+      return MaterialPageRoute(builder: (context) => PhoneScreen.builder(context));
     case AccountScreen.routeName:
-      return MaterialPageRoute(
-          builder: (context) => AccountScreen.builder(context));
+      return MaterialPageRoute(builder: (context) => AccountScreen.builder(context));
     case CreateNewPasswordScreen.routeName:
-      return MaterialPageRoute(
-          builder: (context) => CreateNewPasswordScreen.builder(context));
+      return MaterialPageRoute(builder: (context) => CreateNewPasswordScreen.builder(context));
     case MyProfileScreen.routeName:
-      return MaterialPageRoute(
-          builder: (context) => MyProfileScreen.builder(context));
+      return MaterialPageRoute(builder: (context) => MyProfileScreen.builder(context));
     case ServiceDetailsScreen.routeName:
-      final serviceDetailsScreenArguments =
-          arguments as ServiceDetailsScreenArguments;
+      final serviceDetailsScreenArguments = arguments as ServiceDetailsScreenArguments;
       return ServiceDetailsScreen.router(serviceDetailsScreenArguments);
 
     case ProviderDetailsScreen.routeName:
       // there is no arguments for this route
-      final arguments =
-          settings.arguments as ProviderDetailsScreenNavArguements;
+      final arguments = settings.arguments as ProviderDetailsScreenNavArguements;
 
       return ProviderDetailsScreen.router(
         therapist: arguments.therapist,
@@ -172,11 +149,13 @@ Route<dynamic>? onGenerateRoute(RouteSettings settings) {
       return MaterialPageRoute(builder: (context) => const AddMemberScreen());
     case SelectTherapist.routeName:
       final avialbleTherapistCubit = arguments as AvialbleTherapistCubit;
-      return SelectTherapist.route(
-          avialbleTherapistCubit: avialbleTherapistCubit);
+      return SelectTherapist.route(avialbleTherapistCubit: avialbleTherapistCubit);
     case CheckoutScreen.routeName:
       return MaterialPageRoute(builder: (context) {
-        return CheckoutScreen();
+        return MultiBlocProvider(child: CheckoutScreen(), providers: [
+          BlocProvider(create: (context) => DI.find<CheckoutCubit>()..init(context)),
+          BlocProvider(create: (context) => DI.find<PaymentCubit>()..getPaymentMethods()),
+        ]);
       });
     case GiftCardsScreen.routeName:
       return MaterialPageRoute(builder: (context) {

@@ -1,12 +1,10 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_svg/flutter_svg.dart';
 import 'package:masaj/core/app_export.dart';
-import 'package:masaj/core/data/configs/payment_configration.dart';
+import 'package:masaj/core/data/device/system_service.dart';
 import 'package:masaj/core/data/di/di_wrapper.dart';
 import 'package:masaj/core/data/logger/abs_logger.dart';
 import 'package:masaj/core/helpers/date_helper.dart';
 import 'package:masaj/core/presentation/colors/app_colors.dart';
-import 'package:masaj/core/presentation/navigation/navigator_helper.dart';
 import 'package:masaj/core/presentation/overlay/show_snack_bar.dart';
 import 'package:masaj/core/presentation/widgets/stateless/apple_pay_button.dart';
 import 'package:masaj/core/presentation/widgets/stateless/custom_app_bar.dart';
@@ -16,18 +14,16 @@ import 'package:masaj/core/presentation/widgets/stateless/custom_loading.dart';
 import 'package:masaj/core/presentation/widgets/stateless/default_button.dart';
 import 'package:masaj/core/presentation/widgets/stateless/empty_page_message.dart';
 import 'package:masaj/core/presentation/widgets/stateless/subtitle_text.dart';
-import 'package:masaj/core/presentation/widgets/stateless/text_fields/default_text_form_field.dart';
 import 'package:masaj/core/presentation/widgets/stateless/title_text.dart';
 import 'package:masaj/core/presentation/widgets/stateless/warning_container.dart';
 import 'package:masaj/features/auth/application/country_cubit/country_cubit.dart';
-import 'package:masaj/features/book_service/data/models/booking_model/address.dart';
-import 'package:masaj/features/book_service/data/models/booking_model/booking_model.dart';
 import 'package:masaj/features/book_service/presentation/blocs/book_cubit/book_service_cubit.dart';
 import 'package:masaj/features/payment/data/model/payment_method_model.dart';
+import 'package:masaj/features/payment/presentaion/bloc/checkout_cubit.dart';
 import 'package:masaj/features/payment/presentaion/bloc/payment_cubit.dart';
-import 'package:masaj/features/payment/presentaion/pages/success_payment.dart';
+import 'package:masaj/features/payment/widgets/coupon.dart';
+import 'package:masaj/features/payment/widgets/wallet_section.dart';
 import 'package:masaj/features/wallet/bloc/wallet_bloc/wallet_bloc.dart';
-import 'package:pay/pay.dart';
 
 class CheckoutScreen extends StatefulWidget {
   const CheckoutScreen({super.key});
@@ -45,19 +41,14 @@ class _CheckoutScreenState extends State<CheckoutScreen> {
 
   late final TextEditingController _couponEditingController;
   late final FocusNode _couponFocusNode;
+  final SystemService systemService = DI.find();
 
   @override
   void initState() {
     _couponEditingController = TextEditingController();
     _couponFocusNode = FocusNode();
 
-    getBooking();
     super.initState();
-  }
-
-  void getBooking() async {
-    final bookingCubit = context.read<BookingCubit>();
-    await bookingCubit.getBookingDetails();
   }
 
   @override
@@ -69,14 +60,11 @@ class _CheckoutScreenState extends State<CheckoutScreen> {
 
   @override
   Widget build(BuildContext context) {
-    return BlocProvider(
-      create: (context) => DI.find<PaymentCubit>()..getPaymentMethods(),
-      child: Scaffold(
-        appBar: CustomAppBar(
-          title: AppText.checkout_title,
-        ),
-        body: _buildBody(),
+    return Scaffold(
+      appBar: CustomAppBar(
+        title: AppText.checkout_title,
       ),
+      body: _buildBody(),
     );
   }
 
@@ -197,13 +185,11 @@ class _CheckoutScreenState extends State<CheckoutScreen> {
           const SizedBox(height: _KSubVerticalSpace),
           _buildDetailsRow(
               title: '${AppText.date}:',
-              content:
-                  DateHelper.formatDate(bookingModel?.bookingDate) ?? ''),
+              content: DateHelper.formatDate(bookingModel?.bookingDate) ?? ''),
           _buildDetailsRow(
               title: '${AppText.time}:',
               content:
-                  DateHelper.formatDateTime(bookingModel?.bookingDate) ??
-                      ''),
+                  DateHelper.formatDateTime(bookingModel?.bookingDate) ?? ''),
           _buildDetailsRow(
             title: '${AppText.name}:',
             content:
@@ -332,24 +318,23 @@ class _CheckoutScreenState extends State<CheckoutScreen> {
     );
   }
 
-  void onApplePayResult(paymentResult) {
-    DI.find<AbsLogger>().error('[$runtimeType].onApplePayResult()' ,paymentResult);
-  }
-
   Widget _buildPaymentMethodItem(
       BuildContext context, PaymentMethodModel paymentMethod) {
+    final walletCubit = context.read<WalletBloc>();
     if (paymentMethod.id == 3) {
-      final walletCubit = context.read<WalletBloc>();
+      // prevent apple pay in android
+      if (systemService.currentOS != OS.iOS) return Container();
 
       final bookingModel = context.read<BookingCubit>().state.bookingModel;
-      final useWallet = context.read<WalletBloc>().state.useWallet;
+
+      final useWallet = walletCubit.state.useWallet;
       final num discount = bookingModel?.discountedAmount ?? 0;
 
-      final double wallet = useWallet
+      final double walletPayAmount = useWallet
           ? walletCubit.state.walletBalance?.balance?.toDouble() ?? 0.0
           : 0.0;
       final num totalWithDiscounts =
-          (bookingModel?.grandTotal ?? 0) - wallet - discount;
+          (bookingModel?.grandTotal ?? 0) - walletPayAmount - discount;
       final num total = totalWithDiscounts < 0 ? 0 : totalWithDiscounts;
 
       return ApplePayCustomButton(
@@ -380,9 +365,12 @@ class _CheckoutScreenState extends State<CheckoutScreen> {
         padding: const EdgeInsets.symmetric(vertical: 6.0),
         child: DecoratedBox(
           decoration: BoxDecoration(
-            color: paymentMethod == _selectedPayment
-                ? AppColors.PRIMARY_COLOR.withOpacity(0.09)
-                : AppColors.BACKGROUND_COLOR.withOpacity(0.09),
+            color:
+                !context.read<CheckoutCubit>().isPaymentMethodsEnabled(context)
+                    ? AppColors.BORDER_COLOR
+                    : paymentMethod == _selectedPayment
+                        ? AppColors.PRIMARY_COLOR.withOpacity(0.09)
+                        : AppColors.BACKGROUND_COLOR.withOpacity(0.09),
             borderRadius: BorderRadius.circular(20),
             border: Border.all(color: AppColors.PRIMARY_COLOR, width: 1.5),
           ),
@@ -398,11 +386,15 @@ class _CheckoutScreenState extends State<CheckoutScreen> {
                   activeColor: AppColors.PRIMARY_COLOR,
                   value: paymentMethod,
                   groupValue: _selectedPayment,
-                  onChanged: (value) {
-                    setState(() {
-                      _selectedPayment = value;
-                    });
-                  })
+                  onChanged: !context
+                          .read<CheckoutCubit>()
+                          .isPaymentMethodsEnabled(context)
+                      ? null
+                      : (PaymentMethodModel? value) {
+                          setState(() {
+                            _selectedPayment = value;
+                          });
+                        })
             ]),
           ),
         ),
@@ -436,10 +428,13 @@ class _CheckoutScreenState extends State<CheckoutScreen> {
               const SizedBox(height: 12.0),
               _buildCoupon(),
               const SizedBox(height: 12.0),
-              _buildSummaryItem(title: AppText.lbl_sub_total2, amount: subTotal),
+              _buildSummaryItem(
+                  title: AppText.lbl_sub_total2, amount: subTotal),
               _buildSummaryItem(title: AppText.lbl_tax, amount: tax),
               _buildSummaryItem(
-                  isDiscount: true, title: AppText.lbl_discount, amount: discount),
+                  isDiscount: true,
+                  title: AppText.lbl_discount,
+                  amount: discount),
               _buildSummaryItem(title: AppText.lbl_wallet, amount: wallet),
               const SizedBox(height: 12.0),
               const Divider(
@@ -501,118 +496,6 @@ class _CheckoutScreenState extends State<CheckoutScreen> {
         },
         label: AppText.lbl_book_now,
       ),
-    );
-  }
-}
-
-class CouponWidget extends StatefulWidget {
-  const CouponWidget({
-    super.key,
-    required FocusNode couponFocusNode,
-    required TextEditingController couponEditingController,
-  })  : _couponFocusNode = couponFocusNode,
-        _couponEditingController = couponEditingController;
-
-  final FocusNode _couponFocusNode;
-  final TextEditingController _couponEditingController;
-
-  @override
-  State<CouponWidget> createState() => _CouponWidgetState();
-}
-
-class _CouponWidgetState extends State<CouponWidget> {
-  final GlobalKey<FormState> formKey = GlobalKey();
-
-  @override
-  Widget build(BuildContext context) {
-    return Form(
-      key: formKey,
-      child: BlocBuilder<BookingCubit, BookingState>(
-        builder: (context, state) {
-          return DefaultTextFormField(
-            currentFocusNode: widget._couponFocusNode,
-            currentController: widget._couponEditingController,
-            prefixIcon: Padding(
-              padding: const EdgeInsets.all(10.0),
-              child: SvgPicture.asset(
-                'assets/images/dicount_icon.svg',
-              ),
-            ),
-            hint: AppText.lbl_coupon_code,
-            suffixIcon: SizedBox(
-              width: 80,
-              child: DefaultButton(
-                borderRadius: BorderRadius.circular(8),
-                onPressed: () async {
-                  final cubit = context.read<BookingCubit>();
-                  if (formKey.currentState!.validate()) {
-                    if (state.isCouponApplied) {
-                      await cubit.deleteBookingVoucher(
-                          widget._couponEditingController.text);
-                    } else {
-                      await cubit.addBookingVoucher(
-                          widget._couponEditingController.text);
-                    }
-                  }
-                },
-                label: state.isCouponApplied ? AppText.cancel : AppText.lbl_apply,
-              ),
-            ),
-          );
-        },
-      ),
-    );
-  }
-}
-
-class WalletSection extends StatefulWidget {
-  const WalletSection({
-    super.key,
-    required this.totalPrice,
-  });
-  final double totalPrice;
-
-  @override
-  State<WalletSection> createState() => _WalletSectionState();
-}
-
-class _WalletSectionState extends State<WalletSection> {
-  @override
-  void initState() {
-    super.initState();
-    final cubit = context.read<WalletBloc>();
-    cubit.getWalletBalance();
-  }
-
-  @override
-  Widget build(BuildContext context) {
-    final walletCubit = context.read<WalletBloc>();
-    bool useWallet = walletCubit.state.useWallet;
-    return BlocBuilder<WalletBloc, WalletState>(
-      builder: (context, state) {
-        return Row(
-          children: [
-            SubtitleText(text: AppText.use_wallet),
-            SizedBox(width: 4.w),
-            SubtitleText(
-                text: AppText.lbl_kwd(args: [
-              (walletCubit.state.walletBalance?.balance ?? 0).toString()
-            ])),
-            const Spacer(),
-            CustomSwitch(
-              onChange: (value) {
-                if ((walletCubit.state.walletBalance?.balance ?? 0) == 0)
-                  return showSnackBar(context,
-                      message: AppText.msg_wallet_balance);
-                setState(() {
-                  walletCubit.onChooseWallet(value);
-                });
-              },
-              value: useWallet,
-            ),
-          ],
-        );
-      },
     );
   }
 }

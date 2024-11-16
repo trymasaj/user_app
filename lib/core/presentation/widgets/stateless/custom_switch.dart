@@ -4,7 +4,7 @@ import 'package:masaj/core/presentation/theme/theme_helper.dart';
 class CustomSwitch extends StatelessWidget {
   CustomSwitch({
     super.key,
-    required this.onChange,
+    this.onChange,
     this.alignment,
     this.value,
     this.width,
@@ -16,7 +16,7 @@ class CustomSwitch extends StatelessWidget {
 
   bool? value;
 
-  final Function(bool) onChange;
+  final Function(bool)? onChange;
 
   final double? width;
 
@@ -42,8 +42,7 @@ class CustomSwitch extends StatelessWidget {
         value: value ?? false,
         trackColor: appTheme.gray40001.withOpacity(0.46),
         activeColor: appTheme.deepOrangeA100.withOpacity(0.46),
-        onChanged: (value) {
-          onChange(value);
-        },
+        onChanged: onChange
+        
       );
 }

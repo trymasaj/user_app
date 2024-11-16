@@ -14,6 +14,7 @@ import 'package:masaj/features/membership/presentaion/bloc/membership_cubit.dart
 import 'package:masaj/features/payment/data/model/payment_method_model.dart';
 import 'package:masaj/features/payment/presentaion/bloc/payment_cubit.dart';
 import 'package:masaj/features/payment/presentaion/pages/checkout_screen.dart';
+import 'package:masaj/features/payment/widgets/wallet_section.dart';
 
 class MembershipCheckoutScreen extends StatefulWidget {
   const MembershipCheckoutScreen({super.key, required this.membershipCubit});

@@ -24,6 +24,7 @@ import 'package:masaj/features/bookings_tab/presentation/cubits/review_tips_cubi
 import 'package:masaj/features/payment/data/model/payment_method_model.dart';
 import 'package:masaj/features/payment/presentaion/bloc/payment_cubit.dart';
 import 'package:masaj/features/payment/presentaion/pages/checkout_screen.dart';
+import 'package:masaj/features/payment/widgets/wallet_section.dart';
 import 'package:masaj/features/wallet/bloc/wallet_bloc/wallet_bloc.dart';
 import 'package:pay/pay.dart';
 

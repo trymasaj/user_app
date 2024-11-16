@@ -71,6 +71,7 @@ import 'package:masaj/features/membership/data/repo/membership_repo.dart';
 import 'package:masaj/features/membership/presentaion/bloc/membership_cubit.dart';
 import 'package:masaj/features/payment/data/datasource/payment_datasource.dart';
 import 'package:masaj/features/payment/data/repo/payment_repo.dart';
+import 'package:masaj/features/payment/presentaion/bloc/checkout_cubit.dart';
 import 'package:masaj/features/payment/presentaion/bloc/payment_cubit.dart';
 import 'package:masaj/features/providers_tab/data/datasources/providers_tab_remote_data_source.dart';
 import 'package:masaj/features/providers_tab/data/repositories/providers_tab_repository.dart';
@@ -348,6 +349,9 @@ void setup() {
         DI.find(),
         DI.find(),
       ));
+
+  //=========================[Checkout]=================
+  DI.setFactory<CheckoutCubit>(()=> CheckoutCubit());
 
   //=========================[Logger]============================
 

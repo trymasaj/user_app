@@ -42,7 +42,7 @@ class AddressTile extends StatelessWidget {
                   backgroundColor: const Color(0xFFFE4A49),
                   foregroundColor: Colors.white,
                   icon: Icons.delete,
-                  label: 'Delete',
+                  label: AppText.delete,
                 ),
               ],
             ),
@@ -109,7 +109,7 @@ class AddressTile extends StatelessWidget {
                                     padding: EdgeInsets.symmetric(
                                         horizontal: 8.0.w, vertical: 2.h),
                                     child: CustomText(
-                                      text: 'lbl_primary_address',
+                                      text: AppText.lbl_primary_address,
                                       color: const Color(0xffEDA674),
                                       fontSize: 12.fSize,
                                     ),
