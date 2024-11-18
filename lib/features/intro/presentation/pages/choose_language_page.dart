@@ -166,10 +166,10 @@ class _ChooseLanguagePageState extends State<ChooseLanguagePage> {
 
     return DefaultButton(
       label: AppText.lbl_continue,
-      onPressed: () {
-        context.setLocale(_selectedLocal);
+      onPressed: () async {
+        await context.setLocale(_selectedLocal);
         MyApp.setLocale(context, _selectedLocal);
-        cubit.saveLanguageCode(_selectedLocal.languageCode);
+        await cubit.saveLanguageCode(_selectedLocal.languageCode);
       },
       isExpanded: true,
     );

@@ -164,9 +164,12 @@ class _GuidePageState extends State<GuidePage> {
               padding: EdgeInsets.only(
                 top: 2.h,
               ),
-              child: CustomImageView(
-                imagePath: ImageConstant.imgChevronLeft,
-                color: Colors.white,
+              child: Transform.rotate(
+                angle: context.locale.languageCode == 'ar' ? 3.14159 : 0,
+                child: CustomImageView(
+                  imagePath: ImageConstant.imgChevronLeft,
+                  color: Colors.white,
+                ),
               )
 /*
             child: CustomIconButton(
