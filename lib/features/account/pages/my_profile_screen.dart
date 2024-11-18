@@ -156,7 +156,7 @@ class _MyProfileScreenState extends State<MyProfileScreen> {
       readOnly: true,
       currentFocusNode: _birthDateNode,
       currentController: _birthDateController,
-      hint: 'lbl_birth_date',
+      hint: AppText.lbl_birth_date,
       prefixIcon: buildImage(ImageConstant.imgCalendar),
       suffixIcon: buildImage(ImageConstant.imgCalendar),
       onTap: () async {
@@ -235,8 +235,8 @@ class _MyProfileScreenState extends State<MyProfileScreen> {
         ),
         const SizedBox(height: 10),
         if (showGenderError)
-          const SubtitleText.small(
-            text: 'empty_field_not_valid',
+          SubtitleText.small(
+            text: AppText.empty_field_not_valid,
             color: AppColors.ERROR_COLOR,
           )
       ],
