@@ -51,10 +51,10 @@ class _ChooseLanguagePageState extends State<ChooseLanguagePage> {
         create: (context) => DI.find<ChooseLanguageCubit>(),
         child: Builder(
           builder: (context) {
+            final splashCubit = context.read<SplashCubit>();
+            final splashState = splashCubit.state;
             return BlocListener<ChooseLanguageCubit, ChooseLanguageState>(
               listener: (context, state) async {
-                final splashCubit = context.read<SplashCubit>();
-                final splashState = splashCubit.state;
                 if (state.isError) {
                   showSnackBar(context, message: state.errorMessage);
                   return;

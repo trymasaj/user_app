@@ -28,10 +28,11 @@ class GuidePage extends StatefulWidget {
 
 class _GuidePageState extends State<GuidePage> {
   late final PageController _pageController;
-
+  late SplashCubit splashCubit;
   @override
   void initState() {
     _pageController = PageController();
+    splashCubit = context.read<SplashCubit>();
     super.initState();
   }
 
@@ -142,7 +143,7 @@ class _GuidePageState extends State<GuidePage> {
   Widget _buildNextButton(BuildContext context, bool isLastTab) {
     final cubit = context.read<GuidePageCubit>();
     return GestureDetector(
-      onTap: () {
+      onTap: () async {
         if (!isLastTab) {
           _pageController.jumpToPage(
             cubit.state.tabNumber + 1,
@@ -150,6 +151,8 @@ class _GuidePageState extends State<GuidePage> {
           return;
         }
         cubit.setFirstLaunchToFalse(onDone: _goToGetStartPage(context, true));
+        await splashCubit.init();
+
       },
       child: Row(
         mainAxisAlignment: MainAxisAlignment.center,
@@ -225,8 +228,9 @@ class _GuidePageState extends State<GuidePage> {
       textColor: AppColors.PRIMARY_COLOR,
       backgroundColor: Colors.transparent,
       color: Colors.transparent,
-      onPressed: () {
+      onPressed: () async {
         cubit.setFirstLaunchToFalse(onDone: _goToGetStartPage(context, false));
+        await splashCubit.init();
       },
     );
   }

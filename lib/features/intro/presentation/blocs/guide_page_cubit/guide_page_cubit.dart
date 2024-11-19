@@ -30,6 +30,7 @@ class GuidePageCubit extends BaseCubit<GuidePageState> {
   Future<void> setFirstLaunchToFalse({required VoidCallback onDone}) async {
     try {
       await _cacheService.setIsFirstLaunch(false);
+
       onDone();
     } catch (e) {
       log(e.toString());
