@@ -19,7 +19,6 @@ import 'package:masaj/features/auth/data/managers/auth_manager.dart';
 import 'package:masaj/features/auth/presentation/pages/login_page.dart';
 import 'package:pretty_dialog/pretty_dialog.dart';
 
-
 class AccountScreen extends StatelessWidget {
   static const routeName = '/account';
 
@@ -36,74 +35,72 @@ class AccountScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return BlocBuilder<AuthCubit, AuthState>(
-      builder: (context, state) {
-        return Scaffold(
-          appBar: _buildAppBar(context),
-          body: Container(
-            padding: EdgeInsets.symmetric(
-              horizontal: 20.w,
-              vertical: 26.h,
-            ),
-            child: Column(
-              children: [
-                Padding(
-                  padding: EdgeInsets.only(right: 7.w),
-                  child: _buildTile(
-                    image: ImageConstant.imgLockGray90003,
-                    text: AppText.lbl_profile,
-                    onTap: () {
-                      NavigatorHelper.of(context).pushNamed(
-                        MyProfileScreen.routeName,
-                      );
-                    },
-                  ),
-                ),
-                SizedBox(height: 15.h),
-                Padding(
-                  padding: EdgeInsets.only(right: 7.w),
-                  child: _buildTile(
-                    image: ImageConstant.imgPhPhoneThin,
-                    text: AppText.lbl_phone_number,
-                    onTap: () {
-                      NavigatorHelper.of(context).pushNamed(
-                        PhoneScreen.routeName,
-                      );
-                    },
-                  ),
-                ),
-                SizedBox(height: 15.h),
-                Padding(
-                  padding: EdgeInsets.only(right: 7.w),
-                  child: _buildTile(
-                    image: ImageConstant.imgLockGray9000320x20,
-                    text: AppText.lbl_change_password,
-                    onTap: () {
-                      NavigatorHelper.of(context).pushNamed(
-                        CreateNewPasswordScreen.routeName,
-                      );
-                    },
-                  ),
-                ),
-                SizedBox(height: 15.h),
-                Padding(
-                  padding: EdgeInsets.only(right: 7.w),
-                  child: _buildTile(
-                    image: ImageConstant.imgTrash,
-                    text: AppText.lbl_delete_account,
-                    color: AppColors.ERROR_COLOR,
-                    onTap: () async {
-                      deleteAccount(context);
-                    },
-                  ),
-                ),
-                SizedBox(height: 4.h),
-              ],
-            ),
+    return BlocBuilder<AuthCubit, AuthState>(builder: (context, state) {
+      return Scaffold(
+        appBar: _buildAppBar(context),
+        body: Container(
+          padding: EdgeInsets.symmetric(
+            horizontal: 20.w,
+            vertical: 26.h,
           ),
-        );
-      }
-    );
+          child: Column(
+            children: [
+              Padding(
+                padding: EdgeInsets.only(right: 7.w),
+                child: _buildTile(
+                  image: ImageConstant.imgLockGray90003,
+                  text: AppText.lbl_profile,
+                  onTap: () {
+                    NavigatorHelper.of(context).pushNamed(
+                      MyProfileScreen.routeName,
+                    );
+                  },
+                ),
+              ),
+              SizedBox(height: 15.h),
+              Padding(
+                padding: EdgeInsets.only(right: 7.w),
+                child: _buildTile(
+                  image: ImageConstant.imgPhPhoneThin,
+                  text: AppText.lbl_phone_number,
+                  onTap: () {
+                    NavigatorHelper.of(context).pushNamed(
+                      PhoneScreen.routeName,
+                    );
+                  },
+                ),
+              ),
+              SizedBox(height: 15.h),
+              Padding(
+                padding: EdgeInsets.only(right: 7.w),
+                child: _buildTile(
+                  image: ImageConstant.imgLockGray9000320x20,
+                  text: AppText.lbl_change_password,
+                  onTap: () {
+                    NavigatorHelper.of(context).pushNamed(
+                      CreateNewPasswordScreen.routeName,
+                    );
+                  },
+                ),
+              ),
+              SizedBox(height: 15.h),
+              Padding(
+                padding: EdgeInsets.only(right: 7.w),
+                child: _buildTile(
+                  image: ImageConstant.imgTrash,
+                  text: AppText.lbl_delete_account,
+                  color: AppColors.ERROR_COLOR,
+                  onTap: () async {
+                    deleteAccount(context);
+                  },
+                ),
+              ),
+              SizedBox(height: 4.h),
+            ],
+          ),
+        ),
+      );
+    });
   }
 
   /// Section Widget
@@ -129,41 +126,53 @@ class AccountScreen extends StatelessWidget {
     );
   }
 
-
   Future<void> deleteAccount(BuildContext context) async {
-
-    
-    var yes = await PrettyDialog.showActionDialog(
+    var yes = 
+    // await showDialog(
+    //     context: context,
+    //     builder: (context) => AlertDialog(
+    //           title: Text(AppText.are_you_sure),
+    //           content: Text(AppText.confirm_delete_account),
+    //           actions: [
+    //             TextButton(
+    //               onPressed: () => Navigator.pop(context, false),
+    //               child: Text(AppText.cancel),
+    //             ),
+    //             TextButton(
+    //               onPressed: () => Navigator.pop(context, true),
+    //               child: Text(AppText.ok),
+    //             ),
+    //           ],
+    //         ));
+    //! uncomment this to show pretty dialog
+     await PrettyDialog.showActionDialog(
       context,
       title: AppText.are_you_sure,
       subTitle: AppText.confirm_delete_account,
       yesText: AppText.ok,
       yesColor: AppColors.ERROR_COLOR.withOpacity(0.8),
       cancelText: AppText.cancel,
-      
+
     );
 
-    if(yes != true) return;
+    if (yes != true) return;
 
     final user = context.read<AuthCubit>().state.user;
 
-    
     try {
       var success = await DI.find<AuthManager>().deleteAccount();
-      if(success){
+      if (success) {
         showSnackBar(context, message: AppText.msg_order_has_been_sent);
         //
         NavigatorHelper.of(context).pushAndRemoveUntil(
             MaterialPageRoute(builder: (context) => const LoginPage()),
-                (_) => false);
+            (_) => false);
       }
     } on RedundantRequestException catch (e) {
-      DI.find<AbsLogger>().error('[$runtimeType].deleteAccount()' ,e);
+      DI.find<AbsLogger>().error('[$runtimeType].deleteAccount()', e);
     } catch (e) {
-      DI.find<AbsLogger>().error('[$runtimeType].deleteAccount()' ,e);
+      DI.find<AbsLogger>().error('[$runtimeType].deleteAccount()', e);
       showSnackBar(context, message: AppText.msg_something_went_wrong);
     }
   }
-
-
 }
