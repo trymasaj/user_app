@@ -17,6 +17,8 @@
 import 'dart:convert';
 
 import 'package:masaj/core/app_export.dart';
+import 'package:masaj/core/data/device/system_service.dart';
+import 'package:masaj/core/data/di/di_wrapper.dart';
 import 'package:masaj/features/book_service/data/models/booking_model/address.dart';
 import 'package:masaj/features/book_service/data/models/booking_model/member.dart';
 import 'package:masaj/main.dart';
@@ -260,6 +262,11 @@ class SessionModel {
         address.hashCode ^
         members.hashCode;
   }
+
+  bool get timePassed{
+    return DI.find<SystemService>().now.isAfter(bookingDate!);
+  }
+
 }
 
 extension DateStrings on DateTime {

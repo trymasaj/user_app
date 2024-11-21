@@ -25,6 +25,8 @@ class BookingCard extends StatelessWidget {
   final bool isCompleted;
   final bool showTherapist;
 
+  bool get isMissed => !isCompleted && (sessionModel?.timePassed ?? false);
+
   @override
   Widget build(BuildContext context) {
     return InkWell(
@@ -40,8 +42,9 @@ class BookingCard extends StatelessWidget {
               //  EdgeInsets.fromLTRB(16, 20, 16, 20),
               EdgeInsets.symmetric(horizontal: 16.w, vertical: 20.h),
           decoration: BoxDecoration(
+            color: isMissed ? AppColors.ERROR_COLOR.withOpacity(0.05) : null,
             borderRadius: BorderRadius.circular(10),
-            border: Border.all(color: AppColors.BORDER_COLOR),
+            border: Border.all(color: isMissed ? AppColors.ERROR_COLOR.withOpacity(0.4) : AppColors.BORDER_COLOR),
           ),
           child: Column(
             children: [
@@ -111,7 +114,7 @@ class BookingCard extends StatelessWidget {
               // divider
               Container(
                 height: 1,
-                color: AppColors.BORDER_COLOR,
+                color: isMissed ? AppColors.ERROR_COLOR.withOpacity(0.4) : AppColors.BORDER_COLOR,
               ),
               SizedBox(height: 10.h),
               // if (!showTherapist)
