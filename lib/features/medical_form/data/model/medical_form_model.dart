@@ -2,6 +2,7 @@ import 'dart:convert';
 
 import 'package:flutter/foundation.dart';
 import 'package:flutter/widgets.dart';
+import 'package:masaj/core/data/extensions/extensions.dart';
 
 import 'package:masaj/features/medical_form/data/model/condition_model.dart';
 
@@ -64,7 +65,7 @@ class MedicalForm {
     return {
       'id': id,
       'customerId': customerId,
-      'birthDate': birthDate?.toUtc().toIso8601String(),
+      'birthDate': birthDate?.add(Duration(hours: 6)).toUtc().toIso8601String(),
       'allergiesStatement': allergiesStatement,
       'medicationsStatement': medicationsStatement,
       'treatmentGoals': treatmentGoals,

@@ -3,11 +3,12 @@ import 'package:flutter/material.dart';
 
 extension DateTimeExtensions on DateTime {
   String formatDate() {
-    final dateFormat = DateFormat(
-      'dd/MM/yyyy',
-      'en',
-    );
-    return dateFormat.format(this);
+    // final dateFormat = DateFormat(
+    //   'dd/MM/yyyy',
+    //   'en',
+    // );
+    // return dateFormat.format(this);
+    return '${this.day}/${this.month}/${this.year}';
   }
 
   String formateTime([bool is24HourFormat = false]) {
@@ -72,8 +73,10 @@ extension DurationParsing on String {
   }
 
   DateTime parseDate() {
-    final dateFormat = DateFormat('dd/MM/yyyy', 'en');
-    return dateFormat.parse(this);
+    //final dateFormat = DateFormat('dd/MM/yyyy', 'en');
+    //return dateFormat.parse(this);
+    var parts = this.split('/');
+    return DateTime(num.parse(parts[2]).toInt(), num.parse(parts[1]).toInt(),num.parse(parts[0]).toInt(),);
   }
 
   DateTime parseTime([bool is24HourFormat = false]) {
