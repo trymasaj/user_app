@@ -13,6 +13,9 @@ class HomeTherapistsCubit extends BaseCubit<HomeTherapistsState> {
       : super(const HomeTherapistsState());
 
   Future<void> getRecommendedTherapists() async {
+    if(state.status == HomeTherapistsStateStatus.loading){
+      return;
+    }
     emit(state.copyWith(status: HomeTherapistsStateStatus.loading));
     try {
       final therapists = await _therapistsRepository.getRecommended();

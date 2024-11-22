@@ -11,6 +11,9 @@ class ServiceCategoryCubit extends BaseCubit<ServiceCategoryState> {
       : super(const ServiceCategoryState());
 
   Future<void> getServiceCategories() async {
+    if(state.status == ServiceCategoryStateStatus.loading){
+     return;
+    }
     emit(state.copyWith(status: ServiceCategoryStateStatus.loading));
     try {
       final serviceCategories = await _serviceRepository.getServiceCategories();

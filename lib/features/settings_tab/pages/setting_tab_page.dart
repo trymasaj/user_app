@@ -72,6 +72,9 @@ class _SettingsTabPageState extends State<SettingsTabPage> {
                                 context.read<AuthCubit>().state.isGuest;
                             if (!isGuest)
                               await context.read<AuthCubit>().logout(context);
+                            else{
+                              NavigatorHelper.of(context).push(MaterialPageRoute(builder: (context) => const LoginPage()));
+                            }
                           },
                           height: 48.h,
                           text: context.read<AuthCubit>().state.isLoggedIn

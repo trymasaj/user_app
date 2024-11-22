@@ -27,6 +27,8 @@ import 'package:masaj/features/book_service/presentation/blocs/book_cubit/book_s
 import 'package:masaj/features/home/presentation/bloc/home_cubit/home_cubit.dart';
 import 'package:masaj/features/home/presentation/bloc/home_page_cubit/home_page_cubit.dart';
 import 'package:masaj/features/members/presentaion/bloc/members_cubit.dart';
+import 'package:masaj/features/providers_tab/presentation/cubits/home_therapists_cubit/home_therapists_cubit.dart';
+import 'package:masaj/features/services/application/service_catgory_cubit/service_category_cubit.dart';
 import 'package:masaj/features/splash/presentation/pages/splash_page.dart';
 import 'package:masaj/features/splash/presentation/splash_cubit/splash_cubit.dart';
 import 'package:masaj/features/wallet/bloc/wallet_bloc/wallet_bloc.dart';
@@ -161,6 +163,11 @@ class _MyAppState extends State<MyApp> with WidgetsBindingObserver {
           child: Builder(builder: (context) {
             return MultiBlocProvider(
               providers: [
+                BlocProvider<ServiceCategoryCubit>(
+                    create: (context) => DI.find<ServiceCategoryCubit>()),
+                BlocProvider<HomeTherapistsCubit>(
+                    lazy: true,
+                    create: (context) => DI.find<HomeTherapistsCubit>()),
                 BlocProvider(
                     create: (context) =>
                         DI.find<MyAddressesCubit>()..getAddresses()),
@@ -203,4 +210,4 @@ class _MyAppState extends State<MyApp> with WidgetsBindingObserver {
 }
 
 enum BuildType {debug, test, release}
-const BuildType BUILD_TYPE = BuildType.release;
+const BuildType BUILD_TYPE = BuildType.debug;

@@ -36,7 +36,7 @@ class _TherapistsState extends State<Therapists> {
   void initState() {
     final authCubit = context.read<AuthCubit>();
     final isGuest = authCubit.state.isGuest;
-    _cubit = DI.find<HomeTherapistsCubit>();
+    _cubit = context.read<HomeTherapistsCubit>();
     if (!isGuest) _cubit.getRecommendedTherapists();
     super.initState();
   }

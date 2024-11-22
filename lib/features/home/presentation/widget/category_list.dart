@@ -5,7 +5,6 @@ import 'package:masaj/core/presentation/widgets/stateless/custom_loading.dart';
 import 'package:masaj/features/services/application/service_catgory_cubit/service_category_cubit.dart';
 import 'package:masaj/features/services/data/models/service_category_model.dart';
 import 'package:masaj/features/services/presentation/screens/services_screen.dart';
-
 class CategoriesList extends StatelessWidget {
   const CategoriesList({
     super.key,
@@ -18,17 +17,20 @@ class CategoriesList extends StatelessWidget {
   final Function(ServiceCategory category)? onPressed;
 
   Widget buildList() {
-    return SizedBox(
-      height: 140.h,
-      child: BlocBuilder<ServiceCategoryCubit, ServiceCategoryState>(
-        builder: (context, state) {
-          if (state.status == ServiceCategoryStateStatus.loading) {
-            return const CustomLoading(
+    return BlocBuilder<ServiceCategoryCubit, ServiceCategoryState>(
+      builder: (context, state) {
+        if (state.status == ServiceCategoryStateStatus.loading) {
+          return SizedBox(
+            height:160.h,
+            child: const CustomLoading(
               loadingStyle: LoadingStyle.ShimmerList,
-            );
-          }
-          return ListView.builder(
-            padding: const EdgeInsets.symmetric(horizontal: 20),
+            ),
+          );
+        }
+        return state.serviceCategories.isNotEmpty? SizedBox(
+          height:160.h,
+          child: ListView.builder(
+            padding: const EdgeInsets.only(left:20,top:20,right:20),
             scrollDirection: Axis.horizontal,
             itemCount: state.serviceCategories.length,
             itemBuilder: (context, index) {
@@ -94,25 +96,22 @@ class CategoriesList extends StatelessWidget {
                 ),
               );
             },
-          );
-        },
-      ),
+          ),
+        ) : const SizedBox.shrink();
+      },
     );
   }
 
   @override
   Widget build(BuildContext context) {
-    return BlocProvider<ServiceCategoryCubit>.value(
-      value: serviceCategoryCubit ?? context.read<ServiceCategoryCubit>(),
-      child: Builder(
-        builder: (context) {
-          return isSliver
-              ? SliverToBoxAdapter(
-                  child: buildList(),
-                )
-              : buildList();
-        },
-      ),
+    return Builder(
+      builder: (context) {
+        return isSliver
+            ? SliverToBoxAdapter(
+                child: buildList(),
+              )
+            : buildList();
+      },
     );
   }
 }

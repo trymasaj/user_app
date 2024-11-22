@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:masaj/core/app_text.dart';
+import 'package:masaj/core/data/di/di_wrapper.dart';
 // import 'package:masaj/core/data/services/adjsut.dart';
 import 'package:masaj/core/presentation/colors/app_colors.dart';
 import 'package:masaj/core/presentation/size/size_utils.dart';
@@ -14,6 +15,7 @@ import 'package:masaj/features/home/data/models/home_section.dart';
 import 'package:masaj/features/home/presentation/bloc/home_cubit/home_cubit.dart';
 import 'package:masaj/features/home/presentation/bloc/home_page_cubit/home_page_cubit.dart';
 import 'package:masaj/features/home/presentation/widget/index.dart';
+import 'package:masaj/features/services/application/service_catgory_cubit/service_category_cubit.dart';
 import 'package:masaj/features/services/data/models/service_model.dart';
 import 'package:masaj/features/services/data/models/service_offer.dart';
 
@@ -25,12 +27,16 @@ class HomeTab extends StatefulWidget {
 }
 
 class _HomeTabState extends State<HomeTab> {
+  late ServiceCategoryCubit serviceCategoryCubit;
+
+
   @override
   void initState() {
     final cubit = context.read<AuthCubit>();
     final isGuest = cubit.state.isGuest;
     // AdjustTracker.trackRegistrationInitiated();
-
+    serviceCategoryCubit = context.read<ServiceCategoryCubit>();
+    serviceCategoryCubit.getServiceCategories();
     context.read<HomePageCubit>().init(isGuest: isGuest);
     super.initState();
   }
@@ -59,6 +65,7 @@ class _HomeTabState extends State<HomeTab> {
             final cubit = context.read<HomePageCubit>();
             return RefreshIndicator(
               onRefresh: () async {
+                serviceCategoryCubit.getServiceCategories();
                 await context.read<HomeCubit>().refresh();
                 await cubit.refresh();
               },
@@ -79,10 +86,8 @@ class _HomeTabState extends State<HomeTab> {
                       // search bar
                       const SearchField(),
                       SliverToBoxAdapter(
-                        child: SizedBox(
-                          height: 20.h,
-                        ),
-                      ),
+                          key: const Key(HomeSectionModel.homeCategoryKey),
+                          child: buildCategoryScetion()),
                       if (homeState.isLoading)
                         const SliverToBoxAdapter(
                           child: CustomLoading(
@@ -94,10 +99,7 @@ class _HomeTabState extends State<HomeTab> {
                             homeState: homeState,
                             homePageState: state,
                             children: [
-                              SliverToBoxAdapter(
-                                  key: const Key(
-                                      HomeSectionModel.homeCategoryKey),
-                                  child: buildCategoryScetion()),
+
                               // horizontal list view of categories
 
                               // if (state.isLoaded) ...homeSection(state),
@@ -121,7 +123,7 @@ class _HomeTabState extends State<HomeTab> {
                                   child: buildRecommendedSection(state)),
 
                               // therapists
-                              const Therapists(
+                              if (!context.read<AuthCubit>().state.isGuest) const Therapists(
                                 key: const Key(HomeSectionModel.homeTherapists),
                               ),
                             ]),
@@ -145,7 +147,8 @@ class _HomeTabState extends State<HomeTab> {
 
   Widget buildCategoryScetion() => Column(
         children: [
-          const CategoriesList(
+          CategoriesList(
+            serviceCategoryCubit: serviceCategoryCubit,
             isSliver: false,
           ),
           SizedBox(
