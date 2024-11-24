@@ -32,7 +32,7 @@ class PaymentServiceImpl implements PaymentService {
     if (paymentParm.paymentMethodId == null)
       throw Exception('paymentMethod is null');
 
-    if (paymentParm.paymentMethodId == 3)
+    if (paymentParm.paymentMethodId == 3 && paymentParm.fromWallet == false)
       return buyWithApple(paymentType: paymentParm);
     final url = await getPaymentSessionUrl(paymentParm.paymentMethodId!,
         params: paymentParm.params, urlPath: paymentParm.urlPath);
@@ -166,7 +166,7 @@ class PaymentServiceImpl implements PaymentService {
         paymentType.onFailure.call();
       }
     } catch (e) {
-      _logger.error('[$runtimeType].buyWithApple($paymentType)' ,e);
+      _logger.error('[$runtimeType].buyWithApple($paymentType)', e);
       paymentType.onFailure.call();
     } finally {
       navigatorKey.currentState!.context.loaderOverlay.hide();
@@ -222,7 +222,8 @@ class _PaymentPageState extends State<_PaymentPage> {
           child: Stack(
             children: [
               InAppWebView(
-                initialUrlRequest: URLRequest(url: WebUri.uri(Uri.parse(widget.url))),
+                initialUrlRequest:
+                    URLRequest(url: WebUri.uri(Uri.parse(widget.url))),
                 onUpdateVisitedHistory: (_, url, __) =>
                     _handleUrl(context, url),
                 onLoadStop: (finish, _) {
@@ -244,7 +245,6 @@ class _PaymentPageState extends State<_PaymentPage> {
   }
 
   void _handleUrl(BuildContext context, Uri? url) {
-
     final urlString = url.toString();
     final isSuccess = urlString.contains('success=true');
     final isFailed = urlString.contains('success=false');
