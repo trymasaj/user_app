@@ -575,6 +575,7 @@ class WalletSection extends StatefulWidget {
     required this.totalPrice,
   });
   final double totalPrice;
+  
 
   @override
   State<WalletSection> createState() => _WalletSectionState();
@@ -607,7 +608,8 @@ class _WalletSectionState extends State<WalletSection> {
               onChange: (value) {
                 if ((walletCubit.state.walletBalance?.balance ?? 0) == 0 ||
                     widget.totalPrice >
-                        (walletCubit.state.walletBalance?.balance ?? 0))
+                            (walletCubit.state.walletBalance?.balance ?? 0) &&
+                        value == true)
                   return showSnackBar(context,
                       message: AppText.msg_wallet_balance);
                 setState(() {

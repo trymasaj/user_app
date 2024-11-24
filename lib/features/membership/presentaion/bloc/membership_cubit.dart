@@ -55,7 +55,10 @@ class MembershipCubit extends BaseCubit<MembershipState> {
 
     emit(state.copyWith(status: MembershipStateStatus.loading));
     try {
+      final price = state.plans?.price ?? 0;
       await _paymentService.buy(PaymentParam(
+        fromWallet: fromWallet,
+        price: price,
         urlPath: ApiEndPoint.MEMBERSHIP,
         params: {
           "planId": planId,

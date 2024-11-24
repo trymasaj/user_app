@@ -282,7 +282,9 @@ class _MembershipCheckoutScreenState extends State<MembershipCheckoutScreen> {
           final cubit = context.read<MembershipCubit>();
 
           await cubit.purchaseSubscription(context,
-              paymentMethod: _selectedPayment,
+              paymentMethod: context.read<WalletBloc>().state.useWallet
+                  ? PaymentMethodModel(isSelected: true, id: 1)
+                  : _selectedPayment,
               planId: cubit.state.plans?.id,
               fromWallet: context.read<WalletBloc>().state.useWallet);
         },
