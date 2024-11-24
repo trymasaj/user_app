@@ -13,6 +13,7 @@ import 'package:masaj/features/address/application/blocs/select_location_bloc/se
 import 'package:masaj/features/auth/application/country_cubit/country_cubit.dart';
 import 'package:masaj/features/auth/application/country_cubit/country_state.dart';
 import 'package:masaj/features/auth/presentation/pages/login_page.dart';
+import 'package:masaj/features/splash/presentation/splash_cubit/splash_cubit.dart';
 
 class SelectLocationScreen extends StatefulWidget {
   static const routeName = '/select-location';
@@ -27,12 +28,18 @@ class SelectLocationScreen extends StatefulWidget {
 }
 
 class _SelectLocationScreenState extends State<SelectLocationScreen> {
+  late SplashCubit splashCubit;
   final formKey = GlobalKey<FormBuilderState>();
   final border = OutlineInputBorder(
     borderSide: BorderSide.none,
     borderRadius: BorderRadius.circular(10.w),
   );
 
+  @override
+  void initState() {
+    splashCubit = context.read<SplashCubit>();
+    super.initState();
+  }
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -129,6 +136,7 @@ class _SelectLocationScreenState extends State<SelectLocationScreen> {
 
     if (isCountrySet) {
       countryCubit.setCountryError(false);
+      await splashCubit.init();
       if (widget.isFromHomePage) {
         NavigatorHelper.of(context).pop();
         return;

@@ -46,7 +46,7 @@ class NotificationsPage extends StatelessWidget {
   Widget _buildBody(BuildContext context) {
     return BlocConsumer<NotificationsCubit, NotificationsState>(
       listener: (context, state) {
-        if (state.isError) {
+        if (state.isError && state.message?.isNotEmpty == true) {
           showSnackBar(context, message: state.message);
         }
       },

@@ -46,6 +46,7 @@ class _HomePageState extends State<HomePage> {
     countryCubit.init(isGuest);
     final walletCubit = context.read<WalletBloc>();
 
+
     if (!isGuest) {
       walletCubit.getWalletBalance();
     }
@@ -65,9 +66,7 @@ class _HomePageState extends State<HomePage> {
     return MultiBlocProvider(
       providers: [
         // BlocProvider(create: (context) => Injector().homeCubit..loadHome()),
-        BlocProvider<ServiceCategoryCubit>(
-            create: (context) =>
-                DI.find<ServiceCategoryCubit>()..getServiceCategories()),
+
         BlocProvider(
           create: (context) => DI.find<MembershipCubit>()..getSubscription(),
           lazy: isGuest,

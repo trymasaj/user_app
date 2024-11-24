@@ -51,10 +51,10 @@ class _ChooseLanguagePageState extends State<ChooseLanguagePage> {
         create: (context) => DI.find<ChooseLanguageCubit>(),
         child: Builder(
           builder: (context) {
+            final splashCubit = context.read<SplashCubit>();
+            final splashState = splashCubit.state;
             return BlocListener<ChooseLanguageCubit, ChooseLanguageState>(
               listener: (context, state) async {
-                final splashCubit = context.read<SplashCubit>();
-                final splashState = splashCubit.state;
                 if (state.isError) {
                   showSnackBar(context, message: state.errorMessage);
                   return;
@@ -74,7 +74,7 @@ class _ChooseLanguagePageState extends State<ChooseLanguagePage> {
                 if (widget.fromSetting) {
                   await Navigator.pushAndRemoveUntil(
                       context,
-                      MaterialPageRoute(builder: (_) => const HomePage()),
+                      MaterialPageRoute(builder: (_) => const HomePage(initialPageIndex: 0,)),
                       (_) => false);
                 }
               },
@@ -166,10 +166,10 @@ class _ChooseLanguagePageState extends State<ChooseLanguagePage> {
 
     return DefaultButton(
       label: AppText.lbl_continue,
-      onPressed: () {
-        context.setLocale(_selectedLocal);
+      onPressed: () async {
+        await context.setLocale(_selectedLocal);
         MyApp.setLocale(context, _selectedLocal);
-        cubit.saveLanguageCode(_selectedLocal.languageCode);
+        await cubit.saveLanguageCode(_selectedLocal.languageCode);
       },
       isExpanded: true,
     );

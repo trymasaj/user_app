@@ -31,8 +31,11 @@ class SplashPage extends StatefulWidget {
 }
 
 class _SplashPageState extends State<SplashPage> {
+  late SplashCubit splashCubit;
   @override
   void initState() {
+    splashCubit = context.read<SplashCubit>();
+    splashCubit.init();
     Future.delayed(const Duration(seconds: 1), () {
       FlutterNativeSplash.remove();
     });
@@ -78,10 +81,10 @@ class _SplashPageState extends State<SplashPage> {
 
           //TODO need refactoring
 
-          if (languageNotSet) return _goToChooseLanguagePage(context);
+         /* if (languageNotSet) return _goToChooseLanguagePage(context);
           if (isFirstLaunch) return _goToGuidePage(context);
           if (countryNotSet) return _goToSelectLocationPage(context);
-          if (notLoggedIn) return _goToLoginPage(context);
+          if (notLoggedIn) return _goToLoginPage(context);*/
 
           return _goToHomePage(
             context,
