@@ -89,7 +89,7 @@ dependencies:
   upgrader: ^11.3.0
 #  adjust_sdk: ^5.0.2
   flutter_widget_from_html: ^0.15.2
-  pretty_dialog: ^1.0.0+1
+
 
   # flutter_datetime_picker: ^1.5.1
   # fluttertoast: ^8.2.4

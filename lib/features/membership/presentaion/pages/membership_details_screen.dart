@@ -14,6 +14,7 @@ import 'package:masaj/features/membership/presentaion/bloc/membership_cubit.dart
 import 'package:masaj/features/payment/data/model/payment_method_model.dart';
 import 'package:masaj/features/payment/presentaion/bloc/payment_cubit.dart';
 import 'package:masaj/features/payment/presentaion/pages/checkout_screen.dart';
+import 'package:masaj/features/wallet/bloc/wallet_bloc/wallet_bloc.dart';
 
 class MembershipCheckoutScreen extends StatefulWidget {
   const MembershipCheckoutScreen({super.key, required this.membershipCubit});
@@ -156,7 +157,8 @@ class _MembershipCheckoutScreenState extends State<MembershipCheckoutScreen> {
           WalletSection(
             totalPrice: total.toDouble(),
           ),
-          _buildPaymentMethods()
+          if (!context.watch<WalletBloc>().state.useWallet)
+            _buildPaymentMethods()
         ],
       ),
     );
@@ -282,7 +284,7 @@ class _MembershipCheckoutScreenState extends State<MembershipCheckoutScreen> {
           await cubit.purchaseSubscription(context,
               paymentMethod: _selectedPayment,
               planId: cubit.state.plans?.id,
-              fromWallet: false);
+              fromWallet: context.read<WalletBloc>().state.useWallet);
         },
         label: AppText.lbl_upgrade_now,
       ),

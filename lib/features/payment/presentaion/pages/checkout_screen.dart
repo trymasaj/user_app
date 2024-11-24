@@ -197,13 +197,11 @@ class _CheckoutScreenState extends State<CheckoutScreen> {
           const SizedBox(height: _KSubVerticalSpace),
           _buildDetailsRow(
               title: '${AppText.date}:',
-              content:
-                  DateHelper.formatDate(bookingModel?.bookingDate) ?? ''),
+              content: DateHelper.formatDate(bookingModel?.bookingDate) ?? ''),
           _buildDetailsRow(
               title: '${AppText.time}:',
               content:
-                  DateHelper.formatDateTime(bookingModel?.bookingDate) ??
-                      ''),
+                  DateHelper.formatDateTime(bookingModel?.bookingDate) ?? ''),
           _buildDetailsRow(
             title: '${AppText.name}:',
             content:
@@ -333,7 +331,9 @@ class _CheckoutScreenState extends State<CheckoutScreen> {
   }
 
   void onApplePayResult(paymentResult) {
-    DI.find<AbsLogger>().error('[$runtimeType].onApplePayResult()' ,paymentResult);
+    DI
+        .find<AbsLogger>()
+        .error('[$runtimeType].onApplePayResult()', paymentResult);
   }
 
   Widget _buildPaymentMethodItem(
@@ -436,10 +436,13 @@ class _CheckoutScreenState extends State<CheckoutScreen> {
               const SizedBox(height: 12.0),
               _buildCoupon(),
               const SizedBox(height: 12.0),
-              _buildSummaryItem(title: AppText.lbl_sub_total2, amount: subTotal),
+              _buildSummaryItem(
+                  title: AppText.lbl_sub_total2, amount: subTotal),
               _buildSummaryItem(title: AppText.lbl_tax, amount: tax),
               _buildSummaryItem(
-                  isDiscount: true, title: AppText.lbl_discount, amount: discount),
+                  isDiscount: true,
+                  title: AppText.lbl_discount,
+                  amount: discount),
               _buildSummaryItem(title: AppText.lbl_wallet, amount: wallet),
               const SizedBox(height: 12.0),
               const Divider(
@@ -555,7 +558,8 @@ class _CouponWidgetState extends State<CouponWidget> {
                     }
                   }
                 },
-                label: state.isCouponApplied ? AppText.cancel : AppText.lbl_apply,
+                label:
+                    state.isCouponApplied ? AppText.cancel : AppText.lbl_apply,
               ),
             ),
           );
@@ -601,7 +605,9 @@ class _WalletSectionState extends State<WalletSection> {
             const Spacer(),
             CustomSwitch(
               onChange: (value) {
-                if ((walletCubit.state.walletBalance?.balance ?? 0) == 0)
+                if ((walletCubit.state.walletBalance?.balance ?? 0) == 0 ||
+                    widget.totalPrice >
+                        (walletCubit.state.walletBalance?.balance ?? 0))
                   return showSnackBar(context,
                       message: AppText.msg_wallet_balance);
                 setState(() {
