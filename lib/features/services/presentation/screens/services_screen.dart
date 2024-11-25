@@ -191,7 +191,7 @@ class ServicesTabs extends StatelessWidget {
     return BlocBuilder<ServiceCubit, ServiceState>(
       builder: (context, state) {
         return SizedBox(
-          height: 50.h,
+          //height: 34,
           child: ListView.builder(
             itemCount: state.allServiceCategories!.length,
             scrollDirection: Axis.horizontal,
@@ -213,11 +213,10 @@ class ServicesTabs extends StatelessWidget {
                               left: 10, right: index == 0 ? 24 : 0)
                           : EdgeInsets.only(
                               right: 10, left: index == 0 ? 24 : 0),
-                  height: 40,
-                  padding:
-                      EdgeInsets.symmetric(horizontal: 20.w, vertical: 6.h),
+                  //height: 40,
+                  padding: EdgeInsets.symmetric(horizontal: 14,),
                   decoration: BoxDecoration(
-                      gradient: AppColors.GRADIENT_Fill_COLOR,
+                      gradient: isSelected ? AppColors.GRADIENT_Fill_COLOR :AppColors.GRADIENT_SAME_COLOR,
                       // gradiant border
 
                       border: isSelected
@@ -225,8 +224,8 @@ class ServicesTabs extends StatelessWidget {
                               gradient: AppColors.GRADIENT_COLOR,
                               width: 1,
                             )
-                          : Border.all(
-                              color: const Color(0xffD9D9D9), width: 1),
+                          : Border.all  (
+                              color: const Color(0xffF6F6F6), width: 1),
                       borderRadius: BorderRadius.circular(43),
                       color: Colors.white),
                   alignment: Alignment.center,
@@ -240,8 +239,9 @@ class ServicesTabs extends StatelessWidget {
                       : CustomText(
                           text: serviceCategory.name ?? '',
                           fontSize: 14,
-                          color: const Color(0xff181B28),
+                          color: const Color(0xff181B28).withOpacity(.7),
                           fontWeight: FontWeight.w500,
+                          fontFamily: 'Poppins',
                         ),
                 ),
               );
@@ -368,6 +368,7 @@ class SevicesGridView extends StatelessWidget {
                                 color: const Color(0xff1D212C),
                                 fontWeight: FontWeight.w400,
                               ),
+                              SizedBox(height:4 ,),
 
                               //Start from
                               CustomText(

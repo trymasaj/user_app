@@ -65,12 +65,12 @@ class _SelectLocationScreenState extends State<SelectLocationScreen> {
             child:
                 Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
               Align(
-                  alignment: Alignment.centerLeft,
+                  alignment: context.locale.languageCode == 'ar' ?Alignment.centerRight :Alignment.centerLeft,
                   child: Text(AppText.msg_select_your_location,
                       style: CustomTextStyles.titleMediumGray9000318)),
               SizedBox(height: 2.h),
               Align(
-                  alignment: Alignment.centerLeft,
+                  alignment: context.locale.languageCode == 'ar' ?Alignment.centerRight :Alignment.centerLeft,
                   child: Text(AppText.msg_please_select_your2,
                       style: CustomTextStyles.bodyMediumGray60002)),
               SizedBox(height: 19.h),
