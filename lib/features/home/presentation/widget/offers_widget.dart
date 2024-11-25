@@ -45,7 +45,7 @@ class _OffersSectionState extends State<OffersSection> {
           SizedBox(
             height: 190,
             child: ListView.builder(
-              padding: const EdgeInsets.symmetric(horizontal: 10),
+              padding: const EdgeInsets.symmetric(horizontal: 0),
               scrollDirection: Axis.horizontal,
               itemCount: widget.offers.length,
               itemBuilder: (context, index) {

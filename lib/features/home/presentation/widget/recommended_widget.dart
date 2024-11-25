@@ -37,10 +37,13 @@ class _RecommendedState extends State<Recommended> {
               SectionTitle(title: AppText.recommended),
             ],
           ),
+          const SizedBox(
+            height: 10,
+          ),
           SizedBox(
-            height: 155,
+            height:140,
             child: ListView.builder(
-              padding: const EdgeInsets.symmetric(horizontal: 20),
+              padding: const EdgeInsets.symmetric(horizontal: 0),
               scrollDirection: Axis.horizontal,
               itemCount: widget.recommendedServices.length,
               itemBuilder: (context, index) {
@@ -54,7 +57,7 @@ class _RecommendedState extends State<Recommended> {
                   },
                   child: Container(
                     margin: const EdgeInsets.only(right: 10),
-                    width: 100.w,
+                    width: 110.w,
                     padding: const EdgeInsets.all(10),
                     decoration: BoxDecoration(
                       borderRadius: BorderRadius.circular(8),
@@ -68,8 +71,8 @@ class _RecommendedState extends State<Recommended> {
                       children: [
                         // image
                         Container(
-                          height: 80.h,
-                          width: 80.w,
+                          height: 82.h,
+                          width: 83.w,
                           decoration: BoxDecoration(
                             color: AppColors.GREY_LIGHT_COLOR_2,
                             borderRadius: BorderRadius.circular(6),
@@ -83,7 +86,7 @@ class _RecommendedState extends State<Recommended> {
                           ),
                         ),
                         const SizedBox(
-                          height: 5,
+                          height: 10,
                         ),
                         Text(
                           widget.recommendedServices[index].title ?? '',

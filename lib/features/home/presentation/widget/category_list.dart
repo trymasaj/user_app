@@ -28,7 +28,7 @@ class CategoriesList extends StatelessWidget {
           );
         }
         return state.serviceCategories.isNotEmpty? SizedBox(
-          height:160.h,
+          height:160,
           child: ListView.builder(
             padding: const EdgeInsets.only(left:20,top:20,right:20),
             scrollDirection: Axis.horizontal,
@@ -80,7 +80,7 @@ class CategoriesList extends StatelessWidget {
                         ),
                       ),
                       SizedBox(
-                        height: 6.h,
+                        height: 10,
                       ),
                       Text(
                         category.name ?? '',

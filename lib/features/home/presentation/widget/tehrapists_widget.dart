@@ -72,7 +72,7 @@ class _TherapistsState extends State<Therapists> {
                       );
                     }
                     return ListView.builder(
-                      padding: const EdgeInsets.symmetric(horizontal: 10),
+                      padding: const EdgeInsets.symmetric(horizontal: 0),
                       scrollDirection: Axis.horizontal,
                       itemCount: state.therapists.length,
                       itemBuilder: (context, index) {
@@ -188,7 +188,7 @@ class TherapistWidget extends StatelessWidget {
                       children: [
                         // for loop
                         for (var i = 0;
-                            i < (therapist?.rank?.toInt() ?? 5);
+                            i < ((therapist?.rank?.toInt() ?? 0) > 5 ? 5 :(therapist?.rank?.toInt() ?? 0));
                             i++)
                           const Icon(Icons.star,
                               color: Color(0xffFFBA49), size: 15)
