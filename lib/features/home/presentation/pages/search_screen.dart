@@ -75,18 +75,14 @@ class _SearchScreenState extends State<SearchScreen> {
                 style: TextStyle(
                   fontSize: 14,
                   fontWeight: FontWeight.w400,
-                  color: AppColors.FONT_COLOR,
+                  color: Color(0xFF181B28).withOpacity(.7),
                 ),
               ),
             ],
           ),
         ),
       ),
-      const SliverToBoxAdapter(
-        child: SizedBox(
-          height: 10,
-        ),
-      ),
+
       // if ((state.result?.services ?? []).isNotEmpty)
       ServicesResults(
         services: services,
@@ -96,7 +92,12 @@ class _SearchScreenState extends State<SearchScreen> {
               .saveSearchKeyWord(_searchController.text);
           // AdjustTracker.trackSearchService(_searchController.text);
         },
-      )
+      ),
+      const SliverToBoxAdapter(
+        child: SizedBox(
+          height: 20,
+        ),
+      ),
     ];
   }
 
@@ -114,7 +115,7 @@ class _SearchScreenState extends State<SearchScreen> {
                 text: AppText.providers,
                 fontSize: 14,
                 fontWeight: FontWeight.w400,
-                color: AppColors.FONT_COLOR,
+                color: Color(0xFF181B28).withOpacity(.7),
               ),
             ],
           ),
@@ -122,7 +123,7 @@ class _SearchScreenState extends State<SearchScreen> {
       ),
       const SliverToBoxAdapter(
         child: SizedBox(
-          height: 10,
+          height: 0,
         ),
       ),
       // if ((state.result?.therapists ?? []).isNotEmpty)
@@ -152,9 +153,9 @@ class _SearchScreenState extends State<SearchScreen> {
         SliverToBoxAdapter(
           child: Container(
             padding: const EdgeInsets.all(60),
-            child: const EmptyPageMessage(
+            /*child: const EmptyPageMessage(
               svgImage: 'empty',
-            ),
+            ),*/
           ),
         )
       ];
@@ -170,7 +171,7 @@ class _SearchScreenState extends State<SearchScreen> {
                 text: AppText.recent_searches,
                 fontSize: 14,
                 fontWeight: FontWeight.w400,
-                color: AppColors.FONT_COLOR,
+                color: Color(0xFF181B28).withOpacity(.7),
               ),
             ],
           ),
@@ -268,8 +269,8 @@ class _SearchScreenState extends State<SearchScreen> {
                     (state.result?.therapists ?? []).isEmpty &&
                     state.isLoading)
                   buildLoading(),
-                if ((state.result?.services ?? []).isEmpty &&
-                    (state.result?.therapists ?? []).isEmpty &&
+                if (state.result?.services?.isEmpty == true &&
+                    state.result?.therapists?.isEmpty == true &&
                     _searchController.text.isNotEmpty &&
                     state.isLoaded)
                   SliverToBoxAdapter(
@@ -667,6 +668,8 @@ class SearchBarWidget extends StatelessWidget {
                 left: context.isAr ? 24.w : 5.w,
                 right: context.isAr ? 5.w : 24.w),
             isSearch: true,
+            maxLines: 1,
+            autofocus: true,
             hintText: AppText.search,
             currentFocusNode: _searchFocusNode,
             currentController: _searchController,
