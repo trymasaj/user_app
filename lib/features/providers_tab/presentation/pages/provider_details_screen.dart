@@ -112,7 +112,7 @@ class _ProviderDetailsScreenState extends State<ProviderDetailsScreen> {
               therapist,
             ),
             SizedBox(
-              height: 4.h,
+              height: 6.h,
             ),
             CustomText(
               text: therapist.fullName ?? '',

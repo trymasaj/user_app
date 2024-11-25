@@ -182,7 +182,9 @@ class TherapistWidget extends StatelessWidget {
                         fontSize: 10,
                         fontWeight: FontWeight.w400,
                         color: AppColors.PlaceholderColor),
-
+                    const SizedBox(
+                      height: 3,
+                    ),
                     // rating
                     Row(
                       children: [
