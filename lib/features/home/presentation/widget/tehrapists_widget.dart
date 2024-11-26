@@ -32,12 +32,14 @@ class Therapists extends StatefulWidget {
 
 class _TherapistsState extends State<Therapists> {
   late HomeTherapistsCubit _cubit;
+  bool emptyState = false;
   @override
   void initState() {
     final authCubit = context.read<AuthCubit>();
     final isGuest = authCubit.state.isGuest;
-    _cubit = context.read<HomeTherapistsCubit>();
+    _cubit = _cubit = DI.find<HomeTherapistsCubit>();
     if (!isGuest) _cubit.getRecommendedTherapists();
+    print("_TherapistsState");
     super.initState();
   }
 
@@ -48,7 +50,7 @@ class _TherapistsState extends State<Therapists> {
         create: (context) => _cubit,
         child: Container(
           margin: const EdgeInsets.symmetric(horizontal: 20),
-          child: Column(
+          child: emptyState ? const SizedBox.shrink() : Column(
             children: [
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -63,9 +65,19 @@ class _TherapistsState extends State<Therapists> {
                 height: 100,
                 child: BlocConsumer<HomeTherapistsCubit, HomeTherapistsState>(
                   listener: (context, state) {
-                    // Fluttertoast.showToast(msg: 'No Update');
+                    print("122222");
+                    print(state);
+                    print(state.therapists.isEmpty);
+                    if (state.isLoaded && state.therapists.isEmpty) {
+                      setState(() {
+                        emptyState = true;
+                      });
+                    }
                   },
                   builder: (context, state) {
+                    print("133333");
+                    print(state.isLoaded);
+                    print(state.isLoading);
                     if (state.isLoading) {
                       return const CustomLoading(
                         loadingStyle: LoadingStyle.ShimmerList,
@@ -74,7 +86,7 @@ class _TherapistsState extends State<Therapists> {
                     return ListView.builder(
                       padding: const EdgeInsets.symmetric(horizontal: 0),
                       scrollDirection: Axis.horizontal,
-                      itemCount: state.therapists.length,
+                      itemCount: state.therapists.isEmpty ? 0 : state.therapists.length,
                       itemBuilder: (context, index) {
                         return TherapistWidget(
                           therapist: state.therapists[index],
