@@ -229,7 +229,8 @@ class UpdateAddressScreen<T extends UpdateAddressCubit,
         return state.showCountryError;
       },
       builder: (context, state) {
-
+        print("_buildCountryError");
+        print(state);
         return state
             ? Padding(
                 padding: EdgeInsets.symmetric(horizontal: 14.w),
@@ -399,6 +400,9 @@ class UpdateAddressScreen<T extends UpdateAddressCubit,
   Widget _buildFloorEditText(BuildContext context) {
     return FormBuilderTextField(
       style: CustomTextStyles.bodyMediumGray90003,
+      validator: FormBuilderValidators.compose([
+        FormBuilderValidators.required(errorText: AppText.empty_field_not_valid),
+      ]),
       decoration: InputDecoration(
         helperText: '',
         hintText: AppText.lbl_floor,
@@ -457,22 +461,30 @@ class UpdateAddressScreen<T extends UpdateAddressCubit,
     );
   }
 
-  /// Section Widget
+  /// Section Widgetprint(addressMap['country']);
   Widget _buildSaveButton(BuildContext context) {
     return DefaultButton(
       label: AppText.lbl_save,
-      padding: EdgeInsets.symmetric(horizontal: 150.w),
+      isExpanded: true,
+      //padding: EdgeInsets.symmetric(horizontal: 100.w),
       onPressed: () async {
         final countryCubit = context.read<CountryCubit>();
         final isValid = formKey.currentState!.saveAndValidate();
         final addressMap = formKey.currentState!.value;
+        print("addressMap['country']");
+        print(addressMap['country']);
+        print(addressMap['area']);
 
-        if (!isValid ||
-            (addressMap['country'] == null || addressMap['area'] == null)) {
+
+        if( (addressMap['country'] == null || addressMap['area'] == null)) {
           countryCubit.setCountryError(true);
           return Future.value();
-        } else {
+        }
+        else {
           countryCubit.setCountryError(false);
+        }
+        if (!isValid) {
+          return Future.value();
         }
         await context.read<T>().save(Address.fromMap(addressMap));
         final savedAddress = context.read<T>().state.savedAddress;
