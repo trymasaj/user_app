@@ -50,7 +50,7 @@ class Validator {
     //should has 1 capital letter,
     else if (!RegExp(r'^(?=.*?[A-Z])(?=.*?[a-z])').hasMatch(password))
       return tr('invalid_password_should_has_1_capital_letter');
-    else if (!RegExp(r'^(?=.*[@$!%*?&])').hasMatch(password))
+    else if (!RegExp(r'^(?=.*[@#$!%*?&])').hasMatch(password))
       return tr('password_must_contains_characters');
     else
       return null;
