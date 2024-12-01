@@ -19,6 +19,7 @@ abstract class MainTextFormField extends StatefulWidget {
   final int? maxLength;
   final List<TextInputFormatter>? inputFormatters;
   final bool expanded;
+  final bool autofocus;
   final int? maxLines;
   final bool isSearch;
   final EdgeInsetsGeometry? contentPadding;
@@ -26,6 +27,7 @@ abstract class MainTextFormField extends StatefulWidget {
   final Color? hintColor;
   final bool enableSuggestions;
   final bool showScrollbar;
+  final bool autoFocus;
   final bool? obscureText;
   final Widget? suffixIcon;
   final Widget? prefixIcon;
@@ -46,6 +48,7 @@ abstract class MainTextFormField extends StatefulWidget {
       required this.currentController,
       required this.hintText,
       this.keyboardType,
+      this.autofocus = false,
       this.hintStyle,
       required this.validator,
       this.textCapitalization = TextCapitalization.none,
@@ -55,6 +58,7 @@ abstract class MainTextFormField extends StatefulWidget {
       this.inputFormatters,
       this.expanded = false,
       this.maxLines,
+      this.autoFocus = false,
       this.contentPadding,
       this.borderColor,
       this.hintColor,
@@ -79,6 +83,7 @@ class _MainTextFormFieldState extends State<MainTextFormField> {
   TextDirection? _currentDir;
   BehaviorSubject<String>? _searchSubject;
   StreamSubscription<String>? _searchSubscription;
+
   @override
   void initState() {
     if (widget.isSearch) {
@@ -89,11 +94,8 @@ class _MainTextFormFieldState extends State<MainTextFormField> {
   }
 
   void _searchSubjectListener() {
-    _searchSubscription = _searchSubject?.stream
-        .debounceTime(const Duration(milliseconds: 500))
-        .distinct()
-        .distinct((p, n) => p == n)
-        .listen(widget.onChanged);
+    _searchSubscription =
+        _searchSubject?.stream.debounceTime(const Duration(milliseconds: 500)).distinct().distinct((p, n) => p == n).listen(widget.onChanged);
   }
 
   @override
@@ -105,18 +107,14 @@ class _MainTextFormFieldState extends State<MainTextFormField> {
 
   @override
   Widget build(BuildContext context) {
-    _currentDir ??= context.locale == const Locale('ar')
-        ? TextDirection.rtl
-        : TextDirection.ltr;
+    _currentDir ??= context.locale == const Locale('ar') ? TextDirection.rtl : TextDirection.ltr;
     Widget textFieldWidget = TextFormField(
         onTap: () {
           var selection = widget.currentController.selection;
           var length = widget.currentController.text.length;
-          var isLast = selection ==
-              TextSelection.fromPosition(TextPosition(offset: length - 1));
+          var isLast = selection == TextSelection.fromPosition(TextPosition(offset: length - 1));
           if (isLast) {
-            selection =
-                TextSelection.fromPosition(TextPosition(offset: length));
+            selection = TextSelection.fromPosition(TextPosition(offset: length));
           }
           if (widget.onTap != null) widget.onTap!();
         },
@@ -130,6 +128,7 @@ class _MainTextFormFieldState extends State<MainTextFormField> {
         maxLines: widget.maxLines,
         maxLength: widget.maxLength,
         expands: widget.expanded,
+        autofocus: widget.autofocus,
         enableSuggestions: widget.enableSuggestions,
         readOnly: widget.readOnly ?? false,
         style: widget.style ??
@@ -140,25 +139,17 @@ class _MainTextFormFieldState extends State<MainTextFormField> {
               color: AppColors.FONT_COLOR,
             ),
         textCapitalization: widget.textCapitalization,
-        textAlignVertical:
-            widget.expanded ? const TextAlignVertical(y: -0.8) : null,
+        textAlignVertical: widget.expanded ? const TextAlignVertical(y: -0.8) : null,
         obscureText: widget.obscureText ?? false,
         decoration: widget.decoration ??
             InputDecoration(
-              fillColor: widget.enabled
-                  ? widget.fillColor ?? const Color(0xFFF6F6F6)
-                  : const Color(0x44000000),
+              fillColor: widget.enabled ? widget.fillColor ?? const Color(0xFFF6F6F6) : const Color(0x44000000),
               filled: true,
               isDense: true,
-              contentPadding: widget.contentPadding ??
-                  const EdgeInsets.fromLTRB(20, 20, 20, 20),
+              contentPadding: widget.contentPadding ?? const EdgeInsets.fromLTRB(20, 20, 20, 20),
               hintText: widget.hintText,
               hintStyle: widget.hintStyle ??
-                  TextStyle(
-                      fontFamily: 'Poppins',
-                      fontSize: 14.0,
-                      fontWeight: FontWeight.w400,
-                      color: widget.hintColor ?? const Color(0xFF8C8C8C)),
+                  TextStyle(fontFamily: 'Poppins', fontSize: 14.0, fontWeight: FontWeight.w400, color: widget.hintColor ?? const Color(0xFF8C8C8C)),
               suffixIcon: widget.suffixIcon,
               prefixIcon: widget.prefixIcon,
               enabledBorder: OutlineInputBorder(
@@ -204,9 +195,7 @@ class _MainTextFormFieldState extends State<MainTextFormField> {
             final dir = _getDirection(text);
             if (dir != _currentDir) setState(() => _currentDir = dir);
           }
-          if (widget.isSearch &&
-              _searchSubject != null &&
-              !_searchSubject!.isClosed) {
+          if (widget.isSearch && _searchSubject != null && !_searchSubject!.isClosed) {
             _searchSubject?.add(text);
           } else {
             (widget.onChanged ?? (_) {})(text);

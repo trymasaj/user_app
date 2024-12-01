@@ -56,10 +56,10 @@ class _SplashPageState extends State<SplashPage> {
 
         if (state.isLoaded) {
           final user = authCubit.state.user;
-          // if (authCubit.state.isGuest)
-          //   return _goToHomePage(
-          //     context,
-          //   );
+           if (authCubit.state.isGuest)
+            return _goToHomePage(
+               context,
+             );
 
           final notLoggedIn = !authCubit.state.isLoggedIn;
 
@@ -80,11 +80,10 @@ class _SplashPageState extends State<SplashPage> {
           if (quicIsNotAnswered) return gotToQuiz(context);
 
           //TODO need refactoring
-
-         /* if (languageNotSet) return _goToChooseLanguagePage(context);
+          if (languageNotSet) return _goToChooseLanguagePage(context);
           if (isFirstLaunch) return _goToGuidePage(context);
           if (countryNotSet) return _goToSelectLocationPage(context);
-          if (notLoggedIn) return _goToLoginPage(context);*/
+          if (notLoggedIn) return _goToLoginPage(context);
 
           return _goToHomePage(
             context,

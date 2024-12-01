@@ -3,6 +3,7 @@ import 'package:masaj/core/app_export.dart';
 import 'package:masaj/core/data/device/system_service.dart';
 import 'package:masaj/core/data/di/di_wrapper.dart';
 import 'package:masaj/core/data/extensions/extensions.dart';
+import 'package:masaj/core/data/validator/validator.dart';
 import 'package:masaj/core/domain/enums/gender.dart';
 import 'package:masaj/core/presentation/colors/app_colors.dart';
 import 'package:masaj/core/presentation/overlay/show_snack_bar.dart';
@@ -12,6 +13,7 @@ import 'package:masaj/core/presentation/widgets/stateless/custom_app_bar.dart';
 import 'package:masaj/core/presentation/widgets/stateless/default_button.dart';
 import 'package:masaj/core/presentation/widgets/stateless/subtitle_text.dart';
 import 'package:masaj/core/presentation/widgets/stateless/text_fields/default_text_form_field.dart';
+import 'package:masaj/core/presentation/widgets/stateless/text_fields/email_text_form_field.dart';
 import 'package:masaj/features/auth/application/auth_cubit/auth_cubit.dart';
 
 import '../../../core/presentation/navigation/navigator_helper.dart';
@@ -105,6 +107,7 @@ class _MyProfileScreenState extends State<MyProfileScreen> {
                     currentController: _emailController,
                     isRequired: true,
                     hint: '',
+                    validator: Validator().validateEmail,
                   ),
                   SizedBox(height: 16.h),
                   _buildBirthDate(context),
@@ -166,6 +169,7 @@ class _MyProfileScreenState extends State<MyProfileScreen> {
         final pickedDate = await showDatePicker(
             context: context,
             initialDate: initialDate,
+            initialEntryMode: DatePickerEntryMode.calendarOnly,
             firstDate: system.now.subtract(const Duration(days: 43800)),
             lastDate: system.now,
             builder: (context, child) {

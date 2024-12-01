@@ -56,7 +56,7 @@ class _RepeatedSessionsState extends State<RepeatedSessions> {
                     );
                   },
                   child: Container(
-                    margin: const EdgeInsets.only(right: 10),
+                    margin: EdgeInsets.only(right:  context.locale.languageCode == 'ar' ? 0 :10, left:context.locale.languageCode == 'ar' ? 10 :0),
                     width: 280,
                     padding: const EdgeInsets.all(10),
                     decoration: BoxDecoration(

@@ -49,6 +49,16 @@ class AppColors {
           const Color(0xffEFB287).withOpacity(.1)
         ],
       );
+  static LinearGradient get GRADIENT_SAME_COLOR => LinearGradient(
+    begin: Alignment.centerLeft, // or Alignment(-1.0, 0.0)
+    end: Alignment.centerRight, // or Alignment(1.0, 0.0)
+    // stops: [0, 0.9667],
+    colors: [
+      const Color(0xffF6F6F6),
+      const Color(0xffF6F6F6),
+      const Color(0xffF6F6F6)
+    ],
+  );
 
   static const SHADOW = [
     BoxShadow(

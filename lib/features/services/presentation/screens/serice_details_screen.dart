@@ -777,7 +777,7 @@ class AddonsSection extends StatelessWidget {
                       Row(
                         children: [
                           CustomText(
-                            text: '(${AppText.price_in_kd(args: [
+                            text: '(+${AppText.price_in_kd(args: [
                                   addon.price.toString()
                                 ])}, ${AppText.min_count(args: [
                                   addon.durationInMinutes

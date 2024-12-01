@@ -32,12 +32,14 @@ class Therapists extends StatefulWidget {
 
 class _TherapistsState extends State<Therapists> {
   late HomeTherapistsCubit _cubit;
+  bool emptyState = false;
   @override
   void initState() {
     final authCubit = context.read<AuthCubit>();
     final isGuest = authCubit.state.isGuest;
-    _cubit = context.read<HomeTherapistsCubit>();
+    _cubit = DI.find<HomeTherapistsCubit>();
     if (!isGuest) _cubit.getRecommendedTherapists();
+    print("_TherapistsState");
     super.initState();
   }
 
@@ -48,7 +50,7 @@ class _TherapistsState extends State<Therapists> {
         create: (context) => _cubit,
         child: Container(
           margin: const EdgeInsets.symmetric(horizontal: 20),
-          child: Column(
+          child: emptyState ? const SizedBox.shrink() : Column(
             children: [
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -63,18 +65,25 @@ class _TherapistsState extends State<Therapists> {
                 height: 100,
                 child: BlocConsumer<HomeTherapistsCubit, HomeTherapistsState>(
                   listener: (context, state) {
-                    // Fluttertoast.showToast(msg: 'No Update');
+                    if (state.isLoaded && state.therapists.isEmpty) {
+                      setState(() {
+                        emptyState = true;
+                      });
+                    }
                   },
                   builder: (context, state) {
+                    print("133333");
+                    print(state.isLoaded);
+                    print(state.isLoading);
                     if (state.isLoading) {
                       return const CustomLoading(
                         loadingStyle: LoadingStyle.ShimmerList,
                       );
                     }
                     return ListView.builder(
-                      padding: const EdgeInsets.symmetric(horizontal: 10),
+                      padding: const EdgeInsets.symmetric(horizontal: 0),
                       scrollDirection: Axis.horizontal,
-                      itemCount: state.therapists.length,
+                      itemCount: state.therapists.isEmpty ? 0 : state.therapists.length,
                       itemBuilder: (context, index) {
                         return TherapistWidget(
                           therapist: state.therapists[index],
@@ -129,7 +138,7 @@ class TherapistWidget extends StatelessWidget {
                         providersTabCubit: context.read<ProvidersTabCubit?>()));
             },
       child: Container(
-        margin: margin ?? const EdgeInsets.only(right: 10),
+        margin: margin ?? EdgeInsets.only(right:  context.locale.languageCode == 'ar' ? 0 :10, left:context.locale.languageCode == 'ar' ? 10 :0),
         width: width ?? (withFiv ? 300 : 280),
         padding: padding ?? const EdgeInsets.all(10),
         decoration: BoxDecoration(
@@ -190,7 +199,7 @@ class TherapistWidget extends StatelessWidget {
                       children: [
                         // for loop
                         for (var i = 0;
-                            i < (therapist?.rank?.toInt() ?? 5);
+                            i < ((therapist?.rank?.toInt() ?? 0) > 5 ? 5 :(therapist?.rank?.toInt() ?? 0));
                             i++)
                           const Icon(Icons.star,
                               color: Color(0xffFFBA49), size: 15)

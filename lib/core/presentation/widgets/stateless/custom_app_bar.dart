@@ -51,7 +51,7 @@ class _CustomAppBarState extends State<CustomAppBar> {
         fontWeight: FontWeight.w600,
       ),
       leadingWidth: 75,
-      titleSpacing: 20,
+      titleSpacing: 0,
 
       leading: widget.showBackButton
           ? canPop

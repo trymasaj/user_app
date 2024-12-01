@@ -144,9 +144,10 @@ class _FilterWidgetSheetState extends State<FilterWidgetSheet> {
                           const Spacer(),
                           InkWell(
                             onTap: () {
-                              widget.serviceCubit.clearFilter();
-
-                              Navigator.pop(context);
+                               widget.serviceCubit.clearFilter();
+                               _fromController.text = "0";
+                               _toController.text = "1000";
+                              //Navigator.pop(context);
                             },
                             child: Text(
                               AppText.clear,

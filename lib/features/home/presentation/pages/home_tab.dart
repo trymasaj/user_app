@@ -15,6 +15,7 @@ import 'package:masaj/features/home/data/models/home_section.dart';
 import 'package:masaj/features/home/presentation/bloc/home_cubit/home_cubit.dart';
 import 'package:masaj/features/home/presentation/bloc/home_page_cubit/home_page_cubit.dart';
 import 'package:masaj/features/home/presentation/widget/index.dart';
+import 'package:masaj/features/providers_tab/presentation/cubits/home_therapists_cubit/home_therapists_cubit.dart';
 import 'package:masaj/features/services/application/service_catgory_cubit/service_category_cubit.dart';
 import 'package:masaj/features/services/data/models/service_model.dart';
 import 'package:masaj/features/services/data/models/service_offer.dart';
@@ -28,7 +29,6 @@ class HomeTab extends StatefulWidget {
 
 class _HomeTabState extends State<HomeTab> {
   late ServiceCategoryCubit serviceCategoryCubit;
-
 
   @override
   void initState() {
@@ -150,6 +150,7 @@ class _HomeTabState extends State<HomeTab> {
           CategoriesList(
             serviceCategoryCubit: serviceCategoryCubit,
             isSliver: false,
+            inHomePage: true,
           ),
           SizedBox(
             height: 20.h,

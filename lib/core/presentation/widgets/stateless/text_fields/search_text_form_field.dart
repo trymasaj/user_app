@@ -102,8 +102,10 @@ class BasicTextFiled extends MainTextFormField {
       super.decoration,
       super.prefixIcon,
       super.textCapitalization,
+      super.autofocus,
       super.key,
       required super.currentController,
       required super.hintText,
+
       super.validator});
 }

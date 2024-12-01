@@ -24,7 +24,7 @@ class DurationsSection extends StatelessWidget {
           child: Column(
             children: [
               SizedBox(
-                height: 24.h,
+                height: 18.h,
               ),
               // title then the description
               Row(
@@ -37,7 +37,7 @@ class DurationsSection extends StatelessWidget {
                 ],
               ),
               SizedBox(
-                height: 24.h,
+                height: 8.h,
               ),
 
               SizedBox(
