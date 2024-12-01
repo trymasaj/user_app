@@ -60,6 +60,7 @@ class PhoneTextFormField extends StatelessWidget {
             controller: currentController,
             languageCode: currentLocal.languageCode,
             keyboardType: TextInputType.phone,
+
             dropdownIconPosition: IconPosition.trailing,
             dropdownTextStyle: textStyle,
             dropdownIcon: const Icon(
@@ -158,7 +159,7 @@ class PhoneTextFormField extends StatelessWidget {
             ),
             autovalidateMode: autovalidateMode,
             invalidNumberMessage: tr('invalid_phone_number'),
-            initialCountryCode: initialValue == null ? 'KW' : null,
+            initialCountryCode: initialValue?.completeNumber != null ? null :'KW',
             flagsButtonMargin: const EdgeInsets.only(left: 12),
             onChanged: onInputChanged,
             onSubmitted: (_) =>

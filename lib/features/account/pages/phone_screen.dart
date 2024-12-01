@@ -37,13 +37,17 @@ class _PhoneScreenState extends State<PhoneScreen> {
   void initState() {
     _phoneFocusNode = FocusNode();
     _phoneNumberController = TextEditingController();
+    final authCubit = context.read<AuthCubit>();
+    final user = authCubit.state.user;
+    _phoneNumberController.text = user?.phone ?? "";
     super.initState();
   }
 
   @override
   Widget build(BuildContext context) {
     return BlocConsumer<AuthCubit, AuthState>(
-      builder: (context, state) {
+      builder: (context, authState) {
+
         return Scaffold(
             resizeToAvoidBottomInset: false,
             appBar: _buildAppBar(context),
@@ -57,7 +61,7 @@ class _PhoneScreenState extends State<PhoneScreen> {
                         return PhoneTextFormField(
                           currentController: _phoneNumberController,
                           currentFocusNode: _phoneFocusNode,
-                          initialValue: _phoneNumber,
+                          initialValue: PhoneNumber(countryISOCode: "", countryCode:  authState.user?.countryCode ?? "", number:  authState.user?.phone ?? ""),
                           onInputChanged: (value) => _phoneNumber = value,
                           nextFocusNode: null,
                         );
