@@ -157,6 +157,7 @@ class PhoneTextFormField extends StatelessWidget {
               ),
             ),
             autovalidateMode: autovalidateMode,
+            invalidNumberMessage: tr('invalid_phone_number'),
             initialCountryCode: initialValue == null ? 'KW' : null,
             flagsButtonMargin: const EdgeInsets.only(left: 12),
             onChanged: onInputChanged,
