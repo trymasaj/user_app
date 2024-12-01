@@ -4,6 +4,7 @@ import 'package:masaj/core/app_export.dart';
 import 'package:masaj/core/presentation/colors/app_colors.dart';
 import 'package:masaj/core/presentation/widgets/stateless/custom_cached_network_image.dart';
 import 'package:masaj/core/presentation/widgets/stateless/custom_loading.dart';
+import 'package:masaj/core/presentation/widgets/stateless/state_widgets.dart';
 import 'package:masaj/features/home/presentation/pages/home_tab.dart';
 import 'package:masaj/features/services/data/models/service_model.dart';
 import 'package:masaj/features/services/presentation/screens/serice_details_screen.dart';
@@ -37,10 +38,11 @@ class _RecommendedState extends State<Recommended> {
               SectionTitle(title: AppText.recommended),
             ],
           ),
+          SizedBox(height: 10,),
           SizedBox(
             height: 155,
             child: ListView.builder(
-              padding: const EdgeInsets.symmetric(horizontal: 20),
+              //padding: const EdgeInsets.symmetric(horizontal: 20),
               scrollDirection: Axis.horizontal,
               itemCount: widget.recommendedServices.length,
               itemBuilder: (context, index) {

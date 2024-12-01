@@ -62,7 +62,7 @@ class _ProvidersTabState extends State<ProvidersTab>
               body: SafeArea(
                 child: Padding(
                   padding:
-                      EdgeInsets.symmetric(horizontal: 24.w, vertical: 24.h),
+                      EdgeInsets.only(right: 24.w, left: 24.h, top: 24),
                   child: Column(children: [
                     TabBar(
                         labelPadding: const EdgeInsets.all(5),
