@@ -41,7 +41,7 @@ class _RecommendedState extends State<Recommended> {
             height: 10,
           ),
           SizedBox(
-            height:140,
+            height:142,
             child: ListView.builder(
               padding: const EdgeInsets.symmetric(horizontal: 0),
               scrollDirection: Axis.horizontal,
@@ -56,7 +56,7 @@ class _RecommendedState extends State<Recommended> {
                     );
                   },
                   child: Container(
-                    margin: const EdgeInsets.only(right: 10),
+                    margin: EdgeInsets.only(right:  context.locale.languageCode == 'ar' ? 0 :10, left:context.locale.languageCode == 'ar' ? 10 :0),
                     width: 110.w,
                     padding: const EdgeInsets.all(10),
                     decoration: BoxDecoration(

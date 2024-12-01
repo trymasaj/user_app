@@ -225,7 +225,7 @@ class _GuidePageState extends State<GuidePage> {
 
     return DefaultButton(
       label: AppText.skip,
-      textColor: AppColors.PRIMARY_COLOR,
+      textColor: Colors.white,
       backgroundColor: Colors.transparent,
       color: Colors.transparent,
       onPressed: () async {
@@ -269,6 +269,7 @@ class _GuidePageState extends State<GuidePage> {
           padding: EdgeInsets.symmetric(
               horizontal: 18.w, vertical: state.tabNumber == 1 ? 30.h : 42.h),
           width: width - 48,
+          height: 270,
           decoration: BoxDecoration(
             color: Colors.grey.shade200.withOpacity(0.2),
           ),

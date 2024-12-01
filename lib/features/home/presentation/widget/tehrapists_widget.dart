@@ -65,9 +65,6 @@ class _TherapistsState extends State<Therapists> {
                 height: 100,
                 child: BlocConsumer<HomeTherapistsCubit, HomeTherapistsState>(
                   listener: (context, state) {
-                    print("122222");
-                    print(state);
-                    print(state.therapists.isEmpty);
                     if (state.isLoaded && state.therapists.isEmpty) {
                       setState(() {
                         emptyState = true;
@@ -141,7 +138,7 @@ class TherapistWidget extends StatelessWidget {
                         providersTabCubit: context.read<ProvidersTabCubit?>()));
             },
       child: Container(
-        margin: margin ?? const EdgeInsets.only(right: 10),
+        margin: margin ?? EdgeInsets.only(right:  context.locale.languageCode == 'ar' ? 0 :10, left:context.locale.languageCode == 'ar' ? 10 :0),
         width: width ?? (withFiv ? 300 : 280),
         padding: padding ?? const EdgeInsets.all(10),
         decoration: BoxDecoration(

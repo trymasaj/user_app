@@ -11,8 +11,10 @@ class CategoriesList extends StatelessWidget {
     this.isSliver = false,
     this.serviceCategoryCubit,
     this.onPressed,
+    this.inHomePage = false,
   });
   final bool isSliver;
+  final bool inHomePage;
   final ServiceCategoryCubit? serviceCategoryCubit;
   final Function(ServiceCategory category)? onPressed;
 
@@ -28,9 +30,9 @@ class CategoriesList extends StatelessWidget {
           );
         }
         return state.serviceCategories.isNotEmpty? SizedBox(
-          height:160,
+          height:162,
           child: ListView.builder(
-            padding: const EdgeInsets.only(left:20,top:20,right:20),
+            padding: EdgeInsets.only(left:inHomePage ? 20:0,top:20,right:inHomePage ? 20:0),
             scrollDirection: Axis.horizontal,
             itemCount: state.serviceCategories.length,
             itemBuilder: (context, index) {
@@ -51,7 +53,7 @@ class CategoriesList extends StatelessWidget {
                                             state.serviceCategories))));
                       },
                 child: Container(
-                  margin: const EdgeInsets.only(right: 10),
+                  margin:  EdgeInsets.only(right:  context.locale.languageCode == 'ar' ? 0 :10, left:context.locale.languageCode == 'ar' ? 10 :0),
                   width: 110.w,
                   padding: const EdgeInsets.all(10),
                   decoration: BoxDecoration(

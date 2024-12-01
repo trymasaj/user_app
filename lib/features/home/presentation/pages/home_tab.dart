@@ -150,6 +150,7 @@ class _HomeTabState extends State<HomeTab> {
           CategoriesList(
             serviceCategoryCubit: serviceCategoryCubit,
             isSliver: false,
+            inHomePage: true,
           ),
           SizedBox(
             height: 20.h,

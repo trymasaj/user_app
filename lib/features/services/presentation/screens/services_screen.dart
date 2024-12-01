@@ -191,7 +191,7 @@ class ServicesTabs extends StatelessWidget {
     return BlocBuilder<ServiceCubit, ServiceState>(
       builder: (context, state) {
         return SizedBox(
-          //height: 34,
+          height: 34,
           child: ListView.builder(
             itemCount: state.allServiceCategories!.length,
             scrollDirection: Axis.horizontal,
