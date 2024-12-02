@@ -132,7 +132,7 @@ class _BookServiceScreenState extends State<BookServiceScreen> {
       appBar: CustomAppBar(title: AppText.book_service),
       body: BlocListener<AvialbleTherapistCubit, AvialbleTherapistState>(
         listener: (context, state) {
-          if (state.isError) {
+          if (state.isError && state.errorMessage != null) {
             ScaffoldMessenger.of(context).showSnackBar(SnackBar(
               content: Text(state.errorMessage ?? ''),
             ));
@@ -420,11 +420,15 @@ class _BookServiceScreenState extends State<BookServiceScreen> {
         else if (!state.isTimeSlotsLoading)
           BlocListener<AvialbleTherapistCubit, AvialbleTherapistState>(
             listener: (context, state) {
-              ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-                showCloseIcon: true,
-                closeIconColor: Colors.white,
-                content: Text(state.errorMessage ?? ''),
-              ));
+              if(state.errorMessage != null )
+                {
+                  ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+                    showCloseIcon: true,
+                    closeIconColor: Colors.white,
+                    content: Text(state.errorMessage ?? ''),
+                  ));
+                }
+
             },
             child: DefaultTextFormField(
               borderColor: const Color(0xffD9D9D9),
@@ -748,6 +752,11 @@ class _BookServiceScreenState extends State<BookServiceScreen> {
                 content: Text(AppText.please_select_date),
               ));
               return;
+            }if (selectedTimeSlot == null) {
+              ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+                content: Text(tr('please_select_time')),
+              ));
+              return;
             }
             final therapist =
                 context.read<AvialbleTherapistCubit>().state.selectedTherapist;
@@ -770,11 +779,10 @@ class _BookServiceScreenState extends State<BookServiceScreen> {
                       availableTime: getFinlaDate(),
                     );
             if (!addingTherapistSuccess) {
+              print("context.read<BookingCubit>().state.errorMessage?.isNotEmpty == true");
+              print(context.read<BookingCubit>().state.errorMessage == null);
               final errorMsg =
-                  context.read<BookingCubit>().state.errorMessage?.isEmpty ==
-                          true
-                      ? AppText.error_adding_therapist
-                      : context.read<BookingCubit>().state.errorMessage;
+                   context.read<BookingCubit>().state.errorMessage ?? AppText.error_adding_therapist;
               ScaffoldMessenger.of(context).showSnackBar(SnackBar(
                 content: Text(errorMsg ?? ''),
                 showCloseIcon: true,

@@ -36,7 +36,7 @@ class _ManageMembersScreenState extends State<ManageMembersScreen> {
           appBar: CustomAppBar(
             title: AppText.lbl_manage_members,
             actions: [buildAddMemberButton(context)],
-            centerTitle: true,
+            centerTitle: false,
           ),
           body: _buildBody(context)),
     );

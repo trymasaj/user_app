@@ -47,12 +47,11 @@ class _CustomAppBarState extends State<CustomAppBar> {
       title: CustomText(
         text: widget.title,
         color: Colors.black,
-        fontSize: 20,
-        fontWeight: FontWeight.w600,
+        fontSize: 18,
+        fontWeight: FontWeight.w500,
       ),
       leadingWidth: 75,
       titleSpacing: 0,
-
       leading: widget.showBackButton
           ? canPop
               ? _buildBackButton(context)

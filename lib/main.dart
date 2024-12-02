@@ -3,6 +3,7 @@ import 'dart:isolate';
 // import 'package:adjust_sdk/adjust.dart';
 // import 'package:adjust_sdk/adjust_config.dart';
 import 'package:easy_localization/easy_localization.dart';
+import 'package:event_bus/event_bus.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_crashlytics/firebase_crashlytics.dart';
 import 'package:flutter/foundation.dart';
@@ -35,7 +36,7 @@ import 'package:masaj/features/wallet/bloc/wallet_bloc/wallet_bloc.dart';
 import 'package:requests_inspector/requests_inspector.dart';
 import 'package:masaj/firebase_options.dart';
 import 'package:upgrader/upgrader.dart';
-
+var eventBus = EventBus();
 void main() async {
   runZonedGuarded<Future<void>>(() async {
     final widgetsBinding = WidgetsFlutterBinding.ensureInitialized();

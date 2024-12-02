@@ -91,6 +91,7 @@
   "confirm_password": "Confirm Password",
   "already_have_account_message": "Already have an account? ",
   "empty_field_not_valid": "Empty field is not valid",
+  "please_select_time": "Please select time",
   "invalid_email_address": "Invalid email address",
   "invalid_password_less_than_characters": "Invalid password can't be less than 6 characters",
   "invalid_password_should_has_1_capital_letter": "Invalid password should have 1 capital letter",

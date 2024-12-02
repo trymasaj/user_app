@@ -198,7 +198,8 @@ class _ProviderDetailsScreenState extends State<ProviderDetailsScreen> {
                   width: 2,
                 ),
                 CustomText(
-                  text: (therapist.rank ?? 0).toString(),
+                  text: ((therapist.rank ?? 0) > 5 ? 5 :(therapist.rank ?? 0)).toString(),
+                  //text: (therapist.rank ?? 0).toString(),
                   fontSize: 10,
                   fontWeight: FontWeight.w400,
                 ),

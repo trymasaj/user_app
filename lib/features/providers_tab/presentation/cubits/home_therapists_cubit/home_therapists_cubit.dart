@@ -13,6 +13,8 @@ class HomeTherapistsCubit extends BaseCubit<HomeTherapistsState> {
       : super(const HomeTherapistsState());
 
   Future<void> getRecommendedTherapists() async {
+    print("state.status");
+    print(state.status);
     if(state.status == HomeTherapistsStateStatus.loading){
       return;
     }

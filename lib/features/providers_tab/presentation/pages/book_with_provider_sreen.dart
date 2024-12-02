@@ -110,7 +110,7 @@ class _BookWithTherapistScreenState extends State<BookWithTherapistScreen> {
                 height: 5.h,
               ),
               CustomRatingBar(
-                itemCount: therapist.rank?.toInt() ?? 5,
+                itemCount: ((therapist.rank?.toInt() ?? 0) > 5 ? 5 :(therapist.rank?.toInt() ?? 0)),
                 itemSize: 10.5,
               )
             ],

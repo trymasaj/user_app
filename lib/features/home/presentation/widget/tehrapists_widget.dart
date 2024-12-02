@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:masaj/core/app_export.dart';
 import 'package:masaj/core/data/di/di_wrapper.dart';
+import 'package:masaj/core/events.dart';
 import 'package:masaj/core/presentation/colors/app_colors.dart';
 import 'package:masaj/core/presentation/navigation/navigator_helper.dart';
 import 'package:masaj/core/presentation/overlay/show_snack_bar.dart';
@@ -20,6 +21,7 @@ import 'package:masaj/features/providers_tab/presentation/cubits/home_therapists
 import 'package:masaj/features/providers_tab/presentation/cubits/providers_tab_cubit/providers_tab_cubit.dart';
 import 'package:masaj/features/providers_tab/presentation/pages/provider_details_screen.dart';
 import 'package:masaj/features/providers_tab/presentation/widgets/fav_icon_widget.dart';
+import 'package:masaj/main.dart';
 
 class Therapists extends StatefulWidget {
   const Therapists({
@@ -37,9 +39,9 @@ class _TherapistsState extends State<Therapists> {
   void initState() {
     final authCubit = context.read<AuthCubit>();
     final isGuest = authCubit.state.isGuest;
-    _cubit = _cubit = DI.find<HomeTherapistsCubit>();
+    _cubit = context.read<HomeTherapistsCubit>();
     if (!isGuest) _cubit.getRecommendedTherapists();
-    print("_TherapistsState");
+
     super.initState();
   }
 
@@ -65,6 +67,9 @@ class _TherapistsState extends State<Therapists> {
                 height: 100,
                 child: BlocConsumer<HomeTherapistsCubit, HomeTherapistsState>(
                   listener: (context, state) {
+                    print("Therapists Widget State");
+                    print(state.status);
+                    print(state.errorMessage);
                     if (state.isLoaded && state.therapists.isEmpty) {
                       setState(() {
                         emptyState = true;
@@ -72,9 +77,6 @@ class _TherapistsState extends State<Therapists> {
                     }
                   },
                   builder: (context, state) {
-                    print("133333");
-                    print(state.isLoaded);
-                    print(state.isLoading);
                     if (state.isLoading) {
                       return const CustomLoading(
                         loadingStyle: LoadingStyle.ShimmerList,

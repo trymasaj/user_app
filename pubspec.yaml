@@ -3,7 +3,7 @@ description: A new Flutter project.
 
 publish_to: "none" # Remove this line if you wish to publish to pub.dev
 
-version: 1.0.7+1
+version: 1.0.7+10
 
 environment:
   sdk: ">=3.0.6 <4.0.0"
@@ -90,6 +90,7 @@ dependencies:
 #  adjust_sdk: ^5.0.2
   flutter_widget_from_html: ^0.15.2
   pretty_dialog: ^1.0.1
+  event_bus: ^2.0.1
 
   # flutter_datetime_picker: ^1.5.1
   # fluttertoast: ^8.2.4

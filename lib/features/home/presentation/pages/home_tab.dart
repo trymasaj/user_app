@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:masaj/core/app_text.dart';
 import 'package:masaj/core/data/di/di_wrapper.dart';
+import 'package:masaj/core/events.dart';
 // import 'package:masaj/core/data/services/adjsut.dart';
 import 'package:masaj/core/presentation/colors/app_colors.dart';
 import 'package:masaj/core/presentation/size/size_utils.dart';
@@ -19,6 +20,7 @@ import 'package:masaj/features/providers_tab/presentation/cubits/home_therapists
 import 'package:masaj/features/services/application/service_catgory_cubit/service_category_cubit.dart';
 import 'package:masaj/features/services/data/models/service_model.dart';
 import 'package:masaj/features/services/data/models/service_offer.dart';
+import 'package:masaj/main.dart';
 
 class HomeTab extends StatefulWidget {
   const HomeTab({super.key});
@@ -34,9 +36,9 @@ class _HomeTabState extends State<HomeTab> {
   void initState() {
     final cubit = context.read<AuthCubit>();
     final isGuest = cubit.state.isGuest;
-    // AdjustTracker.trackRegistrationInitiated();
     serviceCategoryCubit = context.read<ServiceCategoryCubit>();
     serviceCategoryCubit.getServiceCategories();
+    eventBus.fire(RefreshHomeTabTherapistsEB());
     context.read<HomePageCubit>().init(isGuest: isGuest);
     super.initState();
   }

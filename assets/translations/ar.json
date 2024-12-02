@@ -92,6 +92,7 @@
   "confirm_password": "تأكيد كلمة المرور",
   "already_have_account_message": "لديك حساب بالفعل؟",
   "empty_field_not_valid": "الحقل الفارغ غير صالح",
+  "please_select_time": "من فضلك اختر الوقت",
   "invalid_email_address": "عنوان البريد الإلكتروني غير صالح",
   "invalid_password_less_than_characters": "كلمة المرور غير صالحة أقل من 6 أحرف",
   "invalid_password_should_has_1_capital_letter": "كلمة المرور يجب أن تحتوي على حرف كبير واحد على الأقل",
