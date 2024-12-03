@@ -461,7 +461,7 @@ class _SignUpPageState extends State<SignUpPage> {
             setState(() => selectedGender = selectedValue);
           },
         ),
-        const SizedBox(width: 8.0),
+        /*const SizedBox(width: 8.0),
         CustomChip(
           height: 56.h,
           label: AppText.lbl_other,
@@ -471,7 +471,7 @@ class _SignUpPageState extends State<SignUpPage> {
           onValueSelected: (selectedValue) {
             setState(() => selectedGender = selectedValue);
           },
-        ),
+        ),*/
       ],
     );
   }

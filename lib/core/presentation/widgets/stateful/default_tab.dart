@@ -6,25 +6,27 @@ import 'package:masaj/core/presentation/widgets/stateless/grediant_border.dart';
 import 'package:masaj/core/presentation/widgets/stateless/text_with_gradiant.dart';
 
 class DefaultTab extends StatelessWidget {
-  const DefaultTab({
-    super.key,
-    required this.isSelected,
-    required this.title,
-    this.borderRadius,
-  });
+  const DefaultTab({super.key, required this.isSelected, required this.title, this.borderRadius, this.isMemberScreen = false});
+
   final bool isSelected;
   final String title;
   final BorderRadius? borderRadius;
+  final bool isMemberScreen;
+
   @override
   Widget build(BuildContext context) {
     return Tab(
-        height: 40.h,
+        height: isMemberScreen ? 56.h : 40.h,
         iconMargin: EdgeInsets.zero,
         child: Container(
-          height: 40.h,
+          height: isMemberScreen ? 56.h : 40.h,
           padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 5),
           decoration: BoxDecoration(
-            color: isSelected ? null : AppColors.ExtraLight,
+            color: isSelected
+                ? null
+                : isMemberScreen
+                    ? AppColors.White
+                    : AppColors.ExtraLight,
             gradient: isSelected ? AppColors.GRADIENT_Fill_COLOR : null,
             border: isSelected
                 ? GradientBoxBorder(
@@ -39,14 +41,14 @@ class DefaultTab extends StatelessWidget {
               ? TextWithGradiant(
                   text: title,
                   fontSize: 14,
-                  fontWeight: FontWeight.w700,
+                  fontWeight: isMemberScreen ?FontWeight.w400: FontWeight.w700,
                 )
               : CustomText(
                   text: title,
                   fontSize: 14,
                   //rgba(24, 27, 40, 0.4)
-                  color: const Color.fromARGB(255, 24, 27, 40).withOpacity(.4),
-                  fontWeight: FontWeight.w700,
+                  color:isMemberScreen ? AppColors.PlaceholderColor: const Color.fromARGB(255, 24, 27, 40).withOpacity(.4),
+                  fontWeight: isMemberScreen ?FontWeight.w400: FontWeight.w700,
                 ),
         ));
   }

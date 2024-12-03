@@ -1,4 +1,6 @@
+import 'package:gradient_borders/box_borders/gradient_box_border.dart';
 import 'package:masaj/core/app_export.dart';
+import 'package:masaj/core/presentation/colors/app_colors.dart';
 import 'package:masaj/core/presentation/decoration/app_decoration.dart';
 import 'package:masaj/core/presentation/widgets/stateless/custom_radio_button.dart';
 
@@ -23,6 +25,7 @@ class MyAddressTile extends StatelessWidget {
   final bool isPrimary;
   final bool isRadioButtonVisible;
   final VoidCallback onTap;
+
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
@@ -32,9 +35,23 @@ class MyAddressTile extends StatelessWidget {
           horizontal: 15.w,
           vertical: 11.h,
         ),
-        decoration: AppDecoration.outlineBluegray100.copyWith(
-          borderRadius: BorderRadiusStyle.roundedBorder12,
-        ),
+        decoration: isPrimary == true
+            ? BoxDecoration(
+                gradient: LinearGradient(
+                  colors: [
+                    const Color(0xFFCCA3B7).withOpacity(0.09),
+                    const Color(0xFFEDA674).withOpacity(0.09),
+                    const Color(0xFFEFB287).withOpacity(0.09),
+                  ],
+                ),
+                borderRadius: BorderRadiusStyle.roundedBorder12,
+                border: GradientBoxBorder(
+                  gradient: AppColors.GRADIENT_COLOR,
+                  width: 1,
+                ))
+            : AppDecoration.outlineBluegray100.copyWith(
+                borderRadius: BorderRadiusStyle.roundedBorder12,
+              ),
         child: Row(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [

@@ -18,6 +18,8 @@ class PhoneTextFormField extends StatelessWidget {
       this.initialValue,
       required this.onInputChanged,
       this.isEnabled = true,
+      this.fillColor,
+      this.borderColor,
       this.hint,
       this.autovalidateMode = AutovalidateMode.onUserInteraction});
 
@@ -30,6 +32,8 @@ class PhoneTextFormField extends StatelessWidget {
   final bool isEnabled;
   final String? hint;
   final AutovalidateMode? autovalidateMode;
+  final Color? fillColor;
+  final Color? borderColor;
 
   @override
   Widget build(BuildContext context) {
@@ -89,22 +93,22 @@ class PhoneTextFormField extends StatelessWidget {
                 filled: true,
                 border: OutlineInputBorder(
                   borderRadius: BorderRadius.circular(12.0),
-                  borderSide: const BorderSide(
-                    color: Colors.white,
+                  borderSide:  BorderSide(
+                    color: borderColor ?? Colors.white,
                     width: 2,
                   ),
                 ),
                 enabledBorder: OutlineInputBorder(
                   borderRadius: BorderRadius.circular(12.0),
-                  borderSide: const BorderSide(
-                    color: Colors.white,
+                  borderSide:  BorderSide(
+                    color: borderColor ?? Colors.white,
                     width: 2,
                   ),
                 ),
                 focusedBorder: OutlineInputBorder(
                   borderRadius: BorderRadius.circular(12.0),
-                  borderSide: const BorderSide(
-                    color: Colors.white,
+                  borderSide:  BorderSide(
+                    color: borderColor ?? Colors.white,
                     width: 2,
                   ),
                 ),
@@ -112,7 +116,7 @@ class PhoneTextFormField extends StatelessWidget {
             ),
             decoration: InputDecoration(
               fillColor: isEnabled
-                  ? const Color(0xFFF6F6F6)
+                  ? fillColor ?? const Color(0xFFF6F6F6)
                   : AppColors.GREY_NORMAL_COLOR,
               filled: true,
               contentPadding: const EdgeInsets.fromLTRB(20, 20, 20, 20),
@@ -121,24 +125,24 @@ class PhoneTextFormField extends StatelessWidget {
                 color: const Color(0xFF8C8C8C),
               ),
               counterText: '',
-              disabledBorder: const OutlineInputBorder(
+              disabledBorder:  OutlineInputBorder(
                 borderRadius: BorderRadius.all(Radius.circular(12.0)),
                 borderSide: BorderSide(
-                  color: Colors.white,
+                  color: borderColor ?? Colors.white,
                   width: 2,
                 ),
               ),
-              enabledBorder: const OutlineInputBorder(
+              enabledBorder:  OutlineInputBorder(
                 borderRadius: BorderRadius.all(Radius.circular(12.0)),
                 borderSide: BorderSide(
-                  color: Colors.white,
+                  color: borderColor ?? Colors.white,
                   width: 1,
                 ),
               ),
-              focusedBorder: const OutlineInputBorder(
+              focusedBorder:  OutlineInputBorder(
                 borderRadius: BorderRadius.all(Radius.circular(12.0)),
                 borderSide: BorderSide(
-                  color: Colors.white,
+                  color: borderColor ?? Colors.white,
                   width: 1,
                 ),
               ),

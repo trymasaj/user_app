@@ -37,15 +37,13 @@ class _AdsState extends State<Ads> {
           carouselController: _carouselController,
           options: CarouselOptions(
             height: 142,
-            viewportFraction: .8,
-            enlargeCenterPage: true,
+            viewportFraction: 0.93,
+            enlargeCenterPage: false,
             autoPlay: true,
             autoPlayInterval: const Duration(seconds: 3),
             autoPlayAnimationDuration: const Duration(milliseconds: 800),
             autoPlayCurve: Curves.fastOutSlowIn,
             pauseAutoPlayOnTouch: true,
-
-            // aspectRatio: 3.0,
             onPageChanged: (index, reason) {
               setState(() {
                 current = index;
@@ -73,69 +71,76 @@ class _AdsState extends State<Ads> {
                 }
                 if (banner.isSection && banner.sectionId != null) {}
               },
-              child: Stack(
-                children: [
-                  Container(
-                    margin: const EdgeInsets.symmetric(horizontal: 0),
-                    decoration: BoxDecoration(
-                      borderRadius: BorderRadius.circular(8),
-                      image: DecorationImage(
-                        image: CustomCachedNetworkImageProvider(
-                          // is arabic
-                          context.isAr
-                              ? banner.imageUrlAr ?? ''
-                              : banner.imageUrlEn ?? '',
-                        ),
-                        fit: BoxFit.cover,
-                      ),
-                    ),
-                  ),
-                  Positioned.fill(
-                    child: Container(
+              child: Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 7.0),
+                child: Stack(
+                  children: [
+                    Container(
+
                       decoration: BoxDecoration(
+
+
                         borderRadius: BorderRadius.circular(8),
-                        gradient: LinearGradient(
-                          begin: Alignment.bottomCenter,
-                          end: Alignment.topCenter,
-                          colors: [
-                            Colors.black.withOpacity(.3),
-                            Colors.transparent,
-                          ],
+                        image: DecorationImage(
+                          image: CustomCachedNetworkImageProvider(
+                            // is arabic
+                            context.isAr
+                                ? banner.imageUrlAr ?? ''
+                                : banner.imageUrlEn ?? '',
+                          ),
+                          fit: BoxFit.cover,
+                        ),
+
+                      ),
+
+                    ),
+                    Positioned.fill(
+                      child: Container(
+                        decoration: BoxDecoration(
+                          borderRadius: BorderRadius.circular(8),
+                          gradient: LinearGradient(
+                            begin: Alignment.bottomCenter,
+                            end: Alignment.topCenter,
+                            colors: [
+                              Colors.black.withOpacity(.3),
+                              Colors.transparent,
+                            ],
+                          ),
                         ),
                       ),
                     ),
-                  ),
-                  // const Positioned(
-                  //   bottom: 0,
-                  //   left: 10,
-                  //   top: 0,
-                  //   child: Column(
-                  //     crossAxisAlignment: CrossAxisAlignment.start,
-                  //     mainAxisAlignment: MainAxisAlignment.center,
-                  //     children: [
-                  //       Text(
-                  //         'Masaj is for',
-                  //         style: TextStyle(
-                  //             fontSize: 15,
-                  //             fontWeight: FontWeight.w400,
-                  //             color: Colors.white),
-                  //       ),
-                  //       SizedBox(
-                  //         height: 5,
-                  //       ),
-                  //       Text(
-                  //         'Male,Female and \nCouples',
-                  //         maxLines: 3,
-                  //         style: TextStyle(
-                  //             height: 1.2,
-                  //             fontSize: 25,
-                  //             fontWeight: FontWeight.w500,
-                  //             color: Colors.white),
-                  //       )
-                  //     ],
-                  //   ),
-                  // ),
-                ],
+                    // const Positioned(
+                    //   bottom: 0,
+                    //   left: 10,
+                    //   top: 0,
+                    //   child: Column(
+                    //     crossAxisAlignment: CrossAxisAlignment.start,
+                    //     mainAxisAlignment: MainAxisAlignment.center,
+                    //     children: [
+                    //       Text(
+                    //         'Masaj is for',
+                    //         style: TextStyle(
+                    //             fontSize: 15,
+                    //             fontWeight: FontWeight.w400,
+                    //             color: Colors.white),
+                    //       ),
+                    //       SizedBox(
+                    //         height: 5,
+                    //       ),
+                    //       Text(
+                    //         'Male,Female and \nCouples',
+                    //         maxLines: 3,
+                    //         style: TextStyle(
+                    //             height: 1.2,
+                    //             fontSize: 25,
+                    //             fontWeight: FontWeight.w500,
+                    //             color: Colors.white),
+                    //       )
+                    //     ],
+                    //   ),
+                    // ),
+                  ],
+                ),
               ),
             );
           }),

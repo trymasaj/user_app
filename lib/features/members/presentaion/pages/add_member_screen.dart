@@ -108,14 +108,18 @@ class _AddMemberScreenState extends State<AddMemberScreen> {
                             currentController: memberNameController,
                             isRequired: true,
                             hint: AppText.name,
+                            fillColor: AppColors.White,
+                            borderColor: AppColors.Light_White,
                           ),
                           const SizedBox(height: 16),
                           PhoneTextFormField(
                             currentFocusNode: phoneNumberFocusNode,
                             currentController: phoneNumberController,
-                            hint: AppText.phone_number,
+                            hint: AppText.phone,
                             initialValue: _selectedPhoneNumber,
                             nextFocusNode: memberNameFocusNode,
+                            fillColor: AppColors.White,
+                            borderColor: AppColors.Light_White,
                             onInputChanged: (PhoneNumber? value) {
                               _selectedPhoneNumber = value;
                             },
@@ -185,6 +189,8 @@ class _AddMemberScreenState extends State<AddMemberScreen> {
               child: DefaultTab(
                 isSelected: _selectedGender == Gender.male,
                 title: AppText.Male,
+                borderRadius: BorderRadius.circular(12),
+                isMemberScreen: true,
               ),
             )),
             SizedBox(width: 10.w),
@@ -197,11 +203,13 @@ class _AddMemberScreenState extends State<AddMemberScreen> {
                 });
               },
               child: DefaultTab(
+                 isMemberScreen: true,
+                  borderRadius: BorderRadius.circular(12),
                   isSelected: _selectedGender == Gender.female,
                   title: AppText.Female),
             )),
-            SizedBox(width: 10.w),
-            Expanded(
+            /*SizedBox(width: 10.w),*/
+           /* Expanded(
                 child: InkWell(
               onTap: () {
                 setState(() {
@@ -212,7 +220,7 @@ class _AddMemberScreenState extends State<AddMemberScreen> {
               child: DefaultTab(
                   isSelected: _selectedGender == Gender.other,
                   title: AppText.other),
-            )),
+            )),*/
           ],
         ),
         const SizedBox(height: 10),

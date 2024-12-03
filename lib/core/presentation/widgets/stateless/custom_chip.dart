@@ -146,8 +146,7 @@ class AppContainerWithGradinatBorder extends StatelessWidget {
       padding: padding,
       alignment: alignment,
       decoration: BoxDecoration(
-        gradient: gradient ??
-            LinearGradient(
+        gradient: gradient ?? LinearGradient(
               colors: colors ??
                   [
 //                 #CCA3B7

@@ -88,6 +88,7 @@
   "details": "التفاصيل",
   "version_number": "الإصدار {}",
   "phone_number": "أدخل رقم الهاتف",
+  "phone": "أدخل رقم الهاتف",
   "password": "كلمة المرور",
   "confirm_password": "تأكيد كلمة المرور",
   "already_have_account_message": "لديك حساب بالفعل؟",

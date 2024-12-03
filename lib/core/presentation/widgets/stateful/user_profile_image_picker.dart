@@ -56,8 +56,8 @@ class _UserProfileImagePickerState extends State<UserProfileImagePicker> {
       child: Material(
         type: MaterialType.transparency,
         child: Container(
-          width: size + 20.0,
-          height: size + 20.0,
+          width: size ,
+          height: size,
           alignment: Alignment.center,
           child: Stack(
             clipBehavior: Clip.none,
@@ -130,12 +130,13 @@ class _UserProfileImagePickerState extends State<UserProfileImagePicker> {
 
   Widget _buildPickImageIconButton(BuildContext context) {
     final size = context.sizeHelper(
-      mobileLarge: 26.0,
-      tabletNormal: 30.0,
+      mobileNormal: 20.0,
+      mobileLarge: 20.0,
+      tabletNormal: 20.0,
       desktopSmall: 34.0,
     );
     return PositionedDirectional(
-      start: 0.0,
+      end: -2.0,
       bottom: 5.0,
       child: InkWell(
         onTap: _pickImage,
@@ -148,7 +149,7 @@ class _UserProfileImagePickerState extends State<UserProfileImagePicker> {
                     color: AppColors.ACCENT_COLOR.withOpacity(0.4),
                     blurRadius: 2)
               ]),
-          padding: const EdgeInsets.all(4.0),
+          padding: const EdgeInsets.all(7.0),
           child: SvgPicture.asset(
             'assets/images/camera_icon.svg',
             width: size,
