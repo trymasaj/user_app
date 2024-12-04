@@ -45,8 +45,7 @@ class _MembershipPlansScreenState extends State<MembershipPlansScreen> {
   }
 
   Padding _buildBody(BuildContext context) {
-    return Padding(
-        padding: EdgeInsets.all(24.w), child: _buildMembershipList());
+    return Padding(padding: EdgeInsets.all(24.w), child: _buildMembershipList());
   }
 
   Widget _buildMembershipList() {
@@ -56,16 +55,13 @@ class _MembershipPlansScreenState extends State<MembershipPlansScreen> {
           return const CustomLoading();
         }
         if (state.selectedSubscription?.id != 0) {
-          final SubscriptionModel? selectedSubscription =
-              state.selectedSubscription;
+          final SubscriptionModel? selectedSubscription = state.selectedSubscription;
           return Column(
             children: [
               Container(
                 padding: const EdgeInsets.all(20),
                 width: double.infinity,
-                decoration: BoxDecoration(
-                    borderRadius: BorderRadius.circular(20),
-                    border: Border.all(color: AppColors.ACCENT_COLOR)),
+                decoration: BoxDecoration(borderRadius: BorderRadius.circular(20), border: Border.all(color: AppColors.ACCENT_COLOR)),
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
@@ -76,13 +72,9 @@ class _MembershipPlansScreenState extends State<MembershipPlansScreen> {
                     ),
                     Row(
                       children: [
-                        SubtitleText.small(
-                            text: AppText.lbl_kwd(args: [
-                          selectedSubscription?.plan?.price.toString() ?? ''
-                        ])),
+                        SubtitleText.small(text: AppText.lbl_kwd(args: [selectedSubscription?.plan?.price.toString() ?? ''])),
                         const Spacer(),
-                        SubtitleText.small(
-                            text: selectedSubscription?.endsAt ?? '')
+                        SubtitleText.small(text: selectedSubscription?.endsAt ?? '')
                       ],
                     ),
                     const SubtitleText.small(text: '/month'),
@@ -96,43 +88,81 @@ class _MembershipPlansScreenState extends State<MembershipPlansScreen> {
                             builder: (BuildContext context) {
                               return BlocProvider(
                                 create: (context) => DI.find<MembershipCubit>(),
-                                child: BlocBuilder<MembershipCubit,
-                                    MembershipState>(
+                                child: BlocBuilder<MembershipCubit, MembershipState>(
                                   builder: (context, state) {
                                     return AlertDialog.adaptive(
-                                      iconPadding: const EdgeInsets.all(20),
+                                      iconPadding: const EdgeInsets.all(0),
                                       alignment: Alignment.center,
-                                      title: SubtitleText.large(
-                                          isBold: true,
-                                          text:
-                                              AppText.msg_cancel_subscription),
-                                      content: SubtitleText.medium(
-                                          text: AppText.msg_are_you_sure_you2),
-                                      actions: [
-                                        TextButton(
-                                          onPressed: () {
-                                            NavigatorHelper.of(context).pop();
-                                          },
-                                          child: SubtitleText(
-                                              text: AppText.lbl_cancel),
-                                        ),
-                                        TextButton(
-                                          onPressed: () async {
-                                            await context
-                                                .read<MembershipCubit>()
-                                                .cancelSubscriptionPlans();
-                                            NavigatorHelper.of(context).pop();
-                                            NavigatorHelper.of(context).pop();
-                                          },
-                                          child: Center(
-                                            child: SubtitleText.small(
-                                              text: AppText
-                                                  .msg_cancel_subscription,
-                                              color: AppColors.ERROR_COLOR,
-                                            ),
+                                      //title: "",
+                                      content: Column(
+                                        mainAxisSize: MainAxisSize.min,
+                                        mainAxisAlignment: MainAxisAlignment.center,
+                                        crossAxisAlignment: CrossAxisAlignment.center,
+                                        children: [
+                                         Text( AppText.msg_cancel_subscription,style: const TextStyle(
+                                           fontSize: 18,
+                                           color: AppColors.Font,
+                                           fontFamily: 'Poppins',
+                                           fontWeight: FontWeight.w400,
+                                         ),),
+                                          SizedBox(height: 5),
+                                          Row(
+                                            children: [
+                                              Flexible(
+                                                child: Text( AppText.msg_are_you_sure_you2,
+                                                  textAlign: TextAlign.center,
+                                                  style:  TextStyle(
+                                                    fontSize: 12,
+                                                    fontFamily: 'Poppins',
+                                                  color: AppColors.RED_PURPLE.withOpacity(.7),
+                                                  fontWeight: FontWeight.w400,
+                                                ),),
+                                              ),
+                                            ],
                                           ),
-                                        )
-                                      ],
+                                          SizedBox(height: 12),
+                                          Row(
+                                            children: [
+                                              Expanded(
+                                                child: DefaultButton(
+                                                  label: AppText.lbl_cancel,
+                                                  onPressed: () { NavigatorHelper.of(context).pop();},
+                                                  color: AppColors.ExtraLight,
+                                                  isExpanded: true,
+                                                  height: 45,
+                                                  labelStyle: const TextStyle(
+                                                    height: 1,
+                                                    fontSize: 12,
+                                                    color: AppColors.PlaceholderColor,
+                                                    fontWeight: FontWeight.w600,
+                                                  ),
+                                                ),
+                                              ),
+                                              SizedBox(width: 5),
+                                              Expanded(
+                                                child: DefaultButton(
+                                                  label: "confirm".tr(),
+                                                  onPressed: () async {
+                                                    await context.read<MembershipCubit>().cancelSubscriptionPlans();
+                                                    NavigatorHelper.of(context).pop();
+                                                    NavigatorHelper.of(context).pop();
+                                                  },
+                                                  color: AppColors.Error,
+                                                  isExpanded: true,
+                                                  textColor: AppColors.White,
+                                                  height: 45,
+                                                  labelStyle: const TextStyle(
+                                                    height: 1,
+                                                    fontSize: 12,
+                                                    color: AppColors.White,
+                                                    fontWeight: FontWeight.w600,
+                                                  ),
+                                                ),
+                                              ), // Space between buttons
+                                            ],
+                                          )
+                                        ],
+                                      ),
                                     );
                                   },
                                 ),
@@ -147,9 +177,7 @@ class _MembershipPlansScreenState extends State<MembershipPlansScreen> {
                 ),
               ),
               SizedBox(height: 12.h),
-              Flexible(
-                  child: _buildPlanItem(context, selectedSubscription?.plan,
-                      showUpgrade: false))
+              Flexible(child: _buildPlanItem(context, selectedSubscription?.plan, showUpgrade: false))
             ],
           );
         }
@@ -173,64 +201,56 @@ class _MembershipPlansScreenState extends State<MembershipPlansScreen> {
     );
   }
 
-  Container _buildPlanItem(BuildContext mainContext, Plan? plan,
-      {bool showUpgrade = true}) {
+  Container _buildPlanItem(BuildContext mainContext, Plan? plan, {bool showUpgrade = true}) {
     if (!showUpgrade)
       return Container();
     else
       return Container(
-        decoration: BoxDecoration(
-            gradient: AppColors.GRADIENT_COLOR,
-            borderRadius: BorderRadius.circular(10)),
+        decoration: BoxDecoration(gradient: AppColors.GRADIENT_COLOR, borderRadius: BorderRadius.circular(10)),
         padding: EdgeInsets.all(24.w),
-        child: Column(
-            mainAxisSize: MainAxisSize.min,
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              SubtitleText.large(
-                text: plan?.name ?? '',
-                color: AppColors.ExtraLight,
-                isBold: true,
-              ),
-              SizedBox(height: 12.h),
-              SubtitleText.medium(
-                text: AppText.lbl_kwd(args: [plan!.price.toString()]),
-                isBold: true,
-                color: AppColors.ExtraLight,
-              ),
-              SubtitleText(
-                text: AppText.lbl_month,
-                color: AppColors.ExtraLight,
-              ),
-              SizedBox(height: 12.h),
-              SubtitleText(
-                text: plan.description ?? '',
-                color: AppColors.ExtraLight,
-              ),
-              SizedBox(height: 24.h),
-              Flexible(
-                child: ListView.builder(
-                  physics: const NeverScrollableScrollPhysics(),
-                  itemBuilder: (context, index) =>
-                      _buildBenefitItem(plan.benefits?[index].benefit ?? ''),
-                  itemCount: plan.benefits?.length ?? 0,
-                ),
-              ),
-              // if (showUpgrade)
-              DefaultButton(
-                onPressed: () {
-                  NavigatorHelper.of(context).push(MaterialPageRoute(
-                      builder: (context) => MembershipCheckoutScreen(
-                            membershipCubit:
-                                mainContext.read<MembershipCubit>(),
-                          )));
-                },
-                textColor: AppColors.PRIMARY_COLOR,
-                color: AppColors.ExtraLight,
-                isExpanded: true,
-                label: AppText.lbl_upgrade,
-              )
-            ]),
+        child: Column(mainAxisSize: MainAxisSize.min, crossAxisAlignment: CrossAxisAlignment.start, children: [
+          SubtitleText.large(
+            text: plan?.name ?? '',
+            color: AppColors.ExtraLight,
+            isBold: true,
+          ),
+          SizedBox(height: 12.h),
+          SubtitleText.medium(
+            text: AppText.lbl_kwd(args: [plan!.price.toString()]),
+            isBold: true,
+            color: AppColors.ExtraLight,
+          ),
+          SubtitleText(
+            text: AppText.lbl_month,
+            color: AppColors.ExtraLight,
+          ),
+          SizedBox(height: 12.h),
+          SubtitleText(
+            text: plan.description ?? '',
+            color: AppColors.ExtraLight,
+          ),
+          SizedBox(height: 24.h),
+          Flexible(
+            child: ListView.builder(
+              physics: const NeverScrollableScrollPhysics(),
+              itemBuilder: (context, index) => _buildBenefitItem(plan.benefits?[index].benefit ?? ''),
+              itemCount: plan.benefits?.length ?? 0,
+            ),
+          ),
+          // if (showUpgrade)
+          DefaultButton(
+            onPressed: () {
+              NavigatorHelper.of(context).push(MaterialPageRoute(
+                  builder: (context) => MembershipCheckoutScreen(
+                        membershipCubit: mainContext.read<MembershipCubit>(),
+                      )));
+            },
+            textColor: AppColors.PRIMARY_COLOR,
+            color: AppColors.ExtraLight,
+            isExpanded: true,
+            label: AppText.lbl_upgrade,
+          )
+        ]),
       );
   }
 

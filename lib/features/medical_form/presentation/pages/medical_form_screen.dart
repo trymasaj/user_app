@@ -86,7 +86,7 @@ class _MedicalFormScreenState extends State<MedicalFormScreen> {
     return Form(
       key: _formKey,
       child: Scaffold(
-        resizeToAvoidBottomInset: false,
+        resizeToAvoidBottomInset: true,
         appBar: _buildAppBar(context),
         body: Container(
             width: double.maxFinite,

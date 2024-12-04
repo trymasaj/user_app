@@ -5,6 +5,8 @@ class AppColors {
   static const White = Color(0xFFFFFFFF);
   static const Light_White = Color(0xFFD9D9D9);
   static const PRIMARY_DARK_COLOR = Color(0xFFEDA674);
+  static const Error = Color(0xFFB73E53);
+  static const Font = Color(0xFF292B31);
 
 //EAEAEA
   static const BORDER_COLOR = Color(0xFFEAEAEA);

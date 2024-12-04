@@ -97,7 +97,7 @@ class _DefaultButtonState extends State<DefaultButton>
         ),
     ];
     return Container(
-      height: 56,
+      height: widget.height ?? 56,
       margin: widget.margin,
       child: AnimatedSize(
         duration: const Duration(milliseconds: 300),
