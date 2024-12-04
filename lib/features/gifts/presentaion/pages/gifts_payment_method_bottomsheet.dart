@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 import 'package:masaj/core/app_export.dart';
 import 'package:masaj/core/data/di/di_wrapper.dart';
 import 'package:masaj/core/presentation/colors/app_colors.dart';
@@ -167,6 +168,42 @@ class _GiftsPaymentMethodBottomSheetState
           child: Padding(
             padding: const EdgeInsets.all(24.0),
             child: Row(children: [
+              paymentMethod?.title == "Credit Card"
+                  ? Row(
+                children: [
+                  SvgPicture.asset(
+                    'assets/images/visa.svg',
+                    height: 32,
+                    width: 24,
+                  ),
+                  const SizedBox(width: 4),
+                  SvgPicture.asset(
+                    'assets/images/master.svg',
+                    height: 32,
+                    width: 24,
+                  ),
+                ],
+              )
+                  : const SizedBox.shrink(),
+              paymentMethod?.title == "Knet"
+                  ? Row(
+                children: [
+                  Image.asset(
+                    'assets/images/knet_logo.png',
+                    width: 24,
+                    height: 24,
+                  ),
+                ],
+              )
+                  : const SizedBox.shrink(),
+              paymentMethod?.title == "Apple Pay"
+                  ? Image.asset(
+                'assets/images/apple_pay_image.png',
+                width: 32,
+                height: 24,
+              )
+                  : const SizedBox.shrink(),
+              const SizedBox(width: 4),
               SubtitleText(
                 text: paymentMethod?.title ?? '',
                 isBold: true,

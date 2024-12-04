@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 import 'package:masaj/core/app_export.dart';
 import 'package:masaj/core/data/di/di_wrapper.dart';
 import 'package:masaj/core/presentation/colors/app_colors.dart';
@@ -18,14 +19,12 @@ import 'package:masaj/features/wallet/bloc/wallet_bloc/wallet_bloc.dart';
 
 // ignore_for_file: must_be_immutable
 class TopUpWalletPaymentMethodBottomsheet extends StatefulWidget {
-  const TopUpWalletPaymentMethodBottomsheet(
-      {super.key,
-      required this.walletPredefinedAmountId,
-      required this.totalAmount});
+  const TopUpWalletPaymentMethodBottomsheet({super.key, required this.walletPredefinedAmountId, required this.totalAmount});
+
   final int walletPredefinedAmountId;
   final int totalAmount;
-  Widget builder(
-      BuildContext context, int walletPredefinedAmountId, int totalAmount) {
+
+  Widget builder(BuildContext context, int walletPredefinedAmountId, int totalAmount) {
     return MultiBlocProvider(
       providers: [
         BlocProvider(
@@ -43,12 +42,10 @@ class TopUpWalletPaymentMethodBottomsheet extends StatefulWidget {
   }
 
   @override
-  State<TopUpWalletPaymentMethodBottomsheet> createState() =>
-      _TopUpWalletPaymentMethodBottomsheetState();
+  State<TopUpWalletPaymentMethodBottomsheet> createState() => _TopUpWalletPaymentMethodBottomsheetState();
 }
 
-class _TopUpWalletPaymentMethodBottomsheetState
-    extends State<TopUpWalletPaymentMethodBottomsheet> {
+class _TopUpWalletPaymentMethodBottomsheetState extends State<TopUpWalletPaymentMethodBottomsheet> {
   PaymentMethodModel? _selectedPayment;
   final TextEditingController _controller = TextEditingController();
   final FocusNode _node = FocusNode();
@@ -76,8 +73,7 @@ class _TopUpWalletPaymentMethodBottomsheetState
                     builder: (context, state) {
                       final paymentMethods = state.methods ?? [];
                       if (state.isLoading) return const CustomLoading();
-                      if (paymentMethods.isEmpty)
-                        return const EmptyPageMessage();
+                      if (paymentMethods.isEmpty) return const EmptyPageMessage();
                       return ListView.builder(
                         itemCount: paymentMethods.length,
                         itemBuilder: (context, index) {
@@ -85,17 +81,14 @@ class _TopUpWalletPaymentMethodBottomsheetState
                             return ApplePayCustomButton(
                               onPressed: () async {
                                 final walletCubit = context.read<WalletBloc>();
-                                final countryCubit =
-                                    context.read<CountryCubit>();
-                                final currentCountry =
-                                    countryCubit.state.currentAddress?.country;
+                                final countryCubit = context.read<CountryCubit>();
+                                final currentCountry = countryCubit.state.currentAddress?.country;
                                 NavigatorHelper.of(context).pop();
                                 Future.delayed(Duration(milliseconds: 100));
                                 await walletCubit.chargeWallet(
                                   mainContext,
                                   paymentMethodId: 3,
-                                  walletPredefinedAmountId:
-                                      widget.walletPredefinedAmountId,
+                                  walletPredefinedAmountId: widget.walletPredefinedAmountId,
                                   countryCode: currentCountry?.isoCode,
                                   currencyCode: currentCountry?.currencyIso,
                                   total: widget.totalAmount.toDouble(),
@@ -108,8 +101,7 @@ class _TopUpWalletPaymentMethodBottomsheetState
                       );
                     },
                     listener: (BuildContext context, PaymentState state) {
-                      if (state.isGetMethods)
-                        _selectedPayment = state.methods?[0];
+                      if (state.isGetMethods) _selectedPayment = state.methods?[0];
                     },
                   ),
                 ),
@@ -134,9 +126,7 @@ class _TopUpWalletPaymentMethodBottomsheetState
                           onPressed: () async {
                             final walletCubit = context.read<WalletBloc>();
                             await walletCubit.chargeWallet(context,
-                                paymentMethodId: _selectedPayment?.id,
-                                walletPredefinedAmountId:
-                                    widget.walletPredefinedAmountId);
+                                paymentMethodId: _selectedPayment?.id, walletPredefinedAmountId: widget.walletPredefinedAmountId);
                           },
                           label: AppText.lbl_purchase),
                     )
@@ -161,15 +151,49 @@ class _TopUpWalletPaymentMethodBottomsheetState
         padding: const EdgeInsets.symmetric(vertical: 6.0),
         child: DecoratedBox(
           decoration: BoxDecoration(
-            color: paymentMethod == _selectedPayment
-                ? AppColors.PRIMARY_COLOR.withOpacity(0.09)
-                : AppColors.BACKGROUND_COLOR.withOpacity(0.09),
+            color: paymentMethod == _selectedPayment ? AppColors.PRIMARY_COLOR.withOpacity(0.09) : AppColors.BACKGROUND_COLOR.withOpacity(0.09),
             borderRadius: BorderRadius.circular(20),
             border: Border.all(color: AppColors.PRIMARY_COLOR, width: 1.5),
           ),
           child: Padding(
             padding: const EdgeInsets.all(24.0),
             child: Row(children: [
+              paymentMethod?.title == "Credit Card"
+                  ? Row(
+                children: [
+                  SvgPicture.asset(
+                   'assets/images/visa.svg',
+                    height: 32,
+                    width: 24,
+                  ),
+                  const SizedBox(width: 4),
+                  SvgPicture.asset(
+                    'assets/images/master.svg',
+                    height: 32,
+                    width: 24,
+                  ),
+                ],
+              )
+                  : const SizedBox.shrink(),
+              paymentMethod?.title == "Knet"
+                  ? Row(
+                children: [
+                  Image.asset(
+                    'assets/images/knet_logo.png',
+                    width: 24,
+                    height: 24,
+                  ),
+                ],
+              )
+                  : const SizedBox.shrink(),
+              paymentMethod?.title == "Apple Pay"
+                  ? Image.asset(
+                'assets/images/apple_pay_image.png',
+                width: 32,
+                height: 24,
+              )
+                  : const SizedBox.shrink(),
+              const SizedBox(width: 4),
               SubtitleText(
                 text: paymentMethod?.title ?? '',
                 isBold: true,

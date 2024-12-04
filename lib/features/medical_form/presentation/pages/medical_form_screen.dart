@@ -68,7 +68,9 @@ class _MedicalFormScreenState extends State<MedicalFormScreen> {
   void loadData() async {
     await getMedicalForm();
     final medicalForm = state.medicalForm;
-
+    state = state.copyWith(
+        selectedConditions: medicalForm?.conditions,
+        status: MedicalFormStateStatus.conditionSaved);
     _conditionsController.text = medicalForm?.conditions?.map((e)=> e.localizedName(context)).join(',') ?? '';
     _birthDateTextController.text = medicalForm?.birthDate?.formatDate() ?? '';
     _treatmentGoalsController.text = medicalForm?.treatmentGoals ?? '';
@@ -378,6 +380,9 @@ class _MedicalFormScreenState extends State<MedicalFormScreen> {
         bottom: 32.h,
       ),
       onPressed: () async {
+        print("save button");
+        print(state.selectedConditions);
+        print(state.conditions);
         if (_isFormValid())
           await addMedicalForm(MedicalForm(
             birthDate: _birthDateTextController.text.parseDate(),
@@ -401,6 +406,9 @@ class _MedicalFormScreenState extends State<MedicalFormScreen> {
   }
 
   void saveSelectedConditions(List<MedicalCondition>? conditions) {
+    print("saveSelectedConditions");
+    print(conditions?.length);
+
     if (conditions == null) return;
 
     setState(() {

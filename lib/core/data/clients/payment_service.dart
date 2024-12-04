@@ -18,6 +18,7 @@ import 'network_service.dart';
 
 abstract class PaymentService {
   Future<void> buy(PaymentParam paymentParam);
+
   Future<void> buyWithApple({
     required PaymentParam paymentType,
   });
@@ -25,30 +26,28 @@ abstract class PaymentService {
 
 class PaymentServiceImpl implements PaymentService {
   const PaymentServiceImpl(this._networkService, this._logger);
+
   final NetworkService _networkService;
   final AbsLogger _logger;
+
   @override
   Future<void> buy(PaymentParam paymentParm) async {
-    if (paymentParm.paymentMethodId == null)
-      throw Exception('paymentMethod is null');
+    if (paymentParm.paymentMethodId == null) throw Exception('paymentMethod is null');
 
-    if (paymentParm.paymentMethodId == 3)
-      return buyWithApple(paymentType: paymentParm);
-    final url = await getPaymentSessionUrl(paymentParm.paymentMethodId!,
-        params: paymentParm.params, urlPath: paymentParm.urlPath);
+    if (paymentParm.paymentMethodId == 3) return buyWithApple(paymentType: paymentParm);
+    final url = await getPaymentSessionUrl(paymentParm.paymentMethodId!, params: paymentParm.params, urlPath: paymentParm.urlPath);
     if (url == '') {
       return paymentParm.onSuccess();
     }
-    final isPaymentSuccess =
-        await _goToPaymentPage(url, paymentParm.customAppBar);
+    final isPaymentSuccess = await _goToPaymentPage(url, paymentParm.customAppBar);
     if (isPaymentSuccess == null) return;
     if (isPaymentSuccess != false) return paymentParm.onSuccess();
-
     paymentParm.onFailure();
   }
 
-  Future<String> getPaymentSessionUrl(int paymentMethodId,
-      {Map<String, dynamic>? params, String? urlPath}) {
+  Future<String> getPaymentSessionUrl(int paymentMethodId, {Map<String, dynamic>? params, String? urlPath}) {
+   // 1 url https://stagingapi.trymasaj.com/masaj/wallet
+
     final url = urlPath ?? ApiEndPoint.BOOKING_CONFIRM;
 
     final data = params ??
@@ -58,12 +57,10 @@ class PaymentServiceImpl implements PaymentService {
 
     return _networkService.post(url, data: data).then(
       (response) {
-        if (response.statusCode != 200)
-          throw RequestException(message: response.data['detail']);
+        if (response.statusCode != 200) throw RequestException(message: response.data['detail']);
         final result = response.data;
         final resultStatus = result['result'];
-        if (resultStatus == RequestResult.Failed.name)
-          throw RequestException(message: result['msg']);
+        if (resultStatus == RequestResult.Failed.name) throw RequestException(message: result['msg']);
         if (result['isThreeDSecure']) {
           return result['threeDSecureUrl'];
         } else {
@@ -73,8 +70,7 @@ class PaymentServiceImpl implements PaymentService {
     );
   }
 
-  Future<bool> getApplePaymentConfirm(int paymentMethodId,
-      {Map<String, dynamic>? params, String? urlPath}) {
+  Future<bool> getApplePaymentConfirm(int paymentMethodId, {Map<String, dynamic>? params, String? urlPath}) {
     final url = urlPath ?? ApiEndPoint.BOOKING_CONFIRM;
 
     final data = params ??
@@ -98,13 +94,12 @@ class PaymentServiceImpl implements PaymentService {
     String url,
     Widget? customAppBar,
   ) {
-    return navigatorKey.currentState!.push<bool?>(MaterialPageRoute(
-        builder: (_) => createPaymentPage(url, customAppBar)));
+    return navigatorKey.currentState!.push<bool?>(MaterialPageRoute(builder: (_) => createPaymentPage(url, customAppBar)));
   }
 
   static final Map<String, _PaymentPage> _cache = {};
-  static String _generateCacheKey(String url, Widget? customAppBar) =>
-      '$url-${customAppBar?.hashCode ?? 0}';
+
+  static String _generateCacheKey(String url, Widget? customAppBar) => '$url-${customAppBar?.hashCode ?? 0}';
 
   static Widget createPaymentPage(String url, Widget? customAppBar) {
     final key = _generateCacheKey(url, customAppBar);
@@ -132,16 +127,13 @@ class PaymentServiceImpl implements PaymentService {
         paymentConfiguration,
       ),
     });
-    final priceAfterWallet = paymentType.fromWallet == true
-        ? paymentType.price! - (paymentType.walletBalance ?? 0)
-        : paymentType.price!;
+    final priceAfterWallet = paymentType.fromWallet == true ? paymentType.price! - (paymentType.walletBalance ?? 0) : paymentType.price!;
     if (priceAfterWallet >= 0) {
       final paymentItems = _getPaymentItems(priceAfterWallet);
       final userCanPay = await applePayClient.userCanPay(PayProvider.apple_pay);
       if (!userCanPay) {
         final context = navigatorKey.currentState!.context;
-        showSnackBar(context,
-            message: 'Apple pay not supported on this device');
+        showSnackBar(context, message: 'Apple pay not supported on this device');
         return;
       }
       final result = await applePayClient.showPaymentSelector(
@@ -166,7 +158,7 @@ class PaymentServiceImpl implements PaymentService {
         paymentType.onFailure.call();
       }
     } catch (e) {
-      _logger.error('[$runtimeType].buyWithApple($paymentType)' ,e);
+      _logger.error('[$runtimeType].buyWithApple($paymentType)', e);
       paymentType.onFailure.call();
     } finally {
       navigatorKey.currentState!.context.loaderOverlay.hide();
@@ -189,6 +181,7 @@ class _PaymentPage extends StatefulWidget {
     required this.url,
     this.customAppBar,
   });
+
   final String url;
   final Widget? customAppBar;
 
@@ -211,6 +204,7 @@ class _PaymentPageState extends State<_PaymentPage> {
   }
 
   Widget _buildBody(BuildContext context) {
+    print("widget.url ${widget.url}");
     return CustomAppPage(
       child: Column(children: [
         if (widget.customAppBar != null) ...[
@@ -223,8 +217,7 @@ class _PaymentPageState extends State<_PaymentPage> {
             children: [
               InAppWebView(
                 initialUrlRequest: URLRequest(url: WebUri.uri(Uri.parse(widget.url))),
-                onUpdateVisitedHistory: (_, url, __) =>
-                    _handleUrl(context, url),
+                onUpdateVisitedHistory: (_, url, __) => _handleUrl(context, url),
                 onLoadStop: (finish, _) {
                   setState(() {
                     isLoading = false;
@@ -244,7 +237,6 @@ class _PaymentPageState extends State<_PaymentPage> {
   }
 
   void _handleUrl(BuildContext context, Uri? url) {
-
     final urlString = url.toString();
     final isSuccess = urlString.contains('success=true');
     final isFailed = urlString.contains('success=false');
@@ -268,6 +260,7 @@ class PaymentParam {
     this.fromWallet,
     this.walletBalance,
   });
+
   final int? paymentMethodId;
   final int? orderId;
   final void Function() onSuccess;
