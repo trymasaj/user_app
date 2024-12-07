@@ -65,8 +65,9 @@ class _SettingsTabPageState extends State<SettingsTabPage> {
                         SizedBox(height: 14.h),
                         _buildLegalColumn(context)
                       ]),
-                      SizedBox(height: 10.h),
+                      SizedBox(height: 95.h),
                       CustomElevatedButton(
+
                           onPressed: () async {
                             final isGuest =
                                 context.read<AuthCubit>().state.isGuest;
@@ -81,8 +82,11 @@ class _SettingsTabPageState extends State<SettingsTabPage> {
                               ? AppText.lbl_logout
                               : AppText.login,
                           buttonStyle: ElevatedButton.styleFrom(
-                              backgroundColor: const Color(0xffF9ECEE)),
-                          buttonTextStyle: CustomTextStyles.titleSmallPink700)
+                              backgroundColor: const Color(0xffF9ECEE),
+                              elevation: 0
+                          ),
+                          buttonTextStyle: CustomTextStyles.titleSmallPink700),
+                      SizedBox(height: 56.h),
                     ]))))
       ]),
     ));

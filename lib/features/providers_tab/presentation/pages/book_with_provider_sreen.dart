@@ -87,7 +87,7 @@ class _BookWithTherapistScreenState extends State<BookWithTherapistScreen> {
           ),
           Column(
             crossAxisAlignment: CrossAxisAlignment.start,
-            mainAxisAlignment: MainAxisAlignment.center,
+            mainAxisAlignment: MainAxisAlignment.start,
             children: [
               Text(
                 therapist.fullName ?? '',
@@ -106,13 +106,13 @@ class _BookWithTherapistScreenState extends State<BookWithTherapistScreen> {
                   color: AppColors.FONT_LIGHT.withOpacity(.7),
                 ),
               ),
-              SizedBox(
+             /* SizedBox(
                 height: 5.h,
               ),
               CustomRatingBar(
                 itemCount: ((therapist.rank?.toInt() ?? 0) > 5 ? 5 :(therapist.rank?.toInt() ?? 0)),
                 itemSize: 10.5,
-              )
+              )*/
             ],
           )
         ],

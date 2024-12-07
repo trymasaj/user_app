@@ -11,6 +11,7 @@ import 'package:masaj/core/presentation/colors/app_colors.dart';
 import 'package:masaj/core/presentation/navigation/navigator_helper.dart';
 import 'package:masaj/core/presentation/overlay/show_snack_bar.dart';
 import 'package:masaj/core/presentation/widgets/stateless/custom_app_bar.dart';
+import 'package:masaj/core/presentation/widgets/stateless/custom_loading.dart';
 import 'package:masaj/core/presentation/widgets/stateless/default_button.dart';
 import 'package:masaj/core/presentation/widgets/stateless/text_fields/default_text_form_field.dart';
 import 'package:masaj/features/medical_form/data/model/medical_form_model.dart';
@@ -36,7 +37,7 @@ class _MedicalFormScreenState extends State<MedicalFormScreen> {
   final AbsLogger logger = DI.find();
 
   MedicalFormState state = MedicalFormState();
-
+  int _completedTasks = 0;
   late final TextEditingController _conditionsController;
   final _birthDateTextController = TextEditingController(),
       _treatmentGoalsController = TextEditingController(),
@@ -56,6 +57,7 @@ class _MedicalFormScreenState extends State<MedicalFormScreen> {
 
   @override
   void initState() {
+    _completedTasks = 0;
     _conditionsController = TextEditingController(text: AppText.lbl_conditions);
     getConditions();
     clear();
@@ -70,7 +72,8 @@ class _MedicalFormScreenState extends State<MedicalFormScreen> {
     final medicalForm = state.medicalForm;
     state = state.copyWith(
         selectedConditions: medicalForm?.conditions,
-        status: MedicalFormStateStatus.conditionSaved);
+        //status: MedicalFormStateStatus.conditionSaved
+    );
     _conditionsController.text = medicalForm?.conditions?.map((e)=> e.localizedName(context)).join(',') ?? '';
     _birthDateTextController.text = medicalForm?.birthDate?.formatDate() ?? '';
     _treatmentGoalsController.text = medicalForm?.treatmentGoals ?? '';
@@ -83,12 +86,18 @@ class _MedicalFormScreenState extends State<MedicalFormScreen> {
 
   @override
   Widget build(BuildContext context) {
+    if(state.status == MedicalFormStateStatus.getMedicalForm) _completedTasks++;
+    if(state.status == MedicalFormStateStatus.loadedCondition) _completedTasks++;
     return Form(
       key: _formKey,
       child: Scaffold(
         resizeToAvoidBottomInset: true,
         appBar: _buildAppBar(context),
-        body: Container(
+        body: (state.status == MedicalFormStateStatus.loading || _completedTasks <2) ?
+        CustomLoading(
+          loadingStyle: LoadingStyle.ShimmerList,
+        )
+            :Container(
             width: double.maxFinite,
             padding: EdgeInsets.symmetric(vertical: 8.h),
             child: Column(
@@ -380,9 +389,6 @@ class _MedicalFormScreenState extends State<MedicalFormScreen> {
         bottom: 32.h,
       ),
       onPressed: () async {
-        print("save button");
-        print(state.selectedConditions);
-        print(state.conditions);
         if (_isFormValid())
           await addMedicalForm(MedicalForm(
             birthDate: _birthDateTextController.text.parseDate(),
@@ -406,15 +412,14 @@ class _MedicalFormScreenState extends State<MedicalFormScreen> {
   }
 
   void saveSelectedConditions(List<MedicalCondition>? conditions) {
-    print("saveSelectedConditions");
-    print(conditions?.length);
 
     if (conditions == null) return;
 
     setState(() {
       state = state.copyWith(
           selectedConditions: conditions,
-          status: MedicalFormStateStatus.conditionSaved);
+          //status: MedicalFormStateStatus.conditionSaved
+      );
           _conditionsController.text = state.selectedConditions?.map((e)=> e.localizedName(context)).join(',') ?? '';
     });
   }
@@ -469,9 +474,9 @@ class _MedicalFormScreenState extends State<MedicalFormScreen> {
   Future<void> addMedicalForm(MedicalForm? medicalForm) async {
     if (medicalForm == null) return;
 
-    setState(() {
+    /*setState(() {
       state = state.copyWith(status: MedicalFormStateStatus.loading);
-    });
+    });*/
     try {
       final addMedicalForm = await _medicalFormRepo.addMedicalForm(medicalForm);
       setState(() {

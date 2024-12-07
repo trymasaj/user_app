@@ -25,8 +25,7 @@ class ProvidersTab extends StatefulWidget {
   State<ProvidersTab> createState() => _ProvidersTabState();
 }
 
-class _ProvidersTabState extends State<ProvidersTab>
-    with SingleTickerProviderStateMixin {
+class _ProvidersTabState extends State<ProvidersTab> with SingleTickerProviderStateMixin {
   late ScrollController _scrollController;
   late ProvidersTabCubit _cubit;
   late TextEditingController _searchController;
@@ -35,8 +34,7 @@ class _ProvidersTabState extends State<ProvidersTab>
   void initState() {
     _scrollController = ScrollController();
     _scrollController.addListener(() {
-      if (_scrollController.position.pixels ==
-          _scrollController.position.maxScrollExtent) {
+      if (_scrollController.position.pixels == _scrollController.position.maxScrollExtent) {
         _cubit.loadMoreTherapists();
       }
     });
@@ -61,53 +59,48 @@ class _ProvidersTabState extends State<ProvidersTab>
               ),
               body: SafeArea(
                 child: Padding(
-                  padding:
-                      EdgeInsets.symmetric(horizontal: 24.w, vertical: 24.h),
+                  padding: EdgeInsets.symmetric(horizontal: 24.w, vertical: 24.h),
                   child: Column(children: [
                     TabBar(
-                        labelPadding: const EdgeInsets.all(5),
+                        labelPadding: const EdgeInsets.all(0),
                         isScrollable: false,
                         onTap: (value) {
-                          if (state.selectedTab.index != value)
-                            _cubit.selectTab(TherapistTabsEnum.values[value]);
+                          if (state.selectedTab.index != value) _cubit.selectTab(TherapistTabsEnum.values[value]);
                         },
                         indicatorColor: Colors.transparent,
-                        tabs: List.generate(TherapistTabsEnum.values.length,
-                            (index) {
-                          return Tab(
-                              height: 36.h,
-                              child: Container(
-                                decoration: BoxDecoration(
-                                    gradient: state.selectedTab.index == index
-                                        ? AppColors.GRADIENT_Fill_COLOR
-                                        : null,
-                                    border: state.selectedTab.index == index
-                                        ? GradientBoxBorder(
-                                            gradient: AppColors.GRADIENT_COLOR,
-                                            width: 1,
-                                          )
-                                        : Border.all(
-                                            color: const Color(0xffD9D9D9),
-                                            width: 1),
-                                    borderRadius: BorderRadius.circular(30),
-                                    color: Colors.white),
-                                alignment: Alignment.center,
-                                child: state.selectedTab.index == index
-                                    ? TextWithGradiant(
-                                        text: TherapistTabsEnum
-                                            .values[index].name,
-                                        fontSize: 12,
-                                        color: Colors.black,
-                                        fontWeight: FontWeight.w600,
-                                      )
-                                    : CustomText(
-                                        text: TherapistTabsEnum
-                                            .values[index].name,
-                                        fontSize: 12,
-                                        color: const Color(0xff181B28),
-                                        fontWeight: FontWeight.w600,
-                                      ),
-                              ));
+                        tabs: List.generate(
+                            TherapistTabsEnum.values.length, (index) {
+                          return Padding(
+                            padding:  EdgeInsets.only(right: index < (TherapistTabsEnum.values.length -1) ? 10.0 : 0),
+                            child: Tab(
+                                height: 36.h,
+                                child: Container(
+                                  decoration: BoxDecoration(
+                                      gradient: state.selectedTab.index == index ? AppColors.GRADIENT_Fill_COLOR : null,
+                                      border: state.selectedTab.index == index
+                                          ? GradientBoxBorder(
+                                              gradient: AppColors.GRADIENT_COLOR,
+                                              width: 1,
+                                            )
+                                          : Border.all(color: const Color(0xffD9D9D9), width: 1),
+                                      borderRadius: BorderRadius.circular(30),
+                                      color: Colors.white),
+                                  alignment: Alignment.center,
+                                  child: state.selectedTab.index == index
+                                      ? TextWithGradiant(
+                                          text: TherapistTabsEnum.values[index].name,
+                                          fontSize: 12,
+                                          color: Colors.black,
+                                          fontWeight: FontWeight.w600,
+                                        )
+                                      : CustomText(
+                                          text: TherapistTabsEnum.values[index].name,
+                                          fontSize: 12,
+                                          color: const Color(0xff181B28),
+                                          fontWeight: FontWeight.w600,
+                                        ),
+                                )),
+                          );
                         })),
 
                     SizedBox(
@@ -118,8 +111,7 @@ class _ProvidersTabState extends State<ProvidersTab>
                     SizedBox(
                       height: 50.h,
                       child: SearchTextFormField(
-                        contentPaddig: const EdgeInsets.symmetric(
-                            horizontal: 10, vertical: 10),
+                        contentPaddig: const EdgeInsets.symmetric(horizontal: 10, vertical: 10),
                         onChanged: (value) {
                           _cubit.search(value);
                         },
@@ -155,9 +147,7 @@ class _ProvidersTabState extends State<ProvidersTab>
                       Expanded(
                         child: ListView.builder(
                             controller: _scrollController,
-                            itemCount: state.isLoadingMore
-                                ? state.therapistsList.length + 1
-                                : state.therapistsList.length,
+                            itemCount: state.isLoadingMore ? state.therapistsList.length + 1 : state.therapistsList.length,
                             itemBuilder: (context, index) {
                               if (index == state.therapistsList.length) {
                                 return const CustomLoading();
@@ -166,6 +156,7 @@ class _ProvidersTabState extends State<ProvidersTab>
                                   margin: const EdgeInsets.only(top: 10),
                                   child: TherapistWidget(
                                     withFiv: true,
+                                    margin: EdgeInsets.zero,
                                     therapist: state.therapistsList[index],
                                   ));
                             }),
@@ -185,24 +176,16 @@ class TabBarDelegate extends SliverPersistentHeaderDelegate {
   final double? maxHeight;
   final double? minHeight;
 
-  TabBarDelegate(
-      {required this.tabBar,
-      this.bgColor = Colors.white,
-      this.borderRadius,
-      this.maxHeight,
-      this.minHeight});
+  TabBarDelegate({required this.tabBar, this.bgColor = Colors.white, this.borderRadius, this.maxHeight, this.minHeight});
 
   final TabBar tabBar;
   final Color bgColor;
   final double? borderRadius;
 
   @override
-  Widget build(
-      BuildContext context, double shrinkOffset, bool overlapsContent) {
+  Widget build(BuildContext context, double shrinkOffset, bool overlapsContent) {
     return Container(
-      decoration: BoxDecoration(
-          color: bgColor,
-          borderRadius: BorderRadius.all(Radius.circular(borderRadius ?? 0))),
+      decoration: BoxDecoration(color: bgColor, borderRadius: BorderRadius.all(Radius.circular(borderRadius ?? 0))),
       child: tabBar,
     );
   }
@@ -220,16 +203,14 @@ class TabBarDelegate extends SliverPersistentHeaderDelegate {
 }
 
 class WidgetDelegate extends SliverPersistentHeaderDelegate {
-  WidgetDelegate(
-      {required this.widget, this.bgColor = Colors.white, this.height = 50});
+  WidgetDelegate({required this.widget, this.bgColor = Colors.white, this.height = 50});
 
   final Widget widget;
   final Color bgColor;
   final double height;
 
   @override
-  Widget build(
-      BuildContext context, double shrinkOffset, bool overlapsContent) {
+  Widget build(BuildContext context, double shrinkOffset, bool overlapsContent) {
     return Container(
       color: bgColor,
       child: widget,

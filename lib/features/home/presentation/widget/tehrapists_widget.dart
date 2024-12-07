@@ -189,13 +189,13 @@ class TherapistWidget extends StatelessWidget {
                     ),
                     // start from
                     CustomText(
-                        text: therapist?.title ?? 'Therapist Title',
+                        text: therapist?.title ?? '',
                         fontSize: 10,
                         fontWeight: FontWeight.w400,
                         color: AppColors.PlaceholderColor),
 
                     // rating
-                    Row(
+                    /*Row(
                       children: [
                         // for loop
                         for (var i = 0;
@@ -204,7 +204,7 @@ class TherapistWidget extends StatelessWidget {
                           const Icon(Icons.star,
                               color: Color(0xffFFBA49), size: 15)
                       ],
-                    ),
+                    ),*/
                   ],
                 ),
               ],
@@ -299,7 +299,7 @@ class AvailableTherapistWidget extends StatelessWidget {
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         CustomText(
-                          text: therapist?.fullName ?? 'Therapist Name',
+                          text: therapist?.fullName ?? '',
                           fontSize: 12,
                           fontWeight: FontWeight.w500,
                           color: AppColors.FONT_COLOR,
@@ -315,7 +315,7 @@ class AvailableTherapistWidget extends StatelessWidget {
                             color: AppColors.PlaceholderColor),
 
                         // rating
-                        Row(
+                       /* Row(
                           children: [
                             // for loop
                             const Icon(Icons.star,
@@ -332,7 +332,7 @@ class AvailableTherapistWidget extends StatelessWidget {
                                   fontSize: 10,
                                 ))
                           ],
-                        ),
+                        ),*/
                       ],
                     ),
                   ],

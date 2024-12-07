@@ -173,7 +173,7 @@ class _ProviderDetailsScreenState extends State<ProviderDetailsScreen> {
         ),
 
         // review icon
-        Positioned(
+        /*Positioned(
           bottom: -(19.h / 2),
           left: 40.h - 19,
           width: 38.w,
@@ -206,7 +206,7 @@ class _ProviderDetailsScreenState extends State<ProviderDetailsScreen> {
               ],
             ),
           ),
-        ),
+        ),*/
       ],
     );
   }

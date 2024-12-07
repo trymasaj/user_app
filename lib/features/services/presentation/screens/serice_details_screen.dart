@@ -608,7 +608,7 @@ class TotalSection extends StatelessWidget {
         //   totalDuration += int.tryParse(element.durationInMinutes) ?? 0;
         // });
         return Padding(
-          padding: EdgeInsets.symmetric(horizontal: 24.w),
+          padding: EdgeInsets.only(left: 24.w,right: 24.w,bottom: 24,),
           child: Column(
             children: [
               SizedBox(

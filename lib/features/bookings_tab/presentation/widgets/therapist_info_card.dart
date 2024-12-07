@@ -68,27 +68,29 @@ class TherapistInfoCard extends StatelessWidget {
                         fit: BoxFit.cover)),
               ),
               SizedBox(width: 10.w),
-              Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  CustomText(
-                    text: bookingModel.therapist?.fullName ?? '',
-                    fontSize: 16,
-                    fontWeight: FontWeight.w700,
-                    color: const Color(0xff19223C),
-                  ),
-                  // SizedBox(height: 5.h),
-                  CustomText(
-                    text: bookingModel.therapist?.title ?? '',
-                    fontSize: 14,
-                    fontWeight: FontWeight.w400,
-                    color: const Color(0x0019223c).withOpacity(.64),
-                  ),
-                ],
+              Expanded(
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    CustomText(
+                      text: bookingModel.therapist?.fullName ?? '',
+                      fontSize: 16,
+                      fontWeight: FontWeight.w700,
+                      color: const Color(0xff19223C),
+                    ),
+                    // SizedBox(height: 5.h),
+                    CustomText(
+                      text: bookingModel.therapist?.title ?? '',
+                      fontSize: 14,
+                      fontWeight: FontWeight.w400,
+                      color: const Color(0x0019223c).withOpacity(.64),
+                    ),
+                  ],
+                ),
               ),
 
               // circle avatar with #F5F5F5 color and wharsapp icon
-              const Spacer(),
+              //const Spacer(),
               Row(
                 children: [
                   GestureDetector(

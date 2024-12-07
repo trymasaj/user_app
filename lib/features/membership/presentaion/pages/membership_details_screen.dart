@@ -200,7 +200,7 @@ class _MembershipCheckoutScreenState extends State<MembershipCheckoutScreen> {
                 ? AppColors.PRIMARY_COLOR.withOpacity(0.09)
                 : AppColors.BACKGROUND_COLOR.withOpacity(0.09),
             borderRadius: BorderRadius.circular(20),
-            border: Border.all(color: AppColors.PRIMARY_COLOR, width: 1.5),
+            border: paymentMethod == _selectedPayment ?Border.all(color: AppColors.PRIMARY_COLOR, width: 1):Border.all(color: AppColors.Light_White, width: 1),
           ),
           child: Padding(
             padding: const EdgeInsets.all(24.0),
@@ -247,8 +247,10 @@ class _MembershipCheckoutScreenState extends State<MembershipCheckoutScreen> {
               ),
               const Spacer(),
               Radio.adaptive(
+
                   activeColor: AppColors.PRIMARY_COLOR,
                   value: paymentMethod,
+
                   groupValue: _selectedPayment,
                   onChanged: (value) {
                     setState(() {

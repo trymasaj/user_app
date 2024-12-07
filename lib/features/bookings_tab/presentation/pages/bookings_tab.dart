@@ -63,9 +63,9 @@ class _BookingsTabState extends State<BookingsTab> {
                       const EdgeInsets.symmetric(horizontal: 24, vertical: 24),
                   child: Column(children: [
                     Padding(
-                      padding: const EdgeInsets.only(right: 24, bottom: 0),
+                      padding: const EdgeInsets.only(bottom: 10),
                       child: TabBar(
-                          labelPadding: const EdgeInsets.all(5),
+                          labelPadding: const EdgeInsets.all(0),
                           isScrollable: false,
                           onTap: (value) {
                             cubit.changeType(BookingQueryStatus.values[value]);
@@ -126,46 +126,45 @@ class _BookingsTabState extends State<BookingsTab> {
     );
   }
 
-  Tab _buildTap(BookingsTabState state, int index) {
-    return Tab(
-        height: 40.h,
-
-        // height: 40,
-        child: Container(
-          width: 160.w,
+  Widget _buildTap(BookingsTabState state, int index) {
+    return Padding(
+      padding: EdgeInsets.only(right: index < (BookingQueryStatus.values.length-1) ? 8 : 0),
+      child: Tab(
           height: 40.h,
-          padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 5),
-          decoration: BoxDecoration(
-            color: state.type == BookingQueryStatus.values[index]
-                ? null
-                : AppColors.ExtraLight,
-            gradient: state.type == BookingQueryStatus.values[index]
-                ? AppColors.GRADIENT_Fill_COLOR
-                : null,
-            border: state.type == BookingQueryStatus.values[index]
-                ? GradientBoxBorder(
-                    gradient: AppColors.GRADIENT_COLOR,
-                    width: 1,
+          child: Container(
+            height: 40.h,
+            decoration: BoxDecoration(
+              color: state.type == BookingQueryStatus.values[index]
+                  ? null
+                  : AppColors.ExtraLight,
+              gradient: state.type == BookingQueryStatus.values[index]
+                  ? AppColors.GRADIENT_Fill_COLOR
+                  : null,
+              border: state.type == BookingQueryStatus.values[index]
+                  ? GradientBoxBorder(
+                      gradient: AppColors.GRADIENT_COLOR,
+                      width: 1,
+                    )
+                  : null,
+              borderRadius: BorderRadius.circular(30),
+            ),
+            alignment: Alignment.center,
+            child: state.type == BookingQueryStatus.values[index]
+                ? TextWithGradiant(
+                    text: BookingQueryStatus.values[index].name,
+                    fontSize: 14,
+                    fontWeight: FontWeight.w700,
                   )
-                : Border.all(color: const Color(0xffD9D9D9), width: 1),
-            borderRadius: BorderRadius.circular(30),
-          ),
-          alignment: Alignment.center,
-          child: state.type == BookingQueryStatus.values[index]
-              ? TextWithGradiant(
-                  text: BookingQueryStatus.values[index].name,
-                  fontSize: 14,
-                  fontWeight: FontWeight.w700,
-                )
-              : CustomText(
-                  text: BookingQueryStatus.values[index].name,
-                  fontSize: 14,
-                  //rgba(24, 27, 40, 0.4)
-                  color: const Color.fromARGB(255, 24, 27, 40).withOpacity(.4),
-                  // color: const Color(0xff181b2866)
-                  //     .withOpacity(.4),
-                  fontWeight: FontWeight.w700,
-                ),
-        ));
+                : CustomText(
+                    text: BookingQueryStatus.values[index].name,
+                    fontSize: 14,
+                    //rgba(24, 27, 40, 0.4)
+                    color: const Color.fromARGB(255, 24, 27, 40).withOpacity(.4),
+                    // color: const Color(0xff181b2866)
+                    //     .withOpacity(.4),
+                    fontWeight: FontWeight.w700,
+                  ),
+          )),
+    );
   }
 }
